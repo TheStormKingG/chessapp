@@ -22,7 +22,8 @@
     "types": [
       "vitest/globals",
       "vite/client",
-      "vite-plugin-pwa/client"
+      "vite-plugin-pwa/client",
+      "node"
     ],
     "baseUrl": ".",
     "paths": {
