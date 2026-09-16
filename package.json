@@ -13,7 +13,8 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "verify:content": "node scripts/verify-content.mjs",
-    "gen:movement": "node scripts/gen-movement-challenges.mjs"
+    "gen:movement": "node scripts/gen-movement-challenges.mjs",
+    "postinstall": "node scripts/copy-engine.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.116.0",

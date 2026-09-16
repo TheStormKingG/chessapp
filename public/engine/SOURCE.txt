@@ -1,0 +1,2 @@
+Stockfish.js 19.0.0 (GPL-3.0), unmodified. Source: https://github.com/nmrugg/stockfish.js/releases/tag/v19.0.0
+Stockfish: https://github.com/official-stockfish/Stockfish
