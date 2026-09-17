@@ -82,3 +82,60 @@ test('facts summarises a position for the side to move', () => {
   expect(f.captures.map((x) => x.san)).toContain('Qxe5+');
   expect(f.theirHanging.map((h) => h.square)).toContain('e5');
 });
+
+// The black rook on d8 absolutely pins the white bishop on d5 to the king on
+// d1, so white's only legal moves are king moves: there are no captures at all.
+// chess.js `attackers` still lists d5 as an attacker of b7, which is how the
+// b7 knight used to be reported as hanging while `captures` was empty.
+// Verified with chess.js: moves are Kc2 Kd2 Ke2 Ke1 Kc1, none of them captures.
+const pin = '3rk3/1n6/8/3B4/8/8/8/3K4 w - - 0 1';
+
+test('theirHanging never contradicts captures when the only attacker is pinned', () => {
+  const f = facts(pin);
+  expect(f.captures).toEqual([]);
+  expect(f.theirHanging).toEqual([]);
+  expect(hangingPieces(pin, 'b')).toEqual([]);
+});
+
+test('theirHanging still reports an enemy piece that really can be taken', () => {
+  // Control: white's d4 pawn can legally play dxe5, so the flag and the
+  // capture list agree in the other direction.
+  const f = facts(hang);
+  expect(f.theirHanging.map((h) => h.square)).toEqual(['e5']);
+  expect(f.captures.map((x) => x.san)).toContain('dxe5');
+});
+
+test('myHanging stays attacker-based, so it may over-warn about a pinned attacker', () => {
+  // Same pinned-bishop position with black to move: the bishop on d5 can never
+  // legally take b7, but `myHanging` is the side to move's own pieces, where no
+  // legal-move list for the opponent exists. It keeps the attacker-based answer
+  // on purpose: over-warning a learner about a piece is safe, claiming a free
+  // piece that cannot be taken is not.
+  const pinBlackToMove = '3rk3/1n6/8/3B4/8/8/8/3K4 b - - 0 1';
+  expect(facts(pinBlackToMove).myHanging.map((h) => h.square)).toEqual(['b7']);
+});
+
+test('a pinned defender does not make its charge hang', () => {
+  // Black to move. The knight on d2 is attacked by Rd1 and Ke1 and defended by
+  // Rd3, so it is not hanging; white has nothing black can reach either. Both
+  // lists agree with the empty capture list.
+  const pinnedDefender = '4k3/8/8/8/8/3r4/3n4/3RK3 b - - 0 1';
+  const f = facts(pinnedDefender);
+  expect(f.captures).toEqual([]);
+  expect(f.myHanging).toEqual([]);
+  expect(f.theirHanging).toEqual([]);
+});
+
+test('winningCaptures ranks the queen promotion above the underpromotions', () => {
+  // axb8 takes the rook and promotes; chess.js offers all four promotion pieces
+  // with the same target, so gain must include the promotion delta and the sort
+  // must be deterministic.
+  const promo = '1r2k3/P7/8/8/8/8/8/4K3 w - - 0 1';
+  const c = winningCaptures(promo);
+  expect(c[0]?.san).toBe('axb8=Q+');
+  const queenGain = c[0]?.gain ?? 0;
+  for (const under of c.slice(1)) {
+    expect(under.gain).toBeLessThan(queenGain);
+  }
+  expect(facts(promo).captures[0]?.san).toBe('axb8=Q+');
+});
