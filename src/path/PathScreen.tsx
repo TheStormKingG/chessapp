@@ -47,9 +47,11 @@ export function PathScreen() {
                 : lessonHint[n.state]
               : n.state === 'passed'
                 ? 'Passed'
-                : hasCheckpoint(n.unit)
-                  ? 'Attempt any time to test out'
-                  : 'Content coming';
+                : !hasCheckpoint(n.unit)
+                  ? 'Content coming'
+                  : n.state === 'active'
+                    ? 'Up next'
+                    : 'Attempt any time to test out';
           const inner = (
             <div
               className={`tap flex items-center gap-3 rounded-xl border border-line px-3 py-3 ${badge[n.state]}`}

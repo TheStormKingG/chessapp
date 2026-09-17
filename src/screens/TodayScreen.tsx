@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { localDay, useProgress } from '@/data';
-import { activeLesson } from '@/path/progress';
+import { activeNode } from '@/path/progress';
 
 const COOL_DOWN_KEY = 'chessapp.coolDownDismissed';
 
@@ -15,7 +15,7 @@ function readDismissed(): string | null {
 
 export function TodayScreen() {
   const progress = useProgress((s) => s.progress);
-  const next = activeLesson(progress);
+  const next = activeNode(progress);
   const today = localDay(new Date());
   const [dismissedOn, setDismissedOn] = useState(readDismissed);
   // F-HM-6: two losses in a row, dismissible, and never more than once a day.
@@ -29,10 +29,12 @@ export function TodayScreen() {
       <h2 className="mt-6 text-xs uppercase tracking-wide text-ink-muted">On the path</h2>
       {next ? (
         <Link
-          to={`/lesson/${next.id}`}
+          to={next.kind === 'lesson' ? `/lesson/${next.id}` : `/checkpoint/${next.unit}`}
           className="tap mt-2 block rounded-xl border border-line bg-card p-4"
         >
-          <span className="block text-xs text-ink-muted">Lesson {next.id}</span>
+          <span className="block text-xs text-ink-muted">
+            {next.kind === 'lesson' ? `Lesson ${next.id}` : `Checkpoint ${next.unit}`}
+          </span>
           <span className="block font-medium">{next.title}</span>
         </Link>
       ) : (
