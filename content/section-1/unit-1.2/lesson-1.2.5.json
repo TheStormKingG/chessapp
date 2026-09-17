@@ -1,0 +1,85 @@
+{
+  "id": "1.2.5",
+  "unit": "1.2",
+  "title": "Counting attackers and defenders",
+  "xp": 20,
+  "card": {
+    "idea": "On a contested square, count the attackers and count the defenders. If the attackers outnumber the defenders you can win the square. Start with your cheapest piece.",
+    "diagrams": ["6k1/8/3p1p2/4r3/3P4/5N2/8/4RK2 w - - 0 1"]
+  },
+  "explain": [
+    {
+      "fen": "6k1/8/5p2/4r3/3P4/5N2/8/4RK2 w - - 0 1",
+      "text": "Three white pieces hit e5: the pawn on d4, the knight on f3 and the rook on e1. Only the pawn on f6 defends. Three beats one, so the rook on e5 can be won.",
+      "arrows": [["d4", "e5"], ["f3", "e5"], ["e1", "e5"]],
+      "highlights": ["e5"]
+    },
+    {
+      "fen": "6k1/8/3p1p2/4r3/3P4/5N2/8/4RK2 w - - 0 1",
+      "text": "Order matters. Take with the cheapest piece first, so if the trade goes wrong you have spent the least. Here the pawn on d4 goes in before the knight or the rook.",
+      "arrows": [["d4", "e5"]]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.2.5-c1",
+      "type": "find_them_all",
+      "fen": "6k1/8/5p2/4r3/3P4/5N2/8/4RK2 w - - 0 1",
+      "prompt": "Tap every white piece that attacks e5.",
+      "answer": { "pieces": ["d4", "e1", "f3"] },
+      "concept": "counting"
+    },
+    {
+      "id": "1.2.5-c2",
+      "type": "find_them_all",
+      "fen": "6k1/8/3p1p2/4r3/3P4/5N2/8/4RK2 w - - 0 1",
+      "prompt": "Tap every black piece that defends e5.",
+      "answer": { "pieces": ["d6", "f6"] },
+      "concept": "counting"
+    },
+    {
+      "id": "1.2.5-c3",
+      "type": "name_the_pattern",
+      "fen": "6k1/8/5p2/4r3/3P4/5N2/8/4RK2 w - - 0 1",
+      "prompt": "Three attackers, one defender. Can you win the square?",
+      "options": ["Yes", "No", "Only with the queen"],
+      "answer": { "option": 0 },
+      "concept": "counting"
+    },
+    {
+      "id": "1.2.5-c4",
+      "type": "find_the_move",
+      "fen": "6k1/8/5p2/4r3/3P4/8/8/4RK2 w - - 0 1",
+      "prompt": "Take on e5 with the right piece first.",
+      "answer": { "moves": ["dxe5"] },
+      "wrong": { "Rxe5": "Start with the cheapest attacker. The pawn costs 1, the rook costs 5." },
+      "concept": "counting",
+      "hints": { "piece": "d4" },
+      "reason": "The pawn is the cheapest attacker, so it goes in first."
+    },
+    {
+      "id": "1.2.5-c5",
+      "type": "is_it_safe",
+      "fen": "6k1/8/3p4/4p3/8/8/4Q3/4K3 w - - 0 1",
+      "move": "Qxe5",
+      "prompt": "The queen takes the pawn on e5. Is that safe?",
+      "reasons": [
+        "Yes, the pawn is free.",
+        "No, the pawn on d6 takes back and you lose 9 for 1.",
+        "No, the king on g8 takes back."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "counting"
+    },
+    {
+      "id": "1.2.5-c6",
+      "type": "play_it_out",
+      "fen": "7k/8/8/1ppp4/8/8/4N3/4K3 w - - 0 1",
+      "prompt": "Knight against pawns: stop every pawn and let none of them through.",
+      "goal": { "kind": "hold", "moves": 12 },
+      "opponentDepth": 4,
+      "concept": "counting"
+    }
+  ],
+  "takeaway": "More attackers than defenders means take — cheapest piece first."
+}

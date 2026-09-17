@@ -1,0 +1,86 @@
+{
+  "id": "1.2.1",
+  "unit": "1.2",
+  "title": "Attack, capture and defend",
+  "xp": 10,
+  "card": {
+    "idea": "A piece attacks every square it could move to. Capturing means landing on an enemy piece and lifting it off the board. A piece is defended when a friendly piece could take back on that square.",
+    "diagrams": ["2b1k3/8/8/2R3n1/8/8/8/4K3 w - - 0 1"]
+  },
+  "explain": [
+    {
+      "fen": "2b1k3/8/8/2R3n1/8/8/8/4K3 w - - 0 1",
+      "text": "The rook on c5 attacks the bishop on c8 and the knight on g5. Attacking simply means it could move there next turn and take.",
+      "arrows": [["c5", "c8"], ["c5", "g5"]]
+    },
+    {
+      "fen": "4k3/8/8/8/2N5/1P6/8/3RK3 w - - 0 1",
+      "text": "Defended means a friend can take back. The pawn on b3 defends the knight on c4. The king on e1 defends the rook on d1. The pawn on b3 has nobody behind it.",
+      "arrows": [["b3", "c4"], ["e1", "d1"]]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.2.1-c1",
+      "type": "find_them_all",
+      "fen": "2b1k3/8/8/2R3n1/8/8/8/4K3 w - - 0 1",
+      "prompt": "Tap every black piece the white rook attacks.",
+      "answer": { "pieces": ["c8", "g5"] },
+      "concept": "attack-defend",
+      "hints": { "piece": "c5" }
+    },
+    {
+      "id": "1.2.1-c2",
+      "type": "find_them_all",
+      "fen": "4k3/8/8/8/2N5/1P6/8/3RK3 w - - 0 1",
+      "prompt": "Tap every white piece that is defended.",
+      "answer": { "pieces": ["c4", "d1"] },
+      "concept": "attack-defend"
+    },
+    {
+      "id": "1.2.1-c3",
+      "type": "is_it_safe",
+      "fen": "6k1/3n4/8/4p3/4R3/8/8/4K3 w - - 0 1",
+      "move": "Rxe5",
+      "prompt": "The rook takes the pawn on e5. Is that safe?",
+      "reasons": [
+        "Yes, nothing can reach e5.",
+        "No, the knight on d7 would take back.",
+        "No, the king on g8 would take back."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "attack-defend"
+    },
+    {
+      "id": "1.2.1-c4",
+      "type": "find_the_move",
+      "fen": "8/8/8/2nbpk2/8/3R4/P7/4K3 w - - 0 1",
+      "prompt": "Capture the black piece that nothing defends.",
+      "answer": { "moves": ["Rxd5"] },
+      "wrong": { "Rd4": "The knight on c5 is defended by the bishop on d5. Take the defender instead." },
+      "concept": "attack-defend",
+      "hints": { "piece": "d3" },
+      "reason": "Nothing guards d5, so the rook wins a whole bishop."
+    },
+    {
+      "id": "1.2.1-c5",
+      "type": "find_the_move",
+      "fen": "8/1K6/4r2n/2Np4/1k1p4/8/3P4/1N6 w - - 0 1",
+      "prompt": "The knight can take something. Take the piece nothing defends.",
+      "answer": { "moves": ["Nxe6"] },
+      "concept": "attack-defend",
+      "hints": { "piece": "c5" },
+      "reason": "No black piece can take back on e6, so the rook is free."
+    },
+    {
+      "id": "1.2.1-c6",
+      "type": "find_the_move",
+      "fen": "5B2/8/8/8/n3p1k1/1b6/2P4K/8 w - - 0 1",
+      "prompt": "Take something for free.",
+      "answer": { "moves": ["cxb3"] },
+      "concept": "attack-defend",
+      "reason": "The pawn takes the bishop on b3 and nothing takes back."
+    }
+  ],
+  "takeaway": "Attacked means a piece could take it. Defended means a friend would take back."
+}

@@ -1,0 +1,87 @@
+{
+  "id": "1.2.2",
+  "unit": "1.2",
+  "title": "Piece values",
+  "xp": 10,
+  "card": {
+    "idea": "Pawn 1, knight 3, bishop 3, rook 5, queen 9. The king has no number because you can never lose him. Use the numbers to judge whether a trade is a good deal.",
+    "diagrams": ["4k3/8/8/8/8/8/8/R1N1B1K1 w - - 0 1"]
+  },
+  "explain": [
+    {
+      "fen": "4k3/8/8/8/8/8/8/R1N1B1K1 w - - 0 1",
+      "text": "A rook is worth 5, a knight 3, a bishop 3, a pawn 1. A queen is worth 9, about as much as two rooks. Giving a bishop for a pawn loses two points.",
+      "highlights": ["a1", "c1", "e1"]
+    },
+    {
+      "fen": "k7/5p2/7n/8/8/1B6/8/4K3 w - - 0 1",
+      "text": "The bishop can take the pawn on f7, but the knight on h6 takes back. You spend 3 to win 1. That is a bad deal even though the capture is legal.",
+      "arrows": [["b3", "f7"], ["h6", "f7"]]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.2.2-c1",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/8/R1N1B1K1 w - - 0 1",
+      "prompt": "Which of these is worth the most?",
+      "options": ["Rook", "Knight", "Bishop"],
+      "answer": { "option": 0 },
+      "concept": "values"
+    },
+    {
+      "id": "1.2.2-c2",
+      "type": "name_the_pattern",
+      "fen": "3qk3/8/8/8/8/8/8/R2RK3 w - - 0 1",
+      "prompt": "Two rooks against a queen: who has more?",
+      "options": ["The queen", "The two rooks", "Exactly equal"],
+      "answer": { "option": 1 },
+      "concept": "values"
+    },
+    {
+      "id": "1.2.2-c3",
+      "type": "is_it_safe",
+      "fen": "k7/5p2/7n/8/8/1B6/8/4K3 w - - 0 1",
+      "move": "Bxf7",
+      "prompt": "The bishop takes the pawn on f7. Is that a good deal?",
+      "reasons": [
+        "Yes, a pawn is a pawn.",
+        "No, the knight on h6 takes back and you lose 3 for 1.",
+        "No, the king on a8 takes back."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "values"
+    },
+    {
+      "id": "1.2.2-c4",
+      "type": "find_the_move",
+      "fen": "5K2/3k4/8/8/7q/2P1b3/4r3/4Q3 w - - 0 1",
+      "prompt": "Two black pieces are free. Take the more valuable one.",
+      "answer": { "moves": ["Qxh4"] },
+      "wrong": { "Qxe2": "The rook is worth 5. The queen on h4 is worth 9, and it is just as free." },
+      "concept": "values",
+      "hints": { "piece": "e1" },
+      "reason": "A queen is worth 9, more than the rook on e2."
+    },
+    {
+      "id": "1.2.2-c5",
+      "type": "find_the_move",
+      "fen": "6R1/n7/K6R/6rb/3P2p1/8/3k4/8 w - - 0 1",
+      "prompt": "Take the bigger piece.",
+      "answer": { "moves": ["Rxg5"] },
+      "wrong": { "Rxh5": "The bishop is worth 3. The rook on g5 is worth 5." },
+      "concept": "values",
+      "reason": "Rook (5) beats bishop (3) when both are on offer."
+    },
+    {
+      "id": "1.2.2-c6",
+      "type": "find_the_move",
+      "fen": "8/3R4/1kq5/8/3b4/5P2/b3K3/8 w - - 0 1",
+      "prompt": "Win material.",
+      "answer": { "moves": ["Rxd4"] },
+      "concept": "values",
+      "reason": "The bishop on d4 is worth 3 and nothing takes back."
+    }
+  ],
+  "takeaway": "Pawn 1, knight 3, bishop 3, rook 5, queen 9 — count before you trade."
+}

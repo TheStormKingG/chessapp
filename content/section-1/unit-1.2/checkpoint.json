@@ -1,0 +1,489 @@
+{
+  "unit": "1.2",
+  "title": "Capturing and value",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "1.2-k01",
+      "type": "find_them_all",
+      "fen": "4k3/8/8/b3n3/8/2B5/8/6K1 w - - 0 1",
+      "prompt": "Tap every black piece the white bishop attacks.",
+      "answer": {
+        "pieces": [
+          "a5",
+          "e5"
+        ]
+      },
+      "concept": "attack-defend"
+    },
+    {
+      "id": "1.2-k02",
+      "type": "find_them_all",
+      "fen": "4k3/8/8/8/5N2/1P6/8/R2QK3 w - - 0 1",
+      "prompt": "Tap every white piece that is defended.",
+      "answer": {
+        "pieces": [
+          "a1",
+          "b3",
+          "d1"
+        ]
+      },
+      "concept": "attack-defend"
+    },
+    {
+      "id": "1.2-k03",
+      "type": "is_it_safe",
+      "fen": "4k3/8/8/3p4/8/8/8/3RKB2 w - - 0 1",
+      "move": "Rxd5",
+      "prompt": "The rook takes the pawn on d5. Is that safe?",
+      "reasons": [
+        "Yes, the rook on d1 takes a pawn that nothing defends.",
+        "No, the king on e8 takes back.",
+        "No, the bishop on f1 is in the way."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "attack-defend"
+    },
+    {
+      "id": "1.2-k04",
+      "type": "find_the_move",
+      "fen": "8/2q1k3/1P6/1P6/2R5/2K1p1p1/8/6b1 w - - 0 1",
+      "prompt": "Take the piece nothing defends.",
+      "answer": {
+        "moves": [
+          "bxc7"
+        ]
+      },
+      "concept": "attack-defend",
+      "hints": {
+        "piece": "b6"
+      },
+      "reason": "Nothing guards c7, so the pawn wins the queen."
+    },
+    {
+      "id": "1.2-k05",
+      "type": "find_the_move",
+      "fen": "2r5/K7/8/1P4Bk/2p5/8/8/1R3b2 w - - 0 1",
+      "prompt": "Take something for free.",
+      "answer": {
+        "moves": [
+          "Rxf1"
+        ]
+      },
+      "concept": "attack-defend",
+      "reason": "The bishop on f1 is attacked and undefended."
+    },
+    {
+      "id": "1.2-k06",
+      "type": "find_the_move",
+      "fen": "8/3R2np/8/b7/6B1/6p1/8/2k4K w - - 0 1",
+      "prompt": "Win material.",
+      "answer": {
+        "moves": [
+          "Rxg7"
+        ]
+      },
+      "concept": "attack-defend",
+      "reason": "The knight on g7 has no defender."
+    },
+    {
+      "id": "1.2-k07",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/8/Q2R1BK1 w - - 0 1",
+      "prompt": "Which of these is worth the most?",
+      "options": [
+        "Queen",
+        "Rook",
+        "Bishop"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "values"
+    },
+    {
+      "id": "1.2-k08",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/PPP5/4KN2 w - - 0 1",
+      "prompt": "How many pawns is a knight worth?",
+      "options": [
+        "One",
+        "Three",
+        "Five"
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "values"
+    },
+    {
+      "id": "1.2-k09",
+      "type": "is_it_safe",
+      "fen": "6k1/8/3p4/4n3/8/8/4Q3/4K3 w - - 0 1",
+      "move": "Qxe5",
+      "prompt": "The queen takes the knight on e5. Is that a good deal?",
+      "reasons": [
+        "Yes, a knight is worth taking.",
+        "No, the pawn on d6 takes back and you lose 9 for 3.",
+        "No, the king on g8 takes back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "values"
+    },
+    {
+      "id": "1.2-k10",
+      "type": "is_it_safe",
+      "fen": "4k3/8/1p6/2p5/8/8/8/4K1B1 w - - 0 1",
+      "move": "Bxc5",
+      "prompt": "The bishop takes the pawn on c5. Is that a good deal?",
+      "reasons": [
+        "Yes, a free pawn.",
+        "No, the pawn on b6 takes back and you lose 3 for 1.",
+        "No, the king on e8 takes back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "values"
+    },
+    {
+      "id": "1.2-k11",
+      "type": "find_the_move",
+      "fen": "8/1P5k/3K4/5p1r/6p1/1q5R/8/8 w - - 0 1",
+      "prompt": "Two black pieces are free. Take the more valuable one.",
+      "answer": {
+        "moves": [
+          "Rxb3"
+        ]
+      },
+      "concept": "values",
+      "hints": {
+        "piece": "h3"
+      },
+      "reason": "The queen on b3 is worth 9, more than the rook on h5."
+    },
+    {
+      "id": "1.2-k12",
+      "type": "find_the_move",
+      "fen": "Q1KN4/8/7p/r7/4n3/4k3/8/8 w - - 0 1",
+      "prompt": "Take the bigger piece.",
+      "answer": {
+        "moves": [
+          "Qxa5"
+        ]
+      },
+      "concept": "values",
+      "reason": "Rook (5) beats knight (3) when both are free."
+    },
+    {
+      "id": "1.2-k13",
+      "type": "find_the_move",
+      "fen": "6nQ/2r3p1/7n/7K/2R5/6k1/8/8 w - - 0 1",
+      "prompt": "Take the free piece.",
+      "answer": {
+        "moves": [
+          "Rxc7"
+        ]
+      },
+      "concept": "take-free",
+      "hints": {
+        "piece": "c4"
+      },
+      "reason": "Nothing defends the rook on c7."
+    },
+    {
+      "id": "1.2-k14",
+      "type": "find_the_move",
+      "fen": "2R3r1/1K4B1/1p6/8/5n2/3k4/8/8 w - - 0 1",
+      "prompt": "Take the free piece.",
+      "answer": {
+        "moves": [
+          "Rxg8"
+        ]
+      },
+      "concept": "take-free",
+      "reason": "The rook on g8 is undefended."
+    },
+    {
+      "id": "1.2-k15",
+      "type": "find_the_move",
+      "fen": "8/1q2R1K1/8/8/3R4/8/3p3p/6k1 w - - 0 1",
+      "prompt": "Take the free piece.",
+      "answer": {
+        "moves": [
+          "Rxb7"
+        ]
+      },
+      "concept": "take-free",
+      "reason": "The queen on b7 is attacked and nothing takes back."
+    },
+    {
+      "id": "1.2-k16",
+      "type": "find_the_move",
+      "fen": "8/3p4/2Q2q2/8/1k6/8/2P3K1/n6B w - - 0 1",
+      "prompt": "Take the free piece.",
+      "answer": {
+        "moves": [
+          "Qxf6"
+        ]
+      },
+      "concept": "take-free",
+      "reason": "The black queen on f6 has no defender."
+    },
+    {
+      "id": "1.2-k17",
+      "type": "find_the_move",
+      "fen": "8/3n2q1/6R1/8/3N1n1K/8/8/1k6 w - - 0 1",
+      "prompt": "Take the free piece.",
+      "answer": {
+        "moves": [
+          "Rxg7"
+        ]
+      },
+      "concept": "take-free",
+      "reason": "Nothing guards the queen on g7."
+    },
+    {
+      "id": "1.2-k18",
+      "type": "find_the_move",
+      "fen": "7K/2k3P1/1q6/7b/4p3/8/2P5/1R6 w - - 0 1",
+      "prompt": "Take the free piece.",
+      "answer": {
+        "moves": [
+          "Rxb6"
+        ]
+      },
+      "concept": "take-free",
+      "hints": {
+        "piece": "b1"
+      },
+      "reason": "The queen on b6 is hanging."
+    },
+    {
+      "id": "1.2-k19",
+      "type": "find_the_move",
+      "fen": "8/5k2/6Rq/3N4/3n1P2/8/3p4/3K4 w - - 0 1",
+      "prompt": "Find the free piece.",
+      "answer": {
+        "moves": [
+          "Rxh6"
+        ]
+      },
+      "concept": "take-free",
+      "reason": "The queen on h6 is attacked and undefended."
+    },
+    {
+      "id": "1.2-k20",
+      "type": "find_the_move",
+      "fen": "6q1/8/1R6/3B2p1/2K5/p7/1b6/3k4 w - - 0 1",
+      "prompt": "Find the free piece.",
+      "answer": {
+        "moves": [
+          "Bxg8"
+        ]
+      },
+      "concept": "take-free",
+      "reason": "The bishop reaches g8 and nothing takes back."
+    },
+    {
+      "id": "1.2-k21",
+      "type": "is_it_safe",
+      "fen": "4k3/8/8/2p5/8/8/8/3QK3 w - - 0 1",
+      "move": "Qd4",
+      "prompt": "You want to play the queen to d4. Is that safe?",
+      "reasons": [
+        "Yes, d4 is an empty square.",
+        "No, the pawn on c5 takes it.",
+        "No, the king on e8 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "dont-hang"
+    },
+    {
+      "id": "1.2-k22",
+      "type": "is_it_safe",
+      "fen": "4k3/8/5n2/8/8/8/8/3RK3 w - - 0 1",
+      "move": "Rd5",
+      "prompt": "You want to play the rook to d5. Is that safe?",
+      "reasons": [
+        "Yes, nothing reaches d5.",
+        "No, the knight on f6 takes it.",
+        "No, the king on e8 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "dont-hang"
+    },
+    {
+      "id": "1.2-k23",
+      "type": "is_it_safe",
+      "fen": "4k3/8/8/8/5n2/8/8/3RK3 w - - 0 1",
+      "move": "Rd4",
+      "prompt": "You want to play the rook to d4. Is that safe?",
+      "reasons": [
+        "Yes, the knight on f4 does not reach d4.",
+        "No, the knight on f4 takes it.",
+        "No, the king on e8 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "dont-hang"
+    },
+    {
+      "id": "1.2-k24",
+      "type": "is_it_safe",
+      "fen": "4k3/4b3/8/8/8/B7/8/4K3 w - - 0 1",
+      "move": "Bxe7",
+      "prompt": "The bishop takes on e7. Is that a fair deal?",
+      "reasons": [
+        "No, the bishop is simply lost.",
+        "Yes, the king on e8 takes back but bishop for bishop is even.",
+        "No, the king on e1 is too far away."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "dont-hang"
+    },
+    {
+      "id": "1.2-k25",
+      "type": "find_them_all",
+      "fen": "4k3/8/8/8/2b5/8/4N3/4K2R w - - 0 1",
+      "prompt": "Tap every white piece that is hanging.",
+      "answer": {
+        "pieces": [
+          "e2"
+        ]
+      },
+      "concept": "dont-hang"
+    },
+    {
+      "id": "1.2-k26",
+      "type": "find_them_all",
+      "fen": "4k3/1b6/8/1p6/2N1B3/8/8/4K3 w - - 0 1",
+      "prompt": "Tap every white piece that is hanging.",
+      "answer": {
+        "pieces": [
+          "c4",
+          "e4"
+        ]
+      },
+      "concept": "dont-hang"
+    },
+    {
+      "id": "1.2-k27",
+      "type": "find_them_all",
+      "fen": "5k2/8/2p1p3/3r4/2P1P3/8/8/3RK3 w - - 0 1",
+      "prompt": "Tap every white piece that attacks d5.",
+      "answer": {
+        "pieces": [
+          "c4",
+          "d1",
+          "e4"
+        ]
+      },
+      "concept": "counting"
+    },
+    {
+      "id": "1.2-k28",
+      "type": "find_them_all",
+      "fen": "5k2/8/2p1p3/3r4/8/8/8/3RK3 w - - 0 1",
+      "prompt": "Tap every black piece that defends d5.",
+      "answer": {
+        "pieces": [
+          "c6",
+          "e6"
+        ]
+      },
+      "concept": "counting"
+    },
+    {
+      "id": "1.2-k29",
+      "type": "find_the_move",
+      "fen": "5k2/8/2p5/3r4/2P5/8/8/3RK3 w - - 0 1",
+      "prompt": "Take on d5 with the right piece first.",
+      "answer": {
+        "moves": [
+          "cxd5"
+        ]
+      },
+      "concept": "counting",
+      "wrong": {
+        "Rxd5": "Start with the cheapest attacker. The pawn costs 1, the rook costs 5."
+      },
+      "hints": {
+        "piece": "c4"
+      },
+      "reason": "The pawn is the cheapest attacker, so it goes in first."
+    },
+    {
+      "id": "1.2-k30",
+      "type": "find_the_move",
+      "fen": "6k1/8/5p2/4b3/3P4/8/8/4RK2 w - - 0 1",
+      "prompt": "Take on e5 with the right piece first.",
+      "answer": {
+        "moves": [
+          "dxe5"
+        ]
+      },
+      "concept": "counting",
+      "wrong": {
+        "Rxe5": "The pawn on d4 is cheaper than the rook. Take with it first."
+      },
+      "hints": {
+        "piece": "d4"
+      },
+      "reason": "Two attackers against one defender, and the pawn goes in first."
+    },
+    {
+      "id": "1.2-k31",
+      "type": "is_it_safe",
+      "fen": "5k2/8/2p1p3/3n4/8/8/8/3RK3 w - - 0 1",
+      "move": "Rxd5",
+      "prompt": "The rook takes the knight on d5. Is that a good deal?",
+      "reasons": [
+        "Yes, a knight is a knight.",
+        "No, the pawn on c6 takes back and a rook is worth more.",
+        "No, the king on f8 takes back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "counting"
+    },
+    {
+      "id": "1.2-k32",
+      "type": "is_it_safe",
+      "fen": "5k2/8/8/3n4/2P5/8/8/3RK3 w - - 0 1",
+      "move": "cxd5",
+      "prompt": "The pawn takes the knight on d5. Is that safe?",
+      "reasons": [
+        "Yes, nothing defends d5, so the pawn wins a knight.",
+        "No, the pawn on c6 takes back.",
+        "No, the king on f8 takes back."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "counting"
+    }
+  ]
+}

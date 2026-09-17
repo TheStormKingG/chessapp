@@ -1,0 +1,85 @@
+{
+  "id": "1.2.3",
+  "unit": "1.2",
+  "title": "Take free pieces",
+  "xp": 15,
+  "card": {
+    "idea": "A hanging piece is attacked and not defended. Taking one costs you nothing at all. Before every move, sweep the board for a piece you can take for free.",
+    "habit": "Take hanging pieces, never hang your own.",
+    "diagrams": ["4k2b/2r5/8/3n4/8/2B4R/8/3RK3 w - - 0 1"]
+  },
+  "explain": [
+    {
+      "fen": "4k2b/2r5/8/3n4/8/2B4R/8/3RK3 w - - 0 1",
+      "text": "The knight on d5 is attacked by the rook on d1 and nothing defends it. It is hanging. The rook on c7 is attacked too, but the knight defends it, so it is not free.",
+      "arrows": [["d1", "d5"], ["c3", "c7"]],
+      "highlights": ["d5"]
+    },
+    {
+      "fen": "4k2b/2r5/8/3n4/8/2B4R/8/3RK3 w - - 0 1",
+      "text": "The bishop on h8 is hanging as well: the rook on h3 attacks it and no black piece guards h8. Free material is the cheapest thing in chess. Always look first.",
+      "arrows": [["h3", "h8"]],
+      "highlights": ["h8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.2.3-c1",
+      "type": "find_them_all",
+      "fen": "4k2b/2r5/8/3n4/8/2B4R/8/3RK3 w - - 0 1",
+      "prompt": "Tap every black piece that is hanging.",
+      "answer": { "pieces": ["d5", "h8"] },
+      "concept": "take-free"
+    },
+    {
+      "id": "1.2.3-c2",
+      "type": "find_the_move",
+      "fen": "3B4/8/p7/3K2R1/4p3/8/6n1/3k4 w - - 0 1",
+      "prompt": "Take the free piece with the rook.",
+      "answer": { "moves": ["Rxg2"] },
+      "concept": "take-free",
+      "hints": { "piece": "g5" },
+      "reason": "Nothing defends the knight on g2."
+    },
+    {
+      "id": "1.2.3-c3",
+      "type": "find_the_move",
+      "fen": "6n1/2K5/7k/1p6/2N1P3/q1b5/8/8 w - - 0 1",
+      "prompt": "Take the free piece with the knight.",
+      "answer": { "moves": ["Nxa3"] },
+      "wrong": { "Nd6": "There is a queen sitting on a3 with nothing guarding it. Take it." },
+      "concept": "take-free",
+      "hints": { "piece": "c4" },
+      "reason": "The queen on a3 is undefended, so the knight wins nine points."
+    },
+    {
+      "id": "1.2.3-c4",
+      "type": "find_the_move",
+      "fen": "8/1k6/8/1p4q1/8/4BKN1/b7/8 w - - 0 1",
+      "prompt": "Take the free piece with the bishop.",
+      "answer": { "moves": ["Bxg5"] },
+      "concept": "take-free",
+      "hints": { "piece": "e3" },
+      "reason": "The queen on g5 is attacked and nothing takes back."
+    },
+    {
+      "id": "1.2.3-c5",
+      "type": "find_the_move",
+      "fen": "8/4K3/3Pp3/7r/6P1/8/8/r1k5 w - - 0 1",
+      "prompt": "Find the free piece.",
+      "answer": { "moves": ["gxh5"] },
+      "concept": "take-free",
+      "reason": "A pawn can take the rook on h5 and no black piece guards it."
+    },
+    {
+      "id": "1.2.3-c6",
+      "type": "play_it_out",
+      "fen": "4k3/pppppppp/8/8/8/8/8/3QK3 w - - 0 1",
+      "prompt": "Queen against eight pawns: capture every pawn before one gets through.",
+      "goal": { "kind": "capture_all", "moves": 30 },
+      "opponentDepth": 4,
+      "concept": "take-free"
+    }
+  ],
+  "takeaway": "Attacked and undefended means free — take it."
+}
