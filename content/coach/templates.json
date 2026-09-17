@@ -1,0 +1,23 @@
+{
+  "persona": { "name": "Coach", "style": "warm, dry, plain words" },
+  "templates": {
+    "lessonIntro": ["Let's look at one idea. Take your time.", "One idea at a time. No rush."],
+    "correct": ["{reason}", "Yes. {reason}"],
+    "wrongAuthored": ["{feedback}"],
+    "wrongEngine": ["Not that one. After {refutationSan}, {consequence}. Try again."],
+    "reveal": ["Here it is: {solutionSan}. {reason}"],
+    "hintPiece": ["Look at the {pieceName} on {square}."],
+    "hintSquare": ["The {pieceName} wants to go to {square}."],
+    "takeaway": ["{takeaway}"],
+    "hang": ["Careful, your {pieceName} on {square} can be taken for free.", "Your {pieceName} on {square} is hanging."],
+    "missedCapture": ["You could have taken the {pieceName} on {square} for free.", "There was a free {pieceName} on {square}."],
+    "goodCapture": ["Good. Free {pieceName}.", "Nice, you took the {pieceName}."],
+    "castled": ["Castled. Your king is safer now.", "Good, king tucked away."],
+    "check": ["Check. Look at all three ways out: move the king, block, or capture."],
+    "threatIgnored": ["Your opponent was threatening {threatSan}. Always look at their last move first."],
+    "mateAvailable": ["There is a checkmate here. Look for it.", "A checkmate is on the board. Find it."],
+    "gameWon": ["You did it. Well played.", "That's a win. Nice work."],
+    "gameLost": ["That one got away. The review will show why, next time."],
+    "gameDrawn": ["A draw. Fair result."]
+  }
+}
