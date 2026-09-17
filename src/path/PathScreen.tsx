@@ -4,6 +4,7 @@ import { track } from '@/analytics';
 import { hasCheckpoint } from '@/lesson';
 import { SECTION_1 } from './curriculum';
 import { pathNodes, type Node } from './progress';
+import { resumeLabel, useLessonResume } from './resumeLabel';
 
 const badge: Record<Node['state'], string> = {
   done: 'bg-accent text-white',
@@ -26,6 +27,12 @@ const lessonHint: Record<Extract<Node, { kind: 'lesson' }>['state'], string> = {
 export function PathScreen() {
   const progress = useProgress((s) => s.progress);
   const nodes = pathNodes(progress);
+  // Only the active lesson can have work waiting in it: every other node is
+  // done, locked, or not yet built.
+  const activeLesson = nodes.find(
+    (n): n is Extract<Node, { kind: 'lesson' }> => n.kind === 'lesson' && n.state === 'active',
+  );
+  const resume = useLessonResume(activeLesson?.id ?? null);
   return (
     <section className="p-4">
       <p className="text-xs uppercase tracking-wide text-ink-muted">
@@ -41,11 +48,15 @@ export function PathScreen() {
               : n.state !== 'coming' && hasCheckpoint(n.unit);
           const to = n.kind === 'lesson' ? `/lesson/${n.id}` : `/checkpoint/${n.unit}`;
           const label = n.kind === 'lesson' ? `${n.id} ${n.title}` : n.title;
+          // An interrupted lesson says so, and its control reads as a resumption
+          // rather than a start. A missing or stale record falls straight back
+          // to the wording every other node uses.
+          const resumed = n.kind === 'lesson' && n.state === 'active' ? resumeLabel(resume, n.id) : null;
           const hint =
             n.kind === 'lesson'
               ? n.state === 'done'
                 ? `${progress.lessons[n.id]?.stars ?? 0} stars`
-                : lessonHint[n.state]
+                : (resumed?.hint ?? lessonHint[n.state])
               : n.state === 'passed'
                 ? 'Passed'
                 : !hasCheckpoint(n.unit)
@@ -71,7 +82,7 @@ export function PathScreen() {
               {enabled ? (
                 <Link
                   to={to}
-                  aria-label={`${label}. ${hint}`}
+                  aria-label={resumed ? `${label}. ${hint}. ${resumed.action}` : `${label}. ${hint}`}
                   onClick={() => {
                     track('path_node_opened', { kind: n.kind, to, state: n.state });
                   }}

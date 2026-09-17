@@ -122,8 +122,14 @@ export function LessonPlayer({
   };
 
   return (
-    <section className="flex min-h-full flex-col p-4">
-      <header className="flex items-center justify-between">
+    /* Concept Note 2 and the desktop wireframe: above `md` the three parts sit
+       side by side -- the board on the left, the coach and the lesson on the
+       right -- with the board column capped to the viewport height so an 800px
+       board can no longer push its own top off-screen. Below `md` this is the
+       untouched single phone column, which is why every placement below is a
+       `md:` grid coordinate rather than a change of DOM order. */
+    <section className="flex min-h-full flex-col p-4 md:grid md:grid-cols-[minmax(0,1fr)_20rem] md:items-start md:gap-x-6">
+      <header className="flex items-center justify-between md:col-span-2">
         <button type="button" className="tap" aria-label={exitLabel} onClick={exit}>
           ✕
         </button>
@@ -137,7 +143,7 @@ export function LessonPlayer({
       </header>
 
       {confirmingExit && (
-        <div className="mt-6 rounded-lg border border-line p-4">
+        <div className="mt-6 rounded-lg border border-line p-4 md:col-span-2">
           <h2 className="text-lg font-semibold">{`Leave the ${onProgress ? 'lesson' : 'attempt'}?`}</h2>
           <p className="mt-2 text-sm">
             {onProgress
@@ -166,25 +172,27 @@ export function LessonPlayer({
       )}
 
       {!confirmingExit && ph.kind === 'card' && (
-        <div className="mt-6">
-          <h2 className="text-2xl font-semibold">{lesson.title}</h2>
-          <p className="mt-3">{lesson.card.idea}</p>
-          {lesson.card.habit && (
-            <p className="mt-3 rounded-lg bg-accent-soft p-3 text-sm">Habit: {lesson.card.habit}</p>
-          )}
+        <>
+          <div className="mt-6 md:col-start-2 md:row-start-2">
+            <h2 className="text-2xl font-semibold">{lesson.title}</h2>
+            <p className="mt-3">{lesson.card.idea}</p>
+            {lesson.card.habit && (
+              <p className="mt-3 rounded-lg bg-accent-soft p-3 text-sm">Habit: {lesson.card.habit}</p>
+            )}
+          </div>
           {lesson.card.diagrams[0] && (
-            <div className="mt-4">
+            <div className="mt-4 md:col-start-1 md:row-start-2 md:row-span-2 md:mt-6 md:max-w-[calc(100dvh-9rem)]">
               <Board fen={lesson.card.diagrams[0]} orientation="w" mode="static" />
             </div>
           )}
           <button
             type="button"
-            className="tap mt-6 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white"
+            className="tap mt-6 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white md:col-start-2 md:row-start-3"
             onClick={() => dispatch({ type: 'next' })}
           >
             Start
           </button>
-        </div>
+        </>
       )}
 
       {!confirmingExit && ph.kind === 'explain' &&
@@ -194,34 +202,45 @@ export function LessonPlayer({
           const highlights: Highlights = {};
           for (const sq of e.highlights ?? []) highlights[sq] = 'accent';
           return (
-            <div className="mt-4">
-              <Board
-                fen={e.fen}
-                orientation="w"
-                mode="static"
-                arrows={(e.arrows ?? []).map(([from, to]: [Square, Square]) => ({ from, to }))}
-                highlights={highlights}
-              />
-              <CoachBubble text={e.text} />
-              <button
-                type="button"
-                className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white"
-                onClick={() => dispatch({ type: 'next' })}
-              >
-                Next
-              </button>
-            </div>
+            <>
+              <div className="mt-4 md:col-start-1 md:row-start-2 md:sticky md:top-4 md:max-w-[calc(100dvh-9rem)]">
+                <Board
+                  fen={e.fen}
+                  orientation="w"
+                  mode="static"
+                  arrows={(e.arrows ?? []).map(([from, to]: [Square, Square]) => ({ from, to }))}
+                  highlights={highlights}
+                />
+              </div>
+              <div className="md:col-start-2 md:row-start-2 md:mt-4">
+                <CoachBubble text={e.text} />
+                <button
+                  type="button"
+                  className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white"
+                  onClick={() => dispatch({ type: 'next' })}
+                >
+                  Next
+                </button>
+              </div>
+            </>
           );
         })()}
 
       {!confirmingExit && ph.kind === 'challenge' && c && (
-        <div className="mt-4">
-          <p id="challenge-prompt" className="font-semibold" tabIndex={-1} ref={promptRef}>
+        <>
+          <p
+            id="challenge-prompt"
+            className="mt-4 font-semibold md:col-start-2 md:row-start-2"
+            tabIndex={-1}
+            ref={promptRef}
+          >
             {c.prompt}
           </p>
           {/* A retry has to reset the challenge's own answering surface as well as
               the machine, so the key carries the miss count as a retry generation
-              (see ChallengeView). */}
+              (see ChallengeView). The answering surface travels with the board:
+              the squares to pick, the options to choose, the drill to play out. */}
+          <div className="mt-3 md:col-start-1 md:row-start-2 md:row-span-2 md:mt-4 md:sticky md:top-4 md:max-w-[calc(100dvh-9rem)]">
           <ChallengeView
             key={`${c.id}#${s.results[c.id]?.misses ?? 0}`}
             c={c}
@@ -232,6 +251,8 @@ export function LessonPlayer({
             dispatch={dispatch}
             onWrongMove={setLastWrong}
           />
+          </div>
+          <div className="md:col-start-2 md:row-start-3">
           <CoachBubble text={s.feedback} tone={s.feedbackTone} />
           <div className="mt-4 flex gap-2">
             {!busy && s.hintsAllowed && (
@@ -271,11 +292,12 @@ export function LessonPlayer({
               </button>
             )}
           </div>
-        </div>
+          </div>
+        </>
       )}
 
       {ph.kind === 'close' && (
-        <div className="mt-6 text-center">
+        <div className="mt-6 text-center md:col-span-2">
           <p className="text-3xl" aria-hidden>
             {'★'.repeat(ph.stars)}
             {'☆'.repeat(3 - ph.stars)}

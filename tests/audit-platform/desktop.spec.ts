@@ -72,4 +72,36 @@ test.describe('desktop layout at 1280x800', () => {
     test.info().annotations.push({ type: 'board-box', description: JSON.stringify(b) });
     expect(b.width, 'the board is not square').toBeCloseTo(b.height, -1);
   });
+
+  // The lesson player is the same shape as Play: the board on the left, the
+  // coach and the lesson on the right. Mirrored here so the platform-level
+  // desktop audit covers both surfaces (tests/audit/lesson-desktop.spec.ts
+  // carries the phone half of the same assertion).
+  test('the lesson board and the coach sit side by side', async ({ page }) => {
+    await page.goto('./lesson/1.1.1');
+    await page.getByRole('button', { name: 'Start', exact: true }).click();
+    while (!(await page.locator('#challenge-prompt').isVisible())) {
+      await page.getByRole('button', { name: 'Next', exact: true }).click();
+    }
+    await page.getByRole('button', { name: 'Hint', exact: true }).click();
+    await expect(page.getByRole('note', { name: /says$/ })).toBeVisible();
+
+    const board = await box(page, '[role="application"]');
+    const coach = await box(page, '[role="note"]');
+    test.info().annotations.push({
+      type: 'lesson-geometry',
+      description: `board=${JSON.stringify(board)} coach=${JSON.stringify(coach)}`,
+    });
+    expect(
+      coach.x >= board.x + board.width - 1 && coach.y < board.y + board.height,
+      `coach is below the lesson board, not beside it: board=${JSON.stringify(board)} coach=${JSON.stringify(coach)}`,
+    ).toBe(true);
+    await page.evaluate(() => {
+      window.scrollTo(0, 0);
+    });
+    const settled = await box(page, '[role="application"]');
+    expect(settled.width, 'the lesson board is not square').toBeCloseTo(settled.height, -1);
+    expect(settled.y, 'the lesson board starts above the fold').toBeGreaterThanOrEqual(0);
+    expect(settled.y + settled.height, 'the lesson board runs past the fold').toBeLessThanOrEqual(800);
+  });
 });

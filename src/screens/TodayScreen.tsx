@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link } from 'react-router';
 import { localDay, useProgress } from '@/data';
 import { activeNode } from '@/path/progress';
+import { resumeLabel, useLessonResume } from '@/path/resumeLabel';
 
 const COOL_DOWN_KEY = 'chessapp.coolDownDismissed';
 
@@ -16,6 +17,10 @@ function readDismissed(): string | null {
 export function TodayScreen() {
   const progress = useProgress((s) => s.progress);
   const next = activeNode(progress);
+  const resume = useLessonResume(next?.kind === 'lesson' ? next.id : null);
+  // The card offers what is actually there: a run already under way is resumed,
+  // never re-started, and it says how far in the learner had got.
+  const resumed = next?.kind === 'lesson' ? resumeLabel(resume, next.id) : null;
   const today = localDay(new Date());
   const [dismissedOn, setDismissedOn] = useState(readDismissed);
   // F-HM-6: two losses in a row, dismissible, and never more than once a day.
@@ -36,6 +41,14 @@ export function TodayScreen() {
             {next.kind === 'lesson' ? `Lesson ${next.id}` : `Checkpoint ${next.unit}`}
           </span>
           <span className="block font-medium">{next.title}</span>
+          {resumed && <span className="mt-1 block text-sm text-ink-muted">{resumed.hint}</span>}
+          <span className="mt-2 block text-sm font-medium text-accent">
+            {next.kind === 'checkpoint'
+              ? 'Open the checkpoint'
+              : resumed
+                ? 'Resume this lesson'
+                : 'Start this lesson'}
+          </span>
         </Link>
       ) : (
         <p className="mt-2 rounded-xl border border-line bg-card p-4">

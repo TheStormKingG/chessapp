@@ -1,6 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
-import { emptyProgress, useProgress, type Progress } from '@/data';
+import { db, emptyProgress, saveResume, useProgress, type Progress } from '@/data';
 import { TodayScreen } from '@/screens/TodayScreen';
 
 const FINISHED = 'You have finished everything that is built so far. More lessons are coming.';
@@ -37,4 +37,29 @@ test('the terminal message appears only when everything built is finished', () =
   p.units['1.2'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
   renderWith(p);
   expect(screen.getByText(FINISHED)).toBeInTheDocument();
+});
+
+test('Today offers to resume a lesson left part-way, and says how far in', async () => {
+  await db.resume.clear();
+  await saveResume({
+    lessonId: '1.1.1',
+    challengeId: 'c3',
+    index: 2,
+    challengeCount: 8,
+    results: {},
+    totalHints: 0,
+    totalMisses: 0,
+    savedAt: new Date().toISOString(),
+  });
+  renderWith(emptyProgress());
+  expect(await screen.findByText('In progress \u00b7 3 of 8')).toBeInTheDocument();
+  const link = await screen.findByRole('link', { name: /Resume/ });
+  expect(link).toHaveAttribute('href', '/lesson/1.1.1');
+});
+
+test('an untouched lesson is offered as a start, not a resumption', async () => {
+  await db.resume.clear();
+  renderWith(emptyProgress());
+  expect(await screen.findByText('Start this lesson')).toBeInTheDocument();
+  expect(screen.queryByText(/In progress/)).toBeNull();
 });

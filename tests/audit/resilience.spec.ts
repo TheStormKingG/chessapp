@@ -34,8 +34,11 @@ test('navigating away mid-challenge and back returns to the same challenge', asy
   log.mark('leave via the Path tab and come back');
   await page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Path' }).click();
   await expect(page).toHaveURL(/\/path$/);
-  // The path still shows the lesson as unfinished, which is right.
-  await expect(page.getByRole('link', { name: /^1\.1\.1 The board\. Up next$/ })).toBeVisible();
+  // The path shows the lesson as unfinished, and now says where the run got to
+  // and that the node resumes it rather than starting it over.
+  await expect(
+    page.getByRole('link', { name: /^1\.1\.1 The board\. In progress · 2 of 6\. Resume$/ }),
+  ).toBeVisible();
   await page.getByRole('link', { name: /1\.1\.1 The board/ }).click();
   await expect(page.getByText('2 of 6', { exact: true })).toBeVisible({ timeout: 20_000 });
   expect(log.problems(log.since()).map((p) => `${p.type}: ${p.text}`)).toEqual([]);
