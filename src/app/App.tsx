@@ -3,6 +3,7 @@ import { BrowserRouter } from 'react-router';
 import { useProgress } from '@/data';
 import { InstallPrompt, UpdateNotice } from '@/pwa';
 import { AppRoutes } from './routes';
+import { AuthProvider } from '@/sync/AuthContext';
 
 export function App() {
   const loaded = useProgress((s) => s.loaded);
@@ -13,7 +14,7 @@ export function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <UpdateNotice />
-      {loaded ? <AppRoutes /> : <p className="p-4 text-ink-muted">Loading…</p>}
+      <AuthProvider>{loaded ? <AppRoutes /> : <p className="p-4 text-ink-muted">Loading…</p>}</AuthProvider>
       {loaded && <InstallPrompt />}
     </BrowserRouter>
   );
