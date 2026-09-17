@@ -75,3 +75,33 @@ test('is deterministic for a given rng sequence', () => {
 test('throws when there are no lines', () => {
   expect(() => pickMove(rosa, [], { captures: 0, checks: 0, phase: 'middlegame' }, () => 0, () => null)).toThrow(/no lines/);
 });
+
+test('still errs across seeds when the persona is already losing (PRD 10.7)', () => {
+  // Six losing lines and a forced mate. The absolute win-per-cent floor must not collapse the
+  // candidate set here: a 600 still blunders when behind, it just cannot be mated on purpose.
+  const lines: AnalysisLine[] = [
+    line('a', -450),
+    line('b', -600),
+    line('c', -800),
+    line('d', -1200),
+    line('e', -1600),
+    line('f', -2000),
+    { move: 'mated', pv: ['mated'], score: { mate: -1 }, depth: 8 },
+  ];
+  const chosen = new Set<string>();
+  for (let seed = 0; seed < 500; seed++) {
+    let i = 0;
+    const rng = () => ((seed + 1) * 0.0137 * (i++ + 1)) % 1;
+    chosen.add(pickMove(rosa, lines, { captures: 3, checks: 1, phase: 'middlegame' }, rng, () => 'hang'));
+  }
+  expect(chosen.size).toBeGreaterThan(2);
+  expect(chosen.has('mated')).toBe(false);
+});
+
+test('when erring, prefers an error of a kind typical for the persona band', () => {
+  const band = { ...rosa, error: { ...rosa.error, kinds: ['missMate'] } };
+  const lines = [line('a', 50), line('hangs', -150), line('misses', -160)];
+  const tag = (m: string): string | null => (m === 'hangs' ? 'hang' : m === 'misses' ? 'missMate' : null);
+  const choice = pickMove(band, lines, { captures: 3, checks: 0, phase: 'middlegame' }, () => 0.0, tag);
+  expect(choice).toBe('misses');
+});

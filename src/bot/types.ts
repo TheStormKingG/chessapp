@@ -2,8 +2,6 @@
 export interface Persona {
   id: string;
   name: string;
-  /** Path to the avatar image. */
-  avatar: string;
   /** How the rating is shown to the learner until the bots are calibrated, e.g. "about 600". */
   ratingBand: string;
   /** The uncalibrated numeric rating behind the band. Never shown raw in the UI. */

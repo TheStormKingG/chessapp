@@ -33,8 +33,8 @@ test('Today names the active lesson', () => {
 
 test('the terminal message appears only when everything built is finished', () => {
   const p = emptyProgress();
-  p.units['1.1'] = { passed: true, attempts: 1, testedOut: false };
-  p.units['1.2'] = { passed: true, attempts: 1, testedOut: false };
+  p.units['1.1'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
+  p.units['1.2'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
   renderWith(p);
   expect(screen.getByText(FINISHED)).toBeInTheDocument();
 });

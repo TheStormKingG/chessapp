@@ -16,7 +16,7 @@ test('completing lessons advances the active node; passing the checkpoint unlock
   let nodes = pathNodes(p);
   expect(nodes[0]).toMatchObject({ state: 'done' });
   expect(nodes[1]).toMatchObject({ state: 'active' });
-  p.units['1.1'] = { passed: true, attempts: 1, testedOut: false };
+  p.units['1.1'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
   nodes = pathNodes(p);
   expect(nodes.find((n) => n.kind === 'lesson' && n.id === '1.2.1')).toMatchObject({ state: 'active' });
   expect(nodes.find((n) => n.kind === 'checkpoint' && n.unit === '1.1')).toMatchObject({ state: 'passed' });
@@ -29,7 +29,7 @@ test('units not yet built are shown as coming', () => {
 
 test('passing a unit early marks its unfinished lessons tested out, not active', () => {
   const p = emptyProgress();
-  p.units['1.1'] = { passed: true, attempts: 1, testedOut: true };
+  p.units['1.1'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: true };
   const nodes = pathNodes(p);
   expect(nodes[0]).toMatchObject({ id: '1.1.1', state: 'testedOut' });
   expect(nodes.filter((n) => n.kind === 'lesson' && n.state === 'active')).toHaveLength(1);
@@ -48,7 +48,7 @@ test('exactly one node is current until everything built is finished', () => {
   const lessonsDoneNotPassed = allOf(UNIT_1_1);
   const unitPassed = (() => {
     const p = emptyProgress();
-    p.units['1.1'] = { passed: true, attempts: 1, testedOut: false };
+    p.units['1.1'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
     return p;
   })();
   for (const p of [emptyProgress(), someDone, lessonsDoneNotPassed, unitPassed]) {
@@ -56,8 +56,8 @@ test('exactly one node is current until everything built is finished', () => {
     expect(activeNode(p)).not.toBeNull();
   }
   const finished = emptyProgress();
-  finished.units['1.1'] = { passed: true, attempts: 1, testedOut: false };
-  finished.units['1.2'] = { passed: true, attempts: 1, testedOut: false };
+  finished.units['1.1'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
+  finished.units['1.2'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
   expect(pathNodes(finished).filter((n) => n.state === 'active')).toHaveLength(0);
   expect(activeNode(finished)).toBeNull();
 });
@@ -77,7 +77,7 @@ test('all of a unit\'s lessons done but not passed: the checkpoint is the curren
 
 test('finishing everything built leaves no active lesson', () => {
   const p = emptyProgress();
-  p.units['1.1'] = { passed: true, attempts: 1, testedOut: false };
-  p.units['1.2'] = { passed: true, attempts: 1, testedOut: false };
+  p.units['1.1'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
+  p.units['1.2'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
   expect(activeLesson(p)).toBeNull();
 });

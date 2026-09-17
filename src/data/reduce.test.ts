@@ -21,8 +21,8 @@ test('checkpoint pass completes the unit; test-out marks lessons too', () => {
     newEvent({ type: 'checkpoint_attempted', unit: '1.1', score: 0.8, passed: true, attempt: 1, missedConcepts: [] }),
     newEvent({ type: 'unit_tested_out', unit: '1.2' }),
   ]);
-  expect(p.units['1.1']).toEqual({ passed: true, attempts: 1, testedOut: false });
-  expect(p.units['1.2']).toEqual({ passed: true, attempts: 0, testedOut: true });
+  expect(p.units['1.1']).toEqual({ passed: true, attempts: 1, failedAttempts: 0, testedOut: false });
+  expect(p.units['1.2']).toEqual({ passed: true, attempts: 0, failedAttempts: 0, testedOut: true });
 });
 
 test('concept mastery counts mastery-credit attempts only', () => {
@@ -54,7 +54,7 @@ test('a passed checkpoint awards 50 xp and later attempts stay passed', () => {
   const cp = (passed: boolean, attempt: number) =>
     newEvent({ type: 'checkpoint_attempted', unit: '1.1', score: passed ? 0.9 : 0.3, passed, attempt, missedConcepts: [] });
   const p = reduceProgress(emptyProgress(), [cp(false, 1), cp(true, 2)]);
-  expect(p.units['1.1']).toEqual({ passed: true, attempts: 2, testedOut: false });
+  expect(p.units['1.1']).toEqual({ passed: true, attempts: 2, failedAttempts: 0, testedOut: false });
   expect(p.xp).toBe(50);
 });
 
@@ -68,6 +68,20 @@ test('passing a checkpoint twice awards the 50 xp bonus once', () => {
   const cp = (attempt: number) =>
     newEvent({ type: 'checkpoint_attempted', unit: '1.1', score: 0.9, passed: true, attempt, missedConcepts: [] });
   const p = reduceProgress(emptyProgress(), [cp(1), cp(2)]);
-  expect(p.units['1.1']).toEqual({ passed: true, attempts: 2, testedOut: false });
+  expect(p.units['1.1']).toEqual({ passed: true, attempts: 2, failedAttempts: 0, testedOut: false });
   expect(p.xp).toBe(50);
+});
+
+test('failed attempts are counted separately and reset when the unit is passed (PRD 6.4)', () => {
+  const cp = (passed: boolean, attempt: number) =>
+    newEvent({ type: 'checkpoint_attempted', unit: '1.1', score: passed ? 0.9 : 0.3, passed, attempt, missedConcepts: [] });
+  const failing = reduceProgress(emptyProgress(), [cp(false, 1), cp(false, 2), cp(false, 3)]);
+  expect(failing.units['1.1']?.failedAttempts).toBe(3);
+  expect(failing.units['1.1']?.attempts).toBe(3);
+  const passed = reduceProgress(failing, [cp(true, 4)]);
+  expect(passed.units['1.1']?.failedAttempts).toBe(0);
+  expect(passed.units['1.1']?.attempts).toBe(4);
+  // Testing out clears the counter too: the unit is done.
+  const out = reduceProgress(failing, [newEvent({ type: 'unit_tested_out', unit: '1.1' })]);
+  expect(out.units['1.1']?.failedAttempts).toBe(0);
 });

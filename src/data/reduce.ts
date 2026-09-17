@@ -2,7 +2,8 @@ import type { LearnerEvent } from './events';
 
 export interface Progress {
   lessons: Record<string, { stars: 1 | 2 | 3; completed: boolean }>;
-  units: Record<string, { passed: boolean; attempts: number; testedOut: boolean }>;
+  /** `attempts` counts every attempt; `failedAttempts` only the failed ones (PRD 6.4). */
+  units: Record<string, { passed: boolean; attempts: number; failedAttempts: number; testedOut: boolean }>;
   xp: number;
   attempts: number;
   masteryAttempts: number;
@@ -50,15 +51,21 @@ export function reduceProgress(start: Progress, events: LearnerEvent[]): Progres
         break;
       }
       case 'checkpoint_attempted': {
-        const u = p.units[x.unit] ?? { passed: false, attempts: 0, testedOut: false };
-        p.units[x.unit] = { ...u, attempts: u.attempts + 1, passed: u.passed || x.passed };
+        const u = p.units[x.unit] ?? { passed: false, attempts: 0, failedAttempts: 0, testedOut: false };
+        p.units[x.unit] = {
+          ...u,
+          attempts: u.attempts + 1,
+          // PRD 6.4 counts failed attempts: a pass clears the run, it does not add to it.
+          failedAttempts: x.passed ? 0 : u.failedAttempts + 1,
+          passed: u.passed || x.passed,
+        };
         // PRD F-PA-7: a retake of an already-passed checkpoint does not re-award the bonus.
         if (x.passed && !u.passed) p.xp += 50;
         break;
       }
       case 'unit_tested_out': {
-        const u = p.units[x.unit] ?? { passed: false, attempts: 0, testedOut: false };
-        p.units[x.unit] = { ...u, passed: true, testedOut: true };
+        const u = p.units[x.unit] ?? { passed: false, attempts: 0, failedAttempts: 0, testedOut: false };
+        p.units[x.unit] = { ...u, passed: true, failedAttempts: 0, testedOut: true };
         break;
       }
       case 'game_finished': {

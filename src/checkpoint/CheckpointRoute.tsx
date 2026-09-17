@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router';
 import { loadCheckpoint, type CheckpointBank, type Challenge } from '@/lesson';
 import { LessonPlayer, type LessonOutcome } from '@/lesson/LessonPlayer';
 import { useProgress } from '@/data';
+import { track } from '@/analytics';
 import { SECTION_1 } from '@/path/curriculum';
 import { checkpointToLesson, remediationSet, sampleChallenges, scoreAttempt } from './CheckpointMachine';
 
@@ -21,6 +22,8 @@ export function CheckpointRoute() {
   const progress = useProgress((s) => s.progress);
   const append = useProgress((s) => s.append);
   const attempts = progress.units[unit]?.attempts ?? 0;
+  // PRD 6.4: the note is for three *failed* attempts, not three attempts.
+  const failedAttempts = progress.units[unit]?.failedAttempts ?? 0;
   useEffect(() => {
     // No content bank yet (Tasks 18-19) is a missing route, not a crash.
     loadCheckpoint(unit)
@@ -51,15 +54,16 @@ export function CheckpointRoute() {
           {Math.round(bank.passMark * 100)} per cent. Passing completes the unit, and you can attempt it now to
           test out.
         </p>
-        {attempts >= 3 && (
+        {failedAttempts >= 3 && (
           <p className="mt-2 rounded-lg bg-review-soft p-3 text-sm">
-            Three attempts so far. The coach recommends replaying this unit&rsquo;s lessons before the next try.
+            Three attempts without a pass so far. The coach recommends replaying this unit&rsquo;s lessons before the next try.
           </p>
         )}
         <button
           type="button"
           className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white"
           onClick={() => {
+            track('checkpoint_started', { unit: bank.unit, attempt: attempts + 1 });
             setStage({ kind: 'test', chosen: sampleChallenges(bank) });
           }}
         >
@@ -93,6 +97,12 @@ export function CheckpointRoute() {
         passed: s.passed,
         attempt: attempts + 1,
         missedConcepts: s.missedConcepts,
+      });
+      track('checkpoint_attempted', {
+        unit: bank.unit,
+        score: s.score,
+        passed: s.passed,
+        attempt: attempts + 1,
       });
       if (s.passed) {
         // PRD 6.4: passing before the unit's lessons are done is testing out.

@@ -26,9 +26,9 @@ export function ChooseOpponent() {
 
       <div className="mt-4 flex gap-3 rounded-xl border border-line bg-card p-3">
         {/*
-          A monogram, not `persona.avatar`: no image is shipped at that path yet, and the
-          path is root-relative, so it would also miss under the production base. Swap it for
-          an <img> when the artwork lands.
+          A monogram, not an avatar image: no persona art is shipped, and a root-relative
+          path would miss under the production base anyway. Swap it for an <img> when the
+          artwork lands.
         */}
         <div
           aria-hidden

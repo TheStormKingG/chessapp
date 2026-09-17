@@ -5,7 +5,7 @@ import { getEngine } from '@/engine';
 import { useSettings } from '@/app/settings';
 import type { Color } from '@/rules';
 import { useGame } from './useGame';
-import { crowns } from './crowns';
+import { crowns, crownsNote } from './crowns';
 import type { TimeControl } from './GameMachine';
 
 function clock(ms: number): string {
@@ -119,13 +119,16 @@ export function PlayScreen() {
       {over && result && (
         <div className="mt-4 rounded-xl border border-line bg-card p-4">
           <p className="font-medium">{RESULT_LINE[result]}</p>
+          {/* Crowns reward playing without help (F-PL-4), so they show on every finished game.
+              The result line above leads, and on a loss the crowns read as a report. */}
           <p className="mt-1 text-sm text-ink-muted">
-            {result === 'win' && (
-              <span aria-label={`${crowns(g)} of 3 crowns`}>
-                {'♛'.repeat(crowns(g))}
-                <span className="opacity-30">{'♛'.repeat(3 - crowns(g))}</span>{' '}
-              </span>
-            )}
+            <span aria-label={`${crowns(g)} of 3 crowns`}>
+              {'♛'.repeat(crowns(g))}
+              <span className="opacity-30">{'♛'.repeat(3 - crowns(g))}</span>
+            </span>{' '}
+            {crownsNote(result, crowns(g))}
+          </p>
+          <p className="mt-1 text-sm text-ink-muted">
             {g.hints} hint{g.hints === 1 ? '' : 's'}, {g.takebacks} take-back{g.takebacks === 1 ? '' : 's'}
           </p>
           <button type="button" disabled className="mt-3 min-h-11 w-full rounded-lg border border-line opacity-50">

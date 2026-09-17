@@ -6,8 +6,21 @@ import type { Complexity, MoveKind, Persona } from './types';
 const NEAR_BEST_DROP = 5;
 /** A drop past this is a blunder no persona in these bands plays on purpose. */
 const MAX_ERROR_DROP = 60;
-/** A line leaving the persona at or below this win per cent is an instant loss (PRD F-PL-2). */
+/** A line leaving the persona at or below this win per cent is in the lost zone (PRD F-PL-2). */
 const LOST_WIN_PERCENT = 10;
+/** Falling this far in win per cent *into* the lost zone is walking into a loss, not a blunder. */
+const LOST_ENTRY_DROP = 25;
+
+/**
+ * "Never plays an instant loss above its band" (PRD 10.7) is about not walking into a loss, not
+ * about playing accurately once behind: a mate against is always out, and the absolute floor only
+ * bites when the move itself is what drops the persona into the lost zone. Applied to the error
+ * pool alone, so a persona whose whole position is lost still has candidates to err among.
+ */
+function isInstantLoss(wp: number, drop: number): boolean {
+  if (wp <= 0) return true;
+  return wp <= LOST_WIN_PERCENT && drop > LOST_ENTRY_DROP;
+}
 
 /**
  * Base rate for the persona's rating, scaled by phase and by how busy the position is
@@ -59,16 +72,20 @@ export function pickMove(
     const wp = scoreToWinPercent(l.score);
     return { line: l, wp, drop: bestWp - wp };
   });
-  // "Never an instant loss above its band": both a huge drop and an already-lost result count.
-  const viable = rated.filter((d) => d.drop <= MAX_ERROR_DROP && d.wp > LOST_WIN_PERCENT);
-  // Trivially forced: at most one move that is not an instant loss — play it, never err.
+  // Playable at all: anything not further than a blunder below the best line.
+  const viable = rated.filter((d) => d.drop <= MAX_ERROR_DROP);
+  // Trivially forced, read off the drop: only one line is anywhere near the best — play it.
   if (viable.length <= 1) return viable[0]?.line.move ?? best.move;
 
   const nearBest = viable.filter((d) => d.drop <= NEAR_BEST_DROP);
-  const errCandidates = viable.filter((d) => d.drop > NEAR_BEST_DROP);
+  const errCandidates = viable.filter((d) => d.drop > NEAR_BEST_DROP && !isInstantLoss(d.wp, d.drop));
   if (errCandidates.length > 0 && rng() < errorProbability(p, c)) {
-    const nameable = errCandidates.filter((d) => tag(d.line.move) !== null);
-    const pool = nameable.length > 0 ? nameable : errCandidates;
+    const kinds = p.error.kinds ?? [];
+    const tags = errCandidates.map((d) => ({ d, t: tag(d.line.move) }));
+    // PRD 10.7: prefer the error kinds typical of this band, then any nameable refutation.
+    const typical = tags.filter((x) => x.t !== null && kinds.includes(x.t)).map((x) => x.d);
+    const nameable = tags.filter((x) => x.t !== null).map((x) => x.d);
+    const pool = typical.length > 0 ? typical : nameable.length > 0 ? nameable : errCandidates;
     return sample(pool, pool.map(() => 1), rng).line.move;
   }
   const pool = nearBest.length > 0 ? nearBest : viable;

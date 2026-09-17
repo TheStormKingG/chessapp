@@ -124,10 +124,9 @@ export function useGame(o: { learner: 'w' | 'b'; timeControl: TimeControl; coach
         moves: Math.ceil(state.sans.length / 2),
         hints: state.hints,
         takebacks: state.takebacks,
-        // F-PL-4 grades a won game; a loss or a draw earns none. Awarding the full three for a
-        // game resigned on move one is what the unconditional reading produces, and the event
-        // schema's `0` exists for exactly this case.
-        crowns: result === 'win' ? crowns(state) : 0,
+        // F-PL-4 grades the help used, never the result, so a finished game always earns
+        // crowns; the screen presents them differently on a loss.
+        crowns: crowns(state),
         pgn: state.sans.join(' '),
       });
     },

@@ -13,7 +13,7 @@ import {
   applyHint,
   type GameState,
 } from './GameMachine';
-import { crowns } from './crowns';
+import { crowns, crownsNote } from './crowns';
 import { START_FEN, applyMove } from '@/rules';
 
 function game(over: Partial<GameState> = {}): GameState {
@@ -239,4 +239,19 @@ test('resultFor is null while the game is running and a draw on stalemate', () =
   expect(resultFor(game({ fen: stalemate, turn: 'b', over: { over: true, result: 'stalemate', winner: null } }))).toBe(
     'draw',
   );
+});
+
+test('crowns do not depend on the result: help used is all that grades them (F-PL-4)', () => {
+  const played = { hints: 0, takebacks: 0 };
+  for (const result of ['win', 'loss', 'draw'] as const) {
+    expect(crowns(played)).toBe(3);
+    expect(crownsNote(result, crowns(played))).toMatch(/crown/);
+  }
+});
+
+test('a loss reports the crowns as help not used, never as a celebration', () => {
+  expect(crownsNote('loss', 3)).toMatch(/without help/i);
+  expect(crownsNote('loss', 3)).not.toMatch(/well played|nice|great/i);
+  expect(crownsNote('draw', 1)).toMatch(/help/i);
+  expect(crownsNote('win', 3)).toMatch(/no hints/i);
 });
