@@ -78,7 +78,9 @@ export function LessonRoute() {
         replay,
       });
       track('lesson_completed', { lessonId: o.lessonId, stars: o.stars, xp: o.xp, replay });
-      await nav('/path');
+      // No navigation here. The outcome is now recorded the moment the close
+      // screen appears, which is a screen the learner is meant to read; moving
+      // them off it would be the recording stealing the exit.
     })();
   };
 
@@ -92,7 +94,12 @@ export function LessonRoute() {
       onExit={() => {
         void nav('/path');
       }}
-      onComplete={onComplete}
+      // Recording happens as soon as the close screen appears; the button and
+      // the close control are then both just the way back to the path.
+      onOutcome={onComplete}
+      onComplete={() => {
+        void nav('/path');
+      }}
     />
   );
 }

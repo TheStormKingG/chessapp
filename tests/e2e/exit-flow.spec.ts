@@ -51,6 +51,41 @@ test('a new learner completes lesson 1.1.1 and the path shows it done', async ({
   await expect(page.getByRole('link', { name: /1\.1\.2/ })).toHaveAccessibleName(/up next/i);
 });
 
+/**
+ * The same lesson, left by the close control chunk B1 gave the screen instead
+ * of by the button. The learner has read "Lesson done" and a star count either
+ * way, so either way the path must agree with what they were told. Recording
+ * the outcome on the button made this route lose a finished lesson.
+ */
+test('a lesson finished and left by its own close control is still recorded', async ({ page }) => {
+  await enableTextEntry(page);
+
+  await page.goto('./lesson/1.1.1');
+  await page.getByRole('button', { name: 'Start', exact: true }).click();
+  await page.getByRole('button', { name: 'Next', exact: true }).click();
+  await page.getByRole('button', { name: 'Next', exact: true }).click();
+
+  const answers: string[][] = [
+    ['e4'],
+    ['a1'],
+    ['h8'],
+    ['d1', 'd2', 'd3', 'd4', 'd5', 'd6', 'd7', 'd8'],
+    ['a7', 'b7', 'c7', 'd7', 'e7', 'f7', 'g7', 'h7'],
+    ['c6'],
+  ];
+  for (const [i, squares] of answers.entries()) {
+    await expect(page.getByText(`${String(i + 1)} of 6`)).toBeVisible();
+    for (const sq of squares) await typeMove(page, sq);
+    if (squares.length > 1) await page.getByRole('button', { name: /^Check/ }).click();
+    await page.getByRole('button', { name: 'Next', exact: true }).click();
+  }
+
+  await expect(page.getByRole('heading', { name: /lesson done/i })).toBeVisible();
+  await page.getByRole('button', { name: /exit lesson/i }).click();
+
+  await expect(page.getByRole('link', { name: /1\.1\.1 The board/ })).toHaveAccessibleName(/\d+ stars/);
+});
+
 test('checkpoint 1.1 can be attempted early, with ten unlabelled challenges and no hints', async ({ page }) => {
   await page.goto('./checkpoint/1.1');
 

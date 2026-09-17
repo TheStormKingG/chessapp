@@ -24,6 +24,7 @@ const HINT_COST = 'A move after a hint still earns progress, but no mastery cred
 export function LessonPlayer({
   lesson,
   onComplete,
+  onOutcome,
   onExit,
   textEntry: forceText,
   hintsAllowed = true,
@@ -37,6 +38,8 @@ export function LessonPlayer({
 }: {
   lesson: Lesson;
   onComplete: (o: LessonOutcome) => void;
+  /** Fired once when the close screen is reached, for recording the outcome. */
+  onOutcome?: (o: LessonOutcome) => void;
   onExit: () => void;
   textEntry?: boolean;
   hintsAllowed?: boolean;
@@ -72,6 +75,29 @@ export function LessonPlayer({
 
   const c = currentChallenge(s);
   const ph = s.phase;
+
+  /*
+    The close screen states the lesson is done and reports the stars and the
+    XP, so the outcome is a fact the moment it renders. Recording it on the
+    button instead made the report conditional on one exit route: chunk B1 gave
+    this screen its own close control, and leaving by that control -- or by a
+    reload, or the tab bar on a wide layout -- discarded a lesson the interface
+    had already said was finished. `onOutcome` is the recording and `onComplete` is the learner
+    dismissing the screen: the checkpoint reuses this player and makes its
+    close button advance to a score, so the two must not be one callback. A
+    ref, not state, because this fires exactly once per close and must not
+    itself cause a render.
+  */
+  const recorded = useRef(false);
+  useEffect(() => {
+    if (ph.kind !== 'close') {
+      recorded.current = false;
+      return;
+    }
+    if (recorded.current) return;
+    recorded.current = true;
+    onOutcome?.({ lessonId: lesson.id, stars: ph.stars, xp: ph.xp, results: s.results });
+  }, [ph, lesson.id, onOutcome, s.results]);
   // The wrong move belongs to the challenge it was played on. Clearing it here
   // makes that an invariant of the player rather than something the engine
   // refutation hook is left to infer. Adjusted during render, as elsewhere.

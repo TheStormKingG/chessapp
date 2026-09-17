@@ -62,6 +62,52 @@ test('plays a lesson through to the close screen', async () => {
   );
 });
 
+/**
+ * The close screen says "Lesson done" and reports the stars and the XP, so by
+ * the time a learner reads it the lesson is finished as far as they are
+ * concerned. Recording it on the *button* made that report conditional on the
+ * one exit route: the lesson's own close control, the tab bar and a reload all
+ * left a finished lesson unrecorded while the screen had already claimed it.
+ * The outcome is therefore written when the close screen is reached, and the
+ * button is only the way back to the path.
+ */
+test('the outcome is recorded when the close screen appears, not when it is dismissed', async () => {
+  const onOutcome = vi.fn();
+  render(
+    <LessonPlayer lesson={lesson} onComplete={() => {}} onOutcome={onOutcome} onExit={() => {}} textEntry />,
+  );
+  await userEvent.click(screen.getByRole('button', { name: /start/i }));
+  await userEvent.click(screen.getByRole('button', { name: /next/i }));
+  await userEvent.click(screen.getByRole('button', { name: 'Pin' }));
+  await userEvent.click(screen.getByRole('button', { name: /next/i }));
+  await userEvent.type(screen.getByLabelText('Type a move'), 'e4{enter}');
+  await userEvent.click(screen.getByRole('button', { name: /next/i }));
+
+  expect(screen.getByText('Remember this.')).toBeInTheDocument();
+  expect(onOutcome).toHaveBeenCalledWith(
+    expect.objectContaining({ lessonId: '9.9.1', stars: 3, xp: 10 }),
+  );
+  expect(onOutcome).toHaveBeenCalledTimes(1);
+});
+
+test('a lesson left by its own close control is still recorded', async () => {
+  const onOutcome = vi.fn();
+  const onExit = vi.fn();
+  render(
+    <LessonPlayer lesson={lesson} onComplete={() => {}} onOutcome={onOutcome} onExit={onExit} textEntry />,
+  );
+  await userEvent.click(screen.getByRole('button', { name: /start/i }));
+  await userEvent.click(screen.getByRole('button', { name: /next/i }));
+  await userEvent.click(screen.getByRole('button', { name: 'Pin' }));
+  await userEvent.click(screen.getByRole('button', { name: /next/i }));
+  await userEvent.type(screen.getByLabelText('Type a move'), 'e4{enter}');
+  await userEvent.click(screen.getByRole('button', { name: /next/i }));
+
+  await userEvent.click(screen.getByRole('button', { name: /exit lesson/i }));
+  expect(onExit).toHaveBeenCalled();
+  expect(onOutcome).toHaveBeenCalledTimes(1);
+});
+
 test('the hint control states its cost to a screen reader, not only on hover', async () => {
   render(<LessonPlayer lesson={lesson} onComplete={() => {}} onExit={() => {}} textEntry />);
   await userEvent.click(screen.getByRole('button', { name: /start/i }));
