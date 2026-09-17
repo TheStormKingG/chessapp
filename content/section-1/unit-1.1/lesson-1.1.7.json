@@ -1,0 +1,139 @@
+{
+  "id": "1.1.7",
+  "unit": "1.1",
+  "title": "The pawn, promotion and en passant",
+  "xp": 16,
+  "card": {
+    "idea": "A pawn walks forward one square, or two on its very first move, and it never goes back. It takes differently from the way it walks: one square diagonally forward. Reach the far end of the board and the pawn turns into a piece of your choosing.",
+    "diagrams": ["k7/8/8/8/8/8/4P3/7K w - - 0 1"]
+  },
+  "explain": [
+    {
+      "fen": "k7/8/8/8/8/8/4P3/7K w - - 0 1",
+      "text": "Forward one square. On its first move a pawn may go two instead, which is why this one can reach e3 or e4. It can never move backwards and it can never step onto an occupied square.",
+      "arrows": [
+        ["e2", "e3"],
+        ["e2", "e4"]
+      ],
+      "highlights": ["e3", "e4"]
+    },
+    {
+      "fen": "k7/8/8/3p1p2/4P3/8/8/7K w - - 0 1",
+      "text": "Walking and taking are two different moves. Straight ahead to e5 if the square is empty, or diagonally onto d5 or f5 to take. A pawn can never take the piece directly in front of it.",
+      "arrows": [
+        ["e4", "d5"],
+        ["e4", "f5"]
+      ],
+      "highlights": ["d5", "f5"]
+    },
+    {
+      "fen": "4k3/8/8/3pP3/8/8/5PPP/R5K1 w - d6 0 2",
+      "text": "Black has just pushed two squares past your pawn. On this move only, you may take it as if it had gone one square: your pawn lands on d6 and theirs comes off. This is called en passant.",
+      "arrows": [["e5", "d6"]],
+      "highlights": ["d5", "d6"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.1.7-c1",
+      "type": "find_them_all",
+      "fen": "k7/8/8/8/8/8/4P3/7K w - - 0 1",
+      "prompt": "Tap every square the pawn can move to.",
+      "concept": "pawn-moves",
+      "hints": { "piece": "e2" },
+      "answer": { "squares": ["e3", "e4"] },
+      "reason": "One square, or two because this pawn has not moved yet."
+    },
+    {
+      "id": "1.1.7-c2",
+      "type": "find_them_all",
+      "fen": "k7/8/8/3p1p2/4P3/8/8/7K w - - 0 1",
+      "prompt": "Tap every square the pawn can move to.",
+      "concept": "pawn-capture",
+      "hints": { "piece": "e4" },
+      "answer": { "squares": ["d5", "e5", "f5"] },
+      "reason": "Straight ahead to e5, or diagonally to take either pawn."
+    },
+    {
+      "id": "1.1.7-c3",
+      "type": "which_square",
+      "fen": "k7/2P5/8/8/8/8/r5PP/6K1 w - - 0 1",
+      "prompt": "Tap the square where this pawn becomes a queen.",
+      "concept": "promotion",
+      "hints": { "piece": "c7", "square": "c8" },
+      "answer": { "square": "c8" },
+      "reason": "One step to the eighth rank and the pawn is a pawn no longer."
+    },
+    {
+      "id": "1.1.7-c4",
+      "type": "find_the_move",
+      "fen": "k7/4P3/8/8/8/8/r5PP/6K1 w - - 0 1",
+      "prompt": "Make a new queen.",
+      "concept": "promotion",
+      "hints": { "piece": "e7", "square": "e8" },
+      "answer": { "moves": ["e8=Q+"] },
+      "wrong": {
+        "e8=R+": "A rook works, but you were offered a queen and turned it down.",
+        "h3": "The pawn is one square from the end. Take the queen."
+      },
+      "reason": "A pawn on the last rank becomes whatever you ask for, so ask for the queen."
+    },
+    {
+      "id": "1.1.7-c5",
+      "type": "find_the_move",
+      "fen": "4k3/8/8/3pP3/8/8/5PPP/R5K1 w - d6 0 2",
+      "prompt": "Black has just played d7-d5. Take that pawn.",
+      "concept": "en-passant",
+      "hints": { "piece": "e5", "square": "d6" },
+      "answer": { "moves": ["exd6"] },
+      "wrong": {
+        "e6": "Walking past it. The two-square push can be answered right now, and only right now.",
+        "Ra5": "The rook is not the piece with the offer on the table."
+      },
+      "reason": "En passant: your pawn lands on d6 and the pawn that ran past comes off."
+    },
+    {
+      "id": "1.1.7-c6",
+      "type": "find_the_move",
+      "fen": "4k3/8/3r1b2/4P3/8/8/5PP1/6K1 w - - 0 1",
+      "prompt": "Take the more valuable piece.",
+      "concept": "pawn-capture",
+      "hints": { "piece": "e5", "square": "d6" },
+      "answer": { "moves": ["exd6"] },
+      "wrong": {
+        "exf6": "That wins the bishop. The rook on the other side is worth more.",
+        "e6": "Straight ahead takes nothing at all."
+      },
+      "reason": "Both are free, and a rook beats a bishop."
+    },
+    {
+      "id": "1.1.7-c7",
+      "type": "find_the_move",
+      "fen": "4k3/8/2b1r3/3P4/8/8/5PP1/6K1 w - - 0 1",
+      "prompt": "Win as much as you can with the pawn.",
+      "concept": "pawn-capture",
+      "hints": { "piece": "d5", "square": "e6" },
+      "answer": { "moves": ["dxe6"] },
+      "wrong": {
+        "dxc6": "The bishop, when a rook was on offer on the other diagonal.",
+        "d6": "Pushing forward wins nothing and the pawn is then stuck."
+      },
+      "reason": "One little pawn, two things to take, so take the rook."
+    },
+    {
+      "id": "1.1.7-c8",
+      "type": "find_the_move",
+      "fen": "q3k3/1P6/8/8/8/8/5PP1/6K1 w - - 0 1",
+      "prompt": "Take and promote in the same move.",
+      "concept": "promotion",
+      "hints": { "piece": "b7", "square": "a8" },
+      "answer": { "moves": ["bxa8=Q+"] },
+      "wrong": {
+        "b8=Q+": "That makes a queen but leaves theirs on the board. Take it on the way.",
+        "bxa8=R+": "You took the queen and then asked for a rook."
+      },
+      "reason": "The pawn takes diagonally onto the last rank, so it takes and promotes at once."
+    }
+  ],
+  "takeaway": "Pawns walk straight, take diagonally, and become a queen at the end."
+}

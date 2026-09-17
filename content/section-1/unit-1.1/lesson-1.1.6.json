@@ -1,0 +1,123 @@
+{
+  "id": "1.1.6",
+  "unit": "1.1",
+  "title": "The knight",
+  "xp": 14,
+  "card": {
+    "idea": "The knight jumps: two squares one way, then one square sideways, landing in the shape of an L. It is the only piece that does not care what stands in between. From the middle it reaches eight squares; from a corner, only two.",
+    "diagrams": ["k7/8/8/8/3N4/8/8/7K w - - 0 1"]
+  },
+  "explain": [
+    {
+      "fen": "k7/8/8/8/3N4/8/8/7K w - - 0 1",
+      "text": "Two along, one across. From d4 that makes eight landing squares, every one of them the opposite colour to the square it left. A knight on a dark square always lands on a light one.",
+      "arrows": [
+        ["d4", "e6"],
+        ["d4", "f5"],
+        ["d4", "f3"],
+        ["d4", "e2"],
+        ["d4", "c2"],
+        ["d4", "b3"],
+        ["d4", "b5"],
+        ["d4", "c6"]
+      ],
+      "highlights": ["d4"]
+    },
+    {
+      "fen": "k7/8/8/2PPP3/2PNP3/2PPP3/8/7K w - - 0 1",
+      "text": "Walled in on all sides, and it still gets out. Pieces in the way mean nothing to a knight; only the square it lands on matters. That is why a knight in a crowded position is worth having.",
+      "arrows": [
+        ["d4", "e6"],
+        ["d4", "b5"],
+        ["d4", "f3"],
+        ["d4", "c2"]
+      ],
+      "highlights": ["d4"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.1.6-c1",
+      "type": "find_them_all",
+      "fen": "k7/8/8/8/3N4/8/8/7K w - - 0 1",
+      "prompt": "Tap every square the knight can move to.",
+      "concept": "knight-moves",
+      "hints": { "piece": "d4" },
+      "answer": { "squares": ["b3", "b5", "c2", "c6", "e2", "e6", "f3", "f5"] },
+      "reason": "Eight L-shapes out of the middle of the board."
+    },
+    {
+      "id": "1.1.6-c2",
+      "type": "find_them_all",
+      "fen": "k7/8/8/8/8/8/8/N6K w - - 0 1",
+      "prompt": "Tap every square the knight can move to.",
+      "concept": "knight-moves",
+      "hints": { "piece": "a1" },
+      "answer": { "squares": ["b3", "c2"] },
+      "reason": "In the corner, six of its eight jumps land off the board."
+    },
+    {
+      "id": "1.1.6-c3",
+      "type": "find_them_all",
+      "fen": "k7/8/8/2PPP3/2PNP3/2PPP3/8/7K w - - 0 1",
+      "prompt": "Tap every square the knight can move to.",
+      "concept": "knight-moves",
+      "hints": { "piece": "d4" },
+      "answer": { "squares": ["b3", "b5", "c2", "c6", "e2", "e6", "f3", "f5"] },
+      "reason": "Surrounded, and still all eight: a knight jumps clean over anything."
+    },
+    {
+      "id": "1.1.6-c4",
+      "type": "which_square",
+      "fen": "4k3/1p3p2/8/8/2b5/8/3N1PP1/6K1 w - - 0 1",
+      "prompt": "Tap the square where the knight can take the bishop.",
+      "concept": "knight-moves",
+      "hints": { "piece": "d2", "square": "c4" },
+      "answer": { "square": "c4" },
+      "reason": "Two up, one across from d2 lands exactly on c4."
+    },
+    {
+      "id": "1.1.6-c5",
+      "type": "find_the_move",
+      "fen": "4k3/1p3p2/8/8/2b5/8/3N1PP1/6K1 w - - 0 1",
+      "prompt": "Take the bishop.",
+      "concept": "knight-moves",
+      "hints": { "piece": "d2", "square": "c4" },
+      "answer": { "moves": ["Nxc4"] },
+      "wrong": {
+        "Nb3": "A knight move, but not the one that lands on the bishop.",
+        "f4": "The bishop is free and you pushed a pawn instead."
+      },
+      "reason": "One jump and the bishop is off the board."
+    },
+    {
+      "id": "1.1.6-c6",
+      "type": "find_the_move",
+      "fen": "4k3/1p3p2/8/2r5/8/3N4/5PP1/6K1 w - - 0 1",
+      "prompt": "Win the rook.",
+      "concept": "knight-moves",
+      "hints": { "piece": "d3", "square": "c5" },
+      "answer": { "moves": ["Nxc5"] },
+      "wrong": {
+        "Nb4": "Close, but that square is not the rook.",
+        "Ne5": "The other jump. The rook is on c5."
+      },
+      "reason": "d3 to c5 is one L, and the rook has nobody guarding it."
+    },
+    {
+      "id": "1.1.6-c7",
+      "type": "find_the_move",
+      "fen": "4k3/1p3p2/8/8/4b3/8/3N1PP1/6K1 w - - 0 1",
+      "prompt": "Win a piece.",
+      "concept": "knight-moves",
+      "hints": { "piece": "d2", "square": "e4" },
+      "answer": { "moves": ["Nxe4"] },
+      "wrong": {
+        "Nf3": "That blocks your own pawn and leaves the bishop alone.",
+        "g3": "A free bishop is sitting on e4."
+      },
+      "reason": "From d2 the knight lands on e4, and the bishop is undefended."
+    }
+  ],
+  "takeaway": "The knight jumps in an L and nothing can block it."
+}

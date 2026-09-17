@@ -1,0 +1,346 @@
+{
+  "unit": "1.1",
+  "title": "The board and the pieces",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "1.1-cp-sq1",
+      "type": "which_square",
+      "fen": "7k/8/8/8/8/8/8/K7 w - - 0 1",
+      "prompt": "Tap b3.",
+      "concept": "square-names",
+      "answer": { "square": "b3" }
+    },
+    {
+      "id": "1.1-cp-sq2",
+      "type": "which_square",
+      "fen": "7k/8/8/8/8/8/8/K7 w - - 0 1",
+      "prompt": "Tap f7.",
+      "concept": "square-names",
+      "answer": { "square": "f7" }
+    },
+    {
+      "id": "1.1-cp-sq3",
+      "type": "which_square",
+      "fen": "7k/8/8/8/8/8/8/K7 w - - 0 1",
+      "prompt": "Tap g2.",
+      "concept": "square-names",
+      "answer": { "square": "g2" }
+    },
+    {
+      "id": "1.1-cp-sq4",
+      "type": "which_square",
+      "fen": "7k/8/8/8/8/8/8/K7 w - - 0 1",
+      "prompt": "Tap d6.",
+      "concept": "square-names",
+      "answer": { "square": "d6" }
+    },
+    {
+      "id": "1.1-cp-r1",
+      "type": "find_them_all",
+      "fen": "7k/8/8/8/8/2R5/8/K7 w - - 0 1",
+      "prompt": "Tap every square this piece can reach.",
+      "concept": "rook-moves",
+      "hints": { "piece": "c3" },
+      "answer": {
+        "squares": ["a3", "b3", "c1", "c2", "c4", "c5", "c6", "c7", "c8", "d3", "e3", "f3", "g3", "h3"]
+      }
+    },
+    {
+      "id": "1.1-cp-r2",
+      "type": "find_them_all",
+      "fen": "7k/8/8/2P5/8/2R2p2/8/K7 w - - 0 1",
+      "prompt": "Tap every square this piece can reach.",
+      "concept": "rook-moves",
+      "hints": { "piece": "c3" },
+      "answer": { "squares": ["a3", "b3", "c1", "c2", "c4", "d3", "e3", "f3"] }
+    },
+    {
+      "id": "1.1-cp-r3",
+      "type": "find_the_move",
+      "fen": "4k3/1p3p2/8/8/8/1b6/5PP1/1R4K1 w - - 0 1",
+      "prompt": "Find the capture.",
+      "concept": "rook-moves",
+      "hints": { "piece": "b1", "square": "b3" },
+      "answer": { "moves": ["Rxb3"] },
+      "reason": "The bishop is on your file with nothing in between."
+    },
+    {
+      "id": "1.1-cp-r4",
+      "type": "find_the_move",
+      "fen": "4k3/1p3p2/8/8/8/8/3n1PP1/3R2K1 w - - 0 1",
+      "prompt": "Win a piece.",
+      "concept": "rook-moves",
+      "hints": { "piece": "d1", "square": "d2" },
+      "answer": { "moves": ["Rxd2"] },
+      "reason": "The knight stepped onto your file and nobody is guarding it."
+    },
+    {
+      "id": "1.1-cp-b1",
+      "type": "find_them_all",
+      "fen": "7k/8/8/4B3/8/8/8/K7 w - - 0 1",
+      "prompt": "Tap every square this piece can reach.",
+      "concept": "bishop-moves",
+      "hints": { "piece": "e5" },
+      "answer": { "squares": ["b2", "b8", "c3", "c7", "d4", "d6", "f4", "f6", "g3", "g7", "h2", "h8"] }
+    },
+    {
+      "id": "1.1-cp-b2",
+      "type": "find_them_all",
+      "fen": "7k/8/3P4/4B3/8/6p1/8/K7 w - - 0 1",
+      "prompt": "Tap every square this piece can reach.",
+      "concept": "bishop-moves",
+      "hints": { "piece": "e5" },
+      "answer": { "squares": ["b2", "c3", "d4", "f4", "f6", "g3", "g7", "h8"] }
+    },
+    {
+      "id": "1.1-cp-b3",
+      "type": "find_the_move",
+      "fen": "4k3/1p3p2/8/5n2/8/8/2B2PP1/6K1 w - - 0 1",
+      "prompt": "Find the capture.",
+      "concept": "bishop-moves",
+      "hints": { "piece": "c2", "square": "f5" },
+      "answer": { "moves": ["Bxf5"] },
+      "reason": "c2, d3, e4, f5: the knight is on the diagonal."
+    },
+    {
+      "id": "1.1-cp-b4",
+      "type": "find_the_move",
+      "fen": "4k3/1p3p2/8/8/8/2r5/1B3PP1/6K1 w - - 0 1",
+      "prompt": "Win the rook.",
+      "concept": "bishop-moves",
+      "hints": { "piece": "b2", "square": "c3" },
+      "answer": { "moves": ["Bxc3"] },
+      "reason": "It is one square away on the diagonal, and undefended."
+    },
+    {
+      "id": "1.1-cp-q1",
+      "type": "find_them_all",
+      "fen": "7k/8/8/8/8/5Q2/8/K7 w - - 0 1",
+      "prompt": "Tap every square this piece can reach.",
+      "concept": "queen-moves",
+      "hints": { "piece": "f3" },
+      "answer": {
+        "squares": [
+          "a3", "a8", "b3", "b7", "c3", "c6", "d1", "d3", "d5", "e2", "e3", "e4", "f1", "f2",
+          "f4", "f5", "f6", "f7", "f8", "g2", "g3", "g4", "h1", "h3", "h5"
+        ]
+      }
+    },
+    {
+      "id": "1.1-cp-q2",
+      "type": "find_them_all",
+      "fen": "7k/8/8/5p2/8/5Q2/5P2/K7 w - - 0 1",
+      "prompt": "Tap every square this piece can reach.",
+      "concept": "queen-moves",
+      "hints": { "piece": "f3" },
+      "answer": {
+        "squares": [
+          "a3", "a8", "b3", "b7", "c3", "c6", "d1", "d3", "d5", "e2", "e3", "e4", "f4", "f5",
+          "g2", "g3", "g4", "h1", "h3", "h5"
+        ]
+      }
+    },
+    {
+      "id": "1.1-cp-q3",
+      "type": "which_square",
+      "fen": "7k/8/8/5p2/8/5Q2/5P2/K7 w - - 0 1",
+      "prompt": "Tap the square where this piece can take a pawn.",
+      "concept": "queen-moves",
+      "hints": { "piece": "f3", "square": "f5" },
+      "answer": { "square": "f5" }
+    },
+    {
+      "id": "1.1-cp-q4",
+      "type": "find_the_move",
+      "fen": "4k3/1p3p2/8/2r4Q/8/8/5PP1/6K1 w - - 0 1",
+      "prompt": "Find the capture.",
+      "concept": "queen-moves",
+      "hints": { "piece": "h5", "square": "c5" },
+      "answer": { "moves": ["Qxc5"] },
+      "reason": "The fifth rank is clear the whole way across."
+    },
+    {
+      "id": "1.1-cp-k1",
+      "type": "find_them_all",
+      "fen": "7k/8/8/8/8/8/2K5/8 w - - 0 1",
+      "prompt": "Tap every square this piece can reach.",
+      "concept": "king-moves",
+      "hints": { "piece": "c2" },
+      "answer": { "squares": ["b1", "b2", "b3", "c1", "c3", "d1", "d2", "d3"] }
+    },
+    {
+      "id": "1.1-cp-k2",
+      "type": "find_them_all",
+      "fen": "7k/8/8/8/8/7r/2K5/8 w - - 0 1",
+      "prompt": "Tap every square this piece can reach.",
+      "concept": "king-moves",
+      "hints": { "piece": "c2" },
+      "answer": { "squares": ["b1", "b2", "c1", "d1", "d2"] }
+    },
+    {
+      "id": "1.1-cp-k3",
+      "type": "is_it_safe",
+      "fen": "7k/8/8/8/7r/8/2K4P/8 w - - 0 1",
+      "move": "h3",
+      "prompt": "Is h3 safe?",
+      "concept": "king-moves",
+      "reasons": [
+        "No: it steps right in front of the rook, which takes it for nothing.",
+        "Yes: a rook cannot take backwards.",
+        "Yes: the pawn is defended by the king."
+      ],
+      "answer": { "safe": false, "reason": 0 },
+      "hints": { "piece": "h2", "square": "h3" }
+    },
+    {
+      "id": "1.1-cp-k4",
+      "type": "find_the_move",
+      "fen": "8/8/8/8/3rK3/8/5PP1/k7 w - - 0 1",
+      "prompt": "Find the capture.",
+      "concept": "king-moves",
+      "hints": { "piece": "e4", "square": "d4" },
+      "answer": { "moves": ["Kxd4"] },
+      "reason": "It is standing next door with nobody guarding it."
+    },
+    {
+      "id": "1.1-cp-n1",
+      "type": "find_them_all",
+      "fen": "7k/8/8/8/6N1/8/8/K7 w - - 0 1",
+      "prompt": "Tap every square this piece can reach.",
+      "concept": "knight-moves",
+      "hints": { "piece": "g4" },
+      "answer": { "squares": ["e3", "e5", "f2", "f6", "h2", "h6"] }
+    },
+    {
+      "id": "1.1-cp-n2",
+      "type": "find_them_all",
+      "fen": "7k/8/8/8/8/8/8/K6N w - - 0 1",
+      "prompt": "Tap every square this piece can reach.",
+      "concept": "knight-moves",
+      "hints": { "piece": "h1" },
+      "answer": { "squares": ["f2", "g3"] }
+    },
+    {
+      "id": "1.1-cp-n3",
+      "type": "find_the_move",
+      "fen": "4k3/1p3p2/8/1b6/8/2N5/5PP1/6K1 w - - 0 1",
+      "prompt": "Find the capture.",
+      "concept": "knight-moves",
+      "hints": { "piece": "c3", "square": "b5" },
+      "answer": { "moves": ["Nxb5"] },
+      "reason": "One L-shape from c3 lands on the bishop."
+    },
+    {
+      "id": "1.1-cp-n4",
+      "type": "find_the_move",
+      "fen": "4k3/1p3p2/8/8/3r4/8/4NPP1/6K1 w - - 0 1",
+      "prompt": "Win the rook.",
+      "concept": "knight-moves",
+      "hints": { "piece": "e2", "square": "d4" },
+      "answer": { "moves": ["Nxd4"] },
+      "reason": "Two up and one across, and the rook is gone."
+    },
+    {
+      "id": "1.1-cp-p1",
+      "type": "find_them_all",
+      "fen": "7k/8/8/8/8/8/2P5/K7 w - - 0 1",
+      "prompt": "Tap every square this piece can reach.",
+      "concept": "pawn-moves",
+      "hints": { "piece": "c2" },
+      "answer": { "squares": ["c3", "c4"] }
+    },
+    {
+      "id": "1.1-cp-p2",
+      "type": "find_them_all",
+      "fen": "7k/8/8/1p1p4/2P5/8/8/K7 w - - 0 1",
+      "prompt": "Tap every square this piece can reach.",
+      "concept": "pawn-moves",
+      "hints": { "piece": "c4" },
+      "answer": { "squares": ["b5", "c5", "d5"] }
+    },
+    {
+      "id": "1.1-cp-p3",
+      "type": "which_square",
+      "fen": "4k3/8/8/2pP4/8/8/5PPP/R5K1 w - c6 0 2",
+      "prompt": "Black has just played c7-c5. Tap the square the white pawn lands on if it takes that pawn.",
+      "concept": "pawn-moves",
+      "hints": { "piece": "d5", "square": "c6" },
+      "answer": { "square": "c6" }
+    },
+    {
+      "id": "1.1-cp-p4",
+      "type": "find_the_move",
+      "fen": "4k3/8/3r4/4P3/8/8/5PP1/6K1 w - - 0 1",
+      "prompt": "Find the capture.",
+      "concept": "pawn-moves",
+      "hints": { "piece": "e5", "square": "d6" },
+      "answer": { "moves": ["exd6"] },
+      "reason": "Pawns take diagonally, and there is a rook on the diagonal."
+    },
+    {
+      "id": "1.1-cp-p5",
+      "type": "find_the_move",
+      "fen": "k7/5P2/8/8/8/8/r5PP/6K1 w - - 0 1",
+      "prompt": "Find the strongest move.",
+      "concept": "pawn-moves",
+      "hints": { "piece": "f7", "square": "f8" },
+      "answer": { "moves": ["f8=Q+"] },
+      "reason": "One step to the end of the board, and ask for a queen."
+    },
+    {
+      "id": "1.1-cp-p6",
+      "type": "find_the_move",
+      "fen": "4k3/8/8/8/3b4/4P3/5PP1/6K1 w - - 0 1",
+      "prompt": "Find the capture.",
+      "concept": "pawn-moves",
+      "hints": { "piece": "e3", "square": "d4" },
+      "answer": { "moves": ["exd4"] },
+      "reason": "The bishop parked itself on a square your pawn covers."
+    },
+    {
+      "id": "1.1-cp-s1",
+      "type": "which_square",
+      "fen": "rnbqkbnr/8/8/8/8/8/8/RNBQKBNR w - - 0 1",
+      "prompt": "Tap the square the white king starts on.",
+      "concept": "setup",
+      "hints": { "piece": "e1", "square": "e1" },
+      "answer": { "square": "e1" }
+    },
+    {
+      "id": "1.1-cp-s2",
+      "type": "which_square",
+      "fen": "rnbqkbnr/8/8/8/8/8/8/RNBQKBNR w - - 0 1",
+      "prompt": "Tap the square the white queen starts on.",
+      "concept": "setup",
+      "hints": { "piece": "d1", "square": "d1" },
+      "answer": { "square": "d1" }
+    },
+    {
+      "id": "1.1-cp-s3",
+      "type": "find_them_all",
+      "fen": "rnbqkbnr/8/8/8/8/8/8/RNBQKBNR w - - 0 1",
+      "prompt": "Tap the two squares the black knights start on.",
+      "concept": "setup",
+      "answer": { "squares": ["b8", "g8"] }
+    },
+    {
+      "id": "1.1-cp-s4",
+      "type": "name_the_pattern",
+      "fen": "rnbqkbnr/8/8/8/8/8/8/RNBQKBNR w - - 0 1",
+      "prompt": "The board is the right way round when the corner by your right hand is which colour?",
+      "options": ["Light", "Dark", "Either one is fine"],
+      "concept": "setup",
+      "answer": { "option": 0 }
+    },
+    {
+      "id": "1.1-cp-s5",
+      "type": "find_them_all",
+      "fen": "rnbqkbnr/8/8/8/8/8/8/RNBQKBNR w - - 0 1",
+      "prompt": "Tap the two squares the black rooks start on.",
+      "concept": "setup",
+      "answer": { "squares": ["a8", "h8"] }
+    }
+  ]
+}

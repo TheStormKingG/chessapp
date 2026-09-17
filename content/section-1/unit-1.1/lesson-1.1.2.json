@@ -1,0 +1,109 @@
+{
+  "id": "1.1.2",
+  "unit": "1.1",
+  "title": "The rook",
+  "xp": 12,
+  "card": {
+    "idea": "The rook slides in straight lines: up and down its file, left and right along its rank. It can go one square or seven, as long as nothing is in the way. It stops when it meets a piece, and it takes an enemy piece by landing on it.",
+    "diagrams": ["k7/8/8/8/3R4/8/8/7K w - - 0 1"]
+  },
+  "explain": [
+    {
+      "fen": "k7/8/8/8/3R4/8/8/7K w - - 0 1",
+      "text": "Straight lines only. From d4 the rook runs all the way up and down the d-file, and all the way across the fourth rank. Fourteen squares on an open board.",
+      "arrows": [
+        ["d4", "d8"],
+        ["d4", "d1"],
+        ["d4", "a4"],
+        ["d4", "h4"]
+      ],
+      "highlights": ["d4"]
+    },
+    {
+      "fen": "k7/8/8/8/8/P6K/4p3/R7 w - - 0 1",
+      "text": "Something in the way stops the rook. Your own pawn on a3 blocks the file, so the rook gets no further than a2. Along the rank the road is clear all the way to h1.",
+      "arrows": [
+        ["a1", "a2"],
+        ["a1", "h1"]
+      ],
+      "highlights": ["a3"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.1.2-c1",
+      "type": "find_them_all",
+      "fen": "k7/8/8/8/3R4/8/8/7K w - - 0 1",
+      "prompt": "Tap every square the rook can move to.",
+      "concept": "rook-moves",
+      "hints": { "piece": "d4" },
+      "answer": {
+        "squares": ["a4", "b4", "c4", "d1", "d2", "d3", "d5", "d6", "d7", "d8", "e4", "f4", "g4", "h4"]
+      },
+      "reason": "The whole d-file and the whole fourth rank, and nothing else."
+    },
+    {
+      "id": "1.1.2-c2",
+      "type": "find_them_all",
+      "fen": "k7/8/8/8/8/P6K/4p3/R7 w - - 0 1",
+      "prompt": "Tap every square the rook can move to.",
+      "concept": "rook-moves",
+      "hints": { "piece": "a1" },
+      "answer": { "squares": ["a2", "b1", "c1", "d1", "e1", "f1", "g1", "h1"] },
+      "reason": "Your own pawn on a3 blocks the file after a2; the first rank is wide open."
+    },
+    {
+      "id": "1.1.2-c3",
+      "type": "which_square",
+      "fen": "7k/8/8/8/8/8/8/R5K1 w - - 0 1",
+      "prompt": "Tap the square the rook reaches by sliding as far up the a-file as it can go.",
+      "concept": "rook-moves",
+      "hints": { "piece": "a1", "square": "a8" },
+      "answer": { "square": "a8" },
+      "reason": "Nothing is in the way, so it runs to the end of the board."
+    },
+    {
+      "id": "1.1.2-c4",
+      "type": "find_the_move",
+      "fen": "4k3/1p3p2/8/r7/8/8/5PP1/R5K1 w - - 0 1",
+      "prompt": "Take the black rook.",
+      "concept": "rook-moves",
+      "hints": { "piece": "a1", "square": "a5" },
+      "answer": { "moves": ["Rxa5"] },
+      "wrong": {
+        "Ra3": "Right file, not far enough. The rook can travel the whole way in one move.",
+        "Kf1": "The king is fine where he is. The free rook on a5 is the thing to take."
+      },
+      "reason": "The a-file is clear, so your rook slides up and lands on theirs."
+    },
+    {
+      "id": "1.1.2-c5",
+      "type": "find_the_move",
+      "fen": "4k3/1p3p2/8/8/8/8/5PP1/R2b2K1 w - - 0 1",
+      "prompt": "Win the bishop.",
+      "concept": "rook-moves",
+      "hints": { "piece": "a1", "square": "d1" },
+      "answer": { "moves": ["Rxd1"] },
+      "wrong": {
+        "Rc1": "One square short. Nothing stops you going all the way to d1.",
+        "Kf1": "That leaves the bishop sitting there for free."
+      },
+      "reason": "The bishop is on your rank with nothing between you, so take it."
+    },
+    {
+      "id": "1.1.2-c6",
+      "type": "find_the_move",
+      "fen": "4k3/1p3p2/8/8/8/2n5/5PP1/2R3K1 w - - 0 1",
+      "prompt": "Win a piece.",
+      "concept": "rook-moves",
+      "hints": { "piece": "c1", "square": "c3" },
+      "answer": { "moves": ["Rxc3"] },
+      "wrong": {
+        "Rc2": "Closer, but the knight is still there next move and it will move away.",
+        "f4": "A pawn push while a whole knight is free."
+      },
+      "reason": "The knight is stuck on your file with nobody guarding it."
+    }
+  ],
+  "takeaway": "Rooks slide in straight lines until something is in the way."
+}

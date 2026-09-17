@@ -1,0 +1,121 @@
+{
+  "id": "1.1.4",
+  "unit": "1.1",
+  "title": "The queen",
+  "xp": 14,
+  "card": {
+    "idea": "The queen moves like a rook and a bishop put together: straight lines and diagonals, as far as she likes. She is the strongest piece on the board, which is exactly why you keep her out of trouble.",
+    "diagrams": ["8/7k/8/8/3Q4/8/K7/8 w - - 0 1"]
+  },
+  "explain": [
+    {
+      "fen": "8/7k/8/8/3Q4/8/K7/8 w - - 0 1",
+      "text": "Eight roads out of d4: up, down, left, right and the four diagonals. That is twenty-seven squares from one spot. Nothing new to learn here, only two pieces you already know joined together.",
+      "arrows": [
+        ["d4", "d8"],
+        ["d4", "h4"],
+        ["d4", "d1"],
+        ["d4", "a4"],
+        ["d4", "h8"],
+        ["d4", "a7"],
+        ["d4", "a1"],
+        ["d4", "g1"]
+      ],
+      "highlights": ["d4"]
+    },
+    {
+      "fen": "8/7k/3p4/8/3Q4/8/KP3p2/8 w - - 0 1",
+      "text": "She is stopped by pieces like anyone else. Your pawn on b2 blocks the diagonal at c3, and the black pawn on d6 ends the run up the file, though she may take it.",
+      "arrows": [
+        ["d4", "d6"],
+        ["d4", "c3"]
+      ],
+      "highlights": ["b2", "d6"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.1.4-c1",
+      "type": "find_them_all",
+      "fen": "8/7k/8/8/3Q4/8/K7/8 w - - 0 1",
+      "prompt": "Tap every square the queen can move to.",
+      "concept": "queen-moves",
+      "hints": { "piece": "d4" },
+      "answer": {
+        "squares": [
+          "a1", "a4", "a7", "b2", "b4", "b6", "c3", "c4", "c5", "d1", "d2", "d3", "d5", "d6",
+          "d7", "d8", "e3", "e4", "e5", "f2", "f4", "f6", "g1", "g4", "g7", "h4", "h8"
+        ]
+      },
+      "reason": "Rook lines plus bishop lines, all from the one square."
+    },
+    {
+      "id": "1.1.4-c2",
+      "type": "find_them_all",
+      "fen": "8/7k/3p4/8/3Q4/8/KP3p2/8 w - - 0 1",
+      "prompt": "Tap every square the queen can move to.",
+      "concept": "queen-moves",
+      "hints": { "piece": "d4" },
+      "answer": {
+        "squares": [
+          "a4", "a7", "b4", "b6", "c3", "c4", "c5", "d1", "d2", "d3", "d5", "d6", "e3", "e4",
+          "e5", "f2", "f4", "f6", "g4", "g7", "h4", "h8"
+        ]
+      },
+      "reason": "Three roads got shorter: your own pawn stops one, the black pawns end two."
+    },
+    {
+      "id": "1.1.4-c3",
+      "type": "which_square",
+      "fen": "8/7k/3p4/8/3Q4/8/KP3p2/8 w - - 0 1",
+      "prompt": "Tap the square where the queen takes a pawn on the second rank.",
+      "concept": "queen-moves",
+      "hints": { "piece": "d4", "square": "f2" },
+      "answer": { "square": "f2" },
+      "reason": "Down the diagonal through e3 to the black pawn on f2."
+    },
+    {
+      "id": "1.1.4-c4",
+      "type": "find_the_move",
+      "fen": "4k3/1p3p2/8/3r3Q/8/8/5PP1/6K1 w - - 0 1",
+      "prompt": "Take the rook.",
+      "concept": "queen-moves",
+      "hints": { "piece": "h5", "square": "d5" },
+      "answer": { "moves": ["Qxd5"] },
+      "wrong": {
+        "Qe5+": "You are on the right rank but stopped short, and the rook just leaves.",
+        "Qh4": "Backwards, and a whole rook stays on the board."
+      },
+      "reason": "The fifth rank is empty between you, so the rook is yours."
+    },
+    {
+      "id": "1.1.4-c5",
+      "type": "find_the_move",
+      "fen": "4k3/1p3p2/8/2b1r3/8/4Q3/5PP1/6K1 w - - 0 1",
+      "prompt": "Two pieces are free. Take the more valuable one.",
+      "concept": "queen-moves",
+      "hints": { "piece": "e3", "square": "e5" },
+      "answer": { "moves": ["Qxe5+"] },
+      "wrong": {
+        "Qxc5": "That wins the bishop, and the rook is worth more.",
+        "Qe4": "Both pieces are still there and now you have given them a free move."
+      },
+      "reason": "A rook is worth more than a bishop, so take the rook."
+    },
+    {
+      "id": "1.1.4-c6",
+      "type": "find_the_move",
+      "fen": "4k3/1p3p2/3r4/8/8/8/3Q1PP1/6K1 w - - 0 1",
+      "prompt": "Win the rook.",
+      "concept": "queen-moves",
+      "hints": { "piece": "d2", "square": "d6" },
+      "answer": { "moves": ["Qxd6"] },
+      "wrong": {
+        "Qd4": "Halfway up the file. Next move the rook simply steps aside.",
+        "Qb4": "Off to the side while the rook sits there for free."
+      },
+      "reason": "Straight up the d-file with nothing in between."
+    }
+  ],
+  "takeaway": "The queen is a rook and a bishop in one piece, so keep her safe."
+}

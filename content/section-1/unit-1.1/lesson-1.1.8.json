@@ -1,0 +1,92 @@
+{
+  "id": "1.1.8",
+  "unit": "1.1",
+  "title": "Setting up the board",
+  "xp": 10,
+  "card": {
+    "idea": "Turn the board so the square in your right-hand corner is light. Rooks go in the corners, then knights, then bishops, and the queen takes the square of her own colour, leaving the last square for the king. Pawns fill the row in front.",
+    "diagrams": ["rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"]
+  },
+  "explain": [
+    {
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "text": "White on the right: the corner nearest your right hand is h1, and it is light. Get that wrong and every other piece ends up mirrored.",
+      "highlights": ["h1", "a8"]
+    },
+    {
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "text": "Rooks in the corners, knights beside them, bishops next. The white queen goes on d1, a light square; the black queen on d8, a dark one. Queen on her own colour, kings facing each other on the e-file.",
+      "highlights": ["d1", "d8", "e1", "e8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.1.8-c1",
+      "type": "which_square",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "Tap the square the white queen starts on.",
+      "concept": "setup",
+      "hints": { "piece": "d1", "square": "d1" },
+      "answer": { "square": "d1" },
+      "reason": "d1 is light, and the white queen takes the light square."
+    },
+    {
+      "id": "1.1.8-c2",
+      "type": "which_square",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "Tap the square the black king starts on.",
+      "concept": "setup",
+      "hints": { "piece": "e8", "square": "e8" },
+      "answer": { "square": "e8" },
+      "reason": "Kings share the e-file, facing each other down the board."
+    },
+    {
+      "id": "1.1.8-c3",
+      "type": "find_them_all",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "Tap all four squares where knights start.",
+      "concept": "setup",
+      "answer": { "squares": ["b1", "b8", "g1", "g8"] },
+      "reason": "Next to each rook, on the b-file and the g-file."
+    },
+    {
+      "id": "1.1.8-c4",
+      "type": "name_the_pattern",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "Which corner square is the light one on White's side?",
+      "options": ["a1", "h1", "e4"],
+      "concept": "setup",
+      "answer": { "option": 1 },
+      "reason": "White on the right: h1 is light, and that is how you know the board is the right way round."
+    },
+    {
+      "id": "1.1.8-c5",
+      "type": "find_them_all",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "Tap the two squares the white rooks start on.",
+      "concept": "setup",
+      "answer": { "squares": ["a1", "h1"] },
+      "reason": "Rooks live in the corners."
+    },
+    {
+      "id": "1.1.8-c6",
+      "type": "which_square",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "Tap the square the black queen starts on.",
+      "concept": "setup",
+      "hints": { "piece": "d8", "square": "d8" },
+      "answer": { "square": "d8" },
+      "reason": "d8 is dark, and the black queen takes the dark square."
+    },
+    {
+      "id": "1.1.8-c7",
+      "type": "find_them_all",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "Tap all four squares where bishops start.",
+      "concept": "setup",
+      "answer": { "squares": ["c1", "c8", "f1", "f8"] },
+      "reason": "Between the knights and the royal pair, on the c-file and the f-file."
+    }
+  ],
+  "takeaway": "Light square on your right, and the queen on her own colour."
+}

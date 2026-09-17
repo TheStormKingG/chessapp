@@ -1,0 +1,105 @@
+{
+  "id": "1.1.5",
+  "unit": "1.1",
+  "title": "The king",
+  "xp": 12,
+  "card": {
+    "idea": "The king moves one square at a time, in any of the eight directions. He can take an enemy piece standing next to him. The one thing he may never do is step onto a square an enemy piece is attacking.",
+    "diagrams": ["k7/8/8/8/4K3/8/8/8 w - - 0 1"]
+  },
+  "explain": [
+    {
+      "fen": "k7/8/8/8/4K3/8/8/8 w - - 0 1",
+      "text": "One square, any direction. From e4 that is eight squares: the three above, the three below, and one on each side. Slow, but he goes everywhere the queen goes, just not as far.",
+      "arrows": [
+        ["e4", "e5"],
+        ["e4", "e3"],
+        ["e4", "d4"],
+        ["e4", "f4"]
+      ],
+      "highlights": ["d3", "d4", "d5", "e3", "e5", "f3", "f4", "f5"]
+    },
+    {
+      "fen": "k7/8/8/8/4K3/r7/8/8 w - - 0 1",
+      "text": "The black rook attacks the whole third rank, so d3, e3 and f3 are closed to the king. Not because they are dangerous later, but because stepping there is simply not a legal move.",
+      "arrows": [["a3", "h3"]],
+      "highlights": ["d3", "e3", "f3"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.1.5-c1",
+      "type": "find_them_all",
+      "fen": "k7/8/8/8/4K3/8/8/8 w - - 0 1",
+      "prompt": "Tap every square the king can move to.",
+      "concept": "king-moves",
+      "hints": { "piece": "e4" },
+      "answer": { "squares": ["d3", "d4", "d5", "e3", "e5", "f3", "f4", "f5"] },
+      "reason": "Every square touching e4, and no further."
+    },
+    {
+      "id": "1.1.5-c2",
+      "type": "find_them_all",
+      "fen": "k7/8/8/8/4K3/r7/8/8 w - - 0 1",
+      "prompt": "Tap every square the king can move to.",
+      "concept": "king-moves",
+      "hints": { "piece": "e4" },
+      "answer": { "squares": ["d4", "d5", "e5", "f4", "f5"] },
+      "reason": "The rook owns the third rank, so the three squares below the king are out."
+    },
+    {
+      "id": "1.1.5-c3",
+      "type": "is_it_safe",
+      "fen": "k7/8/8/8/4K3/r7/8/8 w - - 0 1",
+      "move": "Kd5",
+      "prompt": "Is Kd5 allowed?",
+      "concept": "king-moves",
+      "reasons": [
+        "Yes: the rook attacks the third rank, and d5 is nowhere near it.",
+        "No: the rook attacks the whole board.",
+        "No: the black king is guarding d5."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "hints": { "piece": "e4", "square": "d5" }
+    },
+    {
+      "id": "1.1.5-c4",
+      "type": "which_square",
+      "fen": "8/8/8/3n4/4K3/8/5PP1/k7 w - - 0 1",
+      "prompt": "Tap the square where the king can take the knight.",
+      "concept": "king-moves",
+      "hints": { "piece": "e4", "square": "d5" },
+      "answer": { "square": "d5" },
+      "reason": "The knight is standing right next to him, up and to the left."
+    },
+    {
+      "id": "1.1.5-c5",
+      "type": "find_the_move",
+      "fen": "8/8/8/3n4/4K3/8/5PP1/k7 w - - 0 1",
+      "prompt": "Take the knight.",
+      "concept": "king-moves",
+      "hints": { "piece": "e4", "square": "d5" },
+      "answer": { "moves": ["Kxd5"] },
+      "wrong": {
+        "Ke5": "You walked past it. Nobody is guarding that knight.",
+        "g4": "A pawn move while a free knight stands next to your king."
+      },
+      "reason": "Nothing defends the knight, so the king just takes it."
+    },
+    {
+      "id": "1.1.5-c6",
+      "type": "find_the_move",
+      "fen": "8/8/8/3r4/4K3/8/5PP1/k7 w - - 0 1",
+      "prompt": "Win the rook.",
+      "concept": "king-moves",
+      "hints": { "piece": "e4", "square": "d5" },
+      "answer": { "moves": ["Kxd5"] },
+      "wrong": {
+        "Ke3": "Stepping away leaves the rook alive and your pawns in danger.",
+        "f4": "The rook is next door and undefended. Take it."
+      },
+      "reason": "The king is a piece too, and here he is the one doing the taking."
+    }
+  ],
+  "takeaway": "One square in any direction, and never onto an attacked square."
+}
