@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Board, type Arrow } from '@/board';
+import { Board, type Arrow, type Replay } from '@/board';
 import { applyMove } from '@/rules';
 import { sequenceReply } from '../answers';
 import type { Challenge } from '../types';
@@ -20,6 +20,7 @@ export function Sequence({
   disabled,
   textEntry,
   arrows,
+  replay,
 }: {
   c: SequenceChallenge;
   onDone: () => void;
@@ -28,6 +29,8 @@ export function Sequence({
   textEntry?: boolean;
   /** F-PA-6: the engine's refutation of a wrong move, drawn on the board. */
   arrows?: Arrow[];
+  /** D1: the same refutation, played out on the board. */
+  replay?: Replay | null;
 }) {
   const [fen, setFen] = useState(c.fen);
   const [i, setI] = useState(0);
@@ -47,6 +50,7 @@ export function Sequence({
       orientation={fen.split(' ')[1] === 'b' ? 'b' : 'w'}
       mode="play"
       arrows={arrows ?? []}
+      replay={replay ?? null}
       disabled={disabled}
       textEntry={textEntry}
       onMove={(m) => {

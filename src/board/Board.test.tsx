@@ -1,3 +1,4 @@
+import { act } from 'react';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Board } from './Board';
@@ -246,4 +247,126 @@ test('board pieces are not announced as unnamed buttons', async () => {
     expect(container.querySelectorAll('[aria-roledescription="draggable"]').length).toBeGreaterThan(0);
   });
   expect(container.querySelectorAll('[role="button"]').length).toBe(0);
+});
+
+/*
+ * D1 -- the refutation replay. These assert the contract the design document
+ * sets for it, not the pixels: it plays, it can be got out of, and the
+ * reduced-motion path carries the same information rather than less of it.
+ */
+const REPLAY = {
+  fen: START_FEN,
+  // The learner's wrong move, then the answer to it.
+  moves: ['f2f3', 'e7e5'],
+  san: 'e5',
+};
+
+/**
+ * jsdom ships no `matchMedia` in this environment, which is why Board calls it
+ * optionally; define one rather than spy on a function that is not there.
+ */
+function reduceMotion(reduce: boolean) {
+  Object.defineProperty(window, 'matchMedia', {
+    configurable: true,
+    writable: true,
+    value: (q: string) =>
+      ({
+        matches: reduce && q.includes('reduced-motion'),
+        media: q,
+        addEventListener: () => undefined,
+        removeEventListener: () => undefined,
+        addListener: () => undefined,
+        removeListener: () => undefined,
+        onchange: null,
+        dispatchEvent: () => false,
+      }) as unknown as MediaQueryList,
+  });
+}
+
+function clearReduceMotion() {
+  Reflect.deleteProperty(window, 'matchMedia');
+}
+
+test('the refutation replay runs, announces the move in SAN, and gives the position back', () => {
+  vi.useFakeTimers();
+  // react-chessboard measures a square to animate a piece between two of them
+  // and throws outright when the measurement is zero, which is every element in
+  // jsdom. Give it a square; the animated path is the one under test here.
+  vi.spyOn(Element.prototype, 'getBoundingClientRect').mockReturnValue({
+    width: 48, height: 48, top: 0, left: 0, right: 48, bottom: 48, x: 0, y: 0, toJSON: () => ({}),
+  } as DOMRect);
+  render(<Board fen={START_FEN} orientation="w" mode="play" replay={REPLAY} />);
+
+  // It is running: the board says so and offers the way out of it.
+  expect(screen.getByRole('button', { name: 'Skip' })).toBeInTheDocument();
+
+  act(() => { vi.advanceTimersByTime(1100); }); // both slides landed
+  // The SAN announcement is the accessible carrier of the whole moment.
+  expect(screen.getByRole('status', { name: 'Board announcements' })).toHaveTextContent(/Replay: e5/);
+
+  act(() => { vi.advanceTimersByTime(1400); }); // the hold expires
+  expect(screen.queryByRole('button', { name: 'Skip' })).not.toBeInTheDocument();
+  vi.restoreAllMocks();
+  vi.useRealTimers();
+});
+
+test('Skip ends the replay at once', () => {
+  vi.useFakeTimers();
+  render(<Board fen={START_FEN} orientation="w" mode="play" replay={REPLAY} />);
+  fireEvent.click(screen.getByRole('button', { name: 'Skip' }));
+  expect(screen.queryByRole('button', { name: 'Skip' })).not.toBeInTheDocument();
+  vi.useRealTimers();
+});
+
+test('a key at the board skips the replay instead of moving the cursor through it', () => {
+  vi.useFakeTimers();
+  const onMove = vi.fn();
+  render(<Board fen={START_FEN} orientation="w" mode="play" onMove={onMove} replay={REPLAY} />);
+  fireEvent.keyDown(screen.getByRole('application', { name: /chess board/i }), { key: 'ArrowRight' });
+  expect(screen.queryByRole('button', { name: 'Skip' })).not.toBeInTheDocument();
+  expect(onMove).not.toHaveBeenCalled();
+  vi.useRealTimers();
+});
+
+test('reduced motion gets the same information, held for longer rather than animated', () => {
+  vi.useFakeTimers();
+  reduceMotion(true);
+  render(<Board fen={START_FEN} orientation="w" mode="play" replay={REPLAY} />);
+
+  // No travel to wait through: the announcement and the marked position are
+  // there on the first tick, not after two slides.
+  act(() => { vi.advanceTimersByTime(0); });
+  expect(screen.getByRole('status', { name: 'Board announcements' })).toHaveTextContent(/Replay: e5/);
+  expect(screen.getByRole('button', { name: 'Skip' })).toBeInTheDocument();
+
+  // And it is held for two seconds, not the 1.2 the animated path uses, so
+  // there is MORE time to read it, not less.
+  act(() => { vi.advanceTimersByTime(1500); });
+  expect(screen.getByRole('button', { name: 'Skip' })).toBeInTheDocument();
+  act(() => { vi.advanceTimersByTime(600); });
+  expect(screen.queryByRole('button', { name: 'Skip' })).not.toBeInTheDocument();
+  clearReduceMotion();
+  vi.useRealTimers();
+});
+
+test('a replay that does not fit its position is dropped rather than half-played', () => {
+  vi.useFakeTimers();
+  render(<Board fen={START_FEN} orientation="w" mode="play" replay={{ fen: START_FEN, moves: ['e7e5'], san: 'e5' }} />);
+  expect(screen.queryByRole('button', { name: 'Skip' })).not.toBeInTheDocument();
+  vi.useRealTimers();
+});
+
+test('a move typed during a replay is played, not swallowed by the skip', () => {
+  vi.useFakeTimers();
+  const onMove = vi.fn();
+  render(<Board fen={START_FEN} orientation="w" mode="play" onMove={onMove} replay={REPLAY} textEntry />);
+  // The text field is not the board: an answer typed while the replay is still
+  // running is an answer, and it must survive ending the replay. (Regression:
+  // it did not, and every checkpoint question -- where the engine refutation
+  // fires and a retry is typed straight afterwards -- lost its retry.)
+  fireEvent.change(screen.getByLabelText('Type a move'), { target: { value: 'e4' } });
+  fireEvent.submit(screen.getByLabelText('Type a move').closest('form')!);
+  expect(onMove).toHaveBeenCalledWith({ from: 'e2', to: 'e4', uci: 'e2e4', san: 'e4' });
+  expect(screen.queryByRole('button', { name: 'Skip' })).not.toBeInTheDocument();
+  vi.useRealTimers();
 });

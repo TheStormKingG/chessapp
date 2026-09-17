@@ -22,8 +22,9 @@ function hasAuthoredFeedback(c: Challenge, san: string): boolean {
  * refutation is and let the coach say it, with the refuting move drawn on the
  * board. Silent when the engine is unavailable (F-ER-1).
  *
- * Mute (F-PL-3) is a setting about what the coach *says*: the arrow is not
- * speech, so it is drawn either way and only the line is dropped. The machine's
+ * Mute (F-PL-3) is a setting about what the coach *says*: neither the arrow nor
+ * the replay (D1) is speech, so both happen either way and only the line is
+ * dropped. The machine's
  * `engineRefutation` action always carries a text, so the muted case re-sends
  * the feedback already on screen -- the retry line stays, and nothing the coach
  * would have said is added. (CoachBubble renders nothing for an empty text, so
@@ -63,13 +64,19 @@ export function useEngineRefutation(
           : lost
             ? `your ${CoachService.pieceName(lost.piece)} on ${lost.square} is lost`
             : 'your idea no longer works';
-        const text = coach.line('wrongEngine', { refutationSan: toSan(after, reply), consequence });
+        const san = toSan(after, reply);
+        const text = coach.line('wrongEngine', { refutationSan: san, consequence });
         if (cancelled) return;
         dispatch({
           type: 'engineRefutation',
           from: reply.slice(0, 2) as Square,
           to: reply.slice(2, 4) as Square,
           text: text ?? (feedbackRef.current ?? ''),
+          // D1: the board replays the learner's move and then the answer to
+          // it, from the position they played it in. Everything the replay
+          // needs is already in hand here, so the board is handed a finished
+          // line rather than the means to reconstruct one.
+          replay: { fen: lastWrong.fen, moves: [lastWrong.uci, reply], san },
         });
       } catch {
         // Engine unavailable: the generic retry line already stands (F-ER-1).

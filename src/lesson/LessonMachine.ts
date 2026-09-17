@@ -1,4 +1,5 @@
 import type { Square } from '@/rules';
+import type { Replay } from '@/board/types';
 import { checkAnswer, type Attempt } from './answers';
 import { stars } from './stars';
 import type { Challenge, Lesson } from './types';
@@ -61,7 +62,13 @@ export interface LessonState {
   feedback: string | null;
   feedbackTone: 'neutral' | 'good' | 'bad';
   highlights: Highlights;
-  refutation: { from: Square; to: Square } | null;
+  /**
+   * The engine's answer to a wrong move (F-PA-6): the arrow's two squares, and
+   * -- when the hook could build one -- the replay the board plays out (D1).
+   * The replay is optional so the arrow survives on its own; a board that
+   * cannot play the line still draws it.
+   */
+  refutation: { from: Square; to: Square; replay?: Replay } | null;
   totalHints: number;
   totalMisses: number;
 }
@@ -72,7 +79,7 @@ export type Action =
   | { type: 'attempt'; attempt: Attempt }
   | { type: 'miss'; san: string }
   | { type: 'reveal' }
-  | { type: 'engineRefutation'; from: Square; to: Square; text: string };
+  | { type: 'engineRefutation'; from: Square; to: Square; text: string; replay?: Replay };
 
 const EMPTY_RESULT: ChallengeResult = { correct: false, hints: 0, misses: 0, mastery: false };
 
@@ -270,7 +277,7 @@ function reduceInner(s: LessonState, a: Action): LessonState {
     }
     case 'engineRefutation':
       return p.kind === 'challenge' && p.status === 'retry'
-        ? { ...s, refutation: { from: a.from, to: a.to }, feedback: a.text }
+        ? { ...s, refutation: { from: a.from, to: a.to, ...(a.replay ? { replay: a.replay } : {}) }, feedback: a.text }
         : s;
     case 'reveal': {
       const ctx = answerable(s);

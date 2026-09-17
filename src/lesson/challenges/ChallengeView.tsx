@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Board } from '@/board';
-import type { Square } from '@/rules';
-import type { Action, Highlights } from '../LessonMachine';
+import { btn } from '@/app/Button';
+import type { Action, Highlights, LessonState } from '../LessonMachine';
 import type { Challenge } from '../types';
 import { Options } from './Options';
 import { FindThemAll } from './FindThemAll';
@@ -26,7 +26,7 @@ export function ChallengeView({
 }: {
   c: Challenge;
   highlights: Highlights;
-  refutation: { from: Square; to: Square } | null;
+  refutation: LessonState['refutation'];
   busy: boolean;
   textEntry?: boolean;
   dispatch: (a: Action) => void;
@@ -47,7 +47,8 @@ export function ChallengeView({
           disabled={busy}
           textEntry={textEntry}
           highlights={highlights}
-          arrows={refutation ? [{ ...refutation, color: 'danger' }] : []}
+          arrows={refutation ? [{ from: refutation.from, to: refutation.to, color: 'danger' }] : []}
+          replay={refutation?.replay ?? null}
           onMove={(m) => {
             onWrongMove({ fen: c.fen, uci: m.uci, san: m.san });
             dispatch({ type: 'attempt', attempt: { kind: 'move', uci: m.uci } });
@@ -61,7 +62,8 @@ export function ChallengeView({
           c={c}
           disabled={busy}
           textEntry={textEntry}
-          arrows={refutation ? [{ ...refutation, color: 'danger' }] : []}
+          arrows={refutation ? [{ from: refutation.from, to: refutation.to, color: 'danger' }] : []}
+          replay={refutation?.replay ?? null}
           onDone={() => {
             const first = c.answer.line[0];
             if (first !== undefined) dispatch({ type: 'attempt', attempt: { kind: 'move', uci: first } });
@@ -110,7 +112,7 @@ export function ChallengeView({
             />
           ) : (
             <>
-              <p className="mt-3 text-sm text-content-dim">
+              <p className="t-label mt-3 text-content-dim">
                 You said: <strong>{safePick ? 'Yes, it is safe' : 'No, it is not safe'}</strong>.
               </p>
               {/* The reason step asks one neutral question. Labelling it "Why is
@@ -130,7 +132,7 @@ export function ChallengeView({
               <button
                 type="button"
                 disabled={busy}
-                className="tap mt-2 w-full rounded-lg border border-edge-strong px-3 py-2 text-sm disabled:opacity-60"
+                className={`${btn.secondary} mt-2 w-full disabled:opacity-60`}
                 onClick={() => setSafePick(null)}
               >
                 Change answer

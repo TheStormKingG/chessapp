@@ -1,11 +1,11 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
-import type { CSSProperties } from 'react';
+import type { CSSProperties, KeyboardEvent } from 'react';
 import { Chessboard, defaultPieces } from 'react-chessboard';
 import type { PieceDropHandlerArgs, SquareHandlerArgs } from 'react-chessboard';
 import { applyMove, legalMoves, type Square } from '@/rules';
 import { describeSquare } from './describeSquare';
 import { handleDrop } from './dropHandler';
-import type { BoardProps, BoardMove, HighlightKind, MarkKind } from './types';
+import type { BoardProps, BoardMove, HighlightKind, MarkKind, Replay } from './types';
 import { CoordinateRail } from './CoordinateRail';
 import { RAIL_REM, railFiles, railRanks } from './rail';
 import { TextMoveEntry } from './TextMoveEntry';
@@ -62,6 +62,76 @@ function prefersReducedMotion(): boolean {
   return typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
 }
 
+/**
+ * D1 -- the refutation replay. DESIGN-SYSTEM.md §6, "the one orchestrated
+ * moment", and §5, which took red off the board on the argument that "the
+ * refutation is already shown by an animated opponent reply, which is far more
+ * informative than a red square". This is that reply; without it A3's removal
+ * of the danger hue would have been a subtraction with nothing put in its place.
+ *
+ * Why motion is the content here rather than decoration, which is the test
+ * `motion.md > Best practices` sets ("add motion purposefully... don't add
+ * motion for the sake of adding motion"): the product's thesis is that mistakes
+ * are the material (PRD §1.3 principle 1), and the distance between "that was
+ * wrong" and knowing WHY is watching the piece travel. An arrow names the
+ * refuting move to someone who can already read the position. Playing it shows
+ * it to someone who cannot -- which is every learner this product is for.
+ *
+ * Both of the learner's moves are replayed, not just the answer. The wrong move
+ * was reverted the moment it was judged, so a board that slides only the reply
+ * is answering a move that is no longer on screen.
+ *
+ * Three obligations, all from the same page plus `accessibility.md > Motion`:
+ *
+ *   - BRIEF. Two slides and a hold: about 1.2 seconds of replay, then the
+ *     learner's own position is back and the retry is live.
+ *   - CANCELLABLE and SKIPPABLE. `motion.md`: "don't make people wait for an
+ *     animation to complete before they can do anything, especially if they
+ *     have to experience the animation more than once" -- and a learner who
+ *     misses twice sees this twice. A Skip control sits on the board for the
+ *     duration, and touching or typing at the board skips it too.
+ *   - REDUCED MOTION GETS THE SAME INFORMATION, NOT LESS. The preference
+ *     suppresses the travel, not the telling: the final position arrives at
+ *     once and is then HELD for two seconds rather than 1.2, so the marked
+ *     square and the arrow are on screen LONGER, and the move is announced in
+ *     SAN through the board's existing live region on both paths. Nothing is
+ *     available only to someone who can watch it move.
+ */
+const REPLAY_STEP_MS = 520;
+const REPLAY_HOLD_MS = 1200;
+const REPLAY_HOLD_REDUCED_MS = 2000;
+
+/** Every position the replay passes through, plus the square that gets marked. */
+function replayFrames(replay: Replay | null | undefined): { fens: string[]; to: Square } | null {
+  const last = replay?.moves.at(-1);
+  if (!replay || last === undefined) return null;
+  try {
+    const fens = [replay.fen];
+    let cur = replay.fen;
+    for (const uci of replay.moves) {
+      cur = applyMove(cur, uci).fen;
+      fens.push(cur);
+    }
+    return { fens, to: last.slice(2, 4) as Square };
+  } catch {
+    // A replay that does not fit its own position is dropped in silence: the
+    // arrow and the coach's line already stand, and a half-played line would
+    // teach something untrue.
+    return null;
+  }
+}
+
+/**
+ * The frame a replay opens on: the first, or -- when motion is reduced -- the
+ * last, because there is no travel to show and the destination is the point.
+ * A board mounted with a replay already in hand starts here too, so the
+ * caller's position is never rendered for a frame before the replay takes over.
+ */
+function openingStep(frames: { fens: string[] } | null): number | null {
+  if (!frames) return null;
+  return prefersReducedMotion() ? frames.fens.length - 1 : 0;
+}
+
 /** a1 is a dark square: an even file+rank index sum is dark. */
 function isDarkSquare(sq: string): boolean {
   return (sq.charCodeAt(0) - 97 + (sq.charCodeAt(1) - 49)) % 2 === 0;
@@ -84,7 +154,7 @@ function useBoardPalette(): { palette: BoardPalette; appearance: Appearance } {
 export function Board(props: BoardProps) {
   const {
     fen, orientation, mode, onMove, onSelectSquare, highlights = {}, arrows = [],
-    disabled, textEntry, announce, onDragStart, onDragEnd,
+    replay = null, disabled, textEntry, announce, onDragStart, onDragEnd,
   } = props;
   const [selected, setSelected] = useState<Square | null>(null);
   const [status, setStatus] = useState('');
@@ -98,6 +168,61 @@ export function Board(props: BoardProps) {
     setPrevOrientation(orientation);
     setSelected(null);
   }
+
+  // --- D1: the refutation replay -------------------------------------------
+  // `step` is the index of the frame on screen, or null when the board is
+  // showing the caller's own position. Everything below reads it; nothing
+  // outside this component can.
+  const frames = useMemo(() => replayFrames(replay), [replay]);
+  const san = replay?.san ?? '';
+  const [step, setStep] = useState<number | null>(() => openingStep(frames));
+  const timers = useRef<number[]>([]);
+  const stopTimers = useCallback(() => {
+    for (const id of timers.current) clearTimeout(id);
+    timers.current = [];
+  }, []);
+  const skipReplay = useCallback(() => {
+    stopTimers();
+    setStep(null);
+  }, [stopTimers]);
+
+  // The frame the replay opens on is chosen during render, not in an effect:
+  // a setState in an effect body is lint-banned here (the same rule the
+  // orientation reset above answers the same way), and it would also render one
+  // frame of the caller's position before the replay took over.
+  const [prevFrames, setPrevFrames] = useState(frames);
+  if (prevFrames !== frames) {
+    setPrevFrames(frames);
+    setStep(openingStep(frames));
+  }
+
+  // The effect owns only the clock. Every setState below happens in a timer
+  // callback, which is an external system reporting back, not a cascade.
+  useEffect(() => {
+    if (!frames) return;
+    const reduced = prefersReducedMotion();
+    const last = frames.fens.length - 1;
+    // Reduced motion lands on the final frame immediately; the travel is what
+    // the preference asks to remove, and it is the only thing removed.
+    const arrival = reduced ? 0 : REPLAY_STEP_MS * last;
+    const ids: number[] = [];
+    if (!reduced) {
+      for (let i = 1; i <= last; i++) ids.push(window.setTimeout(() => { setStep(i); }, REPLAY_STEP_MS * i));
+    }
+    // The SAN announcement is the accessible carrier and it fires on both
+    // paths, at the moment the marked position is on screen.
+    ids.push(window.setTimeout(() => { setStatus(`Replay: ${san}. Your position is back — try again.`); }, arrival));
+    ids.push(window.setTimeout(() => { setStep(null); }, arrival + (reduced ? REPLAY_HOLD_REDUCED_MS : REPLAY_HOLD_MS)));
+    timers.current = ids;
+    return () => {
+      for (const id of ids) clearTimeout(id);
+      timers.current = [];
+    };
+  }, [frames, san]);
+
+  const replaying = step !== null;
+  const shownFen = replaying && frames ? (frames.fens[step] ?? fen) : fen;
+  const finalFrame = replaying && frames ? step === frames.fens.length - 1 : false;
 
   const tryMove = useCallback(
     (from: Square, to: Square | null): boolean => {
@@ -113,6 +238,10 @@ export function Board(props: BoardProps) {
 
   const activate = useCallback(
     (sq: Square) => {
+      // Touching the board during a replay skips it rather than acting: the
+      // position on screen is not the learner's, so acting on it would be a
+      // move made against a board they are not looking at.
+      if (replaying) { skipReplay(); return; }
       if (disabled) return;
       if (mode === 'select') {
         onSelectSquare?.(sq);
@@ -132,10 +261,21 @@ export function Board(props: BoardProps) {
       if (legalMoves(fen, sq).length > 0) { setSelected(sq); setStatus(`Selected ${describeSquare(fen, sq)}.`); }
       else setStatus(describeSquare(fen, sq));
     },
-    [disabled, mode, selected, fen, tryMove, onSelectSquare],
+    [disabled, mode, selected, fen, tryMove, onSelectSquare, replaying, skipReplay],
   );
 
-  const { cursor, onKeyDown } = useBoardA11y(orientation, activate);
+  const { cursor, onKeyDown: onBoardKeyDown } = useBoardA11y(orientation, activate);
+  // Any key ends the replay, not only the ones that would have acted: a
+  // keyboard learner pressing an arrow is telling the board they are done
+  // watching, and the cursor must not be moved across a position that is about
+  // to be replaced.
+  const onKeyDown = useCallback(
+    (e: KeyboardEvent) => {
+      if (replaying) { skipReplay(); return; }
+      onBoardKeyDown(e);
+    },
+    [replaying, skipReplay, onBoardKeyDown],
+  );
 
   // I-3: every cursor move is announced through the live region, not via
   // the container label (label changes are not read by screen readers).
@@ -201,6 +341,12 @@ export function Board(props: BoardProps) {
 
   const onText = useCallback(
     (text: string) => {
+      // A typed move ENDS the replay and is then played. The text field is not
+      // the board: typing into it is a deliberate answer, not "stop watching",
+      // and swallowing it would silently discard an answer the learner
+      // believes they gave. (Board taps are the other case and are handled the
+      // other way -- see `activate`.)
+      if (replaying) skipReplay();
       if (disabled) return;
       if (mode === 'select') {
         const sq = text.toLowerCase();
@@ -218,7 +364,7 @@ export function Board(props: BoardProps) {
         setStatus(`${text} is not a legal move.`);
       }
     },
-    [fen, mode, disabled, onMove, onSelectSquare],
+    [fen, mode, disabled, onMove, onSelectSquare, replaying, skipReplay],
   );
 
   const { palette, appearance } = useBoardPalette();
@@ -238,11 +384,20 @@ export function Board(props: BoardProps) {
   const squareStyles = useMemo(() => {
     const styles = highlightStyles(palette);
     const s: Record<string, CSSProperties> = {};
+    // During a replay the board is telling one story and nothing else. The
+    // challenge's own highlights, the selection and the keyboard cursor all
+    // belong to the learner's position, which is not the one on screen; the
+    // only mark is the hatch on the square the refuting move lands on, and it
+    // arrives with that move rather than before it.
+    if (replaying) {
+      if (finalFrame && frames) s[frames.to] = { ...styles.danger };
+      return s;
+    }
     for (const [sq, kind] of Object.entries(highlights)) if (kind) s[sq] = { ...styles[kind] };
     if (selected) s[selected] = { ...(s[selected] ?? {}), ...styles.selected };
     s[cursor] = { ...(s[cursor] ?? {}), outline: `3px solid ${inkOn(cursor)}`, outlineOffset: '-3px' };
     return s;
-  }, [highlights, selected, cursor, palette, inkOn]);
+  }, [highlights, selected, cursor, palette, inkOn, replaying, finalFrame, frames]);
 
   // The piece rule (DESIGN-SYSTEM.md 3.1): every piece is a fill plus a 1.5px
   // outline in the OPPOSING piece colour, and max(fill, outline) must clear 3:1
@@ -271,9 +426,9 @@ export function Board(props: BoardProps) {
 
   const options = useMemo(
     () => ({
-      position: fen,
+      position: shownFen,
       boardOrientation: orientation === 'w' ? ('white' as const) : ('black' as const),
-      allowDragging: mode === 'play' && !disabled,
+      allowDragging: mode === 'play' && !disabled && !replaying,
       showAnimations: !prefersReducedMotion(),
       animationDurationInMs: 200,
       squareStyles,
@@ -288,7 +443,11 @@ export function Board(props: BoardProps) {
       // at 1.88:1) cannot render either -- the rail below carries every rank
       // and file in --content on the page ground instead.
       showNotation: false,
-      arrows: arrows.map((a) => ({
+      // The arrow names the same move the replay plays. Showing it before the
+      // piece has moved would spoil the one thing the replay exists to show,
+      // so it joins the final frame and then stays, exactly as it did before
+      // D1 existed -- F-PA-6 is not regressed, it is preceded.
+      arrows: (replaying && !finalFrame ? [] : arrows).map((a) => ({
         startSquare: a.from,
         endSquare: a.to,
         color: palette[MARK_TOKEN[a.color ?? 'accent']],
@@ -301,11 +460,11 @@ export function Board(props: BoardProps) {
       },
       onSquareClick: ({ square }: SquareHandlerArgs) => activate(square as Square),
     }),
-    [fen, orientation, mode, disabled, squareStyles, arrows, tryMove, activate, onDragStart, onDragEnd, palette, pieces],
+    [shownFen, orientation, mode, disabled, squareStyles, arrows, tryMove, activate, onDragStart, onDragEnd, palette, pieces, replaying, finalFrame],
   );
 
   return (
-    <div className="w-full" data-board-root>
+    <div className="w-full" data-board-root data-replaying={replaying ? 'true' : undefined}>
       {appearance === 'dark' && (
         <style>{`[data-board-root] [data-piece^="b"] svg * { stroke: ${palette['--piece-light']} !important; }`}</style>
       )}
@@ -324,7 +483,7 @@ export function Board(props: BoardProps) {
         every coordinate.
       */}
       <div
-        className="grid"
+        className="relative grid"
         style={{
           gridTemplateColumns: `${String(RAIL_REM)}rem minmax(0, 1fr)`,
           marginLeft: `-${String(RAIL_REM)}rem`,
@@ -343,6 +502,35 @@ export function Board(props: BoardProps) {
         </div>
         <div />
         <CoordinateRail axis="file" items={railFiles(orientation)} />
+        {/*
+          The way out of the replay, for the duration of the replay. It overlays
+          the board itself -- the positioned ancestor is this grid, not the whole
+          component, so it never lands on the move field below -- which keeps the
+          page from reflowing twice in 1.2 seconds; the board is non-interactive
+          for that window anyway. `tap` gives it the 44px minimum and it takes
+          the standard focus ring. `progress-indicators.md > Best practices`:
+          "when it's feasible, let people halt processing" -- skipping costs
+          nothing here, because the marked square, the arrow and the coach's line
+          all survive it.
+        */}
+        {replaying && (
+          <button
+            type="button"
+            data-replay-skip
+            onClick={skipReplay}
+            // The border is `--content`, not `--edge-strong`. This is the one
+            // control in the app that sits ON the board, so its boundary is
+            // measured against the squares rather than a page surface, and
+            // `--edge-strong` fails there in every combination (measured in
+            // the browser: 1.02 to 2.65 against the four square-and-appearance
+            // pairs, under the 3:1 that `accessibility.md > Color and effects`
+            // wants for a non-text boundary). `--content` clears it on all
+            // four: 13.08 and 4.82 light, 3.34 and 6.78 dark.
+            className="tap absolute right-2 bottom-8 z-10 rounded-lg border border-content bg-surface-raised px-4 text-[0.9375rem] font-medium text-content"
+          >
+            Skip
+          </button>
+        )}
       </div>
       <p role="status" aria-live="polite" aria-label="Board announcements" className="sr-only">{announce ?? status}</p>
       {textEntry && <TextMoveEntry onSubmit={onText} />}

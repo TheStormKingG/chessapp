@@ -1,5 +1,16 @@
 /** The Stockfish wasm binary, served from `public/engine/` and cached by the SW. */
 export const ENGINE_WASM = 'engine/stockfish-19-lite-single.wasm';
+/**
+ * The binary's real on-disk size. It is a build artefact we ship, so we know it
+ * exactly -- which matters because a server is not obliged to declare it.
+ * `vite preview` and some CDNs send the body chunked with no `content-length`,
+ * and a progress bar with no denominator sits at nothing for up to 150 seconds.
+ * D2 falls back to this figure so the wait stays determinate, which is what
+ * `progress-indicators.md > Best practices` asks for: "when possible, use a
+ * determinate progress indicator", and "be as accurate as possible". A declared
+ * `content-length` still wins when the server sends one.
+ */
+export const ENGINE_BYTES = 1_787_571;
 /** Approximate on-disk size, quoted to the learner when a download fails (F-ER-3). */
 export const ENGINE_SIZE_LABEL = '1.8 MB';
 export const ENGINE_ERROR = `Could not download the engine (${ENGINE_SIZE_LABEL}). Check your connection and retry.`;
