@@ -1,4 +1,6 @@
 export * from './Board';
+export * from './CoordinateRail';
+export * from './rail';
 export { describeSquare } from './describeSquare';
 export * from './types';
 export * from './boardColors';

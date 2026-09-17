@@ -6,6 +6,8 @@ import { applyMove, legalMoves, type Square } from '@/rules';
 import { describeSquare } from './describeSquare';
 import { handleDrop } from './dropHandler';
 import type { BoardProps, BoardMove, HighlightKind, MarkKind } from './types';
+import { CoordinateRail } from './CoordinateRail';
+import { RAIL_REM, railFiles, railRanks } from './rail';
 import { TextMoveEntry } from './TextMoveEntry';
 import { useBoardA11y } from './useBoardA11y';
 import {
@@ -278,13 +280,14 @@ export function Board(props: BoardProps) {
       pieces,
       lightSquareStyle: { backgroundColor: palette['--board-light'] },
       darkSquareStyle: { backgroundColor: palette['--board-dark'] },
-      // C-2: react-chessboard's own wooden-board notation colours (#B58863 at
-      // 2.47:1 and #F0D9B5 at 1.88:1) are its defaults and leak through unless
-      // both are set. Chunk C1 moves these glyphs into the gutter rail; until
-      // it lands they stay on the squares, because a board-vision curriculum
-      // with no coordinates at all is a worse defect than the one being fixed.
-      lightSquareNotationStyle: { color: inkOn('a2') },
-      darkSquareNotationStyle: { color: inkOn('a1') },
+      // C-2, finished. A3 left the glyphs on the squares at an interim ink
+      // picked per square, because a board-vision curriculum with no
+      // coordinates at all was the worse defect; the rail is the structural
+      // answer the document asked for. Off the squares entirely, so
+      // react-chessboard's wooden-board defaults (#B58863 at 2.47:1, #F0D9B5
+      // at 1.88:1) cannot render either -- the rail below carries every rank
+      // and file in --content on the page ground instead.
+      showNotation: false,
       arrows: arrows.map((a) => ({
         startSquare: a.from,
         endSquare: a.to,
@@ -298,7 +301,7 @@ export function Board(props: BoardProps) {
       },
       onSquareClick: ({ square }: SquareHandlerArgs) => activate(square as Square),
     }),
-    [fen, orientation, mode, disabled, squareStyles, arrows, tryMove, activate, onDragStart, onDragEnd, palette, pieces, inkOn],
+    [fen, orientation, mode, disabled, squareStyles, arrows, tryMove, activate, onDragStart, onDragEnd, palette, pieces],
   );
 
   return (
@@ -306,15 +309,40 @@ export function Board(props: BoardProps) {
       {appearance === 'dark' && (
         <style>{`[data-board-root] [data-piece^="b"] svg * { stroke: ${palette['--piece-light']} !important; }`}</style>
       )}
+      {/*
+        The rail sits in the gutter the board is already inset by, not beside
+        it: the negative margin pulls the whole block left by exactly the rail
+        width, so on a 390px phone the board keeps the same width it had before
+        the rail existed and only the page padding is spent. DESIGN-SYSTEM.md
+        §4; `branding.md > Best practices`, "branding always defers to content".
+
+        `role="application"` stays on the board alone, so the board's one tab
+        stop, its accessible name, the keyboard cursor and the dnd-kit sweep in
+        `neutraliseDndKit` are all unchanged -- and the sweep's invariant holds,
+        because the rails are siblings of that container and carry no live
+        region. The rails are `aria-hidden`: describeSquare already announces
+        every coordinate.
+      */}
       <div
-        ref={appRef}
-        role="application"
-        aria-label={`Chess board, ${orientation === 'w' ? 'white' : 'black'} at the bottom`}
-        tabIndex={0}
-        onKeyDown={onKeyDown}
-        className="w-full touch-none outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        className="grid"
+        style={{
+          gridTemplateColumns: `${String(RAIL_REM)}rem minmax(0, 1fr)`,
+          marginLeft: `-${String(RAIL_REM)}rem`,
+        }}
       >
-        <Chessboard options={options} />
+        <CoordinateRail axis="rank" items={railRanks(orientation)} />
+        <div
+          ref={appRef}
+          role="application"
+          aria-label={`Chess board, ${orientation === 'w' ? 'white' : 'black'} at the bottom`}
+          tabIndex={0}
+          onKeyDown={onKeyDown}
+          className="w-full touch-none outline-none focus-visible:ring-2 focus-visible:ring-accent"
+        >
+          <Chessboard options={options} />
+        </div>
+        <div />
+        <CoordinateRail axis="file" items={railFiles(orientation)} />
       </div>
       <p role="status" aria-live="polite" aria-label="Board announcements" className="sr-only">{announce ?? status}</p>
       {textEntry && <TextMoveEntry onSubmit={onText} />}

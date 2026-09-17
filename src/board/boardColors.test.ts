@@ -105,10 +105,15 @@ test('square-to-square contrast is the documented exemption, not an accident', (
   expect(round(contrastRatio(FALLBACK_PALETTE.dark['--board-light'], FALLBACK_PALETTE.dark['--board-dark']))).toBe(2.03);
 });
 
-/* --------------------------------------------------------------- notation */
+/* ------------------------------------------------------------- square ink */
 
-// C-2: react-chessboard's wooden-board defaults are #B58863 (2.47:1) and
-// #F0D9B5 (1.88:1). Neither is a token, and neither may ever render.
+// C-2, after C1: the rank and file glyphs have left the squares for the gutter
+// rail, and `showNotation` is off, so react-chessboard's wooden-board defaults
+// -- #B58863 (2.47:1) and #F0D9B5 (1.88:1) -- can no longer render at all.
+// `pickReadable` still governs the one thing the board draws on a square in its
+// own ink, the keyboard cursor's outline, so the per-square pick is asserted
+// here unchanged. Keeping the leaked hexes out of the palette stays a test
+// because a later chunk could reinstate notation without reading this comment.
 test('the leaked wooden-board notation colours are not in any palette', () => {
   const leaked = ['#b58863', '#f0d9b5'];
   for (const appearance of APPEARANCES) {
@@ -117,13 +122,13 @@ test('the leaked wooden-board notation colours are not in any palette', () => {
   }
 });
 
-test.each(APPEARANCES)('%s: the notation ink clears 4.5:1 on both squares', (appearance) => {
+test.each(APPEARANCES)('%s: the ink the board draws on a square clears 4.5:1 on both', (appearance) => {
   const p = FALLBACK_PALETTE[appearance];
   for (const square of ['--board-light', '--board-dark'] as const) {
     const ink = pickReadable([p['--content'], p['--surface']], p[square]);
     expect(
       round(contrastRatio(ink, p[square])),
-      `notation ink on ${square} in the ${appearance} appearance`,
+      `board ink on ${square} in the ${appearance} appearance`,
     ).toBeGreaterThanOrEqual(4.5);
   }
 });
