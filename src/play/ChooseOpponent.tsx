@@ -47,7 +47,7 @@ export function ChooseOpponent() {
 
       <fieldset className="mt-5">
         <legend className="t-label">Time</legend>
-        <div className="mt-2 flex gap-2">
+        <div className="mt-2 flex flex-wrap gap-2">
           {(['untimed', '10+0'] as const).map((v) => (
             <button
               key={v}
@@ -66,7 +66,7 @@ export function ChooseOpponent() {
 
       <fieldset className="mt-5">
         <legend className="t-label">Your colour</legend>
-        <div className="mt-2 flex gap-2">
+        <div className="mt-2 flex flex-wrap gap-2">
           {(
             [
               ['w', 'White'],

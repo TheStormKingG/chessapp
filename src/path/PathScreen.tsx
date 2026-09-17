@@ -149,7 +149,7 @@ function Row({ node, view }: { node: Node; view: NodeView }) {
   const inner = (
     <div className={`tap flex items-center gap-3 rounded-xl border px-3 py-3 ${skinFor(node)}`}>
       <RailIndex>{railNumber(node)}</RailIndex>
-      <span className="flex-1">
+      <span className="min-w-0 flex-1 [overflow-wrap:anywhere]">
         <span className="t-heading block">{view.title}</span>
         {/*
           A2: no opacity here. The hint is the node's state in words and is the
@@ -218,7 +218,7 @@ function Group({
                 className="t-label flex items-center gap-3 py-1 text-content-dim"
               >
                 <RailIndex tone="dim">{railNumber(n)}</RailIndex>
-                <span className="flex-1">{view.title}</span>
+                <span className="min-w-0 flex-1 [overflow-wrap:anywhere]">{view.title}</span>
               </div>
             </li>
           );

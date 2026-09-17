@@ -53,7 +53,7 @@ export function Shell({ children }: { children: ReactNode }) {
           ))}
         </ul>
       </nav>
-      <main className="flex-1 pb-20 md:pb-0">
+      <main className="min-w-0 flex-1 pb-20 md:pb-0">
         <div className="mx-auto w-full md:max-w-3xl md:px-2">{children}</div>
       </main>
     </div>

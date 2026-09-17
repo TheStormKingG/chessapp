@@ -81,7 +81,7 @@ export function LicencesScreen() {
       </p>
       <ul className="mt-4 space-y-4">
         {entries.map((e) => (
-          <li key={e.name} className="rounded-lg border border-edge-strong bg-surface-raised p-4">
+          <li key={e.name} className="rounded-lg border border-edge-strong bg-surface-raised p-4 [overflow-wrap:anywhere]">
             <h2 className="t-heading">
               {e.name}
               {e.version ? ` ${e.version}` : ''}
@@ -91,7 +91,7 @@ export function LicencesScreen() {
             <ul className="t-label mt-2 space-y-1">
               {e.links.map((l) => (
                 <li key={l.href}>
-                  <a className="tap text-accent underline" href={l.href} rel="noreferrer" target="_blank">
+                  <a className="tap inline-flex items-center [overflow-wrap:anywhere] text-accent underline" href={l.href} rel="noreferrer" target="_blank">
                     {l.label}
                   </a>
                 </li>
