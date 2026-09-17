@@ -50,6 +50,22 @@ function walk(dir, out = []) {
   return out;
 }
 
+// PRD 9.2's depth-14 search answers in a second or two; the whole 149-challenge
+// run takes well under two minutes. 30s therefore means the position is
+// pathological, not merely slow.
+const SEARCH_TIMEOUT_MS = 30_000;
+const HANDSHAKE_TIMEOUT_MS = 30_000;
+const RESYNC_TIMEOUT_MS = 5_000;
+
+class EngineTimeout extends Error {
+  constructor(ms, elapsed = ms) {
+    super(`engine did not answer within ${String(ms)}ms`);
+    this.name = 'EngineTimeout';
+    this.ms = ms;
+    this.elapsed = elapsed;
+  }
+}
+
 // ---- engine over a child process; the stockfish package does not speak the
 // worker_threads message protocol, so drive its stdio instead. ----
 function startEngine() {
@@ -61,35 +77,65 @@ function startEngine() {
     for (const l of [...listeners]) l(String(line));
   });
   const send = (s) => child.stdin.write(`${s}\n`);
-  const until = (pred) =>
-    new Promise((res) => {
+  const drop = (l) => {
+    const i = listeners.indexOf(l);
+    if (i !== -1) listeners.splice(i, 1);
+  };
+  // Every wait on the engine is bounded. An unbounded wait turns one slow
+  // position into a silent hang that names no input; a bounded one degrades to
+  // an error reported against the challenge that was being analysed.
+  const until = (pred, ms) =>
+    new Promise((res, rej) => {
+      let timer = null;
       const l = (line) => {
-        if (pred(line)) {
-          listeners.splice(listeners.indexOf(l), 1);
-          res(line);
-        }
+        if (!pred(line)) return;
+        drop(l);
+        if (timer) clearTimeout(timer);
+        res(line);
       };
       listeners.push(l);
+      if (ms) {
+        timer = setTimeout(() => {
+          drop(l);
+          rej(new EngineTimeout(ms));
+        }, ms);
+        timer.unref();
+      }
     });
   return {
     async init() {
       send('uci');
-      await until((l) => l === 'uciok');
+      await until((l) => l === 'uciok', HANDSHAKE_TIMEOUT_MS);
       send('setoption name MultiPV value 2');
       send('isready');
-      await until((l) => l === 'readyok');
+      await until((l) => l === 'readyok', HANDSHAKE_TIMEOUT_MS);
     },
-    async top2(fen, depth = 14) {
+    async top2(fen, depth = 14, timeoutMs = SEARCH_TIMEOUT_MS) {
       const lines = new Map();
       const l = (line) => {
         const m = line.match(/multipv (\d+) score (cp|mate) (-?\d+) .*? pv (\S+)/);
         if (m) lines.set(Number(m[1]), { kind: m[2], v: Number(m[3]), move: m[4] });
       };
       listeners.push(l);
+      const started = Date.now();
       send(`position fen ${fen}`);
       send(`go depth ${depth}`);
-      await until((x) => x.startsWith('bestmove'));
-      listeners.splice(listeners.indexOf(l), 1);
+      try {
+        await until((x) => x.startsWith('bestmove'), timeoutMs);
+      } catch (e) {
+        if (!(e instanceof EngineTimeout)) throw e;
+        // Abandon this search and resynchronise, so the positions after it are
+        // analysed by an idle engine rather than inheriting this one's state.
+        send('stop');
+        await until((x) => x.startsWith('bestmove'), RESYNC_TIMEOUT_MS).catch(() => {});
+        send('isready');
+        await until((x) => x === 'readyok', RESYNC_TIMEOUT_MS).catch(() => {});
+        // Report the search budget, not the wall clock: the resync wait that
+        // follows the timeout is not time the position was given to answer.
+        throw new EngineTimeout(timeoutMs, Date.now() - started);
+      } finally {
+        drop(l);
+      }
       return [lines.get(1), lines.get(2)];
     },
     close() {
@@ -173,7 +219,18 @@ async function checkChallenge(where, c) {
       for (const s of c.answer.moves) if (!ok(s)) fail(where, `solution ${s} is not legal`);
       for (const w of Object.keys(c.wrong ?? {})) if (!ok(w)) fail(where, `wrong-move key ${w} is not legal`);
       if (c.answer.moves.length === 1 && legal.length > 1) {
-        const [a, b] = await engine.top2(c.fen);
+        let a, b;
+        try {
+          [a, b] = await engine.top2(c.fen);
+        } catch (e) {
+          if (!(e instanceof EngineTimeout)) throw e;
+          // A hang becomes a report naming the position it was stuck on.
+          fail(
+            where,
+            `engine timed out after ${String(e.ms)}ms at depth 14; position not verified (FEN ${c.fen})`,
+          );
+          break;
+        }
         const best = legal.find((m) => m.from + m.to + (m.promotion ?? '') === a?.move);
         if (!best || best.san !== c.answer.moves[0]) {
           fail(where, `engine best is ${best?.san ?? a?.move}, solution says ${c.answer.moves[0]}`);
@@ -246,27 +303,32 @@ async function checkChallenge(where, c) {
 
 const files = walk('content/section-1');
 const seenIds = new Set();
-for (const f of files) {
-  const doc = JSON.parse(readFileSync(f, 'utf8'));
-  const isCp = f.endsWith('checkpoint.json');
-  const valid = isCp ? cpSchema(doc) : lessonSchema(doc);
-  if (!valid) {
-    fail(f, ajv.errorsText(isCp ? cpSchema.errors : lessonSchema.errors));
-    continue;
-  }
-  const challenges = isCp ? doc.bank : doc.challenges;
-  for (const c of challenges) {
-    if (seenIds.has(c.id)) fail(f, `duplicate challenge id ${c.id}`);
-    seenIds.add(c.id);
-    await checkChallenge(`${f} ${c.id}`, c);
-  }
-  if (!isCp) {
-    for (const [i, e] of doc.explain.entries()) {
-      if (e.text.split(/\s+/).length > 60) fail(f, `explain[${i}] over 60 words`);
+try {
+  for (const f of files) {
+    const doc = JSON.parse(readFileSync(f, 'utf8'));
+    const isCp = f.endsWith('checkpoint.json');
+    const valid = isCp ? cpSchema(doc) : lessonSchema(doc);
+    if (!valid) {
+      fail(f, ajv.errorsText(isCp ? cpSchema.errors : lessonSchema.errors));
+      continue;
+    }
+    const challenges = isCp ? doc.bank : doc.challenges;
+    for (const c of challenges) {
+      if (seenIds.has(c.id)) fail(f, `duplicate challenge id ${c.id}`);
+      seenIds.add(c.id);
+      await checkChallenge(`${f} ${c.id}`, c);
+    }
+    if (!isCp) {
+      for (const [i, e] of doc.explain.entries()) {
+        if (e.text.split(/\s+/).length > 60) fail(f, `explain[${i}] over 60 words`);
+      }
     }
   }
+} finally {
+  // The engine child process is terminated on every path out of the run,
+  // including the timeout path that aborted a search.
+  engine.close();
 }
-engine.close();
 if (errors.length) {
   console.error(errors.join('\n'));
   console.error(`\n${errors.length} content error(s)`);

@@ -117,6 +117,12 @@ export function CheckpointRoute() {
         lesson={testLesson}
         hintsAllowed={false}
         title={bank.title}
+        exitLabel="Exit checkpoint"
+        closeHeading="Checkpoint complete"
+        // The next screen is the result, not the path; and the checkpoint's own
+        // XP is awarded there, so the player must not claim the lesson's.
+        closeAction="See your score"
+        showXp={false}
         onExit={toPath}
         onComplete={(o) => {
           void finish(o);
@@ -149,6 +155,10 @@ export function CheckpointRoute() {
       <LessonPlayer
         lesson={remLesson}
         title="Practice"
+        exitLabel="Exit practice"
+        closeHeading="Practice done"
+        closeAction="Back to the checkpoint"
+        showXp={false}
         onExit={toPath}
         onComplete={() => {
           setStage({ kind: 'intro' });

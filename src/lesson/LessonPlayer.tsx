@@ -26,6 +26,10 @@ export function LessonPlayer({
   textEntry: forceText,
   hintsAllowed = true,
   title,
+  exitLabel = 'Exit lesson',
+  closeHeading = 'Lesson done',
+  closeAction = 'Back to the path',
+  showXp = true,
 }: {
   lesson: Lesson;
   onComplete: (o: LessonOutcome) => void;
@@ -33,6 +37,14 @@ export function LessonPlayer({
   textEntry?: boolean;
   hintsAllowed?: boolean;
   title?: string;
+  /* The player is reused outside the lesson path (checkpoints, remediation), so
+     every string that says "lesson" or assumes the path is the next screen is a
+     prop with the lesson wording as its default. */
+  exitLabel?: string;
+  closeHeading?: string;
+  closeAction?: string;
+  /** XP is awarded by the caller; a caller that awards none must not claim any. */
+  showXp?: boolean;
 }) {
   const coachMuted = useSettings((s) => s.coachMuted);
   const settingTextEntry = useSettings((s) => s.textEntry);
@@ -62,7 +74,7 @@ export function LessonPlayer({
   return (
     <section className="flex min-h-full flex-col p-4">
       <header className="flex items-center justify-between">
-        <button type="button" className="tap" aria-label="Exit lesson" onClick={onExit}>
+        <button type="button" className="tap" aria-label={exitLabel} onClick={onExit}>
           ✕
         </button>
         <h1 className="text-sm text-ink-muted">{title ?? `${lesson.id} · ${lesson.title}`}</h1>
@@ -187,9 +199,9 @@ export function LessonPlayer({
           <p className="mt-1 text-sm text-ink-muted">
             {ph.stars} stars · {s.totalHints} hints · {s.totalMisses} misses
           </p>
-          <h2 className="mt-4 text-xl font-semibold">Lesson done</h2>
+          <h2 className="mt-4 text-xl font-semibold">{closeHeading}</h2>
           <p className="mt-3 rounded-lg bg-accent-soft p-3">{lesson.takeaway}</p>
-          <p className="mt-3 text-ink-muted">+{ph.xp} XP</p>
+          {showXp && <p className="mt-3 text-ink-muted">+{ph.xp} XP</p>}
           <button
             type="button"
             className="tap mt-6 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white"
@@ -197,7 +209,7 @@ export function LessonPlayer({
               onComplete({ lessonId: lesson.id, stars: ph.stars, xp: ph.xp, results: s.results })
             }
           >
-            Back to the path
+            {closeAction}
           </button>
         </div>
       )}
