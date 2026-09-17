@@ -1,9 +1,10 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
 import { Chessboard } from 'react-chessboard';
 import type { PieceDropHandlerArgs, SquareHandlerArgs } from 'react-chessboard';
 import { applyMove, legalMoves, type Square } from '@/rules';
 import { describeSquare } from './describeSquare';
+import { handleDrop } from './dropHandler';
 import type { BoardProps, BoardMove, HighlightKind } from './types';
 import { TextMoveEntry } from './TextMoveEntry';
 import { useBoardA11y } from './useBoardA11y';
@@ -35,15 +36,11 @@ export function Board(props: BoardProps) {
   const [status, setStatus] = useState('');
 
   const tryMove = useCallback(
-    (from: Square, to: Square): boolean => {
-      if (disabled || mode !== 'play') return false;
-      const lm = legalMoves(fen, from).find((m) => m.to === to);
-      if (!lm) return false;
-      const uci = lm.promotion ? `${from}${to}q` : lm.uci; // Phase 0: always promote to queen
-      const r = applyMove(fen, uci);
-      const mv: BoardMove = { from, to, uci: r.uci, san: r.san };
+    (from: Square, to: Square | null): boolean => {
+      const mv: BoardMove | null = handleDrop(fen, mode, disabled, from, to);
+      if (!mv) return false;
       setSelected(null);
-      setStatus(`You played ${r.san}.`);
+      setStatus(`You played ${mv.san}.`);
       onMove?.(mv);
       return true;
     },
@@ -75,6 +72,54 @@ export function Board(props: BoardProps) {
   );
 
   const { cursor, onKeyDown } = useBoardA11y(orientation, activate);
+
+  // I-3: every cursor move is announced through the live region, not via
+  // the container label (label changes are not read by screen readers).
+  const prevCursor = useRef(cursor);
+  useEffect(() => {
+    if (prevCursor.current === cursor) return;
+    prevCursor.current = cursor;
+    setStatus(describeSquare(fen, cursor));
+    // fen intentionally omitted: a position change alone should not re-announce the cursor.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cursor]);
+
+  // I-1: react-chessboard renders each piece as a dnd-kit draggable
+  // (role=button, tabindex=0, aria-describedby -> dnd-kit keyboard
+  // instructions) plus its own assertive live region. Inside our
+  // application-role container those are 32 extra tab stops, wrong
+  // instructions and duplicate announcements, and the library exposes no
+  // option to turn them off. Neutralise them in the DOM after every render
+  // and whenever the library re-creates piece nodes.
+  const appRef = useRef<HTMLDivElement>(null);
+  const neutraliseDndKit = useCallback(() => {
+    const root = appRef.current;
+    if (!root) return;
+    root.querySelectorAll<HTMLElement>('[aria-roledescription="draggable"]').forEach((el) => {
+      if (el.getAttribute('tabindex') !== '-1') el.setAttribute('tabindex', '-1');
+      if (el.hasAttribute('aria-describedby')) el.removeAttribute('aria-describedby');
+    });
+    root.querySelectorAll<HTMLElement>('[aria-live]').forEach((el) => {
+      if (el.getAttribute('aria-hidden') !== 'true') el.setAttribute('aria-hidden', 'true');
+    });
+  }, []);
+  // Run after every commit (layout + passive, so library nodes created in
+  // the children's own effects are caught synchronously within the commit)
+  // and via a MutationObserver for nodes the library adds outside React.
+  useLayoutEffect(neutraliseDndKit);
+  useEffect(neutraliseDndKit);
+  useLayoutEffect(() => {
+    const root = appRef.current;
+    if (!root) return;
+    const mo = new MutationObserver(neutraliseDndKit);
+    mo.observe(root, {
+      childList: true,
+      subtree: true,
+      attributes: true,
+      attributeFilter: ['tabindex', 'aria-describedby', 'aria-live'],
+    });
+    return () => mo.disconnect();
+  }, [neutraliseDndKit]);
 
   const onText = useCallback(
     (text: string) => {
@@ -121,7 +166,7 @@ export function Board(props: BoardProps) {
       onPieceDragCancel: () => onDragEnd?.(),
       onPieceDrop: ({ sourceSquare, targetSquare }: PieceDropHandlerArgs) => {
         onDragEnd?.();
-        return !!targetSquare && tryMove(sourceSquare as Square, targetSquare as Square);
+        return tryMove(sourceSquare as Square, (targetSquare ?? null) as Square | null);
       },
       onSquareClick: ({ square }: SquareHandlerArgs) => activate(square as Square),
     }),
@@ -131,8 +176,9 @@ export function Board(props: BoardProps) {
   return (
     <div className="w-full">
       <div
+        ref={appRef}
         role="application"
-        aria-label={`Chess board, ${orientation === 'w' ? 'white' : 'black'} at the bottom. Cursor on ${describeSquare(fen, cursor)}`}
+        aria-label={`Chess board, ${orientation === 'w' ? 'white' : 'black'} at the bottom`}
         tabIndex={0}
         onKeyDown={onKeyDown}
         className="w-full touch-none outline-none focus-visible:ring-2 focus-visible:ring-accent"

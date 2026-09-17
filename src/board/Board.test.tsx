@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Board } from './Board';
 import { START_FEN } from '@/rules';
@@ -67,4 +67,105 @@ test('disabled board ignores keyboard activation', () => {
 test('announce prop overrides the internal status', () => {
   render(<Board fen={START_FEN} orientation="w" mode="static" announce="Puzzle solved" />);
   expect(screen.getByRole('status', { name: 'Board announcements' })).toHaveTextContent('Puzzle solved');
+});
+
+// --- I-1: single tab stop, no dnd-kit instructions, one live region ---
+
+function tabStopsInside(app: HTMLElement) {
+  return app.querySelectorAll('[tabindex="0"]').length;
+}
+function describedByInside(app: HTMLElement) {
+  return app.querySelectorAll('[aria-roledescription="draggable"][aria-describedby]').length;
+}
+function exposedLiveRegions(root: HTMLElement) {
+  return Array.from(root.querySelectorAll('[aria-live]')).filter(
+    (el) => !el.closest('[aria-hidden="true"]'),
+  );
+}
+
+test('application container is the only tab stop inside the board, before and after a move', () => {
+  // jsdom gives every element a zero-size rect; react-chessboard throws
+  // ("Square width not found") when it animates a position change.
+  const realRect = Element.prototype.getBoundingClientRect;
+  Element.prototype.getBoundingClientRect = function () {
+    return { ...realRect.call(this), width: 50, height: 50 } as DOMRect;
+  };
+  try {
+  const { container, rerender } = render(<Board fen={START_FEN} orientation="w" mode="play" />);
+  const app = screen.getByRole('application', { name: /chess board/i });
+  expect(tabStopsInside(app)).toBe(0);
+  expect(describedByInside(app)).toBe(0);
+  expect(app.getAttribute('tabindex')).toBe('0');
+
+  const afterE4 = 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1';
+  rerender(<Board fen={afterE4} orientation="w" mode="play" />);
+  expect(tabStopsInside(app)).toBe(0);
+  expect(describedByInside(app)).toBe(0);
+  expect(exposedLiveRegions(container).length).toBe(1);
+  } finally {
+    Element.prototype.getBoundingClientRect = realRect;
+  }
+});
+
+test('exactly one live region inside the component is exposed to AT', async () => {
+  const { container } = render(<Board fen={START_FEN} orientation="w" mode="play" />);
+  // react-chessboard/dnd-kit may mount its own live region in a child effect
+  // after our commit; the MutationObserver neutralises it on the next tick.
+  await waitFor(() => expect(exposedLiveRegions(container)).toHaveLength(1));
+  const exposed = exposedLiveRegions(container);
+  expect(exposed[0]).toHaveAttribute('aria-label', 'Board announcements');
+  // the board wrapper itself must not be hidden
+  expect(screen.getByRole('application', { name: /chess board/i }).closest('[aria-hidden="true"]')).toBeNull();
+});
+
+// --- I-3: cursor moves announce; label is static ---
+
+test('arrow keys announce the new cursor square in the status region', () => {
+  render(<Board fen={START_FEN} orientation="w" mode="play" />);
+  const grid = screen.getByRole('application', { name: 'Chess board, white at the bottom' });
+  fireEvent.keyDown(grid, { key: 'ArrowRight' });
+  expect(screen.getByRole('status', { name: 'Board announcements' })).toHaveTextContent(/b1/);
+  expect(grid).toHaveAttribute('aria-label', 'Chess board, white at the bottom');
+});
+
+// --- M-1: cursor resets on orientation change ---
+
+test('orientation b starts the cursor at h8 and ArrowUp moves away from the player', () => {
+  const onSelect = vi.fn();
+  render(<Board fen={START_FEN} orientation="b" mode="select" onSelectSquare={onSelect} />);
+  const grid = screen.getByRole('application', { name: 'Chess board, black at the bottom' });
+  fireEvent.keyDown(grid, { key: 'Enter' });
+  expect(onSelect).toHaveBeenLastCalledWith('h8');
+  fireEvent.keyDown(grid, { key: 'ArrowUp' });
+  expect(screen.getByRole('status', { name: 'Board announcements' })).toHaveTextContent(/h7/);
+  fireEvent.keyDown(grid, { key: 'Enter' });
+  expect(onSelect).toHaveBeenLastCalledWith('h7');
+});
+
+test('cursor resets when orientation changes', () => {
+  const onSelect = vi.fn();
+  const { rerender } = render(<Board fen={START_FEN} orientation="w" mode="select" onSelectSquare={onSelect} />);
+  const grid = screen.getByRole('application', { name: /chess board/i });
+  fireEvent.keyDown(grid, { key: 'ArrowRight' });
+  rerender(<Board fen={START_FEN} orientation="b" mode="select" onSelectSquare={onSelect} />);
+  fireEvent.keyDown(grid, { key: 'Enter' });
+  expect(onSelect).toHaveBeenLastCalledWith('h8');
+});
+
+// --- M-5: select mode never emits moves ---
+
+test('select mode: Enter on e2 then e4 does not call onMove', () => {
+  const onMove = vi.fn();
+  const onSelect = vi.fn();
+  render(<Board fen={START_FEN} orientation="w" mode="select" onMove={onMove} onSelectSquare={onSelect} />);
+  const grid = screen.getByRole('application', { name: /chess board/i });
+  for (let i = 0; i < 4; i++) fireEvent.keyDown(grid, { key: 'ArrowRight' });
+  fireEvent.keyDown(grid, { key: 'ArrowUp' });
+  fireEvent.keyDown(grid, { key: 'Enter' });
+  fireEvent.keyDown(grid, { key: 'ArrowUp' }); fireEvent.keyDown(grid, { key: 'ArrowUp' });
+  fireEvent.keyDown(grid, { key: 'Enter' });
+  expect(onMove).not.toHaveBeenCalled();
+  expect(onSelect).toHaveBeenCalledTimes(2);
+  expect(onSelect).toHaveBeenNthCalledWith(1, 'e2');
+  expect(onSelect).toHaveBeenNthCalledWith(2, 'e4');
 });
