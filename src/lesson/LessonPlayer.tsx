@@ -122,13 +122,17 @@ export function LessonPlayer({
   };
 
   return (
-    /* Concept Note 2 and the desktop wireframe: above `md` the three parts sit
-       side by side -- the board on the left, the coach and the lesson on the
-       right -- with the board column capped to the viewport height so an 800px
-       board can no longer push its own top off-screen. Below `md` this is the
-       untouched single phone column, which is why every placement below is a
-       `md:` grid coordinate rather than a change of DOM order. */
-    <section className="flex min-h-full flex-col p-4 md:grid md:grid-cols-[minmax(0,1fr)_20rem] md:items-start md:gap-x-6">
+    /* Concept Note 2 and DESIGN-SYSTEM.md §3.3: above `md` the parts sit side by
+       side -- the board centred in its own column on the left, the prompt, the
+       coach, the controls and the challenge index on the right -- with the board
+       column capped to the viewport height so an 800px board can no longer push
+       its own top off-screen. The lesson is a modal task (chunk B1), so this
+       screen owns the whole window width rather than the 832px that was left
+       over beside the tab rail; that width is what the right column fills.
+       Below `md` this is the untouched single phone column, which is why every
+       placement below is a `md:` grid coordinate rather than a change of DOM
+       order. */
+    <section className="flex min-h-full flex-col p-4 md:mx-auto md:grid md:max-w-6xl md:grid-cols-[minmax(0,1fr)_22rem] md:items-start md:gap-x-6 md:px-6">
       <header className="flex items-center justify-between md:col-span-2">
         <button type="button" className="tap" aria-label={exitLabel} onClick={exit}>
           ✕
@@ -181,8 +185,10 @@ export function LessonPlayer({
             )}
           </div>
           {lesson.card.diagrams[0] && (
-            <div className="mt-4 md:col-start-1 md:row-start-2 md:row-span-2 md:mt-6 md:max-w-[calc(100dvh-9rem)]">
-              <Board fen={lesson.card.diagrams[0]} orientation="w" mode="static" />
+            <div className="mt-4 md:col-start-1 md:row-start-2 md:row-span-2 md:mt-6">
+              <div className="md:mx-auto md:max-w-[calc(100dvh-11rem)]">
+                <Board fen={lesson.card.diagrams[0]} orientation="w" mode="static" />
+              </div>
             </div>
           )}
           <button
@@ -203,7 +209,8 @@ export function LessonPlayer({
           for (const sq of e.highlights ?? []) highlights[sq] = 'accent';
           return (
             <>
-              <div className="mt-4 md:col-start-1 md:row-start-2 md:sticky md:top-4 md:max-w-[calc(100dvh-9rem)]">
+              <div className="mt-4 md:col-start-1 md:row-start-2 md:sticky md:top-4">
+               <div className="md:mx-auto md:max-w-[calc(100dvh-11rem)]">
                 <Board
                   fen={e.fen}
                   orientation="w"
@@ -211,6 +218,7 @@ export function LessonPlayer({
                   arrows={(e.arrows ?? []).map(([from, to]: [Square, Square]) => ({ from, to }))}
                   highlights={highlights}
                 />
+               </div>
               </div>
               <div className="md:col-start-2 md:row-start-2 md:mt-4">
                 <CoachBubble text={e.text} />
@@ -240,7 +248,8 @@ export function LessonPlayer({
               the machine, so the key carries the miss count as a retry generation
               (see ChallengeView). The answering surface travels with the board:
               the squares to pick, the options to choose, the drill to play out. */}
-          <div className="mt-3 md:col-start-1 md:row-start-2 md:row-span-2 md:mt-4 md:sticky md:top-4 md:max-w-[calc(100dvh-9rem)]">
+          <div className="mt-3 md:col-start-1 md:row-start-2 md:row-span-2 md:mt-4 md:sticky md:top-4">
+          <div className="md:mx-auto md:max-w-[calc(100dvh-11rem)]">
           <ChallengeView
             key={`${c.id}#${s.results[c.id]?.misses ?? 0}`}
             c={c}
@@ -251,6 +260,7 @@ export function LessonPlayer({
             dispatch={dispatch}
             onWrongMove={setLastWrong}
           />
+          </div>
           </div>
           <div className="md:col-start-2 md:row-start-3">
           <CoachBubble text={s.feedback} tone={s.feedbackTone} />
@@ -292,6 +302,7 @@ export function LessonPlayer({
               </button>
             )}
           </div>
+          <ChallengeIndex count={lesson.challenges.length} at={ph.index} />
           </div>
         </>
       )}
@@ -320,6 +331,33 @@ export function LessonPlayer({
         </div>
       )}
     </section>
+  );
+}
+
+/**
+ * The right column's index at regular width (DESIGN-SYSTEM.md §3.3 and §4): the
+ * run's own challenge numbers, in the index face, in the column that was empty
+ * at 1280 (H-3). It is the place in the run and nothing else — not the prompts,
+ * which are the challenge's own text and must appear once, and not whether an
+ * answer was right, which a graded checkpoint renders through this same player
+ * and must not disclose mid-attempt.
+ *
+ * Hidden below `md`: the phone column is a single focused task and a list of
+ * what is coming is exactly the distraction it is designed not to have. The
+ * header's "3 of 6" already carries the same fact in one line, which is also why
+ * this is `aria-hidden` rather than a second thing for a screen reader to read.
+ * State is a glyph and a weight, never a colour on its own (hard constraint 6).
+ */
+function ChallengeIndex({ count, at }: { count: number; at: number }) {
+  return (
+    <ol aria-hidden className="mt-8 hidden font-index text-sm tabular-nums text-content-dim md:block">
+      {Array.from({ length: count }, (_, i) => (
+        <li key={i} className={`flex gap-2 py-0.5 ${i === at ? 'font-semibold text-content' : ''}`}>
+          <span>{String(i + 1).padStart(2, '0')}</span>
+          <span>{i < at ? '✓' : i === at ? '●' : '○'}</span>
+        </li>
+      ))}
+    </ol>
   );
 }
 

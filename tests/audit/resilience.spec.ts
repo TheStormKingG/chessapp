@@ -31,8 +31,15 @@ test('navigating away mid-challenge and back returns to the same challenge', asy
   await page.getByRole('button', { name: 'Next', exact: true }).click();
   await expect(page.getByText('2 of 6', { exact: true })).toBeVisible();
 
-  log.mark('leave via the Path tab and come back');
-  await page.getByRole('navigation', { name: 'Main' }).getByRole('link', { name: 'Path' }).click();
+  // A lesson is a modal task, so the tab bar is no longer on screen to navigate
+  // away with mid-challenge — which was the point of removing it (H-1: "Tapping
+  // Puzzles mid-game silently abandons the position"). The way out is now the
+  // lesson's own ✕, which says what happens to the run before it leaves.
+  log.mark('leave via the lessons own exit and come back');
+  await page.getByRole('button', { name: 'Exit lesson' }).click();
+  await expect(page.getByRole('heading', { name: 'Leave the lesson?' })).toBeVisible();
+  await expect(page.getByText(/Your place is saved/)).toBeVisible();
+  await page.getByRole('button', { name: 'Leave', exact: true }).click();
   await expect(page).toHaveURL(/\/path$/);
   // The path shows the lesson as unfinished, and now says where the run got to
   // and that the node resumes it rather than starting it over.

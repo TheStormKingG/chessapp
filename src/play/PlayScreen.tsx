@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { Board } from '@/board';
 import { CoachBubble } from '@/coach';
@@ -6,6 +7,7 @@ import { useSettings } from '@/app/settings';
 import type { Color } from '@/rules';
 import { useGame } from './useGame';
 import { EngineGate } from './EngineGate';
+import { engineIsReady } from './engineReady';
 import { crowns, crownsNote } from './crowns';
 import type { TimeControl } from './GameMachine';
 
@@ -33,14 +35,41 @@ const RESULT_LINE = {
  */
 export function PlayScreen() {
   const [params] = useSearchParams();
+  const nav = useNavigate();
   const learner: Color = params.get('color') === 'b' ? 'b' : 'w';
   const timeControl: TimeControl = params.get('tc') === '10+0' ? '10+0' : 'untimed';
   const coachOn = params.get('coach') !== '0';
+  /* The game is a modal task now (chunk B1), so the tab bar is no longer the way
+     out of it — and the longest wait in the app happens before `PlayGame` mounts
+     and can offer its own ✕. This is that wait's dismiss control: nothing has
+     started yet, so it leaves without asking. It is gone the moment the game's
+     own header is on screen, so there is never a second ✕. */
+  const [ready, setReady] = useState(engineIsReady);
 
   return (
-    <EngineGate>
-      <PlayGame learner={learner} timeControl={timeControl} coach={coachOn} />
-    </EngineGate>
+    <>
+      {!ready && (
+        <div className="px-4 pt-4">
+          <button
+            type="button"
+            className="tap"
+            aria-label="Exit game"
+            onClick={() => {
+              void nav('/play');
+            }}
+          >
+            ✕
+          </button>
+        </div>
+      )}
+      <EngineGate
+        onReady={() => {
+          setReady(true);
+        }}
+      >
+        <PlayGame learner={learner} timeControl={timeControl} coach={coachOn} />
+      </EngineGate>
+    </>
   );
 }
 
@@ -53,15 +82,37 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
 
   const over = g.over.over;
   const engine = getEngine();
+  const [confirmingExit, setConfirmingExit] = useState(false);
+  const leave = () => {
+    void nav('/play');
+  };
+  /* `modality.md > Best practices`: "When necessary, help people avoid data loss
+     by getting confirmation before closing a modal view." A game in progress is
+     exactly that — there is no saved position to come back to — while a finished
+     game has nothing left to lose, so it closes on the first press. */
+  const exit = () => {
+    if (over) leave();
+    else setConfirmingExit(true);
+  };
 
   return (
-    // Concept Note 2: on a desktop the board sits on the left and the coach
-    // and controls on the right; below `md` this collapses to the single
-    // phone column, unchanged. The board column is capped to the viewport
-    // height so an 800px-tall board can no longer push its own top off-screen.
-    <section className="p-4 md:grid md:grid-cols-[minmax(0,1fr)_20rem] md:items-start md:gap-6">
-      <header className="flex items-baseline justify-between md:col-span-2">
-        <h1 className="text-lg font-semibold">
+    // Concept Note 2 and DESIGN-SYSTEM.md §3.3: on a desktop the board sits in
+    // the middle column at its natural square size and the right column carries
+    // the opponent, the coach line, the controls and the game record; below `md`
+    // this collapses to the single phone column, unchanged. The board column is
+    // capped to the viewport height so an 800px-tall board can no longer push
+    // its own top off-screen.
+    <section className="p-4 md:mx-auto md:grid md:max-w-6xl md:grid-cols-[minmax(0,1fr)_22rem] md:items-start md:gap-6 md:px-6">
+      <header className="flex items-baseline justify-between gap-3 md:col-span-2">
+        <button
+          type="button"
+          className="tap self-center"
+          aria-label="Exit game"
+          onClick={exit}
+        >
+          ✕
+        </button>
+        <h1 className="mr-auto text-lg font-semibold">
           {persona.name} <span className="font-normal text-content-dim">· {persona.ratingBand}</span>
         </h1>
         {g.clockMs && (
@@ -73,6 +124,27 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
         )}
       </header>
 
+      {confirmingExit && (
+        <div className="mt-3 rounded-lg border border-edge-strong p-4 md:col-span-2">
+          <h2 className="text-lg font-semibold">Leave the game?</h2>
+          <p className="mt-2 text-sm">This game is not saved, and you would start a new one.</p>
+          <div className="mt-4 flex gap-2">
+            <button
+              type="button"
+              className="tap flex-1 rounded-lg bg-accent px-3 py-2 font-semibold text-accent-on"
+              onClick={() => {
+                setConfirmingExit(false);
+              }}
+            >
+              Keep playing
+            </button>
+            <button type="button" className="tap flex-1 rounded-lg border border-edge-strong px-3 py-2" onClick={leave}>
+              Leave
+            </button>
+          </div>
+        </div>
+      )}
+
       {engineDown && (
         <p role="alert" className="mt-3 md:col-span-2 rounded-lg border border-danger bg-surface-raised p-3 text-sm">
           The engine could not load on this device.{' '}
@@ -82,7 +154,8 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
         </p>
       )}
 
-      <div className="mt-3 md:sticky md:top-4 md:mt-4 md:max-w-[calc(100dvh-6rem)]">
+      <div className="mt-3 md:sticky md:top-4 md:mt-4">
+       <div className="md:mx-auto md:max-w-[calc(100dvh-8rem)]">
         <Board
           fen={g.fen}
           orientation={learner}
@@ -103,6 +176,7 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
             engine.resume();
           }}
         />
+       </div>
       </div>
 
       <div className="md:mt-4">
@@ -177,7 +251,9 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
           </div>
         )}
 
-        <ol className="mt-4 text-sm tabular-nums text-content-dim">
+        {/* The game record: the right column's content at regular width (§3.3),
+            set in the index face like every other counter in the design. */}
+        <ol className="mt-4 font-index text-sm tabular-nums text-content-dim">
           {pairs(g.sans).map((p) => (
             <li key={p.n}>
               {p.n}. {p.w} {p.b}

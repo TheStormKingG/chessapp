@@ -26,12 +26,49 @@ test.describe('tab shell and navigation', () => {
 
   test('deep links load directly', async ({ page }) => {
     await page.goto('./lesson/1.1.1');
-    await expect(page.getByRole('navigation', { name: 'Main' })).toBeVisible();
+    // A lesson is a modal task, so the tab bar is deliberately not here: what a
+    // deep link must produce is the task's own way out (DESIGN-SYSTEM.md B1,
+    // `modality.md > Best practices`). This assertion used to require the Main
+    // navigation, which encoded the defect rather than the requirement.
+    await expect(page.getByRole('button', { name: 'Exit lesson' })).toBeVisible();
+    await expect(page.getByRole('navigation', { name: 'Main' })).toHaveCount(0);
     // Something lesson-shaped must render; an empty <main> would be the defect.
     await expect(page.locator('main')).not.toBeEmpty();
 
     await page.goto('./play/game?tc=untimed&color=w&coach=0');
     await expect(page.locator('main')).not.toBeEmpty();
+  });
+
+  /**
+   * H-1: a lesson, a checkpoint and a game are single focused tasks. They are
+   * presented modally — over the app, without the tab bar — and each one carries
+   * its own dismiss control. `tab-bars.md > Best practices`: the tab bar stays
+   * visible except "when a modal view covers the tab bar, because a modal is
+   * temporary and self-contained". `modality.md > Best practices`: "Always give
+   * people an obvious way to dismiss a modal view."
+   */
+  test('a modal task covers the tab bar and carries its own way out', async ({ page }) => {
+    const modal = [
+      { path: './lesson/1.1.1', exit: 'Exit lesson' },
+      { path: './checkpoint/1.1', exit: 'Back to the path' },
+      { path: './play/game?tc=untimed&color=w&coach=0', exit: 'Exit game' },
+    ];
+    for (const m of modal) {
+      await page.goto(m.path);
+      await expect(page.getByRole('navigation', { name: 'Main' }), `${m.path} still shows the tab bar`).toHaveCount(0);
+      await expect(page.getByRole('button', { name: m.exit }), `${m.path} has no way out`).toBeVisible();
+    }
+
+    // The tab bar is back on a browsable section, and the browser's own back
+    // button still leaves a modal task the way it arrived.
+    await page.goto('./path');
+    await expect(page.getByRole('navigation', { name: 'Main' })).toBeVisible();
+    await page.getByRole('link', { name: /1\.1\.1/ }).click();
+    await expect(page.getByRole('button', { name: 'Exit lesson' })).toBeVisible();
+    await expect(page.getByRole('navigation', { name: 'Main' })).toHaveCount(0);
+    await page.goBack();
+    await expect(page).toHaveURL(/\/path$/);
+    await expect(page.getByRole('navigation', { name: 'Main' })).toBeVisible();
   });
 
   test('an unknown route shows a 404 fallback rather than an empty shell', async ({ page }) => {
