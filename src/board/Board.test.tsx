@@ -205,3 +205,32 @@ test('flipping the board clears the selected square, not just the cursor', () =>
   expect(status).toHaveTextContent(/h8/);
   expect(onMove).not.toHaveBeenCalled();
 });
+
+// F-AX-1: unit 1.1's board-vision lessons run on an empty (kingless) board in
+// select mode. Answering a which_square challenge must accept the answer AND
+// update the live status region -- it used to throw "Invalid FEN: missing
+// white king" out of the handler, leaving the screen-reader readout dead.
+const EMPTY_FEN = '8/8/8/8/8/8/8/8 w - - 0 1';
+
+test('select mode on an empty board: text entry answers and announces', async () => {
+  const onSelectSquare = vi.fn();
+  render(<Board fen={EMPTY_FEN} orientation="w" mode="select" onSelectSquare={onSelectSquare} textEntry />);
+  await userEvent.type(screen.getByLabelText('Type a move'), 'e4{enter}');
+  expect(onSelectSquare).toHaveBeenCalledWith('e4');
+  expect(screen.getByRole('status', { name: 'Board announcements' })).toHaveTextContent('e4, empty');
+});
+
+test('keyboard cursor announces squares on an empty board', async () => {
+  const onSelectSquare = vi.fn();
+  render(<Board fen={EMPTY_FEN} orientation="w" mode="select" onSelectSquare={onSelectSquare} />);
+  const grid = screen.getByRole('application', { name: /chess board/i });
+  grid.focus();
+  fireEvent.keyDown(grid, { key: 'ArrowRight' });
+  fireEvent.keyDown(grid, { key: 'ArrowUp' });
+  await waitFor(() =>
+    expect(screen.getByRole('status', { name: 'Board announcements' })).toHaveTextContent('b2, empty'),
+  );
+  fireEvent.keyDown(grid, { key: 'Enter' });
+  expect(onSelectSquare).toHaveBeenCalledWith('b2');
+  expect(screen.getByRole('status', { name: 'Board announcements' })).toHaveTextContent('b2, empty');
+});

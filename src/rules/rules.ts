@@ -83,9 +83,44 @@ export function gameStatus(fen: string): GameStatus {
   return { over: false };
 }
 
+const FILES = 'abcdefgh';
+
+/**
+ * Read the placement field of a FEN without chess.js.
+ *
+ * chess.js validates legality on load and rejects any position without both
+ * kings, but the board-vision teaching boards of unit 1.1 are legitimately
+ * kingless (the content verifier allows kingless FENs for which_square,
+ * name_square and colour_square). Those lessons only ever ask what sits on a
+ * square, never what may move, so the read-only accessors parse the placement
+ * field themselves. The move functions -- legalMoves, applyMove, gameStatus
+ * and the rest -- keep going through chess.js and still reject a kingless
+ * position rather than pretend it is playable.
+ */
+function readPlacement(fen: string): Map<Square, Piece> {
+  const board = new Map<Square, Piece>();
+  const ranks = fen.trim().split(/\s+/)[0]?.split('/') ?? [];
+  if (ranks.length !== 8) throw new Error(`Invalid FEN placement: ${fen}`);
+  ranks.forEach((rankStr, i) => {
+    const rank = 8 - i;
+    let file = 0;
+    for (const ch of rankStr) {
+      if (ch >= '1' && ch <= '8') { file += Number(ch); continue; }
+      if (!/[pnbrqk]/i.test(ch)) throw new Error(`Invalid FEN placement: ${fen}`);
+      if (file > 7) throw new Error(`Invalid FEN placement: ${fen}`);
+      board.set(`${FILES[file]}${rank}` as Square, {
+        type: ch.toLowerCase() as PieceType,
+        color: ch === ch.toUpperCase() ? 'w' : 'b',
+      });
+      file += 1;
+    }
+    if (file !== 8) throw new Error(`Invalid FEN placement: ${fen}`);
+  });
+  return board;
+}
+
 export function pieceAt(fen: string, sq: Square): Piece | null {
-  const p = load(fen).get(sq as CjSquare);
-  return p ? { type: p.type as PieceType, color: p.color } : null;
+  return readPlacement(fen).get(sq) ?? null;
 }
 
 export function attackersOf(fen: string, sq: Square, by: Color): Square[] {
@@ -94,12 +129,8 @@ export function attackersOf(fen: string, sq: Square, by: Color): Square[] {
 
 export function piecesOf(fen: string, color: Color): { square: Square; piece: Piece }[] {
   const out: { square: Square; piece: Piece }[] = [];
-  for (const row of load(fen).board()) {
-    for (const cell of row) {
-      if (cell && cell.color === color) {
-        out.push({ square: cell.square as Square, piece: { type: cell.type as PieceType, color: cell.color } });
-      }
-    }
+  for (const [square, piece] of readPlacement(fen)) {
+    if (piece.color === color) out.push({ square, piece });
   }
   return out;
 }

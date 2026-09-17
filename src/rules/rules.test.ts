@@ -1,4 +1,4 @@
-import { START_FEN, legalMoves, applyMove, isCheck, isCheckmate, isStalemate, pieceAt, attackersOf, gameStatus, toSan } from './rules';
+import { START_FEN, legalMoves, applyMove, isCheck, isCheckmate, isStalemate, pieceAt, piecesOf, attackersOf, gameStatus, toSan } from './rules';
 
 const scholars = 'r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR w KQkq - 4 4';
 
@@ -40,4 +40,32 @@ test('pieceAt and attackersOf', () => {
 
 test('toSan converts uci in context', () => {
   expect(toSan(scholars, 'h5f7')).toBe('Qxf7#');
+});
+
+// Teaching boards for the board-vision lessons legitimately have no kings
+// (the content verifier allows kingless FENs for those challenge types), so
+// the read-only accessors must work on them. The move functions must not.
+const EMPTY_FEN = '8/8/8/8/8/8/8/8 w - - 0 1';
+const KINGLESS_FEN = '8/8/3n4/8/8/8/4R3/8 w - - 0 1';
+
+test('pieceAt reads an empty kingless board without throwing', () => {
+  expect(pieceAt(EMPTY_FEN, 'e4')).toBeNull();
+});
+
+test('pieceAt names pieces on a kingless board', () => {
+  expect(pieceAt(KINGLESS_FEN, 'd6')).toEqual({ type: 'n', color: 'b' });
+  expect(pieceAt(KINGLESS_FEN, 'e2')).toEqual({ type: 'r', color: 'w' });
+  expect(pieceAt(KINGLESS_FEN, 'a1')).toBeNull();
+});
+
+test('piecesOf enumerates a kingless board', () => {
+  expect(piecesOf(KINGLESS_FEN, 'w')).toEqual([{ square: 'e2', piece: { type: 'r', color: 'w' } }]);
+  expect(piecesOf(KINGLESS_FEN, 'b')).toEqual([{ square: 'd6', piece: { type: 'n', color: 'b' } }]);
+  expect(piecesOf(EMPTY_FEN, 'w')).toEqual([]);
+});
+
+test('move functions still reject a kingless position rather than pretend', () => {
+  expect(() => legalMoves(KINGLESS_FEN)).toThrow(/fen/i);
+  expect(() => applyMove(KINGLESS_FEN, 'e2e4')).toThrow();
+  expect(() => gameStatus(KINGLESS_FEN)).toThrow(/fen/i);
 });
