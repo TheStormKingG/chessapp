@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getEngine } from '@/engine';
+import { reportError, track } from '@/analytics';
 import { BotService, type Persona } from '@/bot';
 import { CoachService } from '@/coach';
 import { useSettings } from '@/app/settings';
@@ -94,7 +95,9 @@ export function useGame(o: { learner: 'w' | 'b'; timeControl: TimeControl; coach
         setG(next);
         say(preMoveEvent(next));
         return next;
-      } catch {
+      } catch (e) {
+        // F-ER-1: the screen says so and offers a retry; the sink gets the cause.
+        reportError(e, { where: 'play-bot-move' });
         setEngineDown(true);
         return state;
       } finally {
@@ -129,6 +132,18 @@ export function useGame(o: { learner: 'w' | 'b'; timeControl: TimeControl; coach
         crowns: crowns(state),
         pgn: state.sans.join(' '),
       });
+      // Spec 4.13. How the game went, never which game or which moves: no id,
+      // no PGN, nothing that identifies the learner.
+      track('game_finished', {
+        persona: state.persona,
+        timeControl: state.timeControl,
+        coach: state.coach,
+        result,
+        moves: Math.ceil(state.sans.length / 2),
+        hints: state.hints,
+        takebacks: state.takebacks,
+        crowns: crowns(state),
+      });
     },
     [append, say],
   );
@@ -140,6 +155,12 @@ export function useGame(o: { learner: 'w' | 'b'; timeControl: TimeControl; coach
     void append({
       type: 'game_started',
       gameId: g.id,
+      persona: ROSA.id,
+      color: g.learner,
+      timeControl: g.timeControl,
+      coach: o.coach,
+    });
+    track('game_started', {
       persona: ROSA.id,
       color: g.learner,
       timeControl: g.timeControl,
@@ -200,11 +221,12 @@ export function useGame(o: { learner: 'w' | 'b'; timeControl: TimeControl; coach
       let uci: string | null = null;
       try {
         uci = await getEngine().bestMove({ fen: g.fen, depth: HINT_DEPTH });
-      } catch {
+      } catch (e) {
         // F-PL-9: the game keeps working without the engine when the position itself
         // supplies a verified answer; otherwise the engine error is the honest report.
         uci = fallbackHint(g.fen);
         if (!uci) {
+          reportError(e, { where: 'play-hint' });
           setEngineDown(true);
           return;
         }

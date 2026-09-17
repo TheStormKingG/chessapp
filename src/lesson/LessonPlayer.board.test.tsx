@@ -36,7 +36,20 @@ vi.mock('@/engine', () => ({ getEngine: () => engine }));
 const MATE_FEN = '4k3/8/8/8/8/8/4Q3/4K3 w - - 0 1';
 const SEQ_FEN = '4k3/8/8/8/8/8/4Q3/4K3 w - - 0 1';
 
+// A play_it_out drill mounts behind the engine-download gate (F-OF-2). A cached
+// engine resolves at once, which is the state these tests are written against.
+function cachedEngine(): Response {
+  const body = new ReadableStream<Uint8Array>({
+    start(c) {
+      c.enqueue(new Uint8Array(8));
+      c.close();
+    },
+  });
+  return new Response(body, { headers: { 'content-length': '8' } });
+}
+
 beforeEach(() => {
+  vi.spyOn(globalThis, 'fetch').mockResolvedValue(cachedEngine());
   engine.bestMove.mockReset();
   board.move = { from: 'e2', to: 'e3', uci: 'e2e3', san: 'Qe3' };
   useSettings.setState({ coachMuted: false });

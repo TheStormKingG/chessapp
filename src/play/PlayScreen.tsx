@@ -5,6 +5,7 @@ import { getEngine } from '@/engine';
 import { useSettings } from '@/app/settings';
 import type { Color } from '@/rules';
 import { useGame } from './useGame';
+import { EngineGate } from './EngineGate';
 import { crowns, crownsNote } from './crowns';
 import type { TimeControl } from './GameMachine';
 
@@ -25,14 +26,27 @@ const RESULT_LINE = {
   draw: 'A draw.',
 } as const;
 
-/** Wireframe 13: the board, the coach, and the four controls. */
+/**
+ * Wireframe 13. The engine is fetched before the game mounts (F-OF-2), so the
+ * bot never has to move a board that has no engine behind it — and `ChooseOpponent`
+ * stays free of the download, which only matters once a game actually starts.
+ */
 export function PlayScreen() {
   const [params] = useSearchParams();
-  const nav = useNavigate();
-  const textEntry = useSettings((s) => s.textEntry);
   const learner: Color = params.get('color') === 'b' ? 'b' : 'w';
   const timeControl: TimeControl = params.get('tc') === '10+0' ? '10+0' : 'untimed';
   const coachOn = params.get('coach') !== '0';
+
+  return (
+    <EngineGate>
+      <PlayGame learner={learner} timeControl={timeControl} coach={coachOn} />
+    </EngineGate>
+  );
+}
+
+function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; timeControl: TimeControl; coach: boolean }) {
+  const nav = useNavigate();
+  const textEntry = useSettings((s) => s.textEntry);
 
   const { g, persona, coachText, tone, thinking, engineDown, result, onLearnerMove, hint, threats, undo, giveUp, retryEngine } =
     useGame({ learner, timeControl, coach: coachOn });
