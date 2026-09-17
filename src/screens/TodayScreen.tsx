@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
+import { btn } from '@/app/Button';
 import { localDay, useProgress } from '@/data';
 import { activeNode } from '@/path/progress';
 import { resumeLabel, useLessonResume } from '@/path/resumeLabel';
@@ -28,21 +29,21 @@ export function TodayScreen() {
 
   return (
     <section className="p-4">
-      <h1 className="text-xl font-semibold">Today</h1>
-      <p className="mt-1 text-sm text-content-dim">{progress.xp} XP so far</p>
+      <h1 className="t-display">Today</h1>
+      <p className="t-index mt-1 text-content-dim">{progress.xp} XP so far</p>
 
-      <h2 className="mt-6 text-xs uppercase tracking-wide text-content-dim">On the path</h2>
+      <h2 className="t-caption mt-6 uppercase tracking-wide text-content-dim">On the path</h2>
       {next ? (
         <Link
           to={next.kind === 'lesson' ? `/lesson/${next.id}` : `/checkpoint/${next.unit}`}
           className="tap mt-2 block rounded-xl border border-edge-strong bg-surface-raised p-4"
         >
-          <span className="block text-xs text-content-dim">
+          <span className="t-caption block text-content-dim">
             {next.kind === 'lesson' ? `Lesson ${next.id}` : `Checkpoint ${next.unit}`}
           </span>
-          <span className="block font-medium">{next.title}</span>
-          {resumed && <span className="mt-1 block text-sm text-content-dim">{resumed.hint}</span>}
-          <span className="mt-2 block text-sm font-medium text-accent">
+          <span className="t-heading block">{next.title}</span>
+          {resumed && <span className="t-label mt-1 block text-content-dim">{resumed.hint}</span>}
+          <span className={`${btn.primary} mt-3 w-full`}>
             {next.kind === 'checkpoint'
               ? 'Open the checkpoint'
               : resumed
@@ -51,20 +52,20 @@ export function TodayScreen() {
           </span>
         </Link>
       ) : (
-        <p className="mt-2 rounded-xl border border-edge-strong bg-surface-raised p-4">
+        <p className="t-body mt-2 rounded-xl border border-edge-strong bg-surface-raised p-4">
           You have finished everything that is built so far. More lessons are coming.
         </p>
       )}
 
-      <h2 className="mt-6 text-xs uppercase tracking-wide text-content-dim">Play</h2>
+      <h2 className="t-caption mt-6 uppercase tracking-wide text-content-dim">Play</h2>
       {coolDown && (
-        <div className="mt-2 rounded-xl bg-signal-soft p-3 text-sm" role="status">
+        <div className="t-label mt-2 rounded-xl bg-signal-soft p-3" role="status">
           <p>
             Two losses in a row. A lesson or a few minutes off usually helps more than a rematch.
           </p>
           <button
             type="button"
-            className="tap mt-2 underline"
+            className={`${btn.quiet} mt-2 underline`}
             onClick={() => {
               try {
                 localStorage.setItem(COOL_DOWN_KEY, today);
@@ -78,11 +79,11 @@ export function TodayScreen() {
           </button>
         </div>
       )}
-      <Link to="/play" className="tap mt-2 block rounded-xl border border-edge-strong bg-surface-raised p-4 font-medium">
+      <Link to="/play" className="t-heading tap mt-2 block rounded-xl border border-edge-strong bg-surface-raised p-4">
         Play a coached game
       </Link>
 
-      <Link to="/settings" className="mt-6 block text-sm text-content-dim underline">
+      <Link to="/settings" className="tap t-label mt-6 inline-flex items-center text-content-dim underline">
         Settings
       </Link>
     </section>

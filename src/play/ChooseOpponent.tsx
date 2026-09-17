@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router';
+import { btn } from '@/app/Button';
 import type { Persona } from '@/bot';
 import rosa from '@content/personas/rosa.json';
 import type { TimeControl } from './GameMachine';
@@ -22,7 +23,7 @@ export function ChooseOpponent() {
 
   return (
     <section className="p-4">
-      <h1 className="text-xl font-semibold">Play a game</h1>
+      <h1 className="t-display">Play a game</h1>
 
       <div className="mt-4 flex gap-3 rounded-xl border border-edge-strong bg-surface-raised p-3">
         {/*
@@ -32,20 +33,20 @@ export function ChooseOpponent() {
         */}
         <div
           aria-hidden
-          className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent-soft text-xl font-semibold"
+          className="t-title flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent-soft"
         >
           {ROSA.name.slice(0, 1)}
         </div>
         <div>
-          <h2 className="font-medium">
+          <h2 className="t-heading">
             {ROSA.name} <span className="text-content-dim">· {ROSA.ratingBand}</span>
           </h2>
-          <p className="mt-1 text-sm text-content-dim">{ROSA.bio}</p>
+          <p className="t-label mt-1 text-content-dim">{ROSA.bio}</p>
         </div>
       </div>
 
       <fieldset className="mt-5">
-        <legend className="text-sm font-medium">Time</legend>
+        <legend className="t-label">Time</legend>
         <div className="mt-2 flex gap-2">
           {(['untimed', '10+0'] as const).map((v) => (
             <button
@@ -55,7 +56,7 @@ export function ChooseOpponent() {
               onClick={() => {
                 setTc(v);
               }}
-              className={`min-h-11 rounded-lg border px-4 ${tc === v ? 'border-accent bg-accent-soft' : 'border-edge-strong'}`}
+              className={`${btn.secondary} ${tc === v ? 'border-accent bg-accent-soft' : ''}`}
             >
               {v === 'untimed' ? 'Untimed' : '10 + 0'}
             </button>
@@ -64,7 +65,7 @@ export function ChooseOpponent() {
       </fieldset>
 
       <fieldset className="mt-5">
-        <legend className="text-sm font-medium">Your colour</legend>
+        <legend className="t-label">Your colour</legend>
         <div className="mt-2 flex gap-2">
           {(
             [
@@ -80,7 +81,7 @@ export function ChooseOpponent() {
               onClick={() => {
                 setColour(v);
               }}
-              className={`min-h-11 rounded-lg border px-4 ${colour === v ? 'border-accent bg-accent-soft' : 'border-edge-strong'}`}
+              className={`${btn.secondary} ${colour === v ? 'border-accent bg-accent-soft' : ''}`}
             >
               {label}
             </button>
@@ -95,11 +96,11 @@ export function ChooseOpponent() {
           onChange={(e) => {
             setCoach(e.target.checked);
           }}
-          className="h-5 w-5 accent-accent focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-accent"
+          className="size-7 shrink-0 accent-accent focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-accent"
         />
         <span>
           Coach mode
-          <span className="block text-sm text-content-dim">
+          <span className="t-label block text-content-dim">
             A short comment on your moves, hints when you ask, and take-backs.
           </span>
         </span>
@@ -108,7 +109,7 @@ export function ChooseOpponent() {
       <button
         type="button"
         onClick={start}
-        className="mt-6 min-h-11 w-full rounded-lg bg-accent px-4 font-medium text-accent-on"
+        className={`${btn.primary} mt-6 w-full`}
       >
         Start game
       </button>

@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { btn } from '@/app/Button';
 import { Link } from 'react-router';
 import { useSettings } from '@/app/settings';
 import { useProgress } from '@/data';
@@ -17,14 +18,19 @@ function Toggle({
   onChange: (v: boolean) => void;
 }) {
   return (
-    <label className="flex items-start justify-between gap-4 py-3">
+    <label className="flex min-h-11 items-start justify-between gap-4 py-3">
       <span>
-        <span className="block font-medium">{label}</span>
-        <span className="block text-sm text-content-dim">{hint}</span>
+        <span className="t-heading block">{label}</span>
+        {/* The hint is the only visible statement of what the toggle does, so it
+            takes `label` (15px) rather than `caption`, which §3.2 reserves for
+            metadata that is never the sole carrier of its meaning. */}
+        <span className="t-label block text-content-dim">{hint}</span>
       </span>
+      {/* 28px is the platform floor for a control that is not the whole row
+          (accessibility.md > Controls); the label around it is the 44px target. */}
       <input
         type="checkbox"
-        className="mt-1 size-6 shrink-0"
+        className="mt-1 size-7 shrink-0"
         checked={checked}
         onChange={(e) => {
           onChange(e.target.checked);
@@ -41,7 +47,7 @@ function AccountSection() {
   const [error, setError] = useState<string | null>(null);
 
   if (!enabled) {
-    return <p className="text-content-dim">Accounts are not configured in this build.</p>;
+    return <p className="t-body text-content-dim">Accounts are not configured in this build.</p>;
   }
 
   if (!session) {
@@ -62,7 +68,7 @@ function AccountSection() {
         }}
       >
         <label className="block">
-          <span className="block font-medium">Email</span>
+          <span className="t-heading block">Email</span>
           <input
             type="email"
             required
@@ -70,20 +76,20 @@ function AccountSection() {
             onChange={(e) => {
               setEmail(e.target.value);
             }}
-            className="mt-1 w-full rounded-lg border border-edge-strong px-3 py-2"
+            className="t-body mt-1 min-h-11 w-full rounded-lg border border-edge-strong px-3 py-2"
             placeholder="you@example.com"
           />
         </label>
-        <button type="submit" className="tap rounded-lg bg-accent px-4 py-2 font-medium text-accent-on">
+        <button type="submit" className={btn.primary}>
           Send me a sign-in link
         </button>
         {sent && (
-          <p role="status" className="text-sm text-content-dim">
+          <p role="status" className="t-label text-content-dim">
             Check your email for the link; your progress on this device will be kept and merged.
           </p>
         )}
         {error && (
-          <p role="alert" className="text-sm text-danger">
+          <p role="alert" className="t-label text-danger">
             {error}
           </p>
         )}
@@ -95,20 +101,20 @@ function AccountSection() {
     syncState === 'syncing' ? 'Syncing…' : syncState === 'error' ? 'Not synced, will retry when online' : 'Synced';
   return (
     <div className="space-y-3">
-      <p className="font-medium">{session.user.email}</p>
-      <p role="status" className="text-sm text-content-dim">
+      <p className="t-heading">{session.user.email}</p>
+      <p role="status" className="t-label text-content-dim">
         {status}
       </p>
       <button
         type="button"
-        className="tap rounded-lg border border-edge-strong px-4 py-2 font-medium"
+        className={btn.secondary}
         onClick={() => {
           void signOut();
         }}
       >
         Sign out
       </button>
-      <p className="text-sm text-content-dim">
+      <p className="t-label text-content-dim">
         Signing out leaves this device&rsquo;s progress in place. Use &ldquo;Clear this device&rsquo;s data&rdquo; below
         to remove it.
       </p>
@@ -125,9 +131,14 @@ export function SettingsScreen() {
 
   return (
     <section className="space-y-8 p-4 pb-24">
-      <h1 className="text-xl font-semibold">Settings</h1>
+      <h1 className="t-display">Settings</h1>
 
-      <div className="divide-y divide-content-dim/20">
+      {/* D3: a decorative divider. It separates two rows that their own labels and
+          spacing already separate, so it carries no meaning on its own and takes
+          `--edge`, which §3.1 gives no contrast duty. It is not a boundary that
+          is the sole separator of a control, which is the job `--edge-strong`
+          exists for. */}
+      <div className="divide-y divide-edge">
         <Toggle
           label="Text move entry"
           hint="Type moves instead of dragging pieces."
@@ -149,15 +160,15 @@ export function SettingsScreen() {
       </div>
 
       <div className="space-y-3">
-        <h2 className="text-lg font-semibold">Account</h2>
+        <h2 className="t-title">Account</h2>
         <AccountSection />
       </div>
 
       <div className="space-y-3">
-        <h2 className="text-lg font-semibold">Your data</h2>
+        <h2 className="t-title">Your data</h2>
         <button
           type="button"
-          className="tap rounded-lg border border-danger/50 px-4 py-2 font-medium text-danger"
+          className={btn.danger}
           onClick={() => {
             if (!window.confirm('Clear every lesson, game and setting stored on this device? This cannot be undone.'))
               return;
@@ -168,14 +179,14 @@ export function SettingsScreen() {
         >
           Clear this device&rsquo;s data
         </button>
-        <p className="text-sm text-content-dim">
+        <p className="t-label text-content-dim">
           This removes everything ChessApp has stored in this browser. Deleting an account and the progress held on the
           server arrives in a later release.
         </p>
       </div>
 
-      <p className="text-sm">
-        <Link className="underline" to="/licences">
+      <p>
+        <Link className="tap t-label inline-flex items-center underline" to="/licences">
           Licences
         </Link>
       </p>

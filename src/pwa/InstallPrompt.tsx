@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import { useProgress } from '@/data';
 import { track } from '@/analytics';
+import { btn } from '@/app/Button';
 import { SESSION_START, isIosSafari, shouldOffer, writeDismissedAt } from './installPolicy';
 
 interface BeforeInstallPromptEvent extends Event {
@@ -62,9 +63,9 @@ export function InstallPrompt() {
   return (
     <aside
       aria-label="Install ChessApp"
-      className="fixed inset-x-0 bottom-16 z-20 mx-auto max-w-md rounded-lg border border-edge-strong bg-surface-raised p-4 text-sm shadow-lg md:bottom-4"
+      className="t-label fixed inset-x-0 bottom-16 z-20 mx-auto max-w-md rounded-lg border border-edge-strong bg-surface-raised p-4 shadow-lg md:bottom-4"
     >
-      <h2 className="font-semibold">Install ChessApp</h2>
+      <h2 className="t-heading">Install ChessApp</h2>
       <ul className="mt-2 space-y-1 text-content-dim">
         <li>Lessons work offline, on the bus or with no signal.</li>
         <li>Reminders arrive when your next lesson is ready.</li>
@@ -80,13 +81,13 @@ export function InstallPrompt() {
         {deferred && (
           <button
             type="button"
-            className="tap rounded-lg bg-accent px-4 py-2 text-accent-on"
+            className={btn.primary}
             onClick={install}
           >
             Install
           </button>
         )}
-        <button type="button" className="tap rounded-lg border border-edge-strong px-4 py-2" onClick={dismiss}>
+        <button type="button" className={btn.secondary} onClick={dismiss}>
           Not now
         </button>
       </div>

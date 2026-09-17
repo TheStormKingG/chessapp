@@ -1,3 +1,4 @@
+import { btn } from '@/app/Button';
 /** A single-choice list, used by name_the_pattern and both steps of is_it_safe. */
 export function Options({
   options,
@@ -18,7 +19,7 @@ export function Options({
           type="button"
           disabled={disabled}
           onClick={() => onPick(i)}
-          className="tap rounded-lg border border-edge-strong bg-surface-raised px-4 py-3 text-left hover:border-accent disabled:opacity-60"
+          className={`${btn.secondary} justify-start bg-surface-raised text-left hover:border-accent disabled:opacity-60`}
         >
           {o}
         </button>

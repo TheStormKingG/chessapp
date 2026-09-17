@@ -4,6 +4,7 @@ import { loadCheckpoint, type CheckpointBank, type Challenge } from '@/lesson';
 import { LessonPlayer, type LessonOutcome } from '@/lesson/LessonPlayer';
 import { useProgress } from '@/data';
 import { track } from '@/analytics';
+import { btn } from '@/app/Button';
 import { SECTION_1 } from '@/path/curriculum';
 import { checkpointToLesson, remediationSet, sampleChallenges, scoreAttempt } from './CheckpointMachine';
 
@@ -40,7 +41,7 @@ export function CheckpointRoute() {
     () => (bank && stage.kind === 'remediate' ? checkpointToLesson(bank, stage.set, true) : null),
     [bank, stage],
   );
-  if (!bank) return <section className="p-4 text-content-dim">Loading…</section>;
+  if (!bank) return <section className="t-body p-4 text-content-dim">Loading…</section>;
   const toPath = () => {
     void nav('/path');
   };
@@ -48,20 +49,20 @@ export function CheckpointRoute() {
   if (stage.kind === 'intro')
     return (
       <section className="p-4">
-        <h1 className="text-xl font-semibold">{bank.title}</h1>
+        <h1 className="t-title">{bank.title}</h1>
         <p className="mt-2">
           {bank.sample} mixed questions on positions you have not seen. No hints. Pass mark{' '}
           {Math.round(bank.passMark * 100)} per cent. Passing completes the unit, and you can attempt it now to
           test out.
         </p>
         {failedAttempts >= 3 && (
-          <p className="mt-2 rounded-lg bg-signal-soft p-3 text-sm">
+          <p className="t-body mt-2 rounded-lg bg-signal-soft p-3">
             Three attempts without a pass so far. The coach recommends replaying this unit&rsquo;s lessons before the next try.
           </p>
         )}
         <button
           type="button"
-          className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-accent-on"
+          className={`${btn.primary} mt-4 w-full`}
           onClick={() => {
             track('checkpoint_started', { unit: bank.unit, attempt: attempts + 1 });
             setStage({ kind: 'test', chosen: sampleChallenges(bank) });
@@ -69,7 +70,7 @@ export function CheckpointRoute() {
         >
           Start the checkpoint
         </button>
-        <button type="button" className="tap mt-2 w-full rounded-lg border border-edge-strong px-4 py-3" onClick={toPath}>
+        <button type="button" className={`${btn.secondary} mt-2 w-full`} onClick={toPath}>
           Back to the path
         </button>
       </section>
@@ -134,13 +135,13 @@ export function CheckpointRoute() {
   if (stage.kind === 'failed')
     return (
       <section className="p-4">
-        <h1 className="text-xl font-semibold">Not yet</h1>
+        <h1 className="t-title">Not yet</h1>
         <p className="mt-2">
           You scored {Math.round(stage.score * 100)} per cent. Missed: {stage.missed.join(', ')}.
         </p>
         <button
           type="button"
-          className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-accent-on"
+          className={`${btn.primary} mt-4 w-full`}
           onClick={() => {
             setStage({ kind: 'remediate', set: remediationSet(bank, stage.missed) });
           }}
@@ -149,7 +150,7 @@ export function CheckpointRoute() {
         </button>
         {/* Every sibling screen offers the path; a failed attempt must not be the
             one dead end (the tab bar was the only way out). */}
-        <button type="button" className="tap mt-2 w-full rounded-lg border border-edge-strong px-4 py-3" onClick={toPath}>
+        <button type="button" className={`${btn.secondary} mt-2 w-full`} onClick={toPath}>
           Back to the path
         </button>
       </section>
@@ -174,14 +175,14 @@ export function CheckpointRoute() {
   if (stage.kind === 'passed')
     return (
       <section className="p-4">
-        <h1 className="text-xl font-semibold">Checkpoint passed</h1>
+        <h1 className="t-title">Checkpoint passed</h1>
         <p className="mt-2">
           {Math.round(stage.score * 100)} per cent. Unit {bank.unit} complete.
           {stage.awarded ? ' +50 XP.' : ''}
         </p>
         <button
           type="button"
-          className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-accent-on"
+          className={`${btn.primary} mt-4 w-full`}
           onClick={toPath}
         >
           Back to the path
@@ -189,5 +190,5 @@ export function CheckpointRoute() {
       </section>
     );
 
-  return <section className="p-4 text-content-dim">Loading…</section>;
+  return <section className="t-body p-4 text-content-dim">Loading…</section>;
 }

@@ -1,5 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
-import { enableTextEntry, startGame, typeMove } from './helpers';
+import { enableTextEntry, resign, startGame, typeMove } from './helpers';
 
 const ENGINE_WAIT = 120_000;
 
@@ -52,7 +52,7 @@ test.describe('coach mode', () => {
 
     await expect(bubble(page)).toHaveCount(0);
     // And the game still ends normally.
-    await page.getByRole('button', { name: 'Resign' }).click();
+    await resign(page);
     await expect(page.getByText('You lost this one.')).toBeVisible();
     await expect(bubble(page)).toHaveCount(0);
   });

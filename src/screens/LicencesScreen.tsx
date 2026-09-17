@@ -74,7 +74,7 @@ const entries: Entry[] = [
 export function LicencesScreen() {
   return (
     <section className="p-4">
-      <h1 className="text-xl font-semibold">Licences</h1>
+      <h1 className="t-display">Licences</h1>
       <p className="mt-2 text-content-dim">
         ChessApp is built on free and open-source software. Every third-party component we ship is listed here
         with its licence.
@@ -82,13 +82,13 @@ export function LicencesScreen() {
       <ul className="mt-4 space-y-4">
         {entries.map((e) => (
           <li key={e.name} className="rounded-lg border border-edge-strong bg-surface-raised p-4">
-            <h2 className="font-semibold">
+            <h2 className="t-heading">
               {e.name}
               {e.version ? ` ${e.version}` : ''}
             </h2>
-            <p className="text-xs uppercase tracking-wide text-content-dim">{e.licence}</p>
-            <p className="mt-2 text-sm">{e.note}</p>
-            <ul className="mt-2 space-y-1 text-sm">
+            <p className="t-caption uppercase tracking-wide text-content-dim">{e.licence}</p>
+            <p className="t-body mt-2">{e.note}</p>
+            <ul className="t-label mt-2 space-y-1">
               {e.links.map((l) => (
                 <li key={l.href}>
                   <a className="tap text-accent underline" href={l.href} rel="noreferrer" target="_blank">

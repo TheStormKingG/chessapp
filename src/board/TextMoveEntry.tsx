@@ -1,3 +1,4 @@
+import { btn } from '@/app/Button';
 import { useState } from 'react';
 
 export function TextMoveEntry({ onSubmit }: { onSubmit: (text: string) => void }) {
@@ -16,7 +17,7 @@ export function TextMoveEntry({ onSubmit }: { onSubmit: (text: string) => void }
     >
       <input
         aria-label="Type a move"
-        className="tap flex-1 rounded border border-edge-strong bg-surface-raised px-3 text-content accent-accent placeholder:text-content-dim focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="tap t-index flex-1 rounded border border-edge-strong bg-surface-raised px-3 text-content accent-accent placeholder:text-content-dim focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-accent"
         placeholder="e.g. e4 or Nf3"
         value={v}
         onChange={(e) => setV(e.target.value)}
@@ -24,7 +25,7 @@ export function TextMoveEntry({ onSubmit }: { onSubmit: (text: string) => void }
         autoCorrect="off"
         spellCheck={false}
       />
-      <button type="submit" className="tap rounded bg-accent px-4 text-accent-on">
+      <button type="submit" className={btn.primary}>
         Move
       </button>
     </form>

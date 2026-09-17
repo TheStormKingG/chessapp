@@ -1,5 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
-import { enableTextEntry, readEvents, startGame, typeMove } from './helpers';
+import { enableTextEntry, readEvents, resign, startGame, typeMove } from './helpers';
 
 const ENGINE_WAIT = 120_000;
 // The ring is matched by GEOMETRY, which DESIGN-SYSTEM.md 7 requires kept
@@ -120,7 +120,7 @@ test.describe('in-game help', () => {
     await page.getByRole('button', { name: 'Take back' }).click();
     await expect(moveList(page)).toHaveCount(0);
 
-    await page.getByRole('button', { name: 'Resign' }).click();
+    await resign(page);
     await expect(page.getByText('You lost this one.')).toBeVisible();
     // One hint plus one take-back = two units of help = two crowns.
     await expect(page.getByLabel('2 of 3 crowns')).toBeVisible();
@@ -137,7 +137,7 @@ test.describe('in-game help', () => {
     await openGame(page);
     await typeMove(page, 'e4');
     await expect(moveList(page).first()).toHaveText(/^1\.\s+e4\s+\S+/, { timeout: ENGINE_WAIT });
-    await page.getByRole('button', { name: 'Resign' }).click();
+    await resign(page);
     await expect(page.getByLabel('3 of 3 crowns')).toBeVisible();
     await expect(page.getByText('0 hints, 0 take-backs')).toBeVisible();
   });

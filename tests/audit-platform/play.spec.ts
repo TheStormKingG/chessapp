@@ -1,5 +1,5 @@
 import { test, expect, type Page } from '@playwright/test';
-import { captureConsole, enableTextEntry, readEvents, startGame, typeMove } from './helpers';
+import { captureConsole, enableTextEntry, readEvents, resign, startGame, typeMove } from './helpers';
 
 const ENGINE_WAIT = 120_000;
 
@@ -39,7 +39,7 @@ test.describe('a real game against Rosa', () => {
     }
     expect(await moveList(page).count(), 'the move list did not grow once per learner move').toBe(opening.length);
 
-    await page.getByRole('button', { name: 'Resign' }).click();
+    await resign(page);
     await expect(page.getByText('You lost this one.')).toBeVisible();
     await expect(page.getByLabel(/of 3 crowns/)).toBeVisible();
     await expect(page.getByRole('button', { name: /review this game/i })).toBeDisabled();

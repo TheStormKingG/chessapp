@@ -1,3 +1,4 @@
+import { expect } from '@playwright/test';
 import type { ConsoleMessage, Page } from '@playwright/test';
 
 /** Settings -> "Text move entry". Every audit spec drives the board by text. */
@@ -99,4 +100,16 @@ export async function readEvents(page: Page, type: string): Promise<unknown[]> {
     });
     return rows.filter((r) => (r as { payload?: { type?: string } }).payload?.type === t);
   }, type);
+}
+
+/**
+ * Resign, through the confirmation the destructive action now sits behind
+ * (chunk C4 / M-2: an irreversible action is distinguishable and confirmable).
+ * The quiet Resign opens the panel; the danger-styled Resign inside it commits,
+ * so the same accessible name is clicked twice and never exists twice at once.
+ */
+export async function resign(page: Page): Promise<void> {
+  await page.getByRole('button', { name: 'Resign' }).click();
+  await expect(page.getByRole('heading', { name: 'Resign this game?' })).toBeVisible();
+  await page.getByRole('button', { name: 'Resign' }).click();
 }

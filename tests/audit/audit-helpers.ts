@@ -329,7 +329,10 @@ export async function boardPlacement(page: Page): Promise<string> {
  * plus placement is unique across both banks.
  */
 export async function currentChallenge(page: Page, bank: Challenge[]): Promise<Challenge> {
-  const prompt = (await page.locator('p.font-semibold').first().innerText()).trim();
+  // The prompt is found by its id, not by a presentation class. `font-semibold`
+  // was the old spelling of the `body-strong` type role (chunk C3), and a helper
+  // that reaches for a utility class breaks the moment the role is renamed.
+  const prompt = (await page.locator('p#challenge-prompt').first().innerText()).trim();
   const placement = await boardPlacement(page);
   const hits = bank.filter((c) => c.prompt === prompt && c.fen.split(' ')[0] === placement);
   if (hits.length !== 1) {

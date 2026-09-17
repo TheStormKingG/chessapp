@@ -43,6 +43,9 @@ test.describe('coached play', () => {
     // Resigning ends the game: the end card reports crowns and offers a
     // review that is not built yet.
     await page.getByRole('button', { name: 'Resign' }).click();
+    // Resigning is destructive and irreversible, so it is confirmed (chunk C4).
+    await expect(page.getByRole('heading', { name: 'Resign this game?' })).toBeVisible();
+    await page.getByRole('button', { name: 'Resign' }).click();
     await expect(page.getByLabel(/of 3 crowns/)).toBeVisible();
     await expect(page.getByRole('button', { name: /review this game/i })).toBeDisabled();
   });

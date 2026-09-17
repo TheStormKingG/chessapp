@@ -150,7 +150,7 @@ function Row({ node, view }: { node: Node; view: NodeView }) {
     <div className={`tap flex items-center gap-3 rounded-xl border px-3 py-3 ${skinFor(node)}`}>
       <RailIndex>{railNumber(node)}</RailIndex>
       <span className="flex-1">
-        <span className="block font-medium">{view.title}</span>
+        <span className="t-heading block">{view.title}</span>
         {/*
           A2: no opacity here. The hint is the node's state in words and is the
           only visible carrier of it, so it owes 4.5:1 like any other body text.
@@ -158,13 +158,13 @@ function Row({ node, view }: { node: Node; view: NodeView }) {
           below both the requirement and the ratios DESIGN-SYSTEM.md 3.1
           measured for the exact pairs.
         */}
-        <span className="block text-xs">{view.hint}</span>
+        <span className="t-label block">{view.hint}</span>
       </span>
       {node.kind === 'checkpoint' && (
         <CheckpointFlag filled={node.state === 'passed'} className="shrink-0" />
       )}
       {node.kind === 'lesson' && node.state === 'done' && (
-        <span aria-hidden className="shrink-0 text-lg leading-none">
+        <span aria-hidden className="t-title shrink-0 leading-none">
           &#10003;
         </span>
       )}
@@ -204,7 +204,7 @@ function Group({
 }) {
   return (
     <div className="rounded-xl border border-edge-strong">
-      <p aria-hidden className="border-b border-edge px-3 py-2 text-xs font-medium text-content-dim">
+      <p aria-hidden className="t-caption border-b border-edge px-3 py-2 text-content-dim">
         {GROUP_HEADING[state]}
       </p>
       <ul className="px-3 py-2">
@@ -215,7 +215,7 @@ function Group({
               <div
                 aria-disabled="true"
                 aria-label={view.name}
-                className="flex items-center gap-3 py-1 text-sm text-content-dim"
+                className="t-label flex items-center gap-3 py-1 text-content-dim"
               >
                 <RailIndex tone="dim">{railNumber(n)}</RailIndex>
                 <span className="flex-1">{view.title}</span>
@@ -244,10 +244,10 @@ export function PathScreen() {
 
   return (
     <section className="p-4">
-      <p className="text-xs uppercase tracking-wide text-content-dim">
+      <p className="t-caption uppercase tracking-wide text-content-dim">
         Section {SECTION_1.id} &middot; {SECTION_1.band}
       </p>
-      <h1 className="text-xl font-semibold">{SECTION_1.title}</h1>
+      <h1 className="t-display">{SECTION_1.title}</h1>
       <ol className="mt-4 space-y-2">
         {toRuns(nodes).map((run) => {
           if (run.kind === 'group') {

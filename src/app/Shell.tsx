@@ -29,7 +29,7 @@ export function Shell({ children }: { children: ReactNode }) {
         className="fixed inset-x-0 bottom-0 z-10 border-t border-edge-strong bg-surface-raised md:sticky md:inset-x-auto md:top-0 md:bottom-auto md:h-dvh md:w-60 md:shrink-0 md:border-t-0 md:border-r"
       >
         {/* A wordmark, not a heading: the screens own the document outline. */}
-        <p className="hidden px-4 pt-5 pb-3 text-sm font-semibold tracking-wide text-content-dim md:block">ChessApp</p>
+        <p className="t-label hidden px-4 pt-5 pb-3 font-semibold tracking-wide text-content-dim md:block">ChessApp</p>
         <ul className="flex md:flex-col md:gap-1 md:px-2">
           {tabs.map((t) => (
             <li key={t.to} className="flex-1">
@@ -37,7 +37,7 @@ export function Shell({ children }: { children: ReactNode }) {
                 to={t.to}
                 end={t.end}
                 className={({ isActive }) =>
-                  `tap flex flex-col items-center justify-center gap-1 px-2 py-2 text-xs md:flex-row md:justify-start md:gap-3 md:rounded-lg md:px-3 md:text-sm ${
+                  `tap t-caption flex flex-col items-center justify-center gap-1 px-2 py-2 md:t-label md:flex-row md:justify-start md:gap-3 md:rounded-lg md:px-3 ${
                     isActive ? 'text-accent font-semibold' : 'text-content-dim'
                   }`
                 }

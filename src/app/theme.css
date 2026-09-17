@@ -138,11 +138,196 @@ body {
   background: var(--surface);
   color: var(--content);
   font-family: var(--font-sans);
+  /* The `body` role is the document default, so prose that names no role still
+     lands on 17px rather than the browser's 16. */
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
 }
 
 .tap {
   min-height: 44px;
   min-width: 44px;
+}
+
+/*
+ * ─── The type scale (chunk C3, DESIGN-SYSTEM.md §3.2) ───────────────────────
+ *
+ * Nine named roles. Every size is in `rem` so the OS and browser text-size
+ * settings scale the whole scale together — that is this project's Dynamic
+ * Type equivalent, and it only works while no component states a size in px
+ * or picks a raw `text-sm`. The roles are emitted as `@utility` rather than
+ * plain classes so Tailwind orders them with its own utilities: a role sets
+ * size, leading, weight and face together, which is the point — a caller that
+ * could still choose `text-sm font-bold` separately would be choosing a raw
+ * size again.
+ *
+ * Body is 17px, matching the iOS default of 17pt and clearing the 16px mobile
+ * floor with room to scale. `caption` at 13px is the smallest role and, per
+ * §3.2, carries nothing that is not also stated elsewhere; anything that is
+ * the sole visible carrier of its meaning takes `label` (15px) or larger.
+ */
+:root {
+  --type-display-size: 1.875rem; /* 30px */
+  --type-display-leading: 2.125rem; /* 34px */
+  --type-title-size: 1.375rem; /* 22px */
+  --type-title-leading: 1.75rem; /* 28px */
+  --type-heading-size: 1.0625rem; /* 17px */
+  --type-heading-leading: 1.5rem; /* 24px */
+  --type-body-size: 1.0625rem; /* 17px */
+  --type-body-leading: 1.625rem; /* 26px */
+  --type-label-size: 0.9375rem; /* 15px */
+  --type-label-leading: 1.25rem; /* 20px */
+  --type-caption-size: 0.8125rem; /* 13px */
+  --type-caption-leading: 1.125rem; /* 18px */
+  --type-index-size: 0.9375rem; /* 15px */
+  --type-index-leading: 1.25rem; /* 20px */
+  --type-index-small-size: 0.75rem; /* 12px */
+  --type-index-small-leading: 1rem; /* 16px */
+}
+
+@utility t-display {
+  font-family: var(--font-sans);
+  font-size: var(--type-display-size);
+  line-height: var(--type-display-leading);
+  font-weight: 700;
+}
+
+@utility t-title {
+  font-family: var(--font-sans);
+  font-size: var(--type-title-size);
+  line-height: var(--type-title-leading);
+  font-weight: 700;
+}
+
+@utility t-heading {
+  font-family: var(--font-sans);
+  font-size: var(--type-heading-size);
+  line-height: var(--type-heading-leading);
+  font-weight: 600;
+}
+
+@utility t-body {
+  font-family: var(--font-sans);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
+  font-weight: 400;
+}
+
+@utility t-body-strong {
+  font-family: var(--font-sans);
+  font-size: var(--type-body-size);
+  line-height: var(--type-body-leading);
+  font-weight: 600;
+}
+
+@utility t-label {
+  font-family: var(--font-sans);
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-leading);
+  font-weight: 500;
+}
+
+@utility t-caption {
+  font-family: var(--font-sans);
+  font-size: var(--type-caption-size);
+  line-height: var(--type-caption-leading);
+  font-weight: 500;
+}
+
+@utility t-index {
+  font-family: var(--font-index);
+  font-size: var(--type-index-size);
+  line-height: var(--type-index-leading);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+}
+
+@utility t-index-small {
+  font-family: var(--font-index);
+  font-size: var(--type-index-small-size);
+  line-height: var(--type-index-small-leading);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+ * ─── Button prominence (chunk C4, DESIGN-SYSTEM.md §7 / M-2) ────────────────
+ *
+ * Three levels and one role, defined once here and spelled once in
+ * `src/app/Button.tsx` so no screen invents a fourth.
+ *
+ * `buttons.md > Style`: "use a button that has a prominent visual style for
+ * the most likely action in a view... Keep the number of prominent buttons to
+ * one or two per view", and "Use style — not size — to visually distinguish
+ * the preferred choice among multiple options." That is why `secondary` and
+ * `primary` share their box metrics exactly and differ only in fill: a set of
+ * options stays a coherent set, and only its preferred member is filled.
+ *
+ * `danger` is not a fourth prominence, it is the destructive role: it borrows
+ * `quiet`'s weight so it can never outrank the screen's primary, and carries
+ * its meaning in the word, the confirmation and the colour together — never
+ * in the colour alone (hard constraint 6).
+ */
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  border-radius: 10px;
+  padding-inline: 1rem;
+  padding-block: 0.5rem;
+  border: 1px solid transparent;
+  font-family: var(--font-sans);
+  font-size: var(--type-label-size);
+  line-height: var(--type-label-leading);
+  font-weight: 500;
+  text-align: center;
+  transition: opacity var(--motion-fast) var(--ease-out);
+}
+
+@utility btn-primary {
+  background: var(--accent);
+  color: var(--accent-on);
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+@utility btn-secondary {
+  background: transparent;
+  color: var(--content);
+  border-color: var(--edge-strong);
+}
+
+@utility btn-quiet {
+  background: transparent;
+  color: var(--content-dim);
+  border-color: transparent;
+  padding-inline: 0.5rem;
+}
+
+@utility btn-danger {
+  background: transparent;
+  color: var(--danger);
+  /*
+   * Full-strength `--danger`, not `--edge-strong` and not the old
+   * `--danger/50` (chunk D3). This border is load-bearing twice over: it is
+   * the only thing that makes the control a control, and the only non-text
+   * carrier of "this one destroys something". 6.61:1 light, 7.62:1 dark.
+   */
+  border-color: var(--danger);
+}
+
+@utility btn-danger-quiet {
+  background: transparent;
+  color: var(--danger);
+  border-color: transparent;
+  padding-inline: 0.5rem;
+  /* The underline keeps it a control, and keeps "destructive" from resting on
+     hue alone for a learner who cannot separate this red from the ink. */
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 /*

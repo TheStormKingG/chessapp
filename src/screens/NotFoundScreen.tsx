@@ -1,4 +1,5 @@
 import { Link, useLocation } from 'react-router';
+import { btn } from '@/app/Button';
 
 /**
  * Any address the app does not know about lands here rather than on an empty
@@ -10,16 +11,16 @@ export function NotFoundScreen() {
   const { pathname } = useLocation();
   return (
     <section className="space-y-4 p-4 pb-24">
-      <h1 className="text-xl font-semibold">That page is not here</h1>
-      <p className="text-content-dim">
+      <h1 className="t-display">That page is not here</h1>
+      <p className="t-body text-content-dim">
         Nothing in ChessApp lives at <code className="break-all">{pathname}</code>. The address may be mistyped, or it
         may be a bookmark from an older version of the app.
       </p>
       <div className="flex flex-wrap gap-2">
-        <Link to="/" className="tap rounded-lg bg-accent px-4 py-2 font-medium text-accent-on">
+        <Link to="/" className={btn.primary}>
           Go to Today
         </Link>
-        <Link to="/path" className="tap rounded-lg border border-edge-strong px-4 py-2 font-medium">
+        <Link to="/path" className={btn.secondary}>
           Go to the Path
         </Link>
       </div>

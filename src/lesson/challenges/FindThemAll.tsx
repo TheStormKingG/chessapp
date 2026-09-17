@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Board } from '@/board';
+import { btn } from '@/app/Button';
 import type { Square } from '@/rules';
 import type { Highlights } from '../LessonMachine';
 
@@ -40,7 +41,7 @@ export function FindThemAll({
       />
       <button
         type="button"
-        className="tap mt-3 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-accent-on disabled:opacity-60"
+        className={`${btn.primary} mt-3 w-full disabled:opacity-60`}
         disabled={disabled || picked.length === 0}
         onClick={() => {
           onSubmit(picked);

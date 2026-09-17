@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { btn } from '@/app/Button';
 import { Board } from '@/board';
 import { CoachBubble, CoachService } from '@/coach';
 import type { Square } from '@/rules';
@@ -131,25 +132,30 @@ export function LessonPlayer({
        over beside the tab rail; that width is what the right column fills.
        Below `md` this is the untouched single phone column, which is why every
        placement below is a `md:` grid coordinate rather than a change of DOM
-       order. */
-    <section className="flex min-h-full flex-col p-4 md:mx-auto md:grid md:max-w-6xl md:grid-cols-[minmax(0,1fr)_22rem] md:items-start md:gap-x-6 md:px-6">
+       order.
+
+       `min-h-dvh`, not `min-h-full`: a percentage min-height resolves against a
+       parent with an explicit height, and this column's parent has only its own
+       `min-h-full`, so `100%` computed to nothing and the close screen's
+       anchored action (chunk C6) had nothing to be anchored inside of. */
+    <section className="flex min-h-dvh flex-col p-4 md:mx-auto md:grid md:max-w-6xl md:grid-cols-[minmax(0,1fr)_22rem] md:items-start md:gap-x-6 md:px-6">
       <header className="flex items-center justify-between md:col-span-2">
         <button type="button" className="tap" aria-label={exitLabel} onClick={exit}>
           ✕
         </button>
-        <h1 className="text-sm text-content-dim">{title ?? `${lesson.id} · ${lesson.title}`}</h1>
+        <h1 className="t-caption text-content-dim">{title ?? `${lesson.id} · ${lesson.title}`}</h1>
         {/* The counter is the announcement: giving the text already on screen a
             live region names the transition for a screen reader without adding a
             second, competing statement of where the learner is. */}
-        <span role="status" aria-live="polite" aria-label="Challenge progress" className="text-sm text-content-dim">
+        <span role="status" aria-live="polite" aria-label="Challenge progress" className="t-index text-content-dim">
           {ph.kind === 'challenge' ? `${ph.index + 1} of ${lesson.challenges.length}` : ''}
         </span>
       </header>
 
       {confirmingExit && (
         <div className="mt-6 rounded-lg border border-edge-strong p-4 md:col-span-2">
-          <h2 className="text-lg font-semibold">{`Leave the ${onProgress ? 'lesson' : 'attempt'}?`}</h2>
-          <p className="mt-2 text-sm">
+          <h2 className="t-title">{`Leave the ${onProgress ? 'lesson' : 'attempt'}?`}</h2>
+          <p className="t-body mt-2">
             {onProgress
               ? 'Your place is saved. You can pick up where you left off.'
               : 'This attempt will not be saved, and you would start it again from the beginning.'}
@@ -157,7 +163,7 @@ export function LessonPlayer({
           <div className="mt-4 flex gap-2">
             <button
               type="button"
-              className="tap flex-1 rounded-lg bg-accent px-3 py-2 font-semibold text-accent-on"
+              className={`${btn.primary} flex-1`}
               onClick={() => {
                 setConfirmingExit(false);
               }}
@@ -166,7 +172,7 @@ export function LessonPlayer({
             </button>
             <button
               type="button"
-              className="tap flex-1 rounded-lg border border-edge-strong px-3 py-2"
+              className={`${btn.secondary} flex-1`}
               onClick={onExit}
             >
               Leave
@@ -178,10 +184,10 @@ export function LessonPlayer({
       {!confirmingExit && ph.kind === 'card' && (
         <>
           <div className="mt-6 md:col-start-2 md:row-start-2">
-            <h2 className="text-2xl font-semibold">{lesson.title}</h2>
-            <p className="mt-3">{lesson.card.idea}</p>
+            <h2 className="t-title">{lesson.title}</h2>
+            <p className="t-body mt-3">{lesson.card.idea}</p>
             {lesson.card.habit && (
-              <p className="mt-3 rounded-lg bg-accent-soft p-3 text-sm">Habit: {lesson.card.habit}</p>
+              <p className="t-body mt-3 rounded-lg bg-accent-soft p-3">Habit: {lesson.card.habit}</p>
             )}
           </div>
           {lesson.card.diagrams[0] && (
@@ -193,7 +199,7 @@ export function LessonPlayer({
           )}
           <button
             type="button"
-            className="tap mt-6 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-accent-on md:col-start-2 md:row-start-3"
+            className={`${btn.primary} mt-6 w-full md:col-start-2 md:row-start-3`}
             onClick={() => dispatch({ type: 'next' })}
           >
             Start
@@ -224,7 +230,7 @@ export function LessonPlayer({
                 <CoachBubble text={e.text} />
                 <button
                   type="button"
-                  className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-accent-on"
+                  className={`${btn.primary} mt-4 w-full`}
                   onClick={() => dispatch({ type: 'next' })}
                 >
                   Next
@@ -238,7 +244,7 @@ export function LessonPlayer({
         <>
           <p
             id="challenge-prompt"
-            className="mt-4 font-semibold md:col-start-2 md:row-start-2"
+            className="t-body-strong mt-4 md:col-start-2 md:row-start-2"
             tabIndex={-1}
             ref={promptRef}
           >
@@ -269,7 +275,7 @@ export function LessonPlayer({
               <>
                 <button
                   type="button"
-                  className="tap flex-1 rounded-lg border border-edge-strong px-3 py-2 disabled:opacity-60"
+                  className={`${btn.secondary} flex-1 disabled:opacity-60`}
                   onClick={() => dispatch({ type: 'hint' })}
                   disabled={s.hintLevel >= 2}
                   title={HINT_COST}
@@ -286,7 +292,7 @@ export function LessonPlayer({
             {!busy && (
               <button
                 type="button"
-                className="tap flex-1 rounded-lg border border-edge-strong px-3 py-2"
+                className={`${btn.secondary} flex-1`}
                 onClick={() => dispatch({ type: 'reveal' })}
               >
                 Show me
@@ -295,7 +301,7 @@ export function LessonPlayer({
             {busy && (
               <button
                 type="button"
-                className="tap flex-1 rounded-lg bg-accent px-3 py-2 font-semibold text-accent-on"
+                className={`${btn.primary} flex-1`}
                 onClick={() => dispatch({ type: 'next' })}
               >
                 Next
@@ -307,21 +313,25 @@ export function LessonPlayer({
         </>
       )}
 
+      {/*
+        Chunk C6 (M-3, M-4). The takeaway is the reason the lesson happened, so
+        it is set left-aligned in body type under its own heading rather than
+        centred inside an accent-tinted chip that read as a success banner. The
+        action is anchored to the bottom of the column (`mt-auto`) instead of
+        floating under the text with 900px of paper beneath it.
+      */}
       {ph.kind === 'close' && (
-        <div className="mt-6 text-center md:col-span-2">
-          <p className="text-3xl" aria-hidden>
-            {'★'.repeat(ph.stars)}
-            {'☆'.repeat(3 - ph.stars)}
-          </p>
-          <p className="mt-1 text-sm text-content-dim">
+        <div className="mt-6 flex flex-1 flex-col md:col-span-2">
+          <Stars earned={ph.stars} />
+          <p className="t-caption mt-2 text-content-dim">
             {ph.stars} stars · {s.totalHints} hints · {s.totalMisses} misses
           </p>
-          <h2 className="mt-4 text-xl font-semibold">{closeHeading}</h2>
-          <p className="mt-3 rounded-lg bg-accent-soft p-3">{lesson.takeaway}</p>
-          {showXp && <p className="mt-3 text-content-dim">+{ph.xp} XP</p>}
+          <h2 className="t-title mt-6">{closeHeading}</h2>
+          <p className="t-body mt-3">{lesson.takeaway}</p>
+          {showXp && <p className="t-index mt-4 text-content-dim">+{ph.xp} XP</p>}
           <button
             type="button"
-            className="tap mt-6 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-accent-on"
+            className={`${btn.primary} mt-auto w-full`}
             onClick={() =>
               onComplete({ lessonId: lesson.id, stars: ph.stars, xp: ph.xp, results: s.results })
             }
@@ -331,6 +341,37 @@ export function LessonPlayer({
         </div>
       )}
     </section>
+  );
+}
+
+/**
+ * Earned and unearned stars (M-4, chunk C6).
+ *
+ * Three channels carry the score, and any one of them alone would be enough:
+ *
+ * 1. **Shape** — `★` filled against `☆` hollow.
+ * 2. **Colour** — `--accent` against `--content-dim`. Accent because §3.1 gives
+ *    it exactly two meanings, primary action and *completed work*, and an
+ *    earned star is completed work. 6.62:1 light and 8.41:1 dark on the page
+ *    ground, against a 3:1 requirement for a 30px glyph.
+ * 3. **Words** — the "N stars · …" line directly below, which is the only thing
+ *    a screen reader gets: the row itself is `aria-hidden` so the count is
+ *    announced once rather than as three separate glyph names.
+ *
+ * The previous version had only the first, and at 2 of 3 the difference was a
+ * glyph outline at small size. The rule the design lead is applying is not
+ * "add a colour" but "never let one channel be the only one" (hard constraint
+ * 6), which is why the ink change alone would not have closed this.
+ */
+function Stars({ earned }: { earned: number }) {
+  return (
+    <p aria-hidden className="t-display flex gap-1 leading-none">
+      {[0, 1, 2].map((i) => (
+        <span key={i} className={i < earned ? 'text-accent' : 'text-content-dim'}>
+          {i < earned ? '★' : '☆'}
+        </span>
+      ))}
+    </p>
   );
 }
 
@@ -350,7 +391,7 @@ export function LessonPlayer({
  */
 function ChallengeIndex({ count, at }: { count: number; at: number }) {
   return (
-    <ol aria-hidden className="mt-8 hidden font-index text-sm tabular-nums text-content-dim md:block">
+    <ol aria-hidden className="t-index mt-8 hidden text-content-dim md:block">
       {Array.from({ length: count }, (_, i) => (
         <li key={i} className={`flex gap-2 py-0.5 ${i === at ? 'font-semibold text-content' : ''}`}>
           <span>{String(i + 1).padStart(2, '0')}</span>
