@@ -1,4 +1,4 @@
-import { checkAnswer } from './answers';
+import { checkAnswer, sequenceReply } from './answers';
 import type { Challenge } from './types';
 
 const ftm: Challenge = {
@@ -90,4 +90,18 @@ test('which_square, name_the_pattern, is_it_safe', () => {
       { kind: 'safe', safe: true, reason: 0 },
     ),
   ).toEqual({ correct: true });
+});
+
+test('sequenceReply feeds back the opponent reply at each learner index', () => {
+  const c: Extract<Challenge, { type: 'find_the_sequence' }> = {
+    id: 'seq',
+    type: 'find_the_sequence',
+    fen: 'r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR w KQkq - 4 4',
+    prompt: '',
+    concept: 'z',
+    answer: { line: ['Qxf7+', 'Kd8', 'Qxf8+', 'Nxf8'] },
+  };
+  expect(sequenceReply(c, 0)).toBe('Kd8');
+  expect(sequenceReply(c, 1)).toBe('Nxf8');
+  expect(sequenceReply(c, 2)).toBeNull();
 });

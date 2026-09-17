@@ -198,6 +198,8 @@ export function reduce(s: LessonState, a: Action): LessonState {
       const v = checkAnswer(c, a.attempt);
       if (v.correct) {
         // F-PZ-4: a correct move after a hint earns progress credit but no mastery credit.
+        // `misses <= 1` only restates the phase machine's guarantee: a second miss moves to
+        // `revealed`, which `answerable()` rejects, so this branch never sees misses > 1.
         const mastery = r.hints === 0 && r.misses <= 1;
         return {
           ...s,
@@ -232,6 +234,7 @@ export function reduce(s: LessonState, a: Action): LessonState {
         feedback: revealText(c),
         feedbackTone: 'neutral',
         highlights: revealHighlights(c),
+        refutation: null,
       };
     }
   }

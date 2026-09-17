@@ -129,3 +129,13 @@ test('hints disabled flag blocks hints (checkpoints)', () => {
   const s = reduce(reduce(reduce(s0, { type: 'next' }), { type: 'next' }), { type: 'hint' });
   expect(s.hintLevel).toBe(0);
 });
+
+test('reveal clears a pending engine refutation', () => {
+  let s = run({ type: 'next' }, { type: 'next' }, { type: 'attempt', attempt: { kind: 'square', square: 'a1' } });
+  s = reduce(s, { type: 'engineRefutation', from: 'a1', to: 'a2', text: 'Then this.' });
+  expect(s.refutation).toEqual({ from: 'a1', to: 'a2' });
+  s = reduce(s, { type: 'reveal' });
+  expect(s.phase).toMatchObject({ kind: 'challenge', index: 0, status: 'revealed' });
+  expect(s.refutation).toBeNull();
+  expect(s.highlights).toEqual({ e4: 'accent' });
+});
