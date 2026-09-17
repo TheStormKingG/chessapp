@@ -1,0 +1,47 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "required": ["unit", "title", "passMark", "sample", "bank"],
+  "properties": {
+    "unit": { "type": "string", "pattern": "^[1-4]\\.[0-9]+$" },
+    "title": { "type": "string", "minLength": 1 },
+    "passMark": { "type": "number", "const": 0.75 },
+    "sample": { "type": "integer", "minimum": 8, "maximum": 12 },
+    "bank": { "type": "array", "minItems": 30, "items": { "$ref": "#/definitions/challenge" } }
+  },
+  "definitions": {
+    "challenge": {
+      "type": "object",
+      "required": ["id", "type", "fen", "prompt", "concept"],
+      "properties": {
+        "id": { "type": "string" },
+        "type": {
+          "enum": [
+            "find_the_move",
+            "find_the_sequence",
+            "find_them_all",
+            "is_it_safe",
+            "which_square",
+            "name_the_pattern",
+            "play_it_out",
+            "guess_the_move"
+          ]
+        },
+        "fen": { "type": "string" },
+        "prompt": { "type": "string", "maxLength": 200 },
+        "concept": { "type": "string" },
+        "hints": { "type": "object" },
+        "reason": { "type": "string" },
+        "answer": { "type": "object" },
+        "wrong": { "type": "object" },
+        "goal": { "type": "object" },
+        "options": { "type": "array" },
+        "reasons": { "type": "array" },
+        "move": { "type": "string" },
+        "commentary": { "type": "string" },
+        "timeLimitS": { "type": "integer" },
+        "opponentDepth": { "type": "integer" }
+      }
+    }
+  }
+}

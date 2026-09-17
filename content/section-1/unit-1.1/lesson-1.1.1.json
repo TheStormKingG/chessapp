@@ -1,0 +1,31 @@
+{
+  "id": "1.1.1",
+  "unit": "1.1",
+  "title": "The board",
+  "xp": 10,
+  "card": {
+    "idea": "The board has 64 squares. Columns are files, named a to h from your left. Rows are ranks, numbered 1 to 8 from your side. Every square has a name: file then rank.",
+    "diagrams": ["8/8/8/8/8/8/8/8 w - - 0 1"]
+  },
+  "explain": [
+    {
+      "fen": "8/8/8/8/8/8/8/8 w - - 0 1",
+      "text": "Files run up the board, a to h. The a-file is on your left when you play White.",
+      "highlights": ["a1", "a2", "a3", "a4", "a5", "a6", "a7", "a8"]
+    },
+    {
+      "fen": "8/8/8/8/8/8/8/8 w - - 0 1",
+      "text": "Ranks run across. Rank 1 is nearest you as White. Put file and rank together and every square has a name, like e4.",
+      "highlights": ["a4", "b4", "c4", "d4", "e4", "f4", "g4", "h4"]
+    }
+  ],
+  "challenges": [
+    { "id": "1.1.1-c1", "type": "which_square", "fen": "8/8/8/8/8/8/8/8 w - - 0 1", "prompt": "Tap e4.", "answer": { "square": "e4" }, "concept": "square-names", "reason": "e is the fifth file, 4 is the fourth rank." },
+    { "id": "1.1.1-c2", "type": "which_square", "fen": "8/8/8/8/8/8/8/8 w - - 0 1", "prompt": "Tap a1.", "answer": { "square": "a1" }, "concept": "square-names", "reason": "a1 is the corner on your left as White." },
+    { "id": "1.1.1-c3", "type": "which_square", "fen": "8/8/8/8/8/8/8/8 w - - 0 1", "prompt": "Tap h8.", "answer": { "square": "h8" }, "concept": "square-names", "reason": "h8 is the far corner on your right." },
+    { "id": "1.1.1-c4", "type": "find_them_all", "fen": "8/8/8/8/8/8/8/8 w - - 0 1", "prompt": "Tap every square on the d-file.", "answer": { "squares": ["d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8"] }, "concept": "files" },
+    { "id": "1.1.1-c5", "type": "find_them_all", "fen": "8/8/8/8/8/8/8/8 w - - 0 1", "prompt": "Tap every square on the 7th rank.", "answer": { "squares": ["a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"] }, "concept": "ranks" },
+    { "id": "1.1.1-c6", "type": "which_square", "fen": "8/8/8/8/8/8/8/8 w - - 0 1", "prompt": "Tap c6, quickly.", "answer": { "square": "c6" }, "timeLimitS": 8, "concept": "square-names", "reason": "Third file, sixth rank." }
+  ],
+  "takeaway": "File first, then rank: e4 is the e-file, fourth rank."
+}
