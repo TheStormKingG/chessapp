@@ -11,15 +11,15 @@ export function NotFoundScreen() {
   return (
     <section className="space-y-4 p-4 pb-24">
       <h1 className="text-xl font-semibold">That page is not here</h1>
-      <p className="text-ink-muted">
+      <p className="text-content-dim">
         Nothing in ChessApp lives at <code className="break-all">{pathname}</code>. The address may be mistyped, or it
         may be a bookmark from an older version of the app.
       </p>
       <div className="flex flex-wrap gap-2">
-        <Link to="/" className="tap rounded-lg bg-accent px-4 py-2 font-medium text-white">
+        <Link to="/" className="tap rounded-lg bg-accent px-4 py-2 font-medium text-accent-on">
           Go to Today
         </Link>
-        <Link to="/path" className="tap rounded-lg border border-line px-4 py-2 font-medium">
+        <Link to="/path" className="tap rounded-lg border border-edge-strong px-4 py-2 font-medium">
           Go to the Path
         </Link>
       </div>

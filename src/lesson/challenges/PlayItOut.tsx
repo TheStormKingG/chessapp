@@ -128,7 +128,7 @@ function Drill({
         }}
       />
       {engineDown && (
-        <p role="alert" className="mt-2 rounded-lg border border-danger bg-card p-3 text-sm">
+        <p role="alert" className="mt-2 rounded-lg border border-danger bg-surface-raised p-3 text-sm">
           {ENGINE_DOWN}{' '}
           <button
             type="button"
@@ -141,7 +141,7 @@ function Drill({
           </button>
         </p>
       )}
-      <p className="mt-2 text-sm text-ink-muted">
+      <p className="mt-2 text-sm text-content-dim">
         Moves used: {moves} of {c.goal.moves}
       </p>
     </>

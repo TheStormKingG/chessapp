@@ -14,7 +14,7 @@ export function App() {
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <UpdateNotice />
-      <AuthProvider>{loaded ? <AppRoutes /> : <p className="p-4 text-ink-muted">Loading…</p>}</AuthProvider>
+      <AuthProvider>{loaded ? <AppRoutes /> : <p className="p-4 text-content-dim">Loading…</p>}</AuthProvider>
       {loaded && <InstallPrompt />}
     </BrowserRouter>
   );

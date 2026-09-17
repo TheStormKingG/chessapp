@@ -20,8 +20,8 @@ export default defineConfig({
         name: 'ChessApp',
         short_name: 'ChessApp',
         description: 'Learn chess from zero to club level, free.',
-        theme_color: '#1f5f4a',
-        background_color: '#f6f5f0',
+        theme_color: '#FBFAF7',
+        background_color: '#F4F2ED',
         display: 'standalone',
         orientation: 'portrait',
         // Relative to the manifest, which Vite emits at the build's base, so

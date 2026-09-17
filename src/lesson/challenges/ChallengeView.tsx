@@ -110,7 +110,7 @@ export function ChallengeView({
             />
           ) : (
             <>
-              <p className="mt-3 text-sm text-ink-muted">
+              <p className="mt-3 text-sm text-content-dim">
                 You said: <strong>{safePick ? 'Yes, it is safe' : 'No, it is not safe'}</strong>.
               </p>
               {/* The reason step asks one neutral question. Labelling it "Why is
@@ -130,7 +130,7 @@ export function ChallengeView({
               <button
                 type="button"
                 disabled={busy}
-                className="tap mt-2 w-full rounded-lg border border-line px-3 py-2 text-sm disabled:opacity-60"
+                className="tap mt-2 w-full rounded-lg border border-edge-strong px-3 py-2 text-sm disabled:opacity-60"
                 onClick={() => setSafePick(null)}
               >
                 Change answer

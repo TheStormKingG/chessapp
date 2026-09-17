@@ -5,6 +5,7 @@ import {
   enableTextEntry,
   openLesson,
   readLesson,
+  refutationArrows,
   typeMove,
 } from './audit-helpers';
 
@@ -66,14 +67,16 @@ test.describe('the wrong-answer path', () => {
 
     // The generic line lands first; the engine line replaces it.
     await expect(coach(page)).toBeVisible();
-    // The refuting move is drawn on the board as an arrow in the danger colour.
-    // (The arrowhead <polygon fill="#a23b3b"> lives in a <marker> and is never
-    // itself visible; the drawn line is the <path stroke="#a23b3b">.)
-    const dangerArrow = page.locator('path[stroke="#a23b3b"]');
-    await expect(dangerArrow).toHaveCount(1, { timeout: 60_000 });
-    await expect(dangerArrow).toBeVisible();
+    // The refuting move is drawn on the board as an arrow. A3 took red off the
+    // board (DESIGN-SYSTEM.md 5), so the arrow is now the review mark rather
+    // than #a23b3b, and its colour is resolved from the page by the helper so
+    // this passes in either appearance. (The arrowhead <polygon> lives in a
+    // <marker> and is never itself visible; the drawn line is the <path>.)
+    await expect
+      .poll(() => refutationArrows(page), { timeout: 60_000 })
+      .toHaveLength(1);
     // The arrow names the refuting move in its marker id, e.g. "...-g2-e3".
-    await expect(dangerArrow).toHaveAttribute('marker-end', /-[a-h][1-8]-[a-h][1-8]\)$/);
+    expect((await refutationArrows(page))[0]).toMatch(/-[a-h][1-8]-[a-h][1-8]\)$/);
     // ...and the coach says what the refutation costs.
     await expect(coach(page)).toHaveText(/After [^.]+, /, { timeout: 60_000 });
     expect(log.problems(log.since()).map((p) => `${p.type}: ${p.text}`)).toEqual([]);

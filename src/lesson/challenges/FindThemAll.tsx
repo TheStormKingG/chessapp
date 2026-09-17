@@ -40,7 +40,7 @@ export function FindThemAll({
       />
       <button
         type="button"
-        className="tap mt-3 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white disabled:opacity-60"
+        className="tap mt-3 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-accent-on disabled:opacity-60"
         disabled={disabled || picked.length === 0}
         onClick={() => {
           onSubmit(picked);

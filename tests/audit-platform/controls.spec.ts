@@ -2,8 +2,26 @@ import { test, expect, type Page } from '@playwright/test';
 import { enableTextEntry, readEvents, startGame, typeMove } from './helpers';
 
 const ENGINE_WAIT = 120_000;
+// The ring is matched by GEOMETRY, which DESIGN-SYSTEM.md 7 requires kept
+// exactly at 5px inset. Do not turn this back into a colour.
 const ACCENT_RING = '[style*="0px 0px 0px 5px inset"]';
-const SELECTED_FILL = '[style*="rgba(31, 95, 74, 0.35)"]';
+
+/**
+ * How many squares carry the selected fill. A3 moved that fill off the UI
+ * accent onto `--mark-good`, which differs between the two appearances, so the
+ * colour is resolved from the page rather than written here as a literal.
+ */
+function selectedSquareCount(page: Page): Promise<number> {
+  return page.evaluate(() => {
+    const good = getComputedStyle(document.documentElement).getPropertyValue('--mark-good').trim();
+    const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(good);
+    if (!m) return -1;
+    const fill = `rgba(${m.slice(1, 4).map((h) => parseInt(h, 16)).join(', ')}, 0.35)`;
+    return [...document.querySelectorAll<HTMLElement>('[data-square] [style]')].filter((el) =>
+      (el.getAttribute('style') ?? '').includes(fill),
+    ).length;
+  });
+}
 
 function moveList(page: Page) {
   return page.getByRole('listitem').filter({ hasText: /^\d+\./ });
@@ -46,7 +64,7 @@ test.describe('in-game help', () => {
     // Stage two: the piece square keeps a mark and the destination gets the accent.
     await page.getByRole('button', { name: 'Hint' }).click();
     await expect(bubble(page)).toContainText(/wants to go to [a-h][1-8]\./, { timeout: 60_000 });
-    await expect(page.locator(SELECTED_FILL).first()).toBeVisible();
+    await expect.poll(() => selectedSquareCount(page)).toBeGreaterThan(0);
     await expect(page.locator(ACCENT_RING).first()).toBeVisible();
     await expect(page.getByRole('button', { name: 'Hint' })).toBeDisabled();
   });

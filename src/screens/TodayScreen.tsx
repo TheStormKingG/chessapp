@@ -29,19 +29,19 @@ export function TodayScreen() {
   return (
     <section className="p-4">
       <h1 className="text-xl font-semibold">Today</h1>
-      <p className="mt-1 text-sm text-ink-muted">{progress.xp} XP so far</p>
+      <p className="mt-1 text-sm text-content-dim">{progress.xp} XP so far</p>
 
-      <h2 className="mt-6 text-xs uppercase tracking-wide text-ink-muted">On the path</h2>
+      <h2 className="mt-6 text-xs uppercase tracking-wide text-content-dim">On the path</h2>
       {next ? (
         <Link
           to={next.kind === 'lesson' ? `/lesson/${next.id}` : `/checkpoint/${next.unit}`}
-          className="tap mt-2 block rounded-xl border border-line bg-card p-4"
+          className="tap mt-2 block rounded-xl border border-edge-strong bg-surface-raised p-4"
         >
-          <span className="block text-xs text-ink-muted">
+          <span className="block text-xs text-content-dim">
             {next.kind === 'lesson' ? `Lesson ${next.id}` : `Checkpoint ${next.unit}`}
           </span>
           <span className="block font-medium">{next.title}</span>
-          {resumed && <span className="mt-1 block text-sm text-ink-muted">{resumed.hint}</span>}
+          {resumed && <span className="mt-1 block text-sm text-content-dim">{resumed.hint}</span>}
           <span className="mt-2 block text-sm font-medium text-accent">
             {next.kind === 'checkpoint'
               ? 'Open the checkpoint'
@@ -51,14 +51,14 @@ export function TodayScreen() {
           </span>
         </Link>
       ) : (
-        <p className="mt-2 rounded-xl border border-line bg-card p-4">
+        <p className="mt-2 rounded-xl border border-edge-strong bg-surface-raised p-4">
           You have finished everything that is built so far. More lessons are coming.
         </p>
       )}
 
-      <h2 className="mt-6 text-xs uppercase tracking-wide text-ink-muted">Play</h2>
+      <h2 className="mt-6 text-xs uppercase tracking-wide text-content-dim">Play</h2>
       {coolDown && (
-        <div className="mt-2 rounded-xl bg-review-soft p-3 text-sm" role="status">
+        <div className="mt-2 rounded-xl bg-signal-soft p-3 text-sm" role="status">
           <p>
             Two losses in a row. A lesson or a few minutes off usually helps more than a rematch.
           </p>
@@ -78,11 +78,11 @@ export function TodayScreen() {
           </button>
         </div>
       )}
-      <Link to="/play" className="tap mt-2 block rounded-xl border border-line bg-card p-4 font-medium">
+      <Link to="/play" className="tap mt-2 block rounded-xl border border-edge-strong bg-surface-raised p-4 font-medium">
         Play a coached game
       </Link>
 
-      <Link to="/settings" className="mt-6 block text-sm text-ink-muted underline">
+      <Link to="/settings" className="mt-6 block text-sm text-content-dim underline">
         Settings
       </Link>
     </section>

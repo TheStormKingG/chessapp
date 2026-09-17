@@ -1,30 +1,82 @@
 import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
-import { Chessboard } from 'react-chessboard';
+import { Chessboard, defaultPieces } from 'react-chessboard';
 import type { PieceDropHandlerArgs, SquareHandlerArgs } from 'react-chessboard';
 import { applyMove, legalMoves, type Square } from '@/rules';
 import { describeSquare } from './describeSquare';
 import { handleDrop } from './dropHandler';
-import type { BoardProps, BoardMove, HighlightKind } from './types';
+import type { BoardProps, BoardMove, HighlightKind, MarkKind } from './types';
 import { TextMoveEntry } from './TextMoveEntry';
 import { useBoardA11y } from './useBoardA11y';
+import {
+  currentAppearance,
+  pickReadable,
+  resolveBoardPalette,
+  withAlpha,
+  type Appearance,
+  type BoardPalette,
+} from './boardColors';
 
-// F-AX-2: each highlight kind differs in shape as well as colour, so none
-// relies on red/green alone. accent = thick inset ring, review = dashed
-// outline, danger = thin ring plus diagonal hatch, selected = solid fill.
-const HIGHLIGHT_STYLES: Record<HighlightKind, CSSProperties> = {
-  accent: { boxShadow: 'inset 0 0 0 5px rgba(31,95,74,0.75)' },
-  review: { outline: '3px dashed rgba(184,134,11,0.95)', outlineOffset: '-4px' },
-  danger: {
-    boxShadow: 'inset 0 0 0 3px rgba(162,59,59,0.85)',
-    backgroundImage:
-      'repeating-linear-gradient(45deg, rgba(162,59,59,0.35) 0 4px, transparent 4px 10px)',
-  },
-  selected: { background: 'rgba(31,95,74,0.35)' },
+/**
+ * A3 / DESIGN-SYSTEM.md 5: the board carries TWO meanings, not three.
+ *
+ * `good` says "here" and `review` says "look again". The old `danger` red is
+ * gone from the board: red-on-green is the worst pair for deuteranopia, and the
+ * refutation is already carried by the opponent's replayed reply, which says
+ * more than a red square ever did. `--danger` survives for destructive UI only.
+ *
+ * The `danger` name is kept as an accepted mark kind so callers outside
+ * `src/board` (the lesson refutation arrow, the play screen's threat arrows)
+ * keep compiling, but it now paints in the review hue: three board hues become
+ * two, which is exactly the change the document asks for.
+ *
+ * F-AX-2 is untouched. Every kind still differs in SHAPE as well as colour --
+ * good = 5px inset ring, review = dashed outline, danger/refuted = thin ring
+ * plus diagonal hatch, selected = solid fill -- so colour is never the sole
+ * carrier. The 5px inset geometry is asserted by three specs and is load
+ * bearing; do not round it.
+ */
+const MARK_TOKEN: Record<MarkKind, '--mark-good' | '--mark-review'> = {
+  accent: '--mark-good',
+  review: '--mark-review',
+  danger: '--mark-review',
 };
-const ARROW_COLORS = { accent: '#1f5f4a', review: '#b8860b', danger: '#a23b3b' } as const;
+
+function highlightStyles(p: BoardPalette): Record<HighlightKind, CSSProperties> {
+  const good = p[MARK_TOKEN.accent];
+  const review = p[MARK_TOKEN.review];
+  return {
+    accent: { boxShadow: `inset 0 0 0 5px ${good}` },
+    review: { outline: `3px dashed ${review}`, outlineOffset: '-4px' },
+    danger: {
+      boxShadow: `inset 0 0 0 3px ${review}`,
+      backgroundImage: `repeating-linear-gradient(45deg, ${withAlpha(review, 0.4)} 0 4px, transparent 4px 10px)`,
+    },
+    selected: { background: withAlpha(good, 0.35) },
+  };
+}
+
 function prefersReducedMotion(): boolean {
   return typeof window !== 'undefined' && !!window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+}
+
+/** a1 is a dark square: an even file+rank index sum is dark. */
+function isDarkSquare(sq: string): boolean {
+  return (sq.charCodeAt(0) - 97 + (sq.charCodeAt(1) - 49)) % 2 === 0;
+}
+
+/** Re-resolves the board tokens whenever the appearance changes. */
+function useBoardPalette(): { palette: BoardPalette; appearance: Appearance } {
+  const [appearance, setAppearance] = useState<Appearance>(currentAppearance);
+  useEffect(() => {
+    const mq = window.matchMedia?.('(prefers-color-scheme: dark)');
+    if (!mq?.addEventListener) return;
+    const onChange = () => setAppearance(currentAppearance());
+    mq.addEventListener('change', onChange);
+    return () => mq.removeEventListener('change', onChange);
+  }, []);
+  const palette = useMemo(() => resolveBoardPalette(appearance), [appearance]);
+  return { palette, appearance };
 }
 
 export function Board(props: BoardProps) {
@@ -167,13 +219,53 @@ export function Board(props: BoardProps) {
     [fen, mode, disabled, onMove, onSelectSquare],
   );
 
+  const { palette, appearance } = useBoardPalette();
+
+  // Glyph and cursor ink is picked per square, not per appearance: see
+  // pickReadable. `--content` / `--surface` are the only two candidates, so the
+  // board never invents an ink of its own.
+  const inkOn = useCallback(
+    (square: string) =>
+      pickReadable(
+        [palette['--content'], palette['--surface']],
+        palette[isDarkSquare(square) ? '--board-dark' : '--board-light'],
+      ),
+    [palette],
+  );
+
   const squareStyles = useMemo(() => {
+    const styles = highlightStyles(palette);
     const s: Record<string, CSSProperties> = {};
-    for (const [sq, kind] of Object.entries(highlights)) if (kind) s[sq] = { ...HIGHLIGHT_STYLES[kind] };
-    if (selected) s[selected] = { ...(s[selected] ?? {}), ...HIGHLIGHT_STYLES.selected };
-    s[cursor] = { ...(s[cursor] ?? {}), outline: '3px solid #1b1f1d', outlineOffset: '-3px' };
+    for (const [sq, kind] of Object.entries(highlights)) if (kind) s[sq] = { ...styles[kind] };
+    if (selected) s[selected] = { ...(s[selected] ?? {}), ...styles.selected };
+    s[cursor] = { ...(s[cursor] ?? {}), outline: `3px solid ${inkOn(cursor)}`, outlineOffset: '-3px' };
     return s;
-  }, [highlights, selected, cursor]);
+  }, [highlights, selected, cursor, palette, inkOn]);
+
+  // The piece rule (DESIGN-SYSTEM.md 3.1): every piece is a fill plus a 1.5px
+  // outline in the OPPOSING piece colour, and max(fill, outline) must clear 3:1
+  // on both squares. react-chessboard lets the fill be set per piece but hard
+  // codes the outline to #000000 for both colours, which is only the opposing
+  // colour for white pieces. Measured, that fails exactly one combination: a
+  // dark piece on --board-dark in the dark appearance is fill 2.21 and outline
+  // 2.60. The scoped rule below gives dark pieces their light outline in the
+  // dark appearance, taking that combination to 7.41. Nothing changes in the
+  // light appearance, where the dark fill already measures 5.00 and 13.58.
+  const pieces = useMemo(
+    () =>
+      Object.fromEntries(
+        Object.entries(defaultPieces).map(([name, Piece]) => [
+          name,
+          (props?: { fill?: string; square?: string; svgStyle?: CSSProperties }) => (
+            <Piece
+              {...props}
+              fill={palette[name.startsWith('w') ? '--piece-light' : '--piece-dark']}
+            />
+          ),
+        ]),
+      ),
+    [palette],
+  );
 
   const options = useMemo(
     () => ({
@@ -183,9 +275,21 @@ export function Board(props: BoardProps) {
       showAnimations: !prefersReducedMotion(),
       animationDurationInMs: 200,
       squareStyles,
-      lightSquareStyle: { backgroundColor: '#e8e4d6' },
-      darkSquareStyle: { backgroundColor: '#8fa889' },
-      arrows: arrows.map((a) => ({ startSquare: a.from, endSquare: a.to, color: ARROW_COLORS[a.color ?? 'accent'] })),
+      pieces,
+      lightSquareStyle: { backgroundColor: palette['--board-light'] },
+      darkSquareStyle: { backgroundColor: palette['--board-dark'] },
+      // C-2: react-chessboard's own wooden-board notation colours (#B58863 at
+      // 2.47:1 and #F0D9B5 at 1.88:1) are its defaults and leak through unless
+      // both are set. Chunk C1 moves these glyphs into the gutter rail; until
+      // it lands they stay on the squares, because a board-vision curriculum
+      // with no coordinates at all is a worse defect than the one being fixed.
+      lightSquareNotationStyle: { color: inkOn('a2') },
+      darkSquareNotationStyle: { color: inkOn('a1') },
+      arrows: arrows.map((a) => ({
+        startSquare: a.from,
+        endSquare: a.to,
+        color: palette[MARK_TOKEN[a.color ?? 'accent']],
+      })),
       onPieceDrag: () => onDragStart?.(),
       onPieceDragCancel: () => onDragEnd?.(),
       onPieceDrop: ({ sourceSquare, targetSquare }: PieceDropHandlerArgs) => {
@@ -194,11 +298,14 @@ export function Board(props: BoardProps) {
       },
       onSquareClick: ({ square }: SquareHandlerArgs) => activate(square as Square),
     }),
-    [fen, orientation, mode, disabled, squareStyles, arrows, tryMove, activate, onDragStart, onDragEnd],
+    [fen, orientation, mode, disabled, squareStyles, arrows, tryMove, activate, onDragStart, onDragEnd, palette, pieces, inkOn],
   );
 
   return (
-    <div className="w-full">
+    <div className="w-full" data-board-root>
+      {appearance === 'dark' && (
+        <style>{`[data-board-root] [data-piece^="b"] svg * { stroke: ${palette['--piece-light']} !important; }`}</style>
+      )}
       <div
         ref={appRef}
         role="application"

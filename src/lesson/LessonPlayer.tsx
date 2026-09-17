@@ -133,17 +133,17 @@ export function LessonPlayer({
         <button type="button" className="tap" aria-label={exitLabel} onClick={exit}>
           ✕
         </button>
-        <h1 className="text-sm text-ink-muted">{title ?? `${lesson.id} · ${lesson.title}`}</h1>
+        <h1 className="text-sm text-content-dim">{title ?? `${lesson.id} · ${lesson.title}`}</h1>
         {/* The counter is the announcement: giving the text already on screen a
             live region names the transition for a screen reader without adding a
             second, competing statement of where the learner is. */}
-        <span role="status" aria-live="polite" aria-label="Challenge progress" className="text-sm text-ink-muted">
+        <span role="status" aria-live="polite" aria-label="Challenge progress" className="text-sm text-content-dim">
           {ph.kind === 'challenge' ? `${ph.index + 1} of ${lesson.challenges.length}` : ''}
         </span>
       </header>
 
       {confirmingExit && (
-        <div className="mt-6 rounded-lg border border-line p-4 md:col-span-2">
+        <div className="mt-6 rounded-lg border border-edge-strong p-4 md:col-span-2">
           <h2 className="text-lg font-semibold">{`Leave the ${onProgress ? 'lesson' : 'attempt'}?`}</h2>
           <p className="mt-2 text-sm">
             {onProgress
@@ -153,7 +153,7 @@ export function LessonPlayer({
           <div className="mt-4 flex gap-2">
             <button
               type="button"
-              className="tap flex-1 rounded-lg bg-accent px-3 py-2 font-semibold text-white"
+              className="tap flex-1 rounded-lg bg-accent px-3 py-2 font-semibold text-accent-on"
               onClick={() => {
                 setConfirmingExit(false);
               }}
@@ -162,7 +162,7 @@ export function LessonPlayer({
             </button>
             <button
               type="button"
-              className="tap flex-1 rounded-lg border border-line px-3 py-2"
+              className="tap flex-1 rounded-lg border border-edge-strong px-3 py-2"
               onClick={onExit}
             >
               Leave
@@ -187,7 +187,7 @@ export function LessonPlayer({
           )}
           <button
             type="button"
-            className="tap mt-6 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white md:col-start-2 md:row-start-3"
+            className="tap mt-6 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-accent-on md:col-start-2 md:row-start-3"
             onClick={() => dispatch({ type: 'next' })}
           >
             Start
@@ -216,7 +216,7 @@ export function LessonPlayer({
                 <CoachBubble text={e.text} />
                 <button
                   type="button"
-                  className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white"
+                  className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-accent-on"
                   onClick={() => dispatch({ type: 'next' })}
                 >
                   Next
@@ -259,7 +259,7 @@ export function LessonPlayer({
               <>
                 <button
                   type="button"
-                  className="tap flex-1 rounded-lg border border-line px-3 py-2 disabled:opacity-60"
+                  className="tap flex-1 rounded-lg border border-edge-strong px-3 py-2 disabled:opacity-60"
                   onClick={() => dispatch({ type: 'hint' })}
                   disabled={s.hintLevel >= 2}
                   title={HINT_COST}
@@ -276,7 +276,7 @@ export function LessonPlayer({
             {!busy && (
               <button
                 type="button"
-                className="tap flex-1 rounded-lg border border-line px-3 py-2"
+                className="tap flex-1 rounded-lg border border-edge-strong px-3 py-2"
                 onClick={() => dispatch({ type: 'reveal' })}
               >
                 Show me
@@ -285,7 +285,7 @@ export function LessonPlayer({
             {busy && (
               <button
                 type="button"
-                className="tap flex-1 rounded-lg bg-accent px-3 py-2 font-semibold text-white"
+                className="tap flex-1 rounded-lg bg-accent px-3 py-2 font-semibold text-accent-on"
                 onClick={() => dispatch({ type: 'next' })}
               >
                 Next
@@ -302,15 +302,15 @@ export function LessonPlayer({
             {'★'.repeat(ph.stars)}
             {'☆'.repeat(3 - ph.stars)}
           </p>
-          <p className="mt-1 text-sm text-ink-muted">
+          <p className="mt-1 text-sm text-content-dim">
             {ph.stars} stars · {s.totalHints} hints · {s.totalMisses} misses
           </p>
           <h2 className="mt-4 text-xl font-semibold">{closeHeading}</h2>
           <p className="mt-3 rounded-lg bg-accent-soft p-3">{lesson.takeaway}</p>
-          {showXp && <p className="mt-3 text-ink-muted">+{ph.xp} XP</p>}
+          {showXp && <p className="mt-3 text-content-dim">+{ph.xp} XP</p>}
           <button
             type="button"
-            className="tap mt-6 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white"
+            className="tap mt-6 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-accent-on"
             onClick={() =>
               onComplete({ lessonId: lesson.id, stars: ph.stars, xp: ph.xp, results: s.results })
             }

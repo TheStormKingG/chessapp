@@ -18,7 +18,7 @@ export function Options({
           type="button"
           disabled={disabled}
           onClick={() => onPick(i)}
-          className="tap rounded-lg border border-line bg-card px-4 py-3 text-left hover:border-accent disabled:opacity-60"
+          className="tap rounded-lg border border-edge-strong bg-surface-raised px-4 py-3 text-left hover:border-accent disabled:opacity-60"
         >
           {o}
         </button>

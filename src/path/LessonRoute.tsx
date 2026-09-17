@@ -39,7 +39,7 @@ export function LessonRoute() {
         <p>That lesson could not be loaded.</p>
         <button
           type="button"
-          className="tap mt-3 rounded-lg border border-line px-4"
+          className="tap mt-3 rounded-lg border border-edge-strong px-4"
           onClick={() => {
             void nav('/path');
           }}
@@ -48,7 +48,7 @@ export function LessonRoute() {
         </button>
       </section>
     );
-  if (!lesson) return <section className="p-4 text-ink-muted">Loading…</section>;
+  if (!lesson) return <section className="p-4 text-content-dim">Loading…</section>;
 
   // F-PA-7: a replay earns reduced XP; the reducer halves it on this flag.
   const replay = progress.lessons[lesson.id]?.completed ?? false;

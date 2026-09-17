@@ -2,6 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Board } from './Board';
 import { START_FEN } from '@/rules';
+import { resolveBoardPalette, withAlpha } from './boardColors';
 
 test('text move entry submits a legal SAN move and announces it', async () => {
   const onMove = vi.fn();
@@ -175,9 +176,13 @@ test('select mode: Enter on e2 then e4 does not call onMove', () => {
 
 // --- M-1b: the selected square resets with the cursor on an orientation change ---
 
+// A3: the selected fill is `--mark-good` at 0.35, not a literal. The expected
+// string is derived the same way the component derives it, so this matcher
+// follows a token change instead of pinning one appearance's hex.
 function selectedSquares(root: HTMLElement) {
+  const fill = withAlpha(resolveBoardPalette()['--mark-good'], 0.35);
   return Array.from(root.querySelectorAll<HTMLElement>('[style]')).filter((el) =>
-    /rgba\(\s*31,\s*95,\s*74,\s*0\.35\s*\)/.test(el.getAttribute('style') ?? ''),
+    (el.getAttribute('style') ?? '').includes(fill),
   );
 }
 

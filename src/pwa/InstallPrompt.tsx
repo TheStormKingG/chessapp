@@ -62,10 +62,10 @@ export function InstallPrompt() {
   return (
     <aside
       aria-label="Install ChessApp"
-      className="fixed inset-x-0 bottom-16 z-20 mx-auto max-w-md rounded-lg border border-line bg-card p-4 text-sm shadow-lg md:bottom-4"
+      className="fixed inset-x-0 bottom-16 z-20 mx-auto max-w-md rounded-lg border border-edge-strong bg-surface-raised p-4 text-sm shadow-lg md:bottom-4"
     >
       <h2 className="font-semibold">Install ChessApp</h2>
-      <ul className="mt-2 space-y-1 text-ink-muted">
+      <ul className="mt-2 space-y-1 text-content-dim">
         <li>Lessons work offline, on the bus or with no signal.</li>
         <li>Reminders arrive when your next lesson is ready.</li>
       </ul>
@@ -80,13 +80,13 @@ export function InstallPrompt() {
         {deferred && (
           <button
             type="button"
-            className="tap rounded-lg bg-accent px-4 py-2 text-white"
+            className="tap rounded-lg bg-accent px-4 py-2 text-accent-on"
             onClick={install}
           >
             Install
           </button>
         )}
-        <button type="button" className="tap rounded-lg border border-line px-4 py-2" onClick={dismiss}>
+        <button type="button" className="tap rounded-lg border border-edge-strong px-4 py-2" onClick={dismiss}>
           Not now
         </button>
       </div>

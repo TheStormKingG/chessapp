@@ -62,19 +62,19 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
     <section className="p-4 md:grid md:grid-cols-[minmax(0,1fr)_20rem] md:items-start md:gap-6">
       <header className="flex items-baseline justify-between md:col-span-2">
         <h1 className="text-lg font-semibold">
-          {persona.name} <span className="font-normal text-ink-muted">· {persona.ratingBand}</span>
+          {persona.name} <span className="font-normal text-content-dim">· {persona.ratingBand}</span>
         </h1>
         {g.clockMs && (
           <p className="tabular-nums text-sm" aria-live="off">
             <span aria-label="Your time">{clock(g.clockMs[learner])}</span>
-            <span className="text-ink-muted"> / </span>
+            <span className="text-content-dim"> / </span>
             <span aria-label={`${persona.name}'s time`}>{clock(g.clockMs[learner === 'w' ? 'b' : 'w'])}</span>
           </p>
         )}
       </header>
 
       {engineDown && (
-        <p role="alert" className="mt-3 md:col-span-2 rounded-lg border border-danger bg-card p-3 text-sm">
+        <p role="alert" className="mt-3 md:col-span-2 rounded-lg border border-danger bg-surface-raised p-3 text-sm">
           The engine could not load on this device.{' '}
           <button type="button" onClick={retryEngine} className="min-h-11 underline">
             Retry
@@ -114,53 +114,53 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
               type="button"
               onClick={hint}
               disabled={g.turn !== learner || g.hintLevel >= 2}
-              className="min-h-11 rounded-lg border border-line disabled:opacity-50"
+              className="min-h-11 rounded-lg border border-edge-strong disabled:opacity-50"
             >
               Hint
             </button>
-            <button type="button" onClick={threats} className="min-h-11 rounded-lg border border-line">
+            <button type="button" onClick={threats} className="min-h-11 rounded-lg border border-edge-strong">
               Threats
             </button>
             <button
               type="button"
               onClick={undo}
               disabled={g.history.length < 2}
-              className="min-h-11 rounded-lg border border-line disabled:opacity-50"
+              className="min-h-11 rounded-lg border border-edge-strong disabled:opacity-50"
             >
               Take back
             </button>
-            <button type="button" onClick={giveUp} className="min-h-11 rounded-lg border border-line">
+            <button type="button" onClick={giveUp} className="min-h-11 rounded-lg border border-edge-strong">
               Resign
             </button>
           </div>
         )}
 
         {over && result && (
-          <div className="mt-4 rounded-xl border border-line bg-card p-4">
+          <div className="mt-4 rounded-xl border border-edge-strong bg-surface-raised p-4">
             <p className="font-medium">{RESULT_LINE[result]}</p>
             {/* Crowns reward playing without help (F-PL-4), so they show on every finished game.
                 The result line above leads, and on a loss the crowns read as a report. */}
-            <p className="mt-1 text-sm text-ink-muted">
+            <p className="mt-1 text-sm text-content-dim">
               <span aria-label={`${crowns(g)} of 3 crowns`}>
                 {'♛'.repeat(crowns(g))}
                 <span className="opacity-30">{'♛'.repeat(3 - crowns(g))}</span>
               </span>{' '}
               {crownsNote(result, crowns(g))}
             </p>
-            <p className="mt-1 text-sm text-ink-muted">
+            <p className="mt-1 text-sm text-content-dim">
               {g.hints} hint{g.hints === 1 ? '' : 's'}, {g.takebacks} take-back{g.takebacks === 1 ? '' : 's'}
             </p>
-            <button type="button" disabled className="mt-3 min-h-11 w-full rounded-lg border border-line opacity-50">
+            <button type="button" disabled className="mt-3 min-h-11 w-full rounded-lg border border-edge-strong opacity-50">
               Review this game
             </button>
-            <p className="mt-1 text-xs text-ink-muted">Coming next release.</p>
+            <p className="mt-1 text-xs text-content-dim">Coming next release.</p>
             <div className="mt-3 flex gap-2">
               <button
                 type="button"
                 onClick={() => {
                   void nav('/play');
                 }}
-                className="min-h-11 flex-1 rounded-lg bg-accent px-4 font-medium text-white"
+                className="min-h-11 flex-1 rounded-lg bg-accent px-4 font-medium text-accent-on"
               >
                 Play again
               </button>
@@ -169,7 +169,7 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
                 onClick={() => {
                   void nav('/path');
                 }}
-                className="min-h-11 flex-1 rounded-lg border border-line px-4"
+                className="min-h-11 flex-1 rounded-lg border border-edge-strong px-4"
               >
                 Back to the path
               </button>
@@ -177,7 +177,7 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
           </div>
         )}
 
-        <ol className="mt-4 text-sm tabular-nums text-ink-muted">
+        <ol className="mt-4 text-sm tabular-nums text-content-dim">
           {pairs(g.sans).map((p) => (
             <li key={p.n}>
               {p.n}. {p.w} {p.b}

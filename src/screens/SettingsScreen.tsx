@@ -20,7 +20,7 @@ function Toggle({
     <label className="flex items-start justify-between gap-4 py-3">
       <span>
         <span className="block font-medium">{label}</span>
-        <span className="block text-sm text-ink-muted">{hint}</span>
+        <span className="block text-sm text-content-dim">{hint}</span>
       </span>
       <input
         type="checkbox"
@@ -41,7 +41,7 @@ function AccountSection() {
   const [error, setError] = useState<string | null>(null);
 
   if (!enabled) {
-    return <p className="text-ink-muted">Accounts are not configured in this build.</p>;
+    return <p className="text-content-dim">Accounts are not configured in this build.</p>;
   }
 
   if (!session) {
@@ -70,15 +70,15 @@ function AccountSection() {
             onChange={(e) => {
               setEmail(e.target.value);
             }}
-            className="mt-1 w-full rounded-lg border border-line px-3 py-2"
+            className="mt-1 w-full rounded-lg border border-edge-strong px-3 py-2"
             placeholder="you@example.com"
           />
         </label>
-        <button type="submit" className="tap rounded-lg bg-accent px-4 py-2 font-medium text-white">
+        <button type="submit" className="tap rounded-lg bg-accent px-4 py-2 font-medium text-accent-on">
           Send me a sign-in link
         </button>
         {sent && (
-          <p role="status" className="text-sm text-ink-muted">
+          <p role="status" className="text-sm text-content-dim">
             Check your email for the link; your progress on this device will be kept and merged.
           </p>
         )}
@@ -96,19 +96,19 @@ function AccountSection() {
   return (
     <div className="space-y-3">
       <p className="font-medium">{session.user.email}</p>
-      <p role="status" className="text-sm text-ink-muted">
+      <p role="status" className="text-sm text-content-dim">
         {status}
       </p>
       <button
         type="button"
-        className="tap rounded-lg border border-line px-4 py-2 font-medium"
+        className="tap rounded-lg border border-edge-strong px-4 py-2 font-medium"
         onClick={() => {
           void signOut();
         }}
       >
         Sign out
       </button>
-      <p className="text-sm text-ink-muted">
+      <p className="text-sm text-content-dim">
         Signing out leaves this device&rsquo;s progress in place. Use &ldquo;Clear this device&rsquo;s data&rdquo; below
         to remove it.
       </p>
@@ -127,7 +127,7 @@ export function SettingsScreen() {
     <section className="space-y-8 p-4 pb-24">
       <h1 className="text-xl font-semibold">Settings</h1>
 
-      <div className="divide-y divide-ink-muted/20">
+      <div className="divide-y divide-content-dim/20">
         <Toggle
           label="Text move entry"
           hint="Type moves instead of dragging pieces."
@@ -168,7 +168,7 @@ export function SettingsScreen() {
         >
           Clear this device&rsquo;s data
         </button>
-        <p className="text-sm text-ink-muted">
+        <p className="text-sm text-content-dim">
           This removes everything ChessApp has stored in this browser. Deleting an account and the progress held on the
           server arrives in a later release.
         </p>

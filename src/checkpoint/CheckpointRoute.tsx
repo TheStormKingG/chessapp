@@ -40,7 +40,7 @@ export function CheckpointRoute() {
     () => (bank && stage.kind === 'remediate' ? checkpointToLesson(bank, stage.set, true) : null),
     [bank, stage],
   );
-  if (!bank) return <section className="p-4 text-ink-muted">Loading…</section>;
+  if (!bank) return <section className="p-4 text-content-dim">Loading…</section>;
   const toPath = () => {
     void nav('/path');
   };
@@ -55,13 +55,13 @@ export function CheckpointRoute() {
           test out.
         </p>
         {failedAttempts >= 3 && (
-          <p className="mt-2 rounded-lg bg-review-soft p-3 text-sm">
+          <p className="mt-2 rounded-lg bg-signal-soft p-3 text-sm">
             Three attempts without a pass so far. The coach recommends replaying this unit&rsquo;s lessons before the next try.
           </p>
         )}
         <button
           type="button"
-          className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white"
+          className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-accent-on"
           onClick={() => {
             track('checkpoint_started', { unit: bank.unit, attempt: attempts + 1 });
             setStage({ kind: 'test', chosen: sampleChallenges(bank) });
@@ -69,7 +69,7 @@ export function CheckpointRoute() {
         >
           Start the checkpoint
         </button>
-        <button type="button" className="tap mt-2 w-full rounded-lg border border-line px-4 py-3" onClick={toPath}>
+        <button type="button" className="tap mt-2 w-full rounded-lg border border-edge-strong px-4 py-3" onClick={toPath}>
           Back to the path
         </button>
       </section>
@@ -140,7 +140,7 @@ export function CheckpointRoute() {
         </p>
         <button
           type="button"
-          className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white"
+          className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-accent-on"
           onClick={() => {
             setStage({ kind: 'remediate', set: remediationSet(bank, stage.missed) });
           }}
@@ -149,7 +149,7 @@ export function CheckpointRoute() {
         </button>
         {/* Every sibling screen offers the path; a failed attempt must not be the
             one dead end (the tab bar was the only way out). */}
-        <button type="button" className="tap mt-2 w-full rounded-lg border border-line px-4 py-3" onClick={toPath}>
+        <button type="button" className="tap mt-2 w-full rounded-lg border border-edge-strong px-4 py-3" onClick={toPath}>
           Back to the path
         </button>
       </section>
@@ -181,7 +181,7 @@ export function CheckpointRoute() {
         </p>
         <button
           type="button"
-          className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white"
+          className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-accent-on"
           onClick={toPath}
         >
           Back to the path
@@ -189,5 +189,5 @@ export function CheckpointRoute() {
       </section>
     );
 
-  return <section className="p-4 text-ink-muted">Loading…</section>;
+  return <section className="p-4 text-content-dim">Loading…</section>;
 }

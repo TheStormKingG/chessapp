@@ -48,9 +48,9 @@ export function EngineDownload({ onReady }: { onReady?: () => void }) {
 
   if (status === 'error')
     return (
-      <div role="alert" className="rounded-lg border border-line bg-card p-4 text-sm">
+      <div role="alert" className="rounded-lg border border-edge-strong bg-surface-raised p-4 text-sm">
         <p>{ENGINE_ERROR}</p>
-        <button type="button" className="tap mt-3 rounded-lg border border-line px-4 py-2" onClick={retry}>
+        <button type="button" className="tap mt-3 rounded-lg border border-edge-strong px-4 py-2" onClick={retry}>
           Retry
         </button>
       </div>
@@ -58,7 +58,7 @@ export function EngineDownload({ onReady }: { onReady?: () => void }) {
 
   const percent = total > 0 ? Math.min(100, Math.round((loaded / total) * 100)) : 0;
   return (
-    <div className="rounded-lg border border-line bg-card p-4 text-sm">
+    <div className="rounded-lg border border-edge-strong bg-surface-raised p-4 text-sm">
       <p id="engine-download-label">Getting the chess engine ready ({ENGINE_SIZE_LABEL}). This happens once.</p>
       <div
         role="progressbar"
@@ -66,11 +66,11 @@ export function EngineDownload({ onReady }: { onReady?: () => void }) {
         aria-valuemin={0}
         aria-valuemax={100}
         aria-valuenow={percent}
-        className="mt-3 h-2 w-full overflow-hidden rounded-full bg-line"
+        className="mt-3 h-2 w-full overflow-hidden rounded-full bg-edge"
       >
         <div className="h-full bg-accent transition-[width]" style={{ width: `${String(percent)}%` }} />
       </div>
-      <p className="mt-2 text-ink-muted">{percent} per cent</p>
+      <p className="mt-2 text-content-dim">{percent} per cent</p>
     </div>
   );
 }

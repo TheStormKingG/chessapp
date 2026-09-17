@@ -248,25 +248,45 @@ export async function playThrough(
  * thick inset ring). react-chessboard paints the style on a child of the
  * `[data-square]` cell, so the cell is read from the parent.
  */
+/**
+ * A3: this used to match the literal `rgba(31, 95, 74, 0.75)`. The mark colour
+ * is now a token that differs between the two appearances, so a colour literal
+ * would pin the helper to one of them. It matches the ring's GEOMETRY instead
+ * -- the 5px inset that three other specs also assert and that
+ * DESIGN-SYSTEM.md 7 requires kept exactly. Geometry already separates the good
+ * ring from the review dashed outline and the refuted hatch, so nothing is lost
+ * in identifying power; the mark's colour is audited by contrast measurement,
+ * which is where a colour belongs.
+ */
 export async function accentSquares(page: Page): Promise<string[]> {
   return page.evaluate(() =>
     [...document.querySelectorAll<HTMLElement>('[data-square]')]
       .filter((cell) =>
         [...cell.querySelectorAll<HTMLElement>('*')].some((n) =>
-          /rgba\(31, 95, 74, 0\.75\).*inset|inset.*rgba\(31, 95, 74, 0\.75\)/.test(n.style.boxShadow),
+          /(^|\s)inset\s+0px\s+0px\s+0px\s+5px|0px\s+0px\s+0px\s+5px\s+inset/.test(n.style.boxShadow),
         ),
       )
       .map((cell) => cell.getAttribute('data-square') ?? ''),
   );
 }
 
-/** The squares a danger arrow is drawn between, from the arrow's marker id. */
+/**
+ * The squares the refutation arrow is drawn between, from the arrow's marker id.
+ *
+ * A3 / DESIGN-SYSTEM.md 5: red is off the board, so this arrow is no longer
+ * `#a23b3b`. It paints in `--mark-review`, resolved from the page so the helper
+ * works in either appearance. The fallbacks mirror DESIGN-SYSTEM.md 3.1 and
+ * only apply while chunk A1 has not yet defined the token.
+ */
 export async function refutationArrows(page: Page): Promise<string[]> {
-  return page.evaluate(() =>
-    [...document.querySelectorAll<SVGPathElement>('path[stroke="#a23b3b"]')].map(
-      (p) => p.getAttribute('marker-end') ?? '',
-    ),
-  );
+  return page.evaluate(() => {
+    const token = getComputedStyle(document.documentElement).getPropertyValue('--mark-review').trim();
+    const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const expected = (token || (dark ? '#F7DFAC' : '#4A3306')).toLowerCase();
+    return [...document.querySelectorAll<SVGPathElement>('path[stroke][marker-end]')]
+      .filter((p) => (p.getAttribute('stroke') ?? '').trim().toLowerCase() === expected)
+      .map((p) => p.getAttribute('marker-end') ?? '');
+  });
 }
 
 /* ------------------------------------------------------- identifying a draw */

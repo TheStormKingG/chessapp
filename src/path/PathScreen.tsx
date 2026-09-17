@@ -7,13 +7,13 @@ import { pathNodes, type Node } from './progress';
 import { resumeLabel, useLessonResume } from './resumeLabel';
 
 const badge: Record<Node['state'], string> = {
-  done: 'bg-accent text-white',
+  done: 'bg-accent text-accent-on',
   testedOut: 'bg-accent-soft text-accent',
-  active: 'ring-2 ring-accent bg-card',
-  locked: 'bg-line text-ink-muted',
-  coming: 'bg-line text-ink-muted',
-  available: 'bg-review-soft text-review',
-  passed: 'bg-accent text-white',
+  active: 'ring-2 ring-accent bg-surface-raised',
+  locked: 'bg-edge text-content-dim',
+  coming: 'bg-edge text-content-dim',
+  available: 'bg-signal-soft text-signal',
+  passed: 'bg-accent text-accent-on',
 };
 
 const lessonHint: Record<Extract<Node, { kind: 'lesson' }>['state'], string> = {
@@ -35,7 +35,7 @@ export function PathScreen() {
   const resume = useLessonResume(activeLesson?.id ?? null);
   return (
     <section className="p-4">
-      <p className="text-xs uppercase tracking-wide text-ink-muted">
+      <p className="text-xs uppercase tracking-wide text-content-dim">
         Section {SECTION_1.id} · {SECTION_1.band}
       </p>
       <h1 className="text-xl font-semibold">{SECTION_1.title}</h1>
@@ -66,14 +66,25 @@ export function PathScreen() {
                     : 'Attempt any time to test out';
           const inner = (
             <div
-              className={`tap flex items-center gap-3 rounded-xl border border-line px-3 py-3 ${badge[n.state]}`}
+              className={`tap flex items-center gap-3 rounded-xl border border-edge-strong px-3 py-3 ${badge[n.state]}`}
             >
               <span aria-hidden className="text-lg">
                 {n.kind === 'checkpoint' ? '🏁' : n.state === 'done' ? '✓' : '•'}
               </span>
               <span className="flex-1">
                 <span className="block font-medium">{label}</span>
-                <span className="block text-xs opacity-80">{hint}</span>
+                {/*
+                  A2: no opacity here. The hint is the node's state in words
+                  ("Locked", "Up next", "Attempt any time to test out") and is
+                  the only visible carrier of it, so it owes 4.5:1 like any
+                  other body text. `opacity-80` composited it against its own
+                  badge fill and took the locked node to 3.33:1 and the
+                  checkpoint to 3.75:1 -- below both the requirement and the
+                  4.87:1 / 5.68:1 that DESIGN-SYSTEM.md 3.1 measured for these
+                  exact pairs. At full opacity the measured values are the
+                  document's.
+                */}
+                <span className="block text-xs">{hint}</span>
               </span>
             </div>
           );

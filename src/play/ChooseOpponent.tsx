@@ -24,7 +24,7 @@ export function ChooseOpponent() {
     <section className="p-4">
       <h1 className="text-xl font-semibold">Play a game</h1>
 
-      <div className="mt-4 flex gap-3 rounded-xl border border-line bg-card p-3">
+      <div className="mt-4 flex gap-3 rounded-xl border border-edge-strong bg-surface-raised p-3">
         {/*
           A monogram, not an avatar image: no persona art is shipped, and a root-relative
           path would miss under the production base anyway. Swap it for an <img> when the
@@ -38,9 +38,9 @@ export function ChooseOpponent() {
         </div>
         <div>
           <h2 className="font-medium">
-            {ROSA.name} <span className="text-ink-muted">· {ROSA.ratingBand}</span>
+            {ROSA.name} <span className="text-content-dim">· {ROSA.ratingBand}</span>
           </h2>
-          <p className="mt-1 text-sm text-ink-muted">{ROSA.bio}</p>
+          <p className="mt-1 text-sm text-content-dim">{ROSA.bio}</p>
         </div>
       </div>
 
@@ -55,7 +55,7 @@ export function ChooseOpponent() {
               onClick={() => {
                 setTc(v);
               }}
-              className={`min-h-11 rounded-lg border px-4 ${tc === v ? 'border-accent bg-accent-soft' : 'border-line'}`}
+              className={`min-h-11 rounded-lg border px-4 ${tc === v ? 'border-accent bg-accent-soft' : 'border-edge-strong'}`}
             >
               {v === 'untimed' ? 'Untimed' : '10 + 0'}
             </button>
@@ -80,7 +80,7 @@ export function ChooseOpponent() {
               onClick={() => {
                 setColour(v);
               }}
-              className={`min-h-11 rounded-lg border px-4 ${colour === v ? 'border-accent bg-accent-soft' : 'border-line'}`}
+              className={`min-h-11 rounded-lg border px-4 ${colour === v ? 'border-accent bg-accent-soft' : 'border-edge-strong'}`}
             >
               {label}
             </button>
@@ -95,11 +95,11 @@ export function ChooseOpponent() {
           onChange={(e) => {
             setCoach(e.target.checked);
           }}
-          className="h-5 w-5"
+          className="h-5 w-5 accent-accent focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-accent"
         />
         <span>
           Coach mode
-          <span className="block text-sm text-ink-muted">
+          <span className="block text-sm text-content-dim">
             A short comment on your moves, hints when you ask, and take-backs.
           </span>
         </span>
@@ -108,7 +108,7 @@ export function ChooseOpponent() {
       <button
         type="button"
         onClick={start}
-        className="mt-6 min-h-11 w-full rounded-lg bg-accent px-4 font-medium text-white"
+        className="mt-6 min-h-11 w-full rounded-lg bg-accent px-4 font-medium text-accent-on"
       >
         Start game
       </button>
