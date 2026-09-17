@@ -1,0 +1,11 @@
+{
+  "id": "rosa",
+  "name": "Rosa",
+  "avatar": "/personas/rosa.svg",
+  "ratingBand": "about 600",
+  "rating": 600,
+  "bio": "Solid and patient. Trades when she can and hates leaving pieces loose, but she still does.",
+  "style": { "capture": 1.2, "check": 1.0, "quiet": 1.0, "trade": 1.3 },
+  "opening": { "white": ["e2e4", "g1f3", "f1c4"], "black": ["e7e5", "b8c6", "f8c5"] },
+  "error": { "base": 0.28, "complexity": 0.05, "openingFactor": 0.9, "endgameFactor": 1.1, "kinds": ["hang", "missMate"] }
+}
