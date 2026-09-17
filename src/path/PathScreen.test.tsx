@@ -5,6 +5,9 @@ import { PathScreen } from './PathScreen';
 
 beforeEach(async () => {
   await db.resume.clear();
+  // A place is mirrored to localStorage as well (resume.ts), so "no saved
+  // place" means clearing both stores, not just the database.
+  localStorage.clear();
   useProgress.setState({ progress: emptyProgress() });
 });
 

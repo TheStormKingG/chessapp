@@ -41,6 +41,9 @@ test('the terminal message appears only when everything built is finished', () =
 
 test('Today offers to resume a lesson left part-way, and says how far in', async () => {
   await db.resume.clear();
+  // A place is mirrored to localStorage as well (resume.ts), so "no saved
+  // place" means clearing both stores, not just the database.
+  localStorage.clear();
   await saveResume({
     lessonId: '1.1.1',
     challengeId: 'c3',
@@ -59,6 +62,9 @@ test('Today offers to resume a lesson left part-way, and says how far in', async
 
 test('an untouched lesson is offered as a start, not a resumption', async () => {
   await db.resume.clear();
+  // A place is mirrored to localStorage as well (resume.ts), so "no saved
+  // place" means clearing both stores, not just the database.
+  localStorage.clear();
   renderWith(emptyProgress());
   expect(await screen.findByText('Start this lesson')).toBeInTheDocument();
   expect(screen.queryByText(/In progress/)).toBeNull();
