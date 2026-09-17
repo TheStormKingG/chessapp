@@ -35,14 +35,18 @@ test.describe('tab shell and navigation', () => {
   });
 
   test('an unknown route shows a 404 fallback rather than an empty shell', async ({ page }) => {
-    const res = await page.goto('./this-route-does-not-exist');
-    // Either the server 404s, or the SPA renders something that tells the
-    // learner where they are. An empty <main> under the tab bar is neither.
-    const status = res?.status();
-    const mainText = (await page.locator('main').innerText().catch(() => '')).trim();
-    const bodyText = (await page.locator('body').innerText()).trim();
-    test.info().annotations.push({ type: 'observed', description: `status=${String(status)} main="${mainText}" body="${bodyText.slice(0, 200)}"` });
+    await page.goto('./this-route-does-not-exist');
+    // The in-app catch-all route names what happened and offers the two ways
+    // back. An empty <main> under the tab bar was the defect.
+    const main = page.locator('main');
+    await expect(main.getByRole('heading', { name: /that page is not here/i })).toBeVisible();
+    await expect(main.getByRole('link', { name: 'Go to Today' })).toBeVisible();
+    await expect(main.getByRole('link', { name: 'Go to the Path' })).toBeVisible();
+    const mainText = (await main.innerText()).trim();
     expect(mainText.length, 'unknown route renders nothing inside <main>').toBeGreaterThan(0);
+
+    await main.getByRole('link', { name: 'Go to Today' }).click();
+    await expect(page).toHaveURL(/\/$/);
   });
 
   test('console is clean on every top-level page', async ({ page }) => {

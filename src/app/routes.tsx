@@ -5,6 +5,7 @@ import { PuzzlesScreen } from '@/screens/PuzzlesScreen';
 import { ProgressScreen } from '@/screens/ProgressScreen';
 import { SettingsScreen } from '@/screens/SettingsScreen';
 import { LicencesScreen } from '@/screens/LicencesScreen';
+import { NotFoundScreen } from '@/screens/NotFoundScreen';
 import { PathScreen } from '@/path/PathScreen';
 import { LessonRoute } from '@/path/LessonRoute';
 import { CheckpointRoute } from '@/checkpoint/CheckpointRoute';
@@ -25,6 +26,7 @@ export function AppRoutes() {
         <Route path="/progress" element={<ProgressScreen />} />
         <Route path="/settings" element={<SettingsScreen />} />
         <Route path="/licences" element={<LicencesScreen />} />
+        <Route path="*" element={<NotFoundScreen />} />
       </Routes>
     </Shell>
   );

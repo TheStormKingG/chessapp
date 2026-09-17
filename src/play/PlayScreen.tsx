@@ -55,8 +55,12 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
   const engine = getEngine();
 
   return (
-    <section className="p-4">
-      <header className="flex items-baseline justify-between">
+    // Concept Note 2: on a desktop the board sits on the left and the coach
+    // and controls on the right; below `md` this collapses to the single
+    // phone column, unchanged. The board column is capped to the viewport
+    // height so an 800px-tall board can no longer push its own top off-screen.
+    <section className="p-4 md:grid md:grid-cols-[minmax(0,1fr)_20rem] md:items-start md:gap-6">
+      <header className="flex items-baseline justify-between md:col-span-2">
         <h1 className="text-lg font-semibold">
           {persona.name} <span className="font-normal text-ink-muted">· {persona.ratingBand}</span>
         </h1>
@@ -70,7 +74,7 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
       </header>
 
       {engineDown && (
-        <p role="alert" className="mt-3 rounded-lg border border-danger bg-card p-3 text-sm">
+        <p role="alert" className="mt-3 md:col-span-2 rounded-lg border border-danger bg-card p-3 text-sm">
           The engine could not load on this device.{' '}
           <button type="button" onClick={retryEngine} className="min-h-11 underline">
             Retry
@@ -78,7 +82,7 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
         </p>
       )}
 
-      <div className="mt-3">
+      <div className="mt-3 md:sticky md:top-4 md:mt-4 md:max-w-[calc(100dvh-6rem)]">
         <Board
           fen={g.fen}
           orientation={learner}
@@ -101,84 +105,86 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
         />
       </div>
 
-      <CoachBubble text={coachText} tone={tone} />
+      <div className="md:mt-4">
+        <CoachBubble text={coachText} tone={tone} />
 
-      {!over && (
-        <div className="mt-4 grid grid-cols-2 gap-2">
-          <button
-            type="button"
-            onClick={hint}
-            disabled={g.turn !== learner || g.hintLevel >= 2}
-            className="min-h-11 rounded-lg border border-line disabled:opacity-50"
-          >
-            Hint
-          </button>
-          <button type="button" onClick={threats} className="min-h-11 rounded-lg border border-line">
-            Threats
-          </button>
-          <button
-            type="button"
-            onClick={undo}
-            disabled={g.history.length < 2}
-            className="min-h-11 rounded-lg border border-line disabled:opacity-50"
-          >
-            Take back
-          </button>
-          <button type="button" onClick={giveUp} className="min-h-11 rounded-lg border border-line">
-            Resign
-          </button>
-        </div>
-      )}
-
-      {over && result && (
-        <div className="mt-4 rounded-xl border border-line bg-card p-4">
-          <p className="font-medium">{RESULT_LINE[result]}</p>
-          {/* Crowns reward playing without help (F-PL-4), so they show on every finished game.
-              The result line above leads, and on a loss the crowns read as a report. */}
-          <p className="mt-1 text-sm text-ink-muted">
-            <span aria-label={`${crowns(g)} of 3 crowns`}>
-              {'♛'.repeat(crowns(g))}
-              <span className="opacity-30">{'♛'.repeat(3 - crowns(g))}</span>
-            </span>{' '}
-            {crownsNote(result, crowns(g))}
-          </p>
-          <p className="mt-1 text-sm text-ink-muted">
-            {g.hints} hint{g.hints === 1 ? '' : 's'}, {g.takebacks} take-back{g.takebacks === 1 ? '' : 's'}
-          </p>
-          <button type="button" disabled className="mt-3 min-h-11 w-full rounded-lg border border-line opacity-50">
-            Review this game
-          </button>
-          <p className="mt-1 text-xs text-ink-muted">Coming next release.</p>
-          <div className="mt-3 flex gap-2">
+        {!over && (
+          <div className="mt-4 grid grid-cols-2 gap-2">
             <button
               type="button"
-              onClick={() => {
-                void nav('/play');
-              }}
-              className="min-h-11 flex-1 rounded-lg bg-accent px-4 font-medium text-white"
+              onClick={hint}
+              disabled={g.turn !== learner || g.hintLevel >= 2}
+              className="min-h-11 rounded-lg border border-line disabled:opacity-50"
             >
-              Play again
+              Hint
+            </button>
+            <button type="button" onClick={threats} className="min-h-11 rounded-lg border border-line">
+              Threats
             </button>
             <button
               type="button"
-              onClick={() => {
-                void nav('/path');
-              }}
-              className="min-h-11 flex-1 rounded-lg border border-line px-4"
+              onClick={undo}
+              disabled={g.history.length < 2}
+              className="min-h-11 rounded-lg border border-line disabled:opacity-50"
             >
-              Back to the path
+              Take back
+            </button>
+            <button type="button" onClick={giveUp} className="min-h-11 rounded-lg border border-line">
+              Resign
             </button>
           </div>
-        </div>
-      )}
+        )}
 
-      <ol className="mt-4 text-sm tabular-nums text-ink-muted">
-        {pairs(g.sans).map((p) => (
-          <li key={p.n}>
-            {p.n}. {p.w} {p.b}
-          </li>
-        ))}
-      </ol>
+        {over && result && (
+          <div className="mt-4 rounded-xl border border-line bg-card p-4">
+            <p className="font-medium">{RESULT_LINE[result]}</p>
+            {/* Crowns reward playing without help (F-PL-4), so they show on every finished game.
+                The result line above leads, and on a loss the crowns read as a report. */}
+            <p className="mt-1 text-sm text-ink-muted">
+              <span aria-label={`${crowns(g)} of 3 crowns`}>
+                {'♛'.repeat(crowns(g))}
+                <span className="opacity-30">{'♛'.repeat(3 - crowns(g))}</span>
+              </span>{' '}
+              {crownsNote(result, crowns(g))}
+            </p>
+            <p className="mt-1 text-sm text-ink-muted">
+              {g.hints} hint{g.hints === 1 ? '' : 's'}, {g.takebacks} take-back{g.takebacks === 1 ? '' : 's'}
+            </p>
+            <button type="button" disabled className="mt-3 min-h-11 w-full rounded-lg border border-line opacity-50">
+              Review this game
+            </button>
+            <p className="mt-1 text-xs text-ink-muted">Coming next release.</p>
+            <div className="mt-3 flex gap-2">
+              <button
+                type="button"
+                onClick={() => {
+                  void nav('/play');
+                }}
+                className="min-h-11 flex-1 rounded-lg bg-accent px-4 font-medium text-white"
+              >
+                Play again
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  void nav('/path');
+                }}
+                className="min-h-11 flex-1 rounded-lg border border-line px-4"
+              >
+                Back to the path
+              </button>
+            </div>
+          </div>
+        )}
+
+        <ol className="mt-4 text-sm tabular-nums text-ink-muted">
+          {pairs(g.sans).map((p) => (
+            <li key={p.n}>
+              {p.n}. {p.w} {p.b}
+            </li>
+          ))}
+        </ol>
+      </div>
     </section>
   );
 }

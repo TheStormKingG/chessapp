@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router';
 import { useSettings } from '@/app/settings';
-import { useProgress, db } from '@/data';
+import { useProgress } from '@/data';
+import { clearDeviceData } from '@/app/clearDeviceData';
 import { useAuth, signIn, signOut } from '@/sync/supabaseClient';
 
 function Toggle({
@@ -160,7 +161,7 @@ export function SettingsScreen() {
           onClick={() => {
             if (!window.confirm('Clear every lesson, game and setting stored on this device? This cannot be undone.'))
               return;
-            void db.delete().then(() => {
+            void clearDeviceData().then(() => {
               window.location.reload();
             });
           }}

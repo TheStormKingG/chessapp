@@ -101,11 +101,15 @@ export function Board(props: BoardProps) {
   // instructions and duplicate announcements, and the library exposes no
   // option to turn them off. Neutralise them in the DOM after every render
   // and whenever the library re-creates piece nodes.
-  // Known residual: only the tab stops and aria-describedby are removed. The
-  // 32 piece nodes keep role="button" and aria-roledescription="draggable",
-  // so a screen reader may still describe a piece as a draggable button. The
-  // role="application" container mitigates that (AT forwards keys to us
-  // rather than browsing the children) but does not eliminate it.
+  // The role="button" each piece carries is removed too (WCAG 4.1.2): the
+  // library gives those nodes no accessible name, so browse mode met 32
+  // nameless buttons. Naming them would be worse than removing the role --
+  // they are not controls for us (we strip their tab stops, and every piece is
+  // already reachable and described through the board's own keyboard cursor
+  // and describeSquare readout), so announcing 32 "buttons" that cannot be
+  // focused or activated would advertise an interaction that does not exist.
+  // Without an explicit role, the leftover aria-roledescription="draggable"
+  // applies to a generic element and is ignored, which is the intent.
   const appRef = useRef<HTMLDivElement>(null);
   const neutraliseDndKit = useCallback(() => {
     const root = appRef.current;
@@ -113,6 +117,7 @@ export function Board(props: BoardProps) {
     root.querySelectorAll<HTMLElement>('[aria-roledescription="draggable"]').forEach((el) => {
       if (el.getAttribute('tabindex') !== '-1') el.setAttribute('tabindex', '-1');
       if (el.hasAttribute('aria-describedby')) el.removeAttribute('aria-describedby');
+      if (el.hasAttribute('role')) el.removeAttribute('role');
     });
     // Invariant this sweep depends on: none of OUR live regions may live
     // inside the role="application" container -- it hides every [aria-live]
@@ -135,7 +140,7 @@ export function Board(props: BoardProps) {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ['tabindex', 'aria-describedby', 'aria-live'],
+      attributeFilter: ['tabindex', 'aria-describedby', 'aria-live', 'role'],
     });
     return () => mo.disconnect();
   }, [neutraliseDndKit]);

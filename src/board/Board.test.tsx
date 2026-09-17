@@ -234,3 +234,11 @@ test('keyboard cursor announces squares on an empty board', async () => {
   expect(onSelectSquare).toHaveBeenCalledWith('b2');
   expect(screen.getByRole('status', { name: 'Board announcements' })).toHaveTextContent('b2, empty');
 });
+
+test('board pieces are not announced as unnamed buttons', async () => {
+  const { container } = render(<Board fen={START_FEN} orientation="w" mode="play" />);
+  await waitFor(() => {
+    expect(container.querySelectorAll('[aria-roledescription="draggable"]').length).toBeGreaterThan(0);
+  });
+  expect(container.querySelectorAll('[role="button"]').length).toBe(0);
+});
