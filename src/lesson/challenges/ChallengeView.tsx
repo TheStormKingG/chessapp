@@ -9,9 +9,11 @@ import { Sequence, type WrongMove } from './Sequence';
 import { PlayItOut } from './PlayItOut';
 
 /**
- * The answering surface for one challenge. Mount it with `key={c.id}` so every
- * challenge starts with its own local state (the is_it_safe pick, the squares
- * picked in find_them_all, the sequence's position).
+ * The answering surface for one challenge. Mount it with a key that carries both
+ * the challenge id and its miss count, so every challenge -- and every retry of
+ * one -- starts with its own local state: the is_it_safe pick, the squares picked
+ * in find_them_all, the sequence's position, and the play_it_out drill, which is
+ * otherwise left standing on the position that just failed (see LessonPlayer).
  */
 export function ChallengeView({
   c,
@@ -59,7 +61,7 @@ export function ChallengeView({
           c={c}
           disabled={busy}
           textEntry={textEntry}
-          onStep={() => {}}
+          arrows={refutation ? [{ ...refutation, color: 'danger' }] : []}
           onDone={() => {
             const first = c.answer.line[0];
             if (first !== undefined) dispatch({ type: 'attempt', attempt: { kind: 'move', uci: first } });

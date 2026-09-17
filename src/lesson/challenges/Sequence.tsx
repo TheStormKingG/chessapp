@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Board } from '@/board';
+import { Board, type Arrow } from '@/board';
 import { applyMove } from '@/rules';
 import { sequenceReply } from '../answers';
 import type { Challenge } from '../types';
@@ -15,18 +15,19 @@ export interface WrongMove {
 /** find_the_sequence: the learner plays each move, the authored reply answers it. */
 export function Sequence({
   c,
-  onStep,
   onDone,
   onWrong,
   disabled,
   textEntry,
+  arrows,
 }: {
   c: SequenceChallenge;
-  onStep: () => void;
   onDone: () => void;
   onWrong: (w: WrongMove) => void;
   disabled?: boolean;
   textEntry?: boolean;
+  /** F-PA-6: the engine's refutation of a wrong move, drawn on the board. */
+  arrows?: Arrow[];
 }) {
   const [fen, setFen] = useState(c.fen);
   const [i, setI] = useState(0);
@@ -45,6 +46,7 @@ export function Sequence({
       fen={fen}
       orientation={fen.split(' ')[1] === 'b' ? 'b' : 'w'}
       mode="play"
+      arrows={arrows ?? []}
       disabled={disabled}
       textEntry={textEntry}
       onMove={(m) => {
@@ -69,7 +71,6 @@ export function Sequence({
         }
         setFen(applyMove(played, reply).fen);
         setI(i + 1);
-        onStep();
       }}
     />
   );

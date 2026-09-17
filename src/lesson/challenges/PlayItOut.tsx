@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Board } from '@/board';
 import { applyMove, turn } from '@/rules';
 import { getEngine } from '@/engine';
@@ -17,6 +17,17 @@ export function PlayItOut({
   textEntry?: boolean;
 }) {
   const learner = turn(c.fen);
+  // The engine reply is awaited, and the learner can leave the drill while it is
+  // still thinking (Show me, then Next). Nothing a dead drill computes may reach
+  // React state or the reducer: a late `onResult(false)` charges a miss to the
+  // challenge that replaced it. Same guard as useEngineRefutation's `cancelled`.
+  const alive = useRef(true);
+  useEffect(() => {
+    alive.current = true;
+    return () => {
+      alive.current = false;
+    };
+  }, []);
   const [fen, setFen] = useState(c.fen);
   const [moves, setMoves] = useState(0);
   const [thinking, setThinking] = useState(false);
@@ -34,6 +45,7 @@ export function PlayItOut({
   }
 
   const settle = (f: string, n: number): boolean => {
+    if (!alive.current) return true;
     const g = goalMet(c, f, learner, n);
     if (g !== null && !settled) {
       setSettled(true);
@@ -61,6 +73,7 @@ export function PlayItOut({
           void (async () => {
             try {
               const reply = await getEngine().bestMove({ fen: after, depth: c.opponentDepth ?? 6 });
+              if (!alive.current) return;
               const next = applyMove(after, reply).fen;
               setFen(next);
               settle(next, n);
@@ -68,7 +81,7 @@ export function PlayItOut({
               // Engine unavailable: the learner keeps the move and the drill
               // stays playable rather than dead-ending (PRD F-ER-1).
             } finally {
-              setThinking(false);
+              if (alive.current) setThinking(false);
             }
           })();
         }}

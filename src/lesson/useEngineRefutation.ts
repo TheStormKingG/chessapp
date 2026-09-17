@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { applyMove, toSan, type Square } from '@/rules';
 import { getEngine } from '@/engine';
 import { facts } from '@/tagger';
@@ -20,7 +20,14 @@ function hasAuthoredFeedback(c: Challenge, san: string): boolean {
 /**
  * F-PA-6: when a wrong move has no authored answer, ask the engine what the
  * refutation is and let the coach say it, with the refuting move drawn on the
- * board. Silent when the engine is unavailable (F-ER-1) or the coach is muted.
+ * board. Silent when the engine is unavailable (F-ER-1).
+ *
+ * Mute (F-PL-3) is a setting about what the coach *says*: the arrow is not
+ * speech, so it is drawn either way and only the line is dropped. The machine's
+ * `engineRefutation` action always carries a text, so the muted case re-sends
+ * the feedback already on screen -- the retry line stays, and nothing the coach
+ * would have said is added. (CoachBubble renders nothing for an empty text, so
+ * a challenge with no feedback yet stays bubble-less.)
  */
 export function useEngineRefutation(
   s: LessonState,
@@ -30,13 +37,19 @@ export function useEngineRefutation(
 ): void {
   const phase = s.phase;
   const challenges = s.lesson.challenges;
+  // Read at dispatch time, not a dependency: the feedback this effect leaves
+  // behind must not be what re-runs it.
+  const feedback = s.feedback;
+  const feedbackRef = useRef(feedback);
+  useEffect(() => {
+    feedbackRef.current = feedback;
+  }, [feedback]);
   useEffect(() => {
     if (phase.kind !== 'challenge' || phase.status !== 'retry' || !lastWrong) return;
     const c = challenges[phase.index];
     if (!c) return;
     if (c.type !== 'find_the_move' && c.type !== 'find_the_sequence') return;
     if (hasAuthoredFeedback(c, lastWrong.san)) return;
-    if (coach.muted) return;
     let cancelled = false;
     void (async () => {
       try {
@@ -51,12 +64,12 @@ export function useEngineRefutation(
             ? `your ${CoachService.pieceName(lost.piece)} on ${lost.square} is lost`
             : 'your idea no longer works';
         const text = coach.line('wrongEngine', { refutationSan: toSan(after, reply), consequence });
-        if (cancelled || text === null) return;
+        if (cancelled) return;
         dispatch({
           type: 'engineRefutation',
           from: reply.slice(0, 2) as Square,
           to: reply.slice(2, 4) as Square,
-          text,
+          text: text ?? (feedbackRef.current ?? ''),
         });
       } catch {
         // Engine unavailable: the generic retry line already stands (F-ER-1).

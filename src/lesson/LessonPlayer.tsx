@@ -48,6 +48,14 @@ export function LessonPlayer({
 
   const c = currentChallenge(s);
   const ph = s.phase;
+  // The wrong move belongs to the challenge it was played on. Clearing it here
+  // makes that an invariant of the player rather than something the engine
+  // refutation hook is left to infer. Adjusted during render, as elsewhere.
+  const [prevId, setPrevId] = useState<string | null>(c?.id ?? null);
+  if ((c?.id ?? null) !== prevId) {
+    setPrevId(c?.id ?? null);
+    setLastWrong(null);
+  }
   const hintLabel = s.hintLevel === 0 ? 'Hint' : s.hintLevel === 1 ? 'Second hint' : 'No more hints';
   const busy = ph.kind === 'challenge' && ph.status !== 'attempting' && ph.status !== 'retry';
 
@@ -115,8 +123,11 @@ export function LessonPlayer({
       {ph.kind === 'challenge' && c && (
         <div className="mt-4">
           <p className="font-semibold">{c.prompt}</p>
+          {/* A retry has to reset the challenge's own answering surface as well as
+              the machine, so the key carries the miss count as a retry generation
+              (see ChallengeView). */}
           <ChallengeView
-            key={c.id}
+            key={`${c.id}#${s.results[c.id]?.misses ?? 0}`}
             c={c}
             highlights={s.highlights}
             refutation={s.refutation}
