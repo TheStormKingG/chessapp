@@ -47,7 +47,11 @@
       "prompt": "Tap all four squares where knights start.",
       "concept": "setup",
       "answer": { "squares": ["b1", "b8", "g1", "g8"] },
-      "reason": "Next to each rook, on the b-file and the g-file."
+      "reason": "Next to each rook, on the b-file and the g-file.",
+      "hints": {
+        "square": "b1",
+        "text": "There are four of them, two for each side, and each one stands next to a rook."
+      }
     },
     {
       "id": "1.1.8-c4",
@@ -57,7 +61,8 @@
       "options": ["a1", "h1", "e4"],
       "concept": "setup",
       "answer": { "option": 1 },
-      "reason": "White on the right: h1 is light, and that is how you know the board is the right way round."
+      "reason": "White on the right: h1 is light, and that is how you know the board is the right way round.",
+      "hints": { "text": "e4 is not a corner at all.", "text2": "a1 is a corner, but it is the dark one." }
     },
     {
       "id": "1.1.8-c5",
@@ -66,7 +71,8 @@
       "prompt": "Tap the two squares the white rooks start on.",
       "concept": "setup",
       "answer": { "squares": ["a1", "h1"] },
-      "reason": "Rooks live in the corners."
+      "reason": "Rooks live in the corners.",
+      "hints": { "square": "a1", "text": "Two of them, one in each corner of White’s back rank." }
     },
     {
       "id": "1.1.8-c6",
@@ -85,7 +91,11 @@
       "prompt": "Tap all four squares where bishops start.",
       "concept": "setup",
       "answer": { "squares": ["c1", "c8", "f1", "f8"] },
-      "reason": "Between the knights and the royal pair, on the c-file and the f-file."
+      "reason": "Between the knights and the royal pair, on the c-file and the f-file.",
+      "hints": {
+        "square": "c1",
+        "text": "There are four of them, two for each side, and each pair straddles the king and queen."
+      }
     }
   ],
   "takeaway": "Light square on your right, and the queen on her own colour."

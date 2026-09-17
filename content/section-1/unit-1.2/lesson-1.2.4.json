@@ -29,12 +29,13 @@
       "move": "Bc4",
       "prompt": "You want to play the bishop to c4. Is that safe?",
       "reasons": [
-        "Yes, no black piece can reach c4.",
-        "No, the pawn on b5 takes it.",
-        "No, the king on e8 takes it."
+        "No black piece can reach c4.",
+        "The pawn on b5 takes it.",
+        "The king on e8 takes it."
       ],
       "answer": { "safe": false, "reason": 1 },
-      "concept": "dont-hang"
+      "concept": "dont-hang",
+      "hints": { "piece": "b5", "text": "The king on e8 is four squares from c4, so it cannot take anything there." }
     },
     {
       "id": "1.2.4-c2",
@@ -43,12 +44,13 @@
       "move": "Rxd8",
       "prompt": "The rook takes on d8. Is that a fair deal?",
       "reasons": [
-        "No, the rook is simply lost.",
-        "Yes, the knight on b7 takes back but a rook for a rook is even.",
-        "No, the king on f7 takes back."
+        "The rook is simply lost.",
+        "The knight on b7 takes back but a rook for a rook is even.",
+        "The king on f7 takes back."
       ],
       "answer": { "safe": true, "reason": 1 },
-      "concept": "dont-hang"
+      "concept": "dont-hang",
+      "hints": { "piece": "b7", "text": "The king on f7 does not stand next to d8, so it cannot take back there." }
     },
     {
       "id": "1.2.4-c3",
@@ -56,7 +58,8 @@
       "fen": "4k3/2r3b1/8/8/2NB4/8/8/4K3 w - - 0 1",
       "prompt": "Tap every white piece that is hanging right now.",
       "answer": { "pieces": ["c4", "d4"] },
-      "concept": "dont-hang"
+      "concept": "dont-hang",
+      "hints": { "square": "c4", "text": "There are two, and neither of them defends the other." }
     },
     {
       "id": "1.2.4-c4",
@@ -76,7 +79,8 @@
       "answer": { "moves": ["Rxf7"] },
       "wrong": { "Rxd5": "The rook on d5 is worth 5, but the queen on f7 is free and worth 9." },
       "concept": "dont-hang",
-      "reason": "The queen on f7 is hanging, so the rook takes it."
+      "reason": "The queen on f7 is hanging, so the rook takes it.",
+      "hints": { "piece": "d7", "square": "f7" }
     },
     {
       "id": "1.2.4-c6",
@@ -85,7 +89,9 @@
       "prompt": "Pawn wars: get a pawn to the far side before your opponent does.",
       "goal": { "kind": "promote", "moves": 20 },
       "opponentDepth": 4,
-      "concept": "dont-hang"
+      "concept": "dont-hang",
+      "reason": "You have three pawns on the queenside and Black has none there, so that is the wing where a pawn gets through. Push b5, b6, b7 and queen it while Black is still on the other side.",
+      "hints": { "piece": "b4", "square": "b5" }
     }
   ],
   "takeaway": "Before you move, check nothing of yours is left hanging."

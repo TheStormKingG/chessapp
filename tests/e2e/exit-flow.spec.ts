@@ -58,7 +58,7 @@ test('checkpoint 1.1 can be attempted early, with ten unlabelled challenges and 
   await page.getByRole('button', { name: 'Start', exact: true }).click();
 
   // Ten questions drawn from the held-out bank...
-  await expect(page.getByText('1 of 10')).toBeVisible();
+  await expect(page.getByText('1 of 10', { exact: true })).toBeVisible();
   // ...with no hint control at all (PRD 6.4: checkpoints are unhinted).
   await expect(page.getByRole('button', { name: /hint/i })).toHaveCount(0);
   // ...and no concept label on the question — the learner is not told what it

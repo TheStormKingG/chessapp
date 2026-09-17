@@ -46,7 +46,6 @@
         "reasons": { "type": "array" },
         "move": { "type": "string" },
         "commentary": { "type": "string" },
-        "timeLimitS": { "type": "integer" },
         "opponentDepth": { "type": "integer" }
       },
       "allOf": [

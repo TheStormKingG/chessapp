@@ -139,3 +139,76 @@ test('reveal clears a pending engine refutation', () => {
   expect(s.refutation).toBeNull();
   expect(s.highlights).toEqual({ e4: 'accent' });
 });
+
+// ---- Defect 1: mastery must mean a clean answer (PRD 6.4 / 7.3 / F-PZ-4). ----
+
+test('a correct answer after a miss earns progress but no mastery credit', () => {
+  const s = run(
+    { type: 'next' },
+    { type: 'next' },
+    { type: 'attempt', attempt: { kind: 'square', square: 'a1' } },
+    { type: 'attempt', attempt: { kind: 'square', square: 'e4' } },
+  );
+  expect(s.results['c1']).toEqual({ correct: true, hints: 0, misses: 1, mastery: false });
+});
+
+// ---- Defect 2: the machine says whether a hint is available. ----
+
+test('hintAvailable is false on a challenge that declares no hints', () => {
+  const hintless: Lesson = {
+    ...lesson,
+    challenges: [{ ...lesson.challenges[0]!, hints: undefined }],
+  };
+  let s = initLesson(hintless);
+  s = reduce(reduce(s, { type: 'next' }), { type: 'next' });
+  expect(s.hintAvailable).toBe(false);
+  expect(reduce(s, { type: 'hint' })).toBe(s);
+});
+
+test('hintAvailable tracks the stages left, and is false once they are spent', () => {
+  let s = run({ type: 'next' }, { type: 'next' });
+  // c1 authors one hint square only: one stage, then nothing.
+  expect(s.hintAvailable).toBe(true);
+  s = reduce(s, { type: 'hint' });
+  expect(s.hintLevel).toBe(1);
+  expect(s.hintAvailable).toBe(false);
+});
+
+test('hintAvailable is false when hints are disallowed', () => {
+  const s = reduce(reduce(initLesson(lesson, false), { type: 'next' }), { type: 'next' });
+  expect(s.hintAvailable).toBe(false);
+});
+
+// ---- Defect 3: the second hint must say something new. ----
+
+test('a second hint is not offered when it would repeat the first', () => {
+  const onlyPiece: Lesson = {
+    ...lesson,
+    challenges: [{ ...lesson.challenges[1]!, hints: { piece: 'h5' } }],
+  };
+  let s = reduce(reduce(initLesson(onlyPiece), { type: 'next' }), { type: 'next' });
+  s = reduce(s, { type: 'hint' });
+  expect(s.highlights).toEqual({ h5: 'accent' });
+  expect(s.hintAvailable, 'nothing new is left to show').toBe(false);
+  const after = reduce(s, { type: 'hint' });
+  expect(after.hintLevel, 'and the repeat is not charged').toBe(1);
+  expect(after.totalHints).toBe(1);
+});
+
+test('an authored text hint is a hint stage of its own', () => {
+  const texty: Lesson = {
+    ...lesson,
+    challenges: [
+      { ...lesson.challenges[0]!, hints: { text: 'It is on the e-file.', text2: 'It is on the fourth rank.' } },
+    ],
+  };
+  let s = reduce(reduce(initLesson(texty), { type: 'next' }), { type: 'next' });
+  s = reduce(s, { type: 'hint' });
+  expect(s.feedback).toBe('It is on the e-file.');
+  expect(s.highlights).toEqual({});
+  expect(s.hintAvailable).toBe(true);
+  s = reduce(s, { type: 'hint' });
+  expect(s.feedback).toBe('It is on the fourth rank.');
+  expect(s.totalHints).toBe(2);
+  expect(s.hintAvailable).toBe(false);
+});

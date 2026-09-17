@@ -2,19 +2,22 @@ import { test, expect } from '@playwright/test';
 import { ConsoleLog, enableTextEntry, openLesson, readLesson, typeMove } from './audit-helpers';
 
 /**
- * DEFECT REPRODUCTION. Asserts the behaviour as it stands.
- *
- * 1.1.1-c6 is authored with `timeLimitS: 8` and a prompt that says "quickly".
- * `timeLimitS` appears nowhere in `src/` outside the type declaration, so
- * nothing counts, nothing shows, and nothing happens when the time passes.
+ * REGRESSION for the removed promise. 1.1.1-c6 used to be authored with
+ * `timeLimitS: 8` and a prompt that said "quickly", while nothing in `src/`
+ * ever read the field: no countdown, no expiry, no penalty. A countdown is out
+ * of Phase 0 scope (it needs timer chrome and star accounting in the player),
+ * so the claim was withdrawn instead of half-kept. The app must not promise a
+ * limit it does not run — in the content or on the screen.
  */
-test('DEFECT: a challenge authored with a time limit has no timer at all', async ({ page }) => {
+test('no challenge claims a time limit the app does not enforce', async ({ page }) => {
   const log = new ConsoleLog(page);
   await enableTextEntry(page);
   const lesson = readLesson('1.1.1');
-  const timed = lesson.challenges[5]!;
-  expect(timed.timeLimitS, 'fixture: this challenge declares a time limit').toBe(8);
-  expect(timed.prompt).toContain('quickly');
+
+  for (const c of lesson.challenges) {
+    expect(c, `${c.id} declares no time limit`).not.toHaveProperty('timeLimitS');
+    expect(c.prompt, `${c.id} does not promise speed`).not.toMatch(/quick|fast|hurry|seconds/i);
+  }
 
   await openLesson(page, lesson);
   for (const c of lesson.challenges.slice(0, 5)) {
@@ -27,16 +30,14 @@ test('DEFECT: a challenge authored with a time limit has no timer at all', async
     await page.getByRole('button', { name: 'Next', exact: true }).click();
   }
 
-  log.mark('sit on the timed challenge for longer than its limit');
-  await expect(page.getByText('6 of 6')).toBeVisible();
+  log.mark('sit on the last challenge of 1.1.1');
+  await expect(page.getByText('6 of 6', { exact: true })).toBeVisible();
   const body = await page.locator('main').innerText();
-  expect(body, 'no countdown, clock or seconds-remaining is shown').not.toMatch(/\b\d+\s*s\b|seconds|time left/i);
+  expect(body, 'and no countdown is shown either').not.toMatch(/\b\d+\s*s\b|seconds|time left/i);
 
-  await page.waitForTimeout(10_000); // 2s past the authored limit
-  // Nothing expired: the challenge is still accepting the answer, un-penalised.
-  await expect(page.getByText('6 of 6')).toBeVisible();
+  await page.waitForTimeout(10_000);
+  await expect(page.getByText('6 of 6', { exact: true })).toBeVisible();
   await typeMove(page, 'c6');
-  await expect(page.getByRole('button', { name: 'Next', exact: true })).toBeVisible();
   await page.getByRole('button', { name: 'Next', exact: true }).click();
   await expect(page.getByText('3 stars · 0 hints · 0 misses')).toBeVisible();
   expect(log.problems(log.since()).map((p) => `${p.type}: ${p.text}`)).toEqual([]);

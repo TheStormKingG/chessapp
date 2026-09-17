@@ -52,7 +52,7 @@ async function answerWrong(page: Page, c: Challenge): Promise<void> {
       case 'name_the_pattern': {
         const right = (c.answer as { option: number }).option;
         await page
-          .getByRole('group', { name: 'Which pattern is it?' })
+          .getByRole('group', { name: c.prompt })
           .getByRole('button')
           .nth(right === 0 ? 1 : 0)
           .click();
@@ -62,11 +62,11 @@ async function answerWrong(page: Page, c: Challenge): Promise<void> {
         const a = c.answer as { safe: boolean };
         // The wrong verdict makes the whole answer wrong whatever reason follows.
         await page
-          .getByRole('group', { name: 'Is the move safe?' })
+          .getByRole('group', { name: c.prompt })
           .getByRole('button', { name: a.safe ? 'No, it is not safe' : 'Yes, it is safe' })
           .click();
         await page
-          .getByRole('group', { name: a.safe ? 'Why is it not safe?' : 'Why is it safe?' })
+          .getByRole('group', { name: 'Why?' })
           .getByRole('button')
           .first()
           .click();

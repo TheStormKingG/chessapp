@@ -13,13 +13,16 @@ vi.mock('@/board', () => ({
     fen,
     disabled,
     onMove,
+    highlights,
   }: {
     fen: string;
     disabled?: boolean;
+    highlights?: Record<string, string>;
     onMove?: (m: { from: string; to: string; uci: string; san: string }) => void;
   }) => (
     <div>
       <span data-testid="fen">{fen}</span>
+      <span data-testid="highlights">{Object.keys(highlights ?? {}).sort().join(',')}</span>
       <button type="button" disabled={disabled} onClick={() => onMove?.(board.move)}>
         play
       </button>
@@ -115,4 +118,11 @@ test('an engine that cannot reply explains itself, holds the board and retries',
   // The retry asked about the position the learner reached, and the drill settled.
   expect(engine.bestMove).toHaveBeenLastCalledWith(expect.objectContaining({ fen: stuckFen }));
   expect(onResult).toHaveBeenCalled();
+});
+
+test('the drill board shows the squares the reveal marks', async () => {
+  render(<PlayItOut c={drill} onResult={() => undefined} highlights={{ b2: 'accent', e1: 'selected' }} />);
+  await waitFor(() => {
+    expect(screen.getByTestId('highlights')).toHaveTextContent('b2,e1');
+  });
 });

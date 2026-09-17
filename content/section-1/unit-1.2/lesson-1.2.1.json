@@ -35,7 +35,8 @@
       "fen": "4k3/8/8/8/2N5/1P6/8/3RK3 w - - 0 1",
       "prompt": "Tap every white piece that is defended.",
       "answer": { "pieces": ["c4", "d1"] },
-      "concept": "attack-defend"
+      "concept": "attack-defend",
+      "hints": { "square": "c4", "text": "Two of the three are defended. The pawn on b3 is the odd one out." }
     },
     {
       "id": "1.2.1-c3",
@@ -44,12 +45,16 @@
       "move": "Rxe5",
       "prompt": "The rook takes the pawn on e5. Is that safe?",
       "reasons": [
-        "Yes, nothing can reach e5.",
-        "No, the knight on d7 would take back.",
-        "No, the king on g8 would take back."
+        "Nothing can reach e5.",
+        "The knight on d7 would take back.",
+        "The king on g8 would take back."
       ],
       "answer": { "safe": false, "reason": 1 },
-      "concept": "attack-defend"
+      "concept": "attack-defend",
+      "hints": {
+        "piece": "d7",
+        "text": "The king on g8 is three squares away from e5, so it is not the one to worry about."
+      }
     },
     {
       "id": "1.2.1-c4",
@@ -79,7 +84,8 @@
       "prompt": "Take something for free.",
       "answer": { "moves": ["cxb3"] },
       "concept": "attack-defend",
-      "reason": "The pawn takes the bishop on b3 and nothing takes back."
+      "reason": "The pawn takes the bishop on b3 and nothing takes back.",
+      "hints": { "piece": "c2", "square": "b3" }
     }
   ],
   "takeaway": "Attacked means a piece could take it. Defended means a friend would take back."

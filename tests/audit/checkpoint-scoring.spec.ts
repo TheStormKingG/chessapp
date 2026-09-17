@@ -9,15 +9,14 @@ import {
 } from './audit-helpers';
 
 /**
- * DEFECT REPRODUCTION. Asserts the behaviour as it stands.
- *
- * `scoreAttempt` counts a challenge as correct when its result carries
- * `mastery`, and `LessonMachine` sets `mastery = hints === 0 && misses <= 1`.
- * Since a checkpoint allows no hints, that reduces to "correct, with at most
- * one miss" — so a learner can get every one of the ten questions wrong on the
- * first attempt, take the offered retry, and still score 100 per cent.
+ * REGRESSION. `scoreAttempt` counts a challenge as correct when its result
+ * carries `mastery`, and mastery now means answered unaided AND first time
+ * (`hints === 0 && misses === 0`). A learner who misses every question, takes
+ * the offered retry and then answers it has learned something — the retry is a
+ * teaching move — but has demonstrated no mastery, so the checkpoint fails
+ * them rather than testing them out of the unit (PRD 6.4).
  */
-test('DEFECT: a checkpoint scores 100 per cent when every question was missed once', async ({
+test('a checkpoint scores nothing for questions that were missed before they were answered', async ({
   page,
 }) => {
   test.setTimeout(300_000);
@@ -45,7 +44,7 @@ test('DEFECT: a checkpoint scores 100 per cent when every question was missed on
   await page.getByRole('button', { name: 'See your score' }).click();
 
   expect(missed, 'every question was missed once and then answered').toBe(bank.sample);
-  await expect(page.getByRole('heading', { name: 'Checkpoint passed' })).toBeVisible();
-  await expect(page.getByText('100 per cent')).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'Checkpoint passed' })).toHaveCount(0);
+  await expect(page.getByText('0 per cent')).toBeVisible();
   expect(log.problems(log.since()).map((p) => `${p.type}: ${p.text}`)).toEqual([]);
 });

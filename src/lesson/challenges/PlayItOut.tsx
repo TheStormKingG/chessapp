@@ -4,6 +4,7 @@ import { applyMove, turn } from '@/rules';
 import { getEngine } from '@/engine';
 import { reportError } from '@/analytics';
 import { EngineGate } from '@/play/EngineGate';
+import type { Highlights } from '../LessonMachine';
 import { goalMet, type PlayItOut as PlayItOutChallenge } from './goal';
 
 /** F-ER-1: one plain line, and a retry that asks the engine again. */
@@ -15,6 +16,8 @@ export function PlayItOut(props: {
   onResult: (met: boolean) => void;
   disabled?: boolean;
   textEntry?: boolean;
+  /** Hint and reveal squares. A drill's board is the only place to show them. */
+  highlights?: Highlights;
 }) {
   // F-OF-2: a play_it_out drill needs the engine, so the download happens here,
   // with its progress bar, before the board is offered.
@@ -30,11 +33,14 @@ function Drill({
   onResult,
   disabled,
   textEntry,
+  highlights,
 }: {
   c: PlayItOutChallenge;
   onResult: (met: boolean) => void;
   disabled?: boolean;
   textEntry?: boolean;
+  /** Hint and reveal squares. A drill's board is the only place to show them. */
+  highlights?: Highlights;
 }) {
   const learner = turn(c.fen);
   // The engine reply is awaited, and the learner can leave the drill while it is
@@ -111,6 +117,7 @@ function Drill({
         mode="play"
         disabled={disabled || thinking || engineDown}
         textEntry={textEntry}
+        highlights={highlights}
         onMove={(m) => {
           const after = applyMove(fen, m.uci).fen;
           const n = moves + 1;

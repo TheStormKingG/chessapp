@@ -1,5 +1,13 @@
 import { test, expect, type Page } from '@playwright/test';
-import { ConsoleLog, answerCorrectly, enableTextEntry, openLesson, readLesson, typeMove } from './audit-helpers';
+import {
+  ConsoleLog,
+  accentSquares,
+  answerCorrectly,
+  enableTextEntry,
+  openLesson,
+  readLesson,
+  typeMove,
+} from './audit-helpers';
 
 async function advanceTo(page: Page, lessonId: string, upto: number) {
   const lesson = readLesson(lessonId);
@@ -34,45 +42,46 @@ test('a play_it_out drill is winnable and reports the goal met', async ({ page }
     await page.waitForTimeout(1500);
   }
   await expect(next).toBeVisible({ timeout: 60_000 });
-  // The drill was passed, not revealed: a met goal is scored as correct.
-  await expect(page.getByRole('note', { name: /says$/ })).toContainText('Yes.');
+  // The drill was passed, not revealed: a met goal is scored as correct, and
+  // the coach's line on a correct answer is the challenge's own authored reason.
+  await expect(page.getByRole('note', { name: /says$/ })).toContainText(c.reason!);
   await next.click();
   await expect(page.getByText('3 stars · 0 hints · 0 misses')).toBeVisible();
   expect(log.problems(log.since()).map((p) => `${p.type}: ${p.text}`)).toEqual([]);
 });
 
 /**
- * DEFECT REPRODUCTION. Asserts the behaviour as it stands.
- *
- * `revealText` for a play_it_out is `Here is the idea. ${c.reason ?? ''}` and
- * `revealHighlights` returns {} for a challenge with no `hints`. All three
- * play_it_out challenges in section 1 have neither, so the learner's only way
- * out of a drill they cannot solve says "Here is the idea" and then shows none.
+ * REGRESSION. "Show me" on a drill used to say four words and touch nothing,
+ * because none of the three play_it_out challenges authored a `reason` or
+ * `hints`. All three now author both, so the reveal names the plan and lights
+ * up the squares it is played on.
  */
-test('DEFECT: Show me on a play_it_out reveals nothing', async ({ page }) => {
+test('Show me on a play_it_out names the idea and shows it on the board', async ({ page }) => {
   test.setTimeout(180_000);
   const lesson = await advanceTo(page, '1.2.3', 5);
   const c = lesson.challenges[5]!;
   expect(c.type).toBe('play_it_out');
-  expect(c.reason, 'fixture: no authored reason to fall back on').toBeUndefined();
+  expect(c.reason, 'fixture: the drill authors the idea').toBeTruthy();
+  expect(c.hints, 'fixture: and the squares it is played on').toEqual({ piece: 'd1', square: 'a4' });
 
   await expect(page.getByText('Moves used: 0 of 30')).toBeVisible({ timeout: 120_000 });
   await page.getByRole('button', { name: 'Show me' }).click();
 
-  await expect(page.getByRole('note', { name: /says$/ })).toHaveText('Here is the idea.');
-  // Nothing else: no move named, no arrow, no highlight, board untouched.
-  expect(await page.locator('path[stroke="#a23b3b"], path[stroke="#1f5f4a"]').count()).toBe(0);
+  const said = page.getByRole('note', { name: /says$/ });
+  await expect(said).toContainText('Here is the idea.');
+  await expect(said, 'the learner comes away knowing what to do').toContainText(c.reason!);
+  expect(await accentSquares(page), 'and where to do it').toEqual(['a4']);
   await expect(page.getByText('Moves used: 0 of 30')).toBeVisible();
 });
 
-/**
- * Observation, asserted as it stands: a play_it_out offers the same enabled
- * Hint control as every other challenge, and none of the three declares hints.
- */
-test('DEFECT: the Hint control is offered on a drill that has no hints', async ({ page }) => {
+/** REGRESSION: the Hint control on a drill now has something to give. */
+test('the Hint control on a drill gives a hint', async ({ page }) => {
   test.setTimeout(180_000);
   const lesson = await advanceTo(page, '1.2.5', 5);
-  expect(lesson.challenges[5]!.hints).toBeUndefined();
+  expect(lesson.challenges[5]!.hints).toEqual({ piece: 'e1', square: 'd2' });
   await expect(page.getByText('Moves used: 0 of 12')).toBeVisible({ timeout: 120_000 });
-  await expect(page.getByRole('button', { name: 'Hint', exact: true })).toBeEnabled();
+  const hint = page.getByRole('button', { name: 'Hint', exact: true });
+  await expect(hint).toBeEnabled();
+  await hint.click();
+  expect(await accentSquares(page)).toEqual(['e1']);
 });

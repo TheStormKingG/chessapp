@@ -89,7 +89,7 @@ export function ChallengeView({
           <Options
             options={c.options}
             disabled={busy}
-            label="Which pattern is it?"
+            label={c.prompt}
             onPick={(option) => dispatch({ type: 'attempt', attempt: { kind: 'option', option } })}
           />
         </>
@@ -105,19 +105,37 @@ export function ChallengeView({
             <Options
               options={['Yes, it is safe', 'No, it is not safe']}
               disabled={busy}
-              label="Is the move safe?"
+              label={c.prompt}
               onPick={(i) => setSafePick(i === 0)}
             />
           ) : (
-            <Options
-              options={c.reasons}
-              disabled={busy}
-              label={safePick ? 'Why is it safe?' : 'Why is it not safe?'}
-              onPick={(reason) => {
-                dispatch({ type: 'attempt', attempt: { kind: 'safe', safe: safePick, reason } });
-                setSafePick(null);
-              }}
-            />
+            <>
+              <p className="mt-3 text-sm text-ink-muted">
+                You said: <strong>{safePick ? 'Yes, it is safe' : 'No, it is not safe'}</strong>.
+              </p>
+              {/* The reason step asks one neutral question. Labelling it "Why is
+                  it safe?" told the learner what the answer was and contradicted
+                  the reasons offered underneath it; the reasons themselves are
+                  authored as reasons, not as restated verdicts. */}
+              <Options
+                options={c.reasons}
+                disabled={busy}
+                label="Why?"
+                onPick={(reason) => {
+                  dispatch({ type: 'attempt', attempt: { kind: 'safe', safe: safePick, reason } });
+                  setSafePick(null);
+                }}
+              />
+              {/* A verdict is one tap and was previously irreversible. */}
+              <button
+                type="button"
+                disabled={busy}
+                className="tap mt-2 w-full rounded-lg border border-line px-3 py-2 text-sm disabled:opacity-60"
+                onClick={() => setSafePick(null)}
+              >
+                Change answer
+              </button>
+            </>
           )}
         </>
       );
@@ -126,6 +144,7 @@ export function ChallengeView({
         <PlayItOut
           c={c}
           disabled={busy}
+          highlights={highlights}
           textEntry={textEntry}
           onResult={(met) => dispatch({ type: 'attempt', attempt: { kind: 'goal', met } })}
         />

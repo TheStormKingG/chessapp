@@ -23,7 +23,6 @@ export interface Challenge {
   wrong?: Record<string, string>;
   reason?: string;
   goal?: { kind: string; moves: number };
-  timeLimitS?: number;
 }
 
 export interface Lesson {
@@ -190,17 +189,17 @@ export async function answerCorrectly(page: Page, c: Challenge): Promise<'answer
     }
     case 'name_the_pattern': {
       const i = (c.answer as { option: number }).option;
-      await page.getByRole('group', { name: 'Which pattern is it?' }).getByRole('button').nth(i).click();
+      await page.getByRole('group', { name: c.prompt }).getByRole('button').nth(i).click();
       return 'answered';
     }
     case 'is_it_safe': {
       const a = c.answer as { safe: boolean; reason: number };
       await page
-        .getByRole('group', { name: 'Is the move safe?' })
+        .getByRole('group', { name: c.prompt })
         .getByRole('button', { name: a.safe ? 'Yes, it is safe' : 'No, it is not safe' })
         .click();
       await page
-        .getByRole('group', { name: a.safe ? 'Why is it safe?' : 'Why is it not safe?' })
+        .getByRole('group', { name: 'Why?' })
         .getByRole('button')
         .nth(a.reason)
         .click();
@@ -225,7 +224,7 @@ export async function playThrough(
   const start = opts.startIndex ?? 0;
   const total = opts.total ?? challenges.length;
   for (const [i, c] of challenges.entries()) {
-    await expect(page.getByText(`${String(start + i + 1)} of ${String(total)}`)).toBeVisible({
+    await expect(page.getByText(`${String(start + i + 1)} of ${String(total)}`, { exact: true })).toBeVisible({
       timeout: 30_000,
     });
     await expect(page.getByText(c.prompt, { exact: true })).toBeVisible();
@@ -356,7 +355,7 @@ export async function answerWrongOnce(page: Page, c: Challenge): Promise<void> {
     case 'name_the_pattern': {
       const right = (c.answer as { option: number }).option;
       await page
-        .getByRole('group', { name: 'Which pattern is it?' })
+        .getByRole('group', { name: c.prompt })
         .getByRole('button')
         .nth(right === 0 ? 1 : 0)
         .click();
@@ -365,11 +364,11 @@ export async function answerWrongOnce(page: Page, c: Challenge): Promise<void> {
     case 'is_it_safe': {
       const a = c.answer as { safe: boolean };
       await page
-        .getByRole('group', { name: 'Is the move safe?' })
+        .getByRole('group', { name: c.prompt })
         .getByRole('button', { name: a.safe ? 'No, it is not safe' : 'Yes, it is safe' })
         .click();
       await page
-        .getByRole('group', { name: a.safe ? 'Why is it not safe?' : 'Why is it safe?' })
+        .getByRole('group', { name: 'Why?' })
         .getByRole('button')
         .first()
         .click();

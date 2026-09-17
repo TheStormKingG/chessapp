@@ -27,7 +27,11 @@
       "prompt": "Which of these is worth the most?",
       "options": ["Rook", "Knight", "Bishop"],
       "answer": { "option": 0 },
-      "concept": "values"
+      "concept": "values",
+      "hints": {
+        "text": "A knight and a bishop are worth the same as each other: three pawns.",
+        "text2": "The piece on a1 is worth five."
+      }
     },
     {
       "id": "1.2.2-c2",
@@ -36,7 +40,11 @@
       "prompt": "Two rooks against a queen: who has more?",
       "options": ["The queen", "The two rooks", "Exactly equal"],
       "answer": { "option": 1 },
-      "concept": "values"
+      "concept": "values",
+      "hints": {
+        "text": "A rook is worth five and a queen nine.",
+        "text2": "Two rooks come to ten, which is one more than the queen on d8."
+      }
     },
     {
       "id": "1.2.2-c3",
@@ -45,12 +53,13 @@
       "move": "Bxf7",
       "prompt": "The bishop takes the pawn on f7. Is that a good deal?",
       "reasons": [
-        "Yes, a pawn is a pawn.",
-        "No, the knight on h6 takes back and you lose 3 for 1.",
-        "No, the king on a8 takes back."
+        "A pawn is a pawn.",
+        "The knight on h6 takes back and you lose 3 for 1.",
+        "The king on a8 takes back."
       ],
       "answer": { "safe": false, "reason": 1 },
-      "concept": "values"
+      "concept": "values",
+      "hints": { "piece": "h6", "text": "The king on a8 is nowhere near f7, so it is not the piece that takes back." }
     },
     {
       "id": "1.2.2-c4",
@@ -71,7 +80,8 @@
       "answer": { "moves": ["Rxg5"] },
       "wrong": { "Rxh5": "The bishop is worth 3. The rook on g5 is worth 5." },
       "concept": "values",
-      "reason": "Rook (5) beats bishop (3) when both are on offer."
+      "reason": "Rook (5) beats bishop (3) when both are on offer.",
+      "hints": { "piece": "g8", "square": "g5" }
     },
     {
       "id": "1.2.2-c6",
@@ -80,7 +90,8 @@
       "prompt": "Win material.",
       "answer": { "moves": ["Rxd4"] },
       "concept": "values",
-      "reason": "The bishop on d4 is worth 3 and nothing takes back."
+      "reason": "The bishop on d4 is worth 3 and nothing takes back.",
+      "hints": { "piece": "d7", "square": "d4" }
     }
   ],
   "takeaway": "Pawn 1, knight 3, bishop 3, rook 5, queen 9 — count before you trade."

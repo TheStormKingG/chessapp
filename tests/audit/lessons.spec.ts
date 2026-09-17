@@ -56,5 +56,5 @@ test('the card screen shows the lesson idea before any challenge', async ({ page
     await expect(page.getByText(e.text, { exact: true })).toBeVisible();
     await page.getByRole('button', { name: 'Next', exact: true }).click();
   }
-  await expect(page.getByText('1 of 6')).toBeVisible();
+  await expect(page.getByText('1 of 6', { exact: true })).toBeVisible();
 });

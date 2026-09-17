@@ -27,7 +27,8 @@
       "fen": "6k1/8/5p2/4r3/3P4/5N2/8/4RK2 w - - 0 1",
       "prompt": "Tap every white piece that attacks e5.",
       "answer": { "pieces": ["d4", "e1", "f3"] },
-      "concept": "counting"
+      "concept": "counting",
+      "hints": { "square": "d4", "text": "Three of them: a pawn, a knight and a rook." }
     },
     {
       "id": "1.2.5-c2",
@@ -35,7 +36,8 @@
       "fen": "6k1/8/3p1p2/4r3/3P4/5N2/8/4RK2 w - - 0 1",
       "prompt": "Tap every black piece that defends e5.",
       "answer": { "pieces": ["d6", "f6"] },
-      "concept": "counting"
+      "concept": "counting",
+      "hints": { "square": "d6", "text": "Two of them, and both are pawns." }
     },
     {
       "id": "1.2.5-c3",
@@ -44,7 +46,11 @@
       "prompt": "Three attackers, one defender. Can you win the square?",
       "options": ["Yes", "No", "Only with the queen"],
       "answer": { "option": 0 },
-      "concept": "counting"
+      "concept": "counting",
+      "hints": {
+        "text": "There is no queen anywhere on this board, so that answer cannot be the one.",
+        "text2": "Count them: three white pieces hit e5 and only the pawn on f6 guards it."
+      }
     },
     {
       "id": "1.2.5-c4",
@@ -64,12 +70,13 @@
       "move": "Qxe5",
       "prompt": "The queen takes the pawn on e5. Is that safe?",
       "reasons": [
-        "Yes, the pawn is free.",
-        "No, the pawn on d6 takes back and you lose 9 for 1.",
-        "No, the king on g8 takes back."
+        "The pawn is free.",
+        "The pawn on d6 takes back and you lose 9 for 1.",
+        "The king on g8 takes back."
       ],
       "answer": { "safe": false, "reason": 1 },
-      "concept": "counting"
+      "concept": "counting",
+      "hints": { "piece": "d6", "text": "The king on g8 does not stand next to e5, so it cannot take back there." }
     },
     {
       "id": "1.2.5-c6",
@@ -78,7 +85,9 @@
       "prompt": "Knight against pawns: stop every pawn and let none of them through.",
       "goal": { "kind": "hold", "moves": 12 },
       "opponentDepth": 4,
-      "concept": "counting"
+      "concept": "counting",
+      "reason": "Three connected pawns beat a lone knight, so bring the king up: Kd2 heads for the squares in front of the pawns while the knight on e2 covers c3 and d4.",
+      "hints": { "piece": "e1", "square": "d2" }
     }
   ],
   "takeaway": "More attackers than defenders means take — cheapest piece first."

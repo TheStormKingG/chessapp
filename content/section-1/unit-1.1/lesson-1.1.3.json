@@ -70,7 +70,11 @@
       "options": ["Light squares", "Dark squares", "The edge of the board"],
       "concept": "bishop-moves",
       "answer": { "option": 0 },
-      "reason": "A diagonal stays on one colour, so the other colour is off limits forever."
+      "reason": "A diagonal stays on one colour, so the other colour is off limits forever.",
+      "hints": {
+        "piece": "d4",
+        "text": "Not the edge: from d4 the bishop can reach a1, a7, g1 and h8, and every one of those is on the rim."
+      }
     },
     {
       "id": "1.1.3-c5",

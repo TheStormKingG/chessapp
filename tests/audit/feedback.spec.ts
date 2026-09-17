@@ -43,7 +43,7 @@ test.describe('the wrong-answer path', () => {
     // has not advanced.
     await expect(page.getByRole('button', { name: 'Next', exact: true })).toHaveCount(0);
     await expect(page.getByLabel('Type a move')).toBeEnabled();
-    await expect(page.getByText('4 of 6')).toBeVisible();
+    await expect(page.getByText('4 of 6', { exact: true })).toBeVisible();
 
     // And the retry actually accepts the right answer.
     await typeMove(page, 'Rxa5');

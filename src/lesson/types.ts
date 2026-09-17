@@ -10,9 +10,24 @@ export type ChallengeType =
   | 'play_it_out'
   | 'guess_the_move';
 
+/**
+ * What the app may show when the learner asks for help. Each field that is
+ * present contributes one hint stage, in the order piece, square, text, text2
+ * (LessonMachine.hintStages); at most two are ever offered, and a stage that
+ * would repeat the one before it is dropped, so the second hint always says
+ * something the first did not.
+ *
+ * PRD F-CO-4: every one of these may only state what the position verifies.
+ */
 export interface Hints {
+  /** Highlight the piece that does the work. Must hold a piece (verify:content). */
   piece?: Square;
+  /** Highlight the square that matters. */
   square?: Square;
+  /** A sentence of help, for challenges where no single square is the answer. */
+  text?: string;
+  /** A second, different sentence of help. */
+  text2?: string;
 }
 
 interface Base {
@@ -36,7 +51,7 @@ export type Challenge =
       answer: { safe: boolean; reason: number };
       reasons: [string, string, string];
     })
-  | (Base & { type: 'which_square'; answer: { square: Square }; timeLimitS?: number })
+  | (Base & { type: 'which_square'; answer: { square: Square } })
   | (Base & { type: 'name_the_pattern'; options: [string, string, string]; answer: { option: number } })
   | (Base & {
       type: 'play_it_out';

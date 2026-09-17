@@ -29,7 +29,8 @@
       "fen": "4k2b/2r5/8/3n4/8/2B4R/8/3RK3 w - - 0 1",
       "prompt": "Tap every black piece that is hanging.",
       "answer": { "pieces": ["d5", "h8"] },
-      "concept": "take-free"
+      "concept": "take-free",
+      "hints": { "square": "d5", "text": "The rook on c7 is not one of them: no white piece attacks c7." }
     },
     {
       "id": "1.2.3-c2",
@@ -69,7 +70,8 @@
       "prompt": "Find the free piece.",
       "answer": { "moves": ["gxh5"] },
       "concept": "take-free",
-      "reason": "A pawn can take the rook on h5 and no black piece guards it."
+      "reason": "A pawn can take the rook on h5 and no black piece guards it.",
+      "hints": { "piece": "g4", "square": "h5" }
     },
     {
       "id": "1.2.3-c6",
@@ -78,7 +80,9 @@
       "prompt": "Queen against eight pawns: capture every pawn before one gets through.",
       "goal": { "kind": "capture_all", "moves": 30 },
       "opponentDepth": 4,
-      "concept": "take-free"
+      "concept": "take-free",
+      "reason": "Pawns cannot move backwards, so there is no hurry. Pick off the pawns the king cannot reach: Qa4 attacks a7 down the a-file while the black king sits on e8.",
+      "hints": { "piece": "d1", "square": "a4" }
     }
   ],
   "takeaway": "Attacked and undefended means free — take it."

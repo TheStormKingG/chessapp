@@ -22,11 +22,41 @@ export interface ChallengeResult {
 
 export type Highlights = Partial<Record<Square, 'accent' | 'review' | 'danger' | 'selected'>>;
 
+/** One press of Hint: either a square to light up or a sentence to say. */
+export interface HintStage {
+  square?: Square;
+  text?: string;
+}
+
+/**
+ * The hint stages a challenge actually has, in order, at most two (PRD 7.3).
+ * A square that repeats the previous stage's square is not a stage: the second
+ * hint has to say something the first did not, or it is not offered at all.
+ */
+export function hintStages(c: Challenge): HintStage[] {
+  const h = c.hints;
+  if (!h) return [];
+  const out: HintStage[] = [];
+  if (h.piece) out.push({ square: h.piece });
+  if (h.square && h.square !== h.piece) out.push({ square: h.square });
+  if (h.text) out.push({ text: h.text });
+  if (h.text2) out.push({ text: h.text2 });
+  return out.slice(0, 2);
+}
+
 export interface LessonState {
   lesson: Lesson;
   phase: Phase;
   hintLevel: 0 | 1 | 2;
   hintsAllowed: boolean;
+  /**
+   * Whether pressing Hint right now would actually show the learner something.
+   * False when hints are switched off (checkpoints), when the phase takes no
+   * answer, when the challenge authors no hint, and when every stage it does
+   * author has already been spent. The player must disable the control on
+   * false: an enabled control that does nothing is help the app cannot give.
+   */
+  hintAvailable: boolean;
   results: Record<string, ChallengeResult>;
   feedback: string | null;
   feedbackTone: 'neutral' | 'good' | 'bad';
@@ -52,6 +82,7 @@ export function initLesson(lesson: Lesson, hintsAllowed = true): LessonState {
     phase: { kind: 'card' },
     hintLevel: 0,
     hintsAllowed,
+    hintAvailable: false,
     results: {},
     feedback: null,
     feedbackTone: 'neutral',
@@ -156,7 +187,23 @@ function authoredWrong(c: Challenge, san: string): string | undefined {
   return undefined;
 }
 
+/**
+ * `hintAvailable` is a function of the rest of the state, so it is recomputed
+ * on every transition rather than maintained by each case. Keeping it a field
+ * (not a helper the player must remember to call) is what lets the player
+ * disable the control without knowing how hints are authored.
+ */
+function syncHintAvailability(s: LessonState): LessonState {
+  const ctx = answerable(s);
+  const hintAvailable = !!ctx && s.hintsAllowed && hintStages(ctx.c).length > s.hintLevel;
+  return hintAvailable === s.hintAvailable ? s : { ...s, hintAvailable };
+}
+
 export function reduce(s: LessonState, a: Action): LessonState {
+  return syncHintAvailability(reduceInner(s, a));
+}
+
+function reduceInner(s: LessonState, a: Action): LessonState {
   const p = s.phase;
   switch (a.type) {
     case 'next': {
@@ -177,16 +224,18 @@ export function reduce(s: LessonState, a: Action): LessonState {
       const ctx = answerable(s);
       if (!ctx || !s.hintsAllowed || s.hintLevel >= 2) return s;
       const { c } = ctx;
+      // Nothing left to show: the press is a no-op and is not charged. The
+      // player is told this in advance through `hintAvailable`.
+      const stage = hintStages(c)[s.hintLevel];
+      if (!stage) return s;
       const level = (s.hintLevel + 1) as 1 | 2;
-      // Hint one highlights the piece, hint two the square (PRD 7.3).
-      const sq = level === 1 ? (c.hints?.piece ?? c.hints?.square) : (c.hints?.square ?? c.hints?.piece);
-      if (!sq) return s;
       const r = resultOf(s, c.id);
       return {
         ...s,
         hintLevel: level,
         totalHints: s.totalHints + 1,
-        highlights: { [sq]: 'accent' },
+        ...(stage.square ? { highlights: { [stage.square]: 'accent' } as Highlights } : {}),
+        ...(stage.text ? { feedback: stage.text, feedbackTone: 'neutral' as const } : {}),
         results: { ...s.results, [c.id]: { ...r, hints: r.hints + 1, mastery: false } },
       };
     }
@@ -197,10 +246,11 @@ export function reduce(s: LessonState, a: Action): LessonState {
       const r = resultOf(s, c.id);
       const v = checkAnswer(c, a.attempt);
       if (v.correct) {
-        // F-PZ-4: a correct move after a hint earns progress credit but no mastery credit.
-        // `misses <= 1` only restates the phase machine's guarantee: a second miss moves to
-        // `revealed`, which `answerable()` rejects, so this branch never sees misses > 1.
-        const mastery = r.hints === 0 && r.misses <= 1;
+        // Mastery means the learner got it right unaided and first time:
+        // no hint (F-PZ-4) and no miss. A checkpoint counts mastery, not mere
+        // completion (PRD 6.4), so a guess followed by the right answer must
+        // not score — the retry is a teaching move, not a pass.
+        const mastery = r.hints === 0 && r.misses === 0;
         return {
           ...s,
           phase: { ...cp, status: 'correct' },

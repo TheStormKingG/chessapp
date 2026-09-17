@@ -38,7 +38,7 @@ test.describe('engine unavailable', () => {
     // Walk to challenge 6 of 6, the play_it_out drill: "Show me" reveals the
     // answer for a challenge that needs one, "Next" advances.
     // Two teaching pages come first; click through them to the first challenge.
-    while (!(await page.getByText('1 of 6').isVisible().catch(() => false))) {
+    while (!(await page.getByText('1 of 6', { exact: true }).isVisible().catch(() => false))) {
       await page.getByRole('button', { name: 'Next' }).click();
     }
     for (let i = 1; i <= 5; i++) {
@@ -47,7 +47,7 @@ test.describe('engine unavailable', () => {
       if (await showMe.isVisible().catch(() => false)) await showMe.click();
       await page.getByRole('button', { name: 'Next' }).click();
     }
-    await expect(page.getByText('6 of 6')).toBeVisible({ timeout: 30_000 });
+    await expect(page.getByText('6 of 6', { exact: true })).toBeVisible({ timeout: 30_000 });
     const alert = page.getByRole('alert');
     await expect(alert, 'no engine-failure message in the play_it_out drill').toBeVisible({ timeout: 30_000 });
     await expect(alert).toContainText(/engine/i);

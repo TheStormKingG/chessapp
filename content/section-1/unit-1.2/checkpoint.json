@@ -38,9 +38,9 @@
       "move": "Rxd5",
       "prompt": "The rook takes the pawn on d5. Is that safe?",
       "reasons": [
-        "Yes, the rook on d1 takes a pawn that nothing defends.",
-        "No, the king on e8 takes back.",
-        "No, the bishop on f1 is in the way."
+        "The rook on d1 takes a pawn that nothing defends.",
+        "The king on e8 takes back.",
+        "The bishop on f1 is in the way."
       ],
       "answer": {
         "safe": true,
@@ -127,9 +127,9 @@
       "move": "Qxe5",
       "prompt": "The queen takes the knight on e5. Is that a good deal?",
       "reasons": [
-        "Yes, a knight is worth taking.",
-        "No, the pawn on d6 takes back and you lose 9 for 3.",
-        "No, the king on g8 takes back."
+        "A knight is worth taking.",
+        "The pawn on d6 takes back and you lose 9 for 3.",
+        "The king on g8 takes back."
       ],
       "answer": {
         "safe": false,
@@ -144,9 +144,9 @@
       "move": "Bxc5",
       "prompt": "The bishop takes the pawn on c5. Is that a good deal?",
       "reasons": [
-        "Yes, a free pawn.",
-        "No, the pawn on b6 takes back and you lose 3 for 1.",
-        "No, the king on e8 takes back."
+        "A free pawn.",
+        "The pawn on b6 takes back and you lose 3 for 1.",
+        "The king on e8 takes back."
       ],
       "answer": {
         "safe": false,
@@ -300,9 +300,9 @@
       "move": "Qd4",
       "prompt": "You want to play the queen to d4. Is that safe?",
       "reasons": [
-        "Yes, d4 is an empty square.",
-        "No, the pawn on c5 takes it.",
-        "No, the king on e8 takes it."
+        "D4 is an empty square.",
+        "The pawn on c5 takes it.",
+        "The king on e8 takes it."
       ],
       "answer": {
         "safe": false,
@@ -317,9 +317,9 @@
       "move": "Rd5",
       "prompt": "You want to play the rook to d5. Is that safe?",
       "reasons": [
-        "Yes, nothing reaches d5.",
-        "No, the knight on f6 takes it.",
-        "No, the king on e8 takes it."
+        "Nothing reaches d5.",
+        "The knight on f6 takes it.",
+        "The king on e8 takes it."
       ],
       "answer": {
         "safe": false,
@@ -334,9 +334,9 @@
       "move": "Rd4",
       "prompt": "You want to play the rook to d4. Is that safe?",
       "reasons": [
-        "Yes, the knight on f4 does not reach d4.",
-        "No, the knight on f4 takes it.",
-        "No, the king on e8 takes it."
+        "The knight on f4 does not reach d4.",
+        "The knight on f4 takes it.",
+        "The king on e8 takes it."
       ],
       "answer": {
         "safe": true,
@@ -351,9 +351,9 @@
       "move": "Bxe7",
       "prompt": "The bishop takes on e7. Is that a fair deal?",
       "reasons": [
-        "No, the bishop is simply lost.",
-        "Yes, the king on e8 takes back but bishop for bishop is even.",
-        "No, the king on e1 is too far away."
+        "The bishop is simply lost.",
+        "The king on e8 takes back but bishop for bishop is even.",
+        "The king on e1 is too far away."
       ],
       "answer": {
         "safe": true,
@@ -458,9 +458,9 @@
       "move": "Rxd5",
       "prompt": "The rook takes the knight on d5. Is that a good deal?",
       "reasons": [
-        "Yes, a knight is a knight.",
-        "No, the pawn on c6 takes back and a rook is worth more.",
-        "No, the king on f8 takes back."
+        "A knight is a knight.",
+        "The pawn on c6 takes back and a rook is worth more.",
+        "The king on f8 takes back."
       ],
       "answer": {
         "safe": false,
@@ -475,9 +475,9 @@
       "move": "cxd5",
       "prompt": "The pawn takes the knight on d5. Is that safe?",
       "reasons": [
-        "Yes, nothing defends d5, so the pawn wins a knight.",
-        "No, the pawn on c6 takes back.",
-        "No, the king on f8 takes back."
+        "Nothing defends d5, so the pawn wins a knight.",
+        "The pawn on c6 takes back.",
+        "The king on f8 takes back."
       ],
       "answer": {
         "safe": true,

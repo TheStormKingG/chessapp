@@ -20,12 +20,82 @@
     }
   ],
   "challenges": [
-    { "id": "1.1.1-c1", "type": "which_square", "fen": "8/8/8/8/8/8/8/8 w - - 0 1", "prompt": "Tap e4.", "answer": { "square": "e4" }, "concept": "square-names", "reason": "e is the fifth file, 4 is the fourth rank." },
-    { "id": "1.1.1-c2", "type": "which_square", "fen": "8/8/8/8/8/8/8/8 w - - 0 1", "prompt": "Tap a1.", "answer": { "square": "a1" }, "concept": "square-names", "reason": "a1 is the corner on your left as White." },
-    { "id": "1.1.1-c3", "type": "which_square", "fen": "8/8/8/8/8/8/8/8 w - - 0 1", "prompt": "Tap h8.", "answer": { "square": "h8" }, "concept": "square-names", "reason": "h8 is the far corner on your right." },
-    { "id": "1.1.1-c4", "type": "find_them_all", "fen": "8/8/8/8/8/8/8/8 w - - 0 1", "prompt": "Tap every square on the d-file.", "answer": { "squares": ["d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8"] }, "concept": "files" },
-    { "id": "1.1.1-c5", "type": "find_them_all", "fen": "8/8/8/8/8/8/8/8 w - - 0 1", "prompt": "Tap every square on the 7th rank.", "answer": { "squares": ["a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"] }, "concept": "ranks" },
-    { "id": "1.1.1-c6", "type": "which_square", "fen": "8/8/8/8/8/8/8/8 w - - 0 1", "prompt": "Tap c6, quickly.", "answer": { "square": "c6" }, "timeLimitS": 8, "concept": "square-names", "reason": "Third file, sixth rank." }
+    {
+      "id": "1.1.1-c1",
+      "type": "which_square",
+      "fen": "8/8/8/8/8/8/8/8 w - - 0 1",
+      "prompt": "Tap e4.",
+      "answer": { "square": "e4" },
+      "concept": "square-names",
+      "reason": "e is the fifth file, 4 is the fourth rank.",
+      "hints": {
+        "text": "It is on the e-file, the fifth column from your left.",
+        "text2": "It is on the fourth rank, four rows up from White’s side."
+      }
+    },
+    {
+      "id": "1.1.1-c2",
+      "type": "which_square",
+      "fen": "8/8/8/8/8/8/8/8 w - - 0 1",
+      "prompt": "Tap a1.",
+      "answer": { "square": "a1" },
+      "concept": "square-names",
+      "reason": "a1 is the corner on your left as White.",
+      "hints": {
+        "text": "It is on the a-file, the left-hand edge.",
+        "text2": "It is on the first rank, White’s back row."
+      }
+    },
+    {
+      "id": "1.1.1-c3",
+      "type": "which_square",
+      "fen": "8/8/8/8/8/8/8/8 w - - 0 1",
+      "prompt": "Tap h8.",
+      "answer": { "square": "h8" },
+      "concept": "square-names",
+      "reason": "h8 is the far corner on your right.",
+      "hints": {
+        "text": "It is on the h-file, the right-hand edge.",
+        "text2": "It is on the eighth rank, the far row."
+      }
+    },
+    {
+      "id": "1.1.1-c4",
+      "type": "find_them_all",
+      "fen": "8/8/8/8/8/8/8/8 w - - 0 1",
+      "prompt": "Tap every square on the d-file.",
+      "answer": { "squares": ["d1", "d2", "d3", "d4", "d5", "d6", "d7", "d8"] },
+      "concept": "files",
+      "hints": {
+        "text": "A file is a column running away from you, so it is eight squares tall.",
+        "text2": "The d-file is the fourth column from your left: d1 up to d8."
+      }
+    },
+    {
+      "id": "1.1.1-c5",
+      "type": "find_them_all",
+      "fen": "8/8/8/8/8/8/8/8 w - - 0 1",
+      "prompt": "Tap every square on the 7th rank.",
+      "answer": { "squares": ["a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"] },
+      "concept": "ranks",
+      "hints": {
+        "text": "A rank is a row running left to right, so it is eight squares wide.",
+        "text2": "The 7th rank is the second row down from the top: a7 across to h7."
+      }
+    },
+    {
+      "id": "1.1.1-c6",
+      "type": "which_square",
+      "fen": "8/8/8/8/8/8/8/8 w - - 0 1",
+      "prompt": "Tap c6.",
+      "answer": { "square": "c6" },
+      "concept": "square-names",
+      "reason": "Third file, sixth rank.",
+      "hints": {
+        "text": "It is on the c-file, the third column from your left.",
+        "text2": "It is on the sixth rank, two rows down from the top."
+      }
+    }
   ],
   "takeaway": "File first, then rank: e4 is the e-file, fourth rank."
 }
