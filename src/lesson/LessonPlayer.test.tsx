@@ -113,8 +113,10 @@ test('is_it_safe asks the verdict first, then the reason', async () => {
   expect(screen.queryByRole('button', { name: 'Nothing attacks it' })).not.toBeInTheDocument();
   await userEvent.click(screen.getByRole('button', { name: 'No, it is not safe' }));
 
-  // Step two: the three reasons, under a heading that reflects the verdict.
-  expect(screen.getByRole('group', { name: 'Why is it not safe?' })).toBeInTheDocument();
+  // Step two: the three reasons, under a neutral heading that does not restate
+  // (and so give away) the verdict.
+  expect(screen.getByRole('group', { name: 'Why?' })).toBeInTheDocument();
+  expect(screen.getByText(/You said:/)).toHaveTextContent('No, it is not safe');
   await userEvent.click(screen.getByRole('button', { name: 'Nothing attacks it' }));
   expect(screen.getByText(/try again/i)).toBeInTheDocument();
 
@@ -122,4 +124,133 @@ test('is_it_safe asks the verdict first, then the reason', async () => {
   await userEvent.click(screen.getByRole('button', { name: 'Yes, it is safe' }));
   await userEvent.click(screen.getByRole('button', { name: 'Nothing attacks it' }));
   expect(screen.getByText('Nothing can reach e2.')).toBeInTheDocument();
+});
+
+/* --------------------------------------------------- interruption and focus */
+
+test('resumes at the challenge the learner was on', () => {
+  render(
+    <LessonPlayer
+      lesson={lesson}
+      onComplete={() => {}}
+      onExit={() => {}}
+      textEntry
+      resume={{
+        lessonId: '9.9.1',
+        challengeId: 'c2',
+        index: 1,
+        challengeCount: 2,
+        results: { c1: { correct: true, hints: 0, misses: 1, mastery: false } },
+        totalHints: 0,
+        totalMisses: 1,
+        savedAt: '2026-09-17T00:00:00.000Z',
+      }}
+    />,
+  );
+  expect(screen.getByText('Type e4')).toBeInTheDocument();
+  expect(screen.getByText('2 of 2')).toBeInTheDocument();
+  expect(screen.queryByRole('button', { name: /^start$/i })).toBeNull();
+});
+
+test('a resume record whose lesson has changed underneath it is ignored', () => {
+  render(
+    <LessonPlayer
+      lesson={lesson}
+      onComplete={() => {}}
+      onExit={() => {}}
+      textEntry
+      resume={{
+        lessonId: '9.9.1',
+        challengeId: 'gone',
+        index: 1,
+        challengeCount: 2,
+        results: {},
+        totalHints: 0,
+        totalMisses: 0,
+        savedAt: '2026-09-17T00:00:00.000Z',
+      }}
+    />,
+  );
+  expect(screen.getByRole('button', { name: /^start$/i })).toBeInTheDocument();
+});
+
+test('reports a resume point as each challenge is reached, and clears it at the close', async () => {
+  const onProgress = vi.fn();
+  render(
+    <LessonPlayer
+      lesson={lesson}
+      onComplete={() => {}}
+      onExit={() => {}}
+      textEntry
+      onProgress={onProgress}
+    />,
+  );
+  await userEvent.click(screen.getByRole('button', { name: /^start$/i }));
+  await userEvent.click(screen.getByRole('button', { name: /next/i }));
+  expect(onProgress).toHaveBeenLastCalledWith(
+    expect.objectContaining({ lessonId: '9.9.1', challengeId: 'c1', index: 0, challengeCount: 2 }),
+  );
+
+  await userEvent.click(screen.getByRole('button', { name: 'Pin' }));
+  await userEvent.click(screen.getByRole('button', { name: /next/i }));
+  expect(onProgress).toHaveBeenLastCalledWith(
+    expect.objectContaining({ challengeId: 'c2', index: 1 }),
+  );
+
+  await userEvent.type(screen.getByLabelText('Type a move'), 'e4{enter}');
+  await userEvent.click(screen.getByRole('button', { name: /next/i }));
+  expect(screen.getByText('Remember this.')).toBeInTheDocument();
+  expect(onProgress).toHaveBeenLastCalledWith(null);
+});
+
+test('focus lands on the new challenge when the lesson advances', async () => {
+  render(<LessonPlayer lesson={lesson} onComplete={() => {}} onExit={() => {}} textEntry />);
+  await userEvent.click(screen.getByRole('button', { name: /^start$/i }));
+  await userEvent.click(screen.getByRole('button', { name: /next/i }));
+
+  // Positive, scalar assertions on the focus owner (observation 0079).
+  expect(document.activeElement?.id).toBe('challenge-prompt');
+  expect(document.activeElement).toHaveTextContent('Which is it?');
+
+  await userEvent.click(screen.getByRole('button', { name: 'Pin' }));
+  await userEvent.click(screen.getByRole('button', { name: /next/i }));
+  expect(document.activeElement?.id).toBe('challenge-prompt');
+  expect(document.activeElement).toHaveTextContent('Type e4');
+});
+
+test('the challenge transition is announced to a screen reader', async () => {
+  render(<LessonPlayer lesson={lesson} onComplete={() => {}} onExit={() => {}} textEntry />);
+  await userEvent.click(screen.getByRole('button', { name: /^start$/i }));
+  await userEvent.click(screen.getByRole('button', { name: /next/i }));
+  const live = screen.getByRole('status', { name: 'Challenge progress' });
+  expect(live).toHaveAttribute('aria-live', 'polite');
+  expect(live).toHaveTextContent('1 of 2');
+});
+
+test('leaving mid-challenge warns first and says the place is saved', async () => {
+  const onExit = vi.fn();
+  render(
+    <LessonPlayer
+      lesson={lesson}
+      onComplete={() => {}}
+      onExit={onExit}
+      textEntry
+      onProgress={() => {}}
+    />,
+  );
+  await userEvent.click(screen.getByRole('button', { name: /^start$/i }));
+  await userEvent.click(screen.getByRole('button', { name: /next/i }));
+
+  await userEvent.click(screen.getByRole('button', { name: 'Exit lesson' }));
+  expect(onExit).not.toHaveBeenCalled();
+  expect(screen.getByRole('heading', { name: 'Leave the lesson?' })).toBeInTheDocument();
+  expect(screen.getByText(/saved/i)).toBeInTheDocument();
+
+  await userEvent.click(screen.getByRole('button', { name: 'Keep going' }));
+  expect(onExit).not.toHaveBeenCalled();
+  expect(screen.getByText('Which is it?')).toBeInTheDocument();
+
+  await userEvent.click(screen.getByRole('button', { name: 'Exit lesson' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Leave' }));
+  expect(onExit).toHaveBeenCalledTimes(1);
 });

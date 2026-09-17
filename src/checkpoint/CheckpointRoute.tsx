@@ -147,6 +147,11 @@ export function CheckpointRoute() {
         >
           Practise the missed ideas
         </button>
+        {/* Every sibling screen offers the path; a failed attempt must not be the
+            one dead end (the tab bar was the only way out). */}
+        <button type="button" className="tap mt-2 w-full rounded-lg border border-line px-4 py-3" onClick={toPath}>
+          Back to the path
+        </button>
       </section>
     );
 

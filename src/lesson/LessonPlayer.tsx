@@ -1,4 +1,4 @@
-import { useMemo, useReducer, useState } from 'react';
+import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { Board } from '@/board';
 import { CoachBubble, CoachService } from '@/coach';
 import type { Square } from '@/rules';
@@ -8,6 +8,7 @@ import { ChallengeView } from './challenges/ChallengeView';
 import type { WrongMove } from './challenges/Sequence';
 import { useEngineRefutation } from './useEngineRefutation';
 import type { Lesson } from './types';
+import type { LessonResume } from '@/data/resume';
 
 export interface LessonOutcome {
   lessonId: string;
@@ -30,6 +31,8 @@ export function LessonPlayer({
   closeHeading = 'Lesson done',
   closeAction = 'Back to the path',
   showXp = true,
+  resume = null,
+  onProgress,
 }: {
   lesson: Lesson;
   onComplete: (o: LessonOutcome) => void;
@@ -45,6 +48,14 @@ export function LessonPlayer({
   closeAction?: string;
   /** XP is awarded by the caller; a caller that awards none must not claim any. */
   showXp?: boolean;
+  /** A place to come back to, loaded by the caller. Null means start at the card. */
+  resume?: LessonResume | null;
+  /**
+   * Called with the current place each time the run reaches a challenge, and with
+   * null once the lesson closes. The caller owns persistence: a graded assessment
+   * simply does not pass this, and then nothing is saved.
+   */
+  onProgress?: (r: LessonResume | null) => void;
 }) {
   const coachMuted = useSettings((s) => s.coachMuted);
   const settingTextEntry = useSettings((s) => s.textEntry);
@@ -54,7 +65,7 @@ export function LessonPlayer({
     c.muted = coachMuted;
     return c;
   }, [coachMuted]);
-  const [s, dispatch] = useReducer(reduce, lesson, (l) => initLesson(l, hintsAllowed));
+  const [s, dispatch] = useReducer(reduce, lesson, (l) => seedLesson(l, hintsAllowed, resume));
   const [lastWrong, setLastWrong] = useState<WrongMove | null>(null);
   useEngineRefutation(s, lastWrong, dispatch, coach);
 
@@ -71,19 +82,90 @@ export function LessonPlayer({
   const hintLabel = s.hintLevel === 0 ? 'Hint' : s.hintLevel === 1 ? 'Second hint' : 'No more hints';
   const busy = ph.kind === 'challenge' && ph.status !== 'attempting' && ph.status !== 'retry';
 
+  /* F-AX-1: the control that advanced the run is unmounted with the challenge, so
+     focus has to be placed deliberately or it falls to <body> — six to ten times
+     a lesson for a keyboard or screen-reader user. The new challenge's prompt
+     takes it, and the live region names the transition. */
+  const promptRef = useRef<HTMLParagraphElement>(null);
+  const challengeId = ph.kind === 'challenge' ? (c?.id ?? null) : null;
+  useEffect(() => {
+    if (challengeId) promptRef.current?.focus();
+  }, [challengeId]);
+
+  /* The place is reported as the run reaches each challenge, and withdrawn at the
+     close — so a completed lesson has no record left to resume from. */
+  const results = s.results;
+  useEffect(() => {
+    if (!onProgress) return;
+    if (ph.kind === 'challenge' && challengeId) {
+      onProgress({
+        lessonId: lesson.id,
+        challengeId,
+        index: ph.index,
+        challengeCount: lesson.challenges.length,
+        results,
+        totalHints: s.totalHints,
+        totalMisses: s.totalMisses,
+        savedAt: new Date().toISOString(),
+      });
+    } else if (ph.kind === 'close') {
+      onProgress(null);
+    }
+    // `ph.index` and `ph.kind` are read through the narrowed phase above.
+  }, [onProgress, lesson.id, lesson.challenges.length, challengeId, ph, results, s.totalHints, s.totalMisses]);
+
+  const [confirmingExit, setConfirmingExit] = useState(false);
+  const midRun = ph.kind === 'challenge' || ph.kind === 'explain';
+  const exit = () => {
+    if (midRun) setConfirmingExit(true);
+    else onExit();
+  };
+
   return (
     <section className="flex min-h-full flex-col p-4">
       <header className="flex items-center justify-between">
-        <button type="button" className="tap" aria-label={exitLabel} onClick={onExit}>
+        <button type="button" className="tap" aria-label={exitLabel} onClick={exit}>
           ✕
         </button>
         <h1 className="text-sm text-ink-muted">{title ?? `${lesson.id} · ${lesson.title}`}</h1>
-        <span className="text-sm text-ink-muted">
+        {/* The counter is the announcement: giving the text already on screen a
+            live region names the transition for a screen reader without adding a
+            second, competing statement of where the learner is. */}
+        <span role="status" aria-live="polite" aria-label="Challenge progress" className="text-sm text-ink-muted">
           {ph.kind === 'challenge' ? `${ph.index + 1} of ${lesson.challenges.length}` : ''}
         </span>
       </header>
 
-      {ph.kind === 'card' && (
+      {confirmingExit && (
+        <div className="mt-6 rounded-lg border border-line p-4">
+          <h2 className="text-lg font-semibold">{`Leave the ${onProgress ? 'lesson' : 'attempt'}?`}</h2>
+          <p className="mt-2 text-sm">
+            {onProgress
+              ? 'Your place is saved. You can pick up where you left off.'
+              : 'This attempt will not be saved, and you would start it again from the beginning.'}
+          </p>
+          <div className="mt-4 flex gap-2">
+            <button
+              type="button"
+              className="tap flex-1 rounded-lg bg-accent px-3 py-2 font-semibold text-white"
+              onClick={() => {
+                setConfirmingExit(false);
+              }}
+            >
+              Keep going
+            </button>
+            <button
+              type="button"
+              className="tap flex-1 rounded-lg border border-line px-3 py-2"
+              onClick={onExit}
+            >
+              Leave
+            </button>
+          </div>
+        </div>
+      )}
+
+      {!confirmingExit && ph.kind === 'card' && (
         <div className="mt-6">
           <h2 className="text-2xl font-semibold">{lesson.title}</h2>
           <p className="mt-3">{lesson.card.idea}</p>
@@ -105,7 +187,7 @@ export function LessonPlayer({
         </div>
       )}
 
-      {ph.kind === 'explain' &&
+      {!confirmingExit && ph.kind === 'explain' &&
         (() => {
           const e = lesson.explain[ph.index];
           if (!e) return null;
@@ -132,9 +214,11 @@ export function LessonPlayer({
           );
         })()}
 
-      {ph.kind === 'challenge' && c && (
+      {!confirmingExit && ph.kind === 'challenge' && c && (
         <div className="mt-4">
-          <p className="font-semibold">{c.prompt}</p>
+          <p id="challenge-prompt" className="font-semibold" tabIndex={-1} ref={promptRef}>
+            {c.prompt}
+          </p>
           {/* A retry has to reset the challenge's own answering surface as well as
               the machine, so the key carries the miss count as a retry generation
               (see ChallengeView). */}
@@ -215,4 +299,26 @@ export function LessonPlayer({
       )}
     </section>
   );
+}
+
+/**
+ * Start at the card, unless a saved place still matches this lesson's content.
+ * The saved run comes back at the top of the challenge it was interrupted on:
+ * the coach's transient state (feedback, arrows, half-typed answers) is not
+ * worth reviving, and a fresh attempt at that challenge is what the learner
+ * expects on coming back.
+ */
+function seedLesson(l: Lesson, hintsAllowed: boolean, r: LessonResume | null): LessonState {
+  const base = initLesson(l, hintsAllowed);
+  if (!r || r.lessonId !== l.id) return base;
+  if (r.challengeCount !== l.challenges.length) return base;
+  if (!(r.index >= 0 && r.index < l.challenges.length)) return base;
+  if (l.challenges[r.index]?.id !== r.challengeId) return base;
+  return {
+    ...base,
+    phase: { kind: 'challenge', index: r.index, status: 'attempting' },
+    results: r.results,
+    totalHints: r.totalHints,
+    totalMisses: r.totalMisses,
+  };
 }

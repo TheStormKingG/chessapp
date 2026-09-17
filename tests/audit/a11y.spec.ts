@@ -53,11 +53,7 @@ test('the primary action is reachable by keyboard', async ({ page }) => {
   await expect(page.getByRole('button', { name: 'Next', exact: true })).toBeVisible();
 });
 
-/**
- * DEFECT REPRODUCTION. This spec asserts the behaviour as it stands, so it
- * passes today and must be inverted when the defect is fixed.
- */
-test('DEFECT: focus falls to <body> when the challenge advances', async ({ page }) => {
+test('focus moves to the new challenge when the lesson advances', async ({ page }) => {
   const lesson = readLesson('1.1.1');
   await openLesson(page, lesson);
   await typeMove(page, 'e4');
@@ -65,19 +61,27 @@ test('DEFECT: focus falls to <body> when the challenge advances', async ({ page 
   const next = page.getByRole('button', { name: 'Next', exact: true });
   await next.focus();
   await next.press('Enter');
-  await expect(page.getByText('2 of 6')).toBeVisible();
+  await expect(page.getByText('2 of 6', { exact: true })).toBeVisible();
 
-  // The Next button is unmounted when the challenge changes and nothing takes
-  // its place, so a keyboard or screen-reader user is dropped at the top of the
-  // document between every challenge — six times in lesson 1.1.1 alone.
-  const tag = await page.evaluate(() => document.activeElement?.tagName.toLowerCase() ?? 'none');
-  expect(tag, 'focus owner after advancing to the next challenge').toBe('body');
+  // The Next button is unmounted with the challenge, so the new challenge's
+  // prompt takes focus instead of dropping the user at the top of the document.
+  // Asserted positively on a single scalar each time (observation 0079).
+  expect(
+    await page.evaluate(() => document.activeElement?.id ?? ''),
+    'focus owner after advancing to the next challenge',
+  ).toBe('challenge-prompt');
+  expect(await page.evaluate(() => document.activeElement?.textContent?.trim() ?? '')).toBe(
+    lesson.challenges[1]?.prompt,
+  );
 
   // Same on a pointer activation, so it is not an artefact of the key press.
   await typeMove(page, 'a1');
   await page.getByRole('button', { name: 'Next', exact: true }).click();
-  await expect(page.getByText('3 of 6')).toBeVisible();
-  expect(await page.evaluate(() => document.activeElement?.tagName.toLowerCase())).toBe('body');
+  await expect(page.getByText('3 of 6', { exact: true })).toBeVisible();
+  expect(await page.evaluate(() => document.activeElement?.id ?? '')).toBe('challenge-prompt');
+  expect(await page.evaluate(() => document.activeElement?.textContent?.trim() ?? '')).toBe(
+    lesson.challenges[2]?.prompt,
+  );
 });
 
 test('the hint cost note is in the accessibility tree, not only a tooltip', async ({ page }) => {

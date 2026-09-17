@@ -76,3 +76,30 @@ test('the score screen follows the close screen', async () => {
   expect(await screen.findByRole('heading', { name: 'Checkpoint passed' })).toBeInTheDocument();
   expect(screen.getByText(/\+50 XP/)).toBeInTheDocument();
 });
+
+test('the failure screen offers a way back to the path', async () => {
+  useProgress.setState({ progress: emptyProgress() });
+  render(
+    <MemoryRouter initialEntries={['/checkpoint/9.9']}>
+      <Routes>
+        <Route path="/checkpoint/:unit" element={<CheckpointRoute />} />
+        <Route path="/path" element={<p>The path</p>} />
+      </Routes>
+    </MemoryRouter>,
+  );
+  await userEvent.click(await screen.findByRole('button', { name: /start the checkpoint/i }));
+  await userEvent.click(screen.getByRole('button', { name: /^start$/i }));
+  for (let i = 0; i < bank.sample; i++) {
+    // Answer both wrongly: whichever comes up, pick the other pattern.
+    // Two misses reveal the answer and offer Next; both are wrong on purpose.
+    await userEvent.click(screen.getByRole('button', { name: 'Skewer' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Skewer' }));
+    await userEvent.click(screen.getByRole('button', { name: /next/i }));
+  }
+  await userEvent.click(screen.getByRole('button', { name: /see your score/i }));
+  expect(await screen.findByRole('heading', { name: 'Not yet' })).toBeInTheDocument();
+  expect(screen.getByRole('button', { name: /practise the missed ideas/i })).toBeInTheDocument();
+
+  await userEvent.click(screen.getByRole('button', { name: /back to the path/i }));
+  expect(await screen.findByText('The path')).toBeInTheDocument();
+});
