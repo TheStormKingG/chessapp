@@ -1,0 +1,168 @@
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router';
+import { loadCheckpoint, type CheckpointBank, type Challenge } from '@/lesson';
+import { LessonPlayer, type LessonOutcome } from '@/lesson/LessonPlayer';
+import { useProgress } from '@/data';
+import { SECTION_1 } from '@/path/curriculum';
+import { checkpointToLesson, remediationSet, sampleChallenges, scoreAttempt } from './CheckpointMachine';
+
+type Stage =
+  | { kind: 'intro' }
+  | { kind: 'test'; chosen: Challenge[] }
+  | { kind: 'failed'; score: number; missed: string[] }
+  | { kind: 'remediate'; set: Challenge[] }
+  | { kind: 'passed'; score: number; awarded: boolean };
+
+export function CheckpointRoute() {
+  const { unit = '' } = useParams();
+  const nav = useNavigate();
+  const [bank, setBank] = useState<CheckpointBank | null>(null);
+  const [stage, setStage] = useState<Stage>({ kind: 'intro' });
+  const progress = useProgress((s) => s.progress);
+  const append = useProgress((s) => s.append);
+  const attempts = progress.units[unit]?.attempts ?? 0;
+  useEffect(() => {
+    // No content bank yet (Tasks 18-19) is a missing route, not a crash.
+    loadCheckpoint(unit)
+      .then(setBank)
+      .catch(() => {
+        void nav('/path');
+      });
+  }, [unit, nav]);
+  const testLesson = useMemo(
+    () => (bank && stage.kind === 'test' ? checkpointToLesson(bank, stage.chosen) : null),
+    [bank, stage],
+  );
+  const remLesson = useMemo(
+    () => (bank && stage.kind === 'remediate' ? checkpointToLesson(bank, stage.set, true) : null),
+    [bank, stage],
+  );
+  if (!bank) return <section className="p-4 text-ink-muted">Loading…</section>;
+  const toPath = () => {
+    void nav('/path');
+  };
+
+  if (stage.kind === 'intro')
+    return (
+      <section className="p-4">
+        <h1 className="text-xl font-semibold">{bank.title}</h1>
+        <p className="mt-2">
+          {bank.sample} mixed questions on positions you have not seen. No hints. Pass mark{' '}
+          {Math.round(bank.passMark * 100)} per cent. Passing completes the unit, and you can attempt it now to
+          test out.
+        </p>
+        {attempts >= 3 && (
+          <p className="mt-2 rounded-lg bg-review-soft p-3 text-sm">
+            Three attempts so far. The coach recommends replaying this unit&rsquo;s lessons before the next try.
+          </p>
+        )}
+        <button
+          type="button"
+          className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white"
+          onClick={() => {
+            setStage({ kind: 'test', chosen: sampleChallenges(bank) });
+          }}
+        >
+          Start the checkpoint
+        </button>
+        <button type="button" className="tap mt-2 w-full rounded-lg border border-line px-4 py-3" onClick={toPath}>
+          Back to the path
+        </button>
+      </section>
+    );
+
+  if (stage.kind === 'test' && testLesson) {
+    const finish = async (o: LessonOutcome) => {
+      const s = scoreAttempt(stage.chosen, o.results, bank.passMark);
+      for (const [challengeId, r] of Object.entries(o.results))
+        await append({
+          type: 'challenge_attempted',
+          lessonId: bank.unit,
+          challengeId,
+          correct: r.correct,
+          hints: r.hints,
+          misses: r.misses,
+          mastery: r.mastery,
+          context: 'checkpoint',
+        });
+      const alreadyPassed = progress.units[bank.unit]?.passed ?? false;
+      await append({
+        type: 'checkpoint_attempted',
+        unit: bank.unit,
+        score: s.score,
+        passed: s.passed,
+        attempt: attempts + 1,
+        missedConcepts: s.missedConcepts,
+      });
+      if (s.passed) {
+        // PRD 6.4: passing before the unit's lessons are done is testing out.
+        const unitLessons = SECTION_1.units.find((u) => u.id === bank.unit)?.lessons ?? [];
+        const anyUndone = unitLessons.some((l) => !progress.lessons[l.id]?.completed);
+        if (anyUndone) await append({ type: 'unit_tested_out', unit: bank.unit });
+        setStage({ kind: 'passed', score: s.score, awarded: !alreadyPassed });
+      } else setStage({ kind: 'failed', score: s.score, missed: s.missedConcepts });
+    };
+    return (
+      <LessonPlayer
+        lesson={testLesson}
+        hintsAllowed={false}
+        title={bank.title}
+        onExit={toPath}
+        onComplete={(o) => {
+          void finish(o);
+        }}
+      />
+    );
+  }
+
+  if (stage.kind === 'failed')
+    return (
+      <section className="p-4">
+        <h1 className="text-xl font-semibold">Not yet</h1>
+        <p className="mt-2">
+          You scored {Math.round(stage.score * 100)} per cent. Missed: {stage.missed.join(', ')}.
+        </p>
+        <button
+          type="button"
+          className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white"
+          onClick={() => {
+            setStage({ kind: 'remediate', set: remediationSet(bank, stage.missed) });
+          }}
+        >
+          Practise the missed ideas
+        </button>
+      </section>
+    );
+
+  if (stage.kind === 'remediate' && remLesson)
+    return (
+      <LessonPlayer
+        lesson={remLesson}
+        title="Practice"
+        onExit={toPath}
+        onComplete={() => {
+          setStage({ kind: 'intro' });
+        }}
+      />
+    );
+
+  if (stage.kind === 'passed')
+    return (
+      <section className="p-4">
+        <h1 className="text-xl font-semibold">Checkpoint passed</h1>
+        <p className="mt-2">
+          {Math.round(stage.score * 100)} per cent. Unit {bank.unit} complete.
+          {stage.awarded ? ' +50 XP.' : ''}
+        </p>
+        <button
+          type="button"
+          className="tap mt-4 w-full rounded-lg bg-accent px-4 py-3 font-semibold text-white"
+          onClick={toPath}
+        >
+          Back to the path
+        </button>
+      </section>
+    );
+
+  return <section className="p-4 text-ink-muted">Loading…</section>;
+}

@@ -52,7 +52,8 @@ export function reduceProgress(start: Progress, events: LearnerEvent[]): Progres
       case 'checkpoint_attempted': {
         const u = p.units[x.unit] ?? { passed: false, attempts: 0, testedOut: false };
         p.units[x.unit] = { ...u, attempts: u.attempts + 1, passed: u.passed || x.passed };
-        if (x.passed) p.xp += 50;
+        // PRD F-PA-7: a retake of an already-passed checkpoint does not re-award the bonus.
+        if (x.passed && !u.passed) p.xp += 50;
         break;
       }
       case 'unit_tested_out': {

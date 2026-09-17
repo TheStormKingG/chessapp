@@ -63,3 +63,11 @@ test('reducing is pure: the starting progress is not mutated', () => {
   reduceProgress(start, [newEvent({ type: 'lesson_completed', lessonId: '1.1.1', stars: 1, xp: 20, replay: false })]);
   expect(start).toEqual(emptyProgress());
 });
+
+test('passing a checkpoint twice awards the 50 xp bonus once', () => {
+  const cp = (attempt: number) =>
+    newEvent({ type: 'checkpoint_attempted', unit: '1.1', score: 0.9, passed: true, attempt, missedConcepts: [] });
+  const p = reduceProgress(emptyProgress(), [cp(1), cp(2)]);
+  expect(p.units['1.1']).toEqual({ passed: true, attempts: 2, testedOut: false });
+  expect(p.xp).toBe(50);
+});
