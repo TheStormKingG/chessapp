@@ -34,6 +34,16 @@ export function Board(props: BoardProps) {
   } = props;
   const [selected, setSelected] = useState<Square | null>(null);
   const [status, setStatus] = useState('');
+  // M-1: flipping the board restarts the keyboard cursor at the player's near
+  // corner (see useBoardA11y), so any square selected before the flip must be
+  // released with it -- otherwise the user is silently still holding a piece
+  // and their next activation reports a spurious illegal move. Adjusted during
+  // render, matching the cursor reset (a setState-in-effect is lint-banned).
+  const [prevOrientation, setPrevOrientation] = useState(orientation);
+  if (prevOrientation !== orientation) {
+    setPrevOrientation(orientation);
+    setSelected(null);
+  }
 
   const tryMove = useCallback(
     (from: Square, to: Square | null): boolean => {
@@ -91,6 +101,11 @@ export function Board(props: BoardProps) {
   // instructions and duplicate announcements, and the library exposes no
   // option to turn them off. Neutralise them in the DOM after every render
   // and whenever the library re-creates piece nodes.
+  // Known residual: only the tab stops and aria-describedby are removed. The
+  // 32 piece nodes keep role="button" and aria-roledescription="draggable",
+  // so a screen reader may still describe a piece as a draggable button. The
+  // role="application" container mitigates that (AT forwards keys to us
+  // rather than browsing the children) but does not eliminate it.
   const appRef = useRef<HTMLDivElement>(null);
   const neutraliseDndKit = useCallback(() => {
     const root = appRef.current;
@@ -99,6 +114,10 @@ export function Board(props: BoardProps) {
       if (el.getAttribute('tabindex') !== '-1') el.setAttribute('tabindex', '-1');
       if (el.hasAttribute('aria-describedby')) el.removeAttribute('aria-describedby');
     });
+    // Invariant this sweep depends on: none of OUR live regions may live
+    // inside the role="application" container -- it hides every [aria-live]
+    // element found there. The board's own status region is a sibling of the
+    // container, below it in the returned tree; keep it that way.
     root.querySelectorAll<HTMLElement>('[aria-live]').forEach((el) => {
       if (el.getAttribute('aria-hidden') !== 'true') el.setAttribute('aria-hidden', 'true');
     });

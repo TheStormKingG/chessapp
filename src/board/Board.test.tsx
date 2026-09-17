@@ -111,6 +111,9 @@ test('exactly one live region inside the component is exposed to AT', async () =
   const { container } = render(<Board fen={START_FEN} orientation="w" mode="play" />);
   // react-chessboard/dnd-kit may mount its own live region in a child effect
   // after our commit; the MutationObserver neutralises it on the next tick.
+  // So there is a real one-tick window at mount during which two live regions
+  // are exposed -- that window is what this waitFor absorbs, and it is not a
+  // test-only artefact.
   await waitFor(() => expect(exposedLiveRegions(container)).toHaveLength(1));
   const exposed = exposedLiveRegions(container);
   expect(exposed[0]).toHaveAttribute('aria-label', 'Board announcements');
@@ -168,4 +171,37 @@ test('select mode: Enter on e2 then e4 does not call onMove', () => {
   expect(onSelect).toHaveBeenCalledTimes(2);
   expect(onSelect).toHaveBeenNthCalledWith(1, 'e2');
   expect(onSelect).toHaveBeenNthCalledWith(2, 'e4');
+});
+
+// --- M-1b: the selected square resets with the cursor on an orientation change ---
+
+function selectedSquares(root: HTMLElement) {
+  return Array.from(root.querySelectorAll<HTMLElement>('[style]')).filter((el) =>
+    /rgba\(\s*31,\s*95,\s*74,\s*0\.35\s*\)/.test(el.getAttribute('style') ?? ''),
+  );
+}
+
+test('flipping the board clears the selected square, not just the cursor', () => {
+  const onMove = vi.fn();
+  const { container, rerender } = render(
+    <Board fen={START_FEN} orientation="w" mode="play" onMove={onMove} />,
+  );
+  const grid = screen.getByRole('application', { name: /chess board/i });
+  // a1 -> e2, then select the pawn there
+  for (let i = 0; i < 4; i++) fireEvent.keyDown(grid, { key: 'ArrowRight' });
+  fireEvent.keyDown(grid, { key: 'ArrowUp' });
+  fireEvent.keyDown(grid, { key: 'Enter' });
+  expect(screen.getByRole('status', { name: 'Board announcements' })).toHaveTextContent(/Selected e2/);
+  expect(selectedSquares(container)).toHaveLength(1);
+
+  rerender(<Board fen={START_FEN} orientation="b" mode="play" onMove={onMove} />);
+  expect(selectedSquares(container)).toHaveLength(0);
+
+  // the cursor is back home at h8; activating it describes the square rather
+  // than reporting an illegal move from a piece the user is no longer holding.
+  fireEvent.keyDown(grid, { key: 'Enter' });
+  const status = screen.getByRole('status', { name: 'Board announcements' });
+  expect(status).not.toHaveTextContent(/Not a legal move/);
+  expect(status).toHaveTextContent(/h8/);
+  expect(onMove).not.toHaveBeenCalled();
 });
