@@ -28,6 +28,26 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run verify:content
+      # The e2e gate runs against a production bundle, not the dev server.
+      # It is built at the root base so the specs can navigate with relative
+      # paths; the Pages build below keeps the /chessapp/ base.
+      - name: Build for the e2e preview
+        run: npx vite build --base=/ --outDir dist-e2e
+      - run: npx playwright install chromium --with-deps
+      - name: End-to-end tests
+        run: npx playwright test tests/e2e
+        env:
+          PREVIEW: '1'
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-report
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: warn
+          retention-days: 7
+
       - run: npm run build
         env:
           NODE_ENV: production
