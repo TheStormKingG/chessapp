@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { BrowserRouter } from 'react-router';
 import { useProgress } from '@/data';
+import { InstallPrompt, UpdateNotice } from '@/pwa';
 import { AppRoutes } from './routes';
 
 export function App() {
@@ -11,7 +12,9 @@ export function App() {
   }, []);
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
+      <UpdateNotice />
       {loaded ? <AppRoutes /> : <p className="p-4 text-ink-muted">Loading…</p>}
+      {loaded && <InstallPrompt />}
     </BrowserRouter>
   );
 }

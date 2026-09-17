@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router';
 import { LessonPlayer, loadLesson, type Lesson, type LessonOutcome } from '@/lesson';
 import { useProgress } from '@/data';
+import { track } from '@/analytics';
 
 export function LessonRoute() {
   const { id = '' } = useParams();
@@ -17,6 +18,7 @@ export function LessonRoute() {
       .then((l) => {
         if (!on) return;
         setLesson(l);
+        track('lesson_started', { lessonId: l.id });
         void append({ type: 'lesson_started', lessonId: l.id });
       })
       .catch((e: unknown) => {
@@ -68,6 +70,7 @@ export function LessonRoute() {
         xp: o.xp,
         replay,
       });
+      track('lesson_completed', { lessonId: o.lessonId, stars: o.stars, xp: o.xp, replay });
       await nav('/path');
     })();
   };

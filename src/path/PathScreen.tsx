@@ -1,5 +1,6 @@
 import { Link } from 'react-router';
 import { useProgress } from '@/data';
+import { track } from '@/analytics';
 import { hasCheckpoint } from '@/lesson';
 import { SECTION_1 } from './curriculum';
 import { pathNodes, type Node } from './progress';
@@ -68,7 +69,13 @@ export function PathScreen() {
           return (
             <li key={key}>
               {enabled ? (
-                <Link to={to} aria-label={`${label}. ${hint}`}>
+                <Link
+                  to={to}
+                  aria-label={`${label}. ${hint}`}
+                  onClick={() => {
+                    track('path_node_opened', { kind: n.kind, to, state: n.state });
+                  }}
+                >
                   {inner}
                 </Link>
               ) : (
