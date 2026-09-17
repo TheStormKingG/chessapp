@@ -7,6 +7,8 @@ import { SettingsScreen } from '@/screens/SettingsScreen';
 import { PathScreen } from '@/path/PathScreen';
 import { LessonRoute } from '@/path/LessonRoute';
 import { CheckpointRoute } from '@/checkpoint/CheckpointRoute';
+import { ChooseOpponent } from '@/play/ChooseOpponent';
+import { PlayScreen } from '@/play/PlayScreen';
 
 export function AppRoutes() {
   return (
@@ -17,7 +19,8 @@ export function AppRoutes() {
         <Route path="/lesson/:id" element={<LessonRoute />} />
         <Route path="/checkpoint/:unit" element={<CheckpointRoute />} />
         <Route path="/puzzles" element={<PuzzlesScreen />} />
-        <Route path="/play" element={<div className="p-4">Play</div>} />
+        <Route path="/play" element={<ChooseOpponent />} />
+        <Route path="/play/game" element={<PlayScreen />} />
         <Route path="/progress" element={<ProgressScreen />} />
         <Route path="/settings" element={<SettingsScreen />} />
       </Routes>
