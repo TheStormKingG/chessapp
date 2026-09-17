@@ -27,7 +27,9 @@ interface Base {
 export type Challenge =
   | (Base & { type: 'find_the_move'; answer: { moves: string[] }; wrong?: Record<string, string> })
   | (Base & { type: 'find_the_sequence'; answer: { line: string[] }; wrong?: Record<string, string> })
-  | (Base & { type: 'find_them_all'; answer: { squares: Square[] } })
+  // Design spec 4.7 / PRD 7.4: mark every square OR every piece that fits.
+  // A piece is identified by the square it stands on.
+  | (Base & { type: 'find_them_all'; answer: { squares: Square[] } | { pieces: Square[] } })
   | (Base & {
       type: 'is_it_safe';
       move: string;
@@ -38,7 +40,7 @@ export type Challenge =
   | (Base & { type: 'name_the_pattern'; options: [string, string, string]; answer: { option: number } })
   | (Base & {
       type: 'play_it_out';
-      goal: { kind: 'mate_in' | 'promote' | 'capture_all' | 'survive'; moves: number };
+      goal: { kind: 'mate_in' | 'promote' | 'capture_all' | 'hold'; moves: number };
       opponentDepth?: number;
     })
   | (Base & { type: 'guess_the_move'; answer: { moves: string[] }; commentary: string });

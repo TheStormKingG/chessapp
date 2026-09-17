@@ -55,7 +55,9 @@ export function checkAnswer(c: Challenge, a: Attempt): Verdict {
     }
     case 'find_them_all': {
       if (a.kind !== 'squares') return { correct: false };
-      const want = new Set<Square>(c.answer.squares);
+      // squares[] and pieces[] are the same set of squares (a piece is named by
+      // the square it stands on), so they are compared identically.
+      const want = new Set<Square>('squares' in c.answer ? c.answer.squares : c.answer.pieces);
       const got = new Set<Square>(a.squares);
       const missing = [...want].filter((s) => !got.has(s));
       const extra = [...got].filter((s) => !want.has(s));

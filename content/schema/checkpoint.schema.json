@@ -34,14 +34,44 @@
         "reason": { "type": "string" },
         "answer": { "type": "object" },
         "wrong": { "type": "object" },
-        "goal": { "type": "object" },
+        "goal": {
+          "type": "object",
+          "required": ["kind", "moves"],
+          "properties": {
+            "kind": { "enum": ["mate_in", "promote", "capture_all", "hold"] },
+            "moves": { "type": "integer", "minimum": 1 }
+          }
+        },
         "options": { "type": "array" },
         "reasons": { "type": "array" },
         "move": { "type": "string" },
         "commentary": { "type": "string" },
         "timeLimitS": { "type": "integer" },
         "opponentDepth": { "type": "integer" }
+      },
+      "allOf": [
+        {
+          "if": { "properties": { "type": { "const": "find_them_all" } }, "required": ["type"] },
+          "then": {
+            "required": ["answer"],
+            "properties": { "answer": { "$ref": "#/definitions/squaresOrPieces" } }
+          }
+        }
+      ]
+    },
+    "squaresOrPieces": {
+      "description": "design spec 4.7 / PRD 7.4: squares[] or pieces[]; a piece is named by the square it stands on",
+      "type": "object",
+      "oneOf": [{ "required": ["squares"] }, { "required": ["pieces"] }],
+      "properties": {
+        "squares": { "$ref": "#/definitions/squareList" },
+        "pieces": { "$ref": "#/definitions/squareList" }
       }
+    },
+    "squareList": {
+      "type": "array",
+      "minItems": 1,
+      "items": { "type": "string", "pattern": "^[a-h][1-8]$" }
     }
   }
 }

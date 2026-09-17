@@ -37,6 +37,23 @@ test('find_them_all requires the exact set', () => {
   });
 });
 
+test('find_them_all accepts a pieces[] answer the same way as squares[]', () => {
+  const c: Challenge = {
+    id: 'y2',
+    type: 'find_them_all',
+    fen: 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1',
+    prompt: '',
+    concept: 'f',
+    answer: { pieces: ['d1', 'd2'] },
+  };
+  expect(checkAnswer(c, { kind: 'squares', squares: ['d2', 'd1'] })).toEqual({ correct: true });
+  expect(checkAnswer(c, { kind: 'squares', squares: ['d1', 'e1'] })).toEqual({
+    correct: false,
+    missing: ['d2'],
+    extra: ['e1'],
+  });
+});
+
 test('which_square, name_the_pattern, is_it_safe', () => {
   expect(
     checkAnswer(

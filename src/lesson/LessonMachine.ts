@@ -260,7 +260,8 @@ function revealText(c: Challenge): string {
 function revealHighlights(c: Challenge): Highlights {
   if (c.type === 'find_them_all') {
     const h: Highlights = {};
-    for (const sq of c.answer.squares) h[sq] = 'accent';
+    const marked = 'squares' in c.answer ? c.answer.squares : c.answer.pieces;
+    for (const sq of marked) h[sq] = 'accent';
     return h;
   }
   if (c.type === 'which_square') return { [c.answer.square]: 'accent' };

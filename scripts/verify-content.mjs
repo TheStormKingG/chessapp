@@ -1,11 +1,36 @@
-// Verifies every lesson and checkpoint file in content/ against the JSON schemas
-// and against the rules engine (chess.js) plus Stockfish. PRD 9.2.
+// Content verification gate for content/section-1.
+//
+// What this script actually checks:
+//   - every lesson/checkpoint file validates against its JSON schema;
+//   - challenge ids are unique across the whole corpus;
+//   - every FEN is a valid position per chess.js `validateFen`. The three
+//     board-vision types (which_square, find_them_all, name_the_pattern) may
+//     use a kingless teaching position, so a *missing king* is excused for
+//     them — but only after the same board, with the missing king(s) put back,
+//     validates cleanly. Every other rejection reason is an error for every
+//     type, so a structurally broken board (bad rank length, consecutive
+//     digits, pawns on the edge rows) can never ship.
+//   - authored solutions, wrong-move keys and hint squares are legal/occupied
+//     in the position they belong to;
+//   - per-type answer shapes (squares/pieces, option and reason indices, goals);
+//   - explain[].text stays under 60 words.
+//   - PRD 9.2 engine check, single-solution find_the_move only: Stockfish
+//     MultiPV 2 at depth 14 must agree with the authored move, and the
+//     second-best must be at least 100cp worse.
+//
+// What is NOT checked here, deliberately:
+//   - motif-tagger agreement (PRD 9.2). Deferred to the full tagger phase,
+//     design spec 4.4; no tagger exists in Phase 0.
+//   - human review of every position (PRD 9.2). That is a step in the content
+//     plan carried out by a person, not something a script can assert.
+//   - the Lichess-derived difficulty estimate (PRD 9.2). Not implemented in
+//     Phase 0.
 import { spawn } from 'node:child_process';
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { createInterface } from 'node:readline';
 import { join } from 'node:path';
 import Ajv from 'ajv';
-import { Chess } from 'chess.js';
+import { Chess, validateFen } from 'chess.js';
 
 const ajv = new Ajv({ allErrors: true });
 const lessonSchema = ajv.compile(JSON.parse(readFileSync('content/schema/lesson.schema.json', 'utf8')));
@@ -78,9 +103,48 @@ function scoreCp(s) {
   return s.kind === 'mate' ? (s.v > 0 ? 10000 : -10000) : s.v;
 }
 
-// Board-free challenge types may use a teaching position (an empty board, say)
-// that is not a legal game position. Every other type needs a playable FEN.
+// Board-vision challenge types may use a teaching position with no kings on it
+// (the empty board of lesson 1.1.1, say). That is the ONLY relaxation they get:
+// the board must still be structurally sound, so the exemption is keyed to the
+// rejection *reason*, never to the fact that chess.js rejected the FEN.
 const BOARDLESS = new Set(['which_square', 'find_them_all', 'name_the_pattern']);
+const MISSING_KING = /missing (white|black) king/;
+
+/** Expand a FEN rank ("4p3") into 8 characters, '.' for empty. */
+function expandRank(rank) {
+  let out = '';
+  for (const ch of rank) out += /[1-8]/.test(ch) ? '.'.repeat(Number(ch)) : ch;
+  return out;
+}
+
+/**
+ * Validate `fen`, allowing a missing king only when `allowKingless`. A kingless
+ * board is accepted only if putting the missing king(s) back on empty squares
+ * yields a FEN chess.js accepts — so every other defect (rank lengths,
+ * consecutive digits, pawns on the edge rows) is still reported.
+ * Returns null when the FEN is acceptable, else the reason to report.
+ */
+function fenProblem(fen, allowKingless) {
+  const first = validateFen(fen);
+  if (first.ok) return null;
+  if (!allowKingless || !MISSING_KING.test(first.error)) return first.error;
+
+  const [placement, ...rest] = fen.split(' ');
+  const ranks = placement.split('/').map(expandRank);
+  const board = ranks.map((r) => r.split(''));
+  for (const king of ['K', 'k']) {
+    if (board.some((r) => r.includes(king))) continue;
+    const rank = board.findIndex((r) => r.includes('.'));
+    if (rank === -1) return `${first.error} (and no empty square to place it on)`;
+    board[rank][board[rank].indexOf('.')] = king;
+  }
+  const repaired = [
+    board.map((r) => r.join('').replace(/\.+/g, (m) => String(m.length))).join('/'),
+    ...rest,
+  ].join(' ');
+  const second = validateFen(repaired);
+  return second.ok ? null : second.error;
+}
 
 function tryMove(game, san) {
   try {
@@ -94,14 +158,13 @@ const engine = startEngine();
 await engine.init();
 
 async function checkChallenge(where, c) {
+  const problem = fenProblem(c.fen, BOARDLESS.has(c.type));
+  if (problem !== null) return fail(where, `bad FEN: ${problem}`);
   let chess = null;
   try {
     chess = new Chess(c.fen);
-  } catch (e) {
-    if (!BOARDLESS.has(c.type)) return fail(where, `bad FEN: ${e.message}`);
-    if (!/^([rnbqkpRNBQKP1-8]+\/){7}[rnbqkpRNBQKP1-8]+ [wb] /.test(c.fen)) {
-      return fail(where, `bad FEN: ${e.message}`);
-    }
+  } catch {
+    chess = null; // accepted kingless teaching board: no playable position
   }
   const legal = chess ? chess.moves({ verbose: true }) : [];
   const ok = (san) => legal.some((m) => m.san === san);
@@ -131,10 +194,17 @@ async function checkChallenge(where, c) {
       break;
     }
     case 'find_them_all': {
-      if (!Array.isArray(c.answer?.squares) || c.answer.squares.length === 0) {
-        fail(where, 'find_them_all needs squares');
+      // Design spec 4.7 / PRD 7.4: the answer marks every square OR every piece
+      // that fits; pieces are named by the square they stand on.
+      const key = Array.isArray(c.answer?.squares)
+        ? 'squares'
+        : Array.isArray(c.answer?.pieces)
+          ? 'pieces'
+          : null;
+      if (key === null || c.answer[key].length === 0) {
+        fail(where, 'find_them_all needs a non-empty squares[] or pieces[]');
       } else {
-        for (const s of c.answer.squares) if (!/^[a-h][1-8]$/.test(s)) fail(where, `bad square ${s}`);
+        for (const s of c.answer[key]) if (!/^[a-h][1-8]$/.test(s)) fail(where, `bad square ${s}`);
       }
       break;
     }
