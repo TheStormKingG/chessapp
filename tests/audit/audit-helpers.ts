@@ -406,3 +406,130 @@ export async function answerWrongOnce(page: Page, c: Challenge): Promise<void> {
       throw new Error(`audit: no wrong-answer path for ${c.type}`);
   }
 }
+
+/* --------------------------------------------------------------- elevation */
+
+/**
+ * PREMIUM-DELTA.md Δ1 -- depth comes from crisp edges, never from blur.
+ *
+ * Neither reference product puts a blurred shadow on a control: chess.com's
+ * raised CTA tops out at a 4px blur with 1px and 2px drops (§1.2) and
+ * Duolingo's physical-key affordance is a 4px solid bottom border with
+ * `box-shadow: none` (§2.1). Rule 1 of Δ1 turns that into an app-wide ban on a
+ * blur radius above 4px, and rule 4 stops elevation at the board's edge.
+ *
+ * These read COMPUTED style in a real browser, which is the only place a
+ * Tailwind utility, a token and a media query have all been resolved --
+ * `src/board/Board.test.tsx` asserts the same rule over inline style in jsdom,
+ * where none of them have.
+ */
+export const BLUR_CAP_PX = 4;
+
+/** Parses one `box-shadow` layer's blur radius, in px. Unitless zeros count. */
+function shadowBlurPx(layer: string): number {
+  const lengths = [
+    ...layer
+      .replace(/(rgba?|hsla?|color|var)\([^)]*\)/gi, ' ')
+      .replace(/#[0-9a-f]{3,8}/gi, ' ')
+      .matchAll(/(-?\d*\.?\d+)(px)?(?=\s|$)/g),
+  ].map((m) => Number(m[1]));
+  // offset-x, offset-y, blur, spread.
+  return lengths[2] ?? 0;
+}
+
+/** Every element in the page whose computed box-shadow blurs by more than the cap. */
+export async function blurredShadows(page: Page): Promise<string[]> {
+  const entries = await page.evaluate(() =>
+    [...document.querySelectorAll<HTMLElement>('*')]
+      .map((el) => {
+        const s = getComputedStyle(el).boxShadow;
+        return s && s !== 'none'
+          ? `${el.tagName.toLowerCase()}.${el.getAttribute('class') ?? ''} :: ${s}`
+          : '';
+      })
+      .filter(Boolean),
+  );
+  return entries.filter((entry) => {
+    const shadow = entry.split(' :: ')[1] ?? '';
+    return shadow
+      .split(/,(?![^()]*\))/)
+      .some((layer) => shadowBlurPx(layer.trim()) > BLUR_CAP_PX);
+  });
+}
+
+/**
+ * Δ1 rule 4: the board, its squares and its marks carry no elevation -- no
+ * outer shadow, no blur at all, no radius, no key edge. The marks themselves
+ * are zero-blur INSET rings (`inset 0 0 0 5px`, `inset 0 0 0 3px`) and are the
+ * carriers of meaning DESIGN-SYSTEM.md §7 requires kept exactly, so they are
+ * deliberately not caught here. The replay's Skip control is chrome sitting
+ * over the board rather than part of it, and is out of scope for the same
+ * reason it is in `Board.test.tsx`.
+ */
+export async function boardElevationViolations(page: Page): Promise<string[]> {
+  return page.evaluate(
+    ({ cap }) => {
+      const root = document.querySelector('[data-board-root]');
+      if (!root) return ['no [data-board-root] on the page'];
+      const grid = root.querySelector('[role="application"]');
+      if (!grid) return ['no [role="application"] board grid on the page'];
+      const els = [root, grid, ...grid.querySelectorAll('*')] as HTMLElement[];
+      // A probe that matched nothing would report "clean" (observation 0032).
+      if (els.length < 3) return ['board probe matched fewer than 3 elements'];
+
+      const NO_SUCH_COLOUR = 'never-matches';
+      const toRgbText = (hex: string): string => {
+        const m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})$/i.exec(hex.trim());
+        return m ? `rgb(${m.slice(1, 4).map((h) => parseInt(h, 16)).join(', ')})` : NO_SUCH_COLOUR;
+      };
+      const css = getComputedStyle(document.documentElement);
+      const banned = [
+        toRgbText(css.getPropertyValue('--key-accent')),
+        toRgbText(css.getPropertyValue('--key-raised')),
+      ].filter((c) => c !== NO_SUCH_COLOUR);
+      if (banned.length !== 2) return ['--key-accent / --key-raised did not resolve to hex colours'];
+
+      const blurOf = (layer: string): number => {
+        const lengths = [
+          ...layer
+            .replace(/(rgba?|hsla?|color|var)\([^)]*\)/gi, ' ')
+            .replace(/#[0-9a-f]{3,8}/gi, ' ')
+            .matchAll(/(-?\d*\.?\d+)(px)?(?=\s|$)/g),
+        ].map((m) => Number(m[1]));
+        return lengths[2] ?? 0;
+      };
+
+      const out: string[] = [];
+      for (const el of els) {
+        const cs = getComputedStyle(el);
+        const where = `${el.tagName.toLowerCase()}.${el.getAttribute('class') ?? ''}`;
+
+        if (cs.boxShadow && cs.boxShadow !== 'none') {
+          for (const raw of cs.boxShadow.split(/,(?![^()]*\))/)) {
+            const layer = raw.trim();
+            if (!layer) continue;
+            if (!/\binset\b/.test(layer)) out.push(`${where}: outer shadow "${layer}"`);
+            else if (blurOf(layer) > 0) out.push(`${where}: blurred inset "${layer}"`);
+            if (blurOf(layer) > cap) out.push(`${where}: blur above ${String(cap)}px "${layer}"`);
+          }
+        }
+
+        for (const corner of [
+          'borderTopLeftRadius',
+          'borderTopRightRadius',
+          'borderBottomLeftRadius',
+          'borderBottomRightRadius',
+        ] as const) {
+          const r = cs[corner];
+          if (r && r !== '0px') out.push(`${where}: ${corner} ${r}`);
+        }
+
+        for (const side of ['borderBottomColor', 'borderTopColor', 'borderLeftColor', 'borderRightColor'] as const) {
+          if (banned.includes(cs[side])) out.push(`${where}: key edge on ${side} (${cs[side]})`);
+        }
+      }
+      return out;
+    },
+    { cap: BLUR_CAP_PX },
+  );
+}

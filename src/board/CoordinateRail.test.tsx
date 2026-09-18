@@ -36,9 +36,25 @@ test('the rail is the structural answer to C-2: full contrast on the page ground
   // square-and-appearance combinations -- which is the whole reason A3's
   // per-square pick existed and why the glyphs had to move. In the gutter the
   // ink is --content on --surface and nothing can sit behind it.
+  //
+  // PREMIUM-DELTA.md Δ1 deepened the light ground from #F4F2ED to #EAE5DA so a
+  // card reads as a surface rather than as an outline, which moves this pair
+  // from 15.19:1 to 13.53:1. The old threshold was a round number standing in
+  // for "nothing here is marginal", not a requirement; the measured figures are
+  // asserted directly now so a token change cannot drift them silently, and the
+  // claim the test actually makes -- that the gutter beats every on-square
+  // combination by a wide margin -- is asserted against the worst of those.
+  const WORST_ON_SQUARE = round(
+    contrastRatio(FALLBACK_PALETTE.dark['--content'], FALLBACK_PALETTE.dark['--board-light']),
+  );
+  expect(WORST_ON_SQUARE).toBe(3.34);
+  const measured = { light: 13.53, dark: 15.94 };
   for (const appearance of ['light', 'dark'] as const) {
     const p = FALLBACK_PALETTE[appearance];
-    expect(round(contrastRatio(p['--content'], p['--surface'])), appearance).toBeGreaterThanOrEqual(15);
+    const ratio = round(contrastRatio(p['--content'], p['--surface']));
+    expect(ratio, appearance).toBe(measured[appearance]);
+    expect(ratio, appearance).toBeGreaterThanOrEqual(4.5);
+    expect(ratio / WORST_ON_SQUARE, appearance).toBeGreaterThan(3);
   }
 });
 

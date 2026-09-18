@@ -17,6 +17,15 @@
  *               where the control already sits inside a bordered card and a
  *               second border would just be noise.
  *
+ * Depth (PREMIUM-DELTA.md Δ1) is spelled in `theme.css`, not here. `primary`
+ * carries a 3px solid `--key-accent` bottom edge and `secondary` a 2px
+ * `--key-raised` one; `quiet`, `danger` and `dangerQuiet` carry none, because
+ * a control that is not being offered is not a raised thing. Both references
+ * express depth with a hard edge and no blur — chess.com's raised CTA tops out
+ * at a 4px blur and Duolingo's key is `box-shadow: none` plus a 4px bottom
+ * border — so a blur radius above 4px is banned app-wide, and at most one
+ * element per screen (the primary) carries `--key-accent`.
+ *
  * Exported as class strings rather than only as a component because half the
  * call sites are `<Link>`s and anchor elements whose semantics are already
  * correct; wrapping them to gain a style would change the DOM that the specs

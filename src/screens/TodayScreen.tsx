@@ -36,7 +36,7 @@ export function TodayScreen() {
       {next ? (
         <Link
           to={next.kind === 'lesson' ? `/lesson/${next.id}` : `/checkpoint/${next.unit}`}
-          className="tap mt-2 block rounded-xl border border-edge-strong bg-surface-raised p-4"
+          className="tap mt-2 block rounded-xl border border-edge-strong border-b-2 border-b-key-raised bg-surface-raised p-4"
         >
           <span className="t-caption block text-content-dim">
             {next.kind === 'lesson' ? `Lesson ${next.id}` : `Checkpoint ${next.unit}`}
@@ -52,7 +52,7 @@ export function TodayScreen() {
           </span>
         </Link>
       ) : (
-        <p className="t-body mt-2 rounded-xl border border-edge-strong bg-surface-raised p-4">
+        <p className="t-body mt-2 rounded-xl border border-edge-strong border-b-2 border-b-key-raised bg-surface-raised p-4">
           You have finished everything that is built so far. More lessons are coming.
         </p>
       )}
@@ -79,7 +79,7 @@ export function TodayScreen() {
           </button>
         </div>
       )}
-      <Link to="/play" className="t-heading tap mt-2 block rounded-xl border border-edge-strong bg-surface-raised p-4">
+      <Link to="/play" className="t-heading tap mt-2 block rounded-xl border border-edge-strong border-b-2 border-b-key-raised bg-surface-raised p-4">
         Play a coached game
       </Link>
 

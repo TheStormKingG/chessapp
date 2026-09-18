@@ -63,7 +63,7 @@ export function InstallPrompt() {
   return (
     <aside
       aria-label="Install ChessApp"
-      className="t-label fixed inset-x-0 bottom-16 z-20 mx-auto max-w-md rounded-lg border border-edge-strong bg-surface-raised p-4 shadow-lg md:bottom-4"
+      className="t-label fixed inset-x-0 bottom-16 z-20 mx-auto max-w-md rounded-lg border border-edge-strong border-b-2 border-b-key-raised bg-surface-raised p-4 md:bottom-4"
     >
       <h2 className="t-heading">Install ChessApp</h2>
       <ul className="mt-2 space-y-1 text-content-dim">

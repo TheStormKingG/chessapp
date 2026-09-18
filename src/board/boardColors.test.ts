@@ -137,9 +137,16 @@ test('a single fixed ink cannot serve both appearances -- which is why it is pic
   // The negative control for pickReadable: --content alone, the obvious choice,
   // fails on the light square in the dark appearance at 3.34:1. Without this
   // the per-square pick looks like unnecessary machinery.
+  //
+  // PREMIUM-DELTA.md Δ1 deepened the dark ground from #121514 to #0E1110, so
+  // the ink the pick lands on -- --surface, not --content -- is darker and the
+  // measured ratio rises from 4.62:1 to 4.77:1. The mechanism is unchanged; the
+  // figure is re-derived rather than relaxed, because the point of asserting it
+  // exactly is that a token change is never allowed to move it silently.
   const d = FALLBACK_PALETTE.dark;
   expect(round(contrastRatio(d['--content'], d['--board-light']))).toBe(3.34);
-  expect(round(contrastRatio(pickReadable([d['--content'], d['--surface']], d['--board-light']), d['--board-light']))).toBe(4.62);
+  expect(pickReadable([d['--content'], d['--surface']], d['--board-light'])).toBe(d['--surface']);
+  expect(round(contrastRatio(pickReadable([d['--content'], d['--surface']], d['--board-light']), d['--board-light']))).toBe(4.77);
 });
 
 test('pickReadable returns the higher-contrast candidate, either way round', () => {

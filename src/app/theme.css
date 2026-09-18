@@ -22,24 +22,47 @@
   color-scheme: light;
 
   /* Surface and content */
-  --surface: #f4f2ed;
-  --surface-raised: #fbfaf7;
-  --content: #1a1d1b; /* 15.19:1 on --surface */
-  --content-dim: #565b58; /* 6.19:1 on --surface */
+  /* PREMIUM-DELTA.md Δ1: the ground is deepened so a card is an object on it
+     rather than an outline drawn on paper. raised-to-ground was 1.07:1, which
+     is not a surface; it is now 1.20:1. */
+  --surface: #eae5da;
+  --surface-raised: #fbfaf7; /* 1.20:1 above --surface (was 1.07:1 on the old ground) */
+  --content: #1a1d1b; /* 13.53:1 on --surface */
+  --content-dim: #565b58; /* 5.51:1 on --surface */
   --edge: #dcd8cf; /* hairlines only: decorative, no contrast duty */
-  --edge-strong: #8e8a80; /* 3.08:1 — every boundary that is the sole separator */
+  --edge-strong: #807c73; /* 3.31:1 on --surface, 3.99:1 on a card — every boundary that is the sole separator */
+
+  /*
+   * Depth is a crisp solid edge, never a blur (PREMIUM-DELTA.md §1.2, §2.1).
+   * Neither reference product puts a blurred shadow on a control: chess.com's
+   * raised CTA tops out at a 4px blur with 1px and 2px drops, and Duolingo's
+   * entire physical-key affordance is a 4px solid bottom border with
+   * `box-shadow: none`. Rule: a box-shadow blur radius above 4px is banned
+   * app-wide, at most ONE element per screen carries --key-accent, and
+   * elevation stops at the board's edge — the board, its squares and its marks
+   * take no key edge, no shadow and no radius, ever (Δ1 rule 4).
+   *
+   * Both key tokens are decorative: they carry no meaning and are never the
+   * sole separator, so they have no contrast duty. The measured figures are
+   * recorded so nobody has to re-derive them.
+   */
+  --key-accent: #0b3c2d; /* 3px under the primary action only. 9.84:1 on --surface, 1.67:1 on the --accent face */
+  --key-raised: #c9c3b5; /* 2px under cards and secondary controls. 1.40:1 on --surface */
+
+  /* The progress groove (Δ3). Fills in --accent, which measures 4.63:1 on it. */
+  --track: #d3ccbc; /* 1.27:1 below --surface — a visible groove, not a border */
 
   /* Accent: primary action and completed work, and nothing else */
-  --accent: #12614a; /* 6.62:1 on --surface */
+  --accent: #12614a; /* 5.90:1 on --surface */
   --accent-on: #ffffff; /* 7.41:1 on --accent */
   --accent-soft: #d7e9e0; /* --content on it: 13.45:1 */
 
   /* Signal: review, due */
-  --signal: #7a5310; /* 6.11:1 on --surface */
+  --signal: #7a5310; /* 5.44:1 on --surface */
   --signal-soft: #f6e9ce; /* --signal on it: 5.68:1 */
 
   /* Danger: destructive UI only, never the board */
-  --danger: #9b2f2f; /* 6.61:1 on --surface */
+  --danger: #9b2f2f; /* 5.88:1 on --surface */
 
   /* The board. Square-to-square contrast is deliberately ~2.7:1; see §3.1. */
   --board-light: #e9e1d2;
@@ -60,21 +83,26 @@
   :root {
     color-scheme: dark;
 
-    --surface: #121514;
-    --surface-raised: #1c211f;
-    --content: #e9ece9; /* 15.43:1 on --surface */
-    --content-dim: #9aa29e; /* 7.03:1 on --surface */
+    --surface: #0e1110;
+    --surface-raised: #1c211f; /* 1.16:1 above --surface (was 1.13:1 on the old ground) */
+    --content: #e9ece9; /* 15.94:1 on --surface */
+    --content-dim: #9aa29e; /* 7.26:1 on --surface */
     --edge: #2a302d;
-    --edge-strong: #6f7874; /* 4.04:1 */
+    --edge-strong: #6f7874; /* 4.17:1 on --surface, 3.59:1 on a card */
 
-    --accent: #4fc48e; /* 8.41:1 on --surface */
+    --key-accent: #2a7a57; /* 3.63:1 on --surface, 2.39:1 on the --accent face */
+    --key-raised: #070908; /* 1.05:1 below --surface */
+
+    --track: #313a36; /* 1.62:1 above --surface; --accent on it is 5.38:1 */
+
+    --accent: #4fc48e; /* 8.69:1 on --surface */
     --accent-on: #08130e; /* 8.67:1 on --accent */
     --accent-soft: #123128; /* --content on it: 11.79:1 */
 
-    --signal: #e9b454; /* 9.73:1 on --surface */
+    --signal: #e9b454; /* 10.05:1 on --surface */
     --signal-soft: #33280f; /* --signal on it: 7.66:1 */
 
-    --danger: #f08a8a; /* 7.62:1 on --surface */
+    --danger: #f08a8a; /* 7.87:1 on --surface */
 
     --board-light: #8a7e6c;
     --board-dark: #574f42;
@@ -97,6 +125,9 @@
   --color-content-dim: var(--content-dim);
   --color-edge: var(--edge);
   --color-edge-strong: var(--edge-strong);
+  --color-key-accent: var(--key-accent);
+  --color-key-raised: var(--key-raised);
+  --color-track: var(--track);
   --color-accent: var(--accent);
   --color-accent-on: var(--accent-on);
   --color-accent-soft: var(--accent-soft);
@@ -167,6 +198,13 @@ body {
  * the sole visible carrier of its meaning takes `label` (15px) or larger.
  */
 :root {
+  /* PREMIUM-DELTA.md Δ2: the top of the ladder, spent in exactly two places —
+     the lesson-close headline and the Today title — and never allowed to appear
+     without its --font-index notation line beneath it. Zero bytes: the system
+     stack already carries a 700 weight. At the largest system text size (200 %)
+     this renders at 80px and both strings wrap inside 390px. */
+  --type-display-lg-size: 2.5rem; /* 40px */
+  --type-display-lg-leading: 2.75rem; /* 44px */
   --type-display-size: 1.875rem; /* 30px */
   --type-display-leading: 2.125rem; /* 34px */
   --type-title-size: 1.375rem; /* 22px */
@@ -183,6 +221,14 @@ body {
   --type-index-leading: 1.25rem; /* 20px */
   --type-index-small-size: 0.75rem; /* 12px */
   --type-index-small-leading: 1rem; /* 16px */
+}
+
+@utility t-display-lg {
+  font-family: var(--font-sans);
+  font-size: var(--type-display-lg-size);
+  line-height: var(--type-display-lg-leading);
+  font-weight: 700;
+  letter-spacing: -0.02em;
 }
 
 @utility t-display {
@@ -287,17 +333,29 @@ body {
   transition: opacity var(--motion-fast) var(--ease-out);
 }
 
+/*
+ * The key edge (PREMIUM-DELTA.md Δ1). The primary action is the ONE raised
+ * element on its screen and it is raised with a 3px solid bottom edge and no
+ * blur; the face keeps its 44px so `min-height` grows by the edge rather than
+ * absorbing it, which is why the target measures 47px, never 41.
+ */
 @utility btn-primary {
   background: var(--accent);
   color: var(--accent-on);
   border-color: var(--accent);
+  border-bottom: 3px solid var(--key-accent);
+  min-height: 47px;
   font-weight: 600;
 }
 
+/* Secondary controls are raised too, but at 2px in --key-raised, so a set of
+   options still reads as a set and only the preferred member is filled. */
 @utility btn-secondary {
   background: transparent;
   color: var(--content);
   border-color: var(--edge-strong);
+  border-bottom: 2px solid var(--key-raised);
+  min-height: 46px;
 }
 
 @utility btn-quiet {

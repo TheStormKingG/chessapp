@@ -9,7 +9,10 @@
  * gives every consumer -- inline style, SVG attribute, Playwright probe -- the
  * same concrete value.
  *
- * DESIGN-SYSTEM.md 3.1 is the authority for the values. The fallbacks below
+ * DESIGN-SYSTEM.md 3.1 is the authority for the board values; PREMIUM-DELTA.md
+ * Δ1 re-grounds `--surface` (#F4F2ED -> #EAE5DA light, #121514 -> #0E1110 dark),
+ * and this table mirrors `theme.css` exactly so the jsdom measurements are
+ * measurements of the shipping palette. The fallbacks below
  * exist only so the board is correct in both appearances before chunk A1 lands
  * the tokens; once `theme.css` defines them, the computed value always wins.
  */
@@ -39,7 +42,7 @@ export const FALLBACK_PALETTE: Record<Appearance, BoardPalette> = {
     '--mark-good': '#0B3D2E',
     '--mark-review': '#4A3306',
     '--content': '#1A1D1B',
-    '--surface': '#F4F2ED',
+    '--surface': '#EAE5DA',
   },
   dark: {
     '--board-light': '#8A7E6C',
@@ -49,7 +52,7 @@ export const FALLBACK_PALETTE: Record<Appearance, BoardPalette> = {
     '--mark-good': '#B6F5D8',
     '--mark-review': '#F7DFAC',
     '--content': '#E9ECE9',
-    '--surface': '#121514',
+    '--surface': '#0E1110',
   },
 };
 

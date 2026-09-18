@@ -370,3 +370,135 @@ test('a move typed during a replay is played, not swallowed by the skip', () => 
   expect(screen.queryByRole('button', { name: 'Skip' })).not.toBeInTheDocument();
   vi.useRealTimers();
 });
+
+/*
+ * PREMIUM-DELTA.md Δ1 rule 4 -- elevation stops at the board's edge.
+ *
+ * This is a guard, not a restyle: the board is already correct and must stay
+ * correct. Both reference products frame their board with literally nothing
+ * (PREMIUM-DELTA.md §1.1 measured chess.com's hero board at `box-shadow: none`,
+ * `border: 0px none`, transparent background), and a chess board with a drop
+ * shadow stops being a board and becomes a photograph of one. The premium pass
+ * adds --key-accent and --key-raised edges to cards and controls; this test
+ * exists so a later chunk cannot sweep the board up with them.
+ *
+ * What is deliberately NOT banned: the marks. `accent` is `inset 0 0 0 5px` and
+ * the review ring is `inset 0 0 0 3px` -- inset, zero blur, and the carriers of
+ * meaning that DESIGN-SYSTEM.md §7 requires kept exactly. The rule is about
+ * ELEVATION, so it bans outer shadows, any blur radius at all, radii and the key
+ * edges, and leaves zero-blur inset rings alone.
+ */
+
+const BLUR_CAP_PX = 4;
+
+/** Every non-inset shadow layer, and every layer whose blur is above the cap. */
+function elevationShadows(el: HTMLElement): string[] {
+  const raw = el.style.boxShadow;
+  if (!raw) return [];
+  return raw
+    .split(/,(?![^()]*\))/)
+    .map((layer) => layer.trim())
+    .filter((layer) => {
+      if (!layer) return false;
+      // Strip the colour first -- `rgba(0, 0, 0, 0.2)` is full of numbers that
+      // are not lengths -- then read the remaining numeric tokens in order.
+      // Unitless zeros are lengths too: `inset 0 0 12px red` has blur 12, and a
+      // parser that only matched `\d+px` would silently read it as blur 0.
+      const lengths = [
+        ...layer
+          .replace(/(rgba?|hsla?|color|var)\([^)]*\)/gi, ' ')
+          .replace(/#[0-9a-f]{3,8}/gi, ' ')
+          .matchAll(/(-?\d*\.?\d+)(px|r?em)?(?=\s|$)/g),
+      ].map((m) => Number(m[1]));
+      // offset-x, offset-y, blur, spread -- blur is the third length when present.
+      const blur = lengths[2] ?? 0;
+      return !/\binset\b/.test(layer) || blur > BLUR_CAP_PX;
+    });
+}
+
+/** `className` is an SVGAnimatedString on SVG nodes, so read the attribute. */
+function classOf(el: Element): string {
+  return el.getAttribute('class') ?? '';
+}
+
+/**
+ * The board proper: its own outer box plus the grid and everything the grid
+ * paints. Deliberately NOT the whole of `[data-board-root]` -- the replay's
+ * Skip control is transient chrome that sits over the board rather than part
+ * of it, and it is allowed a radius like any other control.
+ */
+function boardElements(container: HTMLElement): HTMLElement[] {
+  const root = container.querySelector<HTMLElement>('[data-board-root]');
+  expect(root, 'the board root must be findable for this guard to mean anything').not.toBeNull();
+  const grid = root!.querySelector<HTMLElement>('[role="application"]');
+  expect(grid, 'the board grid must be findable for this guard to mean anything').not.toBeNull();
+  return [root!, grid!, ...grid!.querySelectorAll<HTMLElement>('*')];
+}
+
+test.each(['light', 'dark'] as const)(
+  '%s: the board, its squares and its marks carry no elevation -- no shadow, no blur, no radius, no key edge',
+  (appearance) => {
+    reduceMotion(false);
+    if (appearance === 'dark') {
+      Object.defineProperty(window, 'matchMedia', {
+        configurable: true,
+        writable: true,
+        value: (q: string) =>
+          ({
+            matches: q.includes('prefers-color-scheme: dark'),
+            media: q,
+            addEventListener: () => undefined,
+            removeEventListener: () => undefined,
+            addListener: () => undefined,
+            removeListener: () => undefined,
+            onchange: null,
+            dispatchEvent: () => false,
+          }) as unknown as MediaQueryList,
+      });
+    }
+    try {
+      const { container } = render(<Board fen={START_FEN} orientation="w" mode="play" />);
+      const els = boardElements(container);
+      // The guard is only as good as its reach: a selector that matched nothing
+      // would pass this test in silence (observation 0032).
+      expect(els.length).toBeGreaterThan(1);
+
+      for (const el of els) {
+        expect(elevationShadows(el), `box-shadow on ${el.tagName}.${classOf(el)}`).toEqual([]);
+        expect(el.style.borderRadius, `border-radius on ${el.tagName}.${classOf(el)}`).toBe('');
+        for (const key of ['--key-accent', '--key-raised'] as const) {
+          expect(
+            `${el.getAttribute('style') ?? ''} ${classOf(el)}`,
+            `${key} must not reach the board`,
+          ).not.toContain(key.replace('--', ''));
+        }
+        expect(classOf(el), `rounded-* must not reach the board`).not.toMatch(/(^|\s)rounded(-|$)/);
+      }
+    } finally {
+      clearReduceMotion();
+    }
+  },
+);
+
+test('the guard can fail: an outer shadow, a >4px blur or a radius on a board element is caught', () => {
+  // The negative control. Without it, a selector that drifted off the board
+  // would leave the test above green forever (observation 0059).
+  const { container } = render(<Board fen={START_FEN} orientation="w" mode="play" />);
+  const root = container.querySelector<HTMLElement>('[data-board-root]')!;
+
+  root.style.boxShadow = '0 12px 24px rgba(0,0,0,0.2)';
+  expect(elevationShadows(root)).toHaveLength(1);
+
+  root.style.boxShadow = 'inset 0 0 12px rgba(0,0,0,0.2)';
+  expect(elevationShadows(root)).toHaveLength(1);
+
+  // ...and the marks the board really does draw are NOT caught.
+  root.style.boxShadow = 'inset 0 0 0 5px rgb(11, 61, 46)';
+  expect(elevationShadows(root)).toEqual([]);
+  root.style.boxShadow = 'inset 0 0 0 3px rgb(74, 51, 6)';
+  expect(elevationShadows(root)).toEqual([]);
+
+  root.style.boxShadow = '';
+  root.style.borderRadius = '10px';
+  expect(root.style.borderRadius).toBe('10px'); // the property the guard reads is live
+});

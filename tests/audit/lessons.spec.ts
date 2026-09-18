@@ -1,6 +1,8 @@
 import { test, expect } from '@playwright/test';
 import {
   ConsoleLog,
+  blurredShadows,
+  boardElevationViolations,
   enableTextEntry,
   lessonIds,
   openLesson,
@@ -21,6 +23,11 @@ for (const id of lessonIds()) {
     await enableTextEntry(page);
     log.mark(`lesson ${id}`);
     await openLesson(page, lesson);
+
+    // PREMIUM-DELTA.md Δ1: depth is a crisp edge, never a blur, and elevation
+    // stops at the board. Read off computed style on a real challenge screen.
+    expect(await boardElevationViolations(page)).toEqual([]);
+    expect(await blurredShadows(page)).toEqual([]);
 
     // The card carries the idea; the explain screens have been stepped through
     // by openLesson, which fails if any Next is missing.

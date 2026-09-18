@@ -25,7 +25,7 @@ export function ChooseOpponent() {
     <section className="p-4">
       <h1 className="t-display">Play a game</h1>
 
-      <div className="mt-4 flex gap-3 rounded-xl border border-edge-strong bg-surface-raised p-3">
+      <div className="mt-4 flex gap-3 rounded-xl border border-edge-strong border-b-2 border-b-key-raised bg-surface-raised p-3">
         {/*
           A monogram, not an avatar image: no persona art is shipped, and a root-relative
           path would miss under the production base anyway. Swap it for an <img> when the
