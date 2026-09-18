@@ -1,0 +1,174 @@
+{
+  "id": "1.3.1",
+  "unit": "1.3",
+  "title": "Check and the three ways out",
+  "xp": 12,
+  "card": {
+    "idea": "Your king is in check when an enemy piece attacks him. You are never allowed to leave him there. There are only three ways out: move the king, block the line, or take the attacker.",
+    "habit": "In check? Move, block, or take.",
+    "diagrams": [
+      "3k4/8/8/6K1/b7/8/8/3R3r b - - 0 1"
+    ]
+  },
+  "explain": [
+    {
+      "fen": "2k3Q1/7K/8/8/8/8/8/8 b - - 0 1",
+      "text": "The white queen on g8 attacks the black king along the eighth rank. That is check. Black has to answer it right now. You cannot ignore a check and play somewhere else on the board.",
+      "arrows": [
+        [
+          "g8",
+          "c8"
+        ]
+      ],
+      "highlights": [
+        "c8"
+      ]
+    },
+    {
+      "fen": "3k4/8/8/6K1/b7/8/8/3R3r b - - 0 1",
+      "text": "The rook on d1 checks the king on d8. Black has all three answers here. The king can step to c7 or e7. The bishop can drop into d7 and block the line. Or the rook on h1 can simply take the rook on d1.",
+      "arrows": [
+        [
+          "d1",
+          "d8"
+        ]
+      ],
+      "highlights": [
+        "d8",
+        "d7",
+        "d1"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.3.1-c1",
+      "type": "name_the_pattern",
+      "fen": "8/7Q/8/5k2/8/8/8/4K3 b - - 0 1",
+      "prompt": "What is happening to the black king?",
+      "options": [
+        "He is in check from the queen on h7.",
+        "He is safe; the queen cannot reach him.",
+        "He is safe; the queen is on the wrong colour of square."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "check",
+      "reason": "The queen on h7 runs down the diagonal through g6 to f5, and that is where the king stands.",
+      "hints": {
+        "square": "h7",
+        "text": "Follow every line out of h7 and see which one ends on the king."
+      }
+    },
+    {
+      "id": "1.3.1-c2",
+      "type": "which_square",
+      "fen": "8/8/1k6/5R2/K7/8/5Q2/8 b - - 0 1",
+      "prompt": "The black king is in check. Tap the piece that is giving it.",
+      "answer": {
+        "square": "f2"
+      },
+      "concept": "check",
+      "reason": "The queen on f2 runs up the long diagonal through e3, d4 and c5 to the king on b6.",
+      "hints": {
+        "text": "Two white pieces are on the board. Only one of them has a clear line to b6."
+      }
+    },
+    {
+      "id": "1.3.1-c3",
+      "type": "find_them_all",
+      "fen": "8/4K3/6k1/6R1/3R4/8/8/8 b - - 0 1",
+      "prompt": "The black king is in check. Tap every square he is allowed to move to.",
+      "answer": {
+        "squares": [
+          "h7",
+          "h6",
+          "g5"
+        ]
+      },
+      "concept": "escape-check",
+      "hints": {
+        "text": "Count the squares around the king, then cross off the ones a white rook covers.",
+        "text2": "Taking the checking rook counts as a king move too, if nothing guards it."
+      }
+    },
+    {
+      "id": "1.3.1-c4",
+      "type": "find_the_move",
+      "fen": "8/1p2kpb1/7B/2R5/3rp3/2q5/8/4K3 w - - 0 1",
+      "prompt": "White is in check. Find the move.",
+      "answer": {
+        "moves": [
+          "Rxc3"
+        ]
+      },
+      "wrong": {
+        "Bd2": "That does block the line, but the bishop is simply taken and you are checked again next move.",
+        "Kf1": "Running works, but there is something much better: the piece giving check is free."
+      },
+      "concept": "escape-check",
+      "reason": "The queen on c3 is the one giving check, and the rook on c5 can take it for nothing.",
+      "hints": {
+        "piece": "c5",
+        "square": "c3"
+      }
+    },
+    {
+      "id": "1.3.1-c5",
+      "type": "find_the_move",
+      "fen": "3K3q/6bp/3k4/6R1/8/1r6/3p3n/4R3 w - - 0 1",
+      "prompt": "White is in check. There is exactly one legal move. Find it.",
+      "answer": {
+        "moves": [
+          "Re8"
+        ]
+      },
+      "concept": "escape-check",
+      "reason": "The queen on h8 checks along the eighth rank, and the rook on e1 is the only piece that can step into the line.",
+      "hints": {
+        "piece": "e1",
+        "square": "e8"
+      }
+    },
+    {
+      "id": "1.3.1-c6",
+      "type": "find_the_move",
+      "fen": "8/7N/1K5r/q2p4/1b6/8/pn1R3P/1k6 w - - 0 1",
+      "prompt": "White is in check. There is exactly one legal move. Find it.",
+      "answer": {
+        "moves": [
+          "Kb7"
+        ]
+      },
+      "concept": "escape-check",
+      "reason": "Two pieces check the king at once — the rook on h6 and the queen on a5 — so blocking one line leaves the other, and only the king moving helps.",
+      "hints": {
+        "piece": "b6",
+        "square": "b7"
+      }
+    },
+    {
+      "id": "1.3.1-c7",
+      "type": "find_the_move",
+      "fen": "n7/P4b2/K3p3/6Rp/3k4/8/q7/2Nr4 w - - 0 1",
+      "prompt": "White is in check. Find the move.",
+      "answer": {
+        "moves": [
+          "Nxa2"
+        ]
+      },
+      "wrong": {
+        "Kb7": "The king does get out, but the queen that was checking him is still there and still free.",
+        "Kb5": "Stepping aside leaves the queen on the board. Look again at what can reach a2."
+      },
+      "concept": "escape-check",
+      "reason": "The queen on a2 gives the check, and the knight on c1 can take it.",
+      "hints": {
+        "piece": "c1",
+        "square": "a2"
+      }
+    }
+  ],
+  "takeaway": "In check you must deal with it this move: move the king, block the line, or take the attacker."
+}

@@ -1,0 +1,180 @@
+{
+  "id": "1.3.3",
+  "unit": "1.3",
+  "title": "Mate in one",
+  "xp": 15,
+  "card": {
+    "idea": "Finding mate is a search, not a flash of inspiration. List the moves that give check, then for each one ask whether the king can move, whether anything can block, and whether anything can take. The check where all three answers are no is mate.",
+    "habit": "List the checks, then rule them out one at a time.",
+    "diagrams": [
+      "4q3/Q7/8/8/8/6K1/8/r3rk2 w - - 0 1"
+    ]
+  },
+  "explain": [
+    {
+      "fen": "4q3/Q7/8/8/8/6K1/8/r3rk2 w - - 0 1",
+      "text": "White is a long way behind on material, so only mate will do. The queen swings from a7 down to f2. It is check, the white king on g3 guards f2 so the king cannot take, and the black king has no square. Mate.",
+      "arrows": [
+        [
+          "a7",
+          "f2"
+        ]
+      ],
+      "highlights": [
+        "f1",
+        "f2"
+      ]
+    },
+    {
+      "fen": "7k/5Kbn/8/8/8/3r4/1Q6/4q3 w - - 0 1",
+      "text": "A mating move can be a capture. The queen takes the bishop on g7. The white king defends it, so it cannot be taken back, and the knight and the king are boxed in. Checks that also remove a defender are worth looking at twice.",
+      "arrows": [
+        [
+          "b2",
+          "g7"
+        ]
+      ],
+      "highlights": [
+        "g7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.3.3-c1",
+      "type": "which_square",
+      "fen": "2r5/8/1r6/5K2/5Q2/7k/7q/8 w - - 0 1",
+      "prompt": "White's queen has a move that ends the game. Tap the square she should go to.",
+      "answer": {
+        "square": "g4"
+      },
+      "concept": "mate-in-one",
+      "reason": "From g4 the queen checks the king on h3, and her own king on f5 defends her so she cannot be taken. That leaves g2, g3 and h4, and she covers all three.",
+      "hints": {
+        "text": "The black king sits on h3 with his own queen behind him on h2.",
+        "text2": "Look for the check that takes g3, h4 and g2 away all at once."
+      }
+    },
+    {
+      "id": "1.3.3-c2",
+      "type": "find_the_move",
+      "fen": "8/r6q/5K2/8/6rk/8/6Q1/8 w - - 0 1",
+      "prompt": "White to move. End the game.",
+      "answer": {
+        "moves": [
+          "Qh2#"
+        ]
+      },
+      "wrong": {
+        "Qg3+": "Check, but the king takes the queen on g3 and White has nothing left."
+      },
+      "concept": "mate-in-one",
+      "reason": "The queen checks up the h-file. His own rook on g4 is in the way, the queen covers g3, the white king on f6 covers g5, and h5 is still on her file.",
+      "hints": {
+        "piece": "g2",
+        "square": "h2"
+      }
+    },
+    {
+      "id": "1.3.3-c3",
+      "type": "find_the_move",
+      "fen": "4Qr2/8/8/k1K5/8/7q/8/4r3 w - - 0 1",
+      "prompt": "White to move. End the game.",
+      "answer": {
+        "moves": [
+          "Qb5#"
+        ]
+      },
+      "wrong": {
+        "Qxe1+": "Taking a rook with check feels good, but the king steps to a4 or a6 and the game goes on."
+      },
+      "concept": "mate-in-one",
+      "reason": "The queen drops in beside the king on b5, the white king on c5 defends her, and a4, a6, b6 and b4 are all covered.",
+      "hints": {
+        "piece": "e8",
+        "square": "b5"
+      }
+    },
+    {
+      "id": "1.3.3-c4",
+      "type": "find_the_move",
+      "fen": "4k3/2R2b1r/3K4/8/8/8/8/q7 w - - 0 1",
+      "prompt": "White to move. End the game.",
+      "answer": {
+        "moves": [
+          "Rc8#"
+        ]
+      },
+      "wrong": {
+        "Re7+": "The bishop on f7 takes the rook. A mating check has to be one nothing can answer."
+      },
+      "concept": "mate-in-one",
+      "reason": "The rook checks along the eighth rank. The white king on d6 covers d7 and e7, the rook covers d8, his own bishop sits on f7, and f8 is still on the rook's rank.",
+      "hints": {
+        "piece": "c7",
+        "square": "c8"
+      }
+    },
+    {
+      "id": "1.3.3-c5",
+      "type": "find_the_move",
+      "fen": "7Q/7q/8/1r5k/5K2/8/1r6/8 w - - 0 1",
+      "prompt": "White to move. End the game.",
+      "answer": {
+        "moves": [
+          "Qxh7#"
+        ]
+      },
+      "wrong": {
+        "Qe5+": "The rook on b5 takes the queen straight off the board."
+      },
+      "concept": "mate-in-one",
+      "reason": "Taking the queen on h7 is check down the h-file. The white king on f4 covers g4 and g5, the queen covers g6 and h6, and h4 is still on her file.",
+      "hints": {
+        "piece": "h8",
+        "square": "h7"
+      }
+    },
+    {
+      "id": "1.3.3-c6",
+      "type": "find_the_move",
+      "fen": "1k6/8/1K6/7r/8/5Q2/2rq4/8 w - - 0 1",
+      "prompt": "White to move. End the game.",
+      "answer": {
+        "moves": [
+          "Qb7#"
+        ]
+      },
+      "wrong": {
+        "Qa8+": "Check, but the king takes the queen on a8 and you have handed over the game."
+      },
+      "concept": "mate-in-one",
+      "reason": "The queen lands on b7 right next to the king, and the white king on b6 is defending her, so she cannot be taken.",
+      "hints": {
+        "piece": "f3",
+        "square": "b7"
+      }
+    },
+    {
+      "id": "1.3.3-c7",
+      "type": "find_the_move",
+      "fen": "6Q1/5K2/7k/2q5/8/2r5/8/r7 w - - 0 1",
+      "prompt": "White to move. End the game.",
+      "answer": {
+        "moves": [
+          "Qg6#"
+        ]
+      },
+      "wrong": {
+        "Qh8+": "The king simply steps down to g5 and you are still losing."
+      },
+      "concept": "mate-in-one",
+      "reason": "The queen sits down on g6 beside the king, defended by her own king on f7, and there is no square left on h5, h7 or g5.",
+      "hints": {
+        "piece": "g8",
+        "square": "g6"
+      }
+    }
+  ],
+  "takeaway": "Hunt mate by listing the checks, then asking of each: move, block, take?"
+}

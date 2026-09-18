@@ -1,0 +1,587 @@
+{
+  "unit": "1.3",
+  "title": "Check, mate and draws",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "1.3-k01",
+      "type": "which_square",
+      "fen": "8/Q2k4/1r6/8/7Q/5K2/8/8 b - - 0 1",
+      "prompt": "Tap the piece that is attacking the king to move.",
+      "answer": {
+        "square": "a7"
+      },
+      "concept": "check",
+      "reason": "The queen on a7 runs along the seventh rank to d7."
+    },
+    {
+      "id": "1.3-k02",
+      "type": "which_square",
+      "fen": "8/1k3r2/8/3Q4/8/8/8/2QK4 b - - 0 1",
+      "prompt": "Tap the piece that is attacking the king to move.",
+      "answer": {
+        "square": "d5"
+      },
+      "concept": "check",
+      "reason": "The queen on d5 comes up the diagonal through c6 to b7."
+    },
+    {
+      "id": "1.3-k03",
+      "type": "which_square",
+      "fen": "8/8/8/Q6r/K1Q5/8/k7/8 b - - 0 1",
+      "prompt": "Tap the piece that is attacking the king to move.",
+      "answer": {
+        "square": "c4"
+      },
+      "concept": "check",
+      "reason": "The queen on c4 hits a2 along the diagonal through b3. The other queen is blocked by her own king."
+    },
+    {
+      "id": "1.3-k04",
+      "type": "which_square",
+      "fen": "4Q3/8/2kr4/8/8/8/8/1QK5 b - - 0 1",
+      "prompt": "Tap the piece that is attacking the king to move.",
+      "answer": {
+        "square": "e8"
+      },
+      "concept": "check",
+      "reason": "The queen on e8 comes down the diagonal through d7 to c6."
+    },
+    {
+      "id": "1.3-k05",
+      "type": "name_the_pattern",
+      "fen": "8/8/8/8/k5Q1/8/8/4K2R b - - 0 1",
+      "prompt": "Black to move. What is the position?",
+      "options": [
+        "Check, and the king still has squares.",
+        "Checkmate.",
+        "Not check at all."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "check",
+      "reason": "The queen on g4 hits a4 along the fourth rank, but a5, b5, b3 and a3 are all still free."
+    },
+    {
+      "id": "1.3-k06",
+      "type": "name_the_pattern",
+      "fen": "8/8/4k3/8/8/2K5/8/6R1 b - - 0 1",
+      "prompt": "Black to move. What is the position?",
+      "options": [
+        "Check, and the king still has squares.",
+        "Checkmate.",
+        "Not check at all."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "check",
+      "reason": "The rook on g1 covers the first rank and the g-file. Neither of them goes anywhere near e6."
+    },
+    {
+      "id": "1.3-k07",
+      "type": "find_them_all",
+      "fen": "8/Q3r3/8/8/3k4/8/3K3Q/8 b - - 0 1",
+      "prompt": "Tap every square the king to move is allowed to go to.",
+      "answer": {
+        "squares": [
+          "d5",
+          "e4",
+          "c4"
+        ]
+      },
+      "concept": "check",
+      "hints": {
+        "text": "Count the eight squares round the king, then cross off the ones a white piece covers."
+      }
+    },
+    {
+      "id": "1.3-k08",
+      "type": "find_the_move",
+      "fen": "2k4K/7N/2pQ4/2p5/3q4/6p1/3n3r/1r6 w - - 0 1",
+      "prompt": "White to move. Find the move.",
+      "answer": {
+        "moves": [
+          "Qxd4"
+        ]
+      },
+      "concept": "escape-check",
+      "reason": "The queen on d4 is the piece giving check, and the white queen on d6 is looking straight down the file at her.",
+      "hints": {
+        "piece": "d6",
+        "square": "d4"
+      }
+    },
+    {
+      "id": "1.3-k09",
+      "type": "find_the_move",
+      "fen": "2rkq3/8/8/r5K1/4p3/2Qp4/8/3b1B2 w - - 0 1",
+      "prompt": "White to move. Find the move.",
+      "answer": {
+        "moves": [
+          "Qxa5+"
+        ]
+      },
+      "concept": "escape-check",
+      "reason": "The rook on a5 checks along the fifth rank, and the queen takes it off.",
+      "hints": {
+        "piece": "c3",
+        "square": "a5"
+      }
+    },
+    {
+      "id": "1.3-k10",
+      "type": "find_the_move",
+      "fen": "8/5p2/R7/2r1R1p1/q5K1/2k5/4n3/2b5 w - - 0 1",
+      "prompt": "White to move. Find the move.",
+      "answer": {
+        "moves": [
+          "Rxa4"
+        ]
+      },
+      "concept": "escape-check",
+      "reason": "The queen on a4 gives the check, and the rook on a6 is looking straight down the a-file at her.",
+      "hints": {
+        "piece": "a6",
+        "square": "a4"
+      }
+    },
+    {
+      "id": "1.3-k11",
+      "type": "find_the_move",
+      "fen": "7K/1R6/3k4/5r1q/2p5/b6R/6p1/5n2 w - - 0 1",
+      "prompt": "White to move. Find the move.",
+      "answer": {
+        "moves": [
+          "Rxh5"
+        ]
+      },
+      "concept": "escape-check",
+      "reason": "The queen on h5 checks down the h-file, and the rook on h3 is on that same file looking back at her.",
+      "hints": {
+        "piece": "h3",
+        "square": "h5"
+      }
+    },
+    {
+      "id": "1.3-k12",
+      "type": "find_the_move",
+      "fen": "4n3/3k4/b7/3p4/1KR5/4q2p/3N1P2/1r6 w - - 0 1",
+      "prompt": "White to move. Find the move.",
+      "answer": {
+        "moves": [
+          "Nxb1"
+        ]
+      },
+      "concept": "escape-check",
+      "reason": "The rook on b1 gives check up the b-file, and the knight on d2 can reach it.",
+      "hints": {
+        "piece": "d2",
+        "square": "b1"
+      }
+    },
+    {
+      "id": "1.3-k13",
+      "type": "find_the_move",
+      "fen": "8/3p3p/1B3k2/4p3/5b2/2r5/4R3/3K1q2 w - - 0 1",
+      "prompt": "White to move. There is exactly one legal move. Find it.",
+      "answer": {
+        "moves": [
+          "Re1"
+        ]
+      },
+      "concept": "escape-check",
+      "reason": "The queen on f1 checks along the first rank, and the rook is the only piece that can step into the line.",
+      "hints": {
+        "piece": "e2",
+        "square": "e1"
+      }
+    },
+    {
+      "id": "1.3-k14",
+      "type": "find_the_move",
+      "fen": "q7/K1B4p/3R4/3b2r1/8/1k1p2p1/8/8 w - - 0 1",
+      "prompt": "White to move. There is exactly one legal move. Find it.",
+      "answer": {
+        "moves": [
+          "Kb6"
+        ]
+      },
+      "concept": "escape-check",
+      "reason": "The queen on a8 checks down the a-file, and the king has one square that is not covered.",
+      "hints": {
+        "piece": "a7",
+        "square": "b6"
+      }
+    },
+    {
+      "id": "1.3-k15",
+      "type": "name_the_pattern",
+      "fen": "7K/8/8/8/8/8/3R4/3Q2k1 b - - 0 1",
+      "prompt": "Black to move. What is the position?",
+      "options": [
+        "Checkmate.",
+        "Stalemate.",
+        "Check, and the king still has squares."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "checkmate",
+      "reason": "The queen on d1 checks along the first rank and the rook on d2 takes the whole second rank away."
+    },
+    {
+      "id": "1.3-k16",
+      "type": "name_the_pattern",
+      "fen": "8/8/6K1/8/8/8/Q7/R3k3 b - - 0 1",
+      "prompt": "Black to move. What is the position?",
+      "options": [
+        "Checkmate.",
+        "Stalemate.",
+        "Check, and the king still has squares."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "checkmate",
+      "reason": "The rook on a1 checks along the first rank and the queen on a2 covers the whole second rank."
+    },
+    {
+      "id": "1.3-k17",
+      "type": "find_the_move",
+      "fen": "8/7r/8/2Qq3p/k7/6r1/p2Bb3/K7 w - - 0 1",
+      "prompt": "White to move. Find the strongest move.",
+      "answer": {
+        "moves": [
+          "Qb4#"
+        ]
+      },
+      "wrong": {
+        "Qa7+": "Check, but the king simply steps away and White is still losing."
+      },
+      "concept": "checkmate",
+      "reason": "The queen comes to b4 beside the king, the bishop on d2 defends her, and there is no square left.",
+      "hints": {
+        "piece": "c5",
+        "square": "b4"
+      }
+    },
+    {
+      "id": "1.3-k18",
+      "type": "find_the_move",
+      "fen": "q3b3/k7/8/KQnr4/8/3p4/p3r3/8 w - - 0 1",
+      "prompt": "White to move. Find the strongest move.",
+      "answer": {
+        "moves": [
+          "Qb6#"
+        ]
+      },
+      "wrong": {
+        "Qa6+": "The white king on a5 defends a6, so the queen cannot be taken — but the black king walks out to b8 and gets away."
+      },
+      "concept": "checkmate",
+      "reason": "The queen steps to b6 next to the king, her own king on a5 defends her, his own queen blocks a8, and b6, b7 and b8 are all covered.",
+      "hints": {
+        "piece": "b5",
+        "square": "b6"
+      }
+    },
+    {
+      "id": "1.3-k19",
+      "type": "find_the_move",
+      "fen": "Q2r4/8/8/6q1/6p1/1b1B2K1/2r1p3/5k2 w - - 0 1",
+      "prompt": "White to move. Find the strongest move.",
+      "answer": {
+        "moves": [
+          "Qh1#"
+        ]
+      },
+      "wrong": {
+        "Qf3+": "The pawn on g4 takes the queen and White has nothing left."
+      },
+      "concept": "checkmate",
+      "reason": "The queen swings the whole diagonal to h1 and checks along the first rank. The white king on g3 holds f2 and g2, the queen herself holds g1, and e1 is still on her line.",
+      "hints": {
+        "piece": "a8",
+        "square": "h1"
+      }
+    },
+    {
+      "id": "1.3-k20",
+      "type": "find_the_move",
+      "fen": "4B3/4b2p/2p4p/q5r1/8/3R4/8/5K1k w - - 0 1",
+      "prompt": "White to move. Find the strongest move.",
+      "answer": {
+        "moves": [
+          "Rh3#"
+        ]
+      },
+      "concept": "checkmate",
+      "reason": "The rook swings across to the h-file and checks, and the white king on f1 has already taken g1 and g2 away.",
+      "hints": {
+        "piece": "d3",
+        "square": "h3"
+      }
+    },
+    {
+      "id": "1.3-k21",
+      "type": "find_the_move",
+      "fen": "3k1q2/3rr3/8/8/1bp2Q2/7K/4p1B1/8 w - - 0 1",
+      "prompt": "White to move. Find the strongest move.",
+      "answer": {
+        "moves": [
+          "Qb8#"
+        ]
+      },
+      "wrong": {
+        "Qc7+": "The rook on d7 takes the queen. A mating check has to be one nothing can answer."
+      },
+      "concept": "checkmate",
+      "reason": "The queen reaches b8 and checks along the eighth rank. His own rooks on d7 and e7 block two escape squares, the queen covers c7 and c8, and e8 is still on her line.",
+      "hints": {
+        "piece": "f4",
+        "square": "b8"
+      }
+    },
+    {
+      "id": "1.3-k22",
+      "type": "name_the_pattern",
+      "fen": "8/8/8/8/4Q3/K7/8/k7 b - - 0 1",
+      "prompt": "Black to move. What is the position?",
+      "options": [
+        "Stalemate: the game is a draw.",
+        "Checkmate: White wins.",
+        "Check, and the king steps aside."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "stalemate",
+      "reason": "Nothing attacks a1, so it is not check, but a2, b2 and b1 are all covered."
+    },
+    {
+      "id": "1.3-k23",
+      "type": "name_the_pattern",
+      "fen": "8/1K6/8/8/8/8/2Q5/k7 b - - 0 1",
+      "prompt": "Black to move. What is the position?",
+      "options": [
+        "Stalemate: the game is a draw.",
+        "Checkmate: White wins.",
+        "Check, and the king steps aside."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "stalemate",
+      "reason": "The queen on c2 covers a2, b2 and b1 without ever attacking a1 itself."
+    },
+    {
+      "id": "1.3-k24",
+      "type": "name_the_pattern",
+      "fen": "3k4/8/3KQ3/8/8/8/8/8 b - - 0 1",
+      "prompt": "Black to move. What is the position?",
+      "options": [
+        "Stalemate: the game is a draw.",
+        "Checkmate: White wins.",
+        "Check, and the king steps aside."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "stalemate",
+      "reason": "The white king holds c7, d7 and e7, the queen holds c8 and e8, and nothing at all attacks d8."
+    },
+    {
+      "id": "1.3-k25",
+      "type": "name_the_pattern",
+      "fen": "R5k1/8/5K2/8/8/8/8/1Q6 b - - 0 1",
+      "prompt": "Black to move. What is the position?",
+      "options": [
+        "Stalemate: the game is a draw.",
+        "Checkmate: White wins.",
+        "Check, and the king steps aside."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "stalemate",
+      "reason": "This time the rook on a8 really is attacking the king, and the white king on f6 covers f7, g7 and h7."
+    },
+    {
+      "id": "1.3-k26",
+      "type": "is_it_safe",
+      "fen": "k7/2K5/7Q/8/8/8/8/8 w - - 0 1",
+      "move": "Qb6",
+      "prompt": "White brings the queen to b6. Is that safe?",
+      "reasons": [
+        "It covers a7, b7 and b8 without giving check, so Black has no legal move: a draw.",
+        "The king slips out to a7 and runs for the middle.",
+        "The queen on b6 is undefended and gets taken."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "stalemate",
+      "hints": {
+        "piece": "h6",
+        "square": "b6"
+      }
+    },
+    {
+      "id": "1.3-k27",
+      "type": "is_it_safe",
+      "fen": "k7/8/2K5/8/8/8/8/1R6 w - - 0 1",
+      "move": "Rb7",
+      "prompt": "White brings the rook to b7. Is that safe?",
+      "reasons": [
+        "It takes a7 and b8 away without giving check, and the king defends b7, so Black has no move at all: a draw.",
+        "The rook on b7 is hanging to the king.",
+        "It gives check and Black has to find a square."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "stalemate",
+      "hints": {
+        "piece": "b1",
+        "square": "b7"
+      }
+    },
+    {
+      "id": "1.3-k28",
+      "type": "find_them_all",
+      "fen": "4k3/8/4K3/8/7R/8/8/8 b - - 0 1",
+      "prompt": "Tap every square the king to move is allowed to go to.",
+      "answer": {
+        "squares": [
+          "f8",
+          "d8"
+        ]
+      },
+      "concept": "stalemate",
+      "hints": {
+        "text": "The white king facing him takes three squares away by himself."
+      }
+    },
+    {
+      "id": "1.3-k29",
+      "type": "name_the_pattern",
+      "fen": "8/5k2/8/8/8/8/2N5/4K3 w - - 0 1",
+      "prompt": "How does this game end?",
+      "options": [
+        "A draw: White cannot force mate.",
+        "White can force mate.",
+        "Black can force mate."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "draws",
+      "reason": "A king and one knight cannot take the last square away from a lone king, however long you try."
+    },
+    {
+      "id": "1.3-k30",
+      "type": "name_the_pattern",
+      "fen": "8/5k2/8/8/8/8/2B5/4K3 w - - 0 1",
+      "prompt": "How does this game end?",
+      "options": [
+        "A draw: White cannot force mate.",
+        "White can force mate.",
+        "Black can force mate."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "draws",
+      "reason": "One bishop only ever sees one colour of square, so there is always somewhere for the king to stand."
+    },
+    {
+      "id": "1.3-k31",
+      "type": "name_the_pattern",
+      "fen": "8/5k2/8/8/8/8/8/4K3 w - - 0 1",
+      "prompt": "How does this game end?",
+      "options": [
+        "A draw: White cannot force mate.",
+        "White can force mate.",
+        "Black can force mate."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "draws",
+      "reason": "A king cannot give check at all, so two bare kings can never do anything to each other."
+    },
+    {
+      "id": "1.3-k32",
+      "type": "name_the_pattern",
+      "fen": "8/5k2/8/8/8/8/2R5/4K3 w - - 0 1",
+      "prompt": "How does this game end?",
+      "options": [
+        "A draw: White cannot force mate.",
+        "White can force mate.",
+        "Black can force mate."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "draws",
+      "reason": "A rook cuts off a whole rank at a time, and with the king helping that is enough to drive the other king to the edge."
+    },
+    {
+      "id": "1.3-k33",
+      "type": "name_the_pattern",
+      "fen": "8/5k2/8/8/8/8/2Q5/4K3 w - - 0 1",
+      "prompt": "How does this game end?",
+      "options": [
+        "A draw: White cannot force mate.",
+        "White can force mate.",
+        "Black can force mate."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "draws",
+      "reason": "A queen covers both colours of square, so with her own king up she can take the last one away."
+    },
+    {
+      "id": "1.3-k34",
+      "type": "find_them_all",
+      "fen": "5k2/8/8/8/8/1N2B3/6R1/4K3 w - - 0 1",
+      "prompt": "Tap every white piece that could not force mate on its own, even with the king helping.",
+      "answer": {
+        "pieces": [
+          "b3",
+          "e3"
+        ]
+      },
+      "concept": "draws",
+      "hints": {
+        "text": "Only one of the three can cut a whole line off the board."
+      }
+    },
+    {
+      "id": "1.3-k35",
+      "type": "find_the_move",
+      "fen": "5r2/7p/2q5/R7/p7/n6k/4K3/1b4R1 w - - 0 1",
+      "prompt": "White to move. Find the strongest move.",
+      "answer": {
+        "moves": [
+          "Rh5#"
+        ]
+      },
+      "wrong": {
+        "Rg3+": "Check, and the king takes the rook. Look for the check he cannot answer."
+      },
+      "concept": "draws",
+      "reason": "The rook comes to h5 and checks down the h-file, and the rook on g1 already covers g2, g3 and g4.",
+      "hints": {
+        "piece": "a5",
+        "square": "h5"
+      }
+    }
+  ]
+}

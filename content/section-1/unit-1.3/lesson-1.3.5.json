@@ -1,0 +1,153 @@
+{
+  "id": "1.3.5",
+  "unit": "1.3",
+  "title": "The three draws",
+  "xp": 12,
+  "card": {
+    "idea": "Not every game ends in mate. A game is drawn when the player to move is stalemated, when neither side has enough left on the board to force mate, or when the same position turns up three times.",
+    "habit": "Winning means mate. A draw is what happens when you cannot get one.",
+    "diagrams": [
+      "8/8/4k3/8/8/2K5/5B2/8 w - - 0 1"
+    ]
+  },
+  "explain": [
+    {
+      "fen": "8/8/8/8/8/3QK3/8/4k3 b - - 0 1",
+      "text": "The first draw is stalemate. Black is not in check, and has no legal move. Half a point each, and a queen is no help at all.",
+      "highlights": [
+        "e1"
+      ]
+    },
+    {
+      "fen": "8/8/4k3/8/8/2K5/5B2/8 w - - 0 1",
+      "text": "The second is not having enough to mate. A king and one bishop cannot force mate, and neither can a king and one knight, or two bare kings. Play on as long as you like: the position is a draw.",
+      "highlights": [
+        "f2"
+      ]
+    },
+    {
+      "fen": "8/8/3qk3/8/8/4K3/3Q4/8 w - - 0 1",
+      "text": "The third is repetition. When the same position, with the same player to move, comes up three times, either player can claim a draw. It usually happens when one side checks over and over and the other can only step between the same two squares.",
+      "highlights": [
+        "d2",
+        "d6"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.3.5-c1",
+      "type": "name_the_pattern",
+      "fen": "8/8/4k3/8/8/2K5/8/8 w - - 0 1",
+      "prompt": "Two bare kings. How does this game end?",
+      "options": [
+        "A draw: neither side can ever give mate.",
+        "White wins by walking his king up.",
+        "Whoever runs out of moves first loses."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "draws",
+      "reason": "A king cannot give check at all, so no king can ever mate another one. There is nothing to play for.",
+      "hints": {
+        "text": "Ask what would have to attack the enemy king. Then look at what is left on the board."
+      }
+    },
+    {
+      "id": "1.3.5-c2",
+      "type": "name_the_pattern",
+      "fen": "8/8/4k3/8/8/2K5/5B2/8 w - - 0 1",
+      "prompt": "King and one bishop against a bare king. How does this game end?",
+      "options": [
+        "A draw: one bishop is not enough to force mate.",
+        "White wins by cornering the king with the bishop.",
+        "A draw, but only because it is White to move."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "draws",
+      "reason": "A bishop only ever covers one colour of square, so it can never take the last square away from a king. King and one knight is the same story.",
+      "hints": {
+        "text": "Count how many squares round the king the bishop can cover at once."
+      }
+    },
+    {
+      "id": "1.3.5-c3",
+      "type": "name_the_pattern",
+      "fen": "8/8/4k3/8/8/2K5/5Q2/8 w - - 0 1",
+      "prompt": "Same board, queen instead of bishop. How does this game end?",
+      "options": [
+        "A draw: one piece is never enough.",
+        "White wins: king and queen can force mate.",
+        "A draw, because the black king can keep running."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "draws",
+      "reason": "A queen covers squares of both colours, and with her own king helping she can take the last one away. This is the one to practise.",
+      "hints": {
+        "text": "Compare it with the bishop. What can the queen cover that the bishop cannot?"
+      }
+    },
+    {
+      "id": "1.3.5-c4",
+      "type": "name_the_pattern",
+      "fen": "8/8/8/8/8/4Q2K/8/7k b - - 0 1",
+      "prompt": "Black to move. How does this game end?",
+      "options": [
+        "White wins: it is checkmate.",
+        "A draw: Black is stalemated.",
+        "The game goes on: Black steps to g1."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "draws",
+      "reason": "Nothing is attacking h1, so it is not mate. But g1, g2 and h2 are all covered, so there is no move: a draw.",
+      "hints": {
+        "text": "Check the king's own square first, then the three squares next to him."
+      }
+    },
+    {
+      "id": "1.3.5-c5",
+      "type": "find_them_all",
+      "fen": "4k3/8/8/8/2B5/5N2/7R/4K3 w - - 0 1",
+      "prompt": "Tap every white piece that could not force mate on its own, even with the king helping.",
+      "answer": {
+        "pieces": [
+          "c4",
+          "f3"
+        ]
+      },
+      "concept": "draws",
+      "hints": {
+        "text": "One of these three can do the job by itself. The other two cannot.",
+        "text2": "Think about which piece can cut a whole rank or file off the board."
+      }
+    },
+    {
+      "id": "1.3.5-c6",
+      "type": "find_the_move",
+      "fen": "6n1/5r2/8/8/q7/k7/7Q/1K2b3 w - - 0 1",
+      "prompt": "White to move. End the game.",
+      "answer": {
+        "moves": [
+          "Qb2#"
+        ]
+      },
+      "wrong": {
+        "Qg3+": "The bishop on e1 takes the queen, and you have given away the one move that mated."
+      },
+      "concept": "draws",
+      "reason": "The queen drops to b2 beside the king, her own king on b1 defends her, and a2, b3 and b4 are all covered.",
+      "hints": {
+        "piece": "h2",
+        "square": "b2"
+      }
+    }
+  ],
+  "takeaway": "Stalemate, not enough material, or the same position three times — all half a point."
+}

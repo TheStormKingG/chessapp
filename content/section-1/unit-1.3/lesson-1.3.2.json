@@ -1,0 +1,175 @@
+{
+  "id": "1.3.2",
+  "unit": "1.3",
+  "title": "Checkmate",
+  "xp": 15,
+  "card": {
+    "idea": "Checkmate is check with no way out. The king is attacked, he has nowhere safe to go, nothing can block the line, and nothing can take the attacker. Checkmate ends the game on the spot.",
+    "habit": "Check first, then ask whether any of the three ways out is left.",
+    "diagrams": [
+      "2Q2k2/2R5/8/4K3/8/8/8/8 b - - 0 1"
+    ]
+  },
+  "explain": [
+    {
+      "fen": "2Q2k2/2R5/8/4K3/8/8/8/8 b - - 0 1",
+      "text": "The queen on c8 checks along the eighth rank. The king cannot step to e7 or f7 because the white king covers them, g7 and g8 are covered by the queen, and nothing can block or take. That is checkmate.",
+      "arrows": [
+        [
+          "c8",
+          "f8"
+        ]
+      ],
+      "highlights": [
+        "f8"
+      ]
+    },
+    {
+      "fen": "8/5K2/8/8/8/6k1/6Q1/8 b - - 0 1",
+      "text": "This one looks similar and is not mate. The queen on g2 checks the king on g3, but the king can step to f4 or h4 — and nothing defends the queen, so he can even take her. Check, not checkmate.",
+      "highlights": [
+        "f4",
+        "h4",
+        "g2"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.3.2-c1",
+      "type": "name_the_pattern",
+      "fen": "8/8/8/8/1K6/8/k3R3/5R2 b - - 0 1",
+      "prompt": "Black to move. What is the position?",
+      "options": [
+        "Checkmate — the game is over.",
+        "Check, but the king has somewhere to go.",
+        "Not check at all."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "checkmate",
+      "reason": "The rook on e2 checks along the second rank, the rook on f1 covers the first rank, and the white king takes b3, b2 and b1 away.",
+      "hints": {
+        "text": "Try every square around a2 in your head and see whether any of them is free."
+      }
+    },
+    {
+      "id": "1.3.2-c2",
+      "type": "name_the_pattern",
+      "fen": "8/8/K7/8/8/5Q2/6k1/8 b - - 0 1",
+      "prompt": "Black to move. What is the position?",
+      "options": [
+        "Checkmate — the game is over.",
+        "Check, but the king has somewhere to go.",
+        "Not check at all."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "checkmate",
+      "reason": "The queen on f3 checks the king on g2, but h1 is a free square and the king walks into it.",
+      "hints": {
+        "text": "The white king is miles away on a6, so he is covering nothing near the black king."
+      }
+    },
+    {
+      "id": "1.3.2-c3",
+      "type": "name_the_pattern",
+      "fen": "8/8/8/2K5/8/6Q1/8/7k b - - 0 1",
+      "prompt": "Black to move. What is the position?",
+      "options": [
+        "Checkmate — the game is over.",
+        "Check, but the king has somewhere to go.",
+        "Not check at all."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "checkmate",
+      "reason": "Nothing attacks h1. The king is not in check — he simply has no square left, which is a different thing, and the next lesson is about it.",
+      "hints": {
+        "text": "Ask first whether anything is actually hitting the king's square, before you count his escapes."
+      }
+    },
+    {
+      "id": "1.3.2-c4",
+      "type": "find_them_all",
+      "fen": "8/3R4/2k5/2R5/K7/8/8/8 b - - 0 1",
+      "prompt": "Black to move. Tap every square the king is allowed to move to.",
+      "answer": {
+        "squares": [
+          "d7",
+          "c5",
+          "b6"
+        ]
+      },
+      "concept": "checkmate",
+      "hints": {
+        "text": "The rook on c5 is the one checking, and nothing is defending it.",
+        "text2": "Three squares work. One of them is a capture."
+      }
+    },
+    {
+      "id": "1.3.2-c5",
+      "type": "find_the_move",
+      "fen": "4k3/1R4q1/4K3/8/8/8/r7/b7 w - - 0 1",
+      "prompt": "White to move. Find checkmate.",
+      "answer": {
+        "moves": [
+          "Rb8#"
+        ]
+      },
+      "wrong": {
+        "Re7+": "The king simply steps to d8 or f8. A mating check has to leave him nothing."
+      },
+      "concept": "checkmate",
+      "reason": "The rook checks along the eighth rank, the white king on e6 covers d7, e7 and f7, and f8 is still on the rook's rank.",
+      "hints": {
+        "piece": "b7",
+        "square": "b8"
+      }
+    },
+    {
+      "id": "1.3.2-c6",
+      "type": "find_the_move",
+      "fen": "4k3/2q5/4K3/3r4/8/8/2r4Q/8 w - - 0 1",
+      "prompt": "White to move. Find checkmate.",
+      "answer": {
+        "moves": [
+          "Qh8#"
+        ]
+      },
+      "wrong": {
+        "Qh5+": "The black queen blocks on f7 and you have lost your moment."
+      },
+      "concept": "checkmate",
+      "reason": "The queen reaches the eighth rank from far away. The white king on e6 has already taken d7, e7 and f7, and d8 is still on the queen's line.",
+      "hints": {
+        "piece": "h2",
+        "square": "h8"
+      }
+    },
+    {
+      "id": "1.3.2-c7",
+      "type": "find_the_move",
+      "fen": "k7/4q3/K7/8/2R5/5b1r/8/8 w - - 0 1",
+      "prompt": "White to move. Find checkmate.",
+      "answer": {
+        "moves": [
+          "Rc8#"
+        ]
+      },
+      "wrong": {
+        "Kb6": "Quiet moves give Black a free hand. There is a mate on the board right now."
+      },
+      "concept": "checkmate",
+      "reason": "The rook checks along the eighth rank and the white king on a6 covers b7, so the king in the corner has nowhere to go.",
+      "hints": {
+        "piece": "c4",
+        "square": "c8"
+      }
+    }
+  ],
+  "takeaway": "Checkmate is check where none of the three ways out is left."
+}

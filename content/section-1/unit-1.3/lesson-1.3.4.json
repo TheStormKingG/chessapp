@@ -1,0 +1,166 @@
+{
+  "id": "1.3.4",
+  "unit": "1.3",
+  "title": "Stalemate",
+  "xp": 15,
+  "card": {
+    "idea": "Stalemate is the trap at the end of a won game. The player to move is not in check, but has no legal move at all. That is not a win for anybody — the game is a draw, however far ahead you were.",
+    "habit": "Before you take the last square away, check that it is check.",
+    "diagrams": [
+      "4k3/2Q3K1/8/8/8/8/8/8 b - - 0 1"
+    ]
+  },
+  "explain": [
+    {
+      "fen": "4k3/2Q3K1/8/8/8/8/8/8 b - - 0 1",
+      "text": "Black has only a king, and it is Black's move. Nothing is attacking e8, so this is not check. But d7, d8, e7, f7 and f8 are all covered, so there is no legal move either. That is stalemate: a draw.",
+      "highlights": [
+        "e8"
+      ]
+    },
+    {
+      "fen": "7k/8/5K2/8/8/6Q1/8/8 w - - 0 1",
+      "text": "Here is the same trap one move earlier. Bringing the queen to g6 covers g8 and h7 without attacking the king, and Black is stalemated. Bringing her to g7 instead is check, defended by the king, and it is mate. One square apart.",
+      "highlights": [
+        "g6",
+        "g7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.3.4-c1",
+      "type": "name_the_pattern",
+      "fen": "8/2Q5/k7/2K5/8/8/8/8 b - - 0 1",
+      "prompt": "Black to move. What is the position?",
+      "options": [
+        "Stalemate — the game is a draw.",
+        "Checkmate — White wins.",
+        "Check, and the king steps aside."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "stalemate",
+      "reason": "Nothing attacks a6, so it is not check. But a5, b5, b6, a7 and b7 are all covered, so Black has no move.",
+      "hints": {
+        "text": "First ask whether anything is hitting the king right now. Only then count his squares."
+      }
+    },
+    {
+      "id": "1.3.4-c2",
+      "type": "name_the_pattern",
+      "fen": "Q2k4/7R/8/2K5/8/8/8/8 b - - 0 1",
+      "prompt": "Black to move. What is the position?",
+      "options": [
+        "Stalemate — the game is a draw.",
+        "Checkmate — White wins.",
+        "Check, and the king steps aside."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "stalemate",
+      "reason": "The queen on a8 attacks d8 along the rank, so this one is check, and the rook on h7 takes the whole seventh rank away.",
+      "hints": {
+        "text": "The difference between this and the last one is whether the king is actually being attacked."
+      }
+    },
+    {
+      "id": "1.3.4-c3",
+      "type": "find_them_all",
+      "fen": "4k3/2Q5/6K1/8/8/8/8/8 b - - 0 1",
+      "prompt": "Black to move and not in check. Tap every square the king can still move to.",
+      "answer": {
+        "squares": [
+          "f8"
+        ]
+      },
+      "concept": "stalemate",
+      "hints": {
+        "text": "The queen on c7 covers the whole seventh rank and the eighth-rank squares on her diagonals.",
+        "text2": "The white king on g6 is covering f7 himself. That leaves one square."
+      }
+    },
+    {
+      "id": "1.3.4-c4",
+      "type": "is_it_safe",
+      "fen": "7k/8/5K2/8/8/6Q1/8/8 w - - 0 1",
+      "move": "Qg6",
+      "prompt": "White brings the queen to g6. Is that safe?",
+      "reasons": [
+        "It takes g8 and h7 away without giving check, so Black has no legal move: stalemate, and the win is gone.",
+        "The black king escapes through h7 and runs to the middle.",
+        "The queen on g6 is undefended and the king takes her."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "stalemate",
+      "hints": {
+        "piece": "g3",
+        "square": "g6"
+      }
+    },
+    {
+      "id": "1.3.4-c5",
+      "type": "is_it_safe",
+      "fen": "7k/8/5K2/8/8/6Q1/8/8 w - - 0 1",
+      "move": "Qg7#",
+      "prompt": "White brings the queen to g7 instead. Is that safe?",
+      "reasons": [
+        "It gives check, the white king on f6 defends g7, and there is no square left: checkmate.",
+        "It is stalemate, because the king has nowhere to go.",
+        "It hangs the queen to the king on h8."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "stalemate",
+      "hints": {
+        "piece": "g3",
+        "square": "g7"
+      }
+    },
+    {
+      "id": "1.3.4-c6",
+      "type": "find_the_move",
+      "fen": "4q3/2n5/1r4b1/7k/5K2/8/1Q6/8 w - - 0 1",
+      "prompt": "White to move. End the game.",
+      "answer": {
+        "moves": [
+          "Qh2#"
+        ]
+      },
+      "wrong": {
+        "Qb5+": "Check, but the king steps to h4 or h6. Only a check with no answer ends it."
+      },
+      "concept": "stalemate",
+      "reason": "The queen takes the h-file with check. The white king on f4 covers g4 and g5, his own bishop sits on g6, and h6 is still on the queen's file.",
+      "hints": {
+        "piece": "b2",
+        "square": "h2"
+      }
+    },
+    {
+      "id": "1.3.4-c7",
+      "type": "play_it_out",
+      "fen": "8/8/8/3k4/8/8/8/Q3K3 w - - 0 1",
+      "prompt": "Queen and king against a bare king. Drive him to the edge and mate him — a draw does not count.",
+      "goal": {
+        "kind": "mate_in",
+        "moves": 15
+      },
+      "opponentDepth": 6,
+      "concept": "stalemate",
+      "reason": "Take squares away before you chase: from a5 the queen checks along the rank and pushes the king backwards. Then walk your own king up to help, and when the black king is down to his last square, make sure your move is check.",
+      "hints": {
+        "piece": "a1",
+        "square": "a5"
+      }
+    }
+  ],
+  "takeaway": "No check and no legal move is stalemate, and stalemate is a draw — not a win."
+}
