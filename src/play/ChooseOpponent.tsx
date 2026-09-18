@@ -30,10 +30,25 @@ export function ChooseOpponent() {
           A monogram, not an avatar image: no persona art is shipped, and a root-relative
           path would miss under the production base anyway. Swap it for an <img> when the
           artwork lands.
+
+          PREMIUM-DELTA §5, "and one thing to remove": `--accent-soft` was doing five
+          different jobs, which is the exact failure DESIGN-SYSTEM.md §3.1 built the
+          palette to avoid. It keeps ONE -- the selected segment of the two segmented
+          controls below, where a tint is the conventional affordance for "this is the
+          chosen one". Here it was carrying no meaning at all: the disc is not selected,
+          not accented and not a state, it is a shape holding a letter. So the tint goes
+          and the disc is drawn the way the delta specifies -- `--surface-raised` with a
+          1px `--edge-strong` ring. The disc then matches the card it sits on and is read
+          entirely from its edge, which is the same key-edge grammar Δ1 gave every other
+          raised thing. Measured in the browser, both appearances: the ring is 3.99:1
+          light / 3.59:1 dark against `--surface-raised`, clear of the 3:1 a non-text
+          boundary needs; the monogram is `--content` at 16.28:1 light / 13.71:1 dark.
+          Nothing here was ever carried by colour alone -- the letter is the content and
+          the name is spelled out beside it -- so nothing is lost with the tint.
         */}
         <div
           aria-hidden
-          className="t-title flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-accent-soft"
+          className="t-title flex h-14 w-14 shrink-0 items-center justify-center rounded-full border border-edge-strong bg-surface-raised"
         >
           {ROSA.name.slice(0, 1)}
         </div>

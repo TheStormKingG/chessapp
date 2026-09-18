@@ -435,9 +435,18 @@ function boardElements(container: HTMLElement): HTMLElement[] {
   return [root!, grid!, ...grid!.querySelectorAll<HTMLElement>('*')];
 }
 
-test.each(['light', 'dark'] as const)(
-  '%s: the board, its squares and its marks carry no elevation -- no shadow, no blur, no radius, no key edge',
-  (appearance) => {
+// Both sizings, because P4b added a second one. A board dropped into a card at
+// 120px is the single most likely place for someone to reach for a radius or a
+// shadow "so it sits on the card", which is the thing Δ1 rule 4 forbids, and a
+// guard that only ever renders the full-size lesson board would not see it.
+test.each([
+  ['light', undefined],
+  ['dark', undefined],
+  ['light', 120],
+  ['dark', 120],
+] as const)(
+  '%s at size %s: the board, its squares and its marks carry no elevation -- no shadow, no blur, no radius, no key edge',
+  (appearance, size) => {
     reduceMotion(false);
     if (appearance === 'dark') {
       Object.defineProperty(window, 'matchMedia', {
@@ -457,7 +466,7 @@ test.each(['light', 'dark'] as const)(
       });
     }
     try {
-      const { container } = render(<Board fen={START_FEN} orientation="w" mode="play" />);
+      const { container } = render(<Board fen={START_FEN} orientation="w" mode="play" size={size} />);
       const els = boardElements(container);
       // The guard is only as good as its reach: a selector that matched nothing
       // would pass this test in silence (observation 0032).
@@ -501,4 +510,41 @@ test('the guard can fail: an outer shadow, a >4px blur or a radius on a board el
   root.style.boxShadow = '';
   root.style.borderRadius = '10px';
   expect(root.style.borderRadius).toBe('10px'); // the property the guard reads is live
+});
+
+test('a sized board is a fixed square with no rail, and keeps every part of the board contract', () => {
+  // P4b: the 120px board on the lesson card. "Square, unframed" -- and the
+  // things the board's accessibility rests on are not presentational, so none
+  // of them may be traded for the smaller size.
+  const { container } = render(<Board fen={START_FEN} orientation="w" mode="static" size={120} />);
+  const root = container.querySelector<HTMLElement>('[data-board-root]')!;
+
+  expect(root.style.width).toBe('120px');
+  // It must yield rather than overflow a card narrower than itself: 390px is
+  // the width the whole app is asserted against and a card there has less than
+  // 120px of room at the largest text size.
+  expect(root.style.maxWidth).toBe('100%');
+  // No rail, and no gutter pull with it. The pull is what makes the rail sit
+  // in the page gutter at full size; left behind without the rail it would
+  // hang a sized board outside its card.
+  expect(root.querySelector('[data-rail]')).toBeNull();
+  expect(root.querySelector<HTMLElement>('.relative.grid')!.style.marginLeft).toBe('');
+
+  // The hard-won contract, unchanged: one accessible name, one tab stop, one
+  // live region.
+  const app = screen.getByRole('application', { name: /chess board, white at the bottom/i });
+  expect(app.tabIndex).toBe(0);
+  expect(container.querySelectorAll('[tabindex="0"]')).toHaveLength(1);
+  expect(screen.getByRole('status', { name: 'Board announcements' })).toBeInTheDocument();
+});
+
+test('the full-size board still carries its rail and its gutter pull', () => {
+  // The negative control for the test above: without it, a `size` that leaked
+  // into every board would strip the rail app-wide and the sized-board test
+  // would still be green.
+  const { container } = render(<Board fen={START_FEN} orientation="w" mode="static" />);
+  const root = container.querySelector<HTMLElement>('[data-board-root]')!;
+  expect(root.style.width).toBe('');
+  expect(root.querySelector('[data-rail]')).not.toBeNull();
+  expect(root.querySelector<HTMLElement>('.relative.grid')!.style.marginLeft).not.toBe('');
 });

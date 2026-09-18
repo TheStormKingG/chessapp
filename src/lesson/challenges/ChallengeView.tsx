@@ -100,7 +100,19 @@ export function ChallengeView({
       return (
         <>
           <Board fen={c.fen} orientation="w" mode="static" highlights={highlights} />
-          <p className="mt-2">
+          {/* A group step, not a control step. §3.3 sets the rhythm by role --
+              "8 inside a control, 12 between related lines, 24 between groups"
+              -- and the gap between the position and the question asked about
+              it is a group boundary, the same boundary the coach's line takes
+              on the other side of the board. It was 8, which is the value for
+              two halves of one control, and it made the question read as a
+              caption printed on the board rather than as the next thing said.
+              This is the whole of "the space around the board" that lives in
+              this file: the board's own width is decided by the column in
+              LessonPlayer and is deliberately unchanged (PREMIUM-DELTA §6,
+              "the board is unchanged at ≈ 358 px"), because elevation stops at
+              its edge and its presence is proportion, not framing. */}
+          <p className="mt-6">
             Proposed move: <strong>{c.move}</strong>. Is it safe?
           </p>
           {safePick === null ? (
@@ -132,7 +144,7 @@ export function ChallengeView({
               <button
                 type="button"
                 disabled={busy}
-                className={`${btn.secondary} mt-2 w-full disabled:opacity-60`}
+                className={`${btn.secondary} mt-3 w-full disabled:opacity-60`}
                 onClick={() => setSafePick(null)}
               >
                 Change answer

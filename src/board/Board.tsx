@@ -151,11 +151,22 @@ function useBoardPalette(): { palette: BoardPalette; appearance: Appearance } {
   return { palette, appearance };
 }
 
-export function Board(props: BoardProps) {
+export function Board(props: BoardProps & { size?: number }) {
   const {
     fen, orientation, mode, onMove, onSelectSquare, highlights = {}, arrows = [],
-    replay = null, disabled, textEntry, announce, onDragStart, onDragEnd,
+    replay = null, disabled, textEntry, announce, onDragStart, onDragEnd, size,
   } = props;
+  // P4b: a fixed square edge in px, for the places a board is shown at a size
+  // the column does not decide -- today's lesson card wants 120px. `size` is
+  // declared here rather than on `BoardProps` in `types.ts` because it is a
+  // presentational affordance of this component, not part of the board
+  // contract every caller reads. A sized board drops the coordinate rail and
+  // the gutter pull with it: at 120px a 15px rank glyph is a third of a square
+  // and the rail stops being an index and becomes noise. Everything the rail
+  // was covering for is still said -- `describeSquare` announces every
+  // coordinate through the live region below, which is the path that actually
+  // carries coordinates to assistive technology (§4).
+  const compact = size !== undefined;
   const [selected, setSelected] = useState<Square | null>(null);
   const [status, setStatus] = useState('');
   // M-1: flipping the board restarts the keyboard cursor at the player's near
@@ -464,7 +475,25 @@ export function Board(props: BoardProps) {
   );
 
   return (
-    <div className="w-full" data-board-root data-replaying={replaying ? 'true' : undefined}>
+    <div
+      className="w-full"
+      data-board-root
+      data-replaying={replaying ? 'true' : undefined}
+      // Δ1 rule 4 -- ELEVATION STOPS AT THE BOARD'S EDGE. There is no
+      // `box-shadow`, no `border-radius`, no border and no key edge here, on
+      // the grid below it, on the squares, or on the marks, in either
+      // appearance, and there must never be one. Both references frame their
+      // board with literally nothing (PREMIUM-DELTA §1.1: chess.com's hero
+      // board reads `box-shadow: none`, `border: 0px none`), and the first
+      // draft of the delta's own sunken well was cut in self-critique for
+      // contradicting them. The board's presence is arithmetic -- its share of
+      // the viewport and the parity of the column beside it -- not framing.
+      // `Board.test.tsx` asserts this; the inset ring on a `good` mark is a
+      // mark INSIDE a square, not elevation under the board, which is why the
+      // assertion is written against the container and not against
+      // `highlightStyles`.
+      style={compact ? { width: size, maxWidth: '100%' } : undefined}
+    >
       {appearance === 'dark' && (
         <style>{`[data-board-root] [data-piece^="b"] svg * { stroke: ${palette['--piece-light']} !important; }`}</style>
       )}
@@ -484,12 +513,16 @@ export function Board(props: BoardProps) {
       */}
       <div
         className="relative grid"
-        style={{
-          gridTemplateColumns: `${String(RAIL_REM)}rem minmax(0, 1fr)`,
-          marginLeft: `-${String(RAIL_REM)}rem`,
-        }}
+        style={
+          compact
+            ? { gridTemplateColumns: 'minmax(0, 1fr)' }
+            : {
+                gridTemplateColumns: `${String(RAIL_REM)}rem minmax(0, 1fr)`,
+                marginLeft: `-${String(RAIL_REM)}rem`,
+              }
+        }
       >
-        <CoordinateRail axis="rank" items={railRanks(orientation)} />
+        {!compact && <CoordinateRail axis="rank" items={railRanks(orientation)} />}
         <div
           ref={appRef}
           role="application"
@@ -500,8 +533,12 @@ export function Board(props: BoardProps) {
         >
           <Chessboard options={options} />
         </div>
-        <div />
-        <CoordinateRail axis="file" items={railFiles(orientation)} />
+        {!compact && (
+          <>
+            <div />
+            <CoordinateRail axis="file" items={railFiles(orientation)} />
+          </>
+        )}
         {/*
           The way out of the replay, for the duration of the replay. It overlays
           the board itself -- the positioned ancestor is this grid, not the whole

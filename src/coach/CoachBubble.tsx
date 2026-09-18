@@ -39,6 +39,17 @@ import { coachName } from './CoachService';
  *     deliberately not used: §3.1 reserves it for destructive UI, and a wrong
  *     move in a lesson is the material, not a hazard.
  *
+ *   - A GROUP-SIZED step above it, not a line-sized one. §3.3 sets the vertical
+ *     rhythm by role -- "8 inside a control, 12 between related lines, 24
+ *     between groups" -- and the §3.3 lesson diagram draws a blank line above
+ *     the coach and another below it, so the line is its own group. It was
+ *     16px, which is neither value, and measured in the browser at 390px it
+ *     left the coach exactly 16px below the board and exactly 16px above the
+ *     Hint row: equidistant, and so belonging to neither. At 24px above, the
+ *     utterance is a thing that follows the position rather than a caption
+ *     stuck to the controls under it. Nothing else about the line moves: the
+ *     mark keeps the index column, the sentence keeps the board's left edge.
+ *
  * Measured, from the tokens in §3.1: text `--content` on `--surface` is 15.19:1
  * light and 15.43:1 dark; the mark is 6.19:1 / 7.03:1 dim, 6.62:1 / 8.41:1
  * accent, 6.11:1 / 9.73:1 signal -- every one of them clear of 4.5:1, and of
@@ -53,7 +64,7 @@ export function CoachBubble({ text, tone = 'neutral' }: { text: string | null; t
   const mark = tone === 'good' ? 'text-accent' : tone === 'bad' ? 'text-signal' : 'text-content-dim';
   return (
     <div
-      className="mt-4 flex"
+      className="mt-6 flex"
       // Pulled into the page gutter by exactly the rail's width, the same way
       // the board pulls its own rank column: the mark then sits in the index
       // column at x=0 and the sentence starts at the board's left edge, so the
