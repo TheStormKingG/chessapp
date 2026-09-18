@@ -1,5 +1,5 @@
 import { Link } from 'react-router';
-import { RailIndex } from '@/board';
+import { RailIndex, RailMeter, railMeterLabel } from '@/board';
 import { useProgress, type Progress } from '@/data';
 import { track } from '@/analytics';
 import { hasCheckpoint } from '@/lesson';
@@ -56,9 +56,24 @@ type Run =
   | { kind: 'single'; node: Node }
   | { kind: 'group'; state: 'locked' | 'coming'; nodes: Node[] };
 
-const GROUP_HEADING: Record<'locked' | 'coming', string> = {
-  locked: 'Locked until you get there',
-  coming: 'Content coming',
+/**
+ * The boundary's heading, PREMIUM-DELTA.md Δ3.
+ *
+ * It used to read "Locked until you get there" on both groups. A label whose
+ * value is constant across the set is a section heading printed twice: it cost
+ * a line each time and told the learner nothing either time. What differs
+ * between the two runs is how long they are -- seven and five on a fresh path
+ * -- and the length is the only thing here a learner can act on, because it is
+ * the distance between where they are and the next thing that opens.
+ *
+ * The word "Locked" is still never printed per node, which is what the C2 fix
+ * bought and what `PathScreen.test.tsx` guards. The accessible name is
+ * untouched: every locked node still carries `1.1.2 The rook. Locked`
+ * verbatim, asserted end to end by `tests/audit/path-today.spec.ts:43`.
+ */
+const GROUP_HEADING: Record<'locked' | 'coming', (n: number) => string> = {
+  locked: (n) => `${String(n)} locked`,
+  coming: (n) => `${String(n)} coming`,
 };
 
 function groupedState(n: Node): 'locked' | 'coming' | null {
@@ -133,22 +148,76 @@ function railNumber(n: Node): string {
 }
 
 /**
- * The fill and border that say what a node is, without a word doing it. The
- * active node is the only ringed, raised one; a finished node is the only
- * filled one; a checkpoint is the only one carrying a symbol.
+ * The fill and border that say what a node is, without a word doing it.
+ *
+ * PREMIUM-DELTA.md §3.3 measured the defect this replaces: the checkpoint was a
+ * full-bleed saturated `--signal-soft` slab, taller than the active node, while
+ * the active node's entire visual weight was a 2px outline. Two of those slabs
+ * were visible at once on a 390px screen, so **the eye landed on the thing the
+ * learner was not doing** -- a thing that is optional and not yet due -- and had
+ * to hunt for the one thing they were.
+ *
+ * The ranking is now carried by elevation rather than by tint, which is Δ1's
+ * rule applied to a list:
+ *
+ *   1. **Active** -- the one thing to do next. `--surface-raised`, a 2px
+ *      `--accent` border, and the screen's only 3px `--key-accent` bottom edge
+ *      (Δ1 rule 2: at most one element per screen carries it). It is the only
+ *      node that is physically raised further than its neighbours.
+ *   2. **Due checkpoint** -- an active checkpoint is both the next thing and a
+ *      checkpoint, so it keeps the key edge and is the *only* surviving use of
+ *      `--signal-soft` on this screen. The tint now means "due", once.
+ *   3. **Available checkpoint** -- no longer a slab. A `--signal` outline on
+ *      `--surface-raised`, the same height as any other row, with the
+ *      `CheckpointFlag` still carrying the state in its own channel.
+ *   4. **Finished** (done, tested out, passed) -- quiet: `--surface-raised`
+ *      with an `--edge-strong` hairline, its rail segment filled in `--accent`,
+ *      its title at weight 600 and a `✓` on the row. Three channels, none of
+ *      them colour alone. It used to be a fully filled `--accent` slab, which
+ *      made the past louder than the present.
+ *
+ * Every card takes the 2px `--key-raised` bottom edge from Δ1 rule 3, so the
+ * active node's 3px `--key-accent` reads as *more* raised rather than as the
+ * only raised thing.
+ *
+ * `--accent-soft` is gone from here. PREMIUM-DELTA.md §5 found it doing five
+ * different jobs across the app, against the one-colour-one-meaning rule the
+ * palette is built on; the tested-out node is one of the four that lose it, and
+ * the key edge plus the `✓` carry more information than the tint did.
  */
 function skinFor(node: Node): string {
-  if (node.state === 'passed' || node.state === 'done') return 'border-accent bg-accent text-accent-on';
-  if (node.state === 'active') return 'border-accent bg-surface-raised ring-2 ring-accent';
-  if (node.state === 'testedOut') return 'border-edge-strong bg-accent-soft text-accent';
-  return 'border-edge-strong bg-signal-soft text-signal';
+  // Exactly one bottom-edge class per row, never two. Measured in a browser
+  // first: `border-b-key-raised` and `border-b-key-accent` on the same element
+  // are two utilities setting the same property, and which one wins is decided
+  // by the order Tailwind emits them rather than by the order they are written
+  // here -- the raised edge silently beat the accent one, so the active node
+  // wore the card's edge and the screen's one moment of elevation was lost.
+  const card = 'bg-surface-raised text-content';
+  const raisedEdge = 'border-b-2 border-b-key-raised';
+  const keyEdge = 'border-b-[3px] border-b-key-accent';
+  if (node.state === 'active') {
+    return node.kind === 'checkpoint'
+      ? `border-2 border-signal bg-signal-soft text-signal ${keyEdge}`
+      : `border-2 border-accent ${card} ${keyEdge}`;
+  }
+  if (node.state === 'passed' || node.state === 'done' || node.state === 'testedOut') {
+    return `border border-edge-strong ${card} ${raisedEdge}`;
+  }
+  // The remaining case is a checkpoint of a built unit that is attemptable but
+  // not yet due: an outline, not a slab.
+  return `border border-signal ${card} ${raisedEdge}`;
+}
+
+/** Finished work, in whichever of the three ways a node can be finished. */
+function isFinished(node: Node): boolean {
+  return node.state === 'passed' || node.state === 'done' || node.state === 'testedOut';
 }
 
 /** A node the learner can act on, or is looking at. */
 function Row({ node, view }: { node: Node; view: NodeView }) {
   const inner = (
-    <div className={`tap flex items-center gap-3 rounded-xl border px-3 py-3 ${skinFor(node)}`}>
-      <RailIndex>{railNumber(node)}</RailIndex>
+    <div className={`tap flex items-center gap-3 rounded-xl px-3 py-3 ${skinFor(node)}`}>
+      <RailIndex tone={isFinished(node) ? 'accent' : 'inherit'}>{railNumber(node)}</RailIndex>
       <span className="min-w-0 flex-1 [overflow-wrap:anywhere]">
         <span className="t-heading block">{view.title}</span>
         {/*
@@ -163,8 +232,14 @@ function Row({ node, view }: { node: Node; view: NodeView }) {
       {node.kind === 'checkpoint' && (
         <CheckpointFlag filled={node.state === 'passed'} className="shrink-0" />
       )}
-      {node.kind === 'lesson' && node.state === 'done' && (
-        <span aria-hidden className="t-title shrink-0 leading-none">
+      {node.kind === 'lesson' && isFinished(node) && (
+        /*
+          The completed state's third channel. Tested out is finished too -- the
+          learner proved the lesson at the checkpoint instead of sitting it --
+          so it earns the same mark, which is what it gains in place of the
+          `--accent-soft` tint PREMIUM-DELTA.md §5 retired.
+        */
+        <span aria-hidden className="t-title shrink-0 leading-none text-accent">
           &#10003;
         </span>
       )}
@@ -205,7 +280,7 @@ function Group({
   return (
     <div className="rounded-xl border border-edge-strong">
       <p aria-hidden className="t-caption border-b border-edge px-3 py-2 text-content-dim">
-        {GROUP_HEADING[state]}
+        {GROUP_HEADING[state](nodes.length)}
       </p>
       <ul className="px-3 py-2">
         {nodes.map((n) => {
@@ -241,6 +316,13 @@ export function PathScreen() {
   // than a start. A missing or stale record falls straight back to the wording
   // every other node uses.
   const resumed = activeLesson ? resumeLabel(resume, activeLesson.id) : null;
+  // What the meter counts: lessons, because a lesson is the unit of work a
+  // learner actually sits. A checkpoint is a gate on that work rather than more
+  // of it, so counting it would make the total disagree with the list the
+  // learner can see. Tested out counts as done -- the learner proved it.
+  const lessons = nodes.filter((n) => n.kind === 'lesson');
+  const lessonCount = lessons.length;
+  const doneCount = lessons.filter((n) => n.state === 'done' || n.state === 'testedOut').length;
 
   return (
     <section className="p-4">
@@ -248,23 +330,33 @@ export function PathScreen() {
         Section {SECTION_1.id} &middot; {SECTION_1.band}
       </p>
       <h1 className="t-display">{SECTION_1.title}</h1>
-      <ol className="mt-4 space-y-2">
-        {toRuns(nodes).map((run) => {
-          if (run.kind === 'group') {
+      {/*
+        PREMIUM-DELTA.md Δ3. The count comes first and in words, because the
+        meter beside it is `aria-hidden` decoration: this line is what a screen
+        reader reads, what a forced-colours rendering keeps, and what makes the
+        meter something other than a colour-only signal.
+      */}
+      <p className="t-index mt-3 text-content-dim">{railMeterLabel(doneCount, lessonCount)}</p>
+      <div className="mt-2 flex items-stretch gap-3">
+        <RailMeter done={doneCount} total={lessonCount} />
+        <ol className="min-w-0 flex-1 space-y-2">
+          {toRuns(nodes).map((run) => {
+            if (run.kind === 'group') {
+              return (
+                <li key={`${run.state}-${read(run.nodes[0]!, progress, null).key}`}>
+                  <Group state={run.state} nodes={run.nodes} progress={progress} />
+                </li>
+              );
+            }
+            const view = read(run.node, progress, run.node === activeLesson ? resumed : null);
             return (
-              <li key={`${run.state}-${read(run.nodes[0]!, progress, null).key}`}>
-                <Group state={run.state} nodes={run.nodes} progress={progress} />
+              <li key={view.key}>
+                <Row node={run.node} view={view} />
               </li>
             );
-          }
-          const view = read(run.node, progress, run.node === activeLesson ? resumed : null);
-          return (
-            <li key={view.key}>
-              <Row node={run.node} view={view} />
-            </li>
-          );
-        })}
-      </ol>
+          })}
+        </ol>
+      </div>
     </section>
   );
 }

@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react';
-import { RAIL_REM, RAIL_TYPE } from './rail';
+import { RAIL_REM, RAIL_TYPE, railMeterPercent } from './rail';
 
 /**
  * C1 -- the coordinate rail. DESIGN-SYSTEM.md §4 is the authority.
@@ -84,14 +84,27 @@ export function RailIndex({
   children: ReactNode;
   /**
    * `inherit` is the default on purpose. A list row often sets its own ink --
-   * a completed node is filled in `--accent` and reads in `--accent-on` -- and
-   * a rail that hardcoded `--content` would be the one element on the row
+   * a checkpoint that is due reads in `--signal` on its own tint -- and a rail
+   * that hardcoded `--content` would be the one element on the row
    * below 4.5:1. Full contrast is the rule; which token delivers it belongs to
    * the row, exactly as `pickReadable` picks the board's ink per square.
+   *
+   * `accent` is the completed state (PREMIUM-DELTA.md Δ3): a finished unit's
+   * rail segment is filled in `--accent`, which measures 5.90:1 light and
+   * 8.69:1 dark on `--surface` and 7.10:1 / 7.48:1 on `--surface-raised`, so
+   * the fill is a body-text-legal ink rather than a decoration. It is never
+   * the only channel -- the row also carries weight 600 and a `✓`.
    */
-  tone?: 'full' | 'dim' | 'inherit';
+  tone?: 'full' | 'dim' | 'accent' | 'inherit';
 }) {
-  const ink = tone === 'dim' ? 'text-content-dim' : tone === 'full' ? 'text-content' : '';
+  const ink =
+    tone === 'dim'
+      ? 'text-content-dim'
+      : tone === 'full'
+        ? 'text-content'
+        : tone === 'accent'
+          ? 'text-accent'
+          : '';
   return (
     <span
       aria-hidden="true"
@@ -100,5 +113,74 @@ export function RailIndex({
     >
       {children}
     </span>
+  );
+}
+
+/**
+ * The progress meter, PREMIUM-DELTA.md Δ3 -- and deliberately *not* a progress
+ * bar under a heading.
+ *
+ * A horizontal bar would have introduced a second progress language beside the
+ * coordinate rail, which is the design's signature. Instead the meter is a
+ * state of the rail: it runs vertically, in the rail's own gutter column, at
+ * the same x and the same `RAIL_REM` width as the board's rank index, and it
+ * fills from the bottom up exactly as the ranks count upward from 1. The thing
+ * that tells a learner where they are in the app is the same object that tells
+ * them where they are on the board.
+ *
+ * Three properties it inherits or owes:
+ *
+ *   - `--track` (Δ3) is the groove: 1.27:1 below the light ground, 1.62:1 above
+ *     the dark one. A groove, not a border -- it is never the sole separator of
+ *     anything, so it carries no contrast duty of its own.
+ *   - The fill is `--accent`, measured on `--track` at **4.63:1 light** and
+ *     **5.38:1 dark**, both clear of the 3:1 non-text requirement with margin.
+ *   - **Nothing is conveyed by colour alone.** The meter is `aria-hidden`
+ *     decoration over a count the caller renders as real text beside it
+ *     ("3 of 8 done"), which is what a screen reader reads and what survives a
+ *     forced-colours or monochrome rendering. `railMeterLabel` builds that
+ *     string so the bar and the sentence can never disagree.
+ *
+ * Nothing here animates: the fill is a static height, so there is no motion to
+ * answer for under `prefers-reduced-motion`.
+ */
+export function RailMeter({
+  done,
+  total,
+  className,
+}: {
+  done: number;
+  total: number;
+  className?: string;
+}) {
+  const pct = railMeterPercent(done, total);
+  return (
+    <div
+      aria-hidden="true"
+      data-rail="meter"
+      data-fill={String(pct)}
+      className={`flex shrink-0 justify-center ${className ?? ''}`}
+      style={{ width: `${String(RAIL_REM)}rem` }}
+    >
+      {/*
+        One character wide, like a single rank glyph. `1ch` of --font-index is
+        the rail's own measure, so the groove is exactly as wide as the numbers
+        that sit above it on a board surface.
+
+        Bounded and sticky, both found by looking at the rendered page rather
+        than at the code. A groove stretched to a 29-lesson list is 1418px tall
+        on a 390px phone, so a fill anchored to its bottom -- which is what
+        "fills upward" means -- starts life below the fold and is invisible
+        until the learner scrolls to the end of the list, which is the one place
+        they do not need it. Sixteen rem is a rank-index-sized object that fits
+        any viewport, and `sticky` keeps it beside whatever part of the list is
+        on screen. In `rem`, so it grows with the system text size.
+      */}
+      <div
+        className={`sticky top-4 h-64 w-[1ch] self-start overflow-hidden rounded-full bg-track ${RAIL_TYPE}`}
+      >
+        <div className="absolute inset-x-0 bottom-0 bg-accent" style={{ height: `${String(pct)}%` }} />
+      </div>
+    </div>
   );
 }
