@@ -184,12 +184,15 @@ Two stacks, both free:
 - `--font-ui` — `ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif`. Navigation, controls, headings, prose, the coach's voice.
 - `--font-index` — `ui-monospace, SFMono-Regular, 'SF Mono', Menlo, 'Roboto Mono', Consolas, monospace`, with `font-variant-numeric: tabular-nums`. Every coordinate and every counter.
 
+**The top of the ladder is a pair, not a size.** `display-lg` is defined with the line beneath it: a 40px UI headline followed immediately by one line in the `index` face carrying the count or notation the screen just produced. A big headline is a default; a big headline whose subtitle is in chess's own typographic system is this product's voice, and it reuses the index voice §5 identifies as where the personality lives. Two consumers, both paired: the Today title over the XP count, and the lesson-close headline over the run's `N stars · N hints · N misses` line. The count is stated before the star row decorates it, so the star glyphs follow their own words.
+
 **Where the personality lives.** Not in a display face. It lives in the mono index voice, and that is a deliberate reversal of the obvious move: see §5. Chess already has a typographic system of its own, algebraic notation, and it is the one piece of visual language the product has been throwing away.
 
 | Role | Size | Line height | Weight | Face | Used for |
 |---|---|---|---|---|---|
-| `display` | 30px | 34px | 700 | ui | Screen titles: Today, Path, Progress |
-| `title` | 22px | 28px | 700 | ui | Lesson titles, section titles, Lesson done |
+| `display-lg` | 40px | 44px | 700, −0.02em | ui | Exactly two places: the lesson-close headline and the Today title. **Never appears without an `index` notation line immediately beneath it** (PREMIUM-DELTA.md Δ2). |
+| `display` | 30px | 34px | 700 | ui | Screen titles: Path, Progress |
+| `title` | 22px | 28px | 700 | ui | Lesson titles, section titles |
 | `heading` | 17px | 24px | 600 | ui | Card titles, path node titles |
 | `body` | 17px | 26px | 400 | ui | Coach voice, prose, explain screens |
 | `body-strong` | 17px | 26px | 600 | ui | The challenge prompt |

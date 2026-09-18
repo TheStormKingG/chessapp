@@ -212,8 +212,16 @@ export function LessonPlayer({
           <div className="mt-6 md:col-start-2 md:row-start-2">
             <h2 className="t-title">{lesson.title}</h2>
             <p className="t-body mt-3">{lesson.card.idea}</p>
+            {/* PREMIUM-DELTA.md §5: `--accent-soft` meant five different things,
+                which is the rule §3.1 built the palette around. It keeps one job —
+                the selected segment of a segmented control — so the prose chip
+                becomes plain prose with a 2px left rule in `--accent`. The rule is
+                a mark, not a text background: the prose carries `--content` on
+                `--surface-raised`, measured below. */}
             {lesson.card.habit && (
-              <p className="t-body mt-3 rounded-lg bg-accent-soft p-3">Habit: {lesson.card.habit}</p>
+              <p className="t-body mt-3 border-l-2 border-accent bg-surface-raised py-2 pl-3">
+                Habit: {lesson.card.habit}
+              </p>
             )}
           </div>
           {lesson.card.diagrams[0] && (
@@ -342,22 +350,43 @@ export function LessonPlayer({
       {/*
         Chunk C6 (M-3, M-4). The takeaway is the reason the lesson happened, so
         it is set left-aligned in body type under its own heading rather than
-        centred inside an accent-tinted chip that read as a success banner. The
-        action is anchored to the bottom of the column (`mt-auto`) instead of
-        floating under the text with 900px of paper beneath it.
+        centred inside an accent-tinted chip that read as a success banner.
+
+        PREMIUM-DELTA.md Δ2 and Δ4.3. This is the moment the whole learning loop
+        exists to produce and it was set at the 22px `title` role, with ≈500px of
+        empty paper beneath it (§3.2, §3.4). Two changes:
+
+        - The heading takes `display-lg` (40/44), one of exactly two places the
+          top of the ladder is spent, and it carries its mandatory `--font-index`
+          notation line immediately beneath: the run's own counts, tabular, in
+          the index face. The count states the result before the star row
+          decorates it (Δ3's rule), so the glyph row now follows its own words
+          rather than preceding them — three channels, unchanged, reordered.
+        - The block fills the column and the free space is spent as two equal
+          auto margins around the content group, which puts the content at the
+          optical centre and drops the action onto the bottom edge. `flex-1`
+          alone does that below `md`, where the section is a `min-h-dvh` column;
+          at `md` the section is a grid whose rows are auto-sized and whose items
+          are `items-start`, so the block has to be given a height of its own or
+          `flex-1` resolves against nothing — the same class of silently inert
+          rule as the `min-h-full` this file already carries a note about.
+          Verified by measuring the container and the button's bottom edge, not
+          from a screenshot.
       */}
       {ph.kind === 'close' && (
-        <div className="mt-6 flex flex-1 flex-col md:col-span-2">
-          <Stars earned={ph.stars} />
-          <p className="t-caption mt-2 text-content-dim">
-            {ph.stars} stars · {s.totalHints} hints · {s.totalMisses} misses
-          </p>
-          <h2 className="t-title mt-6">{closeHeading}</h2>
-          <p className="t-body mt-3">{lesson.takeaway}</p>
-          {showXp && <p className="t-index mt-4 text-content-dim">+{ph.xp} XP</p>}
+        <div className="mt-6 flex min-h-[calc(100dvh-8rem)] flex-1 flex-col md:col-span-2">
+          <div className="my-auto">
+            <h2 className="t-display-lg">{closeHeading}</h2>
+            <p className="t-index mt-2 text-content-dim">
+              {ph.stars} stars · {s.totalHints} hints · {s.totalMisses} misses
+            </p>
+            <Stars earned={ph.stars} />
+            <p className="t-body mt-4">{lesson.takeaway}</p>
+            {showXp && <p className="t-index mt-4 text-content-dim">+{ph.xp} XP</p>}
+          </div>
           <button
             type="button"
-            className={`${btn.primary} mt-auto w-full`}
+            className={`${btn.primary} w-full md:mx-auto md:max-w-sm`}
             onClick={() =>
               onComplete({ lessonId: lesson.id, stars: ph.stars, xp: ph.xp, results: s.results })
             }
@@ -380,9 +409,11 @@ export function LessonPlayer({
  *    it exactly two meanings, primary action and *completed work*, and an
  *    earned star is completed work. 6.62:1 light and 8.41:1 dark on the page
  *    ground, against a 3:1 requirement for a 30px glyph.
- * 3. **Words** — the "N stars · …" line directly below, which is the only thing
+ * 3. **Words** — the "N stars · …" line directly above, which is the only thing
  *    a screen reader gets: the row itself is `aria-hidden` so the count is
- *    announced once rather than as three separate glyph names.
+ *    announced once rather than as three separate glyph names. It reads above
+ *    rather than below since Δ2 made that line the heading's notation pair;
+ *    adjacency is what the third channel needs, not an order.
  *
  * The previous version had only the first, and at 2 of 3 the difference was a
  * glyph outline at small size. The rule the design lead is applying is not
@@ -391,7 +422,7 @@ export function LessonPlayer({
  */
 function Stars({ earned }: { earned: number }) {
   return (
-    <p aria-hidden className="t-display flex gap-1 leading-none">
+    <p aria-hidden className="t-display mt-3 flex gap-1 leading-none">
       {[0, 1, 2].map((i) => (
         <span key={i} className={i < earned ? 'text-accent' : 'text-content-dim'}>
           {i < earned ? '★' : '☆'}

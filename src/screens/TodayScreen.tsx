@@ -29,7 +29,11 @@ export function TodayScreen() {
 
   return (
     <section className="p-4">
-      <h1 className="t-display">Today</h1>
+      {/* PREMIUM-DELTA.md Δ2: one of the two places `display-lg` is spent, and it
+          is never allowed to stand alone — the XP count directly beneath it is the
+          `--font-index` notation line the role is defined as a pair with. The count
+          is stated in the index face, tabular, before anything decorates it. */}
+      <h1 className="t-display-lg">Today</h1>
       <p className="t-index mt-1 text-content-dim">{progress.xp} XP so far</p>
 
       <h2 className="t-caption mt-6 uppercase tracking-wide text-content-dim">On the path</h2>
