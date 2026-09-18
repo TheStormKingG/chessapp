@@ -35,17 +35,46 @@ export PGPASSWORD="$SUPABASE_DB_PASSWORD"
   -U "postgres.$SUPABASE_PROJECT_REF" -d postgres -v ON_ERROR_STOP=1 -f supabase/dryrun/phase0.sql
 ```
 
-Two things are dashboard settings rather than migrations and **still have to be set by
-hand** (the Management API refused the CLI's stored credential). In the ChessApp project
-at <https://supabase.com/dashboard/project/wkmuvgmlgolvuezdtbvh>:
+### Auth configuration
 
-1. **Authentication → URL Configuration**
-   - Site URL: `https://thestormkingg.github.io/chessapp/`
-   - Redirect URLs: add `https://thestormkingg.github.io/chessapp/` and `http://localhost:5173/**`
-2. **Authentication → Sign In / Providers → Email**
-   - Enable the Email provider, and enable **Magic Link**.
-   - "Confirm email" off is acceptable for Phase 0.
+Auth URLs and the email provider are **version-controlled in `supabase/config.toml`**,
+not clicked in the dashboard. What is configured there:
 
-Until both are done, the magic link in Settings sends but the link will not return the
-learner to the app. Client keys (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) live in the
-gitignored `.env.local` and as GitHub repo secrets; no service key ever reaches the client.
+- **Site URL** `https://thestormkingg.github.io/chessapp/` — where a magic link returns
+  the learner. It must stay equal to the app's `emailRedirectTo`
+  (`src/sync/supabaseClient.ts`: `window.location.origin + import.meta.env.BASE_URL`).
+- **Redirect allow-list** `https://thestormkingg.github.io/chessapp/` (production) and
+  `http://localhost:5173/**` (local dev, where `BASE_URL` is `/`).
+- **Email provider / magic link** — magic-link sign-in (`signInWithOtp`) works because the
+  project's email provider is enabled. "Confirm email" is left **on**, which magic links do
+  not require; Phase 0 works either way.
+
+To change any of it, edit `supabase/config.toml` and push:
+
+```bash
+supabase config push          # prints a remote-vs-local diff and asks before applying
+```
+
+**Read the diff every time.** `config push` sends the *whole* `[auth]` block, so any key
+absent from the file is pushed at the CLI's own default and silently overwrites the
+project. The file therefore restates several values it does not intend to change — they
+are commented `# pin` (MFA TOTP enrolment, `max_frequency`, `otp_length`,
+`enable_confirmations`). Add a pin for any new key that shows up in the diff unasked.
+Never put a secret in the file; use `env(VAR_NAME)` interpolation if one is ever needed.
+
+The allow-list can be verified without sending mail — GoTrue honours an allow-listed
+`redirect_to` even for an invalid token, and falls back to the Site URL otherwise:
+
+```bash
+set -a; source .env.local; set +a
+curl -s -o /dev/null -w '%{redirect_url}\n' \
+  "$VITE_SUPABASE_URL/auth/v1/verify?token=invalid&type=magiclink&redirect_to=http://localhost:5173/" \
+  -H "apikey: $VITE_SUPABASE_ANON_KEY"
+```
+
+**Still manual:** nothing for auth. Email *templates* and SMTP remain dashboard-only (the
+project uses Supabase's built-in mailer and its low sending limits), and the database
+schema is migrations, not config.
+
+Client keys (`VITE_SUPABASE_URL`, `VITE_SUPABASE_ANON_KEY`) live in the gitignored
+`.env.local` and as GitHub repo secrets; no service key ever reaches the client.

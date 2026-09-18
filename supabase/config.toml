@@ -1,0 +1,34 @@
+# Version-controlled Supabase project configuration for ChessApp.
+# Pushed with `supabase config push` (see README "Supabase settings").
+#
+# `config push` sends the WHOLE [auth] block, not just the lines below, so any
+# key left unstated is pushed at the CLI's default and would silently overwrite
+# the project. The keys marked "pin" below are not settings we want — they are
+# the project's existing values, restated so the push leaves them alone.
+# Never put a secret here; use env(VAR_NAME) interpolation if one is ever needed.
+
+project_id = "wkmuvgmlgolvuezdtbvh"
+
+[auth]
+# Where the magic link returns the learner. Must match the app's
+# `emailRedirectTo` (src/sync/supabaseClient.ts): origin + BASE_URL.
+site_url = "https://thestormkingg.github.io/chessapp/"
+additional_redirect_urls = [
+  "https://thestormkingg.github.io/chessapp/",
+  "http://localhost:5173/**",
+]
+
+[auth.mfa.totp]
+enroll_enabled = true # pin: project default, not a CLI default
+verify_enabled = true # pin
+
+[auth.email]
+# The email provider is enabled on the project, which is what makes magic-link
+# sign-in (signInWithOtp) work; the CLI has no key for that toggle.
+enable_signup = true
+double_confirm_changes = true
+enable_confirmations = true # pin: confirm-email stays as the project has it
+secure_password_change = false
+max_frequency = "1m0s"      # pin: CLI default is 1s, which would weaken this
+otp_length = 8              # pin: CLI default is 6
+otp_expiry = 3600
