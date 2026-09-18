@@ -181,6 +181,33 @@ body {
 }
 
 /*
+ * REFERENCE-DELTA.md Δ-R1. §3.1 defines `--edge-strong` as "every control
+ * border"; `Button.tsx` honours that for primary, secondary and danger. The
+ * icon-only dismiss controls were the only controls opting out, and they are
+ * the ones with no text to give them bounds. This gives them the edge without
+ * giving them weight — a ring, not a fill, so the screen's single
+ * `--key-accent` element stays unambiguous (`buttons.md › Style`: prominence
+ * follows role, and a dismiss is not an offer).
+ *
+ * `inline-flex` is load-bearing: a bare `.tap` button computes to `display:
+ * block`, which leaves the glyph off-centre inside a ring that is now visible.
+ * `box-sizing: border-box` (preflight) draws the 1px inside the box, so the
+ * 44px floor survives the border — measured, not assumed.
+ *
+ * The radius is the one place this departs from §3.3's "999px on nothing".
+ * That rule exists to keep the board's square corners reading as deliberate
+ * and to rule out pill chips (§5.4); a 1px ring around a 44px glyph is
+ * neither. Nothing else in the app gains a round corner.
+ */
+.icon-control {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--edge-strong);
+  border-radius: 999px;
+}
+
+/*
  * ─── The type scale (chunk C3, DESIGN-SYSTEM.md §3.2) ───────────────────────
  *
  * Nine named roles. Every size is in `rem` so the OS and browser text-size

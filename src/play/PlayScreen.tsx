@@ -53,7 +53,7 @@ export function PlayScreen() {
         <div className="px-4 pt-4">
           <button
             type="button"
-            className="tap"
+            className="tap icon-control"
             aria-label="Exit game"
             onClick={() => {
               void nav('/play');
@@ -108,7 +108,7 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
       <header className="flex items-baseline justify-between gap-3 md:col-span-2">
         <button
           type="button"
-          className="tap self-center"
+          className="tap icon-control self-center"
           aria-label="Exit game"
           onClick={exit}
         >

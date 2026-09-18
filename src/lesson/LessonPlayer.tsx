@@ -183,7 +183,7 @@ export function LessonPlayer({
        the phone column below `md` is untouched. */
     <section className="flex min-h-dvh flex-col p-4 md:mx-auto md:grid md:max-w-6xl md:grid-cols-[minmax(0,1fr)_22rem] md:items-start md:gap-x-6 md:px-6 md:grid-rows-[auto_auto_1fr] lg:grid-cols-[minmax(0,1fr)_27rem] lg:gap-x-12">
       <header className="flex items-center justify-between md:col-span-2">
-        <button type="button" className="tap" aria-label={exitLabel} onClick={exit}>
+        <button type="button" className="tap icon-control" aria-label={exitLabel} onClick={exit}>
           ✕
         </button>
         <h1 className="t-caption text-content-dim">{title ?? `${lesson.id} · ${lesson.title}`}</h1>
