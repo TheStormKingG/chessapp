@@ -70,15 +70,13 @@ async function checkboxTargets(page: Page) {
 }
 
 const CASES = [
-  { tag: 'phone-light', width: 390, height: 844, scheme: 'light' as const },
-  { tag: 'phone-dark', width: 390, height: 844, scheme: 'dark' as const },
+  { tag: 'phone-light', width: 390, height: 844 },
 ];
 
 for (const c of CASES) {
   test(`focus and targets ${c.tag}`, async ({ page }) => {
     test.setTimeout(180_000);
     await page.setViewportSize({ width: c.width, height: c.height });
-    await page.emulateMedia({ colorScheme: c.scheme });
     await enableTextEntry(page);
     const out: Record<string, unknown> = {};
 

@@ -274,15 +274,14 @@ export async function accentSquares(page: Page): Promise<string[]> {
  * The squares the refutation arrow is drawn between, from the arrow's marker id.
  *
  * A3 / DESIGN-SYSTEM.md 5: red is off the board, so this arrow is no longer
- * `#a23b3b`. It paints in `--mark-review`, resolved from the page so the helper
- * works in either appearance. The fallbacks mirror DESIGN-SYSTEM.md 3.1 and
- * only apply while chunk A1 has not yet defined the token.
+ * `#a23b3b`. It paints in `--mark-review`, resolved from the page. The single
+ * fallback mirrors DESIGN-SYSTEM.md 3.1 and applies only if the token is
+ * undefined; there is one appearance, so there is one fallback.
  */
 export async function refutationArrows(page: Page): Promise<string[]> {
   return page.evaluate(() => {
     const token = getComputedStyle(document.documentElement).getPropertyValue('--mark-review').trim();
-    const dark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const expected = (token || (dark ? '#F7DFAC' : '#4A3306')).toLowerCase();
+    const expected = (token || '#4A3306').toLowerCase();
     return [...document.querySelectorAll<SVGPathElement>('path[stroke][marker-end]')]
       .filter((p) => (p.getAttribute('stroke') ?? '').trim().toLowerCase() === expected)
       .map((p) => p.getAttribute('marker-end') ?? '');
@@ -410,20 +409,39 @@ export async function answerWrongOnce(page: Page, c: Challenge): Promise<void> {
 /* --------------------------------------------------------------- elevation */
 
 /**
- * PREMIUM-DELTA.md Δ1 -- depth comes from crisp edges, never from blur.
+ * NEUMORPHIC-DELTA.md §2 REVERSES PREMIUM-DELTA.md Δ1 rule 1.
  *
- * Neither reference product puts a blurred shadow on a control: chess.com's
- * raised CTA tops out at a 4px blur with 1px and 2px drops (§1.2) and
- * Duolingo's physical-key affordance is a 4px solid bottom border with
- * `box-shadow: none` (§2.1). Rule 1 of Δ1 turns that into an app-wide ban on a
- * blur radius above 4px, and rule 4 stops elevation at the board's edge.
+ * Δ1 banned a box-shadow blur radius above 4px app-wide, on measured evidence
+ * from two reference products. The owner has overridden that finding with an
+ * explicit preference for a neumorphic light theme, whose depth IS blur. The
+ * earlier finding was not wrong and is not relitigated; what changes is that a
+ * numeric cap is no longer the right shape of guard, because the hazard it was
+ * protecting against -- a soft shadow arriving by habit and making every
+ * surface mushy -- is now indistinguishable from the house style by blur radius
+ * alone.
+ *
+ * So the guard gets stricter in the dimension that still matters: a blurred
+ * shadow is allowed ONLY if its computed value is exactly one of the three
+ * sanctioned tokens read off `:root`. A hand-rolled `0 10px 30px rgba(0,0,0,.2)`
+ * fails here where a cap of 32 would have waved it through, and so does a
+ * neumorphic pair someone has "tuned" by eye.
+ *
+ * Zero-and-low-blur shadows (<= 4px) stay permitted without a token: the inset
+ * mark rings the board draws are exactly that, and they are carriers of meaning
+ * DESIGN-SYSTEM.md §7 requires kept.
  *
  * These read COMPUTED style in a real browser, which is the only place a
- * Tailwind utility, a token and a media query have all been resolved --
- * `src/board/Board.test.tsx` asserts the same rule over inline style in jsdom,
- * where none of them have.
+ * Tailwind utility, a token and a custom property have all been resolved.
  */
 export const BLUR_CAP_PX = 4;
+
+/** The `:root` custom properties whose value a blurred shadow may equal. */
+export const SANCTIONED_SHADOW_TOKENS = [
+  '--shadow-raised',
+  '--shadow-raised-lg',
+  '--shadow-inset',
+  '--shadow-inset-soft',
+] as const;
 
 /** Parses one `box-shadow` layer's blur radius, in px. Unitless zeros count. */
 function shadowBlurPx(layer: string): number {
@@ -437,23 +455,53 @@ function shadowBlurPx(layer: string): number {
   return lengths[2] ?? 0;
 }
 
-/** Every element in the page whose computed box-shadow blurs by more than the cap. */
+/**
+ * Every element whose computed box-shadow blurs by more than the cap AND is not
+ * one of the sanctioned tokens.
+ *
+ * The sanctioned set is resolved by applying each token to a probe element and
+ * reading its computed `box-shadow` back, so the comparison is between two
+ * computed strings rather than between a computed string and an authored one --
+ * `var()`, colour normalisation and layer order have all been applied to both
+ * sides. If the probe resolves nothing, that is reported as a failure rather
+ * than as a clean page (observation 0032: a guard that matches nothing passes).
+ */
 export async function blurredShadows(page: Page): Promise<string[]> {
-  const entries = await page.evaluate(() =>
-    [...document.querySelectorAll<HTMLElement>('*')]
-      .map((el) => {
-        const s = getComputedStyle(el).boxShadow;
-        return s && s !== 'none'
-          ? `${el.tagName.toLowerCase()}.${el.getAttribute('class') ?? ''} :: ${s}`
-          : '';
-      })
-      .filter(Boolean),
-  );
+  const { entries, sanctioned } = await page.evaluate((tokens) => {
+    const probe = document.createElement('div');
+    probe.style.position = 'absolute';
+    probe.style.visibility = 'hidden';
+    document.body.append(probe);
+    const resolved: string[] = [];
+    for (const t of tokens) {
+      probe.style.boxShadow = `var(${t})`;
+      const v = getComputedStyle(probe).boxShadow;
+      if (v && v !== 'none') resolved.push(v);
+    }
+    probe.remove();
+    return {
+      sanctioned: resolved,
+      entries: [...document.querySelectorAll<HTMLElement>('*')]
+        .map((el) => {
+          const s = getComputedStyle(el).boxShadow;
+          return s && s !== 'none'
+            ? `${el.tagName.toLowerCase()}.${el.getAttribute('class') ?? ''} :: ${s}`
+            : '';
+        })
+        .filter(Boolean),
+    };
+  }, SANCTIONED_SHADOW_TOKENS as unknown as string[]);
+
+  if (sanctioned.length !== SANCTIONED_SHADOW_TOKENS.length) {
+    return [
+      `only ${String(sanctioned.length)} of ${String(SANCTIONED_SHADOW_TOKENS.length)} shadow tokens resolved on :root -- the guard cannot run`,
+    ];
+  }
+
   return entries.filter((entry) => {
     const shadow = entry.split(' :: ')[1] ?? '';
-    return shadow
-      .split(/,(?![^()]*\))/)
-      .some((layer) => shadowBlurPx(layer.trim()) > BLUR_CAP_PX);
+    if (sanctioned.includes(shadow)) return false;
+    return shadow.split(/,(?![^()]*\))/).some((layer) => shadowBlurPx(layer.trim()) > BLUR_CAP_PX);
   });
 }
 

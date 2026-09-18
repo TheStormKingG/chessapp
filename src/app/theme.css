@@ -2,75 +2,135 @@
 
 /*
  * The token layer. Six semantic roles (surface, content, edge, accent, signal,
- * danger) plus a board group, in two appearances. Values and their measured
- * contrast ratios come from docs/design/DESIGN-SYSTEM.md §3.1; they are not
- * re-derived here and must not be adjusted by eye.
+ * danger), a depth group and a board group, in ONE appearance.
  *
- * Dark comes from `prefers-color-scheme` alone. There is deliberately no
- * app-level appearance switch: the HIG (dark-mode.md > Overview) treats the
- * appearance as a system-wide choice the person has already made, and an
- * in-app override desynchronises the PWA from the status bar and the OS.
+ * Values and every ratio beside them come from docs/design/NEUMORPHIC-DELTA.md
+ * §3, where each one is computed with the WCAG formula rather than estimated.
+ * They must not be adjusted by eye.
+ *
+ * LIGHT ONLY, deliberately (NEUMORPHIC-DELTA.md §4). There is no dark
+ * appearance, no `prefers-color-scheme` block and no in-app appearance switch.
+ * The HIG (dark-mode.md > Overview) argues against an app-specific appearance
+ * SWITCH because the appearance is a system-wide choice; it does not require an
+ * app to ship two. Committing to one is a design decision, and this document
+ * states what it costs: people who prefer dark do not get it here, and reading
+ * in a dark room is brighter than it was. `color-scheme: light` is declared so
+ * the browser's own form controls, scrollbars and canvas follow the commitment
+ * instead of being rendered dark around a light page.
  *
  * The raw values live on `:root` as plain custom properties rather than inside
- * `@theme`, because only a plain property can be redefined by a media query and
- * cascade into everything that already references it. `@theme inline` below
- * then maps Tailwind's colour utilities onto those properties by reference, so
- * `bg-surface` emits `var(--surface)` and follows the appearance automatically.
+ * `@theme`, so `@theme inline` below can map Tailwind's colour utilities onto
+ * them by reference.
  */
 
 :root {
   color-scheme: light;
 
-  /* Surface and content */
-  /* PREMIUM-DELTA.md Δ1: the ground is deepened so a card is an object on it
-     rather than an outline drawn on paper. raised-to-ground was 1.07:1, which
-     is not a surface; it is now 1.20:1. */
-  --surface: #eae5da;
-  --surface-raised: #fbfaf7; /* 1.20:1 above --surface (was 1.07:1 on the old ground) */
-  --content: #1a1d1b; /* 13.53:1 on --surface */
-  --content-dim: #565b58; /* 5.51:1 on --surface */
-  --edge: #dcd8cf; /* hairlines only: decorative, no contrast duty */
-  --edge-strong: #807c73; /* 3.31:1 on --surface, 3.99:1 on a card — every boundary that is the sole separator */
+  /*
+   * ─── Ground and surfaces ──────────────────────────────────────────────────
+   * Sampled live from preqal.org: `body` computes to rgb(224, 229, 236).
+   */
+  --surface: #e0e5ec;
+  /* The reference's panel: rgba(255,255,255,0.72) composited over the ground.
+     1.19:1 above --surface — a lift, not a boundary. The boundary is the
+     shadow pair below, or --edge-strong where the element is a control. */
+  --surface-raised: #f6f8fa;
+  --content: #0f172b; /* 14.08:1 on --surface, 16.75:1 on a panel */
+  --content-dim: #475569; /* 5.99:1 on --surface, 7.12:1 on a panel */
+  --edge: #cbd3df; /* hairlines only: decorative, no contrast duty */
+  --edge-strong: #64748b; /* 3.76:1 on --surface, 4.47:1 on a panel — every control border */
 
   /*
-   * Depth is a crisp solid edge, never a blur (PREMIUM-DELTA.md §1.2, §2.1).
-   * Neither reference product puts a blurred shadow on a control: chess.com's
-   * raised CTA tops out at a 4px blur with 1px and 2px drops, and Duolingo's
-   * entire physical-key affordance is a 4px solid bottom border with
-   * `box-shadow: none`. Rule: a box-shadow blur radius above 4px is banned
-   * app-wide, at most ONE element per screen carries --key-accent, and
-   * elevation stops at the board's edge — the board, its squares and its marks
-   * take no key edge, no shadow and no radius, ever (Δ1 rule 4).
+   * ─── Depth ────────────────────────────────────────────────────────────────
    *
-   * Both key tokens are decorative: they carry no meaning and are never the
-   * sole separator, so they have no contrast duty. The measured figures are
-   * recorded so nobody has to re-derive them.
+   * This is the reversal PREMIUM-DELTA.md §1.2 / §2.1 banned: depth here is
+   * blur, not a crisp edge. NEUMORPHIC-DELTA.md §2 records why, and what the
+   * earlier finding still costs us.
+   *
+   * The pair, measured off preqal.org: a #a3b1c6 shadow offset POSITIVE x and
+   * y, against a pure-white shadow offset NEGATIVE x and y. Both are
+   * decorative: --n-dark is 1.72:1 on the ground and --n-light is 1.27:1, so
+   * neither may ever be the only thing bounding a control. That is the whole
+   * hazard of this style and it is answered structurally: containers go soft,
+   * controls keep --edge-strong.
    */
-  --key-accent: #0b3c2d; /* 3px under the primary action only. 9.84:1 on --surface, 1.67:1 on the --accent face */
-  --key-raised: #c9c3b5; /* 2px under cards and secondary controls. 1.40:1 on --surface */
+  --n-dark: #a3b1c6;
+  --n-light: #ffffff;
 
-  /* The progress groove (Δ3). Fills in --accent, which measures 4.63:1 on it. */
-  --track: #d3ccbc; /* 1.27:1 below --surface — a visible groove, not a border */
+  /* Control scale — measured on the reference verbatim. */
+  --shadow-raised: 3px 3px 6px var(--n-dark), -3px -3px 6px var(--n-light);
+  /* Hero scale — measured verbatim. At most ONE element per screen. */
+  --shadow-raised-lg:
+    12px 14px 32px rgba(163, 177, 198, 0.55), -6px -6px 20px rgba(255, 255, 255, 0.9);
+  /* Pressed / grooved. The board's well and the progress track use this. */
+  --shadow-inset: inset 2px 2px 4px var(--n-dark), inset -2px -2px 4px var(--n-light);
+  --shadow-inset-soft:
+    inset 2px 2px 5px rgba(163, 177, 198, 0.45), inset -2px -2px 5px rgba(255, 255, 255, 0.8);
+
+  /*
+   * The key edge survives the reversal, on CONTROLS only. A blurred pair alone
+   * gives the primary action no edge contrast at all (1.72:1), so the one
+   * filled action keeps a 3px crisp bottom edge underneath its soft raise.
+   * Both key tokens are decorative and carry no contrast duty; the figures are
+   * recorded so nobody re-derives them.
+   */
+  --key-accent: #0b3c2d; /* 9.77:1 on --surface, 1.67:1 on the --accent face */
+  --key-raised: #a3b1c6; /* re-grounded onto --n-dark: one depth colour, not two. 1.72:1 */
+
+  /* The progress groove. Fills in --accent, which measures 5.06:1 on it. */
+  --track: #cfd6e0; /* 1.16:1 below --surface */
 
   /* Accent: primary action and completed work, and nothing else */
-  --accent: #12614a; /* 5.90:1 on --surface */
+  --accent: #12614a; /* 5.85:1 on --surface */
   --accent-on: #ffffff; /* 7.41:1 on --accent */
-  --accent-soft: #d7e9e0; /* --content on it: 13.45:1 */
+  --accent-soft: #dbeae3; /* --content on it: 14.34:1 */
 
-  /* Signal: review, due */
-  --signal: #7a5310; /* 5.44:1 on --surface */
-  --signal-soft: #f6e9ce; /* --signal on it: 5.68:1 */
+  /* Signal: review, due. The reference's amber, darkened until it can carry
+     text — #f59e0b itself is 1.70:1 on the ground (NEUMORPHIC-DELTA.md §3.4). */
+  --signal: #7a5310; /* 5.40:1 on --surface */
+  --signal-soft: #fbecd2; /* --signal on it: 5.87:1; --content on it: 15.31:1 */
 
   /* Danger: destructive UI only, never the board */
-  --danger: #9b2f2f; /* 5.88:1 on --surface */
+  --danger: #9b2f2f; /* 5.84:1 on --surface, 6.94:1 on a panel */
 
-  /* The board. Square-to-square contrast is deliberately ~2.7:1; see §3.1. */
+  /*
+   * ─── The board ────────────────────────────────────────────────────────────
+   *
+   * Unchanged, and that is a measured result rather than an omission
+   * (NEUMORPHIC-DELTA.md §5). All eight piece-on-square combinations and all
+   * four mark-on-square ratios are internal to the board, so re-grounding the
+   * page cannot move them; re-measured, they are identical. Square-to-square
+   * stays the documented 2.71:1 exemption.
+   *
+   * What DID move is the ink the board draws on a square, because that is
+   * picked from --content, and --content moved. See §5 for the rejected
+   * candidates and their numbers.
+   *
+   * The board is the one warm object on a cool ground, which is why it is not
+   * re-hued. --board-light is 1.03:1 against --surface and therefore has no
+   * visible boundary -- which was also true of the old warm ground (1.01:1),
+   * so it is a property of this design and not a regression. It is NOT fixed
+   * with a sunken well: Δ1 rule 4 as restated in `Board.tsx` stops elevation at
+   * the board's edge and the previous pass already cut a well for exactly that
+   * reason. The board's presence is arithmetic -- scale and column parity.
+   */
   --board-light: #e9e1d2;
   --board-dark: #94876f;
   --piece-light: #fbfaf7;
   --piece-dark: #17191a;
   --mark-good: #0b3d2e;
   --mark-review: #4a3306;
+
+  /*
+   * ─── Radius ───────────────────────────────────────────────────────────────
+   * The reference's three radii, measured by frequency: 12px (29 elements),
+   * 16px (11), 24px (7), plus a full radius on 7. This replaces the single
+   * 10px of DESIGN-SYSTEM.md §3.3; the 999px clause of that section is
+   * unchanged and still applies to nothing that receives a press.
+   */
+  --radius-control: 12px;
+  --radius-card: 16px;
+  --radius-hero: 24px;
 
   /* Motion. One easing curve; only transform and opacity are ever animated. */
   --motion-fast: 120ms;
@@ -79,45 +139,6 @@
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    color-scheme: dark;
-
-    --surface: #0e1110;
-    --surface-raised: #1c211f; /* 1.16:1 above --surface (was 1.13:1 on the old ground) */
-    --content: #e9ece9; /* 15.94:1 on --surface */
-    --content-dim: #9aa29e; /* 7.26:1 on --surface */
-    --edge: #2a302d;
-    --edge-strong: #6f7874; /* 4.17:1 on --surface, 3.59:1 on a card */
-
-    --key-accent: #2a7a57; /* 3.63:1 on --surface, 2.39:1 on the --accent face */
-    --key-raised: #070908; /* 1.05:1 below --surface */
-
-    --track: #313a36; /* 1.62:1 above --surface; --accent on it is 5.38:1 */
-
-    --accent: #4fc48e; /* 8.69:1 on --surface */
-    --accent-on: #08130e; /* 8.67:1 on --accent */
-    --accent-soft: #123128; /* --content on it: 11.79:1 */
-
-    --signal: #e9b454; /* 10.05:1 on --surface */
-    --signal-soft: #33280f; /* --signal on it: 7.66:1 */
-
-    --danger: #f08a8a; /* 7.87:1 on --surface */
-
-    --board-light: #8a7e6c;
-    --board-dark: #574f42;
-    --piece-light: #f7f5f0;
-    --piece-dark: #16181a;
-    --mark-good: #b6f5d8;
-    --mark-review: #f7dfac;
-  }
-}
-
-/*
- * `inline` is required: it makes Tailwind emit `var(--surface)` in the utility
- * rather than resolving the value at build time, which is what lets the dark
- * media query above reach utilities that were already generated.
- */
 @theme inline {
   --color-surface: var(--surface);
   --color-surface-raised: var(--surface-raised);
@@ -136,24 +157,12 @@
   --color-danger: var(--danger);
   --color-board-light: var(--board-light);
   --color-board-dark: var(--board-dark);
+  --color-n-dark: var(--n-dark);
+  --color-n-light: var(--n-light);
 
-  /*
-   * Legacy aliases. src/board/ is owned by another chunk and still spells its
-   * colours the old way; these keep it compiling against the new values. The
-   * `line` alias points at --edge-strong rather than --edge on purpose: every
-   * `border-line` in the app is the only thing separating a control from its
-   * background, which is the defect (M-1) the --edge / --edge-strong split
-   * exists to fix. Remove these once no src/board/ file references them.
-   */
-  --color-ink: var(--content);
-  --color-ink-muted: var(--content-dim);
-  --color-paper: var(--surface);
-  --color-card: var(--surface-raised);
-  --color-line: var(--edge-strong);
-  --color-review: var(--signal);
-  --color-review-soft: var(--signal-soft);
-  --color-square-light: var(--board-light);
-  --color-square-dark: var(--board-dark);
+  --radius-control: var(--radius-control);
+  --radius-card: var(--radius-card);
+  --radius-hero: var(--radius-hero);
 
   --font-sans: ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --font-index: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, 'Roboto Mono', Consolas, monospace;
@@ -194,7 +203,9 @@ body {
  * `box-sizing: border-box` (preflight) draws the 1px inside the box, so the
  * 44px floor survives the border — measured, not assumed.
  *
- * The radius is the SYSTEM's radius: 10px, §3.3's "10px on cards and controls".
+ * The radius is the SYSTEM's radius: `--radius-control`, 12px since
+ * NEUMORPHIC-DELTA.md §3.5 re-grounded the radius scale on the reference's own
+ * (12 / 16 / 24). It was 10px, and the argument is unchanged by the number.
  * An earlier pass made this ring circular, which put a 999px radius in the tree
  * while §3.3 says 999px applies to nothing and REFERENCE-DELTA.md §5.4 cites
  * that same clause to reject the reference's pill chips. The circularity was
@@ -239,7 +250,8 @@ body {
   inline-size: max(44px, 1.6em);
   block-size: max(44px, 1.6em);
   border: 1px solid var(--edge-strong);
-  border-radius: 10px;
+  border-radius: var(--radius-control);
+  box-shadow: var(--shadow-raised);
 }
 
 /*
@@ -383,7 +395,7 @@ body {
   justify-content: center;
   gap: 0.5rem;
   min-height: 44px;
-  border-radius: 10px;
+  border-radius: var(--radius-control);
   padding-inline: 1rem;
   padding-block: 0.5rem;
   border: 1px solid transparent;
@@ -406,17 +418,23 @@ body {
   color: var(--accent-on);
   border-color: var(--accent);
   border-bottom: 3px solid var(--key-accent);
+  box-shadow: var(--shadow-raised);
   min-height: 47px;
   font-weight: 600;
 }
 
-/* Secondary controls are raised too, but at 2px in --key-raised, so a set of
-   options still reads as a set and only the preferred member is filled. */
+/*
+ * Secondary controls are raised by the SOFT pair alone and keep the same
+ * --edge-strong border, so a set of options still reads as a set and only the
+ * preferred member is filled and crisply keyed. NEUMORPHIC-DELTA.md §6's
+ * removal: one depth grammar per element, so the 2px solid --key-raised edge
+ * that used to sit under this on top of a raise is gone.
+ */
 @utility btn-secondary {
-  background: transparent;
+  background: var(--surface);
   color: var(--content);
   border-color: var(--edge-strong);
-  border-bottom: 2px solid var(--key-raised);
+  box-shadow: var(--shadow-raised);
   min-height: 46px;
 }
 
@@ -448,6 +466,34 @@ body {
      hue alone for a learner who cannot separate this red from the ink. */
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/*
+ * ─── Depth utilities (NEUMORPHIC-DELTA.md §3.3) ─────────────────────────────
+ *
+ * The three sanctioned shadows, and the only blurred shadows the app is
+ * allowed to emit. `tests/audit/audit-helpers.ts` enforces that: any blurred
+ * box-shadow whose computed value is not one of these three is a failure, so a
+ * hand-rolled soft shadow cannot creep back in the way a numeric blur cap
+ * would have let it.
+ *
+ * `n-raised` is a container affordance. A control that uses it must ALSO carry
+ * --edge-strong, because the pair alone gives it 1.72:1 of edge contrast.
+ */
+@utility n-raised {
+  box-shadow: var(--shadow-raised);
+}
+
+@utility n-raised-lg {
+  box-shadow: var(--shadow-raised-lg);
+}
+
+@utility n-inset {
+  box-shadow: var(--shadow-inset);
+}
+
+@utility n-inset-soft {
+  box-shadow: var(--shadow-inset-soft);
 }
 
 /*

@@ -5,16 +5,20 @@
  * Why resolve rather than emit `var(--board-light)` inline: the board hands
  * colours to `react-chessboard`, which puts some of them on SVG presentation
  * attributes (`stroke` on an arrow path). `var()` is not substituted there, and
- * the audit helpers read those attributes back. Resolving once per appearance
+ * the audit helpers read those attributes back. Resolving once
  * gives every consumer -- inline style, SVG attribute, Playwright probe -- the
  * same concrete value.
  *
- * DESIGN-SYSTEM.md 3.1 is the authority for the board values; PREMIUM-DELTA.md
- * Δ1 re-grounds `--surface` (#F4F2ED -> #EAE5DA light, #121514 -> #0E1110 dark),
- * and this table mirrors `theme.css` exactly so the jsdom measurements are
- * measurements of the shipping palette. The fallbacks below
- * exist only so the board is correct in both appearances before chunk A1 lands
- * the tokens; once `theme.css` defines them, the computed value always wins.
+ * DESIGN-SYSTEM.md 3.1 is the authority for the board values; NEUMORPHIC-DELTA.md
+ * re-grounds `--surface` to #E0E5EC and `--content` to #0F172B, and this table
+ * mirrors `theme.css` exactly so the jsdom measurements are measurements of the
+ * shipping palette. Keeping it in step is not optional: jsdom defines no custom
+ * properties, so every unit test measures THIS table, and a stale copy makes the
+ * suite pass while measuring a palette the app no longer ships.
+ *
+ * There is ONE appearance. The `Appearance` type and the per-appearance table
+ * are gone with the dark theme (NEUMORPHIC-DELTA.md 4); a palette is now just a
+ * palette.
  */
 
 export const BOARD_TOKENS = [
@@ -30,30 +34,17 @@ export const BOARD_TOKENS = [
 
 export type BoardToken = (typeof BOARD_TOKENS)[number];
 export type BoardPalette = Record<BoardToken, string>;
-export type Appearance = 'light' | 'dark';
 
 /** DESIGN-SYSTEM.md 3.1, verbatim. Used only when the token is not defined. */
-export const FALLBACK_PALETTE: Record<Appearance, BoardPalette> = {
-  light: {
-    '--board-light': '#E9E1D2',
-    '--board-dark': '#94876F',
-    '--piece-light': '#FBFAF7',
-    '--piece-dark': '#17191A',
-    '--mark-good': '#0B3D2E',
-    '--mark-review': '#4A3306',
-    '--content': '#1A1D1B',
-    '--surface': '#EAE5DA',
-  },
-  dark: {
-    '--board-light': '#8A7E6C',
-    '--board-dark': '#574F42',
-    '--piece-light': '#F7F5F0',
-    '--piece-dark': '#16181A',
-    '--mark-good': '#B6F5D8',
-    '--mark-review': '#F7DFAC',
-    '--content': '#E9ECE9',
-    '--surface': '#0E1110',
-  },
+export const FALLBACK_PALETTE: BoardPalette = {
+  '--board-light': '#E9E1D2',
+  '--board-dark': '#94876F',
+  '--piece-light': '#FBFAF7',
+  '--piece-dark': '#17191A',
+  '--mark-good': '#0B3D2E',
+  '--mark-review': '#4A3306',
+  '--content': '#0F172B',
+  '--surface': '#E0E5EC',
 };
 
 /* ------------------------------------------------------------- measurement */
@@ -98,13 +89,13 @@ export function contrastRatio(a: string, b: string): number {
 /**
  * The candidate that contrasts most with `bg`.
  *
- * Board glyphs and the keyboard cursor sit on a square whose lightness flips
- * between the two appearances: `--board-light` is a pale stone in the light
- * appearance and a mid stone in the dark one. A single fixed ink therefore
- * cannot clear 4.5:1 on both squares in both appearances -- `--content` on
- * `--board-light` measures 13.08:1 light but only 3.34:1 dark. Picking per
- * square keeps all four combinations above 4.5:1 without hardcoding which
- * token wins where, so the rule survives a token revision.
+ * With one appearance the pick is less dramatic but it is not decoration: it is
+ * the mechanism that made the light-only re-grounding safe. `--content` is the
+ * higher-contrast candidate on BOTH squares now (13.73:1 light, 5.06:1 dark),
+ * but that is a property of the chosen value, not of the design -- the
+ * reference's own body slate #334155 measures 2.94:1 on `--board-dark` and
+ * fails, and the pick is what surfaces that rather than hiding it
+ * (NEUMORPHIC-DELTA.md 5).
  */
 export function pickReadable(candidates: string[], bg: string): string {
   return candidates.reduce((best, c) =>
@@ -120,16 +111,9 @@ export function withAlpha(color: string, alpha: number): string {
 
 /* ------------------------------------------------------------- resolution */
 
-export function currentAppearance(): Appearance {
-  return typeof window !== 'undefined' &&
-    !!window.matchMedia?.('(prefers-color-scheme: dark)').matches
-    ? 'dark'
-    : 'light';
-}
-
-/** Reads the board tokens off the document, falling back per appearance. */
-export function resolveBoardPalette(appearance = currentAppearance()): BoardPalette {
-  const fallback = FALLBACK_PALETTE[appearance];
+/** Reads the board tokens off the document, falling back to the table above. */
+export function resolveBoardPalette(): BoardPalette {
+  const fallback = FALLBACK_PALETTE;
   if (typeof document === 'undefined') return { ...fallback };
   const computed = getComputedStyle(document.documentElement);
   const out = {} as BoardPalette;

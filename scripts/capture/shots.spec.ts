@@ -24,8 +24,8 @@ const WIDTHS = [
 ] as const;
 
 const APPEARANCES = [
-  { suffix: '', scheme: 'light' as const },
-  { suffix: '-dark', scheme: 'dark' as const },
+  // One appearance (NEUMORPHIC-DELTA.md §4): one capture per screen and width.
+  { suffix: '' },
 ] as const;
 
 /** Settle: fonts loaded and one paint done, so type is never shot mid-swap. */
@@ -53,7 +53,7 @@ test.beforeAll(() => { mkdirSync(OUT, { recursive: true }); });
 for (const w of WIDTHS) {
   for (const a of APPEARANCES) {
     test.describe(`${w.tag}${a.suffix}`, () => {
-      test.use({ viewport: { width: w.width, height: w.height }, colorScheme: a.scheme });
+      test.use({ viewport: { width: w.width, height: w.height } });
 
       test('static screens', async ({ page }) => {
         await page.goto('./');

@@ -439,32 +439,10 @@ function boardElements(container: HTMLElement): HTMLElement[] {
 // 120px is the single most likely place for someone to reach for a radius or a
 // shadow "so it sits on the card", which is the thing Δ1 rule 4 forbids, and a
 // guard that only ever renders the full-size lesson board would not see it.
-test.each([
-  ['light', undefined],
-  ['dark', undefined],
-  ['light', 120],
-  ['dark', 120],
-] as const)(
-  '%s at size %s: the board, its squares and its marks carry no elevation -- no shadow, no blur, no radius, no key edge',
-  (appearance, size) => {
+test.each([[undefined], [120]] as const)(
+  'at size %s: the board, its squares and its marks carry no elevation -- no shadow, no blur, no radius, no key edge',
+  (size) => {
     reduceMotion(false);
-    if (appearance === 'dark') {
-      Object.defineProperty(window, 'matchMedia', {
-        configurable: true,
-        writable: true,
-        value: (q: string) =>
-          ({
-            matches: q.includes('prefers-color-scheme: dark'),
-            media: q,
-            addEventListener: () => undefined,
-            removeEventListener: () => undefined,
-            addListener: () => undefined,
-            removeListener: () => undefined,
-            onchange: null,
-            dispatchEvent: () => false,
-          }) as unknown as MediaQueryList,
-      });
-    }
     try {
       const { container } = render(<Board fen={START_FEN} orientation="w" mode="play" size={size} />);
       const els = boardElements(container);

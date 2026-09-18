@@ -11,11 +11,9 @@ import { RAIL_REM, railFiles, railRanks } from './rail';
 import { TextMoveEntry } from './TextMoveEntry';
 import { useBoardA11y } from './useBoardA11y';
 import {
-  currentAppearance,
   pickReadable,
   resolveBoardPalette,
   withAlpha,
-  type Appearance,
   type BoardPalette,
 } from './boardColors';
 
@@ -137,18 +135,15 @@ function isDarkSquare(sq: string): boolean {
   return (sq.charCodeAt(0) - 97 + (sq.charCodeAt(1) - 49)) % 2 === 0;
 }
 
-/** Re-resolves the board tokens whenever the appearance changes. */
-function useBoardPalette(): { palette: BoardPalette; appearance: Appearance } {
-  const [appearance, setAppearance] = useState<Appearance>(currentAppearance);
-  useEffect(() => {
-    const mq = window.matchMedia?.('(prefers-color-scheme: dark)');
-    if (!mq?.addEventListener) return;
-    const onChange = () => setAppearance(currentAppearance());
-    mq.addEventListener('change', onChange);
-    return () => mq.removeEventListener('change', onChange);
-  }, []);
-  const palette = useMemo(() => resolveBoardPalette(appearance), [appearance]);
-  return { palette, appearance };
+/**
+ * Resolves the board tokens once. There is one appearance, so nothing can
+ * change under the board at runtime and there is no media-query listener --
+ * NEUMORPHIC-DELTA.md 4 removed the dark theme, and this hook is the second
+ * place it lived.
+ */
+function useBoardPalette(): { palette: BoardPalette } {
+  const palette = useMemo(() => resolveBoardPalette(), []);
+  return { palette };
 }
 
 export function Board(props: BoardProps & { size?: number; decorative?: boolean; testId?: string }) {
@@ -396,7 +391,7 @@ export function Board(props: BoardProps & { size?: number; decorative?: boolean;
     [fen, mode, disabled, onMove, onSelectSquare, replaying, skipReplay],
   );
 
-  const { palette, appearance } = useBoardPalette();
+  const { palette } = useBoardPalette();
 
   // Glyph and cursor ink is picked per square, not per appearance: see
   // pickReadable. `--content` / `--surface` are the only two candidates, so the
@@ -440,10 +435,12 @@ export function Board(props: BoardProps & { size?: number; decorative?: boolean;
   // on both squares. react-chessboard lets the fill be set per piece but hard
   // codes the outline to #000000 for both colours, which is only the opposing
   // colour for white pieces. Measured, that fails exactly one combination: a
-  // dark piece on --board-dark in the dark appearance is fill 2.21 and outline
-  // 2.60. The scoped rule below gives dark pieces their light outline in the
-  // dark appearance, taking that combination to 7.41. Nothing changes in the
-  // light appearance, where the dark fill already measures 5.00 and 13.58.
+  // dark piece on --board-dark in the DARK appearance was fill 2.21 and outline
+  // 2.60, and a scoped stroke override existed here to fix it. With the dark
+  // theme gone (NEUMORPHIC-DELTA.md 4) that combination no longer exists: in
+  // the one appearance the app ships, the dark fill measures 5.00 on
+  // --board-dark and 13.58 on --board-light, so the library's #000000 stroke is
+  // never load-bearing and the override is removed rather than left inert.
   const pieces = useMemo(
     () =>
       Object.fromEntries(
@@ -509,8 +506,8 @@ export function Board(props: BoardProps & { size?: number; decorative?: boolean;
       data-replaying={replaying ? 'true' : undefined}
       // Δ1 rule 4 -- ELEVATION STOPS AT THE BOARD'S EDGE. There is no
       // `box-shadow`, no `border-radius`, no border and no key edge here, on
-      // the grid below it, on the squares, or on the marks, in either
-      // appearance, and there must never be one. Both references frame their
+      // the grid below it, on the squares, or on the marks, and there must
+      // never be one. Both references frame their
       // board with literally nothing (PREMIUM-DELTA §1.1: chess.com's hero
       // board reads `box-shadow: none`, `border: 0px none`), and the first
       // draft of the delta's own sunken well was cut in self-critique for
@@ -522,9 +519,6 @@ export function Board(props: BoardProps & { size?: number; decorative?: boolean;
       // `highlightStyles`.
       style={compact ? { width: size, maxWidth: '100%' } : undefined}
     >
-      {appearance === 'dark' && (
-        <style>{`[data-board-root] [data-piece^="b"] svg * { stroke: ${palette['--piece-light']} !important; }`}</style>
-      )}
       {/*
         The rail sits in the gutter the board is already inset by, not beside
         it: the negative margin pulls the whole block left by exactly the rail

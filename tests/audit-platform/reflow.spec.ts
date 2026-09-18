@@ -67,7 +67,9 @@ for (const [slug, url] of SCREENS) {
  * 3. **The icon-only control is a square at the system radius.** `.icon-control`
  *    rings an icon-only dismiss button. Two things are guarded here and they
  *    are independent. The RADIUS is DESIGN-SYSTEM.md §3.3's control radius,
- *    10px — §3.3 says 999px applies to nothing and REFERENCE-DELTA.md §5.4
+ *    now `--radius-control` (12px, NEUMORPHIC-DELTA.md §3.5, re-grounded on the
+ *    reference's own 12/16/24 scale) — §3.3 says 999px applies to nothing and
+ *    REFERENCE-DELTA.md §5.4
  *    rejects the reference's pill chips by citing that clause, so a round ring
  *    anywhere in the tree would make the rule untrue.
  *
@@ -140,7 +142,8 @@ for (const [slug, url, advance] of ICON_CONTROL_SCREENS) {
       // An empty set would satisfy every assertion below it.
       expect(boxes.length, 'no .icon-control rendered on this screen').toBeGreaterThan(0);
 
-      // DESIGN-SYSTEM.md §3.3 states one radius system: 10px on cards and
+      // DESIGN-SYSTEM.md §3.3 states one radius system, now the reference's
+      // 12px control radius (NEUMORPHIC-DELTA.md §3.5): 12px on cards and
       // controls, 999px on NOTHING, 0 on the board. An icon-only dismiss is a
       // control, so it takes the control radius like every other control — the
       // rule has no exception and REFERENCE-DELTA.md §5.4 depends on it having
@@ -150,7 +153,7 @@ for (const [slug, url, advance] of ICON_CONTROL_SCREENS) {
           (el) => getComputedStyle(el).borderTopLeftRadius,
         ),
       );
-      for (const r of radii) expect(r, 'icon-control must take the 10px control radius').toBe('10px');
+      for (const r of radii) expect(r, 'icon-control must take the 12px control radius').toBe('12px');
 
       for (const b of boxes) {
         const seen = `${b.label} ${String(b.w)}x${String(b.h)}`;

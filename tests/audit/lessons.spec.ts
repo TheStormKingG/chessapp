@@ -24,10 +24,31 @@ for (const id of lessonIds()) {
     log.mark(`lesson ${id}`);
     await openLesson(page, lesson);
 
-    // PREMIUM-DELTA.md Δ1: depth is a crisp edge, never a blur, and elevation
-    // stops at the board. Read off computed style on a real challenge screen.
+    // NEUMORPHIC-DELTA.md §2 reverses Δ1 rule 1: blur is the house style now,
+    // so the guard allows exactly the sanctioned shadow tokens and nothing
+    // else. Δ1 rule 4 is untouched -- elevation still stops at the board.
+    // Read off computed style on a real challenge screen.
     expect(await boardElevationViolations(page)).toEqual([]);
     expect(await blurredShadows(page)).toEqual([]);
+
+    // The negative control, in the same run and on the same page: a guard that
+    // has just returned [] is reporting on two possibilities at once, and only
+    // one of them is "the page is clean". A hand-rolled soft shadow must be
+    // caught -- the numeric cap this replaced would have waved through anything
+    // under its limit, so proving the token comparison bites is the point.
+    // The marker is a CLASS, not an id: `blurredShadows` reports each element
+    // as `tag.class :: shadow`, so an id would be invisible in its output and
+    // the control would fail for the wrong reason.
+    const MARKER = 'blur-negative-control';
+    await page.evaluate((marker) => {
+      const el = document.createElement('div');
+      el.className = marker;
+      el.style.boxShadow = '0 10px 30px rgba(0, 0, 0, 0.2)';
+      document.body.append(el);
+    }, MARKER);
+    const caught = await blurredShadows(page);
+    await page.evaluate((marker) => document.querySelector(`.${marker}`)?.remove(), MARKER);
+    expect(caught.some((e) => e.includes(MARKER))).toBe(true);
 
     // The card carries the idea; the explain screens have been stepped through
     // by openLesson, which fails if any Next is missing.

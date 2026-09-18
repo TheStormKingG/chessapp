@@ -6,11 +6,9 @@ import {
   resolveBoardPalette,
   toRgb,
   withAlpha,
-  type Appearance,
   type BoardPalette,
 } from './boardColors';
 
-const APPEARANCES: Appearance[] = ['light', 'dark'];
 const round = (n: number) => Math.round(n * 100) / 100;
 
 /* ------------------------------------------------- the measurement itself */
@@ -38,71 +36,81 @@ test('withAlpha keeps the channels and adds the alpha', () => {
 
 /* ------------------------------------------- DESIGN-SYSTEM.md 3.1 tables */
 
-// These are the design lead's own measured figures. If a token moves, this
-// test fails and the document's table is what has to be re-derived -- which is
-// the point: the numbers are not allowed to drift silently.
-test.each(APPEARANCES)('%s: the board marks clear 3:1 on BOTH squares', (appearance) => {
-  const p = FALLBACK_PALETTE[appearance];
+// These are the design lead's own measured figures, re-derived in
+// NEUMORPHIC-DELTA.md 5 against the new ground. If a token moves, this test
+// fails and the document's table is what has to be re-derived -- which is the
+// point: the numbers are not allowed to drift silently.
+test('the board marks clear 3:1 on BOTH squares', () => {
+  const p = FALLBACK_PALETTE;
   for (const mark of ['--mark-good', '--mark-review'] as const) {
     for (const square of ['--board-light', '--board-dark'] as const) {
-      expect(
-        round(contrastRatio(p[mark], p[square])),
-        `${mark} on ${square} in the ${appearance} appearance`,
-      ).toBeGreaterThanOrEqual(3);
+      expect(round(contrastRatio(p[mark], p[square])), `${mark} on ${square}`).toBeGreaterThanOrEqual(3);
     }
   }
 });
 
 test('the mark ratios match the document table exactly', () => {
-  const l = FALLBACK_PALETTE.light;
-  const d = FALLBACK_PALETTE.dark;
-  expect(round(contrastRatio(l['--mark-good'], l['--board-light']))).toBe(9.39);
-  expect(round(contrastRatio(l['--mark-good'], l['--board-dark']))).toBe(3.46);
-  expect(round(contrastRatio(l['--mark-review'], l['--board-light']))).toBe(9.15);
-  expect(round(contrastRatio(l['--mark-review'], l['--board-dark']))).toBe(3.37);
-  expect(round(contrastRatio(d['--mark-good'], d['--board-light']))).toBe(3.23);
-  expect(round(contrastRatio(d['--mark-good'], d['--board-dark']))).toBe(6.55);
-  expect(round(contrastRatio(d['--mark-review'], d['--board-light']))).toBe(3.05);
-  expect(round(contrastRatio(d['--mark-review'], d['--board-dark']))).toBe(6.19);
+  const p = FALLBACK_PALETTE;
+  expect(round(contrastRatio(p['--mark-good'], p['--board-light']))).toBe(9.39);
+  expect(round(contrastRatio(p['--mark-good'], p['--board-dark']))).toBe(3.46);
+  expect(round(contrastRatio(p['--mark-review'], p['--board-light']))).toBe(9.15);
+  expect(round(contrastRatio(p['--mark-review'], p['--board-dark']))).toBe(3.37);
 });
 
 // DESIGN-SYSTEM.md 3.1: "Every piece is drawn with a fill and a 1.5px outline
 // in the opposing piece colour. For every piece-on-square combination,
 // max(fill contrast, outline contrast) must be at least 3:1."
-test.each(APPEARANCES)(
-  '%s: max(fill, outline) clears 3:1 for all four piece-on-square combinations',
-  (appearance) => {
-    const p = FALLBACK_PALETTE[appearance];
-    for (const piece of ['--piece-light', '--piece-dark'] as const) {
-      const outline = piece === '--piece-light' ? p['--piece-dark'] : p['--piece-light'];
-      for (const square of ['--board-light', '--board-dark'] as const) {
-        const best = Math.max(
-          contrastRatio(p[piece], p[square]),
-          contrastRatio(outline, p[square]),
-        );
-        expect(round(best), `${piece} on ${square} in the ${appearance} appearance`).toBeGreaterThanOrEqual(3);
-      }
+//
+// NEUMORPHIC-DELTA.md 5: these four ratios (eight, counting fill and outline
+// separately) are internal to the board, so re-grounding the PAGE cannot move
+// them. Re-measured after the re-grounding, they are identical to the figures
+// the previous two passes recorded -- which is the finding, not an omission.
+test('max(fill, outline) clears 3:1 for all four piece-on-square combinations', () => {
+  const p = FALLBACK_PALETTE;
+  for (const piece of ['--piece-light', '--piece-dark'] as const) {
+    const outline = piece === '--piece-light' ? p['--piece-dark'] : p['--piece-light'];
+    for (const square of ['--board-light', '--board-dark'] as const) {
+      const best = Math.max(contrastRatio(p[piece], p[square]), contrastRatio(outline, p[square]));
+      expect(round(best), `${piece} on ${square}`).toBeGreaterThanOrEqual(3);
     }
-  },
-);
+  }
+});
 
-// The one combination that forced the outline override in Board.tsx: with
-// react-chessboard's hardcoded #000000 stroke, a dark piece on the dark square
-// in the dark appearance measures fill 2.21 / outline 2.60 and FAILS. This test
-// is the record of why the board ships its own stroke rule there.
-test('the library default black stroke fails dark-piece-on-dark-square in dark', () => {
-  const d = FALLBACK_PALETTE.dark;
-  expect(round(contrastRatio(d['--piece-dark'], d['--board-dark']))).toBe(2.21);
-  expect(round(contrastRatio('#000000', d['--board-dark']))).toBe(2.6);
-  // ...and the opposing-colour outline the board substitutes does clear it.
-  expect(round(contrastRatio(d['--piece-light'], d['--board-dark']))).toBe(7.41);
+test('the eight piece-on-square figures match the document table exactly', () => {
+  const p = FALLBACK_PALETTE;
+  const r = (a: string, b: string) => round(contrastRatio(a, b));
+  // light piece: fill on each square, then its opposing outline
+  expect(r(p['--piece-light'], p['--board-light'])).toBe(1.24);
+  expect(r(p['--piece-dark'], p['--board-light'])).toBe(13.58);
+  expect(r(p['--piece-light'], p['--board-dark'])).toBe(3.38);
+  expect(r(p['--piece-dark'], p['--board-dark'])).toBe(5);
+});
+
+// The library's hardcoded #000000 stroke used to fail dark-piece-on-dark-square
+// in the DARK appearance (fill 2.21 / outline 2.60), which is why `Board.tsx`
+// shipped its own stroke rule there. With one appearance that combination does
+// not exist, so the override is gone; this test is the record of the ONE
+// combination the library default has to clear now, and it does.
+test('the library default stroke is not load-bearing in the one appearance', () => {
+  const p = FALLBACK_PALETTE;
+  expect(round(contrastRatio(p['--piece-dark'], p['--board-dark']))).toBe(5);
+  expect(round(contrastRatio('#000000', p['--board-dark']))).toBe(5.95);
 });
 
 test('square-to-square contrast is the documented exemption, not an accident', () => {
   // DESIGN-SYSTEM.md 3.1 argues this down from 3:1 explicitly. Asserting the
-  // measured values keeps a later "fix" from silently raising them.
-  expect(round(contrastRatio(FALLBACK_PALETTE.light['--board-light'], FALLBACK_PALETTE.light['--board-dark']))).toBe(2.71);
-  expect(round(contrastRatio(FALLBACK_PALETTE.dark['--board-light'], FALLBACK_PALETTE.dark['--board-dark']))).toBe(2.03);
+  // measured value keeps a later "fix" from silently raising it.
+  expect(round(contrastRatio(FALLBACK_PALETTE['--board-light'], FALLBACK_PALETTE['--board-dark']))).toBe(2.71);
+});
+
+// NEUMORPHIC-DELTA.md 5: the board is the one warm object on a cool ground and
+// is deliberately not re-hued, which costs it a visible outer boundary. The
+// figure is asserted so the cost is on the record rather than discovered later,
+// and so a later pass cannot "fix" it with the well that Δ1 rule 4 forbids.
+test('the light square has no boundary against the ground, and that is on the record', () => {
+  const p = FALLBACK_PALETTE;
+  expect(round(contrastRatio(p['--board-light'], p['--surface']))).toBe(1.03);
+  expect(round(contrastRatio(p['--board-dark'], p['--surface']))).toBe(2.79);
 });
 
 /* ------------------------------------------------------------- square ink */
@@ -112,41 +120,37 @@ test('square-to-square contrast is the documented exemption, not an accident', (
 // -- #B58863 (2.47:1) and #F0D9B5 (1.88:1) -- can no longer render at all.
 // `pickReadable` still governs the one thing the board draws on a square in its
 // own ink, the keyboard cursor's outline, so the per-square pick is asserted
-// here unchanged. Keeping the leaked hexes out of the palette stays a test
-// because a later chunk could reinstate notation without reading this comment.
-test('the leaked wooden-board notation colours are not in any palette', () => {
+// here unchanged.
+test('the leaked wooden-board notation colours are not in the palette', () => {
   const leaked = ['#b58863', '#f0d9b5'];
-  for (const appearance of APPEARANCES) {
-    const values = Object.values(FALLBACK_PALETTE[appearance]).map((v) => v.toLowerCase());
-    for (const bad of leaked) expect(values).not.toContain(bad);
-  }
+  const values = Object.values(FALLBACK_PALETTE).map((v) => v.toLowerCase());
+  for (const bad of leaked) expect(values).not.toContain(bad);
 });
 
-test.each(APPEARANCES)('%s: the ink the board draws on a square clears 4.5:1 on both', (appearance) => {
-  const p = FALLBACK_PALETTE[appearance];
+test('the ink the board draws on a square clears 4.5:1 on both', () => {
+  const p = FALLBACK_PALETTE;
   for (const square of ['--board-light', '--board-dark'] as const) {
     const ink = pickReadable([p['--content'], p['--surface']], p[square]);
-    expect(
-      round(contrastRatio(ink, p[square])),
-      `board ink on ${square} in the ${appearance} appearance`,
-    ).toBeGreaterThanOrEqual(4.5);
+    expect(round(contrastRatio(ink, p[square])), `board ink on ${square}`).toBeGreaterThanOrEqual(4.5);
   }
 });
 
-test('a single fixed ink cannot serve both appearances -- which is why it is picked per square', () => {
-  // The negative control for pickReadable: --content alone, the obvious choice,
-  // fails on the light square in the dark appearance at 3.34:1. Without this
-  // the per-square pick looks like unnecessary machinery.
-  //
-  // PREMIUM-DELTA.md Δ1 deepened the dark ground from #121514 to #0E1110, so
-  // the ink the pick lands on -- --surface, not --content -- is darker and the
-  // measured ratio rises from 4.62:1 to 4.77:1. The mechanism is unchanged; the
-  // figure is re-derived rather than relaxed, because the point of asserting it
-  // exactly is that a token change is never allowed to move it silently.
-  const d = FALLBACK_PALETTE.dark;
-  expect(round(contrastRatio(d['--content'], d['--board-light']))).toBe(3.34);
-  expect(pickReadable([d['--content'], d['--surface']], d['--board-light'])).toBe(d['--surface']);
-  expect(round(contrastRatio(pickReadable([d['--content'], d['--surface']], d['--board-light']), d['--board-light']))).toBe(4.77);
+// The negative control, and the reason NEUMORPHIC-DELTA.md 5 says the board
+// forced --content's value rather than the other way round. The reference's own
+// body slate, rgb(51,65,85), is the obvious --content for a page grounded in
+// preqal.org, and it FAILS as board ink on --board-dark at 2.94:1. The next
+// step down, #1E293B, also fails at 4.15:1. Only the reference's heading slate
+// clears it. Without this test the shipped value looks like a free choice.
+test('the reference body slate fails as board ink, which is why --content is the heading slate', () => {
+  const p = FALLBACK_PALETTE;
+  expect(p['--content']).toBe('#0F172B');
+  expect(round(contrastRatio('#334155', p['--board-dark']))).toBe(2.94);
+  expect(round(contrastRatio('#1E293B', p['--board-dark']))).toBe(4.15);
+  expect(round(contrastRatio(p['--content'], p['--board-dark']))).toBe(5.06);
+  expect(round(contrastRatio(p['--content'], p['--board-light']))).toBe(13.73);
+  // and the pick lands on --content on both squares, so no light ink is needed
+  expect(pickReadable([p['--content'], p['--surface']], p['--board-dark'])).toBe(p['--content']);
+  expect(pickReadable([p['--content'], p['--surface']], p['--board-light'])).toBe(p['--content']);
 });
 
 test('pickReadable returns the higher-contrast candidate, either way round', () => {
@@ -157,32 +161,30 @@ test('pickReadable returns the higher-contrast candidate, either way round', () 
 
 /* -------------------------------------------------------------- resolution */
 
-test('every token resolves to a parseable colour in both appearances', () => {
-  for (const appearance of APPEARANCES) {
-    const p: BoardPalette = resolveBoardPalette(appearance);
-    for (const token of BOARD_TOKENS) expect(toRgb(p[token]), `${token} (${appearance})`).not.toBeNull();
-  }
+test('every token resolves to a parseable colour', () => {
+  const p: BoardPalette = resolveBoardPalette();
+  for (const token of BOARD_TOKENS) expect(toRgb(p[token]), token).not.toBeNull();
 });
 
-test('an undefined custom property falls back to the document value for that appearance', () => {
-  // jsdom defines none of them, so this is the pre-A1 state: the board must
-  // still be correct in both appearances rather than silently using one.
-  expect(resolveBoardPalette('dark')['--board-dark']).toBe('#574F42');
-  expect(resolveBoardPalette('light')['--board-dark']).toBe('#94876F');
+test('an undefined custom property falls back to the document value', () => {
+  // jsdom defines none of them, so every unit test in the suite measures the
+  // FALLBACK_PALETTE table. It has to mirror `theme.css` exactly or the suite
+  // stays green while measuring a palette the app no longer ships.
+  expect(resolveBoardPalette()['--board-dark']).toBe('#94876F');
+  expect(resolveBoardPalette()['--surface']).toBe('#E0E5EC');
+  expect(resolveBoardPalette()['--content']).toBe('#0F172B');
 });
 
 test('a defined custom property wins over the fallback', () => {
   document.documentElement.style.setProperty('--board-dark', '#010203');
   try {
-    expect(resolveBoardPalette('light')['--board-dark']).toBe('#010203');
+    expect(resolveBoardPalette()['--board-dark']).toBe('#010203');
   } finally {
     document.documentElement.style.removeProperty('--board-dark');
   }
 });
 
 test('red is off the board: no board token is the old danger red', () => {
-  for (const appearance of APPEARANCES) {
-    const values = Object.values(FALLBACK_PALETTE[appearance]).map((v) => v.toLowerCase());
-    expect(values).not.toContain('#a23b3b');
-  }
+  const values = Object.values(FALLBACK_PALETTE).map((v) => v.toLowerCase());
+  expect(values).not.toContain('#a23b3b');
 });

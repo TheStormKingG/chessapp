@@ -150,22 +150,18 @@ const SCREENS: { name: string; go: (p: Page) => Promise<void> }[] = [
 ];
 
 const CASES = [
-  { tag: 'phone-light', width: 390, height: 844, scheme: 'light' as const, zoom: 1 },
-  { tag: 'phone-dark', width: 390, height: 844, scheme: 'dark' as const, zoom: 1 },
-  { tag: 'desktop-light', width: 1280, height: 800, scheme: 'light' as const, zoom: 1 },
-  { tag: 'desktop-dark', width: 1280, height: 800, scheme: 'dark' as const, zoom: 1 },
+  { tag: 'phone-light', width: 390, height: 844, zoom: 1 },
+  { tag: 'desktop-light', width: 1280, height: 800, zoom: 1 },
   // "Largest text": the browser's own largest-text setting is a root font-size
   // change, which is what the app's rem scale responds to. 200% is the WCAG
   // 1.4.4 figure and the size the reflow specs already use.
-  { tag: 'phone-light-200', width: 390, height: 844, scheme: 'light' as const, zoom: 2 },
-  { tag: 'phone-dark-200', width: 390, height: 844, scheme: 'dark' as const, zoom: 2 },
+  { tag: 'phone-light-200', width: 390, height: 844, zoom: 2 },
 ];
 
 for (const c of CASES) {
   test(`probe ${c.tag}`, async ({ page }) => {
     test.setTimeout(180_000);
     await page.setViewportSize({ width: c.width, height: c.height });
-    await page.emulateMedia({ colorScheme: c.scheme });
     if (c.zoom > 1) {
       await page.addInitScript((z) => {
         document.addEventListener('DOMContentLoaded', () => {
