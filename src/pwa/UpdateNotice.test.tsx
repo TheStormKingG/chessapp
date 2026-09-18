@@ -14,6 +14,7 @@ vi.mock('virtual:pwa-register/react', () => ({
 }));
 
 const { UpdateNotice } = await import('./UpdateNotice');
+const { UPDATE_APPLIED_KEY } = await import('./updatePolicy');
 
 function at(path: string) {
   render(
@@ -26,26 +27,37 @@ function at(path: string) {
 beforeEach(() => {
   state.needRefresh = true;
   updateServiceWorker.mockClear();
+  sessionStorage.clear();
 });
 
 describe('UpdateNotice', () => {
-  it('renders nothing while no worker is waiting', () => {
+  it('renders nothing while no worker is waiting and none was applied', () => {
     state.needRefresh = false;
     at('/');
     expect(screen.queryByRole('status')).toBeNull();
   });
 
-  it('offers to apply the update outside an activity', () => {
+  it('takes the update at launch instead of asking, and says so afterwards', () => {
     at('/path');
-    expect(screen.getByRole('status')).toHaveTextContent('Update available');
-    expect(screen.getByRole('button', { name: 'Apply now' })).toBeInTheDocument();
+    expect(updateServiceWorker).toHaveBeenCalledWith(true);
+    expect(screen.queryByRole('button', { name: 'Apply now' })).toBeNull();
+  });
+
+  it('confirms quietly on the launch that follows an automatic update', () => {
+    state.needRefresh = false;
+    sessionStorage.setItem(UPDATE_APPLIED_KEY, '1');
+    at('/');
+    expect(screen.getByRole('status')).toHaveTextContent('ChessApp updated');
+    expect(screen.queryByRole('button', { name: 'Apply now' })).toBeNull();
   });
 
   it.each(['/lesson/L1-1', '/checkpoint/U1', '/play/game'])(
-    'shows the notice but hides Apply now on %s',
+    'holds the update and hides Apply now on %s',
     (path) => {
       at(path);
-      expect(screen.getByRole('status')).toBeInTheDocument();
+      expect(updateServiceWorker).not.toHaveBeenCalled();
+      expect(screen.getByRole('status')).toHaveTextContent('Update available');
+      expect(screen.getByRole('status')).toHaveTextContent('next time you open');
       expect(screen.queryByRole('button', { name: 'Apply now' })).toBeNull();
     },
   );
