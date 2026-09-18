@@ -531,11 +531,15 @@ export async function boardElevationViolations(page: Page): Promise<string[]> {
         return m ? `rgb(${m.slice(1, 4).map((h) => parseInt(h, 16)).join(', ')})` : NO_SUCH_COLOUR;
       };
       const css = getComputedStyle(document.documentElement);
-      const banned = [
-        toRgbText(css.getPropertyValue('--key-accent')),
-        toRgbText(css.getPropertyValue('--key-raised')),
-      ].filter((c) => c !== NO_SUCH_COLOUR);
-      if (banned.length !== 2) return ['--key-accent / --key-raised did not resolve to hex colours'];
+      // `--key-raised` was the second entry here until NEUMORPHIC-DELTA.md §6
+      // retired it. It was removed from this list in the SAME commit that
+      // removed it from `theme.css` and only AFTER its last call site had gone:
+      // a token named here that no longer resolves makes `banned` short, the
+      // length check below returns a hard failure rather than a silent pass, and
+      // the reverse order -- token first, probe later -- would have reported the
+      // board clean for the whole of the interval between.
+      const banned = [toRgbText(css.getPropertyValue('--key-accent'))].filter((c) => c !== NO_SUCH_COLOUR);
+      if (banned.length !== 1) return ['--key-accent did not resolve to a hex colour'];
 
       const blurOf = (layer: string): number => {
         const lengths = [

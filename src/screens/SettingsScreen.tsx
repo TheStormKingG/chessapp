@@ -18,7 +18,23 @@ function Toggle({
   onChange: (v: boolean) => void;
 }) {
   return (
-    <label className="flex min-h-11 items-start justify-between gap-4 py-3">
+    /*
+      `max-w-sm` (384px) is the row's measure, and it is a grouping rule rather
+      than a typographic one. `justify-between` on the screen's full 1120px
+      container put the switch 686px from its own label at 1280 -- measured, not
+      guessed -- so the only thing left pairing them was their shared row, and a
+      hint that wraps to two lines weakens even that. `layout.md > Best
+      practices` asks for related items to be grouped. The control keeps the
+      trailing-edge position `toggles.md` gives it -- it is not moved to sit
+      against the text, which would break the phone's convention to fix the
+      desktop's spacing -- and the ROW is narrowed instead, so the trailing edge
+      is somewhere near the words. 576px was tried first and still measured
+      270px, because the text span is shrink-to-fit and `justify-between` spends
+      whatever is left; 384px is the first step that clears the 96px rule with
+      the hint line at its natural 306px. The phone is untouched by construction:
+      its row was already 358px, inside this cap.
+    */
+    <label className="flex min-h-11 max-w-sm items-start justify-between gap-4 py-3">
       <span>
         <span className="t-heading block">{label}</span>
         {/* The hint is the only visible statement of what the toggle does, so it
@@ -138,7 +154,7 @@ export function SettingsScreen() {
           `--edge`, which §3.1 gives no contrast duty. It is not a boundary that
           is the sole separator of a control, which is the job `--edge-strong`
           exists for. */}
-      <div className="divide-y divide-edge">
+      <div className="max-w-sm divide-y divide-edge">
         <Toggle
           label="Text move entry"
           hint="Type moves instead of dragging pieces."

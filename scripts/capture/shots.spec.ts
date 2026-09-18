@@ -7,8 +7,11 @@ import { openLesson, playThrough, readLesson, enableTextEntry, typeMove } from '
 /**
  * PREMIUM-DELTA P4d — re-shoot `docs/design/after/`.
  *
- * Twelve screens x two widths x two appearances = 48 files. `docs/design/before/`
- * is never touched by this file.
+ * NEUMORPHIC-DELTA.md chunk N6 re-grounds the set: twelve screens x THREE
+ * widths x ONE appearance = 36 files. 2000x1200 joins the matrix because §7 is
+ * a claim about what a 2000px window does, and a set that stops at 1280 cannot
+ * show whether it holds. `docs/design/before/` is never touched by this file,
+ * and keeps its two-appearance set: it is the record of what the owner saw.
  *
  * Every shot is a viewport shot, not a full-page one: the review's questions
  * are about what a phone or a laptop actually shows at rest (how much of the
@@ -21,6 +24,7 @@ const OUT = join(dirname(fileURLToPath(import.meta.url)), '..', '..', 'docs', 'd
 const WIDTHS = [
   { tag: 'phone-390x844', width: 390, height: 844 },
   { tag: 'desktop-1280x800', width: 1280, height: 800 },
+  { tag: 'desktop-2000x1200', width: 2000, height: 1200 },
 ] as const;
 
 const APPEARANCES = [

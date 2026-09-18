@@ -306,9 +306,10 @@ async function sweep(page: Page, route: string): Promise<Measured[]> {
         //
         // A per-side override painted in one of the tokens §3.5 marks "no
         // contrast duty" is a DEPTH edge, not a boundary — `btn-primary`'s 3px
-        // `--key-accent` bottom and the cards' `--key-raised` bottom are both
-        // that, and both sit UNDER a real `--edge-strong` or `--accent` border
-        // on every side. Measuring them as boundaries reports the design's own
+        // `--key-accent` bottom is that, and it sits UNDER a real
+        // `--edge-strong` or `--accent` border on every side. (`--key-raised`
+        // was the other; §6 retired it, and it left this list, `theme.css` and
+        // every call site in one commit.) Measuring them as boundaries reports the design's own
         // depth grammar as a contrast failure, which is the instrument
         // misreading the spec rather than the spec being broken. The list is
         // read off `:root` rather than written here, so it cannot drift from
@@ -316,7 +317,7 @@ async function sweep(page: Page, route: string): Promise<Measured[]> {
         // decorative tokens still comes out as `null` and still fails.
         const rootCs = getComputedStyle(document.documentElement);
         const decorative = new Set(
-          ['--edge', '--n-dark', '--n-light', '--key-accent', '--key-raised', '--track', '--surface-raised']
+          ['--edge', '--n-dark', '--n-light', '--key-accent', '--track', '--surface-raised']
             .map((t) => rootCs.getPropertyValue(t).trim().toLowerCase())
             .filter(Boolean),
         );
@@ -426,6 +427,102 @@ test.describe('every control keeps a real edge (NEUMORPHIC-DELTA.md §3.3)', () 
         .sort()
         .join(' | '),
     });
+  });
+
+  /*
+   * A control stays beside the thing it controls.
+   *
+   * `layout.md > Best practices`: "Group related items to help people find the
+   * information they want... use negative space, background shapes, colors,
+   * materials, or separator lines to show when elements are related." A
+   * `justify-between` row on a 1120px container puts the switch 686px from its
+   * own label, which is the opposite of grouping: at that distance the pairing
+   * is carried by vertical alignment alone, and on a row whose hint wraps to two
+   * lines even that weakens.
+   *
+   * The phone was never wrong -- 52px there -- so this is a rule about the
+   * regular width, and it is stated as a distance rather than as a max-width so
+   * that a future row with a different control still has to answer it.
+   */
+  test('a settings toggle stays beside its label at desktop width', async ({ page }) => {
+    await page.setViewportSize({ width: 1280, height: 800 });
+    await page.goto('./settings');
+    await expect(page.getByRole('checkbox').first()).toBeVisible({ timeout: 20_000 });
+
+    const gaps = await page.evaluate(() =>
+      [...document.querySelectorAll('input[type=checkbox]')].map((cb) => {
+        const row = cb.closest('label')!;
+        const text = row.querySelector('span')!;
+        return {
+          label: (text.textContent ?? '').trim().slice(0, 24),
+          gap: Math.round(cb.getBoundingClientRect().left - text.getBoundingClientRect().right),
+        };
+      }),
+    );
+    // Non-vacuous: the screen really has the toggles this is about.
+    expect(gaps.length, 'no checkbox rows found on ./settings').toBeGreaterThan(0);
+    for (const g of gaps) {
+      expect(g.gap, `"${g.label}" sits ${String(g.gap)}px from its control`).toBeLessThanOrEqual(96);
+    }
+  });
+
+  /*
+   * The tab bar's current state, measured rather than believed.
+   *
+   * The sweep above reports a text control with no underline and no glyph, and
+   * `hasGlyph` exempts the tab items from it: a tab is an icon over a word and
+   * `tab-bars.md > Best practices` wants the SYMBOL carrying the state, so an
+   * underline would be wrong. But that exemption answers a different question
+   * from the one the tab bar actually raises. "It draws a shape" says the item
+   * is distinguishable from body text; it says nothing about whether the shape
+   * CHANGES between current and not-current, and a glyph identical in both
+   * states leaves hue as the only carrier while the sweep stays green.
+   *
+   * So the claim is asserted directly, and on the property that would fail:
+   * count the channels that differ between the current tab and its neighbour,
+   * excluding colour, and require more than zero. Colour is deliberately not
+   * counted even though it is real (5.85:1 vs 5.99:1, both fine) — the rule is
+   * that it must not be ALONE, so a test that counted it could not fail.
+   */
+  test('the current tab differs from the others in more than hue', async ({ page }) => {
+    await page.goto('./path');
+    await expect(page.locator('nav[aria-label="Main"]')).toBeVisible({ timeout: 20_000 });
+
+    const tabs = await page.evaluate(() =>
+      [...document.querySelectorAll('nav[aria-label="Main"] a')].map((a) => {
+        const svg = a.querySelector('svg');
+        return {
+          label: (a.textContent ?? '').trim(),
+          current: a.getAttribute('aria-current'),
+          weight: getComputedStyle(a).fontWeight,
+          fill: svg?.getAttribute('fill') ?? null,
+          stroke: svg?.getAttribute('stroke-width') ?? null,
+        };
+      }),
+    );
+
+    // Not vacuous: the bar has five items and exactly one of them is current.
+    expect(tabs.length).toBe(5);
+    const current = tabs.filter((t) => t.current === 'page');
+    expect(current, 'exactly one tab must be aria-current="page"').toHaveLength(1);
+    const [on] = current;
+    const off = tabs.filter((t) => t.current !== 'page');
+    expect(off.length).toBe(4);
+
+    for (const other of off) {
+      const channels = [
+        on!.weight !== other.weight ? `weight ${on!.weight} vs ${other.weight}` : null,
+        on!.fill !== other.fill ? `symbol fill ${String(on!.fill)} vs ${String(other.fill)}` : null,
+        on!.stroke !== other.stroke ? `symbol stroke ${String(on!.stroke)} vs ${String(other.stroke)}` : null,
+      ].filter(Boolean);
+      expect(
+        channels,
+        `"${on!.label}" is current and "${other.label}" is not, with nothing but hue between them`,
+      ).not.toEqual([]);
+    }
+
+    // And the semantic channel, which is the one a screen reader gets.
+    expect(on!.current).toBe('page');
   });
 
   /*

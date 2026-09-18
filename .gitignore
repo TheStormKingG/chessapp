@@ -11,3 +11,4 @@ supabase/.temp/
 dist-e2e/
 dist-e2e-sw/
 dist-e2e-run/
+dist-e2e-*/

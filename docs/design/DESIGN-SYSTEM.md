@@ -207,11 +207,27 @@ Body rises from the current 16px to 17px, matching the iOS default of 17pt and c
 
 Spacing scale, 4-based, in `rem`: **2, 4, 8, 12, 16, 20, 24, 32, 40, 56**. Gutter is 16 on compact and 24 on regular. Vertical rhythm varies by role rather than being uniform: 8 inside a control, 12 between related lines, 24 between groups, 40 above a screen's primary action.
 
-Radius, one system: **10px** on cards and controls, **999px** on no card and no control, **0** on the board and its squares. The board is the only square-cornered element in the app, which is itself a small piece of the signature.
+Radius, one system: **12px** on controls, **16px** on cards, **24px** on the one hero element per screen, **999px** on no card and no control, **0** on the board and its squares. (`NEUMORPHIC-DELTA.md` §3.5 re-grounded the single 10px onto this three-step scale; the clauses below are unchanged by that and govern all three values.) The board is the only square-cornered element in the app, which is itself a small piece of the signature.
 
 The 999px clause is what §5.4 of `REFERENCE-DELTA.md` rejects the reference's pill chips with, so it is stated precisely rather than absolutely, and the qualification is narrow on purpose. **A full radius is permitted only on an element that is neither a card nor a control, and the two tests are: (a) it does not receive the press — it is not the interactive element and it is not the interactive element's own box; and (b) it is not a container — nothing but a single mark or a fill sits inside it.** Both must be true. Two elements in the app qualify and they are the whole list: the coordinate rail's track in `CoordinateRail.tsx`, where the radius only rounds the ends of a 1ch-wide bar nobody presses, and the opponent's identity mark in `ChooseOpponent.tsx`, which is a disc carrying a single initial *inside* a button rather than being the button.
 
-Everything that receives a press takes 10px, and that includes an icon-only control: a dismiss button with no text is still a control, so it is bounded at the control radius and not as a circle. Being square, or being the same size in both dimensions, does not earn a full radius and is not an argument for one — that is a rule about the box (see `.icon-control` in `theme.css`), and this is a rule about the corner. A pill chip fails test (a); so does a segmented option; so does an icon-only dismiss. None has ever qualified and none will.
+Everything that receives a press takes the control radius, and that includes an icon-only control: a dismiss button with no text is still a control, so it is bounded at the control radius and not as a circle. Being square, or being the same size in both dimensions, does not earn a full radius and is not an argument for one — that is a rule about the box (see `.icon-control` in `theme.css`), and this is a rule about the corner. A pill chip fails test (a); so does a segmented option; so does an icon-only dismiss. None has ever qualified and none will.
+
+#### The shape cap, and how to tell whether a new control qualifies for it
+
+**The three radius values are lengths, but the rule they encode is a ratio.** 12/16/24 were measured on controls and cards whose shorter side is 44px or more, and that size class is an unstated premise inside each number. On a smaller box the same length is a different *shape*, and shape is a semantic in component design before colour is: a circle means "one of these", a square means "on or off", a stadium means "a chip". So the clause is stated as a cap, and it binds every element the two clauses above already govern:
+
+> **A control's corner radius never exceeds one third of its shorter rendered side. At one half of the shorter side the corner is a full radius whatever number is written, and the 999px clause — not the control radius — is what governs it.**
+
+The test is mechanical and a new control can be checked against it in one measurement. Render the control, take its shorter side *s*, and:
+
+- **s ≥ 36px** — the cap is 12px or more, so the control takes `--radius-control` unchanged. Every element carrying `.tap` is here by construction: `.tap` floors both dimensions at 44px, so `s ≥ 44` and the cap is 14.6px.
+- **s < 36px** — 12px is above the cap. The control takes the largest 2px step that keeps the corner at the weight the scale carries on a 44px box (12 ÷ 44 = **0.273** of the shorter side), and **the value is recorded at the call site with the measurement that forced it**, never picked quietly.
+- **Any value at or above s ÷ 2** is a full radius and must satisfy both tests (a) and (b) above, which no control has ever satisfied.
+
+**The one recorded exception, which is the whole list.** The Coach-mode checkbox in `theme.css` renders at 28 × 28. Its cap is 9.33px and its scale value is 0.273 × 28 = 7.6px, so it takes **8px**. `--radius-control`'s 12px on that box is 0.43 of the shorter side; measured in a browser it is indistinguishable from a radio button, which is the wrong affordance for a two-state toggle. Nothing else in the app is under 36px, and the exception is written in the rule rather than left in a comment for the next person to rediscover at the keystroke.
+
+**Why the cap rather than a second token.** A second token would need a name, and the name would be a size class the next control might or might not belong to. A cap is read off the rendered box, so it answers the question for a control nobody has drawn yet.
 
 #### The lesson screen
 

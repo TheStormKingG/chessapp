@@ -175,7 +175,7 @@ downstream validates are the rows most likely to be wrong.
 | `--n-light` | `#ffffff` | `--surface` | **1.27** | decorative shadow, no duty |
 | `--key-accent` | `#0b3c2d` | `--surface` | **9.77** | decorative, no duty |
 | `--key-accent` | `#0b3c2d` | `--accent` face | **1.67** | decorative, no duty |
-| `--key-raised` | `#a3b1c6` | `--surface` | **1.72** | decorative, no duty |
+| `--key-raised` | *retired* | — | — | removed in chunk N2, after its last call site (§6) |
 | `--track` | `#cfd6e0` | `--surface` | **1.16** | groove, decorative |
 | `--accent` | `#12614a` | `--surface` | **5.85** | action ink and border ≥ 4.5 |
 | `--accent` | `#12614a` | `--track` | **5.06** | meter fill on its groove ≥ 3 |
@@ -206,6 +206,15 @@ re-grounded on the reference's measured 12/16/24. This supersedes the single 10p
 of DESIGN-SYSTEM.md §3.3. **The 999px clause of §3.3 is unchanged**: a full radius
 is still permitted only on an element that neither receives a press nor contains
 anything, and `REFERENCE-DELTA.md` §5.4's rejection of pill chips still stands.
+
+**And these three values carry a size premise, which §3.3 now states.** They were
+measured on the reference's own controls and cards, all of them 44px and up. An
+absolute radius is a ratio in disguise: move 12px onto a 28px box and it is 0.43
+of the shorter side, which renders as a circle — the radio affordance the 999px
+clause exists to forbid — while the token name still reads as compliant. §3.3's
+amended clause states the cap (one third of the shorter rendered side, full
+radius at one half whatever the number says) and carries the app's one recorded
+exception. This delta does not restate it; it is one rule, in one place.
 
 **Type.** Unchanged. Nine roles, `body` at 17px, everything in `rem`. See §8.
 

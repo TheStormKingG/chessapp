@@ -130,11 +130,16 @@ export function RailIndex({
  *
  * Three properties it inherits or owes:
  *
- *   - `--track` (Δ3) is the groove: 1.27:1 below the light ground, 1.62:1 above
- *     the dark one. A groove, not a border -- it is never the sole separator of
- *     anything, so it carries no contrast duty of its own.
- *   - The fill is `--accent`, measured on `--track` at **4.63:1 light** and
- *     **5.38:1 dark**, both clear of the 3:1 non-text requirement with margin.
+ *   - `--track` is the groove: `#cfd6e0`, **1.16:1** below `--surface` on the
+ *     one ground the app now ships (NEUMORPHIC-DELTA.md §3.5; the two-appearance
+ *     figures this comment used to carry were re-derived, not copied). A groove,
+ *     not a border -- it is never the sole separator of anything, so it carries
+ *     no contrast duty of its own. Chunk N3 gives it `n-inset-soft` as well, so
+ *     it is cut into the page rather than tinted on top of it: at 1.16:1 the
+ *     tint alone is close to invisible, and the shadow pair is what actually
+ *     makes the unfilled part of the meter read as empty.
+ *   - The fill is `--accent` `#12614a`, measured on `--track` at **5.06:1**,
+ *     clear of the 3:1 non-text requirement with margin.
  *   - **Nothing is conveyed by colour alone.** The meter is `aria-hidden`
  *     decoration over a count the caller renders as real text beside it
  *     ("3 of 8 done"), which is what a screen reader reads and what survives a
@@ -177,7 +182,7 @@ export function RailMeter({
         on screen. In `rem`, so it grows with the system text size.
       */}
       <div
-        className={`sticky top-4 h-64 w-[1ch] self-start overflow-hidden rounded-full bg-track ${RAIL_TYPE}`}
+        className={`n-inset-soft sticky top-4 h-64 w-[1ch] self-start overflow-hidden rounded-full bg-track ${RAIL_TYPE}`}
       >
         <div className="absolute inset-x-0 bottom-0 bg-accent" style={{ height: `${String(pct)}%` }} />
       </div>

@@ -75,7 +75,6 @@
    * recorded so nobody re-derives them.
    */
   --key-accent: #0b3c2d; /* 9.77:1 on --surface, 1.67:1 on the --accent face */
-  --key-raised: #a3b1c6; /* re-grounded onto --n-dark: one depth colour, not two. 1.72:1 */
 
   /* The progress groove. Fills in --accent, which measures 5.06:1 on it. */
   --track: #cfd6e0; /* 1.16:1 below --surface */
@@ -147,7 +146,6 @@
   --color-edge: var(--edge);
   --color-edge-strong: var(--edge-strong);
   --color-key-accent: var(--key-accent);
-  --color-key-raised: var(--key-raised);
   --color-track: var(--track);
   --color-accent: var(--accent);
   --color-accent-on: var(--accent-on);
@@ -558,18 +556,23 @@ input[type='checkbox'] {
   -webkit-appearance: none;
   border: 1px solid var(--edge-strong);
   /*
-   * NOT `--radius-control`, and the exception is recorded rather than taken
-   * quietly. DESIGN-SYSTEM.md §3.3 gives controls one radius (12px since
-   * NEUMORPHIC-DELTA.md §3.5) and says 999px applies to nothing. Applied
-   * literally to a 28px box, 12px IS a circle — measured in the browser, it
-   * renders as a radio button — so the clause produces the exact appearance
-   * its own 999px rule exists to forbid, and a circle is a stronger signal
-   * than a radius scale: it means "one of these", not "on or off"
-   * (`toggles.md` / `selecting-multiple-items` distinguish the two by shape
-   * before colour). 6px is the same corner weight 12px carries on a 44px
-   * control, and it keeps the box a box.
+   * NOT `--radius-control`, and this is the app's ONE recorded exception to it
+   * — recorded in the rule, at DESIGN-SYSTEM.md §3.3 "The shape cap", not only
+   * here. The box renders at 28 x 28. 12px on it is 0.43 of the shorter side;
+   * measured in a browser it is indistinguishable from a radio button, which is
+   * the wrong affordance: a circle means "one of these", a square means "on or
+   * off", and shape carries that before colour does (`toggles.md` /
+   * `selecting-multiple-items` split the two by shape first).
+   *
+   * 8px, not 6px, and the arithmetic is the reason rather than taste. The scale
+   * carries 12px on the 44px control class, a corner weight of 12 / 44 =
+   * 0.273; on 28px that is 7.6px, which is 8px on the 2px grid. The clause's
+   * cap — one third of the shorter side, 9.33px here — is also cleared. 6px
+   * shipped first and was described in this comment as "the same corner weight
+   * as 12px on 44px"; it is 0.214, so the comment was the true statement of the
+   * intent and the number was the thing that did not match it.
    */
-  border-radius: 6px;
+  border-radius: 8px;
   background: var(--surface-raised);
   box-shadow: var(--shadow-inset-soft);
   /* `display` IS set here, and observation 0103's hazard was checked rather

@@ -188,6 +188,73 @@ for (const [w, h] of [
       expect(m.y + m.h, 'the content does not reach the foot of the window').toBeGreaterThanOrEqual(h - 1);
     });
 
+    /*
+     * The void, measured where it actually is.
+     *
+     * The share assertion above measures the CONTAINER's area, and the one below
+     * it requires that container to reach the foot of the window -- so at 2000 x
+     * 1200 the share cannot fall below about 47% however little the screen
+     * carries. It is a real assertion about the horizontal void it was written
+     * for, and it is silent about the vertical one: a container stretched to the
+     * window with all its ink in the top 511px measures the same as a full page.
+     *
+     * This asserts the complementary thing, on leaf ink rather than on boxes:
+     * merge every band of the window that carries text or a painted leaf, and
+     * require the largest hole BETWEEN two bands to stay under a quarter of the
+     * window. A hole is worse than a margin of the same size, because margin
+     * below the last element reads as a page that ended and a hole between two
+     * elements reads as something that failed to load -- which is what a fresh
+     * profile showed at 2000 x 1200, at 605px, 50% of the window.
+     *
+     * Leaf ink, not boxes, and that is the whole point: a probe that counted
+     * containers would report this screen full, which is how the defect survived
+     * a passing suite.
+     */
+    test('no interior void: the largest empty band is under a quarter of the window', async ({ page }) => {
+      await page.goto('./');
+      await page.waitForTimeout(600);
+      const m = await page.evaluate(() => {
+        const bands: [number, number][] = [];
+        for (const el of document.querySelectorAll('main *')) {
+          const cs = getComputedStyle(el);
+          if (cs.visibility === 'hidden' || cs.display === 'none') continue;
+          const b = el.getBoundingClientRect();
+          if (b.height === 0 || b.width === 0) continue;
+          const ownsText = [...el.childNodes].some(
+            (n) => n.nodeType === 3 && (n.textContent ?? '').trim().length > 0,
+          );
+          const paintsLeaf =
+            (cs.backgroundColor !== 'rgba(0, 0, 0, 0)' || cs.boxShadow !== 'none') && el.children.length < 6;
+          if (ownsText || paintsLeaf || el.tagName === 'IMG') bands.push([b.top, b.bottom]);
+        }
+        bands.sort((a, b) => a[0] - b[0]);
+        const merged: [number, number][] = [];
+        for (const [t, bo] of bands) {
+          const last = merged.at(-1);
+          if (last && t <= last[1] + 1) last[1] = Math.max(last[1], bo);
+          else merged.push([t, bo]);
+        }
+        let biggest = 0;
+        let where = '';
+        for (let i = 0; i < merged.length - 1; i++) {
+          const g = merged[i + 1]![0] - merged[i]![1];
+          if (g > biggest) {
+            biggest = g;
+            where = `${String(Math.round(merged[i]![1]))} -> ${String(Math.round(merged[i + 1]![0]))}`;
+          }
+        }
+        return { biggest, where, bands: merged.length, vh: window.innerHeight };
+      });
+      test.info().annotations.push({ type: 'void', description: JSON.stringify(m) });
+      // Not vacuous: one merged band would make "the largest hole" undefined and
+      // the check would pass over a screen that rendered nothing.
+      expect(m.bands, 'the ink probe found fewer than three bands — it may be blind').toBeGreaterThanOrEqual(3);
+      expect(
+        m.biggest,
+        `a ${String(Math.round(m.biggest))}px hole at ${m.where} — ${((100 * m.biggest) / m.vh).toFixed(0)}% of the window`,
+      ).toBeLessThanOrEqual(m.vh * 0.25);
+    });
+
     test('the measure is capped: no text runs wider than 720px', async ({ page }) => {
       await page.goto('./');
       await page.waitForTimeout(400);
@@ -238,10 +305,19 @@ test.describe('the phone layout is untouched', () => {
     const m = await contentShare(page);
     const board = await box(page, '[data-testid="today-lesson-board"]');
     test.info().annotations.push({ type: 'compact', description: JSON.stringify({ ...m, board }) });
-    // §7.1's compact row: 390 x 545, 65% of the window, and the 299px void
+    // §7.1's compact row: 390 x 543, 64% of the window, and the ~301px void
     // beneath it is Delta 4's unfinished business, deliberately not re-opened.
+    //
+    // 545 until chunk N2 retired `--key-raised`. The two pixels are that token's
+    // 2px solid bottom border leaving the "On the path" card, which now carries
+    // the soft raise alone (§6: one depth grammar per element class). This
+    // assertion exists to catch the DESKTOP pass leaking onto the phone, and it
+    // is re-pinned rather than loosened -- a tolerance here would stop it
+    // catching exactly the kind of drift it was written for. The three
+    // desktop-only regions below are the assertion that carries that intent, and
+    // they are unchanged.
     expect(Math.round(m.w)).toBe(390);
-    expect(Math.round(m.h)).toBe(545);
+    expect(Math.round(m.h)).toBe(543);
     expect(board.width, 'the compact board is not 120px').toBeCloseTo(120, 0);
     // None of the desktop-only regions reach the phone.
     for (const name of ['This unit', 'Up next', 'Recently finished']) {

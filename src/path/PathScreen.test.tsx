@@ -159,19 +159,34 @@ test('only the active node carries the key-accent edge, once per screen', () => 
   expect(document.querySelectorAll('.border-b-key-accent')).toHaveLength(1);
 });
 
-test('no row asks for two bottom edges at once', () => {
-  // Found by measuring, not by reading: `border-b-key-raised` and
-  // `border-b-key-accent` set the same property, so an element carrying both
-  // takes whichever Tailwind happens to emit last -- which was the raised one,
-  // leaving the active node wearing an ordinary card edge. A class list cannot
-  // express "this one wins", so the rule is that only one is ever asked for.
+test('the card edge has left the screen, so no row can ask for two bottom edges', () => {
+  // The previous form of this test asserted that no element carried BOTH
+  // `border-b-key-raised` and `border-b-key-accent` -- two utilities setting the
+  // same property, with Tailwind's emission order silently deciding the winner,
+  // which had left the active node wearing an ordinary card edge.
+  //
+  // NEUMORPHIC-DELTA.md §6 removed `--key-raised` outright, so that assertion
+  // would now pass over an empty set: it would be green whether the rule held or
+  // the screen had no rows at all. It is replaced by the stronger claim the
+  // removal actually makes -- the class appears nowhere -- with the row count
+  // asserted first so the probe cannot report clean by matching nothing.
   renderPath();
-  for (const row of document.querySelectorAll('.border-b-key-accent')) {
-    expect(row.className).not.toContain('border-b-key-raised');
+  expect(document.querySelectorAll('[class*="border-b-"]').length).toBeGreaterThan(0);
+  expect(document.querySelectorAll('[class*="key-raised"]')).toHaveLength(0);
+  expect(document.querySelectorAll('.border-b-key-accent')).toHaveLength(1);
+});
+
+test('the locked run is a groove and the rows that can be pressed are raised', () => {
+  // Chunk N3's depth grammar, asserted as structure rather than as a screenshot:
+  // exactly one thing on this screen is cut into the ground, and it is the run
+  // nobody can act on.
+  renderPath();
+  const grooves = document.querySelectorAll('.n-inset-soft');
+  expect(grooves.length).toBeGreaterThan(0);
+  for (const g of grooves) {
+    expect(g.querySelector('a')).toBeNull();
   }
-  for (const row of document.querySelectorAll('.border-b-key-raised')) {
-    expect(row.className).not.toContain('border-b-key-accent');
-  }
+  expect(document.querySelectorAll('.n-raised').length).toBeGreaterThan(0);
 });
 
 test('--accent-soft has left this screen', () => {

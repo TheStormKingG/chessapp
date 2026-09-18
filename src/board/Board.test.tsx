@@ -379,7 +379,7 @@ test('a move typed during a replay is played, not swallowed by the skip', () => 
  * (PREMIUM-DELTA.md §1.1 measured chess.com's hero board at `box-shadow: none`,
  * `border: 0px none`, transparent background), and a chess board with a drop
  * shadow stops being a board and becomes a photograph of one. The premium pass
- * adds --key-accent and --key-raised edges to cards and controls; this test
+ * adds the --key-accent edge to the one primary action per screen; this test
  * exists so a later chunk cannot sweep the board up with them.
  *
  * What is deliberately NOT banned: the marks. `accent` is `inset 0 0 0 5px` and
@@ -453,7 +453,10 @@ test.each([[undefined], [120]] as const)(
       for (const el of els) {
         expect(elevationShadows(el), `box-shadow on ${el.tagName}.${classOf(el)}`).toEqual([]);
         expect(el.style.borderRadius, `border-radius on ${el.tagName}.${classOf(el)}`).toBe('');
-        for (const key of ['--key-accent', '--key-raised'] as const) {
+        // `--key-raised` used to be checked here too; NEUMORPHIC-DELTA.md §6
+        // retired the token, and a guard naming a token that no longer exists
+        // asserts nothing while looking as though it asserts something.
+        for (const key of ['--key-accent'] as const) {
           expect(
             `${el.getAttribute('style') ?? ''} ${classOf(el)}`,
             `${key} must not reach the board`,

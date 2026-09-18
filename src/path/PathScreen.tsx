@@ -177,9 +177,30 @@ function railNumber(n: Node): string {
  *      them colour alone. It used to be a fully filled `--accent` slab, which
  *      made the past louder than the present.
  *
- * Every card takes the 2px `--key-raised` bottom edge from Δ1 rule 3, so the
- * active node's 3px `--key-accent` reads as *more* raised rather than as the
- * only raised thing.
+ * NEUMORPHIC-DELTA.md §6 / chunks N2 and N3 change what carries that ranking,
+ * not the ranking itself. The 2px `--key-raised` bottom edge is gone from every
+ * row: a card that carries a soft neumorphic raise AND a crisp solid bottom
+ * border is running two depth grammars at once, and §6 allows one per element
+ * class — containers get the shadow, controls get `--edge-strong` plus the
+ * shadow, and the screen's one primary action adds the crisp key edge. So the
+ * rows now rank by DEPTH, which is the same information in the style the rest
+ * of the app moved to:
+ *
+ *   - **Active** — `n-raised` plus its 2px `--accent` border plus the screen's
+ *     only 3px `--key-accent` bottom edge. Raised, bounded and keyed: three
+ *     channels, the most of anything on the screen.
+ *   - **Due checkpoint** — `n-raised` and the key edge, on `--signal-soft`.
+ *     Still the one signal-soft element on the screen.
+ *   - **Available checkpoint** and **finished** — `n-raised` and their own
+ *     hairline, no key edge. Present, actionable, quiet.
+ *   - **A locked or unbuilt run** — `n-inset-soft`, a GROOVE (chunk N3). It is
+ *     the one thing on this screen that is cut INTO the ground rather than
+ *     lifted off it, which is the depth grammar saying what the counted heading
+ *     says in words: this is not yet surface. Nothing in it can be pressed, so
+ *     nothing in it owes a control's edge.
+ *
+ * Every row that receives a press keeps `--radius-control` (12px); the grooved
+ * run is a container and takes `--radius-card` (16px), per §3.5.
  *
  * `--accent-soft` is gone from here. PREMIUM-DELTA.md §5 found it doing five
  * different jobs across the app, against the one-colour-one-meaning rule the
@@ -187,26 +208,30 @@ function railNumber(n: Node): string {
  * the key edge plus the `✓` carry more information than the tint did.
  */
 function skinFor(node: Node): string {
-  // Exactly one bottom-edge class per row, never two. Measured in a browser
-  // first: `border-b-key-raised` and `border-b-key-accent` on the same element
-  // are two utilities setting the same property, and which one wins is decided
-  // by the order Tailwind emits them rather than by the order they are written
-  // here -- the raised edge silently beat the accent one, so the active node
-  // wore the card's edge and the screen's one moment of elevation was lost.
-  const card = 'bg-surface-raised text-content';
-  const raisedEdge = 'border-b-2 border-b-key-raised';
+  // ONE bottom-edge class per row, and now at most one: `--key-raised` has left
+  // this screen entirely (chunk N2), so the hazard the previous pass measured
+  // -- two utilities setting `border-bottom-color`, with Tailwind's emission
+  // order silently deciding which wins, which cost the active node its moment
+  // of elevation -- cannot recur here. `PathScreen.test.tsx` now asserts the
+  // absence rather than the ordering.
+  //
+  // Every row is a control: `Row` renders a Link or an `aria-disabled` div that
+  // occupies the same box, so each keeps a real border at 3:1 (§3.3) AND the
+  // raise. That is the control grammar, not the two-grammar mistake: the raise
+  // is the depth, the border is the bound, and only the active row adds a key.
+  const card = 'n-raised bg-surface-raised text-content';
   const keyEdge = 'border-b-[3px] border-b-key-accent';
   if (node.state === 'active') {
     return node.kind === 'checkpoint'
-      ? `border-2 border-signal bg-signal-soft text-signal ${keyEdge}`
+      ? `n-raised border-2 border-signal bg-signal-soft text-signal ${keyEdge}`
       : `border-2 border-accent ${card} ${keyEdge}`;
   }
   if (node.state === 'passed' || node.state === 'done' || node.state === 'testedOut') {
-    return `border border-edge-strong ${card} ${raisedEdge}`;
+    return `border border-edge-strong ${card}`;
   }
   // The remaining case is a checkpoint of a built unit that is attemptable but
   // not yet due: an outline, not a slab.
-  return `border border-signal ${card} ${raisedEdge}`;
+  return `border border-signal ${card}`;
 }
 
 /** Finished work, in whichever of the three ways a node can be finished. */
@@ -217,7 +242,7 @@ function isFinished(node: Node): boolean {
 /** A node the learner can act on, or is looking at. */
 function Row({ node, view }: { node: Node; view: NodeView }) {
   const inner = (
-    <div className={`tap flex items-center gap-3 rounded-xl px-3 py-3 ${skinFor(node)}`}>
+    <div className={`tap flex items-center gap-3 rounded-control px-3 py-3 ${skinFor(node)}`}>
       <RailIndex tone={isFinished(node) ? 'accent' : 'inherit'}>{railNumber(node)}</RailIndex>
       <span className="min-w-0 flex-1 [overflow-wrap:anywhere]">
         <span className="t-heading block">{view.title}</span>
@@ -279,7 +304,15 @@ function Group({
   progress: Progress;
 }) {
   return (
-    <div className="rounded-xl border border-edge-strong">
+    /*
+      Chunk N3. The run is a GROOVE: `n-inset-soft` cut into the page ground,
+      with no fill of its own and no `--edge-strong` ring. The ring came off for
+      the same reason it came off the other containers (§6) -- a 3.76:1 control
+      border paints "press me" on a box in which nothing can be pressed -- and
+      the shadow pair is what bounds it instead. The inner divider stays
+      `--edge`, a decorative hairline with no contrast duty (§3.5).
+    */
+    <div className="n-inset-soft rounded-card">
       <p aria-hidden className="t-caption border-b border-edge px-3 py-2 text-content-dim">
         {GROUP_HEADING[state](nodes.length)}
       </p>

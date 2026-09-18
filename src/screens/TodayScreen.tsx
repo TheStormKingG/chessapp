@@ -106,12 +106,27 @@ export function TodayScreen() {
       NEUMORPHIC-DELTA.md §7: cap and rank rather than stretch. Below `xl` this
       is exactly the screen it was -- one column, same order, same spacing, so
       the phone layout is untouched. At `xl` the same children become a 2fr/1fr
-      grid on the reference's own 48px gutter, and the band and the Settings
-      link are pushed to the foot of the window by the 1fr first row, so the
-      dead space becomes the gutter BETWEEN two ranked bands rather than a void
-      under everything.
+      grid on the reference's own 48px gutter.
+
+      `content-between` was here and is now `content-start`, which is the one
+      substantive change this screen needed after the desktop pass. The idea was
+      that distributing the rows would turn dead space into "the gutter BETWEEN
+      two ranked bands rather than a void under everything". Measured on a fresh
+      profile at 2000 x 1200, where the middle row -- Recently finished -- has no
+      content to hold, it did the opposite: the ink ended at 511px and the
+      Settings link was pushed to 1116, leaving a 605px hole, 50% of the window,
+      with nothing in it. That is not a gutter. A hole between two elements reads
+      as something that failed to load; the same emptiness below the last element
+      reads as a page that ended, which is what the reference itself does -- it
+      caps its measure and lets the page finish (§7.2).
+
+      `min-h-dvh` STAYS. It is what keeps the container filling the window, which
+      is a separate claim from where the ink sits, and `desktop.spec.ts` asserts
+      both: the container reaches the foot, AND no band inside it is more than a
+      quarter of the window high. Neither assertion implies the other, which is
+      how a stretched container full of nothing passed the first one.
     */
-    <section className="p-4 xl:grid xl:min-h-dvh xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] xl:content-between xl:items-start xl:gap-x-12 xl:gap-y-10 xl:py-10">
+    <section className="p-4 xl:grid xl:min-h-dvh xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] xl:content-start xl:items-start xl:gap-x-12 xl:gap-y-10 xl:py-10">
       <div className="xl:col-start-1 xl:row-start-1">
         {/* PREMIUM-DELTA.md Δ2: one of the two places `display-lg` is spent, and it
             is never allowed to stand alone — the XP count directly beneath it is the
@@ -124,7 +139,7 @@ export function TodayScreen() {
         {next ? (
           <Link
             to={next.kind === 'lesson' ? `/lesson/${next.id}` : `/checkpoint/${next.unit}`}
-            className="tap mt-2 block rounded-xl border border-edge-strong border-b-2 border-b-key-raised bg-surface-raised p-4 xl:rounded-hero xl:p-6 xl:n-raised-lg"
+            className="tap n-raised mt-2 block rounded-control border border-edge-strong bg-surface-raised p-4 xl:rounded-hero xl:p-6 xl:n-raised-lg"
           >
             {/* Δ4.4: the position and the words are one row, so the card grows by
                 the board's 120px only where there is room beside the text. The
@@ -162,7 +177,7 @@ export function TodayScreen() {
             </span>
           </Link>
         ) : (
-          <p className="t-body mt-2 rounded-xl border border-edge-strong border-b-2 border-b-key-raised bg-surface-raised p-4">
+          <p className="t-body n-raised mt-2 rounded-card bg-surface-raised p-4">
             You have finished everything that is built so far. More lessons are coming.
           </p>
         )}
@@ -240,7 +255,7 @@ export function TodayScreen() {
             </button>
           </div>
         )}
-        <Link to="/play" className="t-heading tap mt-2 block rounded-xl border border-edge-strong border-b-2 border-b-key-raised bg-surface-raised p-4">
+        <Link to="/play" className="t-heading tap n-raised mt-2 block rounded-control border border-edge-strong bg-surface-raised p-4">
           Play a coached game
         </Link>
       </div>
