@@ -1,0 +1,548 @@
+{
+  "unit": "1.4",
+  "title": "Castling and the rules of play",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "1.4-k01",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/PPP2PPP/R3K3 w - - 0 1",
+      "prompt": "The squares are clear and nothing is attacked, but White may not castle. Why?",
+      "options": [
+        "The king has moved earlier in the game",
+        "The rook has to jump over the king",
+        "There are pawns on the second row"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "castling-rules"
+    },
+    {
+      "id": "1.4-k02",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/5PPP/R3K2R w Q - 0 1",
+      "prompt": "White may castle on the long side but not on the short side. Why?",
+      "options": [
+        "The rook on h1 has already moved",
+        "f1 and g1 are occupied",
+        "The king is in check"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "castling-rules"
+    },
+    {
+      "id": "1.4-k03",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/PPP2PPP/R2QK3 w Q - 0 1",
+      "prompt": "White would like to castle on the long side. What stops him?",
+      "options": [
+        "The queen is still on d1",
+        "The rook on a1 has moved",
+        "The king would land on an attacked square"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "castling-rules"
+    },
+    {
+      "id": "1.4-k04",
+      "type": "name_the_pattern",
+      "fen": "6rk/8/8/8/8/8/5P1P/4K2R w K - 0 1",
+      "prompt": "Both pieces are at home and f1 and g1 are empty. What stops White castling?",
+      "options": [
+        "The king would land on g1, which the rook on g8 attacks",
+        "The king has already moved",
+        "A king may not castle towards an enemy king"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "castling-rules"
+    },
+    {
+      "id": "1.4-k05",
+      "type": "which_square",
+      "fen": "4k3/8/8/8/8/8/PPP5/R3K3 w Q - 0 1",
+      "prompt": "White castles on the long side. Tap the square the king ends on.",
+      "answer": {
+        "square": "c1"
+      },
+      "concept": "castling",
+      "hints": {
+        "piece": "e1"
+      }
+    },
+    {
+      "id": "1.4-k06",
+      "type": "which_square",
+      "fen": "4k3/8/8/8/8/8/PPPPP3/R3K3 w Q - 0 1",
+      "prompt": "White castles on the long side. Tap the square the rook ends on.",
+      "answer": {
+        "square": "d1"
+      },
+      "concept": "castling",
+      "hints": {
+        "piece": "a1"
+      }
+    },
+    {
+      "id": "1.4-k07",
+      "type": "which_square",
+      "fen": "4k3/8/8/8/8/8/4PPPP/4K2R w K - 0 1",
+      "prompt": "White castles on the short side. Tap the square the rook ends on.",
+      "answer": {
+        "square": "f1"
+      },
+      "concept": "castling",
+      "hints": {
+        "piece": "h1"
+      }
+    },
+    {
+      "id": "1.4-k08",
+      "type": "find_them_all",
+      "fen": "4k3/8/8/8/8/8/5PPP/4KBNR w K - 0 1",
+      "prompt": "Tap every square White still has to clear on the short side.",
+      "answer": {
+        "squares": [
+          "f1",
+          "g1"
+        ]
+      },
+      "concept": "castling"
+    },
+    {
+      "id": "1.4-k09",
+      "type": "find_them_all",
+      "fen": "6k1/8/8/4PpP1/8/8/8/6K1 w - f6 0 1",
+      "prompt": "Black has just played f7-f5. Tap every white pawn that may answer straight away.",
+      "answer": {
+        "pieces": [
+          "e5",
+          "g5"
+        ]
+      },
+      "concept": "en-passant"
+    },
+    {
+      "id": "1.4-k10",
+      "type": "find_the_move",
+      "fen": "3r2k1/pp3ppp/8/2b5/7q/2N5/PP3P1P/1N2K2R w K - 0 1",
+      "prompt": "Black threatens mate on f2. Find White's best move.",
+      "answer": {
+        "moves": [
+          "O-O"
+        ]
+      },
+      "concept": "castling",
+      "hints": {
+        "piece": "e1",
+        "square": "g1"
+      },
+      "reason": "The rook on f1 will guard f2, and the king is off the open middle."
+    },
+    {
+      "id": "1.4-k11",
+      "type": "find_the_move",
+      "fen": "3r2k1/pp3ppp/8/2b5/7q/1PN5/P4P1P/4K2R w K - 0 1",
+      "prompt": "Black threatens mate on f2. Find White's best move.",
+      "answer": {
+        "moves": [
+          "O-O"
+        ]
+      },
+      "concept": "castling",
+      "hints": {
+        "piece": "e1",
+        "square": "g1"
+      },
+      "reason": "One move answers the mate on f2 and brings the last piece out."
+    },
+    {
+      "id": "1.4-k12",
+      "type": "find_the_move",
+      "fen": "3r2k1/pp3ppp/1n6/2b5/7q/2N5/PP3P1P/4K2R w K - 0 1",
+      "prompt": "Black threatens mate on f2. Find White's best move.",
+      "answer": {
+        "moves": [
+          "O-O"
+        ]
+      },
+      "concept": "castling",
+      "hints": {
+        "piece": "e1",
+        "square": "g1"
+      },
+      "reason": "King to g1, rook to f1, and the threat on f2 is gone."
+    },
+    {
+      "id": "1.4-k13",
+      "type": "find_the_move",
+      "fen": "5rk1/pp3ppp/8/2b5/7q/2N5/PPP2PPP/R3K3 w Q - 0 1",
+      "prompt": "Black threatens mate on f2. Find White's best move.",
+      "answer": {
+        "moves": [
+          "O-O-O"
+        ]
+      },
+      "concept": "castling",
+      "hints": {
+        "piece": "e1",
+        "square": "c1"
+      },
+      "reason": "The king reaches c1 where nothing can reach him, and the rook lands on d1."
+    },
+    {
+      "id": "1.4-k14",
+      "type": "find_the_move",
+      "fen": "5rk1/pp3ppp/8/2b5/6nq/2N5/PPP2P1P/R3K3 w Q - 0 1",
+      "prompt": "Black threatens mate on f2. Find White's best move.",
+      "answer": {
+        "moves": [
+          "O-O-O"
+        ]
+      },
+      "concept": "castling",
+      "hints": {
+        "piece": "e1",
+        "square": "c1"
+      },
+      "reason": "Two squares to c1 and the whole attack is looking at an empty square."
+    },
+    {
+      "id": "1.4-k15",
+      "type": "find_the_move",
+      "fen": "1r4k1/pp3ppp/8/2b5/7q/2N5/PPP2P1P/R3K3 w Q - 0 1",
+      "prompt": "Black threatens mate on f2. Find White's best move.",
+      "answer": {
+        "moves": [
+          "O-O-O"
+        ]
+      },
+      "concept": "castling",
+      "hints": {
+        "piece": "e1",
+        "square": "c1"
+      },
+      "reason": "The middle is no place for the king with a queen on h4."
+    },
+    {
+      "id": "1.4-k16",
+      "type": "find_the_move",
+      "fen": "5rk1/1p3ppp/p7/2b5/7q/2N5/PPP2P1P/R3K3 w Q - 0 1",
+      "prompt": "Black threatens mate on f2. Find White's best move.",
+      "answer": {
+        "moves": [
+          "O-O-O"
+        ]
+      },
+      "concept": "castling",
+      "hints": {
+        "piece": "e1",
+        "square": "c1"
+      },
+      "reason": "Castling long gets the king away and the rook into the game at once."
+    },
+    {
+      "id": "1.4-k17",
+      "type": "find_the_move",
+      "fen": "3k4/3q4/2p5/1p1Pp2B/8/3RQ3/8/4K3 w - e6 0 1",
+      "prompt": "Black has just pushed a pawn two squares past yours. Find White's best move.",
+      "answer": {
+        "moves": [
+          "dxe6"
+        ]
+      },
+      "concept": "en-passant",
+      "hints": {
+        "piece": "d5",
+        "square": "e6"
+      },
+      "reason": "The pawn takes on e6 and lands right in front of the black king."
+    },
+    {
+      "id": "1.4-k18",
+      "type": "find_the_move",
+      "fen": "1b1k4/8/8/2pP4/2n5/2Bp1p1B/8/4K3 w - c6 0 1",
+      "prompt": "Black has just pushed a pawn two squares past yours. Find White's best move.",
+      "answer": {
+        "moves": [
+          "dxc6"
+        ]
+      },
+      "concept": "en-passant",
+      "hints": {
+        "piece": "d5",
+        "square": "c6"
+      },
+      "reason": "Take on c6 and the pawn is past everything Black has left."
+    },
+    {
+      "id": "1.4-k19",
+      "type": "find_the_move",
+      "fen": "5k2/8/P7/2Pp3p/7R/r1n5/8/4K3 w - d6 0 1",
+      "prompt": "Black has just pushed a pawn two squares past yours. Find White's best move.",
+      "answer": {
+        "moves": [
+          "cxd6"
+        ]
+      },
+      "concept": "en-passant",
+      "hints": {
+        "piece": "c5",
+        "square": "d6"
+      },
+      "reason": "Answer the jump at once: the pawn on d6 is suddenly hard to stop."
+    },
+    {
+      "id": "1.4-k20",
+      "type": "find_the_move",
+      "fen": "5nk1/8/8/4pP2/1P5N/3p4/4n3/4K3 w - e6 0 1",
+      "prompt": "Black has just pushed a pawn two squares past yours. Find White's best move.",
+      "answer": {
+        "moves": [
+          "fxe6"
+        ]
+      },
+      "concept": "en-passant",
+      "hints": {
+        "piece": "f5",
+        "square": "e6"
+      },
+      "reason": "Taking on e6 gets the pawn moving and past the knight."
+    },
+    {
+      "id": "1.4-k21",
+      "type": "find_the_move",
+      "fen": "2n4n/5k2/8/6Pp/8/N1P5/4p3/4K3 w - h6 0 1",
+      "prompt": "Black has just pushed a pawn two squares past yours. Find White's best move.",
+      "answer": {
+        "moves": [
+          "gxh6"
+        ]
+      },
+      "concept": "en-passant",
+      "hints": {
+        "piece": "g5",
+        "square": "h6"
+      },
+      "reason": "The pawn comes off and yours slips through on the edge."
+    },
+    {
+      "id": "1.4-k22",
+      "type": "find_the_move",
+      "fen": "5k2/n3N1p1/8/4n1Pp/1P6/6P1/3Nn3/4K3 w - h6 0 1",
+      "prompt": "Black has just pushed a pawn two squares past yours. Find White's best move.",
+      "answer": {
+        "moves": [
+          "gxh6"
+        ]
+      },
+      "concept": "en-passant",
+      "hints": {
+        "piece": "g5",
+        "square": "h6"
+      },
+      "reason": "Your pawn lands on h6 and the runner is gone."
+    },
+    {
+      "id": "1.4-k23",
+      "type": "find_the_move",
+      "fen": "8/1kq1Q3/8/P2pP3/7p/8/4n3/4K3 w - d6 0 1",
+      "prompt": "Black has just pushed a pawn two squares past yours. Find White's best move.",
+      "answer": {
+        "moves": [
+          "exd6"
+        ]
+      },
+      "concept": "en-passant",
+      "hints": {
+        "piece": "e5",
+        "square": "d6"
+      },
+      "reason": "The pawn that ran past comes off and yours is two squares from home."
+    },
+    {
+      "id": "1.4-k24",
+      "type": "find_the_move",
+      "fen": "4n3/6k1/8/4pPpP/1r3p2/8/7P/4K3 w - e6 0 1",
+      "prompt": "Black has just pushed a pawn two squares past yours. Find White's best move.",
+      "answer": {
+        "moves": [
+          "fxe6"
+        ]
+      },
+      "concept": "en-passant",
+      "hints": {
+        "piece": "f5",
+        "square": "e6"
+      },
+      "reason": "Answer the jump at once and the pawn on e6 is through."
+    },
+    {
+      "id": "1.4-k25",
+      "type": "find_the_move",
+      "fen": "5n2/k2N1P2/8/2pP3n/2R5/8/1P6/4K3 w - c6 0 1",
+      "prompt": "Black has just pushed a pawn two squares past yours. Find White's best move.",
+      "answer": {
+        "moves": [
+          "dxc6"
+        ]
+      },
+      "concept": "en-passant",
+      "hints": {
+        "piece": "d5",
+        "square": "c6"
+      },
+      "reason": "Take on c6 and the pawn is past the last thing that could stop it."
+    },
+    {
+      "id": "1.4-k26",
+      "type": "find_the_move",
+      "fen": "8/b5k1/6N1/3Pp1B1/8/6r1/4R3/4K3 w - e6 0 1",
+      "prompt": "Black has just pushed a pawn two squares past yours. Find White's best move.",
+      "answer": {
+        "moves": [
+          "dxe6"
+        ]
+      },
+      "concept": "en-passant",
+      "hints": {
+        "piece": "d5",
+        "square": "e6"
+      },
+      "reason": "Take as if the pawn had walked one square, and the pawn on e6 is dangerous."
+    },
+    {
+      "id": "1.4-k27",
+      "type": "which_square",
+      "fen": "4k3/8/8/8/8/2N5/5PPP/4K3 w - - 0 1",
+      "prompt": "The scoresheet says Nd5. Tap the square the knight is going to.",
+      "answer": {
+        "square": "d5"
+      },
+      "concept": "notation",
+      "hints": {
+        "piece": "c3"
+      }
+    },
+    {
+      "id": "1.4-k28",
+      "type": "which_square",
+      "fen": "4k3/8/8/4p3/8/8/6PP/4R1K1 w - - 0 1",
+      "prompt": "The scoresheet says Rxe5+. Tap the square where the capture happens.",
+      "answer": {
+        "square": "e5"
+      },
+      "concept": "notation",
+      "hints": {
+        "piece": "e1"
+      }
+    },
+    {
+      "id": "1.4-k29",
+      "type": "which_square",
+      "fen": "4k3/8/8/8/8/8/5PPP/3R1RK1 w - - 0 1",
+      "prompt": "The scoresheet says Rde1+. Tap the rook that moves.",
+      "answer": {
+        "square": "d1"
+      },
+      "concept": "notation"
+    },
+    {
+      "id": "1.4-k30",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/5PPP/R3K2R w KQ - 0 1",
+      "prompt": "Which of these is written O-O-O?",
+      "options": [
+        "The king to c1 and the rook to d1",
+        "The king to g1 and the rook to f1",
+        "Three moves in a row by the king"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "notation"
+    },
+    {
+      "id": "1.4-k31",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/6PP/6K1 w - - 0 1",
+      "prompt": "You let go of your bishop on a square you now regret. What happens?",
+      "options": [
+        "The bishop stays there, the move is made",
+        "You may take it back once per game",
+        "Your opponent decides whether it stands"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "touch-move"
+    },
+    {
+      "id": "1.4-k32",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "You want to straighten a piece that is sitting half off its square. What do you say first?",
+      "options": [
+        "\"I adjust\", before you touch it",
+        "Nothing, adjusting is always allowed",
+        "\"Check\", to warn your opponent"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "touch-move"
+    },
+    {
+      "id": "1.4-k33",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/4PPPP/6K1 w - - 0 1",
+      "prompt": "Your opponent resigns. What does that mean?",
+      "options": [
+        "They have given up and you have won",
+        "They want a draw",
+        "The game is replayed from the start"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "resigning"
+    },
+    {
+      "id": "1.4-k34",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/3PPPP1/6K1 w - - 0 1",
+      "prompt": "You offer a draw and your opponent replies by making a move. What has happened?",
+      "options": [
+        "They have turned the offer down",
+        "They have accepted",
+        "You must offer again"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "draw-offer"
+    },
+    {
+      "id": "1.4-k35",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/2PPPP2/6K1 w - - 0 1",
+      "prompt": "Your opponent's clock runs out and you have a rook and a king. What is the result?",
+      "options": [
+        "You win on time",
+        "The game is a draw",
+        "The clock is reset and play goes on"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "the-clock"
+    }
+  ]
+}

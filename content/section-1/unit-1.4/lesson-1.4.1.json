@@ -1,0 +1,209 @@
+{
+  "id": "1.4.1",
+  "unit": "1.4",
+  "title": "Castling both sides",
+  "xp": 15,
+  "card": {
+    "idea": "Castling is the one move where two pieces move at once. The king steps two squares towards a rook, and that rook hops over him and lands beside him. It is the quickest way to get your king out of the middle and a rook into the game.",
+    "habit": "Castle as soon as possible.",
+    "diagrams": [
+      "4k3/8/8/8/8/8/5PPP/4K2R w K - 0 1"
+    ]
+  },
+  "explain": [
+    {
+      "fen": "4k3/8/8/8/8/8/5PPP/4K2R w K - 0 1",
+      "text": "Castling on the short side: the king goes from e1 to g1, and the rook from h1 hops over him to f1. One move, two pieces. The king is tucked behind his pawns and the rook is off the edge at last.",
+      "arrows": [
+        [
+          "e1",
+          "g1"
+        ],
+        [
+          "h1",
+          "f1"
+        ]
+      ],
+      "highlights": [
+        "g1",
+        "f1"
+      ]
+    },
+    {
+      "fen": "4k3/8/8/8/8/8/PPP5/R3K3 w Q - 0 1",
+      "text": "The long side works the same way. The king still moves two squares, e1 to c1, and the rook comes from a1 to d1. It travels further, so b1, c1 and d1 all have to be empty first.",
+      "arrows": [
+        [
+          "e1",
+          "c1"
+        ],
+        [
+          "a1",
+          "d1"
+        ]
+      ],
+      "highlights": [
+        "c1",
+        "d1"
+      ]
+    },
+    {
+      "fen": "5r1k/8/8/8/8/8/6PP/4K2R w K - 0 1",
+      "text": "Four things must be true. The king has never moved. That rook has never moved. The squares between them are empty. And the king is not in check, does not cross an attacked square, and does not land on one. Here the rook on f8 guards f1, so castling is out.",
+      "arrows": [
+        [
+          "f8",
+          "f1"
+        ]
+      ],
+      "highlights": [
+        "f1"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.4.1-c1",
+      "type": "which_square",
+      "fen": "4k3/8/8/8/8/8/5PPP/4K2R w K - 0 1",
+      "prompt": "White castles on the short side. Tap the square the king ends up on.",
+      "concept": "castling",
+      "hints": {
+        "piece": "e1",
+        "text": "The king always travels exactly two squares."
+      },
+      "answer": {
+        "square": "g1"
+      },
+      "reason": "Two squares towards the rook, and the king is home."
+    },
+    {
+      "id": "1.4.1-c2",
+      "type": "find_them_all",
+      "fen": "4k3/8/8/8/8/8/PPP2PPP/RNBQK3 w Q - 0 1",
+      "prompt": "Tap every square White must clear before castling on the long side.",
+      "concept": "castling",
+      "hints": {
+        "piece": "a1",
+        "text": "Everything between the king and that rook has to go."
+      },
+      "answer": {
+        "squares": [
+          "b1",
+          "c1",
+          "d1"
+        ]
+      },
+      "reason": "The knight, the bishop and the queen are all in the way."
+    },
+    {
+      "id": "1.4.1-c3",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/5PPP/4K2R w - - 0 1",
+      "prompt": "Nothing is in the way and nothing is attacked, yet White may not castle. Why not?",
+      "concept": "castling-rules",
+      "options": [
+        "The king has already moved earlier in the game",
+        "The rook on h1 is not allowed to jump",
+        "The king is in check"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "A king who has moved once has given up castling for the rest of the game, even if he walked straight back."
+    },
+    {
+      "id": "1.4.1-c4",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/PP3PPP/R3K2R w K - 0 1",
+      "prompt": "White may castle on the short side but not on the long side. Why not?",
+      "concept": "castling-rules",
+      "options": [
+        "The rook on a1 has already moved",
+        "The squares b1, c1 and d1 are occupied",
+        "The king would land on an attacked square"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "Each rook carries its own permission, and the one on a1 has already spent hers."
+    },
+    {
+      "id": "1.4.1-c5",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/5PPP/4KB1R w K - 0 1",
+      "prompt": "White would love to castle on the short side. Why can he not?",
+      "concept": "castling-rules",
+      "options": [
+        "The bishop is still sitting on f1",
+        "The king has already moved",
+        "The rook on h1 is attacked"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "Every square between the king and the rook must be empty, and f1 is not."
+    },
+    {
+      "id": "1.4.1-c6",
+      "type": "name_the_pattern",
+      "fen": "5r1k/8/8/8/8/8/6PP/4K2R w K - 0 1",
+      "prompt": "Both pieces are at home and f1 and g1 are empty. Why can White still not castle?",
+      "concept": "castling-rules",
+      "options": [
+        "The king would cross f1, which the rook on f8 attacks",
+        "Castling is only allowed in the first ten moves",
+        "The white rook has nowhere to go"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "The king may not start in check, cross an attacked square, or land on one. f1 is watched, so the door is shut."
+    },
+    {
+      "id": "1.4.1-c7",
+      "type": "find_the_move",
+      "fen": "3r2k1/pp3ppp/8/2b2n2/7q/2N5/PP3P1P/4K2R w K - 0 1",
+      "prompt": "Black is about to play Qxf2, and that is mate. Save the king and wake the rook in one move.",
+      "concept": "castling",
+      "hints": {
+        "piece": "e1",
+        "square": "g1"
+      },
+      "answer": {
+        "moves": [
+          "O-O"
+        ]
+      },
+      "wrong": {
+        "Kf1": "The king shuffles sideways and Qxf2 is still mate.",
+        "Rf1": "The rook guards f2, but the king is left standing in the middle.",
+        "Ne4": "A knight move does nothing about the mate coming to f2."
+      },
+      "reason": "Castling does both jobs at once: the king hides on g1 and the rook lands on f1, guarding f2."
+    },
+    {
+      "id": "1.4.1-c8",
+      "type": "find_the_move",
+      "fen": "5rk1/pp3ppp/8/2b5/7q/2N5/PPP2P1P/R3K3 w Q - 0 1",
+      "prompt": "Same danger on f2, and this time the rook is on the other wing. Get the king out of the middle.",
+      "concept": "castling",
+      "hints": {
+        "piece": "e1",
+        "square": "c1"
+      },
+      "answer": {
+        "moves": [
+          "O-O-O"
+        ]
+      },
+      "wrong": {
+        "Kd1": "The king walks one square and the rook stays asleep in the corner.",
+        "Rd1": "The rook steps out, but the king is still on e1 where the trouble is.",
+        "Kd2": "Walking into the open is the opposite of what castling is for."
+      },
+      "reason": "The king reaches c1 and the rook lands on d1, both in a single move."
+    }
+  ],
+  "takeaway": "Castle early: the king gets safe and a rook gets going, in one move."
+}

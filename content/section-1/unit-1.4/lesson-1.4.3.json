@@ -1,0 +1,180 @@
+{
+  "id": "1.4.3",
+  "unit": "1.4",
+  "title": "Touch move, draws, resigning, notation, the clock",
+  "xp": 13,
+  "card": {
+    "idea": "Some rules are not about the board at all. They are about how players behave: what happens when you touch a piece, how a game is written down, how it can end by agreement, and what the clock does to all of it.",
+    "diagrams": [
+      "4k3/8/8/8/8/8/5PPP/R3K2R w KQ - 0 1"
+    ]
+  },
+  "explain": [
+    {
+      "fen": "4k3/8/8/8/8/8/5PPP/4K1N1 w - - 0 1",
+      "text": "Touch move: touch one of your pieces and you must move it if it has a legal move. Let go of it on a square and it stays there. Say \"I adjust\" first if you only want to straighten a piece up.",
+      "highlights": [
+        "g1"
+      ]
+    },
+    {
+      "fen": "4k3/8/8/8/8/8/5PPP/4K1N1 w - - 0 1",
+      "text": "Moves are written short. A letter for the piece and the square it goes to: Nf3. Pawns get no letter, so e4 is a pawn move. An x means a capture, + means check, O-O is castling short and O-O-O long.",
+      "arrows": [
+        [
+          "g1",
+          "f3"
+        ]
+      ],
+      "highlights": [
+        "f3"
+      ]
+    },
+    {
+      "fen": "4k3/8/8/8/8/8/5PPP/R3K2R w KQ - 0 1",
+      "text": "Either player may offer a draw, and the other may accept or play on. A player who knows the game is lost may resign. With a clock, each player has a set time for all their moves, and running out usually loses the game.",
+      "highlights": [
+        "e1"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.4.3-c1",
+      "type": "which_square",
+      "fen": "4k3/8/8/8/8/8/5PPP/4K1N1 w - - 0 1",
+      "prompt": "The scoresheet says Nf3. Tap the square the knight is going to.",
+      "concept": "notation",
+      "hints": {
+        "piece": "g1",
+        "text": "The letter names the piece, the rest names the square."
+      },
+      "answer": {
+        "square": "f3"
+      },
+      "reason": "N is the knight, f3 is where it lands."
+    },
+    {
+      "id": "1.4.3-c2",
+      "type": "which_square",
+      "fen": "4k3/8/8/8/8/8/5PPP/R4RK1 w - - 0 1",
+      "prompt": "Both rooks can reach e1, so the scoresheet says Rae1. Tap the rook that moves.",
+      "concept": "notation",
+      "hints": {
+        "text": "The extra letter tells you which file the moving rook starts on."
+      },
+      "answer": {
+        "square": "a1"
+      },
+      "reason": "When two pieces could go to the same square, the writer adds the file of the one that does."
+    },
+    {
+      "id": "1.4.3-c3",
+      "type": "find_them_all",
+      "fen": "4k3/8/8/8/8/8/5PPP/R3K2R w KQ - 0 1",
+      "prompt": "White wrote O-O. Tap the two squares his king and rook finish on.",
+      "concept": "notation",
+      "hints": {
+        "text": "O-O is the short side, the side the king has less ground to cover."
+      },
+      "answer": {
+        "squares": [
+          "f1",
+          "g1"
+        ]
+      },
+      "reason": "O-O is castling on the king's own side: king to g1, rook to f1."
+    },
+    {
+      "id": "1.4.3-c4",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/5PPP/R3K2R w KQ - 0 1",
+      "prompt": "You pick up your knight, then spot a much better rook move. What does touch move say?",
+      "concept": "touch-move",
+      "options": [
+        "Play a knight move if the knight has one",
+        "Play the rook move, nothing has been said yet",
+        "Neither piece may move this turn"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "Touched means moved. It is worth a habit of deciding first and reaching second."
+    },
+    {
+      "id": "1.4.3-c5",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/5PPP/R3K2R w KQ - 0 1",
+      "prompt": "Your opponent offers you a draw. What are you allowed to do?",
+      "concept": "draw-offer",
+      "options": [
+        "Accept it, or turn it down and play on",
+        "Accept it, because an offer cannot be refused",
+        "Ignore it, an offer is not part of the game"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "An offer is a question, not an order. Making your move is a polite no."
+    },
+    {
+      "id": "1.4.3-c6",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/8/8/8/5PPP/R3K2R w KQ - 0 1",
+      "prompt": "Your clock runs out while your opponent still has enough material to mate. What is the result?",
+      "concept": "the-clock",
+      "options": [
+        "You lose the game on time",
+        "The game is a draw",
+        "You keep playing without the clock"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "Time is part of the game: your thinking has to fit inside it."
+    },
+    {
+      "id": "1.4.3-c7",
+      "type": "find_the_move",
+      "fen": "3r2k1/pp3ppp/2n5/2b5/7q/2N5/PP3P1P/4K2R w K - 0 1",
+      "prompt": "White's next move on the scoresheet is O-O. Play it on the board.",
+      "concept": "notation",
+      "hints": {
+        "piece": "e1",
+        "square": "g1"
+      },
+      "answer": {
+        "moves": [
+          "O-O"
+        ]
+      },
+      "wrong": {
+        "Kf1": "That is written Kf1. O-O moves the rook as well.",
+        "Rf1": "That is written Rf1. The king has to travel too."
+      },
+      "reason": "O-O is the short castle, and here it is also the move that saves White from mate on f2."
+    },
+    {
+      "id": "1.4.3-c8",
+      "type": "find_the_move",
+      "fen": "5rk1/pp3ppp/5n2/2b5/7q/2N5/PPP2P1P/R3K3 w Q - 0 1",
+      "prompt": "White's next move on the scoresheet is O-O-O. Play it on the board.",
+      "concept": "notation",
+      "hints": {
+        "piece": "e1",
+        "square": "c1"
+      },
+      "answer": {
+        "moves": [
+          "O-O-O"
+        ]
+      },
+      "wrong": {
+        "Kd1": "One O too few. Kd1 leaves the rook in the corner.",
+        "Rd1": "That is written Rd1. O-O-O takes the king to c1 as well."
+      },
+      "reason": "The extra O is the longer journey: king to c1, rook to d1."
+    }
+  ],
+  "takeaway": "Touch it and you move it, write your moves short, and watch the clock."
+}

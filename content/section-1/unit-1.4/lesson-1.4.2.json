@@ -1,0 +1,203 @@
+{
+  "id": "1.4.2",
+  "unit": "1.4",
+  "title": "En passant again",
+  "xp": 14,
+  "card": {
+    "idea": "You met en passant with the pawns in unit one. Here is the part that catches people out: it is the only capture with a deadline. A pawn that runs two squares past yours can be taken as if it had gone one, but only on your very next move.",
+    "diagrams": [
+      "4k3/8/8/3pP3/8/8/5PPP/6K1 w - d6 0 1"
+    ]
+  },
+  "explain": [
+    {
+      "fen": "4k3/8/8/3pP3/8/8/5PPP/6K1 w - d6 0 1",
+      "text": "Black's pawn has just gone from d7 to d5, skipping past the white pawn on e5. White answers by taking it on d6, the square it skipped. The white pawn lands there and the black pawn comes off the board.",
+      "arrows": [
+        [
+          "e5",
+          "d6"
+        ]
+      ],
+      "highlights": [
+        "d5",
+        "d6"
+      ]
+    },
+    {
+      "fen": "4k3/8/8/3pP3/8/8/5PPP/6K1 w - - 0 1",
+      "text": "Same board, one move later. The offer has gone. En passant is only ever answered straight away, so if you play something else first, the chance never comes back in that game.",
+      "highlights": [
+        "d5"
+      ]
+    },
+    {
+      "fen": "4k3/8/8/2PpP3/8/8/6PP/6K1 w - d6 0 1",
+      "text": "Two things must be true: the pawn beside yours arrived with a two-square jump, and it is your turn right now. Here either white pawn may take, and both land on d6. Only a pawn can capture this way.",
+      "arrows": [
+        [
+          "c5",
+          "d6"
+        ],
+        [
+          "e5",
+          "d6"
+        ]
+      ],
+      "highlights": [
+        "d6"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.4.2-c1",
+      "type": "which_square",
+      "fen": "4k3/8/8/3pP3/8/8/5PPP/6K1 w - d6 0 1",
+      "prompt": "Black has just played d7-d5. Tap the square the white pawn lands on if it takes en passant.",
+      "concept": "en-passant",
+      "hints": {
+        "piece": "e5",
+        "text": "It lands on the square the black pawn jumped over."
+      },
+      "answer": {
+        "square": "d6"
+      },
+      "reason": "The capture happens on d6, exactly where the pawn would have stood if it had walked."
+    },
+    {
+      "id": "1.4.2-c2",
+      "type": "find_them_all",
+      "fen": "4k3/8/8/2PpP3/8/8/6PP/6K1 w - d6 0 1",
+      "prompt": "Black has just played d7-d5. Tap every white pawn that can take it en passant.",
+      "concept": "en-passant",
+      "hints": {
+        "text": "Both neighbours were run past, not just one."
+      },
+      "answer": {
+        "pieces": [
+          "c5",
+          "e5"
+        ]
+      },
+      "reason": "A pawn on either side of the runner may take, and both land on d6."
+    },
+    {
+      "id": "1.4.2-c3",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/3pP3/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Black pushed this pawn two squares three moves ago. Can White take it en passant now?",
+      "concept": "en-passant-timing",
+      "options": [
+        "No — the offer lasts for one move only",
+        "Yes, as long as the pawns still stand side by side",
+        "Yes, but only once per game"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "En passant is answered on the spot or not at all."
+    },
+    {
+      "id": "1.4.2-c4",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/3pP3/8/8/6PP/6K1 w - - 0 1",
+      "prompt": "This black pawn walked to d5 one square at a time. Is en passant on offer?",
+      "concept": "en-passant-timing",
+      "options": [
+        "No — only a two-square jump can be answered this way",
+        "Yes, any pawn beside yours can be taken this way",
+        "Yes, because your pawn is on the fifth row"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "The rule exists to stop a pawn sneaking past, so a pawn that walked has nothing to answer."
+    },
+    {
+      "id": "1.4.2-c5",
+      "type": "find_the_move",
+      "fen": "8/5pk1/8/3pP3/r1P1pP2/8/8/3RK3 w - d6 0 1",
+      "prompt": "Black has just pushed d7-d5 past your pawn. Take it.",
+      "concept": "en-passant",
+      "hints": {
+        "piece": "e5",
+        "square": "d6"
+      },
+      "answer": {
+        "moves": [
+          "exd6"
+        ]
+      },
+      "wrong": {
+        "e6": "Walking past it. The pawn beside you is the one on offer.",
+        "Rxd5": "The rook wins the pawn, but on d6 your own pawn is suddenly the story."
+      },
+      "reason": "Your pawn lands on d6 and the runner comes off the board."
+    },
+    {
+      "id": "1.4.2-c6",
+      "type": "find_the_move",
+      "fen": "1k6/8/1N2p3/6pP/1p1R3R/8/8/4K3 w - g6 0 1",
+      "prompt": "Black has just pushed g7-g5 past your pawn. Take it.",
+      "concept": "en-passant",
+      "hints": {
+        "piece": "h5",
+        "square": "g6"
+      },
+      "answer": {
+        "moves": [
+          "hxg6"
+        ]
+      },
+      "wrong": {
+        "h6": "Walking on by. The pawn beside you is the one on offer, and only now.",
+        "Rxb4": "A free pawn on b4, but the offer on g6 will not be there next move."
+      },
+      "reason": "Your pawn lands on g6 and is two steps from a new queen."
+    },
+    {
+      "id": "1.4.2-c7",
+      "type": "find_the_move",
+      "fen": "k7/N1p5/8/3Pp3/8/p1B4n/8/4K3 w - e6 0 1",
+      "prompt": "Black has just pushed e7-e5 past your pawn. Take it.",
+      "concept": "en-passant",
+      "hints": {
+        "piece": "d5",
+        "square": "e6"
+      },
+      "answer": {
+        "moves": [
+          "dxe6"
+        ]
+      },
+      "wrong": {
+        "d6": "Pushing past leaves the black pawn alive and your own pawn stuck.",
+        "Bxe5": "The bishop can take the pawn, but the pawn capture is worth more here."
+      },
+      "reason": "The pawn lands on e6 and walks in from there."
+    },
+    {
+      "id": "1.4.2-c8",
+      "type": "find_the_move",
+      "fen": "4k3/1b6/3P1p2/6Pp/8/8/5N2/4K3 w - h6 0 1",
+      "prompt": "Black has just pushed h7-h5 past your pawn. Take it.",
+      "concept": "en-passant",
+      "hints": {
+        "piece": "g5",
+        "square": "h6"
+      },
+      "answer": {
+        "moves": [
+          "gxh6"
+        ]
+      },
+      "wrong": {
+        "gxf6": "That takes a pawn, but the runner on h5 is the one that gets away.",
+        "d7+": "A check that does not help, and the offer on h6 expires this move."
+      },
+      "reason": "Take on h6 and the edge pawn walks in while Black watches the other one."
+    }
+  ],
+  "takeaway": "En passant answers a two-square jump, and only on the move straight after it."
+}
