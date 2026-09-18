@@ -6,6 +6,13 @@ const smoke = !!process.env['SMOKE_URL'];
 // made with `--base=/`, which is why the specs navigate with relative paths.
 const preview = !!process.env['PREVIEW'];
 
+// A run can take its own port and its own build directory. `reuseExistingServer`
+// is true outside CI, so a stale server left on the default port is silently
+// reused and the run measures a build nobody in this session made. Defaults are
+// unchanged, so CI and the usual local invocation behave exactly as before.
+const port = process.env['E2E_PORT'] ?? '5173';
+const outDir = process.env['E2E_OUT_DIR'] ?? 'dist-e2e';
+
 export default defineConfig({
   testDir: 'tests',
   timeout: 60_000,
@@ -13,7 +20,7 @@ export default defineConfig({
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     trace: 'on-first-retry',
-    baseURL: process.env['SMOKE_URL'] ?? 'http://localhost:5173/',
+    baseURL: process.env['SMOKE_URL'] ?? `http://localhost:${port}/`,
     ...devices['Pixel 5'],
     viewport: { width: 390, height: 844 },
   },
@@ -21,9 +28,9 @@ export default defineConfig({
     ? undefined
     : {
         command: preview
-          ? 'npm run preview -- --port 5173 --strictPort --base / --outDir dist-e2e'
-          : 'npm run dev -- --port 5173',
-        url: 'http://localhost:5173/',
+          ? `npm run preview -- --port ${port} --strictPort --base / --outDir ${outDir}`
+          : `npm run dev -- --port ${port}`,
+        url: `http://localhost:${port}/`,
         // Reusing a running server locally is convenient; in CI it would hide
         // a server that failed to start.
         reuseExistingServer: !process.env['CI'],
