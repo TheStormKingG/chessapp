@@ -71,6 +71,23 @@ const entries: Entry[] = [
   },
 ];
 
+/**
+ * NEUMORPHIC-DELTA.md §6 / chunk N2. Nine containers, one grammar: each entry
+ * is a `--surface-raised` panel on `--shadow-raised` at `--radius-card`, with
+ * no border at all. The 1px `--edge-strong` ring is gone for the reason §3.1
+ * gives that token — it is "every control border" — and a licence entry is
+ * nine paragraphs of prose, not a control. The links inside each card are the
+ * interactive things here and they keep their own affordances: `--accent` ink
+ * plus a permanent underline, so "this is a link" is never carried by colour
+ * alone, and `.tap` with `inline-flex` so the 44px floor is not inert on an
+ * inline element (observation 0103).
+ *
+ * Re-derived against the new ground rather than copied (observation 0113):
+ * `--content` #0F172B on `--surface-raised` #F6F8FA is **16.75:1**;
+ * `--content-dim` #475569 on it is **7.12:1**; `--accent` #12614A on it is
+ * **6.96:1**. The list stands 16px clear of its neighbours, which is what makes
+ * a soft-shadowed stack read as nine cards rather than one long one.
+ */
 export function LicencesScreen() {
   return (
     <section className="p-4">
@@ -81,7 +98,7 @@ export function LicencesScreen() {
       </p>
       <ul className="mt-4 space-y-4">
         {entries.map((e) => (
-          <li key={e.name} className="rounded-lg border border-edge-strong bg-surface-raised p-4 [overflow-wrap:anywhere]">
+          <li key={e.name} className="n-raised rounded-card bg-surface-raised p-4 [overflow-wrap:anywhere]">
             <h2 className="t-heading">
               {e.name}
               {e.version ? ` ${e.version}` : ''}

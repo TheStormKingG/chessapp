@@ -60,10 +60,28 @@ export function InstallPrompt() {
   if (!shouldOffer(lessonCount, SESSION_START)) return null;
   if (!deferred && !ios) return null;
 
+  /*
+   * NEUMORPHIC-DELTA.md §6 / chunk N2: the container takes the soft raise,
+   * drops the `border-b-2 border-b-key-raised` second depth grammar, and
+   * takes `--radius-card` (16px) instead of the 12px control radius.
+   *
+   * The 1px `--edge-strong` ring STAYS here and comes off the other cards
+   * in this chunk, which is a real difference and not an inconsistency.
+   * This panel is `fixed` and floats over whatever the learner was reading;
+   * the cards elsewhere sit in the flow on the page ground. A raise is a
+   * claim about depth, and depth over arbitrary content is exactly the case
+   * the delta's own cost table calls out — `--n-dark` on `--surface` is
+   * 1.72:1, so the shadow pair alone cannot be trusted to separate this
+   * sheet from the text underneath it. The ring is therefore a border doing
+   * work, and it clears the 3:1 that asks for: `--edge-strong` #64748B is
+   * 3.76:1 on the page ground and 4.47:1 on a panel, whichever this happens
+   * to land on. Two grammars would be a raise plus a KEY edge; a raise plus
+   * a hairline boundary on a floating surface is one grammar plus a bound.
+   */
   return (
     <aside
       aria-label="Install ChessApp"
-      className="t-label fixed inset-x-0 bottom-16 z-20 mx-auto max-w-md rounded-lg border border-edge-strong border-b-2 border-b-key-raised bg-surface-raised p-4 md:bottom-4"
+      className="t-label fixed inset-x-0 bottom-16 z-20 mx-auto max-w-md rounded-card border border-edge-strong bg-surface-raised p-4 n-raised md:bottom-4"
     >
       <h2 className="t-heading">Install ChessApp</h2>
       <ul className="mt-2 space-y-1 text-content-dim">

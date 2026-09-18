@@ -50,10 +50,35 @@ import { coachName } from './CoachService';
  *     stuck to the controls under it. Nothing else about the line moves: the
  *     mark keeps the index column, the sentence keeps the board's left edge.
  *
- * Measured, from the tokens in §3.1: text `--content` on `--surface` is 15.19:1
- * light and 15.43:1 dark; the mark is 6.19:1 / 7.03:1 dim, 6.62:1 / 8.41:1
- * accent, 6.11:1 / 9.73:1 signal -- every one of them clear of 4.5:1, and of
- * 3:1 for the mark as a non-text glyph.
+ * NEUMORPHIC-DELTA.md chunk N2 lists this file among the containers that take
+ * the soft raise. It takes NONE, and that is the considered answer rather than
+ * an omission, so it is written down here where the next pass will read it.
+ *
+ * This component has no container. There is no card, no panel and no
+ * `--surface-raised` anything: there is a mark in the index column and a
+ * sentence on the page ground. `n-raised` has nothing to go on that would not
+ * first have to be invented — and inventing it is precisely the change the
+ * paragraphs above record undoing. A soft raise is the neumorphic spelling of
+ * the same bordered, tinted box; it would put the coach back inside a thing the
+ * app sends you instead of leaving them a person talking to you, and it would
+ * cost the two signatures §6 of that delta says are this product's own and not
+ * the style's: the `◇` sitting in the app's one index column at the board's
+ * rank-glyph x-position, and the sentence starting flush with the board's own
+ * left edge. Both die the moment a padded surface goes round them.
+ *
+ * The 24px step above it does the work a card would have done — it groups the
+ * line with the position rather than with the buttons — and it costs no depth
+ * at all. §3.2 of the delta is the licence for stopping here: the reference's
+ * own treatment "stops", with body text, list rows and headings sitting
+ * directly on the ground and no treatment at all. This is body text on the
+ * ground. Where the delta and the screen disagree, the screen is the artefact.
+ *
+ * The re-grounded figures, re-derived rather than copied (observation 0113) —
+ * the ones above are from the appearance that no longer exists. On `--surface`
+ * #E0E5EC: the sentence in `--content` #0F172B is **14.08:1**; the mark is
+ * **5.99:1** dim (#475569), **5.85:1** accent (#12614A) and **5.40:1** signal
+ * (#7A5310). Every one clears 4.5:1 as text and 3:1 as a non-text glyph, and
+ * the tone is never alone in saying which it is — the sentence says it too.
  *
  * `role="note"` with the coach's name is unchanged: it is what tells a screen
  * reader that this sentence is someone speaking rather than part of the task,
