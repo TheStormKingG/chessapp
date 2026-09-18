@@ -548,3 +548,69 @@ test('the full-size board still carries its rail and its gutter pull', () => {
   expect(root.querySelector('[data-rail]')).not.toBeNull();
   expect(root.querySelector<HTMLElement>('.relative.grid')!.style.marginLeft).not.toBe('');
 });
+
+test('a decorative board is context, not a control: no role, no tab stop, no live region', async () => {
+  // P4b: the board on Today's lesson card is decorative context inside a link,
+  // not a second control. The full board's accessibility work is deliberately
+  // NOT duplicated into a 120px thumbnail -- an `application` role with a
+  // keyboard cursor and a live region, mounted inside a link the learner is
+  // meant to activate, would announce a playable board that cannot be played
+  // and would put a second tab stop inside a single destination.
+  const { container } = render(
+    <Board fen={START_FEN} orientation="w" mode="static" size={120} decorative />,
+  );
+  const root = container.querySelector<HTMLElement>('[data-board-root]')!;
+
+  // Still the sized square the delta asks for.
+  expect(root.style.width).toBe('120px');
+  expect(root.style.maxWidth).toBe('100%');
+  expect(root.querySelector('[data-rail]')).toBeNull();
+
+  // Hidden from assistive technology as a whole, and therefore announced as
+  // nothing at all rather than as an interactive board.
+  expect(root).toHaveAttribute('aria-hidden', 'true');
+  expect(screen.queryByRole('application')).toBeNull();
+  expect(screen.queryByRole('status', { name: 'Board announcements' })).toBeNull();
+  // The board's own live region is gone outright. dnd-kit still mounts one of
+  // its own -- it is a library artefact, not ours -- so the assertion is that
+  // nothing inside is an EXPOSED live region, which is the invariant
+  // `neutraliseDndKit` already maintains for the full board.
+  expect(
+    container.querySelectorAll('[aria-live]').length,
+    'negative control: dnd-kit mounts one of its own, so zero here would mean the board never rendered at all',
+  ).toBeGreaterThan(0);
+  await waitFor(() => { expect(exposedLiveRegions(container)).toHaveLength(0); });
+
+  // Not a tab stop, by any route: no explicit tabindex anywhere, and nothing
+  // natively focusable left inside it.
+  // Not a tab stop by any route. dnd-kit gives every piece `tabindex="0"` and
+  // the existing sweep rewrites those to `-1`; what must be true of a
+  // decorative board is that NOTHING inside it is reachable by Tab -- neither
+  // the container (which no longer carries a tabindex at all) nor a piece.
+  expect(root.hasAttribute('tabindex')).toBe(false);
+  await waitFor(() => { expect(tabStopsInside(root)).toBe(0); });
+  expect(container.querySelectorAll('a, button, input, select, textarea')).toHaveLength(0);
+});
+
+test('a decorative board paints no keyboard cursor', async () => {
+  // Caught in the P4d review by measuring the rendered board rather than by
+  // reading the diff: Today's 120px card board was painting a 3px solid ring on
+  // a1. The keyboard cursor belongs to a board that can take focus; on a board
+  // with no tab stop it is a mark the learner cannot move, explain or dismiss,
+  // and at 120px it reads as a stray selected square -- a bug, on the app's
+  // first screen.
+  const { container, rerender } = render(
+    <Board fen={START_FEN} orientation="w" mode="static" size={120} decorative />,
+  );
+  const ringed = () =>
+    [...container.querySelectorAll<HTMLElement>('[data-square] > *, [data-square]')].filter((el) =>
+      /\d+px solid/.test(el.style.outline ?? ''),
+    );
+  await waitFor(() => { expect(container.querySelector('[data-square]')).not.toBeNull(); });
+  expect(ringed()).toEqual([]);
+
+  // Negative control: the SAME board without `decorative` still paints the
+  // cursor, so an empty result above cannot mean the probe matches nothing.
+  rerender(<Board fen={START_FEN} orientation="w" mode="static" size={120} />);
+  await waitFor(() => { expect(ringed().length).toBeGreaterThan(0); });
+});

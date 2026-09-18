@@ -69,3 +69,43 @@ test('an untouched lesson is offered as a start, not a resumption', async () => 
   expect(await screen.findByText('Start this lesson')).toBeInTheDocument();
   expect(screen.queryByText(/In progress/)).toBeNull();
 });
+
+test('the lesson card carries the next lesson\'s own position as a 120px decorative board', async () => {
+  // PREMIUM-DELTA Δ4.4: Today had no chess on it at all. The board is the
+  // lesson's OWN opening position, not a generic diagram -- lesson 1.1.1 is
+  // about the empty grid and shows the empty grid.
+  renderWith(emptyProgress());
+  const root = await screen.findByTestId('today-lesson-board');
+  expect(root.style.width).toBe('120px');
+  expect(root).toHaveAttribute('data-fen', '8/8/8/8/8/8/8/8 w - - 0 1');
+});
+
+test('Today\'s board is decorative: the card stays a single destination', async () => {
+  // The board sits INSIDE the lesson link. If it kept the full board's
+  // `application` role, tab stop and live region, Today would gain a second
+  // tab stop inside one link and announce a playable board that is not
+  // playable. This is the assertion that stops that regression.
+  renderWith(emptyProgress());
+  await screen.findByTestId('today-lesson-board');
+  expect(screen.queryByRole('application')).toBeNull();
+  expect(screen.queryByRole('status', { name: 'Board announcements' })).toBeNull();
+  const link = screen.getByRole('link', { name: /The board/ });
+  expect(link.querySelectorAll('[tabindex]')).toHaveLength(0);
+  // Negative control: the link itself is still the one thing that is reachable
+  // and still names the lesson, so an empty result above cannot mean "the card
+  // never rendered".
+  expect(link).toHaveAttribute('href', '/lesson/1.1.1');
+});
+
+test('a checkpoint card carries no board', async () => {
+  // The delta asks for the next LESSON's position. A checkpoint has no single
+  // opening position, so it gets none -- without this, `activeNode` returning a
+  // checkpoint would either crash the loader or show a stale lesson's board.
+  const p = emptyProgress();
+  for (const id of ['1.1.1', '1.1.2', '1.1.3', '1.1.4', '1.1.5', '1.1.6', '1.1.7', '1.1.8']) {
+    p.lessons[id] = { stars: 3, completed: true };
+  }
+  renderWith(p);
+  await screen.findByRole('link', { name: /checkpoint/i });
+  expect(screen.queryByTestId('today-lesson-board')).toBeNull();
+});

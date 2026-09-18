@@ -164,7 +164,23 @@ export function LessonPlayer({
        parent with an explicit height, and this column's parent has only its own
        `min-h-full`, so `100%` computed to nothing and the close screen's
        anchored action (chunk C6) had nothing to be anchored inside of. */
-    <section className="flex min-h-dvh flex-col p-4 md:mx-auto md:grid md:max-w-6xl md:grid-cols-[minmax(0,1fr)_22rem] md:items-start md:gap-x-6 md:px-6">
+    /* PREMIUM-DELTA §1.1 and §1.3 -- the pairing, corrected at `lg`.
+       The reference's pairing is a RATIO, not a constant. Literal 1:1 comes
+       from the marketing hero (424 board / 424 column / 48 gutter at 1024) and
+       cannot be had here: the board is height-constrained to 624px at 800px
+       tall, and 624 + 48 + 624 exceeds a 1280px viewport. The right reference
+       for a lesson is §1.3's in-product puzzles screen at the same 1280px --
+       a 571px board against a right column of at most 453px, about 1.4:1, one
+       item per row. At `lg` a 27rem column with a 48px gutter lands the board
+       at 624 and the column at 432: 1.44:1, the reference gutter exactly, and
+       a column within 2% of the 424px the hero pairs with -- with the board
+       not shrunk by a pixel, so the 49% viewport share §1.1 credits us with
+       survives.
+       `lg`, not `md`: below 1024 there is no slack left in the container, and
+       a 27rem column would eat the board rather than the margin (at 768 it
+       would leave 240px). 768-1023 keeps the 22rem column it has today, and
+       the phone column below `md` is untouched. */
+    <section className="flex min-h-dvh flex-col p-4 md:mx-auto md:grid md:max-w-6xl md:grid-cols-[minmax(0,1fr)_22rem] md:items-start md:gap-x-6 md:px-6 md:grid-rows-[auto_auto_1fr] lg:grid-cols-[minmax(0,1fr)_27rem] lg:gap-x-12">
       <header className="flex items-center justify-between md:col-span-2">
         <button type="button" className="tap" aria-label={exitLabel} onClick={exit}>
           ✕

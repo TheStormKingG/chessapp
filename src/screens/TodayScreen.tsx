@@ -1,11 +1,45 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router';
 import { btn } from '@/app/Button';
+import { Board } from '@/board';
 import { localDay, useProgress } from '@/data';
+import { loadLesson } from '@/lesson/loader';
 import { activeNode } from '@/path/progress';
 import { resumeLabel, useLessonResume } from '@/path/resumeLabel';
 
 const COOL_DOWN_KEY = 'chessapp.coolDownDismissed';
+
+/**
+ * PREMIUM-DELTA Δ4.4: the position the next lesson opens on, for the card.
+ *
+ * It is the lesson's OWN first position, not a generic diagram, so the card
+ * previews the lesson truthfully -- lesson 1.1.1 is about the empty grid and
+ * shows the empty grid. Null while it loads and null for ever on failure: the
+ * board is context, so Today must render completely without it rather than
+ * hold the one thing the learner came for behind a JSON fetch. A checkpoint
+ * has no single opening position and asks for none.
+ */
+function useNextLessonFen(lessonId: string | null): string | null {
+  const [state, setState] = useState<{ id: string | null; fen: string | null }>({ id: lessonId, fen: null });
+  // Keyed by lesson, invalidated during render, matching `useLessonResume`:
+  // otherwise a lesson change shows the previous lesson's position for a frame.
+  if (state.id !== lessonId) setState({ id: lessonId, fen: null });
+  useEffect(() => {
+    if (!lessonId) return;
+    let on = true;
+    loadLesson(lessonId)
+      .then((l) => {
+        if (on) setState({ id: lessonId, fen: l.explain[0]?.fen ?? null });
+      })
+      .catch(() => {
+        /* the card is complete without it */
+      });
+    return () => {
+      on = false;
+    };
+  }, [lessonId]);
+  return state.id === lessonId ? state.fen : null;
+}
 
 function readDismissed(): string | null {
   try {
@@ -22,6 +56,7 @@ export function TodayScreen() {
   // The card offers what is actually there: a run already under way is resumed,
   // never re-started, and it says how far in the learner had got.
   const resumed = next?.kind === 'lesson' ? resumeLabel(resume, next.id) : null;
+  const nextFen = useNextLessonFen(next?.kind === 'lesson' ? next.id : null);
   const today = localDay(new Date());
   const [dismissedOn, setDismissedOn] = useState(readDismissed);
   // F-HM-6: two losses in a row, dismissible, and never more than once a day.
@@ -42,12 +77,32 @@ export function TodayScreen() {
           to={next.kind === 'lesson' ? `/lesson/${next.id}` : `/checkpoint/${next.unit}`}
           className="tap mt-2 block rounded-xl border border-edge-strong border-b-2 border-b-key-raised bg-surface-raised p-4"
         >
-          <span className="t-caption block text-content-dim">
-            {next.kind === 'lesson' ? `Lesson ${next.id}` : `Checkpoint ${next.unit}`}
-          </span>
-          <span className="t-heading block">{next.title}</span>
-          {resumed && <span className="t-label mt-1 block text-content-dim">{resumed.hint}</span>}
-          <span className={`${btn.primary} mt-3 w-full`}>
+          {/* Δ4.4: the position and the words are one row, so the card grows by
+              the board's 120px only where there is room beside the text. The
+              board is `aria-hidden` and carries no tab stop, so the whole row
+              is still announced as one link named by the lesson title. */}
+          <div className="flex items-start gap-4">
+            <span className="min-w-0 flex-1">
+              <span className="t-caption block text-content-dim">
+                {next.kind === 'lesson' ? `Lesson ${next.id}` : `Checkpoint ${next.unit}`}
+              </span>
+              <span className="t-heading block">{next.title}</span>
+              {resumed && <span className="t-label mt-1 block text-content-dim">{resumed.hint}</span>}
+            </span>
+            {nextFen && (
+              <div className="shrink-0">
+                <Board
+                  fen={nextFen}
+                  orientation="w"
+                  mode="static"
+                  size={120}
+                  decorative
+                  testId="today-lesson-board"
+                />
+              </div>
+            )}
+          </div>
+          <span className={`${btn.primary} mt-4 w-full`}>
             {next.kind === 'checkpoint'
               ? 'Open the checkpoint'
               : resumed

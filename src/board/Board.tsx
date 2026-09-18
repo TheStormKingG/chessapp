@@ -151,11 +151,29 @@ function useBoardPalette(): { palette: BoardPalette; appearance: Appearance } {
   return { palette, appearance };
 }
 
-export function Board(props: BoardProps & { size?: number }) {
+export function Board(props: BoardProps & { size?: number; decorative?: boolean; testId?: string }) {
   const {
     fen, orientation, mode, onMove, onSelectSquare, highlights = {}, arrows = [],
     replay = null, disabled, textEntry, announce, onDragStart, onDragEnd, size,
+    decorative = false, testId,
   } = props;
+  // P4b: `decorative` is the board as CONTEXT rather than as a control -- today
+  // the 120px position on Today's lesson card, which sits inside the link that
+  // opens the lesson. It is a smaller claim than `mode="static"`, which still
+  // describes a board a keyboard user can walk with the cursor and hear
+  // announced: a decorative board is hidden from assistive technology outright,
+  // keeps no `application` role, no tab stop and no live region. That is
+  // deliberate rather than a saving. Duplicating the full board's
+  // accessibility into a thumbnail would put a second tab stop inside a single
+  // destination and announce a playable board that cannot be played, and the
+  // card's own text already says which lesson it is. The board contract is
+  // therefore never "traded down" for size (see the sized-board test, which is
+  // the negative control for this one) -- it is dropped only where the element
+  // has stopped being a board and become a picture of one.
+  //
+  // Everything below reads `interactive`, never `!decorative`, so a future
+  // third mode cannot silently inherit the wrong half.
+  const interactive = !decorative;
   // P4b: a fixed square edge in px, for the places a board is shown at a size
   // the column does not decide -- today's lesson card wants 120px. `size` is
   // declared here rather than on `BoardProps` in `types.ts` because it is a
@@ -406,9 +424,16 @@ export function Board(props: BoardProps & { size?: number }) {
     }
     for (const [sq, kind] of Object.entries(highlights)) if (kind) s[sq] = { ...styles[kind] };
     if (selected) s[selected] = { ...(s[selected] ?? {}), ...styles.selected };
-    s[cursor] = { ...(s[cursor] ?? {}), outline: `3px solid ${inkOn(cursor)}`, outlineOffset: '-3px' };
+    // The cursor is painted only where it can be MOVED. A decorative board has
+    // no tab stop, so a ring on a1 is a mark the learner cannot shift, explain
+    // or dismiss -- at 120px on Today's card it reads as a stray selected
+    // square rather than as a cursor. The a11y hook still runs; nothing else
+    // about the board changes.
+    if (interactive) {
+      s[cursor] = { ...(s[cursor] ?? {}), outline: `3px solid ${inkOn(cursor)}`, outlineOffset: '-3px' };
+    }
     return s;
-  }, [highlights, selected, cursor, palette, inkOn, replaying, finalFrame, frames]);
+  }, [highlights, selected, cursor, palette, inkOn, replaying, finalFrame, frames, interactive]);
 
   // The piece rule (DESIGN-SYSTEM.md 3.1): every piece is a fill plus a 1.5px
   // outline in the OPPOSING piece colour, and max(fill, outline) must clear 3:1
@@ -478,6 +503,9 @@ export function Board(props: BoardProps & { size?: number }) {
     <div
       className="w-full"
       data-board-root
+      data-testid={testId}
+      data-fen={fen}
+      aria-hidden={decorative ? true : undefined}
       data-replaying={replaying ? 'true' : undefined}
       // Δ1 rule 4 -- ELEVATION STOPS AT THE BOARD'S EDGE. There is no
       // `box-shadow`, no `border-radius`, no border and no key edge here, on
@@ -525,11 +553,17 @@ export function Board(props: BoardProps & { size?: number }) {
         {!compact && <CoordinateRail axis="rank" items={railRanks(orientation)} />}
         <div
           ref={appRef}
-          role="application"
-          aria-label={`Chess board, ${orientation === 'w' ? 'white' : 'black'} at the bottom`}
-          tabIndex={0}
-          onKeyDown={onKeyDown}
-          className="w-full touch-none outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          role={interactive ? 'application' : undefined}
+          aria-label={
+            interactive ? `Chess board, ${orientation === 'w' ? 'white' : 'black'} at the bottom` : undefined
+          }
+          tabIndex={interactive ? 0 : undefined}
+          onKeyDown={interactive ? onKeyDown : undefined}
+          className={
+            interactive
+              ? 'w-full touch-none outline-none focus-visible:ring-2 focus-visible:ring-accent'
+              : 'w-full touch-none'
+          }
         >
           <Chessboard options={options} />
         </div>
@@ -569,8 +603,10 @@ export function Board(props: BoardProps & { size?: number }) {
           </button>
         )}
       </div>
-      <p role="status" aria-live="polite" aria-label="Board announcements" className="sr-only">{announce ?? status}</p>
-      {textEntry && <TextMoveEntry onSubmit={onText} />}
+      {interactive && (
+        <p role="status" aria-live="polite" aria-label="Board announcements" className="sr-only">{announce ?? status}</p>
+      )}
+      {interactive && textEntry && <TextMoveEntry onSubmit={onText} />}
     </div>
   );
 }
