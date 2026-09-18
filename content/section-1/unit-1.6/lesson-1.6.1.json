@@ -1,0 +1,113 @@
+{
+  "id": "1.6.1",
+  "unit": "1.6",
+  "title": "The three questions",
+  "xp": 15,
+  "card": {
+    "idea": "Before every move, ask three questions in the same order: is my piece safe, can I take something, is my king safe? It takes five seconds and it catches almost everything a beginner loses a game to.",
+    "habit": "Three questions before every move: is my piece safe, can I take something, is my king safe?",
+    "diagrams": ["3K1R2/4N3/8/7q/8/4k3/1rB5/8 w - - 0 1"]
+  },
+  "explain": [
+    {
+      "fen": "3K1R2/4N3/8/7q/8/4k3/1rB5/8 w - - 0 1",
+      "text": "Question one. Is my piece safe? The rook on b2 attacks the bishop on c2, and no white piece defends it. Ask this first, every move, before you fall in love with an idea.",
+      "arrows": [["b2", "c2"]],
+      "highlights": ["c2"]
+    },
+    {
+      "fen": "1r4k1/p7/8/3n2b1/2B5/5N2/8/3R2K1 w - - 0 1",
+      "text": "Question two. Can I take something? The knight on d5 is attacked by the bishop and the rook, and the bishop on g5 by the knight. Neither has a defender. Both are free.",
+      "arrows": [["c4", "d5"], ["f3", "g5"]],
+      "highlights": ["d5", "g5"]
+    },
+    {
+      "fen": "2r3k1/8/8/8/3q4/8/5PPP/6K1 b - - 0 1",
+      "text": "Question three. Is my king safe? Black to move has four checks here, and three of them are mate. If you only ever ask one question, ask this one.",
+      "highlights": ["a1", "c1", "d1", "f2"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.6.1-c1",
+      "type": "find_them_all",
+      "fen": "3K1R2/4N3/8/7q/8/4k3/1rB5/8 w - - 0 1",
+      "prompt": "Tap every white piece Black can take for free.",
+      "answer": { "pieces": ["c2"] },
+      "concept": "three-questions",
+      "hints": {
+        "text": "Only one white piece is both attacked and undefended. The knight on e7 is attacked by nothing.",
+        "text2": "Follow the rook on b2 along the second rank."
+      }
+    },
+    {
+      "id": "1.6.1-c2",
+      "type": "find_the_move",
+      "fen": "3K1R2/4N3/8/7q/8/4k3/1rB5/8 w - - 0 1",
+      "prompt": "Your bishop is in trouble. Move it somewhere safe.",
+      "answer": { "moves": ["Bf5"] },
+      "concept": "piece-safe",
+      "reason": "The rook on b2 attacks the bishop on c2 and nothing defends it. Bf5 walks it out of reach.",
+      "hints": { "piece": "c2", "square": "f5" }
+    },
+    {
+      "id": "1.6.1-c3",
+      "type": "find_them_all",
+      "fen": "1r4k1/p7/8/3n2b1/2B5/5N2/8/3R2K1 w - - 0 1",
+      "prompt": "Tap every black piece that is hanging.",
+      "answer": { "pieces": ["d5", "g5"] },
+      "concept": "three-questions",
+      "hints": {
+        "text": "Hanging means attacked and undefended. The rook on b8 is neither.",
+        "text2": "Two of them. One is attacked twice, the other once."
+      }
+    },
+    {
+      "id": "1.6.1-c4",
+      "type": "find_the_move",
+      "fen": "8/3k4/5B2/7p/4NK2/8/1r6/8 w - - 0 1",
+      "prompt": "Question two says yes. Take it.",
+      "answer": { "moves": ["Bxb2"] },
+      "concept": "take-free",
+      "reason": "The rook on b2 has no defender, and the bishop reaches it down the long diagonal.",
+      "hints": { "piece": "f6", "square": "b2" }
+    },
+    {
+      "id": "1.6.1-c5",
+      "type": "is_it_safe",
+      "fen": "5k2/8/3p4/4n3/8/8/4Q3/5K2 w - - 0 1",
+      "move": "Qxe5",
+      "prompt": "The queen takes the knight on e5. Is that safe?",
+      "reasons": [
+        "Nothing defends the knight on e5.",
+        "The pawn on d6 takes back and a queen goes for a knight.",
+        "The king on f8 takes back."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "piece-safe"
+    },
+    {
+      "id": "1.6.1-c6",
+      "type": "find_them_all",
+      "fen": "2r3k1/8/8/8/3q4/8/5PPP/6K1 b - - 0 1",
+      "prompt": "Black to move. Tap every square a black piece can move to and give check.",
+      "answer": { "squares": ["a1", "c1", "d1", "f2"] },
+      "concept": "king-safe",
+      "hints": {
+        "text": "The back rank is empty except for the king, and the rook on c8 can reach all of it.",
+        "text2": "Four squares. One of them is a capture."
+      }
+    },
+    {
+      "id": "1.6.1-c7",
+      "type": "find_the_move",
+      "fen": "4k3/8/2N5/1q6/8/1R4K1/8/7b w - - 0 1",
+      "prompt": "Your move. No hints about what kind of move it is.",
+      "answer": { "moves": ["Rxb5"] },
+      "concept": "three-questions",
+      "reason": "Run the three questions and question two answers itself: the queen on b5 is attacked by the rook and nothing guards her.",
+      "hints": { "piece": "b3", "square": "b5" }
+    }
+  ],
+  "takeaway": "Is my piece safe, can I take something, is my king safe — in that order, every move."
+}

@@ -1,0 +1,108 @@
+{
+  "id": "1.6.3",
+  "unit": "1.6",
+  "title": "Your first full game with the coach",
+  "xp": 20,
+  "card": {
+    "idea": "Everything so far has been one position at a time. A game is three hundred of them in a row. This lesson gets the habits straight, then sends you to the Play tab to use them against Rosa with the coach switched on.",
+    "habit": "Habit level one: castle early, centre first, take free pieces, never hang your own, accept equal trades, and no gambits or sacrifices.",
+    "diagrams": ["r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1"]
+  },
+  "explain": [
+    {
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1",
+      "text": "Habit level one, in full. Pawns to the centre. Knights and bishops out towards it. Castle early. Take free pieces and never hang your own. Accept equal trades. No gambits and no sacrifices — not yet.",
+      "highlights": ["e4", "c4", "f3"]
+    },
+    {
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1",
+      "text": "White has all of that here except the last bit: the king is still on e1. Castling takes one move and puts him in the corner behind three pawns. Do it before you go looking for anything clever.",
+      "arrows": [["e1", "g1"]],
+      "highlights": ["e1", "g1"]
+    },
+    {
+      "fen": "r1bqk2r/pppp1ppp/2n5/2b1p3/2B1n3/3P1N2/PPP2PPP/RNBQ1RK1 w kq - 0 1",
+      "text": "In the Play tab the coach watches every move you make. Leave a piece where it can be taken and it says so. Walk past a free one and it says that too. It never plays your move for you.",
+      "highlights": ["e4"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.6.3-c1",
+      "type": "is_it_safe",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1",
+      "prompt": "White castles short. Is that a good idea here?",
+      "move": "O-O",
+      "reasons": [
+        "It puts the king in the corner behind the pawns on f2, g2 and h2, and brings the rook towards the middle.",
+        "The bishop on c5 takes the pawn on f2 and wins it.",
+        "The rook on h1 has not moved yet, so castling is not allowed."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "habit-one"
+    },
+    {
+      "id": "1.6.3-c2",
+      "type": "is_it_safe",
+      "fen": "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1",
+      "prompt": "The bishop takes on f7 with check. Is that safe?",
+      "move": "Bxf7+",
+      "reasons": [
+        "The king on e8 takes the bishop straight back, and White has given three points for one.",
+        "The king on e8 cannot take, because the knight on f3 guards f7.",
+        "Black has to move the king, so the bishop walks away next move."
+      ],
+      "answer": { "safe": false, "reason": 0 },
+      "concept": "habit-one"
+    },
+    {
+      "id": "1.6.3-c3",
+      "type": "is_it_safe",
+      "fen": "r1bqkb1r/pppp1ppp/2n2n2/4N3/2B1P3/8/PPPP1PPP/RNBQK2R w KQkq - 0 1",
+      "prompt": "The knight takes the knight on c6. Is that a fair deal?",
+      "move": "Nxc6",
+      "reasons": [
+        "Knight for knight, and the pawn on d7 takes back. Three points each.",
+        "Nothing on c6 can be taken back, so it wins a free knight.",
+        "The queen on d8 takes back and White loses three for nothing."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "habit-one"
+    },
+    {
+      "id": "1.6.3-c4",
+      "type": "find_the_move",
+      "fen": "r1bqk2r/pppp1ppp/2n5/2b1p3/2B1n3/3P1N2/PPP2PPP/RNBQ1RK1 w kq - 0 1",
+      "prompt": "Ten moves into a real game. Run the three questions, then move.",
+      "answer": { "moves": ["dxe4"] },
+      "concept": "three-questions",
+      "reason": "The knight on e4 is attacked by the pawn on d3 and no black piece defends it. Question two, answered.",
+      "hints": { "piece": "d3", "square": "e4" }
+    },
+    {
+      "id": "1.6.3-c5",
+      "type": "name_the_pattern",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1",
+      "prompt": "Your opponent offers you a free pawn early on. What does habit level one say?",
+      "options": [
+        "Take it if nothing takes back, and carry on developing",
+        "Refuse it, because a free pawn is always a trap",
+        "Give a piece back straight away to keep things even"
+      ],
+      "answer": { "option": 0 },
+      "concept": "habit-one"
+    },
+    {
+      "id": "1.6.3-c6",
+      "type": "play_it_out",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "A real game, from move one. Play eight moves and come through them still standing.",
+      "goal": { "kind": "hold", "moves": 8 },
+      "opponentDepth": 4,
+      "concept": "habit-one",
+      "reason": "A pawn to the centre, knights and bishops out behind it, then castle. Nothing clever, and check what each move leaves behind before you play it.",
+      "hints": { "piece": "e2", "square": "e4" }
+    }
+  ],
+  "takeaway": "Now go to the Play tab, pick Rosa, leave the coach on, and play a whole game."
+}

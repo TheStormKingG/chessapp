@@ -1,0 +1,167 @@
+{
+  "id": "1.6.2",
+  "unit": "1.6",
+  "title": "All checks and captures",
+  "xp": 15,
+  "card": {
+    "idea": "When you cannot see what to do, make a list: every check you can give and every capture you can make. Then make the same list for your opponent. It is short, it takes a minute, and it finds nearly everything.",
+    "habit": "List every check and every capture — theirs before yours.",
+    "diagrams": [
+      "2kr3r/ppp2ppp/2n1b3/4p1q1/2B1P3/2NP1N2/PPP2PPP/R1BQ1RK1 w - - 0 1"
+    ]
+  },
+  "explain": [
+    {
+      "fen": "2kr3r/ppp2ppp/2n1b3/4p1q1/2B1P3/2NP1N2/PPP2PPP/R1BQ1RK1 w - - 0 1",
+      "text": "Captures first. White can take on e5, on e6 and on g5. That is the whole list, and it took four seconds to make. Now weigh them instead of guessing.",
+      "highlights": [
+        "e5",
+        "e6",
+        "g5"
+      ]
+    },
+    {
+      "fen": "8/2R5/4K3/Pq3B2/8/1k5n/8/8 w - - 0 1",
+      "text": "Now checks. The rook can check on c3 and the bishop on c2. A check forces an answer, so a check is worth looking at even when it looks pointless.",
+      "highlights": [
+        "c2",
+        "c3"
+      ]
+    },
+    {
+      "fen": "5kn1/8/8/2KR1q2/8/4B3/8/8 w - - 0 1",
+      "text": "Two checks here: Bh6 and Rxf5. Bh6 is answered by the knight on g8 taking the bishop. Rxf5 takes the queen. Listing them is not the skill. Comparing them is.",
+      "arrows": [
+        [
+          "e3",
+          "h6"
+        ],
+        [
+          "d5",
+          "f5"
+        ]
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.6.2-c1",
+      "type": "find_them_all",
+      "fen": "2kr3r/ppp2ppp/2n1b3/4p1q1/2B1P3/2NP1N2/PPP2PPP/R1BQ1RK1 w - - 0 1",
+      "prompt": "Tap every black piece White can capture right now.",
+      "answer": {
+        "pieces": [
+          "e5",
+          "e6",
+          "g5"
+        ]
+      },
+      "concept": "checks-and-captures",
+      "hints": {
+        "text": "Three of them. Two white pieces can reach one of the three.",
+        "text2": "The knight on f3 has two of the captures on its own."
+      }
+    },
+    {
+      "id": "1.6.2-c2",
+      "type": "find_them_all",
+      "fen": "8/2R5/4K3/Pq3B2/8/1k5n/8/8 w - - 0 1",
+      "prompt": "Tap every square White can move to and give check.",
+      "answer": {
+        "squares": [
+          "c2",
+          "c3"
+        ]
+      },
+      "concept": "checks-and-captures",
+      "hints": {
+        "text": "The black king sits on b3. Which white pieces can reach a square next to it or in line with it?",
+        "text2": "Two squares, both on the c-file."
+      }
+    },
+    {
+      "id": "1.6.2-c3",
+      "type": "name_the_pattern",
+      "fen": "2kr3r/ppp2ppp/2n1b3/4p1q1/2B1P3/2NP1N2/PPP2PPP/R1BQ1RK1 w - - 0 1",
+      "prompt": "You have listed your own checks and captures. What goes on the list next?",
+      "options": [
+        "Every check and capture your opponent has",
+        "Every square your queen could reach in two moves",
+        "How many pieces each side has left"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "checks-and-captures"
+    },
+    {
+      "id": "1.6.2-c4",
+      "type": "is_it_safe",
+      "fen": "5kn1/8/8/2KR1q2/8/4B3/8/8 w - - 0 1",
+      "move": "Bh6+",
+      "prompt": "The bishop checks on h6. Is that safe?",
+      "reasons": [
+        "The rook on d5 defends h6.",
+        "The knight on g8 takes the bishop on h6.",
+        "The king on f8 takes the bishop on h6."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "checks-and-captures"
+    },
+    {
+      "id": "1.6.2-c5",
+      "type": "find_the_move",
+      "fen": "5kn1/8/8/2KR1q2/8/4B3/8/8 w - - 0 1",
+      "prompt": "Same position. Play the other check.",
+      "answer": {
+        "moves": [
+          "Rxf5+"
+        ]
+      },
+      "concept": "checks-and-captures",
+      "reason": "The rook takes the queen on f5 with check, and nothing on the board can take back.",
+      "hints": {
+        "piece": "d5",
+        "square": "f5"
+      }
+    },
+    {
+      "id": "1.6.2-c6",
+      "type": "find_the_move",
+      "fen": "8/5qR1/8/8/1K6/2B2k2/8/2n5 w - - 0 1",
+      "prompt": "One of your moves is a check and a capture at once. Find it.",
+      "answer": {
+        "moves": [
+          "Rxf7+"
+        ]
+      },
+      "concept": "checks-and-captures",
+      "reason": "The rook on g7 takes the queen on f7 and checks the king on f3 down the file, all in one move.",
+      "hints": {
+        "piece": "g7",
+        "square": "f7"
+      }
+    },
+    {
+      "id": "1.6.2-c7",
+      "type": "play_it_out",
+      "fen": "8/1R6/5Kp1/7k/8/P1Q5/8/8 w - - 0 1",
+      "prompt": "Checkmate in one move. Find it and play it.",
+      "goal": {
+        "kind": "mate_in",
+        "moves": 1
+      },
+      "opponentDepth": 4,
+      "concept": "checks-and-captures",
+      "reason": "The king on h5 has no square to run to, so a check that he cannot answer is mate. The queen on c3 can reach h3.",
+      "hints": {
+        "piece": "c3",
+        "square": "h3"
+      }
+    }
+  ],
+  "takeaway": "List every check and every capture, theirs first, then pick."
+}

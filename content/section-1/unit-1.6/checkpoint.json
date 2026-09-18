@@ -1,0 +1,580 @@
+{
+  "unit": "1.6",
+  "title": "Safety first",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "1.6-k01",
+      "type": "find_the_move",
+      "fen": "8/8/P7/r7/2k1b3/2N5/2P5/6K1 w - - 0 1",
+      "prompt": "White to move.",
+      "answer": {
+        "moves": [
+          "Nxe4"
+        ]
+      },
+      "concept": "take-free",
+      "hints": {
+        "piece": "c3",
+        "square": "e4"
+      },
+      "reason": "The bishop on e4 is attacked and nothing takes back."
+    },
+    {
+      "id": "1.6-k02",
+      "type": "find_the_move",
+      "fen": "8/8/K7/2q5/8/1B1n4/6k1/3R4 w - - 0 1",
+      "prompt": "Your move.",
+      "answer": {
+        "moves": [
+          "Rxd3"
+        ]
+      },
+      "concept": "three-questions",
+      "hints": {
+        "piece": "d1",
+        "square": "d3"
+      },
+      "reason": "Nothing defends the knight on d3."
+    },
+    {
+      "id": "1.6-k03",
+      "type": "find_the_move",
+      "fen": "6R1/4B3/8/7n/5P2/4K3/6q1/1k6 w - - 0 1",
+      "prompt": "Find the best move.",
+      "answer": {
+        "moves": [
+          "Rxg2"
+        ]
+      },
+      "concept": "piece-safe",
+      "hints": {
+        "piece": "g8",
+        "square": "g2"
+      },
+      "reason": "The queen on g2 has no defender at all."
+    },
+    {
+      "id": "1.6-k04",
+      "type": "find_the_move",
+      "fen": "8/7K/8/7b/7k/4P3/P3N3/2r5 w - - 0 1",
+      "prompt": "White to play. One move.",
+      "answer": {
+        "moves": [
+          "Nxc1"
+        ]
+      },
+      "concept": "checks-and-captures",
+      "hints": {
+        "piece": "e2",
+        "square": "c1"
+      },
+      "reason": "No black piece guards c1, so the rook there is free."
+    },
+    {
+      "id": "1.6-k05",
+      "type": "find_the_move",
+      "fen": "8/4Q3/8/7r/8/5n2/K5Pk/8 w - - 0 1",
+      "prompt": "What is the move?",
+      "answer": {
+        "moves": [
+          "gxf3"
+        ]
+      },
+      "concept": "take-free",
+      "hints": {
+        "piece": "g2",
+        "square": "f3"
+      },
+      "reason": "The knight on f3 is attacked and nothing takes back."
+    },
+    {
+      "id": "1.6-k06",
+      "type": "find_the_move",
+      "fen": "8/5R2/3K4/8/q7/7n/8/5Bk1 w - - 0 1",
+      "prompt": "White to move.",
+      "answer": {
+        "moves": [
+          "Bxh3"
+        ]
+      },
+      "concept": "three-questions",
+      "hints": {
+        "piece": "f1",
+        "square": "h3"
+      },
+      "reason": "Nothing defends the knight on h3."
+    },
+    {
+      "id": "1.6-k07",
+      "type": "find_the_move",
+      "fen": "N7/8/8/2K3b1/5R2/8/8/2k2q2 w - - 0 1",
+      "prompt": "Your move.",
+      "answer": {
+        "moves": [
+          "Rxf1+"
+        ]
+      },
+      "concept": "piece-safe",
+      "hints": {
+        "piece": "f4",
+        "square": "f1"
+      },
+      "reason": "The queen on f1 has no defender at all. It comes with check as well."
+    },
+    {
+      "id": "1.6-k08",
+      "type": "find_the_move",
+      "fen": "6k1/8/3r4/2P5/3B4/7q/8/K7 w - - 0 1",
+      "prompt": "Find the best move.",
+      "answer": {
+        "moves": [
+          "cxd6"
+        ]
+      },
+      "concept": "checks-and-captures",
+      "hints": {
+        "piece": "c5",
+        "square": "d6"
+      },
+      "reason": "No black piece guards d6, so the rook there is free."
+    },
+    {
+      "id": "1.6-k09",
+      "type": "find_the_move",
+      "fen": "4q1R1/7k/8/4b2P/2R5/8/8/4K3 w - - 0 1",
+      "prompt": "White to play. One move.",
+      "answer": {
+        "moves": [
+          "Rxe8"
+        ]
+      },
+      "concept": "take-free",
+      "hints": {
+        "piece": "g8",
+        "square": "e8"
+      },
+      "reason": "The queen on e8 is attacked and nothing takes back."
+    },
+    {
+      "id": "1.6-k10",
+      "type": "find_the_move",
+      "fen": "7q/1K6/2r5/4k1P1/8/8/8/6B1 w - - 0 1",
+      "prompt": "What is the move?",
+      "answer": {
+        "moves": [
+          "Kxc6"
+        ]
+      },
+      "concept": "three-questions",
+      "hints": {
+        "piece": "b7",
+        "square": "c6"
+      },
+      "reason": "Nothing defends the rook on c6."
+    },
+    {
+      "id": "1.6-k11",
+      "type": "find_the_move",
+      "fen": "8/2R5/3bR3/K7/8/1kP5/5q2/8 w - - 0 1",
+      "prompt": "White to move.",
+      "answer": {
+        "moves": [
+          "Rxd6"
+        ]
+      },
+      "concept": "piece-safe",
+      "hints": {
+        "piece": "e6",
+        "square": "d6"
+      },
+      "reason": "The bishop on d6 has no defender at all."
+    },
+    {
+      "id": "1.6-k12",
+      "type": "find_the_move",
+      "fen": "8/5Q1K/5r2/8/5k2/2r5/1N6/8 w - - 0 1",
+      "prompt": "Your move.",
+      "answer": {
+        "moves": [
+          "Qxf6+"
+        ]
+      },
+      "concept": "checks-and-captures",
+      "hints": {
+        "piece": "f7",
+        "square": "f6"
+      },
+      "reason": "No black piece guards f6, so the rook there is free. It comes with check as well."
+    },
+    {
+      "id": "1.6-k13",
+      "type": "find_the_move",
+      "fen": "6q1/8/5PR1/8/8/Kn2B3/8/4k3 w - - 0 1",
+      "prompt": "Find the best move.",
+      "answer": {
+        "moves": [
+          "Rxg8"
+        ]
+      },
+      "concept": "take-free",
+      "hints": {
+        "piece": "g6",
+        "square": "g8"
+      },
+      "reason": "The queen on g8 is attacked and nothing takes back."
+    },
+    {
+      "id": "1.6-k14",
+      "type": "find_the_move",
+      "fen": "8/3N4/1B6/2p2k2/8/8/4K3/5r2 w - - 0 1",
+      "prompt": "White to play. One move.",
+      "answer": {
+        "moves": [
+          "Kxf1"
+        ]
+      },
+      "concept": "three-questions",
+      "hints": {
+        "piece": "e2",
+        "square": "f1"
+      },
+      "reason": "Nothing defends the rook on f1."
+    },
+    {
+      "id": "1.6-k15",
+      "type": "find_the_move",
+      "fen": "6q1/8/2k3n1/8/2B5/6RK/8/8 w - - 0 1",
+      "prompt": "What is the move?",
+      "answer": {
+        "moves": [
+          "Bxg8"
+        ]
+      },
+      "concept": "piece-safe",
+      "hints": {
+        "piece": "c4",
+        "square": "g8"
+      },
+      "reason": "The queen on g8 has no defender at all."
+    },
+    {
+      "id": "1.6-k16",
+      "type": "find_the_move",
+      "fen": "8/3kq3/8/8/6P1/2B2K2/1r6/8 w - - 0 1",
+      "prompt": "White to move.",
+      "answer": {
+        "moves": [
+          "Bxb2"
+        ]
+      },
+      "concept": "checks-and-captures",
+      "hints": {
+        "piece": "c3",
+        "square": "b2"
+      },
+      "reason": "No black piece guards b2, so the rook there is free."
+    },
+    {
+      "id": "1.6-k17",
+      "type": "find_the_move",
+      "fen": "2n5/6Bq/5P2/8/8/8/7R/4K1k1 w - - 0 1",
+      "prompt": "Your move.",
+      "answer": {
+        "moves": [
+          "Rxh7"
+        ]
+      },
+      "concept": "take-free",
+      "hints": {
+        "piece": "h2",
+        "square": "h7"
+      },
+      "reason": "The queen on h7 is attacked and nothing takes back."
+    },
+    {
+      "id": "1.6-k18",
+      "type": "find_the_move",
+      "fen": "3n4/2b5/4k3/1r6/5Q2/5R2/7K/8 w - - 0 1",
+      "prompt": "Find the best move.",
+      "answer": {
+        "moves": [
+          "Qxc7"
+        ]
+      },
+      "concept": "three-questions",
+      "hints": {
+        "piece": "f4",
+        "square": "c7"
+      },
+      "reason": "Nothing defends the bishop on c7."
+    },
+    {
+      "id": "1.6-k19",
+      "type": "find_the_move",
+      "fen": "8/Q6P/7K/2r5/8/1k6/8/4n3 w - - 0 1",
+      "prompt": "White to play. One move.",
+      "answer": {
+        "moves": [
+          "Qxc5"
+        ]
+      },
+      "concept": "piece-safe",
+      "hints": {
+        "piece": "a7",
+        "square": "c5"
+      },
+      "reason": "The rook on c5 has no defender at all."
+    },
+    {
+      "id": "1.6-k20",
+      "type": "find_the_move",
+      "fen": "8/1k6/8/8/8/1N6/3R4/q2bK3 w - - 0 1",
+      "prompt": "What is the move?",
+      "answer": {
+        "moves": [
+          "Nxa1"
+        ]
+      },
+      "concept": "checks-and-captures",
+      "hints": {
+        "piece": "b3",
+        "square": "a1"
+      },
+      "reason": "No black piece guards a1, so the queen there is free."
+    },
+    {
+      "id": "1.6-k21",
+      "type": "play_it_out",
+      "fen": "7K/8/2p5/8/8/8/p6N/6Rk w - - 0 1",
+      "prompt": "Checkmate in one move.",
+      "goal": {
+        "kind": "mate_in",
+        "moves": 1
+      },
+      "opponentDepth": 4,
+      "concept": "check-mate",
+      "hints": {
+        "piece": "h2",
+        "square": "f3"
+      },
+      "reason": "The knight goes to f3: check, and the king has nowhere to go."
+    },
+    {
+      "id": "1.6-k22",
+      "type": "play_it_out",
+      "fen": "8/7Q/R7/7k/1pK4P/8/8/8 w - - 0 1",
+      "prompt": "Checkmate in one move.",
+      "goal": {
+        "kind": "mate_in",
+        "moves": 1
+      },
+      "opponentDepth": 4,
+      "concept": "check-mate",
+      "hints": {
+        "piece": "a6",
+        "square": "g6"
+      },
+      "reason": "The rook goes to g6: check, and the king has nowhere to go."
+    },
+    {
+      "id": "1.6-k23",
+      "type": "play_it_out",
+      "fen": "k7/7Q/8/8/2p2p1K/8/1R6/8 w - - 0 1",
+      "prompt": "Checkmate in one move.",
+      "goal": {
+        "kind": "mate_in",
+        "moves": 1
+      },
+      "opponentDepth": 4,
+      "concept": "check-mate",
+      "hints": {
+        "piece": "h7",
+        "square": "b7"
+      },
+      "reason": "The queen goes to b7: check, and the king has nowhere to go."
+    },
+    {
+      "id": "1.6-k24",
+      "type": "play_it_out",
+      "fen": "4k3/2p5/2KP4/3Q4/8/8/5R2/8 w - - 0 1",
+      "prompt": "Checkmate in one move.",
+      "goal": {
+        "kind": "mate_in",
+        "moves": 1
+      },
+      "opponentDepth": 4,
+      "concept": "check-mate",
+      "hints": {
+        "piece": "d5",
+        "square": "g8"
+      },
+      "reason": "The queen goes to g8: check, and the king has nowhere to go."
+    },
+    {
+      "id": "1.6-k25",
+      "type": "is_it_safe",
+      "fen": "6k1/8/2p5/1p6/8/8/4Q3/6K1 w - - 0 1",
+      "move": "Qxb5",
+      "prompt": "The queen takes the pawn on b5. Is that safe?",
+      "reasons": [
+        "The pawn on c6 takes back, and a queen has gone for a pawn.",
+        "Nothing defends the pawn on b5.",
+        "The king on g8 takes back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "piece-safe"
+    },
+    {
+      "id": "1.6-k26",
+      "type": "is_it_safe",
+      "fen": "4k3/8/8/3r4/8/3R4/8/4K3 w - - 0 1",
+      "move": "Rxd5",
+      "prompt": "The rook takes the rook on d5. Is that safe?",
+      "reasons": [
+        "The rook on d5 has no defender, so this is five points for nothing.",
+        "The king on e8 takes back and the rooks come off level.",
+        "The rook on d3 is needed at home to guard the king on e1."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "take-free"
+    },
+    {
+      "id": "1.6-k27",
+      "type": "is_it_safe",
+      "fen": "5rk1/pp4pp/8/3b4/6n1/2N2N2/PP3PPP/5RK1 w - - 0 1",
+      "move": "Nxd5",
+      "prompt": "The knight takes the bishop on d5. Is that safe?",
+      "reasons": [
+        "The knight on g4 takes back.",
+        "The knight on c3 takes a bishop that no black piece defends.",
+        "The pawn on f7 takes back and it is knight for bishop."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "take-free"
+    },
+    {
+      "id": "1.6-k28",
+      "type": "is_it_safe",
+      "fen": "rnbqk2r/pppp1ppp/5n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1",
+      "move": "O-O",
+      "prompt": "White castles short. Is that safe?",
+      "reasons": [
+        "The king goes to the corner behind the pawns on f2, g2 and h2, and the rook on h1 comes to f1.",
+        "The bishop on c5 attacks g1 along the diagonal, so the king walks into it.",
+        "The knight on f6 takes the pawn on e4 first, so there is no time for it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "habit-one"
+    },
+    {
+      "id": "1.6-k29",
+      "type": "find_them_all",
+      "fen": "4k3/8/8/2b5/8/2N5/1PP5/2KR4 w - - 0 1",
+      "prompt": "Tap every square White can move to and give check.",
+      "answer": {
+        "squares": [
+          "d8",
+          "e1"
+        ]
+      },
+      "concept": "checks-and-captures",
+      "hints": {
+        "text": "The black king is on e8, so look down the d-file and along the e-file."
+      }
+    },
+    {
+      "id": "1.6-k30",
+      "type": "find_them_all",
+      "fen": "4k3/8/8/8/2N5/1P3P2/P5B1/R3K3 w - - 0 1",
+      "prompt": "Tap every white piece that is defended.",
+      "answer": {
+        "pieces": [
+          "a2",
+          "b3",
+          "c4",
+          "f3"
+        ]
+      },
+      "concept": "piece-safe",
+      "hints": {
+        "text": "The bishop on g2 and the rook on a1 are not among them."
+      }
+    },
+    {
+      "id": "1.6-k31",
+      "type": "find_them_all",
+      "fen": "4k3/8/3n4/1p6/8/3Q4/8/4K3 w - - 0 1",
+      "prompt": "Tap every black piece the white queen attacks.",
+      "answer": {
+        "pieces": [
+          "b5",
+          "d6"
+        ]
+      },
+      "concept": "three-questions",
+      "hints": {
+        "text": "The queen on d3 works along the file and along the diagonal."
+      }
+    },
+    {
+      "id": "1.6-k32",
+      "type": "find_them_all",
+      "fen": "2kr3r/ppp3pp/2n5/3np3/8/2NP1N2/PPP2PPP/R1BQ1RK1 w - - 0 1",
+      "prompt": "Tap every black piece White can capture right now.",
+      "answer": {
+        "pieces": [
+          "d5",
+          "e5"
+        ]
+      },
+      "concept": "checks-and-captures",
+      "hints": {
+        "text": "Both captures are made by a knight."
+      }
+    },
+    {
+      "id": "1.6-k33",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/8/2b5/8/2N5/1PP5/2KR4 w - - 0 1",
+      "prompt": "Which order do the three questions go in?",
+      "options": [
+        "Is my piece safe, can I take something, is my king safe",
+        "Can I take something, is my king safe, is my piece safe",
+        "Is my king safe, is my piece safe, can I take something"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "three-questions"
+    },
+    {
+      "id": "1.6-k34",
+      "type": "name_the_pattern",
+      "fen": "5rk1/pp4pp/8/3b4/6n1/2N2N2/PP3PPP/5RK1 w - - 0 1",
+      "prompt": "You can trade your knight for their bishop and nothing else changes. What now?",
+      "options": [
+        "Take it — three points for three points is a fair swap",
+        "Avoid it, because a bishop is always worth more than a knight",
+        "Only trade when you are already winning"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "habit-one"
+    }
+  ]
+}
