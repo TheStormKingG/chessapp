@@ -192,8 +192,10 @@ no undersized targets, so this is agreement, not a delta.
 Rejected twice over. They are **41 pt tall against a 44 pt minimum**
 (`accessibility.md`, iOS 44x44 pt), and `999px` radius is ruled out by
 `DESIGN-SYSTEM.md` §3.3 ("Radius, one system: 10 px on cards and controls, 999 px
-on **nothing**, 0 on the board"), which exists so the board's square corners read
-as deliberate. ChessApp's segmented controls in `ChooseOpponent.tsx` already do
+on **no card and no control**, 0 on the board"), which exists so the board's square
+corners read as deliberate. A chip is a control, so it is on the wrong side of that
+clause however the clause is worded, and the rejection does not depend on the rule
+being absolute. ChessApp's segmented controls in `ChooseOpponent.tsx` already do
 this job at the correct radius and size.
 
 ### 5.5 3D / photographic piece renders
@@ -286,8 +288,42 @@ the only controls that opt out of it, and they are the ones with no text to give
 them bounds. This is an internal inconsistency; the reference is merely what made
 it visible.
 
-**The change.** Bound each of the three in a circular `--edge-strong` ring at the
-existing 44 px tap size. No new token.
+**The change.** Bound each of the three in a 10 px `--edge-strong` ring — the
+control radius §3.3 gives every other control — on a square box that stays square
+at every text size. No new token, and no new radius.
+
+**Corrected after the first implementation.** This section originally said
+*circular*, which put a 999 px radius in the tree and contradicted §3.3 and §5.4
+above: §5.4 rejects the reference's pill chips by citing that clause, and a clause
+cannot rule out a chip while a shipped control relies on an unstated exception to
+it. The contradiction is resolved in favour of the rule, because the circularity
+was never the argument. The argument is that §3.1 defines `--edge-strong` as
+"every control border" and three controls opt out of it — which commits to the
+**border**, not to a round one. §8 below already records that the round shape came
+from the reference and was "a default any shot would produce". So the rule stands
+unamended on the point that matters, and the ring takes the control radius, which
+has the side benefit of making a dismiss read as a sibling of `Button.tsx` rather
+than as the app's one round thing.
+
+**And the box is square, which is a separate rule from the radius.** `.tap` floors
+`min-height` and `min-width` independently. That is harmless for a box whose shape
+carries no meaning, and wrong for a control that is nothing but a centred glyph: at
+the largest system text size the glyph's line box grew the height to 54 px while the
+width stayed pinned at its 44 px floor, leaving 5 px of side padding against 15 px
+of vertical padding. `aspect-ratio: 1` is the tempting one-liner and it is wrong
+here — measured, the ratio resolves the height *down* to the content-derived width
+and the glyph then overflows its own ring. Both dimensions are instead driven by one
+expression, `max(44px, 1.6em)`, so they cannot floor apart: 44x44 at a 16 px and a
+24 px root, 54.4x54.4 at a 32 px root.
+
+Sizing the box is not enough on its own, and the third dimension of the bug was
+only visible in a browser. Both headers carrying this control are flex rows. At a
+32 px root the lesson header's three children stop fitting in 390 px, and a flex
+item at the default `0 1 auto` is squeezed: the control measured **51.8 x 54.4** —
+square by its own sizing and not square as laid out — and only in the *challenge*
+state, because the card state leaves the challenge counter empty and the row has
+slack. `flex-shrink: 0` is therefore part of the fix, not a precaution, and the
+geometry assertion covers both states for exactly that reason.
 
 | Value | Light | Dark | Measured |
 |---|---|---|---|
@@ -386,15 +422,18 @@ be taken by different agents.
 existing `.tap` block, ~line 178), `src/lesson/LessonPlayer.tsx` (line 186),
 `src/play/PlayScreen.tsx` (lines 57 and 112).
 
-**Definition of done:** the three controls render a circular `--edge-strong` ring;
+**Definition of done:** the three controls render a 10 px `--edge-strong` ring on a
+box that measures the same in both dimensions at normal and at the largest system
+text size, guarded by a rendered-geometry assertion in
+`tests/audit-platform/reflow.spec.ts`;
 `aria-label`, `type`, `role` and DOM shape are byte-identical; `npm run test` and the
 Playwright suite are green with no spec edited; a rendered-geometry measurement of
 each control's box confirms ≥ 44 px *after* the border, taken from the DOM rather
 than inferred from the class; both appearances checked.
 
-**Do not:** add a fill, a shadow, a radius token, or a second ringed control
-elsewhere "for consistency" — the scope is exactly the three controls that have no
-text to bound them.
+**Do not:** add a fill, a shadow, a radius token, a full radius, or a second ringed
+control elsewhere "for consistency" — the scope is exactly the three controls that
+have no text to bound them.
 
 ### Chunk R2 — reference hygiene
 

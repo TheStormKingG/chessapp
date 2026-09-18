@@ -194,17 +194,52 @@ body {
  * `box-sizing: border-box` (preflight) draws the 1px inside the box, so the
  * 44px floor survives the border — measured, not assumed.
  *
- * The radius is the one place this departs from §3.3's "999px on nothing".
- * That rule exists to keep the board's square corners reading as deliberate
- * and to rule out pill chips (§5.4); a 1px ring around a 44px glyph is
- * neither. Nothing else in the app gains a round corner.
+ * The radius is the SYSTEM's radius: 10px, §3.3's "10px on cards and controls".
+ * An earlier pass made this ring circular, which put a 999px radius in the tree
+ * while §3.3 says 999px applies to nothing and REFERENCE-DELTA.md §5.4 cites
+ * that same clause to reject the reference's pill chips. The circularity was
+ * never ChessApp's idea — Δ-R1's argument is that `--edge-strong` is "every
+ * control border", which commits to the BORDER, not to a round one; §8 already
+ * records that the round shape came from the reference and was "a default any
+ * shot would produce". So the rule stands unamended and the ring takes the
+ * control radius, which also makes this control read as a sibling of `btn`.
+ *
+ * The box is square, and that is a separate rule from the radius. `.tap` floors
+ * `min-height` and `min-width` INDEPENDENTLY, which is fine for a box whose
+ * shape carries no meaning and wrong for an icon-only control: at a 32px root
+ * (the largest system text size) the glyph's line box grew the height to 54
+ * while the width stayed pinned at its 44px floor, so the glyph sat in 5px of
+ * side padding and 15px of vertical padding. No gate caught it — nothing
+ * overflowed, the 44px floor held, and the glyph stayed legible.
+ *
+ * `aspect-ratio: 1` is the obvious one-liner and it is wrong here: measured in
+ * the browser, the box is inline-flex with both dimensions auto, so the ratio
+ * resolves the height DOWN to the content-derived width rather than the width
+ * up, giving a 44x44 box whose content overflows it (scrollHeight 47 at a 32px
+ * root). It fixes the shape by clipping the glyph.
+ *
+ * So both dimensions are driven by ONE expression instead, and can no longer
+ * floor apart: 44px until the text is large enough to need more, then 1.6em —
+ * which is the size the box was already trying to reach on its height. Measured
+ * at 390x844: 44x44 at a 16px and a 24px root, 54.4x54.4 at a 32px root, with
+ * no content overflow and no sideways page scroll at any of them.
+ *
+ * `flex-shrink: 0` is the third dimension of the same bug and not a precaution.
+ * Both headers that carry this control are flex rows, and at a 32px root the
+ * lesson header's three children stop fitting in 390px: the control, a flex
+ * item at the default `0 1 auto`, was squeezed to 51.8 wide against a 54.4
+ * height — square by its own sizing and not square as laid out. It is the one
+ * child of that row with nothing to give.
  */
 .icon-control {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
+  inline-size: max(44px, 1.6em);
+  block-size: max(44px, 1.6em);
   border: 1px solid var(--edge-strong);
-  border-radius: 999px;
+  border-radius: 10px;
 }
 
 /*

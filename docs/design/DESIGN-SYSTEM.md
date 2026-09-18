@@ -207,7 +207,11 @@ Body rises from the current 16px to 17px, matching the iOS default of 17pt and c
 
 Spacing scale, 4-based, in `rem`: **2, 4, 8, 12, 16, 20, 24, 32, 40, 56**. Gutter is 16 on compact and 24 on regular. Vertical rhythm varies by role rather than being uniform: 8 inside a control, 12 between related lines, 24 between groups, 40 above a screen's primary action.
 
-Radius, one system: **10px** on cards and controls, **999px** on nothing, **0** on the board and its squares. The board is the only square-cornered element in the app, which is itself a small piece of the signature.
+Radius, one system: **10px** on cards and controls, **999px** on no card and no control, **0** on the board and its squares. The board is the only square-cornered element in the app, which is itself a small piece of the signature.
+
+The 999px clause is what §5.4 of `REFERENCE-DELTA.md` rejects the reference's pill chips with, so it is stated precisely rather than absolutely, and the qualification is narrow on purpose. **A full radius is permitted only on an element that is neither a card nor a control, and the two tests are: (a) it does not receive the press — it is not the interactive element and it is not the interactive element's own box; and (b) it is not a container — nothing but a single mark or a fill sits inside it.** Both must be true. Two elements in the app qualify and they are the whole list: the coordinate rail's track in `CoordinateRail.tsx`, where the radius only rounds the ends of a 1ch-wide bar nobody presses, and the opponent's identity mark in `ChooseOpponent.tsx`, which is a disc carrying a single initial *inside* a button rather than being the button.
+
+Everything that receives a press takes 10px, and that includes an icon-only control: a dismiss button with no text is still a control, so it is bounded at the control radius and not as a circle. Being square, or being the same size in both dimensions, does not earn a full radius and is not an argument for one — that is a rule about the box (see `.icon-control` in `theme.css`), and this is a rule about the corner. A pill chip fails test (a); so does a segmented option; so does an icon-only dismiss. None has ever qualified and none will.
 
 #### The lesson screen
 
