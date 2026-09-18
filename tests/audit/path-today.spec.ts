@@ -124,7 +124,7 @@ test('a replay is accepted and never lowers the recorded stars', async ({ page }
     startIndex: 1,
     total: lesson.challenges.length,
   });
-  await expect(page.getByText(/^[12] stars/)).toBeVisible();
+  await expect(page.getByText(/^(1 star|2 stars) ·/)).toBeVisible();
   await page.getByRole('button', { name: 'Back to the path' }).click();
 
   // The recorded stars are the best run, not the last.

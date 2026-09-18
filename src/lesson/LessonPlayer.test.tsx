@@ -55,7 +55,7 @@ test('plays a lesson through to the close screen', async () => {
 
   expect(screen.getByText('Remember this.')).toBeInTheDocument();
   // One miss, no hints: a clean-enough run is three stars (stars.ts / PRD 7.3).
-  expect(screen.getByText(/3 stars · 0 hints · 1 misses/)).toBeInTheDocument();
+  expect(screen.getByText('3 stars \u00b7 0 hints \u00b7 1 miss')).toBeInTheDocument();
   /* PREMIUM-DELTA.md Δ2: `display-lg` is defined as a pair, so the rule that has
      to hold is not "the heading is big" but "the heading is immediately followed
      by its notation line in the index face". Asserted structurally, because that
@@ -65,7 +65,7 @@ test('plays a lesson through to the close screen', async () => {
   expect(done).toHaveClass('t-display-lg');
   const notation = done.nextElementSibling;
   expect(notation).toHaveClass('t-index');
-  expect(notation).toHaveTextContent('3 stars \u00b7 0 hints \u00b7 1 misses');
+  expect(notation).toHaveTextContent(/^3 stars \u00b7 0 hints \u00b7 1 miss$/);
   await userEvent.click(screen.getByRole('button', { name: /back to the path/i }));
   expect(onComplete).toHaveBeenCalledWith(
     expect.objectContaining({ lessonId: '9.9.1', stars: 3, xp: 10 }),

@@ -1,3 +1,4 @@
+import { plural } from '../app/plural';
 import { Link } from 'react-router';
 import { RailIndex, RailMeter, railMeterLabel } from '@/board';
 import { useProgress, type Progress } from '@/data';
@@ -129,7 +130,7 @@ function read(n: Node, progress: Progress, resumed: ResumeLabel | null): NodeVie
   const hint =
     n.kind === 'lesson'
       ? n.state === 'done'
-        ? `${String(progress.lessons[n.id]?.stars ?? 0)} stars`
+        ? plural(progress.lessons[n.id]?.stars ?? 0, 'star')
         : (resumed?.hint ?? lessonHint[n.state])
       : n.state === 'passed'
         ? 'Passed'

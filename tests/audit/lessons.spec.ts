@@ -35,7 +35,9 @@ for (const id of lessonIds()) {
 
     // Close screen: stars, takeaway, XP.
     await expect(page.getByRole('heading', { name: 'Lesson done' })).toBeVisible();
-    await expect(page.getByText(/^[123] stars · \d+ hints · \d+ misses$/)).toBeVisible();
+    await expect(
+      page.getByText(/^(1 star|[23] stars) · (1 hint|\d+ hints) · (1 miss|\d+ misses)$/),
+    ).toBeVisible();
     await expect(page.getByText(lesson.takeaway, { exact: true })).toBeVisible();
     await expect(page.getByText(`+${String(lesson.xp)} XP`)).toBeVisible();
     await page.getByRole('button', { name: 'Back to the path' }).click();

@@ -47,7 +47,7 @@ test('a new learner completes lesson 1.1.1 and the path shows it done', async ({
 
   // Progress is on the path: 1.1.1 carries a star count, 1.1.2 is now the
   // active lesson (both read from the node's accessible name).
-  await expect(page.getByRole('link', { name: /1\.1\.1 The board/ })).toHaveAccessibleName(/\d+ stars/);
+  await expect(page.getByRole('link', { name: /1\.1\.1 The board/ })).toHaveAccessibleName(/\d+ stars?\b/);
   await expect(page.getByRole('link', { name: /1\.1\.2/ })).toHaveAccessibleName(/up next/i);
 });
 
@@ -83,7 +83,7 @@ test('a lesson finished and left by its own close control is still recorded', as
   await expect(page.getByRole('heading', { name: /lesson done/i })).toBeVisible();
   await page.getByRole('button', { name: /exit lesson/i }).click();
 
-  await expect(page.getByRole('link', { name: /1\.1\.1 The board/ })).toHaveAccessibleName(/\d+ stars/);
+  await expect(page.getByRole('link', { name: /1\.1\.1 The board/ })).toHaveAccessibleName(/\d+ stars?\b/);
 });
 
 test('checkpoint 1.1 can be attempted early, with ten unlabelled challenges and no hints', async ({ page }) => {

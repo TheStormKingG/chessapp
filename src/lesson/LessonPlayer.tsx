@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { plural } from '../app/plural';
 import { btn } from '@/app/Button';
 import { Board } from '@/board';
 import { CoachBubble, CoachService } from '@/coach';
@@ -318,9 +319,22 @@ export function LessonPlayer({
           />
           </div>
           </div>
-          <div className="md:col-start-2 md:row-start-3">
+          {/* PREMIUM-DELTA.md §1.3 and §4.2: the reference's right column is one
+              vertical stack with a single filled control anchored at its bottom.
+              The board spans rows 2-3, so this row is the `1fr` that holds the
+              column's free height -- but the section aligns its items to
+              `start`, so the block was only as tall as its content and the
+              freed slack fell below it. `md:self-stretch` overrides that
+              alignment for this item alone, which gives the flex column a real
+              height for `md:mt-auto` to resolve against; without it the auto
+              margin is the same class of silently inert rule as the `min-h-full`
+              this file already carries a note about. Verified by measuring this
+              container's own top and bottom against the column's foot
+              (`tests/audit/lesson-desktop.spec.ts`), not from a screenshot.
+              All `md:`, so the phone column is untouched. */}
+          <div className="md:col-start-2 md:row-start-3 md:flex md:flex-col md:self-stretch">
           <CoachBubble text={s.feedback} tone={s.feedbackTone} />
-          <div className="mt-4 flex gap-2">
+          <div className="mt-4 flex gap-2 md:order-2">
             {!busy && s.hintsAllowed && (
               <>
                 <button
@@ -394,7 +408,8 @@ export function LessonPlayer({
           <div className="my-auto">
             <h2 className="t-display-lg">{closeHeading}</h2>
             <p className="t-index mt-2 text-content-dim">
-              {ph.stars} stars · {s.totalHints} hints · {s.totalMisses} misses
+              {plural(ph.stars, 'star')} · {plural(s.totalHints, 'hint')} ·{' '}
+              {plural(s.totalMisses, 'miss', 'misses')}
             </p>
             <Stars earned={ph.stars} />
             <p className="t-body mt-4">{lesson.takeaway}</p>
@@ -464,7 +479,7 @@ function Stars({ earned }: { earned: number }) {
  */
 function ChallengeIndex({ count, at }: { count: number; at: number }) {
   return (
-    <ol aria-hidden className="t-index mt-8 hidden text-content-dim md:block">
+    <ol aria-hidden className="t-index mt-8 hidden text-content-dim md:order-1 md:mt-auto md:block">
       {Array.from({ length: count }, (_, i) => (
         <li key={i} className={`flex gap-2 py-0.5 ${i === at ? 'font-semibold text-content' : ''}`}>
           <span>{String(i + 1).padStart(2, '0')}</span>

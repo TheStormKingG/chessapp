@@ -73,7 +73,7 @@ test('a hint costs a star', async ({ page }) => {
   await openLesson(page, lesson);
   await page.getByRole('button', { name: 'Hint', exact: true }).click();
   await playThrough(page, lesson.challenges);
-  await expect(page.getByText('2 stars · 1 hints · 0 misses')).toBeVisible();
+  await expect(page.getByText('2 stars · 1 hint · 0 misses')).toBeVisible();
 });
 
 /**
@@ -129,5 +129,5 @@ test('a second hint that would repeat the first is neither shown nor charged', a
     await answerCorrectly(page, lesson.challenges[i]!);
     await page.getByRole('button', { name: 'Next', exact: true }).click();
   }
-  await expect(page.getByText(/· 1 hints ·/)).toBeVisible();
+  await expect(page.getByText(/· 1 hint ·/)).toBeVisible();
 });

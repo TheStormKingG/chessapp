@@ -142,6 +142,61 @@ test.describe('the lesson player at 1280x800', () => {
     expect(worst, `void inside the right column: ${JSON.stringify(gaps)}`).toBeLessThanOrEqual(48);
   });
 
+  test('the right column ends with its action anchored to the foot of the column', async ({ page }) => {
+    // PREMIUM-DELTA §1.3: the reference's right column "is one vertical stack
+    // with one item per row and a single filled control anchored at its bottom",
+    // and §4.2 promised the same here. The previous chunk freed the slack but
+    // left it below the control group, so the column's free height sat empty
+    // where the reference puts its control.
+    //
+    // Measured, never read off a class list: a height rule on a grid item whose
+    // row is `1fr` is inert while the section aligns its items to `start`, and
+    // an inert rule and a working one are byte-identical in the source. So this
+    // asserts the container's OWN top and bottom, plus a magnitude bound -- a
+    // relational assertion alone survives the container collapsing to nothing.
+    await openChallengeWithCoach(page);
+    await page.evaluate(() => { window.scrollTo(0, 0); });
+    const m = await page.evaluate(() => {
+      const sec = document.querySelector('section')!;
+      const board = document.querySelector('[role="application"]')!.getBoundingClientRect();
+      const right = [...sec.children]
+        .map((e) => e.getBoundingClientRect())
+        .filter((r) => r.width > 0 && r.height > 0 && r.x > board.x + board.width - 5)
+        .sort((a, b) => a.y - b.y);
+      const block = right[right.length - 1]!;
+      const showMe = [...sec.querySelectorAll('button')].find((b) => b.textContent?.trim() === 'Show me')!;
+      const actions = showMe.parentElement!.getBoundingClientRect();
+      // The column's foot is the grid's own content box, not the board's bottom
+      // edge: the section is `min-h-dvh`, so the board can be shorter than the
+      // column it sits in and would understate how far the stack has to reach.
+      const sr = sec.getBoundingClientRect();
+      return {
+        columnBottom: sr.bottom - parseFloat(getComputedStyle(sec).paddingBottom),
+        blockTop: block.top,
+        blockBottom: block.bottom,
+        blockHeight: block.height,
+        actionsBottom: actions.bottom,
+        actionsHeight: actions.height,
+      };
+    });
+    test.info().annotations.push({ type: 'anchor', description: JSON.stringify(m) });
+    // Magnitude bound first: a collapsed container satisfies every relation below.
+    expect(m.blockHeight, `the right column's control block collapsed: ${JSON.stringify(m)}`).toBeGreaterThan(200);
+    expect(m.actionsHeight, `the action row collapsed: ${JSON.stringify(m)}`).toBeGreaterThanOrEqual(44);
+    // The container really does run to the foot of the column it shares with the board.
+    expect(
+      Math.abs(m.blockBottom - m.columnBottom),
+      `the control block stops short of the column's foot: ${JSON.stringify(m)}`,
+    ).toBeLessThanOrEqual(8);
+    // And the action sits ON that foot rather than floating above the freed
+    // slack: the decorative pager is ordered above it, so the filled control is
+    // the last row in the stack, as §1.3's reference column is.
+    expect(
+      m.columnBottom - m.actionsBottom,
+      `the action is not anchored: ${String(Math.round(m.columnBottom - m.actionsBottom))}px of column below it (${JSON.stringify(m)})`,
+    ).toBeLessThanOrEqual(8);
+  });
+
   test('nothing overflows horizontally in the lesson', async ({ page }) => {
     await openChallengeWithCoach(page);
     const o = await page.evaluate(() => ({

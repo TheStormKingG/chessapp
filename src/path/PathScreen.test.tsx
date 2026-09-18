@@ -184,3 +184,14 @@ test('--accent-soft has left this screen', () => {
   expect(screen.getByRole('link', { name: '1.1.1 The board. Tested out' })).toBeInTheDocument();
   expect(document.querySelectorAll('[class*="accent-soft"]')).toHaveLength(0);
 });
+
+test('a node finished on one star says "1 star", not "1 stars"', () => {
+  useProgress.setState({
+    progress: {
+      ...emptyProgress(),
+      lessons: { '1.1.1': { completed: true, stars: 1 } },
+    },
+  });
+  renderPath();
+  expect(screen.getByRole('link', { name: '1.1.1 The board. 1 star' })).toBeInTheDocument();
+});
