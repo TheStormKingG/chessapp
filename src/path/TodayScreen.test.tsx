@@ -109,3 +109,54 @@ test('a checkpoint card carries no board', async () => {
   await screen.findByRole('link', { name: /checkpoint/i });
   expect(screen.queryByTestId('today-lesson-board')).toBeNull();
 });
+
+/*
+ * NEUMORPHIC-DELTA.md §7.3. The three regions the desktop layout adds. They are
+ * `hidden` below `xl` in CSS and therefore absent from the phone, but jsdom
+ * applies no stylesheet, so what these tests pin is the CONTENT and its
+ * accessible name -- the geometry half is measured in
+ * `tests/audit-platform/desktop.spec.ts`, where a real browser applies the CSS.
+ *
+ * Every figure below is derived from the same `Progress` projection the Path
+ * reads. Nothing here is persisted, and nothing is invented: the day streak the
+ * delta's wireframe sketches has no per-day history behind it in `Progress`, so
+ * it is not rendered at all rather than estimated.
+ */
+
+test('the secondary column counts the active unit in words before it draws a meter', () => {
+  const p = emptyProgress();
+  p.lessons['1.1.1'] = { stars: 3, completed: true };
+  p.lessons['1.1.2'] = { stars: 2, completed: true };
+  renderWith(p);
+  const unit = screen.getByRole('region', { name: 'This unit' });
+  // Unit 1.1 has eight lessons; two are done.
+  expect(unit).toHaveTextContent('2 of 8 lessons done');
+});
+
+test('Up next reads the two nodes after the active one, and is not a second set of links', () => {
+  renderWith(emptyProgress());
+  const next = screen.getByRole('region', { name: 'Up next' });
+  const items = next.querySelectorAll('li');
+  expect([...items].map((li) => li.textContent?.replace(/\s+/g, ' '))).toEqual([
+    '1.1.2 The rook',
+    '1.1.3 The bishop',
+  ]);
+  // The Path tab owns navigating the path: these rows carry no link and no tab
+  // stop, so Today does not grow a third route to the same place.
+  expect(next.querySelectorAll('a')).toHaveLength(0);
+});
+
+test('Recently finished lists finished lessons newest first, with the star count in words', () => {
+  const p = emptyProgress();
+  p.lessons['1.1.1'] = { stars: 3, completed: true };
+  p.lessons['1.1.2'] = { stars: 1, completed: true };
+  renderWith(p);
+  const band = screen.getByRole('region', { name: 'Recently finished' });
+  const rows = [...band.querySelectorAll('li')].map((li) => li.textContent?.replace(/\s+/g, ' ').trim());
+  expect(rows).toEqual(['1.1.2 The rook 1 star', '1.1.1 The board 3 stars']);
+});
+
+test('the band is absent rather than empty before anything is finished', () => {
+  renderWith(emptyProgress());
+  expect(screen.queryByRole('region', { name: 'Recently finished' })).toBeNull();
+});

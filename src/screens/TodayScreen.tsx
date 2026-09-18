@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import { Link } from 'react-router';
 import { btn } from '@/app/Button';
 import { Board } from '@/board';
 import { localDay, useProgress } from '@/data';
 import { loadLesson } from '@/lesson/loader';
-import { activeNode } from '@/path/progress';
+import { activeNode, activeUnitProgress, recentlyFinished, upcomingNodes } from '@/path/progress';
 import { resumeLabel, useLessonResume } from '@/path/resumeLabel';
 
 const COOL_DOWN_KEY = 'chessapp.coolDownDismissed';
@@ -41,6 +41,40 @@ function useNextLessonFen(lessonId: string | null): string | null {
   return state.id === lessonId ? state.fen : null;
 }
 
+/**
+ * NEUMORPHIC-DELTA.md §7.3: the lesson card is the screen's ONE hero-scale
+ * element, and at the two-column width its board is 240px instead of 120px.
+ *
+ * The size is a number the board is rendered at, not a CSS box it fills, so the
+ * breakpoint has to be read rather than declared -- and it is read with the same
+ * `matchMedia?.` shape `Board.tsx` uses for reduced motion, so an environment
+ * without `matchMedia` (jsdom) falls back to the compact 120px rather than
+ * throwing. The query is `xl` exactly as Tailwind defines it, so the board grows
+ * on the same edge the grid splits on.
+ */
+const HERO_WIDTH = '(min-width: 1280px)';
+
+function useHeroBoardSize(): number {
+  const wide = useSyncExternalStore(
+    (onChange) => {
+      const mq = window.matchMedia?.(HERO_WIDTH);
+      if (!mq) return () => undefined;
+      mq.addEventListener('change', onChange);
+      return () => {
+        mq.removeEventListener('change', onChange);
+      };
+    },
+    () => window.matchMedia?.(HERO_WIDTH).matches ?? false,
+    () => false,
+  );
+  return wide ? 240 : 120;
+}
+
+/** A node's line in "Up next": the lesson's own number and title, or the unit's checkpoint. */
+function upNextLabel(n: { kind: 'lesson'; id: string; title: string } | { kind: 'checkpoint'; unit: string; title: string }): string {
+  return n.kind === 'lesson' ? `${n.id}  ${n.title}` : `${n.unit}  checkpoint`;
+}
+
 function readDismissed(): string | null {
   try {
     return localStorage.getItem(COOL_DOWN_KEY);
@@ -62,89 +96,182 @@ export function TodayScreen() {
   // F-HM-6: two losses in a row, dismissible, and never more than once a day.
   const coolDown = progress.consecutiveLosses >= 2 && dismissedOn !== today;
 
+  const hero = useHeroBoardSize();
+  const unit = activeUnitProgress(progress);
+  const upNext = upcomingNodes(progress, 2);
+  const finished = recentlyFinished(progress, 4);
+
   return (
-    <section className="p-4">
-      {/* PREMIUM-DELTA.md Δ2: one of the two places `display-lg` is spent, and it
-          is never allowed to stand alone — the XP count directly beneath it is the
-          `--font-index` notation line the role is defined as a pair with. The count
-          is stated in the index face, tabular, before anything decorates it. */}
-      <h1 className="t-display-lg">Today</h1>
-      <p className="t-index mt-1 text-content-dim">{progress.xp} XP so far</p>
+    /*
+      NEUMORPHIC-DELTA.md §7: cap and rank rather than stretch. Below `xl` this
+      is exactly the screen it was -- one column, same order, same spacing, so
+      the phone layout is untouched. At `xl` the same children become a 2fr/1fr
+      grid on the reference's own 48px gutter, and the band and the Settings
+      link are pushed to the foot of the window by the 1fr first row, so the
+      dead space becomes the gutter BETWEEN two ranked bands rather than a void
+      under everything.
+    */
+    <section className="p-4 xl:grid xl:min-h-dvh xl:grid-cols-[minmax(0,2fr)_minmax(0,1fr)] xl:content-between xl:items-start xl:gap-x-12 xl:gap-y-10 xl:py-10">
+      <div className="xl:col-start-1 xl:row-start-1">
+        {/* PREMIUM-DELTA.md Δ2: one of the two places `display-lg` is spent, and it
+            is never allowed to stand alone — the XP count directly beneath it is the
+            `--font-index` notation line the role is defined as a pair with. The count
+            is stated in the index face, tabular, before anything decorates it. */}
+        <h1 className="t-display-lg">Today</h1>
+        <p className="t-index mt-1 text-content-dim">{progress.xp} XP so far</p>
 
-      <h2 className="t-caption mt-6 uppercase tracking-wide text-content-dim">On the path</h2>
-      {next ? (
-        <Link
-          to={next.kind === 'lesson' ? `/lesson/${next.id}` : `/checkpoint/${next.unit}`}
-          className="tap mt-2 block rounded-xl border border-edge-strong border-b-2 border-b-key-raised bg-surface-raised p-4"
-        >
-          {/* Δ4.4: the position and the words are one row, so the card grows by
-              the board's 120px only where there is room beside the text. The
-              board is `aria-hidden` and carries no tab stop, so the whole row
-              is still announced as one link named by the lesson title. */}
-          <div className="flex items-start gap-4">
-            <span className="min-w-0 flex-1">
-              <span className="t-caption block text-content-dim">
-                {next.kind === 'lesson' ? `Lesson ${next.id}` : `Checkpoint ${next.unit}`}
-              </span>
-              <span className="t-heading block">{next.title}</span>
-              {resumed && <span className="t-label mt-1 block text-content-dim">{resumed.hint}</span>}
-            </span>
-            {nextFen && (
-              <div className="shrink-0">
-                <Board
-                  fen={nextFen}
-                  orientation="w"
-                  mode="static"
-                  size={120}
-                  decorative
-                  testId="today-lesson-board"
-                />
-              </div>
-            )}
-          </div>
-          <span className={`${btn.primary} mt-4 w-full`}>
-            {next.kind === 'checkpoint'
-              ? 'Open the checkpoint'
-              : resumed
-                ? 'Resume this lesson'
-                : 'Start this lesson'}
-          </span>
-        </Link>
-      ) : (
-        <p className="t-body mt-2 rounded-xl border border-edge-strong border-b-2 border-b-key-raised bg-surface-raised p-4">
-          You have finished everything that is built so far. More lessons are coming.
-        </p>
-      )}
-
-      <h2 className="t-caption mt-6 uppercase tracking-wide text-content-dim">Play</h2>
-      {coolDown && (
-        <div className="t-label mt-2 rounded-xl bg-signal-soft p-3" role="status">
-          <p>
-            Two losses in a row. A lesson or a few minutes off usually helps more than a rematch.
-          </p>
-          <button
-            type="button"
-            className={`${btn.quiet} mt-2 underline`}
-            onClick={() => {
-              try {
-                localStorage.setItem(COOL_DOWN_KEY, today);
-              } catch {
-                /* private mode: the banner simply returns next render */
-              }
-              setDismissedOn(today);
-            }}
+        <h2 className="t-caption mt-6 uppercase tracking-wide text-content-dim">On the path</h2>
+        {next ? (
+          <Link
+            to={next.kind === 'lesson' ? `/lesson/${next.id}` : `/checkpoint/${next.unit}`}
+            className="tap mt-2 block rounded-xl border border-edge-strong border-b-2 border-b-key-raised bg-surface-raised p-4 xl:rounded-hero xl:p-6 xl:n-raised-lg"
           >
-            Dismiss
-          </button>
-        </div>
-      )}
-      <Link to="/play" className="t-heading tap mt-2 block rounded-xl border border-edge-strong border-b-2 border-b-key-raised bg-surface-raised p-4">
-        Play a coached game
-      </Link>
+            {/* Δ4.4: the position and the words are one row, so the card grows by
+                the board's 120px only where there is room beside the text. The
+                board is `aria-hidden` and carries no tab stop, so the whole row
+                is still announced as one link named by the lesson title. §7.3:
+                at the two-column width the same board is the screen's one
+                hero-scale element at 240px. */}
+            <div className="flex items-start gap-4 xl:items-center xl:gap-8">
+              <span className="min-w-0 flex-1">
+                <span className="t-caption block text-content-dim">
+                  {next.kind === 'lesson' ? `Lesson ${next.id}` : `Checkpoint ${next.unit}`}
+                </span>
+                <span className="t-heading block">{next.title}</span>
+                {resumed && <span className="t-label mt-1 block text-content-dim">{resumed.hint}</span>}
+              </span>
+              {nextFen && (
+                <div className="shrink-0">
+                  <Board
+                    fen={nextFen}
+                    orientation="w"
+                    mode="static"
+                    size={hero}
+                    decorative
+                    testId="today-lesson-board"
+                  />
+                </div>
+              )}
+            </div>
+            <span className={`${btn.primary} mt-4 w-full`}>
+              {next.kind === 'checkpoint'
+                ? 'Open the checkpoint'
+                : resumed
+                  ? 'Resume this lesson'
+                  : 'Start this lesson'}
+            </span>
+          </Link>
+        ) : (
+          <p className="t-body mt-2 rounded-xl border border-edge-strong border-b-2 border-b-key-raised bg-surface-raised p-4">
+            You have finished everything that is built so far. More lessons are coming.
+          </p>
+        )}
+      </div>
 
-      <Link to="/settings" className="tap t-label mt-6 inline-flex items-center text-content-dim underline">
-        Settings
-      </Link>
+      {/*
+        The secondary column. `display: contents` below `xl` so the phone sees
+        the Play block exactly where it always was, with nothing wrapping it;
+        at `xl` the wrapper becomes the second grid column.
+      */}
+      <div className="contents xl:col-start-2 xl:row-start-1 xl:block">
+        {unit && (
+          <section aria-label="This unit" className="hidden xl:block">
+            <h2 className="t-caption uppercase tracking-wide text-content-dim">This unit</h2>
+            {/*
+              The count comes first and in words, exactly as PathScreen states
+              it: the meter under it is `aria-hidden` decoration, so this line
+              is what a screen reader reads and what survives forced colours.
+              It is a groove and a fill, one row high -- the coordinate rail
+              stays the app's progress language and this does not compete with
+              it.
+            */}
+            <p className="t-index mt-1 text-content-dim">
+              {unit.done} of {unit.total} lessons done
+            </p>
+            <div aria-hidden="true" className="n-inset-soft mt-2 h-2 w-full rounded-control bg-track">
+              <div
+                className="h-2 rounded-control bg-accent"
+                style={{ width: `${String(Math.round((unit.done / unit.total) * 100))}%` }}
+              />
+            </div>
+          </section>
+        )}
+
+        {upNext.length > 0 && (
+          <section aria-label="Up next" className="mt-8 hidden xl:block">
+            <h2 className="t-caption uppercase tracking-wide text-content-dim">Up next</h2>
+            {/*
+              A reading, not a second set of destinations: the Path tab owns
+              navigating the path, and two more links to it here would put three
+              routes to the same place on one screen.
+            */}
+            <ol className="mt-2 rounded-card border border-edge bg-surface-raised">
+              {upNext.map((n) => (
+                <li
+                  key={n.kind === 'lesson' ? n.id : `cp-${n.unit}`}
+                  className="t-label border-b border-edge px-3 py-3 last:border-b-0"
+                >
+                  {upNextLabel(n)}
+                </li>
+              ))}
+            </ol>
+          </section>
+        )}
+
+        <h2 className="t-caption mt-6 uppercase tracking-wide text-content-dim xl:mt-8">Play</h2>
+        {coolDown && (
+          <div className="t-label mt-2 rounded-xl bg-signal-soft p-3" role="status">
+            <p>
+              Two losses in a row. A lesson or a few minutes off usually helps more than a rematch.
+            </p>
+            <button
+              type="button"
+              className={`${btn.quiet} mt-2 underline`}
+              onClick={() => {
+                try {
+                  localStorage.setItem(COOL_DOWN_KEY, today);
+                } catch {
+                  /* private mode: the banner simply returns next render */
+                }
+                setDismissedOn(today);
+              }}
+            >
+              Dismiss
+            </button>
+          </div>
+        )}
+        <Link to="/play" className="t-heading tap mt-2 block rounded-xl border border-edge-strong border-b-2 border-b-key-raised bg-surface-raised p-4">
+          Play a coached game
+        </Link>
+      </div>
+
+      {finished.length > 0 && (
+        /*
+          §7.3's full-width band. "Recently" is reverse PATH order, not a
+          timestamp -- see `recentlyFinished`. Stars are stated as a number in
+          words, so the row carries no meaning in colour or in a glyph alone.
+        */
+        <section aria-label="Recently finished" className="hidden xl:col-span-2 xl:row-start-2 xl:block">
+          <h2 className="t-caption uppercase tracking-wide text-content-dim">Recently finished</h2>
+          <ul className="mt-2 flex flex-wrap gap-x-8 gap-y-2 rounded-card border border-edge bg-surface-raised px-4 py-3">
+            {finished.map((l) => (
+              <li key={l.id} className="t-label">
+                <span className="t-index text-content-dim">{l.id}</span> {l.title}{' '}
+                {/* An explicit space: without it the row is announced as "The rook3 stars". */}
+                <span className="t-index text-content-dim">
+                  {l.stars} {l.stars === 1 ? 'star' : 'stars'}
+                </span>
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <div className="xl:col-span-2 xl:row-start-3">
+        <Link to="/settings" className="tap t-label mt-6 inline-flex items-center text-content-dim underline xl:mt-0">
+          Settings
+        </Link>
+      </div>
     </section>
   );
 }

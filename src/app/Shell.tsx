@@ -54,7 +54,12 @@ export function Shell({ children }: { children: ReactNode }) {
         </ul>
       </nav>
       <main className="min-w-0 flex-1 pb-20 md:pb-0">
-        <div className="mx-auto w-full md:max-w-3xl md:px-2">{children}</div>
+        {/* NEUMORPHIC-DELTA.md §7.3: the cap is 1120px, not 768px. The
+            reference caps its own measure at 1024 and ranks a page vertically
+            rather than stretching it, so the answer to a 2000px window is a
+            wider CAP with real margin beside it -- 320px each side at 2000 --
+            not a 752px column with 496px of void. */}
+        <div className="mx-auto w-full md:max-w-[1120px] md:px-2">{children}</div>
       </main>
     </div>
   );

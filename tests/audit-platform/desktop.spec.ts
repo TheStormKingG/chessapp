@@ -105,3 +105,147 @@ test.describe('desktop layout at 1280x800', () => {
     expect(settled.y + settled.height, 'the lesson board runs past the fold').toBeLessThanOrEqual(800);
   });
 });
+
+/**
+ * NEUMORPHIC-DELTA.md §7: the desktop void, measured rather than looked at.
+ *
+ * §7.1 read Today's content column back as 752x545 in a 2000x1200 window --
+ * **17% of the window**, with 496px dead on each flank and 655px dead below.
+ * §7.3's answer is to cap and rank rather than stretch: a 1120px cap, a 2fr/1fr
+ * grid on the reference's own 48px gutter, the lesson card at hero scale, and
+ * the secondary column and the band carrying figures Today already computes.
+ *
+ * Everything below is read from `getBoundingClientRect`. A screenshot cannot
+ * distinguish 41% from 45%, and the two earlier passes that "noticed" this void
+ * had both looked at one (observation 0095).
+ *
+ * The share is the SAME quantity §7.1 tabulated: the screen `<section>`'s own
+ * box over the viewport. Reading it that way reproduces §7.1's three published
+ * figures exactly (64.6 / 40.0 / 17.1), so the before and after are on one
+ * scale.
+ */
+type Share = { x: number; y: number; w: number; h: number; share: number; widestText: number; widestLabel: string };
+
+async function contentShare(page: Page): Promise<Share> {
+  return page.evaluate(() => {
+    const sec = document.querySelector('main section');
+    if (!sec) throw new Error('no screen section');
+    const r = sec.getBoundingClientRect();
+    let widestText = 0;
+    let widestLabel = '';
+    for (const el of sec.querySelectorAll('*')) {
+      // Only elements that print text of their own: a full-width band is a
+      // layout box, and capping IT at 720 would be capping the wrong thing.
+      const ownText = [...el.childNodes].some((n) => n.nodeType === 3 && (n.textContent ?? '').trim() !== '');
+      if (!ownText) continue;
+      const b = el.getBoundingClientRect();
+      if (b.width > widestText) {
+        widestText = b.width;
+        widestLabel = `${el.tagName} "${(el.textContent ?? '').trim().slice(0, 30)}"`;
+      }
+    }
+    return {
+      x: r.x,
+      y: r.y,
+      w: r.width,
+      h: r.height,
+      share: (r.width * r.height) / (innerWidth * innerHeight),
+      widestText,
+      widestLabel,
+    };
+  });
+}
+
+for (const [w, h] of [
+  [1280, 800],
+  [2000, 1200],
+] as const) {
+  test.describe(`Today fills a ${String(w)}x${String(h)} window`, () => {
+    test.use({ viewport: { width: w, height: h } });
+
+    test('the content is at least 45% of the window', async ({ page }) => {
+      await page.goto('./');
+      await page.waitForTimeout(400);
+      // Negative control: an empty or missing section would satisfy nothing
+      // below by accident -- the screen has to be the real one first.
+      await expect(page.getByRole('heading', { name: 'Today', level: 1 })).toBeVisible();
+      const m = await contentShare(page);
+      test.info().annotations.push({ type: 'content-share', description: JSON.stringify(m) });
+      expect(
+        m.share,
+        `content is ${(m.share * 100).toFixed(1)}% of ${String(w)}x${String(h)} (${String(Math.round(m.w))}x${String(Math.round(m.h))})`,
+      ).toBeGreaterThanOrEqual(0.45);
+    });
+
+    test('the container is anchored to the top of the window and fills it', async ({ page }) => {
+      await page.goto('./');
+      await page.waitForTimeout(400);
+      const m = await contentShare(page);
+      // Both edges, because `min-h-*` is silently inert against an auto-height
+      // parent: a rule that claims to fill has to be read back as a top AND a
+      // bottom, never as a class on an element.
+      expect(m.y, 'the content does not start at the top of the window').toBeLessThanOrEqual(1);
+      expect(m.y + m.h, 'the content does not reach the foot of the window').toBeGreaterThanOrEqual(h - 1);
+    });
+
+    test('the measure is capped: no text runs wider than 720px', async ({ page }) => {
+      await page.goto('./');
+      await page.waitForTimeout(400);
+      const m = await contentShare(page);
+      expect(m.widestText, `${m.widestLabel} is ${String(Math.round(m.widestText))}px wide`).toBeLessThanOrEqual(720);
+    });
+
+    test('the flanks are margin, not void: the cap is 1120px', async ({ page }) => {
+      await page.goto('./');
+      await page.waitForTimeout(400);
+      const m = await contentShare(page);
+      const rail = (await box(page, 'nav[aria-label="Main"]')).width;
+      const left = m.x - rail;
+      const right = w - (m.x + m.w);
+      test.info().annotations.push({ type: 'flanks', description: `left=${String(left)} right=${String(right)}` });
+      expect(Math.abs(left - right), 'the content is not centred in what the rail leaves').toBeLessThanOrEqual(2);
+      // 1120 plus the 8px page gutter on each side.
+      expect(m.w).toBeLessThanOrEqual(1136);
+      // §7.1's 496px flank at 2000 is the number this replaces.
+      if (w === 2000) expect(left, 'the flank is still a void').toBeLessThanOrEqual(340);
+    });
+
+    test('two columns on the reference gutter, with the board at hero scale', async ({ page }) => {
+      await page.goto('./');
+      await page.waitForTimeout(600);
+      const primary = await box(page, 'main section > div >> nth=0');
+      const secondary = await box(page, 'main section [aria-label="This unit"]');
+      const board = await box(page, '[data-testid="today-lesson-board"]');
+      test.info().annotations.push({
+        type: 'grid',
+        description: `primary=${JSON.stringify(primary)} secondary=${JSON.stringify(secondary)} board=${JSON.stringify(board)}`,
+      });
+      expect(secondary.x, 'the secondary column is not beside the primary one').toBeGreaterThan(primary.x + primary.width - 1);
+      expect(secondary.y, 'the secondary column starts below the primary one').toBeLessThan(primary.y + 40);
+      // The reference's own 48px gutter (§3.1).
+      expect(Math.round(secondary.x - (primary.x + primary.width))).toBe(48);
+      expect(board.width, 'the hero board is not at hero scale').toBeCloseTo(240, 0);
+    });
+  });
+}
+
+test.describe('the phone layout is untouched', () => {
+  test.use({ viewport: { width: 390, height: 844 } });
+
+  test('Today measures exactly what it measured before the desktop pass', async ({ page }) => {
+    await page.goto('./');
+    await page.waitForTimeout(600);
+    const m = await contentShare(page);
+    const board = await box(page, '[data-testid="today-lesson-board"]');
+    test.info().annotations.push({ type: 'compact', description: JSON.stringify({ ...m, board }) });
+    // §7.1's compact row: 390 x 545, 65% of the window, and the 299px void
+    // beneath it is Delta 4's unfinished business, deliberately not re-opened.
+    expect(Math.round(m.w)).toBe(390);
+    expect(Math.round(m.h)).toBe(545);
+    expect(board.width, 'the compact board is not 120px').toBeCloseTo(120, 0);
+    // None of the desktop-only regions reach the phone.
+    for (const name of ['This unit', 'Up next', 'Recently finished']) {
+      await expect(page.getByRole('region', { name })).toHaveCount(0);
+    }
+  });
+});

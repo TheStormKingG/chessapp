@@ -64,3 +64,68 @@ export function activeLesson(p: Progress): Extract<Node, { kind: 'lesson' }> | n
   const n = activeNode(p);
   return n && n.kind === 'lesson' ? n : null;
 }
+
+/**
+ * NEUMORPHIC-DELTA.md §7.3: what Today's secondary column shows. All three
+ * derivations below read the SAME projection the Path already reads -- no new
+ * event type, no new store field, nothing persisted. If a figure cannot be
+ * derived from `Progress` it is not shown (the day streak is the one the delta
+ * asked for that cannot: `Progress` keeps `lastEventAt` and no per-day history,
+ * so a streak would have to be invented).
+ */
+
+/** The n nodes that follow the active one, in path order. Empty when nothing is active. */
+export function upcomingNodes(p: Progress, n: number): Node[] {
+  const nodes = pathNodes(p);
+  const i = nodes.findIndex((x) => x.state === 'active');
+  if (i < 0) return [];
+  return nodes.slice(i + 1, i + 1 + n);
+}
+
+export interface FinishedLesson {
+  id: string;
+  title: string;
+  stars: 1 | 2 | 3;
+}
+
+/**
+ * Finished lessons, most recent first.
+ *
+ * "Most recent" is REVERSE PATH ORDER, not a timestamp: the projection keeps no
+ * completion time, and the path is strictly gated, so the last lesson a learner
+ * finished is the last completed one in path order. A lesson skipped by testing
+ * out is not listed -- it was passed, not finished, and it carries no stars.
+ */
+export function recentlyFinished(p: Progress, n: number): FinishedLesson[] {
+  const out: FinishedLesson[] = [];
+  for (const node of pathNodes(p)) {
+    if (node.kind !== 'lesson' || node.state !== 'done') continue;
+    const stars = p.lessons[node.id]?.stars;
+    if (!stars) continue;
+    out.push({ id: node.id, title: node.title, stars });
+  }
+  return out.reverse().slice(0, n);
+}
+
+/**
+ * How far through the ACTIVE unit the learner is, counted in lessons for the
+ * reason PathScreen counts them: a checkpoint is a gate on the work, not more
+ * of it. Tested out counts as done. Null when nothing is active.
+ */
+export function activeUnitProgress(
+  p: Progress,
+): { unit: string; title: string; done: number; total: number } | null {
+  const active = activeNode(p);
+  if (!active) return null;
+  const unit = SECTION_1.units.find((u) => u.id === active.unit);
+  if (!unit) return null;
+  const lessons = pathNodes(p).filter(
+    (n): n is Extract<Node, { kind: 'lesson' }> => n.kind === 'lesson' && n.unit === unit.id,
+  );
+  return {
+    unit: unit.id,
+    title: unit.title,
+    done: lessons.filter((n) => n.state === 'done' || n.state === 'testedOut').length,
+    total: lessons.length,
+  };
+}

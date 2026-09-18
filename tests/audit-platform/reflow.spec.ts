@@ -32,18 +32,40 @@ async function settle(page: Page, url: string): Promise<void> {
   await page.waitForLoadState('networkidle').catch(() => undefined);
 }
 
+/**
+ * The width matrix. 390x844 is the phone the reflow promise was written for;
+ * 2000x1200 is the width the owner actually uses, and 1280x800 is the edge the
+ * two-column grid switches on, all three added with the desktop layout
+ * (NEUMORPHIC-DELTA.md §7.4). 1280 earns its row: the grid's media query is
+ * evaluated in ROOT-relative rem that does not scale, while the rail, the
+ * gutter and the padding are rem that does, so it is the one width where a
+ * 32px root asks two columns to fit a container that shrank around them. The wide row is not a formality: at a 32px root
+ * the two-column grid is the one place where a fixed gutter, a 240px board and
+ * doubled text can push a column past its track, and nothing else in the suite
+ * looks at a large root font in a wide window.
+ */
+const WIDTHS = [
+  [390, 844],
+  [1280, 800],
+  [2000, 1200],
+] as const;
+
 for (const [slug, url] of SCREENS) {
-  test(`${slug}: no sideways scrolling at the largest text size`, async ({ page }) => {
-    await page.setViewportSize({ width: 390, height: 844 });
-    await settle(page, url);
-    await page.addStyleTag({ content: 'html{font-size:200% !important}' });
-    await page.waitForTimeout(250);
-    const m = await page.evaluate(() => ({
-      scrollW: document.documentElement.scrollWidth,
-      clientW: document.documentElement.clientWidth,
-    }));
-    expect(m.scrollW, `${slug} overflows by ${String(m.scrollW - m.clientW)}px`).toBeLessThanOrEqual(m.clientW + 1);
-  });
+  for (const [vw, vh] of WIDTHS) {
+    test(`${slug}: no sideways scrolling at the largest text size at ${String(vw)}x${String(vh)}`, async ({ page }) => {
+      await page.setViewportSize({ width: vw, height: vh });
+      await settle(page, url);
+      await page.addStyleTag({ content: 'html{font-size:200% !important}' });
+      await page.waitForTimeout(250);
+      const m = await page.evaluate(() => ({
+        scrollW: document.documentElement.scrollWidth,
+        clientW: document.documentElement.clientWidth,
+      }));
+      expect(m.scrollW, `${slug} overflows by ${String(m.scrollW - m.clientW)}px at ${String(vw)}px`).toBeLessThanOrEqual(
+        m.clientW + 1,
+      );
+    });
+  }
 
   test(`${slug}: every .tap control really measures 44px`, async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
