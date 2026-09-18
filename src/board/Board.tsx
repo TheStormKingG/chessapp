@@ -586,12 +586,21 @@ export function Board(props: BoardProps & { size?: number; decorative?: boolean;
             // The border is `--content`, not `--edge-strong`. This is the one
             // control in the app that sits ON the board, so its boundary is
             // measured against the squares rather than a page surface, and
-            // `--edge-strong` fails there in every combination (measured in
-            // the browser: 1.02 to 2.65 against the four square-and-appearance
-            // pairs, under the 3:1 that `accessibility.md > Color and effects`
-            // wants for a non-text boundary). `--content` clears it on all
-            // four: 13.08 and 4.82 light, 3.34 and 6.78 dark.
-            className="tap absolute right-2 bottom-8 z-10 rounded-lg border border-content bg-surface-raised px-4 text-[0.9375rem] font-medium text-content"
+            // `--edge-strong` fails there: 3.66 on --board-light but 1.35 on
+            // --board-dark, and the control can overlap either, so it misses
+            // the 3:1 that `accessibility.md > Color and effects` wants for a
+            // non-text boundary. The two ratios stated
+            // here were the OLD --content against the OLD squares; re-measured
+            // for the shipped palette (#0f172b on #e9e1d2 / #94876f) they are
+            // 13.73 and 5.06, both clear.
+            //
+            // It takes NO shadow, and that is the one deliberate exception to
+            // chunk N4's "every control is raised": PREMIUM-DELTA.md Δ1 rule 4
+            // stops elevation at the board's edge and this control is inside
+            // it. `controls.spec.ts` therefore requires a 3:1 border of every
+            // control and a raise of none — the border is the rule, the raise
+            // is the house style.
+            className="tap t-label absolute right-2 bottom-8 z-10 rounded-control border border-content bg-surface-raised px-4 text-content"
           >
             Skip
           </button>

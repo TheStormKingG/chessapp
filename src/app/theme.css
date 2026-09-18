@@ -404,7 +404,16 @@ body {
   line-height: var(--type-label-leading);
   font-weight: 500;
   text-align: center;
-  transition: opacity var(--motion-fast) var(--ease-out);
+  /*
+   * Three properties, because this style now has three depth states and the
+   * press is one of them (below). Only transform and box-shadow animate; both
+   * are compositor-cheap and both collapse to 1ms under reduced motion, which
+   * removes the animation and keeps the state.
+   */
+  transition:
+    opacity var(--motion-fast) var(--ease-out),
+    box-shadow var(--motion-fast) var(--ease-out),
+    transform var(--motion-fast) var(--ease-out);
 }
 
 /*
@@ -438,11 +447,23 @@ body {
   min-height: 46px;
 }
 
+/*
+ * `quiet` paints no surface and carries no shadow, so it is not the hazard
+ * §3.3 legislates against — there is nothing for the shadow pair to be "the
+ * only boundary" of. Its boundary is its label, at 5.99:1, and the underline
+ * is what keeps it a CONTROL rather than dim prose: without it the only thing
+ * separating this from body text is a hue, which is hard constraint 6. Two of
+ * the three call sites already added `underline` by hand; it belongs in the
+ * style, so `controls.spec.ts`'s text-control exemption can be enforced rather
+ * than merely granted.
+ */
 @utility btn-quiet {
   background: transparent;
   color: var(--content-dim);
   border-color: transparent;
   padding-inline: 0.5rem;
+  text-decoration: underline;
+  text-underline-offset: 3px;
 }
 
 @utility btn-danger {
@@ -466,6 +487,120 @@ body {
      hue alone for a learner who cannot separate this red from the ink. */
   text-decoration: underline;
   text-underline-offset: 3px;
+}
+
+/*
+ * ─── Press and disabled, as DEPTH rather than as colour (chunk N4) ──────────
+ *
+ * This is the state neumorphism most often loses. On a crisp-edged control a
+ * press can be expressed by moving the key edge, which is what the previous
+ * pass relied on implicitly: nothing in this file ever set `:active`, and the
+ * only feedback was the browser's own. On a soft surface there is no browser
+ * default worth anything, so with the raise arriving in N2/N3 the app would
+ * have shipped controls with no press feedback at all. It is asserted in
+ * `tests/audit-platform/controls.spec.ts`, not assumed.
+ *
+ * Three states, three depths, one grammar, and none of them is a hue:
+ *
+ *   raised   `--shadow-raised`        available
+ *   inset    `--shadow-inset`         being pressed
+ *   flat     `box-shadow: none`       disabled
+ *
+ * The inset pair is the same token the grooves use and it renders over a
+ * transparent background too, so `quiet` and `danger-quiet` — which have no
+ * raise to lose — still get a real press. The 1px shift is the second channel,
+ * for anyone who cannot resolve a 1.72:1 shadow at all.
+ *
+ * `:disabled` and `[aria-disabled='true']` are both matched: the Path's locked
+ * nodes use the ARIA form on non-button elements, and a state that reads as
+ * disabled to a screen reader and as available to the eye is worse than
+ * either.
+ *
+ * Disabled deliberately does NOT touch the border or the label colour. The
+ * call sites dim with `disabled:opacity-60`, and opacity alone is a single
+ * channel that also drags the label's contrast down with it; losing the raise
+ * is a second, independent channel that costs the label nothing.
+ */
+.btn:active:not(:disabled):not([aria-disabled='true']),
+.icon-control:active:not(:disabled):not([aria-disabled='true']) {
+  box-shadow: var(--shadow-inset);
+  transform: translateY(1px);
+}
+
+.btn:disabled,
+.btn[aria-disabled='true'],
+.icon-control:disabled,
+.icon-control[aria-disabled='true'] {
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/*
+ * ─── Form controls keep a real edge too (chunk N4) ──────────────────────────
+ *
+ * A native checkbox is painted by the UA: it computes `border-width: 0px`, so
+ * on `#e0e5ec` it is bounded by whatever the browser decides, which is neither
+ * measurable from computed styles nor `--edge-strong`. Both of the app's
+ * checkboxes were in that state, and the contrast sweep cannot exempt a
+ * control just because the platform drew it.
+ *
+ * `appearance: none` hands the box back to the token layer. The checked state
+ * is a drawn tick — a SHAPE — over the accent fill, never the fill alone, and
+ * it is built from two borders so it scales with the control's own `em` and
+ * stays vector at any text size. No emoji (hard constraint 7).
+ *
+ * This rule sets no `inline-size`, `block-size` or `display`: it is unlayered
+ * CSS and would beat the layered `size-7` / `shrink-0` utilities the call sites
+ * use, silently restyling both of them (observation 0103).
+ */
+input[type='checkbox'] {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1px solid var(--edge-strong);
+  /*
+   * NOT `--radius-control`, and the exception is recorded rather than taken
+   * quietly. DESIGN-SYSTEM.md §3.3 gives controls one radius (12px since
+   * NEUMORPHIC-DELTA.md §3.5) and says 999px applies to nothing. Applied
+   * literally to a 28px box, 12px IS a circle — measured in the browser, it
+   * renders as a radio button — so the clause produces the exact appearance
+   * its own 999px rule exists to forbid, and a circle is a stronger signal
+   * than a radius scale: it means "one of these", not "on or off"
+   * (`toggles.md` / `selecting-multiple-items` distinguish the two by shape
+   * before colour). 6px is the same corner weight 12px carries on a 44px
+   * control, and it keeps the box a box.
+   */
+  border-radius: 6px;
+  background: var(--surface-raised);
+  box-shadow: var(--shadow-inset-soft);
+  /* `display` IS set here, and observation 0103's hazard was checked rather
+     than assumed: neither call site carries a display utility (`size-7`,
+     `shrink-0` and `accent-accent` set size, flex-shrink and accent-color), so
+     nothing layered is being overridden. It is needed because `place-content`
+     is inert on the default `inline-block`, and the tick is centred by the
+     grid rather than by hand-tuned offsets that would drift with text size. */
+  display: inline-grid;
+  place-content: center;
+}
+
+input[type='checkbox']::before {
+  content: '';
+  display: block;
+  inline-size: 0.5em;
+  block-size: 0.28em;
+  border-inline-start: 0.14em solid var(--accent-on);
+  border-block-end: 0.14em solid var(--accent-on);
+  transform: rotate(-45deg) translate(0.06em, -0.06em);
+  opacity: 0;
+}
+
+input[type='checkbox']:checked {
+  background: var(--accent);
+  border-color: var(--accent);
+  box-shadow: none;
+}
+
+input[type='checkbox']:checked::before {
+  opacity: 1;
 }
 
 /*
