@@ -2,6 +2,8 @@ import { AnalysisService, DEPTH_COST, LADDER } from './AnalysisService';
 import type { Analysis } from '@/engine';
 import { EngineUnavailable } from '@/engine';
 import { positionsOf } from './gameSource';
+import { EngineClient, type WorkerLike } from '@/engine';
+import { createRequire } from 'node:module';
 
 /** A fake engine that answers instantly and records what it was asked. */
 function fakeEngine(opts: { perCallMs?: number; failAt?: number } = {}) {
@@ -141,3 +143,43 @@ test('a result that lands after cancel is discarded, not written into the run', 
   expect(r.positions).toHaveLength(1);
   expect(progress).toEqual([1]);
 });
+
+/**
+ * Drives the SHIPPED engine binary. Slow by unit-test standards (a few seconds)
+ * and therefore worth it exactly once: everything else in this feature assumes
+ * MultiPV 2 yields a second line, and nothing else checks it.
+ */
+test('the real engine returns two ordered lines at MultiPV 2', async () => {
+  const require = createRequire(import.meta.url);
+  const initEngine = require('stockfish') as (path: string) => Promise<{
+    sendCommand: (m: string) => void;
+    terminate: () => void;
+    listener: ((l: string) => void) | null;
+  }>;
+  const engine = await initEngine(require.resolve('stockfish/bin/stockfish-19-lite-single.js'));
+
+  // The WorkerLike adapter, matching src/engine/EngineClient.ts's interface
+  // exactly: postMessage forwards to sendCommand, and every line the engine
+  // emits arrives at onmessage as { data: line }, which is what EngineClient
+  // reads.
+  const worker: WorkerLike = {
+    postMessage: (m: string) => engine.sendCommand(m),
+    terminate: () => engine.terminate(),
+    onmessage: null,
+    onerror: null,
+    onmessageerror: null,
+  };
+  engine.listener = (l: string) => worker.onmessage?.({ data: String(l) } as MessageEvent<string>);
+
+  const client = new EngineClient(() => worker, { idleMs: 5_000 });
+  const a = await client.analyse({
+    fen: 'r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3',
+    depth: 12,
+    multiPv: 2,
+  });
+  expect(a.lines.length).toBe(2);
+  expect(a.lines[0]!.move).toMatch(/^[a-h][1-8][a-h][1-8]/);
+  expect(a.lines[1]!.move).toMatch(/^[a-h][1-8][a-h][1-8]/);
+  expect(a.lines[0]!.move).not.toBe(a.lines[1]!.move);
+  client.dispose();
+}, 60_000);
