@@ -1,4 +1,4 @@
-import { selectKeyMoments, MAX_MOMENTS, MIN_MOMENTS } from './keyMoments';
+import { selectKeyMoments, MAX_MOMENTS } from './keyMoments';
 import type { ReviewedMove } from './types';
 
 function mv(o: Partial<ReviewedMove> & { ply: number }): ReviewedMove {
@@ -102,10 +102,13 @@ test('no moment is selected twice under two kinds', () => {
   expect(new Set(k.map((m) => m.ply)).size).toBe(k.length);
 });
 
-test('a clean short game yields fewer than the floor rather than padding', () => {
+test('a clean short game yields fewer than three rather than padding', () => {
+  // F-RV-4 asks for UP TO five moments, not three to five. There is no floor:
+  // three is named here as a literal because it is the number the old floor
+  // used, not because any constant still holds it.
   const moves = [mv({ ply: 0, drop: 0, label: 'Best' }), mv({ ply: 2, drop: 0.5, label: 'Excellent' })];
   const k = selectKeyMoments(moves, 'w');
-  expect(k.length).toBeLessThan(MIN_MOMENTS);
+  expect(k.length).toBeLessThan(3);
   // And nothing with a zero swing is presented as a "moment".
   expect(k.every((m) => m.kind === 'found')).toBe(true);
 });

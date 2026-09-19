@@ -2,10 +2,14 @@ import type { Color } from '@/rules';
 import type { KeyMoment, MomentKind, ReviewedMove } from './types';
 
 /**
- * PRD F-RV-4: "Three to five moments chosen by the size of the swing in
+ * PRD F-RV-4: "Up to five moments chosen by the size of the swing in
  * expected score, with at least one of each kind where present, a good move the
  * learner found, a chance the learner missed, and the mistake that decided the
  * game."
+ *
+ * Five is an upper bound and there is no lower one. A clean game genuinely has
+ * fewer moments, and padding the list to a floor would manufacture moments out
+ * of moves that were not mistakes.
  *
  * Only the learner's moves are candidates. The opponent is a bot; its blunders
  * are not the learner's moments.
@@ -30,7 +34,6 @@ import type { KeyMoment, MomentKind, ReviewedMove } from './types';
  */
 
 export const MAX_MOMENTS = 5;
-export const MIN_MOMENTS = 3;
 
 /** Below this, a "swing" is engine noise rather than a moment. */
 const MIN_SWING = 3;

@@ -31,9 +31,10 @@ const PROMPT: Record<string, string> = {
 };
 
 /**
- * Returns null when there are fewer than MIN_DRILL errors. A two-question
+ * Returns null when there are fewer than MIN_DRILL errors. F-RV-7 asks for a
+ * drill "where the game produced enough errors to build one": a two-question
  * "three to five puzzle drill" would have to lie in its own copy, and a review
- * of a clean game should end on the last key moment rather than on a stub.
+ * of a clean game ends on the last key moment rather than on a stub.
  */
 export function drillFrom(errors: ErrorEntry[]): Drill | null {
   if (errors.length < MIN_DRILL) return null;
