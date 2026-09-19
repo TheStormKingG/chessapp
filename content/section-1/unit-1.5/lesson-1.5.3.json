@@ -1,0 +1,156 @@
+{
+  "id": "1.5.3",
+  "unit": "1.5",
+  "title": "King and rook against king",
+  "xp": 15,
+  "card": {
+    "idea": "A rook cannot do this alone; your king has to come and help. The rook draws a line the enemy king may not cross, your king walks up until the two kings face each other, and then the rook checks along the edge.",
+    "habit": "Cut him off, take the opposition, check along the edge.",
+    "diagrams": [
+      "3k4/8/3K4/8/8/8/R7/8 w - - 0 1"
+    ]
+  },
+  "explain": [
+    {
+      "fen": "8/8/8/4k3/8/8/8/R3K3 w - - 0 1",
+      "text": "The rook draws a line the king may not cross. Ra4 takes the whole fourth rank, so the black king is shut into the top half of the board. Every time he steps back, move the line one rank nearer the edge and the room he has left shrinks. Keep the rook away from his king.",
+      "arrows": [
+        [
+          "a1",
+          "a4"
+        ]
+      ],
+      "highlights": [
+        "e5"
+      ]
+    },
+    {
+      "fen": "3k4/8/3K4/8/8/8/R7/8 w - - 0 1",
+      "text": "Now the kings stand face to face with one square between them. That is called the opposition, and it is what finishes the job: your king takes c7, d7 and e7 away, so the black king only has the eighth rank. Ra8 checks along it and there is no answer.",
+      "arrows": [
+        [
+          "a2",
+          "a8"
+        ]
+      ],
+      "highlights": [
+        "d6",
+        "d8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.5.3-c1",
+      "type": "which_square",
+      "fen": "8/8/8/4k3/8/8/8/R3K3 w - - 0 1",
+      "prompt": "Your rook on a1 can shut the black king out of the bottom half of the board. Tap the square it goes to.",
+      "answer": {
+        "square": "a4"
+      },
+      "concept": "rook-mate",
+      "reason": "On a4 the rook owns the fourth rank and stands well clear of the king, who can never come below rank five again.",
+      "hints": {
+        "text": "Draw the line on the rank behind the king, not the one he stands on.",
+        "text2": "He is on e5, so the line you want is the fourth rank — and keep the rook far from him."
+      }
+    },
+    {
+      "id": "1.5.3-c2",
+      "type": "find_the_move",
+      "fen": "5k2/5pp1/3K4/2R2r2/8/8/4P3/8 w - - 0 1",
+      "prompt": "Your king is doing his half of the job. Finish it.",
+      "answer": {
+        "moves": [
+          "Rc8#"
+        ]
+      },
+      "wrong": {
+        "Rxf5": "Winning a rook is nice, but there is mate in one on the board."
+      },
+      "concept": "rook-mate",
+      "reason": "Your king on d6 covers e7, the one square his own pawns leave open, so a check along the eighth rank has no answer.",
+      "hints": {
+        "piece": "c5",
+        "square": "c8"
+      }
+    },
+    {
+      "id": "1.5.3-c3",
+      "type": "find_the_move",
+      "fen": "7k/7p/7K/8/8/2bP4/1R6/8 w - - 0 1",
+      "prompt": "Finish it.",
+      "answer": {
+        "moves": [
+          "Rb8#"
+        ]
+      },
+      "concept": "rook-mate",
+      "reason": "Your king on h6 takes g7, the pawn on h7 is his own, and the rook covers g8 on its way along the eighth.",
+      "hints": {
+        "piece": "b2",
+        "square": "b8"
+      }
+    },
+    {
+      "id": "1.5.3-c4",
+      "type": "find_the_move",
+      "fen": "4k3/2K1pp2/8/6R1/7n/8/P2P4/8 w - - 0 1",
+      "prompt": "Finish it.",
+      "answer": {
+        "moves": [
+          "Rg8#"
+        ]
+      },
+      "wrong": {
+        "Rg7": "That holds the seventh rank but gives no check, and he just shuffles. The eighth rank is mate."
+      },
+      "concept": "rook-mate",
+      "reason": "Your king on c7 takes d7 and d8, his own pawns fill e7 and f7, and the rook takes the eighth rank.",
+      "hints": {
+        "piece": "g5",
+        "square": "g8"
+      }
+    },
+    {
+      "id": "1.5.3-c5",
+      "type": "is_it_safe",
+      "fen": "k7/7R/1K6/8/8/8/8/8 w - - 0 1",
+      "move": "Rb7",
+      "prompt": "White plays Rb7, taking the last square from the black king. Is that safe?",
+      "reasons": [
+        "It leaves Black with no move and no check: stalemate, and the win is thrown away.",
+        "The rook on b7 is attacked by the king and drops off.",
+        "It is fine, and Rb8 is mate next move."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "rook-mate",
+      "reason": "Rh8 is mate right now. Taking the last square is only ever right when it comes with check.",
+      "hints": {
+        "piece": "h7",
+        "square": "h8"
+      }
+    },
+    {
+      "id": "1.5.3-c6",
+      "type": "play_it_out",
+      "fen": "8/8/8/4k3/8/8/8/R3K3 w - - 0 1",
+      "prompt": "Rook and king against a lone king. Mate him in twenty-two moves or fewer.",
+      "goal": {
+        "kind": "mate_in",
+        "moves": 22
+      },
+      "opponentDepth": 6,
+      "concept": "rook-mate",
+      "reason": "Ra4 first, to cut him off, and note how far the rook stays from his king. Then walk your own king up, and only move the rook’s line forward when your king has taken the squares in front of him.",
+      "hints": {
+        "piece": "a1",
+        "square": "a4"
+      }
+    }
+  ],
+  "takeaway": "The rook cuts him off, your king takes the opposition, the rook checks along the edge."
+}

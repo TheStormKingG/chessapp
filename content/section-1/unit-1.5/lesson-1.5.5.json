@@ -1,0 +1,123 @@
+{
+  "id": "1.5.5",
+  "unit": "1.5",
+  "title": "Meeting Scholar's and Fool's mate",
+  "xp": 15,
+  "card": {
+    "idea": "Two quick mates catch beginners, and this lesson is about being on the right end of them. Scholar's mate points a queen and a bishop at f7, the one square only your king guards. Fool's mate needs you to open the road to your own king with two pawn moves.",
+    "habit": "Every move, ask what the enemy queen is aiming at.",
+    "diagrams": ["r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3"]
+  },
+  "explain": [
+    {
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+      "text": "The queen on h5 and the bishop on c4 both hit f7, and only the black king guards it. Two attackers against one defender means Qxf7 would be mate. Black is to move, so this is easy to meet: cover f7, or chase the queen off.",
+      "arrows": [["h5", "f7"], ["c4", "f7"]],
+      "highlights": ["f7"]
+    },
+    {
+      "fen": "rnbqkbnr/pppp1ppp/8/4p3/6P1/5P2/PPPPP2P/RNBQKBNR b KQkq - 0 2",
+      "text": "This is Fool's mate, and White has done it to himself. The pawn moves f3 and g4 opened a straight road from h4 to his own king, and Qh4 is mate in one. Moving both of those pawns in front of your king is how a game ends in two moves.",
+      "arrows": [["d8", "h4"]],
+      "highlights": ["e1", "f2", "g4"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.5.5-c1",
+      "type": "which_square",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+      "prompt": "You are Black. Tap the square the white queen and the white bishop are both aiming at.",
+      "answer": { "square": "f7" },
+      "concept": "meeting-early-mates",
+      "reason": "f7 is the only square on your side that nothing but the king defends, which is why it is always the target.",
+      "hints": {
+        "text": "Follow the bishop's diagonal from c4 and see where the queen's line from h5 crosses it.",
+        "text2": "It is a pawn square in front of your king, on the f-file."
+      }
+    },
+    {
+      "id": "1.5.5-c2",
+      "type": "find_them_all",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+      "prompt": "Tap every white piece that is attacking f7.",
+      "answer": { "pieces": ["c4", "h5"] },
+      "concept": "meeting-early-mates",
+      "hints": {
+        "text": "One of them is on a diagonal and one is on a rank.",
+        "text2": "Counting attackers and defenders is the same job as in unit 1.2 — two against one here."
+      }
+    },
+    {
+      "id": "1.5.5-c3",
+      "type": "is_it_safe",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+      "move": "Nf6",
+      "prompt": "Black develops with Nf6, attacking the queen. Is that safe?",
+      "reasons": [
+        "Qxf7 is checkmate: the bishop on c4 guards f7, so the king cannot take the queen.",
+        "The knight on f6 is simply taken by the queen for nothing.",
+        "It is safe, because the knight attacks the queen and she has to move."
+      ],
+      "answer": { "safe": false, "reason": 0 },
+      "concept": "meeting-early-mates",
+      "reason": "Attacking a piece does not help if the piece mates you first. Deal with f7 before you do anything else.",
+      "hints": { "piece": "g8", "square": "f7" }
+    },
+    {
+      "id": "1.5.5-c4",
+      "type": "find_the_move",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+      "prompt": "Meet the threat. Find a move that covers f7 or chases the queen away.",
+      "answer": { "moves": ["g6", "Qe7", "Qf6", "Nh6"] },
+      "wrong": {
+        "Nf6": "That leaves f7 alone. Qxf7 is mate.",
+        "d6": "A tidy move that does nothing about f7, and Qxf7 is mate."
+      },
+      "concept": "meeting-early-mates",
+      "reason": "Four moves do the job here. g6 is the usual one: it hits the queen and gains you a move while she runs.",
+      "hints": { "piece": "g7", "square": "g6" }
+    },
+    {
+      "id": "1.5.5-c5",
+      "type": "find_the_move",
+      "fen": "rnbqkb1r/pppp1ppp/5n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+      "prompt": "The white queen came out early and landed on h5. Take your chance.",
+      "answer": { "moves": ["Nxh5"] },
+      "wrong": {
+        "d6": "You have a free queen on h5. Everything else can wait.",
+        "Nc6": "There is a queen hanging on h5 and your knight already attacks her."
+      },
+      "concept": "meeting-early-mates",
+      "reason": "Your knight on f6 already attacks h5 and nothing defends her, so the early queen sortie just loses her.",
+      "hints": { "piece": "f6", "square": "h5" }
+    },
+    {
+      "id": "1.5.5-c6",
+      "type": "is_it_safe",
+      "fen": "rnbqkbnr/pppp1ppp/8/4p3/8/5P2/PPPPP1PP/RNBQKBNR w KQkq - 0 2",
+      "move": "g4",
+      "prompt": "White has played f3 and now wants g4. Is that safe?",
+      "reasons": [
+        "It opens the road from h4 to the white king, and Qh4 is mate on the spot.",
+        "The pawn on g4 is hanging and Black just takes it.",
+        "It is safe: the pawns keep Black's pieces out."
+      ],
+      "answer": { "safe": false, "reason": 0 },
+      "concept": "meeting-early-mates",
+      "reason": "f3 and g4 together strip the cover from e1 along the diagonal. Never move both pawns in front of your own king this early.",
+      "hints": { "piece": "g2", "square": "h4" }
+    },
+    {
+      "id": "1.5.5-c7",
+      "type": "name_the_pattern",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+      "prompt": "Black to move. What is White going for?",
+      "options": ["Scholar's mate on f7", "Fool's mate on h4", "Nothing is threatened yet"],
+      "answer": { "option": 0 },
+      "concept": "meeting-early-mates",
+      "hints": { "text": "Two white pieces are pointing at the same square on Black's side." }
+    }
+  ],
+  "takeaway": "Count what is aimed at f7, and never open the road to your own king."
+}

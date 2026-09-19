@@ -1,0 +1,175 @@
+{
+  "id": "1.5.1",
+  "unit": "1.5",
+  "title": "The ladder mate",
+  "xp": 15,
+  "card": {
+    "idea": "Two rooks mate a lone king on their own. One rook holds a rank so the king cannot come back; the other checks him on the next rank along. Do that twice or three times and he runs out of board.",
+    "habit": "Hold one rank, check on the next.",
+    "diagrams": [
+      "4k3/7R/n7/p7/8/8/1P6/5KR1 w - - 0 1"
+    ]
+  },
+  "explain": [
+    {
+      "fen": "4k3/7R/n7/p7/8/8/1P6/5KR1 w - - 0 1",
+      "text": "The rook on h7 owns the whole seventh rank, so the black king can never step back down to it. He is stuck on the eighth. Now the other rook checks along the eighth rank and the game is over.",
+      "arrows": [
+        [
+          "h7",
+          "a7"
+        ],
+        [
+          "g1",
+          "g8"
+        ]
+      ],
+      "highlights": [
+        "e8"
+      ]
+    },
+    {
+      "fen": "8/8/8/4k3/8/8/8/R3K2R w - - 0 1",
+      "text": "From the middle it is the same idea, one step at a time. A rook takes the rank behind the king so he cannot drop back. The other rook checks him one rank nearer the top. Then they swap jobs, over and over, like climbing a ladder.",
+      "arrows": [
+        [
+          "a1",
+          "a4"
+        ]
+      ],
+      "highlights": [
+        "e5"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.5.1-c1",
+      "type": "which_square",
+      "fen": "8/8/8/4k3/8/8/8/R3K2R w - - 0 1",
+      "prompt": "Your rook on a1 can shut the black king out of the bottom half of the board. Tap the square it goes to.",
+      "answer": {
+        "square": "a4"
+      },
+      "concept": "ladder-mate",
+      "reason": "On a4 the rook owns the fourth rank, so the king can never come below rank five again.",
+      "hints": {
+        "text": "You want the rank just behind the king, not the one he is standing on.",
+        "text2": "The king is on e5, so the rank behind him is the fourth."
+      }
+    },
+    {
+      "id": "1.5.1-c2",
+      "type": "find_the_move",
+      "fen": "3k4/2p2R2/8/7r/8/2P3R1/2P5/K7 w - - 0 1",
+      "prompt": "Finish it.",
+      "answer": {
+        "moves": [
+          "Rg8#"
+        ]
+      },
+      "wrong": {
+        "Rf8+": "That gives up the seventh rank, and he just steps down onto it. Use the other rook.",
+        "Rgg7": "The f7-rook already owns that rank. Go to the eighth and give check."
+      },
+      "concept": "ladder-mate",
+      "reason": "The rook on f7 covers every square on the seventh rank, so a check on the eighth leaves the king nowhere.",
+      "hints": {
+        "piece": "g3",
+        "square": "g8"
+      }
+    },
+    {
+      "id": "1.5.1-c3",
+      "type": "find_the_move",
+      "fen": "6k1/R7/1p6/1np5/8/2P5/3P4/4RK2 w - - 0 1",
+      "prompt": "Finish it.",
+      "answer": {
+        "moves": [
+          "Re8#"
+        ]
+      },
+      "concept": "ladder-mate",
+      "reason": "The a7-rook holds the seventh rank, so the check along the eighth is the end.",
+      "hints": {
+        "piece": "e1",
+        "square": "e8"
+      }
+    },
+    {
+      "id": "1.5.1-c4",
+      "type": "find_the_move",
+      "fen": "2k5/4R3/6pp/5Rb1/8/6P1/6P1/7K w - - 0 1",
+      "prompt": "Finish it.",
+      "answer": {
+        "moves": [
+          "Rf8#"
+        ]
+      },
+      "wrong": {
+        "Rxg5": "You are a move from mate. Take the eighth rank instead.",
+        "Ree5": "The rook on e7 is the one holding the seventh rank. Bring the other one up."
+      },
+      "concept": "ladder-mate",
+      "reason": "The e7-rook covers the seventh rank, so Rf8 checks the king with no square to go to.",
+      "hints": {
+        "piece": "f5",
+        "square": "f8"
+      }
+    },
+    {
+      "id": "1.5.1-c5",
+      "type": "find_the_sequence",
+      "fen": "8/5k2/R7/1R6/8/8/8/4K3 w - - 0 1",
+      "prompt": "Mate in two. Check him up one rank, then finish on the eighth.",
+      "answer": {
+        "line": [
+          "Rb7+",
+          "Kf8",
+          "Ra8#"
+        ]
+      },
+      "concept": "ladder-mate",
+      "reason": "The rook on a6 holds the sixth rank, so Rb7 check drives the king up to the eighth, and then the a6-rook swings across.",
+      "hints": {
+        "piece": "b5",
+        "square": "b7"
+      }
+    },
+    {
+      "id": "1.5.1-c6",
+      "type": "play_it_out",
+      "fen": "8/8/8/4k3/8/8/8/R2QK3 w - - 0 1",
+      "prompt": "Queen and rook against a lone king. Mate him in twelve moves or fewer.",
+      "goal": {
+        "kind": "mate_in",
+        "moves": 12
+      },
+      "opponentDepth": 6,
+      "concept": "ladder-mate",
+      "reason": "Ra4 takes the rank behind him first, and the queen counts as the second rook. Check on the rank above, hold it, and keep climbing.",
+      "hints": {
+        "piece": "a1",
+        "square": "a4"
+      }
+    },
+    {
+      "id": "1.5.1-c7",
+      "type": "play_it_out",
+      "fen": "8/8/8/4k3/8/8/8/R3K2R w - - 0 1",
+      "prompt": "Two rooks against a lone king. Mate him in sixteen moves or fewer.",
+      "goal": {
+        "kind": "mate_in",
+        "moves": 16
+      },
+      "opponentDepth": 6,
+      "concept": "ladder-mate",
+      "reason": "Ra4 takes the rank behind him first. Then check on the fifth, hold the fifth, check on the sixth, and so on up to the eighth.",
+      "hints": {
+        "piece": "a1",
+        "square": "a4"
+      }
+    }
+  ],
+  "takeaway": "One rook holds the rank, the other checks on the next one along."
+}

@@ -1,0 +1,104 @@
+{
+  "id": "1.5.4",
+  "unit": "1.5",
+  "title": "The back-rank mate",
+  "xp": 15,
+  "card": {
+    "idea": "A king tucked behind three untouched pawns is safe from nearly everything, except a rook or queen landing on his own back rank. He has no square to step to, so the check is mate. The same hole is sitting in your position too.",
+    "habit": "Give your king a square to breathe.",
+    "diagrams": ["6k1/5ppp/8/1p5b/8/3R4/8/2K5 w - - 0 1"]
+  },
+  "explain": [
+    {
+      "fen": "6k1/5ppp/8/1p5b/8/3R4/8/2K5 w - - 0 1",
+      "text": "The black king on g8 has f7, g7 and h7 filled by his own pawns. Rd8 checks him along the eighth rank and there is nowhere at all to go: mate. The pawns that keep him safe from the side are the same pawns that trap him.",
+      "arrows": [["d3", "d8"]],
+      "highlights": ["f7", "g7", "h7"]
+    },
+    {
+      "fen": "6k1/5pp1/7p/8/8/8/5PPP/3R2K1 w - - 0 1",
+      "text": "Here Black has pushed the h-pawn to h6, so the king has h7 to step to and a check on the back rank is only a check. One quiet pawn move is the whole defence. Look at your own back rank before somebody makes you look at it.",
+      "highlights": ["h7", "g8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.5.4-c1",
+      "type": "find_them_all",
+      "fen": "6k1/5ppp/8/1p5b/8/3R4/8/2K5 w - - 0 1",
+      "prompt": "Tap every square the black king can move to.",
+      "answer": { "squares": ["f8", "h8"] },
+      "concept": "back-rank",
+      "hints": {
+        "text": "His own pawns stand on f7, g7 and h7, so forget that whole row.",
+        "text2": "Only the back rank is left, and only two squares of it."
+      }
+    },
+    {
+      "id": "1.5.4-c2",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/1p5b/8/3R4/8/2K5 w - - 0 1",
+      "prompt": "Mate in one.",
+      "answer": { "moves": ["Rd8#"] },
+      "wrong": { "Rd7": "Close, but that only attacks the pawns. The empty rank behind the king is the one that matters." },
+      "concept": "back-rank",
+      "reason": "The eighth rank is empty apart from the king, and his own pawns take away every square in front of him.",
+      "hints": { "piece": "d3", "square": "d8" }
+    },
+    {
+      "id": "1.5.4-c3",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/2p5/8/8/7n/P4P2/4Q2K w - - 0 1",
+      "prompt": "Mate in one.",
+      "answer": { "moves": ["Qe8#"] },
+      "concept": "back-rank",
+      "reason": "The queen does a rook's job here: she checks along the eighth rank and the pawns on f7, g7 and h7 do the rest.",
+      "hints": { "piece": "e1", "square": "e8" }
+    },
+    {
+      "id": "1.5.4-c4",
+      "type": "find_the_move",
+      "fen": "5k2/4ppp1/8/R7/7n/8/2PK1P2/8 w - - 0 1",
+      "prompt": "Mate in one.",
+      "answer": { "moves": ["Ra8#"] },
+      "wrong": { "Ra7": "That hits the pawns but gives no check. Go all the way to the back rank." },
+      "concept": "back-rank",
+      "reason": "The a-file is clear all the way up, and the king on f8 is walled in by e7, f7 and g7.",
+      "hints": { "piece": "a5", "square": "a8" }
+    },
+    {
+      "id": "1.5.4-c5",
+      "type": "find_the_move",
+      "fen": "7k/6pp/5p2/8/6r1/8/1Q4PP/7K w - - 0 1",
+      "prompt": "Mate in one. Your own back rank is thin too, so do not dawdle.",
+      "answer": { "moves": ["Qb8#"] },
+      "concept": "back-rank",
+      "reason": "Qb8 checks along the eighth and g7 and h7 are his own pawns. Note that Black was one move from doing the same thing to you.",
+      "hints": { "piece": "b2", "square": "b8" }
+    },
+    {
+      "id": "1.5.4-c6",
+      "type": "which_square",
+      "fen": "3r2k1/5ppp/8/8/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Black's rook is eyeing your back rank. Tap the square your king will be able to step to once the h-pawn goes to h3.",
+      "answer": { "square": "h2" },
+      "concept": "back-rank",
+      "reason": "Moving the h-pawn up one opens h2 for the king, and a check on the first rank is then only a check.",
+      "hints": {
+        "text": "The pawn that moves is the one on h2, so ask what it leaves behind.",
+        "text2": "Your king needs a square on the second rank, on the edge."
+      }
+    },
+    {
+      "id": "1.5.4-c7",
+      "type": "name_the_pattern",
+      "fen": "1R4k1/5ppp/8/8/8/8/5PPP/6K1 b - - 0 1",
+      "prompt": "White has just played Rb8. What has happened?",
+      "options": ["Checkmate on the back rank", "Stalemate", "Check, but the king steps to h8"],
+      "answer": { "option": 0 },
+      "concept": "back-rank",
+      "hints": { "text": "Ask where the king could go. His own pawns are on f7, g7 and h7." }
+    }
+  ],
+  "takeaway": "Three pawns in front of your king keep him safe and keep him trapped — give him a square."
+}

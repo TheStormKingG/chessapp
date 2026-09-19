@@ -1,0 +1,157 @@
+{
+  "id": "1.5.2",
+  "unit": "1.5",
+  "title": "King and queen against king",
+  "xp": 15,
+  "card": {
+    "idea": "A queen and a king mate a lone king every time. The queen takes squares away until he is standing on an edge, then your king walks up to guard the mating square. The only way to spoil it is stalemate.",
+    "habit": "Before every queen move, check the king still has a square.",
+    "diagrams": [
+      "8/8/8/4k3/8/8/8/3QK3 w - - 0 1"
+    ]
+  },
+  "explain": [
+    {
+      "fen": "8/8/8/4k3/8/3Q4/8/4K3 w - - 0 1",
+      "text": "Keep the queen a knight's jump from the enemy king. From d3 she is exactly that from e5, so she takes squares away and he can never reach her. Each time he moves, jump again. The box he lives in gets smaller every move.",
+      "arrows": [
+        [
+          "d3",
+          "d8"
+        ],
+        [
+          "d3",
+          "h3"
+        ]
+      ],
+      "highlights": [
+        "e5"
+      ]
+    },
+    {
+      "fen": "7k/8/5KQ1/8/8/8/8/8 b - - 0 1",
+      "text": "Here is the trap. Black is not in check and has no legal move at all: that is stalemate, and the whole game is a draw. The queen took the last square before the king was in check. Ask about his squares before you move her, every time.",
+      "highlights": [
+        "h8",
+        "g7",
+        "g8",
+        "h7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "1.5.2-c1",
+      "type": "name_the_pattern",
+      "fen": "7k/8/5KQ1/8/8/8/8/8 b - - 0 1",
+      "prompt": "Black is to move. What has happened?",
+      "options": [
+        "Checkmate",
+        "Stalemate",
+        "Check, and the king steps to h7"
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "queen-mate",
+      "hints": {
+        "text": "Look for a check first. Is the black king actually attacked?"
+      }
+    },
+    {
+      "id": "1.5.2-c2",
+      "type": "find_them_all",
+      "fen": "8/8/8/4k3/8/3Q4/8/4K3 w - - 0 1",
+      "prompt": "Tap every square the black king can still move to.",
+      "answer": {
+        "squares": [
+          "e6",
+          "f6",
+          "f4"
+        ]
+      },
+      "concept": "queen-mate",
+      "hints": {
+        "text": "The queen takes the d-file, the third rank and both diagonals through d3.",
+        "text2": "Three squares are left, and they are all on the far side of the king."
+      }
+    },
+    {
+      "id": "1.5.2-c3",
+      "type": "is_it_safe",
+      "fen": "7k/8/5K2/8/8/8/2Q5/8 w - - 0 1",
+      "move": "Qg6",
+      "prompt": "White plays Qg6, taking every square around the king. Is that safe?",
+      "reasons": [
+        "It takes the black king's last square without checking him: stalemate, and the game is drawn.",
+        "The queen on g6 is attacked by the king and falls for nothing.",
+        "It is fine, and Black has to give up the king next move."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "queen-mate",
+      "reason": "Taking the last square only wins when it comes with check. Kg6 wins instead: Black has to play Kg8, and the queen mates from c8 next move.",
+      "hints": {
+        "piece": "c2",
+        "square": "g8"
+      }
+    },
+    {
+      "id": "1.5.2-c4",
+      "type": "find_the_move",
+      "fen": "3k4/2ppp3/1p6/2p5/8/2Qr4/4P3/2K5 w - - 0 1",
+      "prompt": "Finish it with the queen.",
+      "answer": {
+        "moves": [
+          "Qh8#"
+        ]
+      },
+      "wrong": {
+        "Qxd3": "Taking the rook wins material and misses mate in one."
+      },
+      "concept": "queen-mate",
+      "reason": "The queen runs the whole diagonal to h8, and his own pawns on c7, d7 and e7 leave him no square.",
+      "hints": {
+        "piece": "c3",
+        "square": "h8"
+      }
+    },
+    {
+      "id": "1.5.2-c5",
+      "type": "find_the_move",
+      "fen": "3k4/2ppp3/8/4p3/rQ6/4P3/3P3K/8 w - - 0 1",
+      "prompt": "Finish it with the queen.",
+      "answer": {
+        "moves": [
+          "Qb8#"
+        ]
+      },
+      "concept": "queen-mate",
+      "reason": "The queen checks along the eighth rank and his own pawns on c7, d7 and e7 leave him nowhere to stand.",
+      "hints": {
+        "piece": "b4",
+        "square": "b8"
+      }
+    },
+    {
+      "id": "1.5.2-c6",
+      "type": "play_it_out",
+      "fen": "8/8/8/4k3/8/8/8/3QK3 w - - 0 1",
+      "prompt": "Queen and king against a lone king. Mate him in fourteen moves or fewer, and do not stalemate him.",
+      "goal": {
+        "kind": "mate_in",
+        "moves": 14
+      },
+      "opponentDepth": 6,
+      "concept": "queen-mate",
+      "reason": "Shrink his box with the queen a knight's jump away, walk your own king up to stand in front of him, and only then take the last square, with check.",
+      "hints": {
+        "piece": "d1",
+        "square": "d3"
+      }
+    }
+  ],
+  "takeaway": "Shrink the box, bring your king up, and never take the last square without check."
+}

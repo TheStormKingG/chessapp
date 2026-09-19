@@ -1,0 +1,588 @@
+{
+  "unit": "1.5",
+  "title": "Your first mates",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "1.5-k01",
+      "type": "which_square",
+      "fen": "8/8/8/8/3k4/8/8/R3K2R w - - 0 1",
+      "prompt": "Your rook on a1 can shut the black king out of the bottom of the board. Tap the square it goes to.",
+      "answer": {
+        "square": "a3"
+      },
+      "concept": "ladder-mate",
+      "reason": "On a3 the rook owns the third rank, so the king can never drop below the fourth again."
+    },
+    {
+      "id": "1.5-k02",
+      "type": "find_them_all",
+      "fen": "4k3/1R6/8/8/8/8/8/4K1R1 w - - 0 1",
+      "prompt": "Tap every square the black king can move to.",
+      "answer": {
+        "squares": [
+          "d8",
+          "f8"
+        ]
+      },
+      "concept": "ladder-mate"
+    },
+    {
+      "id": "1.5-k03",
+      "type": "name_the_pattern",
+      "fen": "R5k1/1R6/8/8/8/8/8/4K3 b - - 0 1",
+      "prompt": "White has just played Ra8. What has happened?",
+      "options": [
+        "Checkmate",
+        "Stalemate",
+        "Check, and the king steps to f7"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "ladder-mate"
+    },
+    {
+      "id": "1.5-k04",
+      "type": "find_the_move",
+      "fen": "4k3/R4p2/7R/8/8/PP1b4/K7/8 w - - 0 1",
+      "prompt": "White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Rh8#"
+        ]
+      },
+      "concept": "ladder-mate",
+      "reason": "The a7-rook owns the seventh rank, so a check along the eighth has no answer.",
+      "hints": {
+        "piece": "h6",
+        "square": "h8"
+      }
+    },
+    {
+      "id": "1.5-k05",
+      "type": "find_the_move",
+      "fen": "1k6/p6R/8/1r6/6R1/P3K2P/8/8 w - - 0 1",
+      "prompt": "White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Rg8#"
+        ]
+      },
+      "concept": "ladder-mate",
+      "reason": "The h7-rook holds the seventh rank while the other one checks along the eighth.",
+      "hints": {
+        "piece": "g4",
+        "square": "g8"
+      }
+    },
+    {
+      "id": "1.5-k06",
+      "type": "find_the_move",
+      "fen": "3k4/7R/8/5r2/8/4P3/R6K/8 w - - 0 1",
+      "prompt": "White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Ra8#"
+        ]
+      },
+      "concept": "ladder-mate",
+      "reason": "With the seventh rank covered, the check on the eighth leaves the king nowhere to stand.",
+      "hints": {
+        "piece": "a2",
+        "square": "a8"
+      }
+    },
+    {
+      "id": "1.5-k07",
+      "type": "find_the_move",
+      "fen": "7k/1R6/pp6/3n4/4R3/2P2K2/P7/8 w - - 0 1",
+      "prompt": "White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Re8#"
+        ]
+      },
+      "concept": "ladder-mate",
+      "reason": "The b7-rook takes the seventh rank away, so the eighth-rank check is the end.",
+      "hints": {
+        "piece": "e4",
+        "square": "e8"
+      }
+    },
+    {
+      "id": "1.5-k08",
+      "type": "which_square",
+      "fen": "8/8/8/8/3k4/8/8/R3K3 w - - 0 1",
+      "prompt": "Your rook on a1 can draw a line the black king may not cross. Tap the square it goes to.",
+      "answer": {
+        "square": "a3"
+      },
+      "concept": "rook-mate",
+      "reason": "The third rank is the one behind him, and from a3 the rook is well out of his reach."
+    },
+    {
+      "id": "1.5-k09",
+      "type": "is_it_safe",
+      "fen": "7k/R7/6K1/8/8/8/8/8 w - - 0 1",
+      "move": "Rg7",
+      "prompt": "White plays Rg7, taking the last square from the black king. Is that safe?",
+      "reasons": [
+        "It leaves Black with no legal move and no check: stalemate, and the win is gone.",
+        "The rook on g7 is next to the black king and just gets taken.",
+        "It is fine, and Rg8 is mate next move."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "rook-mate",
+      "reason": "Ra8 is mate right now; taking the last square is only right when it comes with check.",
+      "hints": {
+        "piece": "a7",
+        "square": "a8"
+      }
+    },
+    {
+      "id": "1.5-k10",
+      "type": "name_the_pattern",
+      "fen": "3R1k2/8/1p3K2/b7/8/8/PP6/8 b - - 0 1",
+      "prompt": "White has just played Rd8. What has happened?",
+      "options": [
+        "Checkmate",
+        "Stalemate",
+        "Check, and the king steps to g7"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "rook-mate"
+    },
+    {
+      "id": "1.5-k11",
+      "type": "find_the_move",
+      "fen": "3k4/2p1p3/2K5/3r4/8/8/4P3/R7 w - - 0 1",
+      "prompt": "White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Ra8#"
+        ]
+      },
+      "concept": "rook-mate",
+      "reason": "Your king on c6 holds d7, his own pawns fill c7 and e7, and the rook checks along the eighth.",
+      "hints": {
+        "piece": "a1",
+        "square": "a8"
+      }
+    },
+    {
+      "id": "1.5-k12",
+      "type": "find_the_move",
+      "fen": "5k2/4pp1K/8/8/6n1/3R4/PP6/8 w - - 0 1",
+      "prompt": "White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Rd8#"
+        ]
+      },
+      "concept": "rook-mate",
+      "reason": "Your king on h7 covers g7 and g8, the squares his own pawns leave open, so the rook takes the eighth rank.",
+      "hints": {
+        "piece": "d3",
+        "square": "d8"
+      }
+    },
+    {
+      "id": "1.5-k13",
+      "type": "find_the_move",
+      "fen": "4k3/3p1p2/5K2/8/4p3/1P6/3P3R/8 w - - 0 1",
+      "prompt": "White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Rh8#"
+        ]
+      },
+      "concept": "rook-mate",
+      "reason": "Your king on f6 takes e7, the pawns on d7 and f7 are his own, and the rook takes the eighth rank.",
+      "hints": {
+        "piece": "h2",
+        "square": "h8"
+      }
+    },
+    {
+      "id": "1.5-k14",
+      "type": "find_the_move",
+      "fen": "1k6/8/1K5b/5pp1/8/3R4/5PP1/8 w - - 0 1",
+      "prompt": "White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Rd8#"
+        ]
+      },
+      "concept": "rook-mate",
+      "reason": "Your king on b6 takes a7, b7 and c7, and the rook takes the eighth rank.",
+      "hints": {
+        "piece": "d3",
+        "square": "d8"
+      }
+    },
+    {
+      "id": "1.5-k15",
+      "type": "find_them_all",
+      "fen": "8/8/8/8/2k5/8/3Q4/4K3 w - - 0 1",
+      "prompt": "Tap every square the black king can move to.",
+      "answer": {
+        "squares": [
+          "b3",
+          "b5",
+          "c5"
+        ]
+      },
+      "concept": "queen-mate"
+    },
+    {
+      "id": "1.5-k16",
+      "type": "is_it_safe",
+      "fen": "k7/8/2K5/8/8/8/1Q6/8 w - - 0 1",
+      "move": "Qb6",
+      "prompt": "White plays Qb6, taking every square around the black king. Is that safe?",
+      "reasons": [
+        "It leaves Black with no move and no check: stalemate, and the game is drawn.",
+        "The queen on b6 is hanging to the black king.",
+        "It is fine, because Qb7 is mate next move."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "queen-mate",
+      "reason": "Qb7 is mate straight away, because the king on c6 defends her.",
+      "hints": {
+        "piece": "b2",
+        "square": "b7"
+      }
+    },
+    {
+      "id": "1.5-k17",
+      "type": "name_the_pattern",
+      "fen": "k7/8/1QK5/8/8/8/8/8 b - - 0 1",
+      "prompt": "Black is to move. What has happened?",
+      "options": [
+        "Checkmate",
+        "Stalemate",
+        "Check, and the king steps to a7"
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "queen-mate"
+    },
+    {
+      "id": "1.5-k18",
+      "type": "find_the_move",
+      "fen": "5k2/4ppp1/6r1/8/2p5/K4Q1p/P7/8 w - - 0 1",
+      "prompt": "White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qa8#"
+        ]
+      },
+      "concept": "queen-mate",
+      "reason": "The queen swings to the corner and checks along the whole eighth rank, and his own pawns fill every square in front of him.",
+      "hints": {
+        "piece": "f3",
+        "square": "a8"
+      }
+    },
+    {
+      "id": "1.5-k19",
+      "type": "find_the_move",
+      "fen": "1k6/ppp5/5p1K/3p4/6Q1/n4P2/8/8 w - - 0 1",
+      "prompt": "White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qg8#"
+        ]
+      },
+      "concept": "queen-mate",
+      "reason": "The queen reaches the eighth rank and his own pawns on a7, b7 and c7 leave him nothing.",
+      "hints": {
+        "piece": "g4",
+        "square": "g8"
+      }
+    },
+    {
+      "id": "1.5-k20",
+      "type": "find_the_move",
+      "fen": "8/8/p7/p7/n7/3K4/P1Q5/4k3 w - - 0 1",
+      "prompt": "White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qe2#"
+        ]
+      },
+      "concept": "queen-mate",
+      "reason": "The queen steps right beside the king because your own king on d3 is defending her.",
+      "hints": {
+        "piece": "c2",
+        "square": "e2"
+      }
+    },
+    {
+      "id": "1.5-k21",
+      "type": "find_the_move",
+      "fen": "4k3/3ppp2/8/Q1p5/7n/3P3P/2K5/8 w - - 0 1",
+      "prompt": "White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qa8#"
+        ]
+      },
+      "concept": "queen-mate",
+      "reason": "The queen takes the whole eighth rank and his own pawns on d7, e7 and f7 leave him nowhere to stand.",
+      "hints": {
+        "piece": "a5",
+        "square": "a8"
+      }
+    },
+    {
+      "id": "1.5-k22",
+      "type": "find_them_all",
+      "fen": "5k2/4ppp1/8/8/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Tap every square the black king can move to.",
+      "answer": {
+        "squares": [
+          "e8",
+          "g8"
+        ]
+      },
+      "concept": "back-rank"
+    },
+    {
+      "id": "1.5-k23",
+      "type": "which_square",
+      "fen": "6k1/5ppp/8/8/8/8/8/R5K1 b - - 0 1",
+      "prompt": "Tap the square Black's king will be able to step to once the pawn on h7 moves to h6.",
+      "answer": {
+        "square": "h7"
+      },
+      "concept": "back-rank",
+      "reason": "One pawn move turns a mate on the back rank into an ordinary check."
+    },
+    {
+      "id": "1.5-k24",
+      "type": "name_the_pattern",
+      "fen": "4R1k1/5ppp/8/n7/8/8/6P1/1K6 b - - 0 1",
+      "prompt": "White has just played Re8. What has happened?",
+      "options": [
+        "Checkmate",
+        "Stalemate",
+        "Check, and the king steps to h8"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "back-rank"
+    },
+    {
+      "id": "1.5-k25",
+      "type": "find_the_move",
+      "fen": "2k5/1ppp4/8/8/4R3/1b6/8/2K5 w - - 0 1",
+      "prompt": "White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Re8#"
+        ]
+      },
+      "concept": "back-rank",
+      "reason": "The black king's own pawns fill b7, c7 and d7, so the eighth rank is a dead end.",
+      "hints": {
+        "piece": "e4",
+        "square": "e8"
+      }
+    },
+    {
+      "id": "1.5-k26",
+      "type": "find_the_move",
+      "fen": "5k2/4ppp1/2p5/8/3Q3r/8/K2P3P/8 w - - 0 1",
+      "prompt": "White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qd8#"
+        ]
+      },
+      "concept": "back-rank",
+      "reason": "The queen checks along the eighth rank and e7, f7 and g7 are Black's own pawns.",
+      "hints": {
+        "piece": "d4",
+        "square": "d8"
+      }
+    },
+    {
+      "id": "1.5-k27",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/n7/4R3/8/6P1/1K6 w - - 0 1",
+      "prompt": "White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Re8#"
+        ]
+      },
+      "concept": "back-rank",
+      "reason": "The knight on a5 is too far away to come back and the king has no square in front of him.",
+      "hints": {
+        "piece": "e4",
+        "square": "e8"
+      }
+    },
+    {
+      "id": "1.5-k28",
+      "type": "find_the_move",
+      "fen": "7k/6pp/1n6/1p6/8/8/PK6/4R3 w - - 0 1",
+      "prompt": "White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Re8#"
+        ]
+      },
+      "concept": "back-rank",
+      "reason": "The e-file is clear and the pawns on g7 and h7 leave the king nothing.",
+      "hints": {
+        "piece": "e1",
+        "square": "e8"
+      }
+    },
+    {
+      "id": "1.5-k29",
+      "type": "find_the_move",
+      "fen": "2k5/1ppp4/8/8/2r1Q3/8/1P2PP2/1K6 w - - 0 1",
+      "prompt": "White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qe8#"
+        ]
+      },
+      "concept": "back-rank",
+      "reason": "The queen reaches the eighth rank and Black's pawns on b7, c7 and d7 do the rest.",
+      "hints": {
+        "piece": "e4",
+        "square": "e8"
+      }
+    },
+    {
+      "id": "1.5-k30",
+      "type": "which_square",
+      "fen": "rnbqk1nr/pppp1ppp/8/2b1p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+      "prompt": "You are Black. Tap the square the white queen and the white bishop are both aiming at.",
+      "answer": {
+        "square": "f7"
+      },
+      "concept": "meeting-early-mates",
+      "reason": "Only your king defends f7, which is why two attackers there are already a mate threat."
+    },
+    {
+      "id": "1.5-k31",
+      "type": "find_them_all",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+      "prompt": "Tap every white piece that is attacking f7.",
+      "answer": {
+        "pieces": [
+          "c4",
+          "f3"
+        ]
+      },
+      "concept": "meeting-early-mates"
+    },
+    {
+      "id": "1.5-k32",
+      "type": "is_it_safe",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+      "move": "d6",
+      "prompt": "Black plays d6, opening a line for the bishop. Is that safe?",
+      "reasons": [
+        "Qxf7 is checkmate: the bishop on c4 defends the queen and the king cannot take her.",
+        "The pawn on d6 is hanging to the bishop on c4.",
+        "It is safe, because the bishop on c8 now guards f5."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "meeting-early-mates",
+      "reason": "A useful-looking move is still a losing move while f7 has two attackers and one defender.",
+      "hints": {
+        "piece": "d7",
+        "square": "f7"
+      }
+    },
+    {
+      "id": "1.5-k33",
+      "type": "is_it_safe",
+      "fen": "rnbqkbnr/pppp1ppp/4p3/8/5P2/8/PPPPP1PP/RNBQKBNR w KQkq - 0 2",
+      "move": "g4",
+      "prompt": "White has played f4 and now wants g4. Is that safe?",
+      "reasons": [
+        "It opens the road from h4 to the white king, and Qh4 is mate on the spot.",
+        "The pawn on g4 is hanging and Black just takes it.",
+        "It is safe, because the two pawns keep Black's queen out."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "meeting-early-mates",
+      "reason": "Move both pawns in front of your own king this early and there is nothing left covering the diagonal.",
+      "hints": {
+        "piece": "g2",
+        "square": "h4"
+      }
+    },
+    {
+      "id": "1.5-k34",
+      "type": "which_square",
+      "fen": "rnbqkbnr/pppp1ppp/4p3/8/5PP1/8/PPPPP2P/RNBQKBNR b KQkq - 0 2",
+      "prompt": "Black to move. Tap the square the black queen mates on.",
+      "answer": {
+        "square": "h4"
+      },
+      "concept": "meeting-early-mates",
+      "reason": "White opened the diagonal from h4 to e1 with his own two pawn moves."
+    },
+    {
+      "id": "1.5-k35",
+      "type": "name_the_pattern",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+      "prompt": "Black to move. What is White going for?",
+      "options": [
+        "Mate on f7",
+        "Mate on h4",
+        "Nothing is threatened yet"
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "meeting-early-mates"
+    },
+    {
+      "id": "1.5-k36",
+      "type": "find_the_move",
+      "fen": "r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 5 4",
+      "prompt": "Black to move. Take your chance.",
+      "answer": {
+        "moves": [
+          "Nxh5"
+        ]
+      },
+      "wrong": {
+        "d6": "There is a free queen on h5. Everything else can wait."
+      },
+      "concept": "meeting-early-mates",
+      "reason": "The knight on f6 attacks h5 and nothing defends the queen, so the early sortie costs White everything.",
+      "hints": {
+        "piece": "f6",
+        "square": "h5"
+      }
+    }
+  ]
+}
