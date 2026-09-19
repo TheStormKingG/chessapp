@@ -27,8 +27,12 @@ export default defineConfig({
   webServer: smoke
     ? undefined
     : {
+        // PREVIEW builds before serving. Only the deploy workflow ever built
+        // `dist-e2e`, so a local PREVIEW run served whatever stale build was
+        // on disk — green against code that was not the working tree. The
+        // build is the same one the workflow runs, so CI is unaffected.
         command: preview
-          ? `npm run preview -- --port ${port} --strictPort --base / --outDir ${outDir}`
+          ? `npx vite build --base=/ --outDir ${outDir} && npm run preview -- --port ${port} --strictPort --base / --outDir ${outDir}`
           : `npm run dev -- --port ${port}`,
         url: `http://localhost:${port}/`,
         // Reusing a running server locally is convenient; in CI it would hide
