@@ -146,9 +146,20 @@ test('banking a complete review produces exactly one payload', () => {
   });
 });
 
-test('a partial review cannot be banked', () => {
-  const review = { gameId: 'g1', partial: true, accuracy: { w: 50, b: 50 }, learner: 'w', counts: {} } as unknown as Review;
-  expect(bankReview(review, false)).toBeNull();
+/**
+ * PRD 2.2 counts a game only when it was reviewed, and a partial review is a
+ * real review the learner sat through — it is partial because their device was
+ * slow, which is not something they can fix. Refusing it took the credit away
+ * from exactly the learners least able to do anything about it, so it is
+ * banked. `partial: true` keeps the event log honest about which kind it was.
+ */
+test('a partial review is banked, and the event says it was partial', () => {
+  const review = { gameId: 'g1', partial: true, accuracy: { w: 50, b: 40 }, learner: 'w', counts: { Blunder: 1 } } as unknown as Review;
+  const p = reviewed(bankReview(review, false));
+  expect(p.partial).toBe(true);
+  expect(p.gameId).toBe('g1');
+  expect(p.accuracy).toBe(50);
+  expect(p.blunders).toBe(1);
 });
 
 test('banking uses the learner’s own accuracy, not the opponent’s', () => {

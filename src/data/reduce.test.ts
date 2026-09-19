@@ -118,6 +118,30 @@ test('a second review of the same game does not count again', () => {
   expect(p.reviews).toBe(1);
 });
 
+test('a partial review counts the game, and a later full review does not count it twice', () => {
+  // The device hit the 90-second wall, so the review was banked partial. The
+  // learner comes back, the game is re-analysed from scratch, and a complete
+  // review is banked for the same game. Credit is given once.
+  const mk = (partial: boolean) =>
+    newEvent({
+      type: 'game_reviewed',
+      gameId: 'g1',
+      accuracy: 61,
+      blunders: 1,
+      mistakes: 1,
+      drillCompleted: false,
+      partial,
+    });
+  const first = reduceProgress(emptyProgress(), [mk(true)]);
+  expect(first.reviews).toBe(1);
+  expect(first.gamesReviewed['g1']).toBe(true);
+  const xpAfterFirst = first.xp;
+
+  const both = reduceProgress(emptyProgress(), [mk(true), mk(false)]);
+  expect(both.reviews).toBe(1);
+  expect(both.xp).toBe(xpAfterFirst);
+});
+
 test('two different games both count', () => {
   const mk = (gameId: string) =>
     newEvent({

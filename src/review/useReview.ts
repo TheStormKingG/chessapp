@@ -172,15 +172,27 @@ export function regainedInPv(fenAfter: string, pv: string[], mover: Color): numb
 }
 
 /**
- * PRD 2.2 and F-RV-7c. Returns the event payload to append, or null when the
- * review must not count.
+ * PRD 2.2 and F-RV-7c. Returns the event payload to append.
+ *
+ * A PARTIAL review banks too. It used to return null, so a learner whose device
+ * hit the 90-second wall got no credit and, under PRD 2.2, the game did not
+ * count — which inverts the intent of that clause and does so to exactly the
+ * learners least able to do anything about it. They did the work and saw a real
+ * review; the event records `partial: true` so the log stays honest about which
+ * kind it was.
+ *
+ * Double counting is not a risk here: `reviewFor` discards a cached partial and
+ * re-analyses, so a second, complete review can be banked for the same game,
+ * and `reduceProgress` counts a `gameId` at most once whichever arrives first.
+ *
+ * The return type keeps `| null` because `ReviewScreen` already treats null as
+ * "nothing to append"; nothing currently produces it.
  *
  * The CALLER appends this before rendering any "done" heading — a screen that
  * states a fact must have banked the state that makes it true. Design spec
  * section 8.
  */
 export function bankReview(review: Review, drillCompleted: boolean): EventPayload | null {
-  if (review.partial) return null;
   const mine = review.learner === 'w' ? review.accuracy.w : review.accuracy.b;
   return {
     type: 'game_reviewed',
@@ -189,6 +201,6 @@ export function bankReview(review: Review, drillCompleted: boolean): EventPayloa
     blunders: review.counts.Blunder ?? 0,
     mistakes: review.counts.Mistake ?? 0,
     drillCompleted,
-    partial: false,
+    partial: review.partial,
   };
 }

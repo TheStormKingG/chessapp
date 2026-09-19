@@ -34,20 +34,19 @@ export function Summary({ review, onStart }: { review: Review; onStart: () => vo
       <h1 className="t-display">Game review</h1>
 
       {/* F-CO-4 applies to the app's own copy, not only to the coach. This used
-          to read "Still analysing the last few moves", and nothing was: the
-          only two things that read `partial` are `reviewFor`, which throws the
-          cached partial away and analyses from scratch on the next visit, and
-          `bankReview`, which refuses it. There is no scheduler and no
-          continuation in src/.
+          to read "Still analysing the last few moves", and nothing was: there
+          is no scheduler and no continuation in src/. `reviewFor` throws the
+          cached partial away and analyses from scratch on the next visit, which
+          is the step actually offered here.
 
-          So it states the two facts that are true — the analysis stopped
-          before the end, and it covers the first N moves — and offers the step
-          the code actually takes. It must not say the review was saved or
-          counted: `bankReview` still refuses a partial, which is a separate
-          and deliberate decision (PRD §2.2). */}
+          `bankReview` now banks a partial review (PRD §2.2 — the learner did
+          the work, and a slow device is not a reason to withhold the credit).
+          So the copy states three things that are all true: the analysis
+          stopped before the end, it covers the first N moves, and the game
+          counted anyway. It still must not promise background work. */}
       <p aria-live="polite" className="t-caption mt-1 text-content-dim">
         {review.partial
-          ? `This review is not complete: the analysis stopped early and covers the first ${String(review.moves.length)} ${review.moves.length === 1 ? 'move' : 'moves'}. Open this review again to analyse the whole game.`
+          ? `This review is not complete: the analysis stopped early and covers the first ${String(review.moves.length)} ${review.moves.length === 1 ? 'move' : 'moves'}. This game still counts as reviewed. Open this review again to analyse the whole game.`
           : `Analysed at depth ${String(review.depth)}.`}
       </p>
 

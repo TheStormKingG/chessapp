@@ -74,12 +74,16 @@ test('the depth the review actually ran at is stated', () => {
  * re-runs from scratch on the next visit, and `bankReview`, which refuses. No
  * scheduler and no continuation exist anywhere in src/.
  *
- * The banner must say what is true and offer the real next step, and it must
- * not imply the review counted for anything: `bankReview` still refuses a
- * partial, deliberately and separately.
+ * The banner must say what is true and offer the real next step. Nothing
+ * resumes the analysis, so it still may not promise background work.
+ *
+ * What changed since: `bankReview` now banks a partial review (product
+ * decision, PRD 2.2 — the learner did the work and a slow device is not their
+ * fault). So the banner must no longer read as though the review was for
+ * nothing. It has to state BOTH facts: the analysis is incomplete, and the game
+ * counted anyway.
  */
 const PROMISES_BACKGROUND_WORK = /still analysing|analysing the last|in the background|will finish|finishing|when it completes|completing/i;
-const IMPLIES_CREDIT = /saved|counted|banked|credited|recorded/i;
 
 test('a partial review says so and cannot be started as if complete', () => {
   render(<Summary review={review({ partial: true })} onStart={() => {}} />);
@@ -97,12 +101,24 @@ test('a partial review states how far it actually got', () => {
   expect(screen.getByText(/first 23 moves/i)).toBeVisible();
 });
 
-test('a partial review offers the step the code actually takes, and claims no credit', () => {
-  const { container } = render(<Summary review={review({ partial: true })} onStart={() => {}} />);
+test('a partial review offers the step the code actually takes', () => {
+  render(<Summary review={review({ partial: true })} onStart={() => {}} />);
   // `reviewFor` discards a cached partial and re-runs, so the honest offer is
   // that opening it again analyses the game from the start.
   expect(screen.getByText(/again/i)).toBeVisible();
-  expect(container.textContent ?? '').not.toMatch(IMPLIES_CREDIT);
+});
+
+test('a partial review says the game still counted, because it did', () => {
+  render(<Summary review={review({ partial: true })} onStart={() => {}} />);
+  expect(screen.getByText(/still counts/i)).toBeVisible();
+});
+
+test('a complete review does not need telling the learner it counted', () => {
+  // The reassurance belongs to the partial case only — on a complete review it
+  // would raise a doubt nobody had. This is the negative control for the test
+  // above: without it, copy that always says "still counts" would pass.
+  const { container } = render(<Summary review={review({ partial: false })} onStart={() => {}} />);
+  expect(container.textContent ?? '').not.toMatch(/still counts/i);
 });
 
 test('the number of moments is stated rather than padded to three', () => {

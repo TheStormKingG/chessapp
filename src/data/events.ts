@@ -48,9 +48,16 @@ export type EventPayload =
     }
   /**
    * PRD 2.2: a game review is a learning action; playing without reviewing is
-   * not. Appended exactly once per game, and only when the review is complete
-   * — `partial: false` is a literal so the type cannot express a banked partial
-   * review (design spec §8).
+   * not. Appended once per game, whether the analysis finished or stopped at
+   * the 90-second wall — a learner on a slow device did the work and saw a real
+   * review, and withholding the credit would penalise them for their hardware.
+   *
+   * `partial` is therefore a real boolean, not the literal `false` it was while
+   * partial reviews were refused. It is the record of WHICH kind was banked, so
+   * the event log distinguishes the two and a later migration can tell them
+   * apart. Nothing downstream keys off it: `reduceProgress` counts a game once
+   * by `gameId` whichever kind arrives first, so a partial banked now and a
+   * full review banked after a re-analysis still count once.
    */
   | {
       type: 'game_reviewed';
@@ -59,7 +66,7 @@ export type EventPayload =
       blunders: number;
       mistakes: number;
       drillCompleted: boolean;
-      partial: false;
+      partial: boolean;
     }
   | { type: 'settings_changed'; key: string; value: string | boolean | number };
 
