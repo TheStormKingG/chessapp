@@ -52,3 +52,22 @@ export const TONE: Record<MoveLabel, string> = {
   Miss: 'text-danger',
   Blunder: 'text-danger',
 };
+
+/** Best-to-worst, the order every list of labels uses. */
+export const LABEL_ORDER: MoveLabel[] = [
+  'Brilliant', 'Great', 'Best', 'Excellent', 'Good', 'Book', 'Inaccuracy', 'Mistake', 'Miss', 'Blunder',
+];
+
+/** PRD F-RV-2 g: "plain definitions one tap away". */
+export const DEFINITION: Record<MoveLabel, string> = {
+  Brilliant: 'A sound sacrifice from a position that was not already winning. Rare.',
+  Great: 'The only move that kept the position from going badly wrong.',
+  Best: 'The move the engine would play.',
+  Excellent: 'As good as makes no difference.',
+  Good: 'Fine. A small amount given away.',
+  Book: 'A known opening move. Not judged.',
+  Inaccuracy: 'A little loose. Something better was there.',
+  Mistake: 'This cost real ground.',
+  Miss: 'Your opponent slipped and this let them off.',
+  Blunder: 'This changed the game.',
+};
