@@ -46,6 +46,21 @@ export type EventPayload =
       crowns: 0 | 1 | 2 | 3;
       pgn: string;
     }
+  /**
+   * PRD 2.2: a game review is a learning action; playing without reviewing is
+   * not. Appended exactly once per game, and only when the review is complete
+   * — `partial: false` is a literal so the type cannot express a banked partial
+   * review (design spec §8).
+   */
+  | {
+      type: 'game_reviewed';
+      gameId: string;
+      accuracy: number;
+      blunders: number;
+      mistakes: number;
+      drillCompleted: boolean;
+      partial: false;
+    }
   | { type: 'settings_changed'; key: string; value: string | boolean | number };
 
 export interface LearnerEvent {
