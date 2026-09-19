@@ -202,6 +202,14 @@ export function ReviewScreen() {
     const explanation = moment.explanation ?? explainMoment(coach, { move, theme, lessonTitle: null });
     return (
       <KeyMomentView
+        /* F-RV-4 is "retry before reveal" on EVERY moment. `KeyMomentView`
+           holds `revealed` and `tries` itself, so without a key React reuses
+           one instance across the run and every moment after the first opens
+           with the answer already showing, having asked nothing. The ply is
+           unique across the list by construction: `selectKeyMoments` collects
+           into a `Map` keyed on ply, and `deepenMoments` rebuilds the list
+           one-for-one, so it cannot collide. */
+        key={moment.ply}
         move={move}
         moment={{ ...moment, explanation, lessonId }}
         learner={review.learner}

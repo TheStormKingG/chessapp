@@ -2,7 +2,9 @@ import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router';
 import { db, useProgress } from '@/data';
 import { emptyProgress } from '@/data/reduce';
+import userEvent from '@testing-library/user-event';
 import { ReviewScreen } from './ReviewScreen';
+import type { Review, ReviewedMove } from './types';
 
 // The engine is a real Worker in the browser; here it is a stand-in that
 // answers instantly. Its own behaviour is covered by Tasks 13 and 14.
@@ -146,5 +148,76 @@ test('the barrel resolves and carries the route component and the vocabulary', a
   expect(barrel.ReviewScreen).toBe(ReviewScreen);
   for (const name of ['buildReview', 'drillFrom', 'bankReview', 'labelMove', 'selectKeyMoments', 'LABEL_GLYPH']) {
     expect(barrel, `barrel is missing ${name}`).toHaveProperty(name);
+  }
+});
+
+/**
+ * F-RV-4 is "retry before reveal", and it is a promise about EVERY moment, not
+ * about the first one.
+ *
+ * `KeyMomentView` holds `revealed` and `tries` in its own state, which is right
+ * — the component is correct in isolation and its own tests all pass. The
+ * screen is what decides whether moment 2 is the same instance as moment 1. If
+ * it is, React keeps that state and every moment after the first renders with
+ * the answer already on screen, having asked the learner nothing.
+ *
+ * Three moments, not two: a fix that resets on the first transition and then
+ * stops would pass a two-moment test. The assertion is made on every moment.
+ */
+const REVEALED_MOVE = /the move was/i;
+const TRIED_ALREADY = /not that one/i;
+
+function seededReview(gameId: string): Review {
+  const fenBefore = 'rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1';
+  const fenAfter = 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1';
+  const move = (ply: number, san: string): ReviewedMove => ({
+    ply, san, uci: 'e2e4', fenBefore, fenAfter, mover: 'w',
+    best: { uci: 'g1f3', san: 'Nf3' },
+    winBefore: 55, winAfterPlayed: 25, drop: 30, accuracy: 20,
+    label: 'Blunder', book: false, phase: 'opening',
+  });
+  // Index must equal ply: the screen reads `review.moves[moment.ply]`.
+  const moves = [move(0, 'e4'), move(1, 'e5'), move(2, 'Nf3'), move(3, 'Nc6'), move(4, 'Bc4')];
+  return {
+    gameId, learner: 'w', depth: 14, partial: false, moves,
+    accuracy: { w: 40.5, b: 80.1 },
+    counts: { Blunder: 3, Best: 2 },
+    opening: null, turningPhase: 'opening',
+    keyMoments: [0, 2, 4].map((ply) => ({
+      ply, kind: 'swing' as const, deeper: null,
+      explanation: `Moment at ply ${String(ply)}.`, lessonId: null,
+    })),
+    errors: [], createdAt: '2026-09-19T00:00:00.000Z',
+  };
+}
+
+test('every key moment asks before it reveals, not just the first', async () => {
+  await seedGame('g3');
+  await db.reviews.put(seededReview('g3'));
+  at('/play/review/g3');
+
+  await screen.findByRole('heading', { name: /game review/i }, { timeout: 5000 });
+  await userEvent.click(screen.getByRole('button', { name: /start with the first moment/i }));
+
+  for (const n of [1, 2, 3]) {
+    // We are on the moment we think we are on.
+    expect(screen.getByText(`Moment ${String(n)} of 3`)).toBeVisible();
+
+    // Unrevealed: the learner is asked, and the answer is not on screen.
+    if (!screen.queryByRole('button', { name: 'Show me' })) {
+      throw new Error(`moment ${String(n)} opened already revealed — the learner was never asked`);
+    }
+    expect(screen.queryByText(REVEALED_MOVE)).not.toBeInTheDocument();
+
+    // And `tries` came back to zero: a failed attempt on an earlier moment
+    // must not follow the learner onto this one.
+    expect(
+      screen.queryByText(TRIED_ALREADY),
+      `moment ${String(n)} inherited a failed attempt from an earlier moment`,
+    ).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('button', { name: 'Show me' }));
+    expect(screen.getByText(REVEALED_MOVE)).toBeVisible();
+    await userEvent.click(screen.getByRole('button', { name: n === 3 ? 'Finish' : 'Next moment' }));
   }
 });
