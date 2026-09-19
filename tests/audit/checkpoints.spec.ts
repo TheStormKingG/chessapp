@@ -6,6 +6,7 @@ import {
   enableTextEntry,
   readCheckpoint,
   typeMove,
+  unitIds,
   wantedSquares,
   type Challenge,
 } from './audit-helpers';
@@ -89,7 +90,9 @@ async function answerWrong(page: Page, c: Challenge): Promise<void> {
   }
 }
 
-for (const unit of ['1.1', '1.2']) {
+// Every unit that has a checkpoint, read off the corpus rather than listed --
+// see `unitIds` in audit-helpers. All six of Section 1's units have one.
+for (const unit of unitIds()) {
   test(`checkpoint ${unit} can be attempted early: ten unlabelled, unhinted questions`, async ({
     page,
   }) => {
@@ -106,9 +109,34 @@ for (const unit of ['1.1', '1.2']) {
       const c = await currentChallenge(page, bank.bank);
       // No hint control anywhere on a checkpoint question (PRD 6.4)...
       await expect(page.getByRole('button', { name: /hint/i })).toHaveCount(0);
-      // ...and nothing on screen names the concept being tested.
-      const body = (await page.locator('section').first().innerText()).toLowerCase();
-      expect(body, `concept "${c.concept}" leaked into question ${String(i + 1)}`).not.toContain(
+      // ...and the QUESTION ITSELF does not name the concept being tested
+      // (PRD 6.4: a checkpoint question carries no label saying what it is for).
+      //
+      // The scanned text is the authored PROMPT, and only that. Two other
+      // things on screen legitimately contain concept words and neither is a
+      // label on this question:
+      //
+      //   - the header, which carries the unit's title. Unit 1.3 is called
+      //     "Check, mate and draws" and 1.4 "Castling and the rules of play",
+      //     so scanning the whole section reported `draws` and `castling` as
+      //     leaks on every one of their questions.
+      //   - the app's own controls. `find_them_all` submits with a button
+      //     reading "Check (0)", which collides with the concept `check`; and
+      //     `name_the_pattern` renders its three answer CHOICES as buttons, one
+      //     of which is the pattern being asked about ("Stalemate: the game is
+      //     a draw."). Choices that name patterns are the question, not a hint.
+      //
+      // All three are identical across the ten questions of an attempt, so none
+      // of them can tell a learner anything about the one in front of them. A
+      // prompt can, which is why the prompt is what is checked.
+      //
+      // None of this was reachable while only units 1.1 and 1.2 were built:
+      // their titles share no word with any concept id and their banks draw no
+      // `find_them_all` whose concept is `check`.
+      const prompt = c.prompt.toLowerCase();
+      // Anchored to the screen: the string being scanned is the one rendered.
+      await expect(page.getByText(c.prompt, { exact: true })).toBeVisible();
+      expect(prompt, `concept "${c.concept}" leaked into question ${String(i + 1)}`).not.toContain(
         c.concept.toLowerCase(),
       );
       await page.getByRole('button', { name: 'Show me' }).click();

@@ -44,9 +44,23 @@ export interface CheckpointBank {
   bank: Challenge[];
 }
 
+/**
+ * Every unit directory in the corpus, in path order. Derived from disk rather
+ * than listed: this used to read `['unit-1.1', 'unit-1.2']`, which was correct
+ * exactly while units 1.3 to 1.6 were unbuilt, and would have gone on passing
+ * -- over thirteen lessons instead of twenty-nine -- on the day they shipped.
+ * A sweep that names its own inputs stops being a sweep.
+ */
+export function unitIds(): string[] {
+  return readdirSync(CONTENT)
+    .filter((d) => /^unit-\d+\.\d+$/.test(d))
+    .map((d) => d.slice('unit-'.length))
+    .sort((a, b) => Number(a.split('.')[1]) - Number(b.split('.')[1]));
+}
+
 export function lessonIds(): string[] {
   const out: string[] = [];
-  for (const unit of ['unit-1.1', 'unit-1.2']) {
+  for (const unit of unitIds().map((u) => `unit-${u}`)) {
     for (const f of readdirSync(join(CONTENT, unit))) {
       const m = /^lesson-([\d.]+)\.json$/.exec(f);
       if (m?.[1]) out.push(m[1]);
@@ -205,6 +219,26 @@ export async function answerCorrectly(page: Page, c: Challenge): Promise<'answer
         .click();
       return 'answered';
     }
+    case 'find_the_sequence': {
+      // The authored line alternates: the learner's ply, the reply the app
+      // plays for them, the learner's ply... so only the EVEN indices are
+      // typed. The line is authored in SAN, which is what the move field takes.
+      //
+      // This type existed in the schema and the player from the start but in no
+      // content until unit 1.5 shipped, so the driver had never needed a path
+      // for it -- see the corpus-derived `unitIds`: the sweep only began
+      // reaching it once the unit was built.
+      const line = (c.answer as { line: string[] }).line;
+      for (let i = 0; i < line.length; i += 2) {
+        const input = page.getByLabel('Type a move');
+        await expect(input).toBeEnabled({ timeout: 30_000 });
+        await typeMove(page, line[i]!);
+        // The app answers with the opponent's reply before the next ply can be
+        // entered; waiting for the field to clear is waiting for it to land.
+        await expect(input).toHaveValue('', { timeout: 30_000 });
+      }
+      return 'answered';
+    }
     case 'play_it_out': {
       await page.getByRole('button', { name: 'Show me' }).click();
       return 'revealed';
@@ -331,15 +365,32 @@ export async function currentChallenge(page: Page, bank: Challenge[]): Promise<C
   // The prompt is found by its id, not by a presentation class. `font-semibold`
   // was the old spelling of the `body-strong` type role (chunk C3), and a helper
   // that reaches for a utility class breaks the moment the role is renamed.
-  const prompt = (await page.locator('p#challenge-prompt').first().innerText()).trim();
-  const placement = await boardPlacement(page);
-  const hits = bank.filter((c) => c.prompt === prompt && c.fen.split(' ')[0] === placement);
-  if (hits.length !== 1) {
-    throw new Error(
-      `audit: ${String(hits.length)} bank entries match prompt "${prompt}" / placement "${placement}"`,
-    );
-  }
-  return hits[0]!;
+  //
+  // Both reads are POLLED rather than sampled once. The board is re-mounted
+  // between challenges and its pieces arrive a frame or two after the prompt,
+  // so a single read can land on a board with no `[data-piece]` in it at all --
+  // which serialises as the empty placement `8/8/8/8/8/8/8/8`, matches no bank
+  // entry, and fails as though the content were wrong. (It did: the Phase 0
+  // walkthrough hit it at checkpoint 1.3.) An empty board is the instrument
+  // arriving early, never an answer, so it is waited out.
+  //
+  // This cannot hide a real mismatch: the poll ends on exactly one hit or it
+  // throws with the same diagnostic it always threw, and the last values read
+  // are the ones reported.
+  let prompt = '';
+  let placement = '';
+  let hits: Challenge[] = [];
+  const deadline = Date.now() + 15_000;
+  do {
+    prompt = (await page.locator('p#challenge-prompt').first().innerText()).trim();
+    placement = await boardPlacement(page);
+    hits = bank.filter((c) => c.prompt === prompt && c.fen.split(' ')[0] === placement);
+    if (hits.length === 1) return hits[0]!;
+    await page.waitForTimeout(100);
+  } while (Date.now() < deadline);
+  throw new Error(
+    `audit: ${String(hits.length)} bank entries match prompt "${prompt}" / placement "${placement}"`,
+  );
 }
 
 /* ------------------------------------------------------------ wrong answers */

@@ -5,7 +5,12 @@ export interface UnitDef {
   built: boolean;
 }
 
-/** PRD Appendix A, Section 1 (units 1.1 to 1.6). `built: false` means no content yet. */
+/**
+ * PRD Appendix A, Section 1 (units 1.1 to 1.6). `built: false` means no content
+ * yet: that unit's lessons render as "Content coming" and its checkpoint is not
+ * attemptable. All six units of Section 1 are authored, so all six are built.
+ * The flag stays because Section 2 will arrive one unit at a time.
+ */
 export const SECTION_1: { id: string; title: string; band: string; units: UnitDef[] } = {
   id: '1',
   title: 'Foundations',
@@ -41,7 +46,7 @@ export const SECTION_1: { id: string; title: string; band: string; units: UnitDe
     {
       id: '1.3',
       title: 'Check, mate and draws',
-      built: false,
+      built: true,
       lessons: [
         { id: '1.3.1', title: 'Check and the three ways out' },
         { id: '1.3.2', title: 'Checkmate' },
@@ -53,7 +58,7 @@ export const SECTION_1: { id: string; title: string; band: string; units: UnitDe
     {
       id: '1.4',
       title: 'Castling and the rules of play',
-      built: false,
+      built: true,
       lessons: [
         { id: '1.4.1', title: 'Castling both sides' },
         { id: '1.4.2', title: 'En passant again' },
@@ -63,7 +68,7 @@ export const SECTION_1: { id: string; title: string; band: string; units: UnitDe
     {
       id: '1.5',
       title: 'Your first mates',
-      built: false,
+      built: true,
       lessons: [
         { id: '1.5.1', title: 'The ladder mate' },
         { id: '1.5.2', title: 'King and queen against king' },
@@ -75,7 +80,7 @@ export const SECTION_1: { id: string; title: string; band: string; units: UnitDe
     {
       id: '1.6',
       title: 'Safety first',
-      built: false,
+      built: true,
       lessons: [
         { id: '1.6.1', title: 'The three questions' },
         { id: '1.6.2', title: 'All checks and captures' },

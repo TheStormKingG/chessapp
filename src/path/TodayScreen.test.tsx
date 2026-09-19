@@ -1,6 +1,7 @@
-import { render, screen } from '@testing-library/react';
+import { cleanup, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { db, emptyProgress, saveResume, useProgress, type Progress } from '@/data';
+import { SECTION_1 } from '@/path/curriculum';
 import { TodayScreen } from '@/screens/TodayScreen';
 
 const FINISHED = 'You have finished everything that is built so far. More lessons are coming.';
@@ -32,10 +33,24 @@ test('Today names the active lesson', () => {
 });
 
 test('the terminal message appears only when everything built is finished', () => {
-  const p = emptyProgress();
-  p.units['1.1'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
-  p.units['1.2'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
-  renderWith(p);
+  // All six units are built, so "everything built" is the whole section --
+  // passing 1.1 and 1.2 now leaves unit 1.3 to do, and Today must say so.
+  const throughUnit2 = emptyProgress();
+  throughUnit2.units['1.1'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
+  throughUnit2.units['1.2'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
+  renderWith(throughUnit2);
+  expect(screen.queryByText(FINISHED)).toBeNull();
+  expect(screen.getByRole('link', { name: /Check and the three ways out/ })).toHaveAttribute(
+    'href',
+    '/lesson/1.3.1',
+  );
+  cleanup();
+
+  const finished = emptyProgress();
+  for (const u of SECTION_1.units) {
+    finished.units[u.id] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
+  }
+  renderWith(finished);
   expect(screen.getByText(FINISHED)).toBeInTheDocument();
 });
 

@@ -45,11 +45,18 @@ test('a fresh path offers 1.1.1 and locks everything after it', async ({ page })
   await expect(
     page.getByRole('link', { name: /The board and the pieces checkpoint\. Attempt any time to test out/ }),
   ).toBeVisible();
-  // Units 1.3 to 1.6 are "coming" and not clickable.
+  // Every unit of Section 1 is built now, so units 1.3 to 1.6 are LOCKED behind
+  // the checkpoints in front of them, not "Content coming". The distinction is
+  // the whole point of the flip: locked opens as you work, coming never does.
   for (const id of ['1.3.1', '1.4.1', '1.5.1', '1.6.1']) {
-    const node = page.getByLabel(new RegExp(`^${id.replace(/\./g, '\\.')} .*Content coming$`));
+    const node = page.getByLabel(new RegExp(`^${id.replace(/\./g, '\\.')} .*\\. Locked$`));
     await expect(node).toHaveAttribute('aria-disabled', 'true');
-    await expect(node.getByRole('link')).toHaveCount(0);
+  }
+  await expect(page.getByText('Content coming')).toHaveCount(0);
+  // ...and each of their checkpoints is attemptable, to test out.
+  for (const unit of ['1.3', '1.4', '1.5', '1.6']) {
+    await expect(page.getByRole('link', { name: new RegExp(`checkpoint\\. Attempt any time to test out`) })).not.toHaveCount(0);
+    await expect(page.locator(`a[href="/checkpoint/${unit}"]`)).toHaveCount(1);
   }
   expect(log.problems(log.since()).map((p) => `${p.type}: ${p.text}`)).toEqual([]);
 });

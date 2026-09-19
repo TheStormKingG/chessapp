@@ -69,8 +69,18 @@ test('a locked run states how long it is, and never says "Locked" per node', () 
   // the sentence. "Locked until you get there" was identical on both runs, so
   // it was a section heading printed twice; the counts differ, and the count is
   // the distance between the learner and the next thing that opens.
-  expect(screen.getByText('7 locked')).toBeInTheDocument();
-  expect(screen.getByText('5 locked')).toBeInTheDocument();
+  //
+  // All six units are built now, so a fresh path has SIX locked runs, one per
+  // unit, broken apart by the checkpoints between them (a built unit's
+  // checkpoint is attemptable, never locked). Asserting the whole sequence in
+  // path order pins both the counts and the boundaries -- `getByText('5 locked')`
+  // could no longer be unambiguous once three units run five lessons long.
+  const runs = [...document.querySelectorAll('*')]
+    .filter((el) => el.children.length === 0 && /^\d+ locked$/.test(el.textContent ?? ''))
+    .map((el) => el.textContent);
+  expect(runs).toEqual(['7 locked', '5 locked', '5 locked', '3 locked', '5 locked', '3 locked']);
+  // 28 locked lessons = all 29 minus the one that is active.
+  expect(runs.reduce((n, r) => n + Number(r!.split(' ')[0]), 0)).toBe(28);
   expect(screen.queryAllByText('Locked until you get there')).toHaveLength(0);
   // Line 67's original guarantee, unchanged: the word is still never printed
   // once per node, which is what chunk C2 bought.
