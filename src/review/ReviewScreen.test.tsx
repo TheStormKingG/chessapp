@@ -294,3 +294,39 @@ test('a missed-capture moment names what was free and where', async () => {
 
   expect(screen.getByText(/queen on d5/i)).toBeVisible();
 });
+
+/**
+ * The drill is built from `review.errors`, which the deeper pass now
+ * recomputes (Defect 2). If a relabelled move ever leaves the error log, the
+ * count can fall below `MIN_DRILL` and `drillFrom` returns null where it
+ * previously returned a drill. That transition must end the review cleanly and
+ * still bank it, not render a blank screen or throw.
+ *
+ * Today the crossing is unreachable — `upgradeKeyMoment` only acts on `Best`
+ * and `Excellent`, and `errorsFrom` only admits `Mistake`, `Blunder` and
+ * `Miss`, so the two sets are disjoint. This pins the screen's behaviour for
+ * when that stops being true.
+ */
+test('a review with too few errors for a drill ends and banks rather than showing a stub', async () => {
+  await seedGame('g6');
+  // Labelled `Good`, so the recomputed error log is genuinely empty. A stored
+  // `errors: []` would not do it any more: the deeper pass now rebuilds the log
+  // from the moves, and five Blunders produce five errors however the fixture
+  // was written.
+  const clean = seededReview('g6');
+  await db.reviews.put({ ...clean, moves: clean.moves.map((m) => ({ ...m, label: 'Good' as const })) });
+  at('/play/review/g6');
+
+  await screen.findByRole('heading', { name: /game review/i }, { timeout: 5000 });
+  await userEvent.click(screen.getByRole('button', { name: /start with the first moment/i }));
+  for (const n of [1, 2, 3]) {
+    expect(screen.getByText(`Moment ${String(n)} of 3`)).toBeVisible();
+    await userEvent.click(screen.getByRole('button', { name: 'Show me' }));
+    await userEvent.click(screen.getByRole('button', { name: n === 3 ? 'Finish' : 'Next moment' }));
+  }
+
+  expect(await screen.findByText('path screen')).toBeVisible();
+  const banked = (await db.events.toArray()).filter((e) => e.payload.type === 'game_reviewed');
+  expect(banked, 'the review ended without banking').toHaveLength(1);
+  expect(banked[0]!.payload).toMatchObject({ drillCompleted: false, partial: false });
+});

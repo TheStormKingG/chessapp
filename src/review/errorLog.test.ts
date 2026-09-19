@@ -99,7 +99,7 @@ test('only mistakes, misses and blunders reach the log', () => {
     mv({ ply: 8, fenBefore: FREE_PAWN, label: 'Good' }),
     mv({ ply: 10, fenBefore: FREE_PAWN, label: 'Book', book: true }),
   ];
-  const errs = errorsFrom(moves, { gameId: 'g1', learner: 'w', timeControl: 'untimed', now: '2026-09-19T00:00:00.000Z' });
+  const errs = errorsFrom(moves, { gameId: 'g1', learner: 'w', now: '2026-09-19T00:00:00.000Z' });
   expect(errs.map((e) => e.ply)).toEqual([0, 2, 4]);
 });
 
@@ -108,7 +108,7 @@ test('the opponent’s errors are not the learner’s errors', () => {
     mv({ ply: 0, fenBefore: FREE_PAWN, mover: 'w', label: 'Blunder' }),
     mv({ ply: 1, fenBefore: FREE_PAWN, mover: 'b', label: 'Blunder' }),
   ];
-  const errs = errorsFrom(moves, { gameId: 'g1', learner: 'w', timeControl: 'untimed', now: '2026-09-19T00:00:00.000Z' });
+  const errs = errorsFrom(moves, { gameId: 'g1', learner: 'w', now: '2026-09-19T00:00:00.000Z' });
   expect(errs).toHaveLength(1);
   expect(errs[0]!.ply).toBe(0);
 });
@@ -116,7 +116,7 @@ test('the opponent’s errors are not the learner’s errors', () => {
 test('every entry carries the fields F-RV-6 asks for', () => {
   const errs = errorsFrom(
     [mv({ ply: 0, fenBefore: FREE_PAWN, fenAfter: after(FREE_PAWN, 'a2a3'), uci: 'a2a3', san: 'a3', best: { uci: 'f3e5', san: 'Nxe5' }, label: 'Blunder' })],
-    { gameId: 'g1', learner: 'w', timeControl: 'untimed', now: '2026-09-19T00:00:00.000Z' },
+    { gameId: 'g1', learner: 'w', now: '2026-09-19T00:00:00.000Z' },
   );
   const e = errs[0]!;
   expect(e.gameId).toBe('g1');
@@ -130,10 +130,12 @@ test('every entry carries the fields F-RV-6 asks for', () => {
 });
 
 test('clockMs is null even for a timed game, because no clock is persisted', () => {
+  // There is no time control to pass any more: `clockMs` is null regardless of
+  // it (spec §7.3), so the parameter was removed rather than left as a knob
+  // that changes nothing.
   const errs = errorsFrom([mv({ ply: 0, fenBefore: FREE_PAWN, label: 'Blunder' })], {
     gameId: 'g1',
     learner: 'w',
-    timeControl: '10+0',
     now: '2026-09-19T00:00:00.000Z',
   });
   expect(errs[0]!.clockMs).toBeNull();
@@ -144,14 +146,14 @@ test('a theme the curriculum teaches is typical; one it cannot classify is not',
   // entry is what the fix-it drill reads.
   const classified = errorsFrom(
     [mv({ ply: 0, fenBefore: FREE_PAWN, fenAfter: after(FREE_PAWN, 'a2a3'), uci: 'a2a3', best: { uci: 'f3e5', san: 'Nxe5' }, label: 'Blunder' })],
-    { gameId: 'g1', learner: 'w', timeControl: 'untimed', now: 'now' },
+    { gameId: 'g1', learner: 'w', now: 'now' },
   );
   expect(classified[0]!.theme).toBe('missed_capture');
   expect(classified[0]!.typical).toBe(true);
 
   const quiet = errorsFrom(
     [mv({ ply: 0, fenBefore: QUIET, fenAfter: after(QUIET, 'e3d3'), uci: 'e3d3', best: { uci: 'e3e4', san: 'Ke4' }, label: 'Blunder' })],
-    { gameId: 'g1', learner: 'w', timeControl: 'untimed', now: 'now' },
+    { gameId: 'g1', learner: 'w', now: 'now' },
   );
   expect(quiet[0]!.theme).toBe('unclassified');
   expect(quiet[0]!.typical).toBe(false);

@@ -1,4 +1,5 @@
 import { reviewFor, deepenMoments, bankReview, materialSwing } from './useReview';
+import { derivedFrom } from './buildReview';
 import type { Review } from './types';
 
 /** A fake Dexie table with just the two methods the module uses. */
@@ -158,4 +159,49 @@ test('banking uses the learner’s own accuracy, not the opponent’s', () => {
 test('a null accuracy banks as 0 rather than crashing or claiming 100', () => {
   const review = { gameId: 'g1', partial: false, accuracy: { w: null, b: null }, learner: 'w', counts: {} } as unknown as Review;
   expect(reviewed(bankReview(review, false)).accuracy).toBe(0);
+});
+
+/**
+ * Defect 2 of the spec-coverage audit. `buildReview` computes every derived
+ * field from the FIRST-pass labels; `deepenMoments` then rewrites labels in
+ * place and nothing recomputes. A Brilliant shows on its key-moment chip while
+ * the summary of the same game counts zero Brilliants.
+ *
+ * This is written generically on purpose. Asserting "counts.Great is 1" would
+ * pass forever while a fourth derived field rotted silently; asserting that the
+ * stored review equals one rebuilt from its own final moves fails the moment
+ * ANY move-derived field stops being recomputed.
+ *
+ * `keyMoments` is deliberately not in this check, and not recomputed by the
+ * fix. It is move-derived, but recomputing it after the upgrade would discard
+ * every `deeper` result just obtained and is circular besides — the upgrade
+ * only ever runs on moves that are already in the list, and its own output
+ * (Great, Brilliant) is not in the `Best`/`Excellent` pool the `found` kind
+ * selects from, so a recompute would drop the very moment it just upgraded.
+ */
+test('every move-derived field agrees with the moves after the deeper pass', async () => {
+  const table = fakeTable();
+  const { review } = await reviewFor({ source, table, engine: fakeEngine() as never, band: 1, book: null });
+  // A wide gap between the two lines makes each Best an only move, so at least
+  // one label is upgraded and the derived fields have something to disagree on.
+  const wide = {
+    analyse: async (req: { depth: number; multiPv?: number }) => ({
+      lines: [
+        { move: 'g1f3', pv: ['g1f3'], score: { cp: 400 }, depth: req.depth },
+        { move: 'b1c3', pv: ['b1c3'], score: { cp: -400 }, depth: req.depth },
+      ],
+      depth: req.depth,
+    }),
+  };
+  const after = await deepenMoments(review, wide as never, 16, 1);
+  expect(after.moves.map((m) => m.label)).not.toEqual(review.moves.map((m) => m.label));
+
+  const rebuilt = derivedFrom(after.moves, {
+    gameId: after.gameId,
+    learner: after.learner,
+    now: after.createdAt,
+  });
+  for (const field of Object.keys(rebuilt) as (keyof typeof rebuilt)[]) {
+    expect(after[field], `${field} was not recomputed after the labels changed`).toEqual(rebuilt[field]);
+  }
 });

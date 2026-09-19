@@ -147,7 +147,11 @@ export function themeOf(at: {
 
 export function errorsFrom(
   moves: ReviewedMove[],
-  ctx: { gameId: string; learner: Color; timeControl: 'untimed' | '10+0'; now: string },
+  // `timeControl` used to be here and was never read: F-RV-6's clock time is
+  // `clockMs`, which is null for every game in this release whatever the time
+  // control is (spec §7.3). It is gone so that this can be called from a
+  // Review, which does not carry one.
+  ctx: { gameId: string; learner: Color; now: string },
 ): ErrorEntry[] {
   const out: ErrorEntry[] = [];
   for (const m of moves) {

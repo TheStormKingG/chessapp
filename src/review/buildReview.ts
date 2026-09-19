@@ -114,14 +114,39 @@ export interface BuildInput {
   now: string;
 }
 
-export function buildReview(input: BuildInput): Review {
-  const moves = judgeMoves({
-    positions: input.positions,
-    sans: input.source.sans,
-    band: input.band,
-    bookPlies: input.book.bookPlies,
-  });
+/**
+ * Everything on a Review that is a function of `moves` alone, in one place.
+ *
+ * It exists so that there is exactly one list. `deepenMoments` rewrites labels
+ * after this has already run, and a fix that recomputed today's three or four
+ * stale fields by name would go quietly wrong the day a fifth is added. Any
+ * field added here is recomputed by every caller for free.
+ *
+ * `keyMoments` is NOT here, and that is a decision rather than an oversight. It
+ * is move-derived — `selectKeyMoments` reads `label` for the `missed` and
+ * `found` kinds — but it must not be recomputed after the deeper pass:
+ *
+ * - The deeper pass hangs its `DeeperMoment` results off the existing list.
+ *   Rebuilding the list throws all of them away.
+ * - It is circular. The upgrade only ever runs on moves already in the list,
+ *   and it produces `Great`/`Brilliant`, which are not in the `Best`/`Excellent`
+ *   pool the `found` kind selects from — so a recompute would drop the very
+ *   moment that was just upgraded.
+ *
+ * The list is therefore fixed by the first pass by design (spec §4.4), and
+ * `withMoves` preserves it.
+ */
+export interface DerivedFromMoves {
+  accuracy: Review['accuracy'];
+  counts: Review['counts'];
+  turningPhase: Review['turningPhase'];
+  errors: Review['errors'];
+}
 
+export function derivedFrom(
+  moves: ReviewedMove[],
+  ctx: { gameId: string; learner: Color; now: string },
+): DerivedFromMoves {
   const counts: Partial<Record<MoveLabel, number>> = {};
   for (const m of moves) counts[m.label] = (counts[m.label] ?? 0) + 1;
 
@@ -132,23 +157,49 @@ export function buildReview(input: BuildInput): Review {
   };
 
   return {
+    accuracy: { w: meanFor('w'), b: meanFor('b') },
+    counts,
+    turningPhase: turningPhaseOf(moves, ctx.learner),
+    errors: errorsFrom(moves, { gameId: ctx.gameId, learner: ctx.learner, now: ctx.now }),
+  };
+}
+
+/**
+ * A review with `moves` replaced and every move-derived field recomputed from
+ * them. This is how the deeper pass hands its relabelled moves back: the
+ * summary's counts, the error log and the fix-it drill built from it then all
+ * describe the same game as the key-moment chips do.
+ */
+export function withMoves(review: Review, moves: ReviewedMove[]): Review {
+  return {
+    ...review,
+    moves,
+    ...derivedFrom(moves, { gameId: review.gameId, learner: review.learner, now: review.createdAt }),
+  };
+}
+
+export function buildReview(input: BuildInput): Review {
+  const moves = judgeMoves({
+    positions: input.positions,
+    sans: input.source.sans,
+    band: input.band,
+    bookPlies: input.book.bookPlies,
+  });
+
+  return {
     gameId: input.source.gameId,
     learner: input.source.learner,
     depth: input.depth,
     partial: input.partial,
     moves,
-    accuracy: { w: meanFor('w'), b: meanFor('b') },
-    counts,
     opening: input.book.name === null ? null : { name: input.book.name, leftBookAtPly: input.book.leftBookAtPly },
-    turningPhase: turningPhaseOf(moves, input.source.learner),
     keyMoments: selectKeyMoments(moves, input.source.learner),
-    errors: errorsFrom(moves, {
+    createdAt: input.now,
+    ...derivedFrom(moves, {
       gameId: input.source.gameId,
       learner: input.source.learner,
-      timeControl: input.source.timeControl,
       now: input.now,
     }),
-    createdAt: input.now,
   };
 }
 

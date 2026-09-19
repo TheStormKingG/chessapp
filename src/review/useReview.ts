@@ -3,7 +3,7 @@ import type { EventPayload } from '@/data';
 import { PIECE_VALUE, applyMove, piecesOf } from '@/rules';
 import type { Color } from '@/rules';
 import { AnalysisService, type AnalysisEngine } from './AnalysisService';
-import { buildReview } from './buildReview';
+import { buildReview, withMoves } from './buildReview';
 import { positionsOf } from './gameSource';
 import { upgradeKeyMoment } from './labels';
 import type { Band, KeyMoment, Review, ReviewSource } from './types';
@@ -134,7 +134,11 @@ export async function deepenMoments(
       moments.push(m);
     }
   }
-  return { ...review, moves, keyMoments: moments };
+  // `moves` now carries Great and Brilliant that `buildReview` never saw, so
+  // every field derived from it is rebuilt rather than left describing the
+  // first pass. `keyMoments` is passed through, not recomputed — see
+  // `derivedFrom`.
+  return { ...withMoves(review, moves), keyMoments: moments };
 }
 
 /** Change in the mover's material, in PIECE_VALUE points, across one move. */
