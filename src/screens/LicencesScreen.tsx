@@ -69,14 +69,21 @@ const entries: Entry[] = [
     note: 'The user interface library, with React DOM and React Router.',
     links: [{ label: 'Project', href: 'https://react.dev' }],
   },
+  {
+    name: 'lichess-org/chess-openings',
+    licence: 'CC0-1.0',
+    note:
+      'The names of the opening lines, used to tell you which opening you played and where you left it. Dedicated to the public domain under CC0 1.0; ChessApp ships a derived index of the lines, not the original files.',
+    links: [{ label: 'Project', href: 'https://github.com/lichess-org/chess-openings' }],
+  },
 ];
 
 /**
- * NEUMORPHIC-DELTA.md §6 / chunk N2. Nine containers, one grammar: each entry
+ * NEUMORPHIC-DELTA.md §6 / chunk N2. Ten containers, one grammar: each entry
  * is a `--surface-raised` panel on `--shadow-raised` at `--radius-card`, with
  * no border at all. The 1px `--edge-strong` ring is gone for the reason §3.1
  * gives that token — it is "every control border" — and a licence entry is
- * nine paragraphs of prose, not a control. The links inside each card are the
+ * several paragraphs of prose, not a control. The links inside each card are the
  * interactive things here and they keep their own affordances: `--accent` ink
  * plus a permanent underline, so "this is a link" is never carried by colour
  * alone, and `.tap` with `inline-flex` so the 44px floor is not inert on an
@@ -86,7 +93,7 @@ const entries: Entry[] = [
  * `--content` #0F172B on `--surface-raised` #F6F8FA is **16.75:1**;
  * `--content-dim` #475569 on it is **7.12:1**; `--accent` #12614A on it is
  * **6.96:1**. The list stands 16px clear of its neighbours, which is what makes
- * a soft-shadowed stack read as nine cards rather than one long one.
+ * a soft-shadowed stack read as separate cards rather than one long one.
  */
 export function LicencesScreen() {
   return (
