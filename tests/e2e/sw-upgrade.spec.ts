@@ -1,5 +1,7 @@
 import { test, expect, type Page, type Browser } from '@playwright/test';
 import { buildFixtures, startSwapServer, type Fixtures, type SwapServer } from './swFixtures';
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 
 /**
  * The returning visitor, which is the one condition the rest of this suite
@@ -175,3 +177,27 @@ for (const activity of ['/lesson/1.1.1', '/checkpoint/1.1', '/play/game']) {
     await page.context().close();
   });
 }
+
+/**
+ * The opening book is a 300 KiB `.txt` under `public/data/`, and `globPatterns`
+ * deliberately does not list `txt`: precaching it would charge every first load
+ * for a feature most learners reach only after finishing a game. So it must be
+ * cached at RUNTIME instead, or F-RV-10's offline review has no opening name on
+ * any visit — the shipped worker would simply never hold the file.
+ *
+ * This asserts on the BUILT worker, not on `vite.config.ts`, because the config
+ * is the thing under test: a route that Workbox silently dropped during
+ * generation would still be present in the config and absent from the artefact.
+ */
+test('the built worker caches /data/ at runtime rather than precaching it', () => {
+  const sw = readFileSync(join(fixtures.a.dir, 'sw.js'), 'utf8');
+
+  // The route exists and names its own cache, so an eviction of the engine
+  // cache cannot take the book with it.
+  expect(sw, 'no /data/ runtime route in the built sw.js').toContain('/data/');
+  expect(sw, 'the /data/ route has no dedicated cache name').toContain('opening-book');
+
+  // And it is genuinely NOT precached: a precache entry would defeat the point.
+  const manifest = /precacheAndRoute\(\[(.*?)\]/s.exec(sw)?.[1] ?? '';
+  expect(manifest, 'the opening book was precached after all').not.toContain('openings.txt');
+});

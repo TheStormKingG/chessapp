@@ -128,16 +128,17 @@ let cached: Promise<OpeningBook> | null = null;
  * (PRD 11; measured with scripts/measure-shell-size.mjs — 285.7 KiB gzipped
  * before this file and 285.7 KiB after, byte for byte).
  *
- * OFFLINE, MEASURED RATHER THAN ASSUMED. As the service worker is configured
- * today (vite.config.ts), `data/openings.txt` is NOT cached: the precache
- * globPatterns list js/css/html/svg/png/woff2/json and not txt, and the only
- * runtimeCaching rule matches `/engine/`. So an offline review currently gets
- * no opening name at all, however many reviews preceded it — not just the
- * first. That degrades to "no opening name" rather than failing, which is the
- * intended floor for F-RV-10 (the opening line is one line of a summary, not
- * the review), but the better behaviour needs a caching rule for `/data/` that
- * no task in the plan owns. Do not read this comment as a claim that the book
- * is cached.
+ * OFFLINE, MEASURED RATHER THAN ASSUMED. The precache globPatterns still list
+ * js/css/html/svg/png/woff2/json and not txt — deliberately, because a 300 KiB
+ * precache entry would be charged to every first load. Instead `vite.config.ts`
+ * carries a CacheFirst runtimeCaching route for `/data/` under its own
+ * `opening-book` cache, asserted against the BUILT worker in
+ * `tests/e2e/sw-upgrade.spec.ts`. So the FIRST fetch of the book must reach the
+ * network; every later one, online or offline, is served from that cache.
+ *
+ * The floor therefore remains "no opening name" — not a failed review — on a
+ * first-ever review performed offline, which is the intended F-RV-10 behaviour
+ * (the opening line is one line of a summary, not the review)
  */
 export function loadBook(fetchImpl: typeof fetch = fetch): Promise<OpeningBook> {
   cached ??= fetchImpl(`${import.meta.env.BASE_URL}data/openings.txt`)
