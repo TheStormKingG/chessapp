@@ -115,6 +115,70 @@ unless it says so.
    is self-tuning so that a wrong estimate degrades depth rather than breaking
    the budget.
 
+### 1.4.5 Estimated under CPU throttling (the reference device is still unmeasured)
+
+**§1.4.4's admission stands unchanged.** No Galaxy A51 or any other
+Cortex-A73-class phone was available. What follows is a *substitute* run on the
+development machine with Chrome DevTools Protocol CPU throttling applied, and it
+is recorded here so that the substitution is visible rather than silently
+standing in for the device measurement Task 31 asked for.
+
+**Host:** Apple M1, MacBookAir10,1, macOS 26.6.2. Chromium 153.0.8010.12 via
+Playwright, production build served by `vite preview`, viewport 390×844.
+**Workload:** the same 79-ply / 40-move engine self-play game as §1.1 (81
+analysed positions), seeded into IndexedDB as `game_started` + `game_finished`
+and opened at `/play/review/:gameId` with the review cache cleared. Wall-clock is
+measured from route entry to the "Game review" heading being visible; the
+"Review this game" control only performs that navigation.
+**Throttling:** `Emulation.setCPUThrottlingRate` at rates 1, 4 and 6. (The
+method lives in the **`Emulation`** domain — there is no `Emulator` domain in
+current CDP.)
+
+| CPU throttling rate | wall-clock to summary | depth the ladder chose | marked partial | positions analysed |
+|---|---|---|---|---|
+| 1 (none) | 10,437 ms | 14 | no | 81 |
+| 4 | 11,534 ms | 14 | no | 81 |
+| 6 | 11,746 ms | 14 | no | 81 |
+
+#### Why these numbers do not estimate the reference device
+
+The three rows are flat: a nominal 6× CPU throttle moved wall-clock by 12 %, not
+by 6×. That is not noise, it is the method failing on this workload. **CDP CPU
+throttling applies to the renderer's main thread and does not reach a dedicated
+`Worker`.** Verified directly: an identical busy loop timed inside a
+`new Worker(...)` took 50 ms at rate 1 and 48 ms at rate 4, while the same loop
+on the main thread went from 47 ms to 263 ms. The Stockfish engine runs in
+exactly such a worker (`EngineClient.ts`, `new Worker('engine/stockfish-19-lite-single.js')`),
+so the analysis pass — the entire thing being measured — ran unthrottled at every
+rate. The residual 1.1–1.3 s spread is the React orchestration and progress
+rendering on the main thread, which is not the cost that matters.
+
+So this run measures the M1 again, three times, with some main-thread overhead
+added. It is an upper bound on how much main-thread work the review costs and
+nothing more.
+
+**And even had the throttle reached the worker, a throttling multiplier would
+still not be a device measurement.** It scales CPU issue rate only. It does not
+reproduce memory bandwidth, cache hierarchy and size, thermal throttling under a
+60-second sustained load, the scheduler's treatment of a background worker on a
+big.LITTLE core, or the real-world characteristics of this WASM build on ARM —
+and a WASM engine's throughput is dominated by exactly those. The 3.5–6× bracket
+in §1.4.4 remains an inference from published knps figures, not an observation.
+
+#### Applying Task 31 step 4's decision rule
+
+At every rate the ladder chose depth 14 and finished well inside 60 s, with no
+partial. On the literal reading that is step 4's **first branch** — but the
+branch is about the reference device, and none of these three rows is the
+reference device. **F-RV-1 is not confirmed by this run.** The honest reading of
+all three rows is the *unthrottled* one: 10.4 s on an M1, against §1.2's
+12,216 ms of pure engine time, consistent and unsurprising. Against that, §1.4.4's
+projection table still says depth 14 sits on the 60-second line at a 5× device
+factor and over it at 6×.
+
+Task 31 remains **open**. What discharges it is a wall-clock run on physical
+Cortex-A73-class hardware; nothing measurable on this machine substitutes for it.
+
 ### 1.5 The three design consequences
 
 - **C1. The whole-game pass runs at MultiPV 1.** One evaluation per position.
