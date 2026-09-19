@@ -573,6 +573,11 @@ test('a decorative board is context, not a control: no role, no tab stop, no liv
   expect(container.querySelectorAll('a, button, input, select, textarea')).toHaveLength(0);
 });
 
+const ringedIn = (root: HTMLElement) =>
+  [...root.querySelectorAll<HTMLElement>('[data-square] > *, [data-square]')].filter((el) =>
+    /\d+px solid/.test(el.style.outline ?? ''),
+  );
+
 test('a decorative board paints no keyboard cursor', async () => {
   // Caught in the P4d review by measuring the rendered board rather than by
   // reading the diff: Today's 120px card board was painting a 3px solid ring on
@@ -580,18 +585,42 @@ test('a decorative board paints no keyboard cursor', async () => {
   // with no tab stop it is a mark the learner cannot move, explain or dismiss,
   // and at 120px it reads as a stray selected square -- a bug, on the app's
   // first screen.
-  const { container, rerender } = render(
+  const { container } = render(
     <Board fen={START_FEN} orientation="w" mode="static" size={120} decorative />,
   );
-  const ringed = () =>
-    [...container.querySelectorAll<HTMLElement>('[data-square] > *, [data-square]')].filter((el) =>
-      /\d+px solid/.test(el.style.outline ?? ''),
-    );
   await waitFor(() => { expect(container.querySelector('[data-square]')).not.toBeNull(); });
-  expect(ringed()).toEqual([]);
+  expect(ringedIn(container)).toEqual([]);
 
-  // Negative control: the SAME board without `decorative` still paints the
-  // cursor, so an empty result above cannot mean the probe matches nothing.
-  rerender(<Board fen={START_FEN} orientation="w" mode="static" size={120} />);
-  await waitFor(() => { expect(ringed().length).toBeGreaterThan(0); });
+  // Negative control: the same probe on a board that IS showing its cursor --
+  // an unfocused board no longer paints one (see the next test), so the control
+  // has to focus one. An empty result above cannot mean the probe matches nothing.
+  const focused = render(<Board fen={START_FEN} orientation="w" mode="static" />);
+  focused.getByRole('application').focus();
+  await waitFor(() => { expect(ringedIn(focused.container).length).toBeGreaterThan(0); });
+});
+
+test('an unfocused board paints no keyboard cursor, whatever its mode', async () => {
+  // The reported defect: EVERY board drew a 3px ring on a1 -- including the
+  // static card diagrams inside a lesson, which carry no highlights and are
+  // there to be looked at. `decorative` was too narrow a gate: it is false for
+  // every board except Today's thumbnail, so a static diagram sitting on screen
+  // with nothing focused still painted a mark that means "your cursor is here"
+  // to a learner who has no cursor.
+  //
+  // The cursor is a focus indicator and now behaves like one. Both boards that
+  // take focus are checked, because `mode` is not what decides this.
+  for (const mode of ['static', 'play'] as const) {
+    const view = render(<Board fen={START_FEN} orientation="w" mode={mode} />);
+    const app = view.getByRole('application');
+    await waitFor(() => { expect(view.container.querySelector('[data-square]')).not.toBeNull(); });
+    expect(ringedIn(view.container)).toEqual([]);
+
+    // It appears on keyboard focus -- the affordance itself is not removed --
+    // and goes again on blur.
+    app.focus();
+    await waitFor(() => { expect(ringedIn(view.container).length).toBe(1); });
+    app.blur();
+    await waitFor(() => { expect(ringedIn(view.container)).toEqual([]); });
+    view.unmount();
+  }
 });

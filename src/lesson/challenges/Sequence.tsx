@@ -47,7 +47,16 @@ export function Sequence({
   return (
     <Board
       fen={fen}
-      orientation={fen.split(' ')[1] === 'b' ? 'b' : 'w'}
+      /* The orientation is the CHALLENGE's, not the live position's.
+         `fen` advances move by move through the line, so reading the side to
+         move off it flipped the board under the learner after every ply and
+         left it, when the line finished, showing the losing side's view --
+         reported as "after a find_the_sequence completes, the board is left in
+         the losing side's orientation". It is one challenge, asked of one
+         player: `c.fen` is the position they were given, so the side to move
+         in it is the side they are playing, and it does not change while they
+         play it. */
+      orientation={c.fen.split(' ')[1] === 'b' ? 'b' : 'w'}
       mode="play"
       arrows={arrows ?? []}
       replay={replay ?? null}

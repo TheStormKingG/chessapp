@@ -289,6 +289,10 @@ export function Board(props: BoardProps & { size?: number; decorative?: boolean;
   );
 
   const { cursor, onKeyDown: onBoardKeyDown } = useBoardA11y(orientation, activate);
+  // Whether the keyboard cursor should be PAINTED. See `squareStyles` below:
+  // the cursor position is always tracked, its ring is only drawn while the
+  // board holds keyboard focus.
+  const [keyboardFocus, setKeyboardFocus] = useState(false);
   // Any key ends the replay, not only the ones that would have acted: a
   // keyboard learner pressing an arrow is telling the board they are done
   // watching, and the cursor must not be moved across a position that is about
@@ -419,16 +423,28 @@ export function Board(props: BoardProps & { size?: number; decorative?: boolean;
     }
     for (const [sq, kind] of Object.entries(highlights)) if (kind) s[sq] = { ...styles[kind] };
     if (selected) s[selected] = { ...(s[selected] ?? {}), ...styles.selected };
-    // The cursor is painted only where it can be MOVED. A decorative board has
-    // no tab stop, so a ring on a1 is a mark the learner cannot shift, explain
-    // or dismiss -- at 120px on Today's card it reads as a stray selected
-    // square rather than as a cursor. The a11y hook still runs; nothing else
-    // about the board changes.
-    if (interactive) {
+    // The cursor is painted only where it can be MOVED, and only while the
+    // board actually HAS keyboard focus.
+    //
+    // `interactive` alone was not enough. It is false only for the decorative
+    // thumbnail, so every other board -- including a `mode="static"` card
+    // diagram that exists to be looked at -- painted a 3px ring on a1 from the
+    // moment it mounted, with nothing focused and nothing highlighted. A ring
+    // on a board no one is driving is not a cursor: it reads as a selected
+    // square, or as a stray defect, which is exactly how it was reported.
+    //
+    // The cursor is a focus indicator, so it obeys the focus rules the
+    // container already obeys: it appears when the board is entered from the
+    // keyboard (`:focus-visible`, the same predicate as the container's own
+    // focus ring) and goes away on blur. A keyboard user still gets a visible,
+    // movable cursor on a static board -- which is the behaviour the earlier
+    // pass added and this keeps -- and a reader who never touches the board
+    // never sees a mark that means nothing to them.
+    if (interactive && keyboardFocus) {
       s[cursor] = { ...(s[cursor] ?? {}), outline: `3px solid ${inkOn(cursor)}`, outlineOffset: '-3px' };
     }
     return s;
-  }, [highlights, selected, cursor, palette, inkOn, replaying, finalFrame, frames, interactive]);
+  }, [highlights, selected, cursor, palette, inkOn, replaying, finalFrame, frames, interactive, keyboardFocus]);
 
   // The piece rule (DESIGN-SYSTEM.md 3.1): every piece is a fill plus a 1.5px
   // outline in the OPPOSING piece colour, and max(fill, outline) must clear 3:1
@@ -553,6 +569,19 @@ export function Board(props: BoardProps & { size?: number; decorative?: boolean;
           }
           tabIndex={interactive ? 0 : undefined}
           onKeyDown={interactive ? onKeyDown : undefined}
+          onFocus={
+            interactive
+              ? (e) => {
+                  // `:focus-visible` is the browser's own answer to "did this
+                  // focus come from the keyboard?", and it is the predicate the
+                  // container's focus ring already uses. Matching it keeps the
+                  // square cursor and the container ring appearing together
+                  // rather than one arriving on a tap and the other not.
+                  setKeyboardFocus(e.currentTarget.matches(':focus-visible'));
+                }
+              : undefined
+          }
+          onBlur={interactive ? () => { setKeyboardFocus(false); } : undefined}
           className={
             interactive
               ? 'w-full touch-none outline-none focus-visible:ring-2 focus-visible:ring-accent'

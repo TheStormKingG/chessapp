@@ -182,15 +182,47 @@ export function LessonPlayer({
        would leave 240px). 768-1023 keeps the 22rem column it has today, and
        the phone column below `md` is untouched. */
     <section className="flex min-h-dvh flex-col p-4 md:mx-auto md:grid md:max-w-6xl md:grid-cols-[minmax(0,1fr)_22rem] md:items-start md:gap-x-6 md:px-6 md:grid-rows-[auto_auto_1fr] lg:grid-cols-[minmax(0,1fr)_27rem] lg:gap-x-12">
-      <header className="flex items-center justify-between md:col-span-2">
-        <button type="button" className="tap icon-control" aria-label={exitLabel} onClick={exit}>
+      {/* The header reserves the two controls' space and gives the title what is
+          left, rather than letting all three compete for the row.
+
+          At 390 the old row put the title at x=60 -- flush against the right
+          edge of a 44px close control, with no gutter at all -- and let it wrap
+          there, so a long one ("1.4.3 · Touch move, draws, resigning, notation,
+          the clock", "1.6.3 · Your first full game with the coach") read as
+          tucked under the ✕. Nothing was overlapping; the title simply had no
+          space of its own.
+
+          So: `shrink-0` on the control and on the counter, because neither is
+          the thing that should give way; `gap-3` for a real gutter on both
+          sides; `min-w-0 flex-1` on the title so it wraps INSIDE its own column
+          instead of pushing its neighbours. `min-w-0` is the load-bearing half
+          -- a flex item's default `min-width:auto` refuses to shrink below its
+          longest word, which is what pushed the title against the control.
+
+          No title is shortened, because none needs to be. Measured at 390 with
+          the counter at its widest ("12 of 12", 72px), the title column is
+          218px and the longest title in Section 1 takes two 18px lines = 36px,
+          inside the 44px the control already sets. The header does not grow,
+          and nothing is elided -- which is why this is a layout fix and not a
+          rewording: the string is the lesson's name, and it is also the h2 on
+          the card below and the label on the Path. `lesson-header.spec.ts`
+          measures this for every lesson rather than trusting the arithmetic. */}
+      <header className="flex items-center justify-between gap-3 md:col-span-2">
+        <button type="button" className="tap icon-control shrink-0" aria-label={exitLabel} onClick={exit}>
           ✕
         </button>
-        <h1 className="t-caption text-content-dim">{title ?? `${lesson.id} · ${lesson.title}`}</h1>
+        <h1 className="t-caption min-w-0 flex-1 text-center text-content-dim">
+          {title ?? `${lesson.id} · ${lesson.title}`}
+        </h1>
         {/* The counter is the announcement: giving the text already on screen a
             live region names the transition for a screen reader without adding a
             second, competing statement of where the learner is. */}
-        <span role="status" aria-live="polite" aria-label="Challenge progress" className="t-index text-content-dim">
+        <span
+          role="status"
+          aria-live="polite"
+          aria-label="Challenge progress"
+          className="t-index shrink-0 text-content-dim"
+        >
           {ph.kind === 'challenge' ? `${ph.index + 1} of ${lesson.challenges.length}` : ''}
         </span>
       </header>
