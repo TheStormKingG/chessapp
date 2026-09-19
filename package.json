@@ -14,6 +14,7 @@
     "test:e2e": "playwright test",
     "verify:content": "node scripts/verify-content.mjs",
     "gen:movement": "node scripts/gen-movement-challenges.mjs",
+    "gen:openings": "node scripts/build-opening-book.mjs .cache/chess-openings",
     "postinstall": "node scripts/copy-engine.mjs"
   },
   "dependencies": {
