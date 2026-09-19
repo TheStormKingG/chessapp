@@ -262,7 +262,14 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
           </>
         )}
 
-        {over && result && (
+        {over && result && (() => {
+          // `game_finished` carries `pgn: state.sans.join(' ')`, and
+          // `sourceFromEvents` returns null for an empty PGN. So the gate is
+          // `sans` itself, not a proxy for it: take-backs pop `sans` and
+          // `history` independently, and gating on the wrong one offers a
+          // review the review screen cannot build.
+          const reviewable = g.sans.length > 0;
+          return (
           <div className="mt-4 rounded-xl border border-edge-strong bg-surface-raised p-4">
             <p className="t-heading">{RESULT_LINE[result]}</p>
             {/* Crowns reward playing without help (F-PL-4), so they show on every finished game.
@@ -279,23 +286,33 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
             </p>
             {/* PRD 2.2: a game that is not reviewed does not count, so the review
                 is this screen's one primary and "Play again" steps down to
-                secondary. `Button.tsx` allows exactly one primary per screen. */}
-            <button
-              type="button"
-              className={`${btn.primary} mt-3 w-full`}
-              onClick={() => {
-                void nav(`/play/review/${g.id}`);
-              }}
-            >
-              Review this game
-            </button>
+                secondary. `Button.tsx` allows exactly one primary per screen.
+
+                A game with no moves is the exception. `g.history[0]` is the
+                starting position, so a length of 1 means every move was taken
+                back before the game ended, and `sourceFromEvents` returns null
+                for the empty PGN that `game_finished` then carries. There is
+                nothing to review, so the control is not offered at all rather
+                than offered and leading to an error screen — and "Play again"
+                becomes the primary in its place, keeping exactly one. */}
+            {reviewable && (
+              <button
+                type="button"
+                className={`${btn.primary} mt-3 w-full`}
+                onClick={() => {
+                  void nav(`/play/review/${g.id}`);
+                }}
+              >
+                Review this game
+              </button>
+            )}
             <div className="mt-3 flex gap-2">
               <button
                 type="button"
                 onClick={() => {
                   void nav('/play');
                 }}
-                className={`${btn.secondary} flex-1`}
+                className={`${reviewable ? btn.secondary : btn.primary} flex-1`}
               >
                 Play again
               </button>
@@ -310,7 +327,8 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
               </button>
             </div>
           </div>
-        )}
+          );
+        })()}
 
         {/* The game record: the right column's content at regular width (§3.3),
             set in the index face like every other counter in the design. */}
