@@ -85,3 +85,50 @@ test('failed attempts are counted separately and reset when the unit is passed (
   const out = reduceProgress(failing, [newEvent({ type: 'unit_tested_out', unit: '1.1' })]);
   expect(out.units['1.1']?.failedAttempts).toBe(0);
 });
+
+test('a completed review counts once and is attributed to its game', () => {
+  const r = newEvent({
+    type: 'game_reviewed',
+    gameId: 'g1',
+    accuracy: 72.5,
+    blunders: 2,
+    mistakes: 3,
+    drillCompleted: true,
+    partial: false,
+  });
+  const p = reduceProgress(emptyProgress(), [r]);
+  expect(p.reviews).toBe(1);
+  expect(p.gamesReviewed['g1']).toBe(true);
+});
+
+test('a second review of the same game does not count again', () => {
+  const mk = () =>
+    newEvent({
+      type: 'game_reviewed',
+      gameId: 'g1',
+      accuracy: 72.5,
+      blunders: 2,
+      mistakes: 3,
+      drillCompleted: true,
+      partial: false,
+    });
+  // Two events with DIFFERENT ids — the existing `seen` de-duplication cannot
+  // catch this, so the gameId guard is what is under test.
+  const p = reduceProgress(emptyProgress(), [mk(), mk()]);
+  expect(p.reviews).toBe(1);
+});
+
+test('two different games both count', () => {
+  const mk = (gameId: string) =>
+    newEvent({
+      type: 'game_reviewed',
+      gameId,
+      accuracy: 50,
+      blunders: 0,
+      mistakes: 0,
+      drillCompleted: false,
+      partial: false,
+    });
+  const p = reduceProgress(emptyProgress(), [mk('g1'), mk('g2')]);
+  expect(p.reviews).toBe(2);
+});

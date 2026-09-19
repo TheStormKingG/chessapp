@@ -8,6 +8,10 @@ export interface Progress {
   attempts: number;
   masteryAttempts: number;
   games: number;
+  /** PRD 2.2: completed game reviews. A review is a learning action; play alone is not. */
+  reviews: number;
+  /** The games already counted, so a second visit to the review route cannot double-count. */
+  gamesReviewed: Record<string, true>;
   consecutiveLosses: number;
   lastEventAt: string | null;
 }
@@ -20,6 +24,8 @@ export function emptyProgress(): Progress {
     attempts: 0,
     masteryAttempts: 0,
     games: 0,
+    reviews: 0,
+    gamesReviewed: {},
     consecutiveLosses: 0,
     lastEventAt: null,
   };
@@ -72,6 +78,19 @@ export function reduceProgress(start: Progress, events: LearnerEvent[]): Progres
         p.games += 1;
         p.consecutiveLosses = x.result === 'loss' ? p.consecutiveLosses + 1 : 0;
         p.xp += 10;
+        break;
+      }
+      case 'game_reviewed': {
+        // The `seen` set above de-duplicates by event id. This guard is the
+        // different question: the same game reviewed twice, by two events with
+        // two ids. Both are needed.
+        if (!p.gamesReviewed[x.gameId]) {
+          p.gamesReviewed[x.gameId] = true;
+          p.reviews += 1;
+          // PRD F-EN-2: XP is never deducted, and a review is worth more than a
+          // game, because the research says review is the efficient half.
+          p.xp += 20;
+        }
         break;
       }
       default:
