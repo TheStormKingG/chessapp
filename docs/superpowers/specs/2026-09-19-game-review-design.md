@@ -202,7 +202,7 @@ Cortex-A73-class hardware; nothing measurable on this machine substitutes for it
 
 | ID | What ships |
 |---|---|
-| F-RV-1 | On-device analysis of every in-app game, visible progress bar, adaptive depth targeting 60 s, partial review at the 90 s wall, background completion, key moments re-analysed deeper. |
+| F-RV-1 | On-device analysis of every in-app game, visible progress bar, adaptive depth targeting 60 s, partial review at the 90 s wall, key moments re-analysed deeper. **Background completion is NOT delivered**: a partial review is discarded and re-analysed from scratch on the next visit (`reviewFor`), and nothing continues it in between. The summary's copy says so. |
 | F-RV-2 | The eight base labels — Best, Excellent, Good, Book, Inaccuracy, Mistake, Miss, Blunder — from the win-percent drop, with Appendix C's band-scaled thresholds. Great and Brilliant on key moments only (C2). Plain definitions one tap away. |
 | F-RV-3 | Summary: accuracy per side, opening name and the move the game left book, move count by label, the phase in which the game turned. |
 | F-RV-4 | Three to five key moments by swing size, with the required kinds where present, retry before reveal, "Show me". |
@@ -316,11 +316,14 @@ LADDER         = [14, 12, 10]
 3. Record the chosen depth on the review object and **show it**: the summary
    carries "Analysed at depth N" so a shallower review is never silently passed
    off as a full one.
-4. A hard timer at `WALL_MS` stops the pass, marks the review `partial`, renders
-   what exists, and continues the remaining positions in the background via the
-   same `EngineClient` queue. `partial` is visible on the summary
-   ("Still analysing the last N moves"), and the review cannot be **banked**
-   (§8) until it completes.
+4. A hard timer at `WALL_MS` stops the pass, marks the review `partial` and
+   renders what exists. **It does not continue in the background** — that was
+   specified here and was never built, and the paragraph is corrected rather
+   than deleted so the gap stays visible. A `partial` review is discarded by
+   `reviewFor` and analysed again from scratch the next time it is opened.
+   `partial` is visible on the summary, which states that the analysis stopped
+   early, how many moves it covers, and that opening it again analyses the whole
+   game; and the review cannot be **banked** (§8).
 
 Why a ladder and not a fixed depth: §1.4.4 shows the phone factor is unmeasured
 here. A fixed depth 14 is correct at 3.3× and 40 s over budget at 6×. A ladder

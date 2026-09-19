@@ -115,7 +115,7 @@ test('an engine that cannot run at all leaves the learner a way out, not a spinn
   at('/play/review/g1');
   // AnalysisService reports `failed` with whatever it has; the screen shows the
   // partial review rather than nothing, and the summary says so.
-  expect(await screen.findByText(/still analysing|could not finish/i, {}, { timeout: 5000 })).toBeVisible();
+  expect(await screen.findByText(/not complete|could not finish/i, {}, { timeout: 5000 })).toBeVisible();
   expect(screen.getByRole('button', { name: /close|back/i })).toBeVisible();
 });
 

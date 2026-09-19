@@ -67,9 +67,42 @@ test('the depth the review actually ran at is stated', () => {
   expect(screen.getByText(/depth 10/i)).toBeVisible();
 });
 
+/**
+ * Defect 3 of the spec-coverage audit. The banner said "Still analysing the
+ * last few moves", and nothing is analysing anything: `partial` has exactly two
+ * production readers — `reviewFor`, which throws the cached partial away and
+ * re-runs from scratch on the next visit, and `bankReview`, which refuses. No
+ * scheduler and no continuation exist anywhere in src/.
+ *
+ * The banner must say what is true and offer the real next step, and it must
+ * not imply the review counted for anything: `bankReview` still refuses a
+ * partial, deliberately and separately.
+ */
+const PROMISES_BACKGROUND_WORK = /still analysing|analysing the last|in the background|will finish|finishing|when it completes|completing/i;
+const IMPLIES_CREDIT = /saved|counted|banked|credited|recorded/i;
+
 test('a partial review says so and cannot be started as if complete', () => {
   render(<Summary review={review({ partial: true })} onStart={() => {}} />);
-  expect(screen.getByText(/still analysing/i)).toBeVisible();
+  expect(screen.getByText(/not complete/i)).toBeVisible();
+});
+
+test('a partial review does not promise work that nothing is doing', () => {
+  const { container } = render(<Summary review={review({ partial: true })} onStart={() => {}} />);
+  expect(container.textContent ?? '').not.toMatch(PROMISES_BACKGROUND_WORK);
+});
+
+test('a partial review states how far it actually got', () => {
+  const moves = Array.from({ length: 23 }, (_, ply) => ({ ply })) as Review['moves'];
+  render(<Summary review={review({ partial: true, moves })} onStart={() => {}} />);
+  expect(screen.getByText(/first 23 moves/i)).toBeVisible();
+});
+
+test('a partial review offers the step the code actually takes, and claims no credit', () => {
+  const { container } = render(<Summary review={review({ partial: true })} onStart={() => {}} />);
+  // `reviewFor` discards a cached partial and re-runs, so the honest offer is
+  // that opening it again analyses the game from the start.
+  expect(screen.getByText(/again/i)).toBeVisible();
+  expect(container.textContent ?? '').not.toMatch(IMPLIES_CREDIT);
 });
 
 test('the number of moments is stated rather than padded to three', () => {
