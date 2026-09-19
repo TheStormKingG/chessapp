@@ -12,6 +12,7 @@ import { LessonRoute } from '@/path/LessonRoute';
 import { CheckpointRoute } from '@/checkpoint/CheckpointRoute';
 import { ChooseOpponent } from '@/play/ChooseOpponent';
 import { PlayScreen } from '@/play/PlayScreen';
+import { ReviewScreen } from '@/review';
 
 /**
  * Two presentations, decided here and nowhere else.
@@ -48,6 +49,14 @@ export function AppRoutes() {
         element={
           <ModalTask>
             <PlayScreen />
+          </ModalTask>
+        }
+      />
+      <Route
+        path="/play/review/:gameId"
+        element={
+          <ModalTask>
+            <ReviewScreen />
           </ModalTask>
         }
       />

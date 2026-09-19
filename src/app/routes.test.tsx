@@ -38,3 +38,16 @@ test.each(['/lesson/1.1.1', '/checkpoint/1.1', '/play/game'])('%s is presented w
   expect(screen.queryByRole('navigation', { name: 'Main' })).not.toBeInTheDocument();
   expect(document.querySelector('main')).toBeInTheDocument();
 });
+
+// The review is the fourth modal task. Like its neighbours it loads its own
+// content asynchronously, so this asserts on the chrome: a modal task has no
+// tab bar — one focused task, one way out.
+test('the review is a modal task, not a shell section', () => {
+  render(
+    <MemoryRouter initialEntries={['/play/review/g1']}>
+      <AppRoutes />
+    </MemoryRouter>,
+  );
+  expect(screen.queryByRole('navigation', { name: 'Main' })).not.toBeInTheDocument();
+  expect(document.querySelector('main')).toBeInTheDocument();
+});
