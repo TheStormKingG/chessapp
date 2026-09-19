@@ -50,9 +50,9 @@ function walk(dir, out = []) {
   return out;
 }
 
-// PRD 9.2's depth-14 search answers in a second or two; the whole 149-challenge
-// run takes well under two minutes. 30s therefore means the position is
-// pathological, not merely slow.
+// PRD 9.2's depth-14 search answers in a second or two; the whole 400-challenge
+// corpus (168 of them engine-checked) runs in about 15 seconds. 30s therefore
+// means the position is pathological, not merely slow.
 const SEARCH_TIMEOUT_MS = 30_000;
 const HANDSHAKE_TIMEOUT_MS = 30_000;
 const RESYNC_TIMEOUT_MS = 5_000;
@@ -118,6 +118,34 @@ function startEngine() {
       };
       listeners.push(l);
       const started = Date.now();
+      // Start each position from a clean engine.
+      //
+      // Without this the whole corpus was analysed by ONE search state: the
+      // transposition table, the history and killer heuristics and the
+      // evaluation cache all carried from one challenge into the next. A
+      // position's verdict therefore depended on everything analysed before it,
+      // and the walk order is just `readdirSync` order -- so adding a unit, or
+      // editing one position, silently re-decided unrelated ones.
+      //
+      // That is not a theory. Measured on this corpus:
+      //   - forward order, stateful: green, and stably green over four runs
+      //     (it is deterministic, which is exactly why it looked trustworthy);
+      //   - REVERSED order, same files, same engine, same depth: 1.6-k13 fails;
+      //   - with this `ucinewgame`, forward and reversed agree exactly.
+      // And after two genuinely-marginal positions were fixed, the stateful
+      // script began failing 1.4.1-c7 -- a challenge nobody had touched, whose
+      // only change was the history that reached it.
+      //
+      // Stable is not the same as correct. The stateful run was hiding false
+      // negatives too: a clean engine at depth 14 rates 1.2.3-c2's margin at
+      // 99cp against the 100cp bar, and the inherited table was lifting it over.
+      //
+      // Cost: about +1.1s on a ~14s run (+8%), for 168 engine-checked
+      // positions. `isready` is waited on because `ucinewgame` is not
+      // acknowledged and the clear must finish before the next `position`.
+      send('ucinewgame');
+      send('isready');
+      await until((x) => x === 'readyok', RESYNC_TIMEOUT_MS).catch(() => {});
       send(`position fen ${fen}`);
       send(`go depth ${depth}`);
       try {

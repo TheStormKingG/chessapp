@@ -35,7 +35,7 @@
     {
       "id": "1.2.3-c2",
       "type": "find_the_move",
-      "fen": "3B4/8/p7/3K2R1/4p3/8/6n1/3k4 w - - 0 1",
+      "fen": "3B4/8/p7/3K2R1/8/8/6n1/3k4 w - - 0 1",
       "prompt": "Take the free piece with the rook.",
       "answer": { "moves": ["Rxg2"] },
       "concept": "take-free",

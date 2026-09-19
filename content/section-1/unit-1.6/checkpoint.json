@@ -211,7 +211,7 @@
     {
       "id": "1.6-k13",
       "type": "find_the_move",
-      "fen": "6q1/8/5PR1/8/8/Kn2B3/8/4k3 w - - 0 1",
+      "fen": "6q1/8/p4PR1/8/8/K7/8/4k3 w - - 0 1",
       "prompt": "Find the best move.",
       "answer": {
         "moves": [
