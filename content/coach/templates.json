@@ -18,6 +18,38 @@
     "mateAvailable": ["There is a checkmate here. Look for it.", "A checkmate is on the board. Find it."],
     "gameWon": ["You did it. Well played.", "That's a win. Nice work."],
     "gameLost": ["That one got away. Worth a look at where it turned.", "Lost this one. It happens to everybody who plays."],
-    "gameDrawn": ["A draw. Fair result."]
+    "gameDrawn": ["A draw. Fair result."],
+    "reviewHungPiece": [
+      "{playedSan} left your {pieceName} on {square} free to take. The engine's move was {bestSan}.",
+      "After {playedSan}, your {pieceName} on {square} can be taken. The engine's move was {bestSan}."
+    ],
+    "reviewMissedCapture": [
+      "There was a free {pieceName} on {square} here. {bestSan} takes it.",
+      "{bestSan} wins the {pieceName} on {square}. {playedSan} let it go."
+    ],
+    "reviewMissedMate": [
+      "There was a checkmate in this position. The engine's move was {bestSan}.",
+      "{playedSan} let a checkmate slip. The engine's move was {bestSan}."
+    ],
+    "reviewIgnoredThreat": [
+      "Your opponent had a threat here and {playedSan} did not answer it. The engine's move was {bestSan}.",
+      "{playedSan} left your opponent's threat standing. The engine's move was {bestSan}."
+    ],
+    "reviewUnclassified": [
+      "{bestSan} was stronger than {playedSan} here.",
+      "The engine prefers {bestSan} to {playedSan} in this position."
+    ],
+    "reviewGoodMove": [
+      "{playedSan} was a strong move here. Well found.",
+      "{playedSan} is a good one."
+    ],
+    "reviewLessonLink": [
+      "Replay {lessonTitle} for this idea?",
+      "{lessonTitle} covers this one \u2014 want another look?"
+    ],
+    "reviewAsk": [
+      "Something better than {playedSan} was available. Can you find it?",
+      "You played {playedSan}. There was a stronger move \u2014 have a go."
+    ]
   }
 }
