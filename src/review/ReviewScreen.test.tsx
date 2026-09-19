@@ -221,3 +221,76 @@ test('every key moment asks before it reveals, not just the first', async () => 
     await userEvent.click(screen.getByRole('button', { name: n === 3 ? 'Finish' : 'Next moment' }));
   }
 });
+
+/**
+ * F-RV-5 with F-CO-4. `reviewHungPiece` and `reviewMissedCapture` are the two
+ * commonest review templates and both need {pieceName} and {square}. Nothing
+ * ever fills `KeyMoment.explanation` — `selectKeyMoments` sets it null and
+ * `deepenMoments` copies it through — so the screen's `explainMoment` call is
+ * the only producer there is. Calling it without those facts makes
+ * `CoachService` throw, `explain.ts` swallow, and every hung-piece and
+ * missed-capture moment in the product render silently.
+ *
+ * The facts are verified data, not guesses: `hangingPieces(fenAfter, mover)`
+ * names the piece and square for the first, `winningCaptures(fenBefore)` for
+ * the second. The unit tests of explain.ts pass because they hand the facts in
+ * by hand; only the screen can show the wiring is missing.
+ */
+function themedReview(gameId: string): Review {
+  // d2d5 hangs the rook on d5 (hangingPieces goes 0 -> 1 across the move).
+  const hungBefore = '4k3/8/8/8/8/5b2/3R4/4K3 w - - 0 1';
+  const hungAfter = '4k3/8/8/3R4/8/5b2/8/4K3 b - - 1 1';
+  // exd5 wins the free queen on d5; the learner played Ke2 instead.
+  const missBefore = '4k3/8/8/3q4/4P3/8/8/4K3 w - - 0 1';
+  const missAfter = '4k3/8/8/3q4/4P3/8/4K3/8 b - - 1 1';
+  const moves: ReviewedMove[] = [
+    {
+      ply: 0, san: 'Rd5', uci: 'd2d5', fenBefore: hungBefore, fenAfter: hungAfter, mover: 'w',
+      best: { uci: 'd2d3', san: 'Rd3' },
+      winBefore: 60, winAfterPlayed: 20, drop: 40, accuracy: 15,
+      label: 'Blunder', book: false, phase: 'endgame',
+    },
+    {
+      ply: 1, san: 'Ke2', uci: 'e1e2', fenBefore: missBefore, fenAfter: missAfter, mover: 'w',
+      best: { uci: 'e4d5', san: 'exd5' },
+      winBefore: 60, winAfterPlayed: 20, drop: 40, accuracy: 15,
+      label: 'Blunder', book: false, phase: 'endgame',
+    },
+  ];
+  return {
+    gameId, learner: 'w', depth: 14, partial: false, moves,
+    accuracy: { w: 15, b: 90 },
+    counts: { Blunder: 2 },
+    opening: null, turningPhase: 'endgame',
+    keyMoments: [0, 1].map((ply) => ({
+      ply, kind: 'swing' as const, deeper: null, explanation: null, lessonId: null,
+    })),
+    errors: [], createdAt: '2026-09-19T00:00:00.000Z',
+  };
+}
+
+test('a hung-piece moment names the piece and the square rather than saying nothing', async () => {
+  await seedGame('g4');
+  await db.reviews.put(themedReview('g4'));
+  at('/play/review/g4');
+
+  await screen.findByRole('heading', { name: /game review/i }, { timeout: 5000 });
+  await userEvent.click(screen.getByRole('button', { name: /start with the first moment/i }));
+  await userEvent.click(screen.getByRole('button', { name: 'Show me' }));
+
+  expect(screen.getByText(/rook on d5/i)).toBeVisible();
+});
+
+test('a missed-capture moment names what was free and where', async () => {
+  await seedGame('g5');
+  await db.reviews.put(themedReview('g5'));
+  at('/play/review/g5');
+
+  await screen.findByRole('heading', { name: /game review/i }, { timeout: 5000 });
+  await userEvent.click(screen.getByRole('button', { name: /start with the first moment/i }));
+  await userEvent.click(screen.getByRole('button', { name: 'Show me' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Next moment' }));
+  await userEvent.click(screen.getByRole('button', { name: 'Show me' }));
+
+  expect(screen.getByText(/queen on d5/i)).toBeVisible();
+});

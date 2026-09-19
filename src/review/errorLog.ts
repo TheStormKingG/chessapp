@@ -1,5 +1,6 @@
 import { facts, hangingPieces, mateInOne, winningCaptures } from '@/tagger';
-import { toSan, turn } from '@/rules';
+import { pieceAt, toSan, turn } from '@/rules';
+import { CoachService } from '@/coach';
 import type { Color } from '@/rules';
 import type { ErrorEntry, ReviewedMove } from './types';
 
@@ -40,21 +41,57 @@ export const THEME_LESSON: Record<Theme, string | null> = {
   unclassified: null,
 };
 
-export function themeOf(at: {
+/**
+ * The facts that justify a theme, named at the moment the theme is decided.
+ *
+ * F-CO-4 lets the coach state only what something verified. These two fields
+ * carry exactly what the tagger verified and nothing else, so a caller can fill
+ * `reviewHungPiece` and `reviewMissedCapture` — the two templates that need
+ * {pieceName} and {square} — without inventing anything.
+ *
+ * Both are optional, and absent is a real answer: a theme can fire while the
+ * specific piece is not identifiable (see below), and the correct output then
+ * is no explanation at all rather than a plausible one.
+ */
+export interface ThemeFacts {
+  theme: Theme;
+  /** hung_piece only: the piece `hangingPieces(fenAfter, mover)` says is now free. */
+  hung?: { pieceName: string; square: string };
+  /** missed_capture only: what `winningCaptures(fenBefore)` says the best move takes. */
+  free?: { pieceName: string; square: string };
+}
+
+/**
+ * Decides the theme AND names the piece the theme is about, from the same
+ * tagger calls. `themeOf` delegates here, so there is one detection path and
+ * the facts can never disagree with the theme they were produced alongside.
+ */
+export function classify(at: {
   fenBefore: string;
   fenAfter: string;
   playedUci: string;
   bestUci: string;
-}): Theme {
+}): ThemeFacts {
   const mover = turn(at.fenBefore);
 
   // 1. Did the best move take a free piece the learner left alone?
   const free = winningCaptures(at.fenBefore);
-  if (free.length > 0 && free.some((c) => c.uci === at.bestUci)) return 'missed_capture';
+  const taken = free.find((c) => c.uci === at.bestUci);
+  if (taken) {
+    // The victim stands on the target square before the capture. En passant is
+    // the one exception — the target square is empty — and the victim is then a
+    // pawn by definition, which is the same fallback `winningCaptures` itself
+    // uses to value it.
+    const victim = pieceAt(at.fenBefore, taken.target);
+    return {
+      theme: 'missed_capture',
+      free: { pieceName: CoachService.pieceName(victim?.type ?? 'p'), square: taken.target },
+    };
+  }
 
   // 2. Was there a mate in one the learner did not play?
   const mate = mateInOne(at.fenBefore);
-  if (mate !== null && toSan(at.fenBefore, at.playedUci) !== mate) return 'missed_mate';
+  if (mate !== null && toSan(at.fenBefore, at.playedUci) !== mate) return { theme: 'missed_mate' };
 
   // 3. Did the move leave one of the learner's own pieces free to take?
   //    The two counts are produced by different attack models on purpose:
@@ -65,7 +102,26 @@ export function themeOf(at: {
   //    direction F-CO-4 permits.
   const hangingAfter = hangingPieces(at.fenAfter, mover);
   const hangingBefore = hangingPieces(at.fenBefore, mover);
-  if (hangingAfter.length > hangingBefore.length) return 'hung_piece';
+  if (hangingAfter.length > hangingBefore.length) {
+    // Which piece to name: one that is hanging after the move and was not
+    // hanging before it, most valuable first. A piece already hanging before
+    // the move was not left there BY this move, and the template says
+    // "{playedSan} left your {pieceName} on {square} free to take".
+    //
+    // The set can be empty even though the count rose — the models differ
+    // between the two positions, so `before` is not a subset of `after`. There
+    // is then no piece this move demonstrably hung, and naming one would be the
+    // invention F-CO-4 forbids. The theme still stands (the count is the
+    // evidence); the fact is simply absent, and the caller renders nothing.
+    const wasHanging = new Set(hangingBefore.map((h) => h.square));
+    const newly = hangingAfter
+      .filter((h) => !wasHanging.has(h.square))
+      .sort((a, b) => b.value - a.value);
+    const worst = newly[0];
+    return worst
+      ? { theme: 'hung_piece', hung: { pieceName: CoachService.pieceName(worst.piece), square: worst.square } }
+      : { theme: 'hung_piece' };
+  }
 
   // 4. Was there a threat against the learner that the move did not answer?
   //    `facts(fenBefore).threats` is empty when the side to move is in check —
@@ -74,10 +130,19 @@ export function themeOf(at: {
   const before = facts(at.fenBefore);
   if (before.threats.captures.length > 0) {
     const stillThreatened = facts(at.fenAfter).captures.length > 0;
-    if (stillThreatened) return 'ignored_threat';
+    if (stillThreatened) return { theme: 'ignored_threat' };
   }
 
-  return 'unclassified';
+  return { theme: 'unclassified' };
+}
+
+export function themeOf(at: {
+  fenBefore: string;
+  fenAfter: string;
+  playedUci: string;
+  bestUci: string;
+}): Theme {
+  return classify(at).theme;
 }
 
 export function errorsFrom(

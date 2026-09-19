@@ -13,7 +13,7 @@ import { positionsOf, sourceFromEvents } from './gameSource';
 import { loadBook, lookupOpening } from './openingBook';
 import { askForBetter, explainMoment } from './explain';
 import { bankReview, deepenMoments, reviewFor } from './useReview';
-import { THEME_LESSON, themeOf } from './errorLog';
+import { THEME_LESSON, classify } from './errorLog';
 import { Summary } from './Summary';
 import { KeyMomentView } from './KeyMomentView';
 import { FixItDrill } from './FixItDrill';
@@ -197,9 +197,19 @@ export function ReviewScreen() {
         </Shellish>
       );
     }
-    const theme = themeOf({ fenBefore: move.fenBefore, fenAfter: move.fenAfter, playedUci: move.uci, bestUci: move.best.uci });
+    /* `classify` returns the theme AND the piece the theme is about, from the
+       same tagger calls that decided it. `reviewHungPiece` and
+       `reviewMissedCapture` both need {pieceName} and {square}; without them
+       CoachService throws, explain.ts returns null, and the two commonest
+       themes render with no explanation at all. F-CO-4 is not weakened by
+       this: the facts are the tagger's own findings, and when `classify`
+       cannot name a piece it omits the fact and the moment stays silent. */
+    const { theme, hung, free } = classify({
+      fenBefore: move.fenBefore, fenAfter: move.fenAfter, playedUci: move.uci, bestUci: move.best.uci,
+    });
     const lessonId = moment.lessonId ?? THEME_LESSON[theme];
-    const explanation = moment.explanation ?? explainMoment(coach, { move, theme, lessonTitle: null });
+    const explanation =
+      moment.explanation ?? explainMoment(coach, { move, theme, lessonTitle: null, hung, free });
     return (
       <KeyMomentView
         /* F-RV-4 is "retry before reveal" on EVERY moment. `KeyMomentView`
