@@ -1,5 +1,5 @@
 import type { Band, MoveLabel } from './types';
-import { thresholdsFor, BEST_EPSILON } from './bands';
+import { thresholdsFor, BEST_EPSILON, BRILLIANT_MAX_WIN_BEFORE } from './bands';
 
 /**
  * PRD F-RV-2, 10.6 and Appendix C.
@@ -74,4 +74,53 @@ export function labelMove(input: LabelInput): MoveLabel {
     return 'Miss';
   }
   return label;
+}
+
+/**
+ * PRD F-RV-2 and Appendix C, Great and Brilliant.
+ *
+ * These are applied ONLY to key moments, because both need a second-best line
+ * and therefore MultiPV >= 2, which costs 2.6x a MultiPV-1 pass in the browser
+ * (design spec section 1.2) and does not fit F-RV-1's 60-second budget over a
+ * whole game. Design spec section 1.5, consequence C2.
+ */
+export interface UpgradeInput {
+  band: Band;
+  /** The label the whole-game pass assigned. */
+  label: MoveLabel;
+  /** Win per cent for the mover before the move. */
+  winBefore: number;
+  /** Win per cent for the mover if the SECOND-best move had been played. Null when forced. */
+  secondWin: number | null;
+  /** Points of material given up by the move, by PIECE_VALUE. */
+  materialSacrificed: number;
+  /** Points regained within the engine's principal variation. */
+  materialRegained: number;
+}
+
+export function upgradeKeyMoment(input: UpgradeInput): MoveLabel {
+  if (input.label === 'Book') return input.label;
+  if (input.label !== 'Best' && input.label !== 'Excellent') return input.label;
+  if (input.secondWin === null) return input.label;
+
+  const secondDrop = input.winBefore - input.secondWin;
+  // Appendix C: Great is "the only move that keeps the evaluation from dropping
+  // by a mistake or more", so the test is the band's MISTAKE FLOOR. In
+  // Thresholds each field is the exclusive upper bound of the label it names,
+  // so the first drop that is a Mistake is `t.inaccuracy` (15 in band 1) and
+  // `t.mistake` (25) is where Blunder starts. Do not "correct" this to
+  // `.mistake`: that is the Blunder floor and it contradicts Appendix C.
+  // `Great turns on the band's Mistake floor exactly` in labels.test.ts pins it.
+  const onlyMove = input.label === 'Best' && secondDrop >= thresholdsFor(input.band).inaccuracy;
+
+  // Appendix C: "a sound sacrifice (material given up and not immediately
+  // regained) that is best or excellent, from a position that was not already
+  // clearly winning". The first two clauses are the guards above; the third has
+  // no number in the PRD and is BRILLIANT_MAX_WIN_BEFORE (design spec 9.3).
+  const sacrifice = input.materialSacrificed - input.materialRegained;
+  const brilliant = sacrifice > 0 && input.winBefore < BRILLIANT_MAX_WIN_BEFORE;
+
+  if (brilliant) return 'Brilliant';
+  if (onlyMove) return 'Great';
+  return input.label;
 }

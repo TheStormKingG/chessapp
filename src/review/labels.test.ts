@@ -1,5 +1,6 @@
-import { labelMove } from './labels';
-import type { LabelInput } from './labels';
+import { labelMove, upgradeKeyMoment } from './labels';
+import { BRILLIANT_MAX_WIN_BEFORE } from './bands';
+import type { LabelInput, UpgradeInput } from './labels';
 
 const base: LabelInput = {
   band: 1,
@@ -116,4 +117,100 @@ test('delaying a mate you already had carries no penalty', () => {
 
 test('losing a mate you had is judged normally', () => {
   expect(at({ drop: 30, moverWasMating: true, stillMating: false })).toBe('Blunder');
+});
+
+const up: UpgradeInput = {
+  band: 1,
+  label: 'Best',
+  winBefore: 50,
+  secondWin: null,
+  materialSacrificed: 0,
+  materialRegained: 0,
+};
+
+const upg = (o: Partial<UpgradeInput>) => upgradeKeyMoment({ ...up, ...o });
+
+test('Great: the only move that avoided a mistake', () => {
+  // Band 1's Mistake floor is 15. Second-best loses 16 points, so the played
+  // move was the only one that did not blunder the position.
+  expect(upg({ label: 'Best', winBefore: 60, secondWin: 44 })).toBe('Great');
+});
+
+test('not Great when a second move was nearly as good', () => {
+  expect(upg({ label: 'Best', winBefore: 60, secondWin: 52 })).toBe('Best');
+});
+
+test('not Great when there was no second move at all', () => {
+  // A forced move is not a find. secondWin null means one legal move.
+  expect(upg({ label: 'Best', winBefore: 60, secondWin: null })).toBe('Best');
+});
+
+test('not Great when the played move was not best', () => {
+  expect(upg({ label: 'Good', winBefore: 60, secondWin: 40 })).toBe('Good');
+});
+
+test('Brilliant: a sound sacrifice from a position that was not already winning', () => {
+  expect(
+    upg({ label: 'Best', winBefore: 55, secondWin: 50, materialSacrificed: 3, materialRegained: 0 }),
+  ).toBe('Brilliant');
+});
+
+test('not Brilliant when the material comes straight back', () => {
+  expect(
+    upg({ label: 'Best', winBefore: 55, secondWin: 50, materialSacrificed: 3, materialRegained: 3 }),
+  ).toBe('Best');
+});
+
+test('not Brilliant from an already clearly winning position', () => {
+  expect(
+    upg({ label: 'Best', winBefore: 90, secondWin: 50, materialSacrificed: 3, materialRegained: 0 }),
+  ).toBe('Great');
+});
+
+test('not Brilliant when the move was only Good', () => {
+  expect(
+    upg({ label: 'Good', winBefore: 55, secondWin: 50, materialSacrificed: 5, materialRegained: 0 }),
+  ).toBe('Good');
+});
+
+test('Brilliant outranks Great when both apply', () => {
+  expect(
+    upg({ label: 'Best', winBefore: 55, secondWin: 30, materialSacrificed: 3, materialRegained: 0 }),
+  ).toBe('Brilliant');
+});
+
+test('a Book move is never upgraded', () => {
+  expect(
+    upg({ label: 'Book', winBefore: 55, secondWin: 20, materialSacrificed: 3, materialRegained: 0 }),
+  ).toBe('Book');
+});
+
+test('a second-best move that is merely an inaccuracy does not make the played move Great', () => {
+  // Appendix C: Great is "the only move that keeps the evaluation from dropping
+  // by a mistake or more". Band 1's Mistake floor is 15 (a drop of 8 to 14.9 is
+  // an Inaccuracy). A second-best that drops 10 is an inaccuracy, not a
+  // mistake, so the played move was not the only move.
+  expect(upg({ label: 'Best', winBefore: 60, secondWin: 50 })).toBe('Best');
+});
+
+test('Great turns on the band’s Mistake floor exactly, not the Blunder floor', () => {
+  // The discriminating band. Band 1: a second-best drop of 15 is the first drop
+  // Appendix C calls a Mistake, and 25 is where Blunder starts. A rule keyed to
+  // the Blunder floor agrees with every fixture below 15 and above 25, so the
+  // two candidate thresholds can only be told apart in between.
+  expect(upg({ label: 'Best', winBefore: 60, secondWin: 45.1 })).toBe('Best'); // drop 14.9
+  expect(upg({ label: 'Best', winBefore: 60, secondWin: 45 })).toBe('Great'); // drop 15
+  expect(upg({ label: 'Best', winBefore: 60, secondWin: 36 })).toBe('Great'); // drop 24
+  // Band 4's Mistake floor is 10, so the same drop is Great one band lower.
+  expect(upg({ band: 4, label: 'Best', winBefore: 60, secondWin: 50.1 })).toBe('Best'); // drop 9.9
+  expect(upg({ band: 4, label: 'Best', winBefore: 60, secondWin: 50 })).toBe('Great'); // drop 10
+});
+
+test('Brilliant turns on BRILLIANT_MAX_WIN_BEFORE exactly', () => {
+  // "Not already clearly winning" has no number in the PRD; design spec 9.3
+  // fixes it at win per cent 80 (+376 cp on the shipped curve). The boundary is
+  // exclusive, so 80 itself is already clearly winning.
+  const sac = { label: 'Best', secondWin: 50, materialSacrificed: 3, materialRegained: 0 } as const;
+  expect(upg({ ...sac, winBefore: 79.9 })).toBe('Brilliant');
+  expect(upg({ ...sac, winBefore: BRILLIANT_MAX_WIN_BEFORE })).toBe('Great');
 });
