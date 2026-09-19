@@ -37,7 +37,17 @@ export function judgeMoves(input: JudgeInput): ReviewedMove[] {
   for (let ply = 0; ply < judgeable; ply += 1) {
     const before = input.positions[ply];
     const after = input.positions[ply + 1];
-    const mover = turn(fens[ply]) as Color;
+    const fenBefore = fens[ply];
+    const fenAfter = fens[ply + 1];
+    const uci = ucis[ply];
+    const san = input.sans[ply];
+    // `judgeable` already bounds every one of these, so this guard is a type
+    // narrowing rather than a behaviour: under noUncheckedIndexedAccess an
+    // index read is `T | undefined` whatever the loop bound proves.
+    if (!before || !after || fenBefore === undefined || fenAfter === undefined || uci === undefined || san === undefined) {
+      break;
+    }
+    const mover = turn(fenBefore);
     const winBefore = before.win;
     const winAfterPlayed = 100 - after.win;
     const drop = Math.max(0, winBefore - winAfterPlayed);
@@ -46,7 +56,7 @@ export function judgeMoves(input: JudgeInput): ReviewedMove[] {
     const label: MoveLabel = labelMove({
       band: input.band,
       drop,
-      playedIsBest: ucis[ply] === before.bestUci,
+      playedIsBest: uci === before.bestUci,
       book,
       opponentPreviousWasBadMove: previousWasBad,
       winBefore,
@@ -61,19 +71,19 @@ export function judgeMoves(input: JudgeInput): ReviewedMove[] {
 
     out.push({
       ply,
-      san: input.sans[ply],
-      uci: ucis[ply],
-      fenBefore: fens[ply],
-      fenAfter: fens[ply + 1],
+      san,
+      uci,
+      fenBefore,
+      fenAfter,
       mover,
-      best: { uci: before.bestUci, san: safeSan(fens[ply], before.bestUci) },
+      best: { uci: before.bestUci, san: safeSan(fenBefore, before.bestUci) },
       winBefore,
       winAfterPlayed,
       drop,
       accuracy: moveAccuracy(drop),
       label,
       book,
-      phase: phaseOf({ ply, fen: fens[ply], inBook: book }),
+      phase: phaseOf({ ply, fen: fenBefore, inBook: book }),
     });
     previousWasBad = isBadMove(label);
   }

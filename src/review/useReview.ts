@@ -95,6 +95,13 @@ export async function deepenMoments(
       const a = await service.deepen(move.fenBefore, depth);
       const first = a.lines[0];
       const second = a.lines[1];
+      // No first line at all is not a deeper result. It should not happen, but
+      // `undefined.score` would be caught below and silently look identical to
+      // a dead engine, so it is named here instead.
+      if (!first) {
+        moments.push(m);
+        continue;
+      }
       const deeper = {
         depth,
         bestWin: scoreToWinPercent(first.score),

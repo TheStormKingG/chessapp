@@ -6,7 +6,7 @@ const SANS = ['e4', 'e5', 'Nf3', 'Nc6', 'Bc4', 'Nf6', 'Ng5', 'd5'];
 
 function analysed(wins: number[]): AnalysedPosition[] {
   const { fens } = positionsOf(SANS);
-  return wins.map((win, i) => ({ index: i, fen: fens[i], win, bestUci: 'a2a3', pv: ['a2a3'], depth: 14 }));
+  return wins.map((win, i) => ({ index: i, fen: fens[i]!, win, bestUci: 'a2a3', pv: ['a2a3'], depth: 14 }));
 }
 
 test('the mover’s win per cent after a move is 100 minus the next position’s', () => {
@@ -18,11 +18,11 @@ test('the mover’s win per cent after a move is 100 minus the next position’s
     band: 1,
     bookPlies: SANS.map(() => false),
   });
-  expect(moves[0].winBefore).toBe(60);
-  expect(moves[0].winAfterPlayed).toBe(45);
-  expect(moves[0].drop).toBe(15);
-  expect(moves[0].mover).toBe('w');
-  expect(moves[0].label).toBe('Mistake');
+  expect(moves[0]!.winBefore).toBe(60);
+  expect(moves[0]!.winAfterPlayed).toBe(45);
+  expect(moves[0]!.drop).toBe(15);
+  expect(moves[0]!.mover).toBe('w');
+  expect(moves[0]!.label).toBe('Mistake');
 });
 
 test('a move that improves the position has a drop of zero, never a negative one', () => {
@@ -33,9 +33,9 @@ test('a move that improves the position has a drop of zero, never a negative one
     bookPlies: SANS.map(() => false),
   });
   // White was at 40; after the move black sits at 30, so white is at 70.
-  expect(moves[0].winAfterPlayed).toBe(70);
-  expect(moves[0].drop).toBe(0);
-  expect(moves[0].label).toBe('Best');
+  expect(moves[0]!.winAfterPlayed).toBe(70);
+  expect(moves[0]!.drop).toBe(0);
+  expect(moves[0]!.label).toBe('Best');
 });
 
 test('a partial analysis judges only the moves it has both ends of', () => {

@@ -31,6 +31,13 @@ function fakeEngine() {
   };
 }
 
+/** Narrows the event union, and fails loudly rather than silently, if the
+ *  payload is not the one this feature appends. */
+function reviewed(p: ReturnType<typeof bankReview>) {
+  if (p === null || p.type !== 'game_reviewed') throw new Error(`not a game_reviewed payload: ${JSON.stringify(p)}`);
+  return p;
+}
+
 const source = {
   gameId: 'g1',
   learner: 'w' as const,
@@ -90,7 +97,7 @@ test('a moment with only one legal reply gets a null secondWin, not a fabricated
 test('the deeper pass is what applies Great — without it the label never appears', async () => {
   const table = fakeTable();
   const { review } = await reviewFor({ source, table, engine: fakeEngine() as never, band: 1, book: null });
-  const before = review.keyMoments.map((m) => review.moves[m.ply].label);
+  const before = review.keyMoments.map((m) => review.moves[m.ply]!.label);
   // A wide gap between the first and second lines makes every Best an only move.
   const wide = {
     analyse: async (req: { depth: number; multiPv?: number }) => ({
@@ -102,11 +109,11 @@ test('the deeper pass is what applies Great — without it the label never appea
     }),
   };
   const filled = await deepenMoments(review, wide as never, 16, 1);
-  const after = filled.keyMoments.map((m) => filled.moves[m.ply].label);
+  const after = filled.keyMoments.map((m) => filled.moves[m.ply]!.label);
   // At least one label changed, and nothing outside the key moments moved.
   expect(after).not.toEqual(before);
   filled.moves.forEach((m, i) => {
-    if (!filled.keyMoments.some((k) => k.ply === i)) expect(m.label).toBe(review.moves[i].label);
+    if (!filled.keyMoments.some((k) => k.ply === i)) expect(m.label).toBe(review.moves[i]!.label);
   });
 });
 
@@ -145,10 +152,10 @@ test('a partial review cannot be banked', () => {
 
 test('banking uses the learner’s own accuracy, not the opponent’s', () => {
   const review = { gameId: 'g1', partial: false, accuracy: { w: 30, b: 90 }, learner: 'b', counts: {} } as unknown as Review;
-  expect(bankReview(review, false)!.accuracy).toBe(90);
+  expect(reviewed(bankReview(review, false)).accuracy).toBe(90);
 });
 
 test('a null accuracy banks as 0 rather than crashing or claiming 100', () => {
   const review = { gameId: 'g1', partial: false, accuracy: { w: null, b: null }, learner: 'w', counts: {} } as unknown as Review;
-  expect(bankReview(review, false)!.accuracy).toBe(0);
+  expect(reviewed(bankReview(review, false)).accuracy).toBe(0);
 });

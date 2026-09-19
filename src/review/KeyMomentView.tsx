@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { Board } from '@/board';
-import type { BoardMove, Square } from '@/board';
+import type { BoardMove } from '@/board';
 import { CoachBubble } from '@/coach';
 import { btn } from '@/app/Button';
-import type { Color } from '@/rules';
+import type { Color, Square } from '@/rules';
 import { LabelChip } from './LabelChip';
 import type { KeyMoment, ReviewedMove } from './types';
 
