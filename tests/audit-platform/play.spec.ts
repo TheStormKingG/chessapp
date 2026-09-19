@@ -42,8 +42,7 @@ test.describe('a real game against Rosa', () => {
     await resign(page);
     await expect(page.getByText('You lost this one.')).toBeVisible();
     await expect(page.getByLabel(/of 3 crowns/)).toBeVisible();
-    await expect(page.getByRole('button', { name: /review this game/i })).toBeDisabled();
-    await expect(page.getByText('Coming next release.')).toBeVisible();
+    await expect(page.getByRole('button', { name: /review this game/i })).toBeEnabled();
 
     await expect.poll(async () => (await readEvents(page, 'game_finished')).length).toBe(1);
     // Nothing further is recorded when the end card sits on screen.

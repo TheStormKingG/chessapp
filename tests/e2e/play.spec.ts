@@ -40,13 +40,18 @@ test.describe('coached play', () => {
     await page.getByRole('button', { name: 'Take back' }).click();
     await expect(moves).toHaveCount(0);
 
-    // Resigning ends the game: the end card reports crowns and offers a
-    // review that is not built yet.
+    // Resigning ends the game: the end card reports crowns and offers the
+    // review, which is now built.
     await page.getByRole('button', { name: 'Resign' }).click();
     // Resigning is destructive and irreversible, so it is confirmed (chunk C4).
     await expect(page.getByRole('heading', { name: 'Resign this game?' })).toBeVisible();
     await page.getByRole('button', { name: 'Resign' }).click();
     await expect(page.getByLabel(/of 3 crowns/)).toBeVisible();
-    await expect(page.getByRole('button', { name: /review this game/i })).toBeDisabled();
+    await expect(page.getByRole('button', { name: /review this game/i })).toBeEnabled();
+    await page.getByRole('button', { name: /review this game/i }).click();
+    await expect(page).toHaveURL(/\/play\/review\//);
+    await expect(page.getByRole('heading', { name: /reviewing your game|game review/i })).toBeVisible({
+      timeout: 120_000,
+    });
   });
 });

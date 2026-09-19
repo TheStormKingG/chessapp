@@ -277,20 +277,25 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
             <p className="t-label mt-1 text-content-dim">
               {g.hints} hint{g.hints === 1 ? '' : 's'}, {g.takebacks} take-back{g.takebacks === 1 ? '' : 's'}
             </p>
-            {/* Unavailable, so it is offered at the quietest weight there is rather
-                than as a full-width bordered control competing with the two that
-                work. */}
-            <button type="button" disabled className={`${btn.quiet} mt-3 w-full`}>
+            {/* PRD 2.2: a game that is not reviewed does not count, so the review
+                is this screen's one primary and "Play again" steps down to
+                secondary. `Button.tsx` allows exactly one primary per screen. */}
+            <button
+              type="button"
+              className={`${btn.primary} mt-3 w-full`}
+              onClick={() => {
+                void nav(`/play/review/${g.id}`);
+              }}
+            >
               Review this game
             </button>
-            <p className="t-caption mt-1 text-content-dim">Coming next release.</p>
             <div className="mt-3 flex gap-2">
               <button
                 type="button"
                 onClick={() => {
                   void nav('/play');
                 }}
-                className={`${btn.primary} flex-1`}
+                className={`${btn.secondary} flex-1`}
               >
                 Play again
               </button>
