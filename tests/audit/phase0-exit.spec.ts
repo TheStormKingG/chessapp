@@ -119,12 +119,30 @@ test.describe('PRD Phase 0 exit criterion', () => {
       }
     }
 
-    // The section is finished: Today has nothing left to offer. (Today is the
-    // app's index route, `/` -- `/today` is a 404.)
+    // The section is finished. (Today is the app's index route, `/` --
+    // `/today` is a 404.)
+    //
+    // This used to assert Today had NOTHING left to offer, which was a claim
+    // about the corpus dressed up as a claim about Section 1: it held only
+    // while Section 1 was everything that was built. Unit 2.1 is built, so
+    // Today correctly offers 2.1.1 and the terminal message is correctly
+    // absent -- the assertion was passing for a reason that has now expired,
+    // not testing the criterion.
+    //
+    // SCOPED to what the PRD actually says: a tester who completes Section 1
+    // is done with Section 1, and the app carries them across the section
+    // boundary rather than stopping dead. The terminal message is owned by
+    // `TodayScreen.test.tsx`, which walks the built units rather than naming a
+    // section and so cannot expire the same way.
     await page.goto('./');
+    await expect(page.getByRole('link', { name: /2\.1\.1/ })).toBeVisible();
+    // Nothing of Section 1 is left to do: no Section 1 lesson is offered.
+    await expect(page.getByRole('link', { name: /Lesson 1\./ })).toHaveCount(0);
+    // And the terminal message is absent for the right reason -- there IS more
+    // built -- rather than because the locator went stale.
     await expect(
       page.getByText('You have finished everything that is built so far. More lessons are coming.'),
-    ).toBeVisible();
+    ).toHaveCount(0);
 
     /* ------------------------------------------- and a legal game vs Rosa */
 
