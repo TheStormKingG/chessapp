@@ -56,6 +56,17 @@ jobs:
           NODE_ENV: production
           VITE_SUPABASE_URL: ${{ secrets.VITE_SUPABASE_URL }}
           VITE_SUPABASE_ANON_KEY: ${{ secrets.VITE_SUPABASE_ANON_KEY }}
+
+      # PRD 11's 300 KiB shell budget was enforced by nobody: the script
+      # existed and ran in no workflow. It must run HERE, on the build that
+      # ships, and not on a separate build of its own — the Supabase client
+      # compiles in only when the secrets above are present, and it is worth
+      # ~50 KiB gzipped. A build without them measures 249 KiB and passes
+      # comfortably while the deployed build sits at 299.9 against a 300 limit.
+      # The script exits 1 when over, so this step is the gate.
+      - name: Shell size budget (PRD 11)
+        run: node scripts/measure-shell-size.mjs
+
       - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
