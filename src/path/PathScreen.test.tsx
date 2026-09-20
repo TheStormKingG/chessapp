@@ -254,16 +254,26 @@ test('the meter counts the section it sits beside, not the whole path', () => {
   for (const m of meters) expect(m).toHaveAttribute('data-fill', '0');
 });
 
-test('an unbuilt section collapses into one counted groove, and nothing in it is a link', () => {
+test('an unbuilt section counts per unit, and nothing in it is a link', () => {
   renderPath();
   // Section 2's eight units are all unbuilt, so every one of its 44 nodes is
-  // `coming` and they are consecutive: the existing run-grouping collapses them
-  // into a single counted boundary. That is the mechanism already on the screen
-  // applied to new data, not a new one.
+  // `coming`. They must NOT fuse into one boundary: a checkpoint is never
+  // grouped, so each unit's lessons form their own groove and each unit's
+  // checkpoint is its own row. The number a boundary prints is the distance to
+  // the next thing that opens, and 44 is the rest of the curriculum.
   const coming = [...document.querySelectorAll('*')]
     .filter((el) => el.children.length === 0 && /^\d+ coming$/.test(el.textContent ?? ''))
     .map((el) => el.textContent);
-  expect(coming).toEqual(['44 coming']);
+  expect(coming).not.toEqual(['44 coming']);
+  expect(coming).toHaveLength(8);
+  // The counts are per-unit lesson counts, and they account for all 36 lessons.
+  const counted = coming.reduce((n, h) => n + Number(h?.split(' ')[0]), 0);
+  // 36 lessons plus 8 checkpoints: a coming checkpoint stays inside its unit's
+  // groove, so the unit is one row rather than seven.
+  expect(counted).toBe(44);
+  // No groove may exceed a unit: lesson.schema caps a unit's lessons well
+  // under this, so a larger number means a run spanned a unit boundary again.
+  for (const h of coming) expect(Number(h?.split(' ')[0])).toBeLessThanOrEqual(10);
   expect(
     screen.getByLabelText("2.1.1 What does the opponent's last move threaten?. Content coming"),
   ).toHaveAttribute('aria-disabled', 'true');

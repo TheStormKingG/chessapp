@@ -82,17 +82,43 @@ function groupedState(n: Node): 'locked' | 'coming' | null {
   return n.state === 'coming' ? 'coming' : null;
 }
 
+/**
+ * A run never spans a unit.
+ *
+ * Runs of consecutive unreachable nodes collapse so the path does not print
+ * "Locked" forty times, and the number the boundary prints is the distance to
+ * the next thing that opens (PREMIUM-DELTA Δ3). That distance is only
+ * meaningful within a unit: a fresh Section 1 path reads "7 locked" then
+ * "5 locked" because a *locked* checkpoint is not groupable and so happened to
+ * break the run at each unit's end.
+ *
+ * A `coming` checkpoint IS groupable, so nothing broke the run once a whole
+ * section was unbuilt, and Section 2's 44 nodes fused into one "44 coming"
+ * groove. 44 is not a distance to anything — it is the length of the rest of
+ * the curriculum.
+ *
+ * Breaking on the unit is the rule the checkpoint was standing in for, so it
+ * is stated directly here rather than left to depend on which states a
+ * checkpoint happens to take. Checkpoints stay groupable, which is what keeps
+ * a `coming` unit to one row rather than one row per lesson plus a checkpoint.
+ */
 function toRuns(nodes: Node[]): Run[] {
   const runs: Run[] = [];
+  let lastUnit: string | null = null;
   for (const node of nodes) {
     const state = groupedState(node);
     if (!state) {
       runs.push({ kind: 'single', node });
+      lastUnit = node.unit;
       continue;
     }
     const last = runs.at(-1);
-    if (last?.kind === 'group' && last.state === state) last.nodes.push(node);
-    else runs.push({ kind: 'group', state, nodes: [node] });
+    if (last?.kind === 'group' && last.state === state && lastUnit === node.unit) {
+      last.nodes.push(node);
+    } else {
+      runs.push({ kind: 'group', state, nodes: [node] });
+    }
+    lastUnit = node.unit;
   }
   return runs;
 }
