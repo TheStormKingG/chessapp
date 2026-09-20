@@ -24,12 +24,31 @@ test('a browsable section keeps the tab bar', () => {
   expect(screen.getByRole('navigation', { name: 'Main' })).toBeInTheDocument();
 });
 
-// The three modal tasks are rendered outside the shell, so the tab bar cannot
+// The modal tasks are rendered outside the shell, so the tab bar cannot
 // invite a learner to navigate away mid-task (DESIGN-SYSTEM.md B1). Each one
 // loads its own content asynchronously, so this asserts on the chrome around
 // them — which is the whole of what the chunk changed — and the Playwright
 // suite asserts that each one's dismiss control is on screen.
-test.each(['/lesson/1.1.1', '/checkpoint/1.1', '/play/game'])('%s is presented without the tab bar', (path) => {
+//
+// The four puzzle routes join them: solving is one focused task with one way
+// out (design spec §5.2). The counterpart is 'a browsable section keeps the
+// tab bar' above, which renders /puzzles itself and REQUIRES the navigation —
+// without it, putting the whole Puzzles tab inside a modal would satisfy every
+// assertion here and destroy the tab.
+//
+// There is deliberately NO test of route ORDER. React Router 7 ranks by
+// specificity, not declaration order, so such a test passes with the routes in
+// either position and proves nothing. The review feature's plan claimed
+// otherwise and was wrong.
+test.each([
+  '/lesson/1.1.1',
+  '/checkpoint/1.1',
+  '/play/game',
+  '/puzzles/rated',
+  '/puzzles/themed',
+  '/puzzles/daily',
+  '/puzzles/fix',
+])('%s is presented without the tab bar', (path) => {
   render(
     <MemoryRouter initialEntries={[path]}>
       <AppRoutes />

@@ -1,5 +1,6 @@
 import { describe, expect, test, vi, beforeEach } from 'vitest';
-import { loadPack, findByRating, LINE_WIDTH, __resetPacks } from './packs';
+import { bandFor, loadPack, findByRating, LINE_WIDTH, __resetPacks } from './packs';
+import type { RatingBand } from './types';
 
 function pack(rows: { id: string; rating: number; themes: string; fen: string; sol: string }[]) {
   return rows
@@ -95,5 +96,35 @@ describe('packs', () => {
     expect(x).toHaveLength(3);
     expect(y).toHaveLength(3);
     expect(f).toHaveBeenCalledTimes(1);
+  });
+});
+
+/**
+ * Which pack a learner solves from. Every boundary is asserted from both
+ * sides, because an off-by-one here sends a learner to a band they cannot
+ * solve and the symptom — "the puzzles got hard" — looks like the rating.
+ *
+ * The ends are CLAMPED on purpose: there is no pack below 600 or above 1500,
+ * so a learner outside the shipped range gets the nearest one rather than
+ * nothing. `select.ts` then reports the pick as `widened`.
+ */
+describe('bandFor', () => {
+  test.each([
+    [400, '600-900'],
+    [600, '600-900'],
+    [899, '600-900'],
+    [900, '900-1200'],
+    [1199, '900-1200'],
+    [1200, '1200-1500'],
+    [3000, '1200-1500'],
+  ])('a rating of %i solves from %s', (rating, band) => {
+    expect(bandFor(rating)).toBe(band);
+  });
+
+  test('every band it can return is a pack that exists', () => {
+    const bands: RatingBand[] = ['600-900', '900-1200', '1200-1500'];
+    for (let r = 300; r <= 2000; r += 1) {
+      expect(bands, `bandFor(${String(r)}) returned a band with no pack`).toContain(bandFor(r));
+    }
   });
 });

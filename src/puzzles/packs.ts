@@ -110,6 +110,20 @@ export function findByRating(pack: Puzzle[], min: number, max: number): Puzzle[]
   return pack.slice(lowerBound(pack, min), lowerBound(pack, max + 1));
 }
 
+/**
+ * The band whose pack a learner of this rating solves from, clamped at both
+ * ends: below 600 and above 1500 there is no other pack to send them to.
+ *
+ * It lives here rather than beside the routes because it is a fact about which
+ * FILES exist, and those are this module's subject. A route file that exported
+ * it would also stop Fast Refresh working there.
+ */
+export function bandFor(rating: number): RatingBand {
+  if (rating < 900) return '600-900';
+  if (rating < 1200) return '900-1200';
+  return '1200-1500';
+}
+
 /** Test seam: forget every cached pack. Not used by application code. */
 export function __resetPacks(): void {
   resolved.clear();

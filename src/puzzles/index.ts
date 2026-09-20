@@ -13,6 +13,20 @@
  */
 
 export { PuzzlePlayer } from './PuzzlePlayer';
+export { PuzzleStream } from './PuzzleStream';
+/*
+  The four solving routes and the puzzles home, which is the ONLY part of this
+  feature that reads Dexie and the network. `src/app/routes.tsx` mounts these;
+  everything they render takes plain props, which is what keeps the screens
+  testable without a database.
+*/
+export {
+  DailyRoute,
+  FixRoute,
+  PuzzlesHomeRoute,
+  RatedRoute,
+  ThemedRoute,
+} from './PuzzleRoutes';
 export { PuzzlesScreen } from '@/screens/PuzzlesScreen';
 export { ThemedPractice } from './ThemedPractice';
 export { DailyPuzzle } from './DailyPuzzle';
@@ -24,7 +38,7 @@ export { buildQueue, type FixDrill, type LessonLink, type Queue } from './queue'
 export { pickNext, windowFor, type Pick } from './select';
 export { initial, reduce, result, type SessionState } from './session';
 export { nextRating } from './rating';
-export { findByRating, loadPack, parsePack } from './packs';
+export { bandFor, findByRating, loadPack, parsePack } from './packs';
 export { THEMES, THEME_DEFINITION, THEME_LABEL } from './themes';
 
 export type {
