@@ -1,0 +1,139 @@
+{
+  "id": "2.2.2",
+  "unit": "2.2",
+  "title": "The pawn fork",
+  "xp": 12,
+  "card": {
+    "idea": "A pawn attacks the two squares diagonally in front of it. Push it so that both of those squares hold something, and one of them is lost. Nobody wants to take a pawn back with a knight, so the cheapest piece on the board is the rudest forker.",
+    "diagrams": ["6k1/5ppp/1n1n4/8/2P5/8/5PPP/R5K1 w - - 0 1"],
+    "habit": "Level two begins here — basic tactics are now allowed."
+  },
+  "explain": [
+    {
+      "fen": "6k1/5ppp/1n1n4/8/2P5/8/5PPP/R5K1 w - - 0 1",
+      "text": "The pawn on c4 attacks b5 and d5 now. Push it one square and it attacks b6 and d6 instead — and a knight is standing on each. Black moves one knight and White takes the other.",
+      "arrows": [["c4", "c5"]],
+      "highlights": ["c5", "b6", "d6"]
+    },
+    {
+      "fen": "8/p2r1k1p/8/3PP3/8/8/6PP/R5K1 w - - 0 1",
+      "text": "A pawn fork only works if the pawn survives. Here e5-e6 is check and hits the rook on d7, and the king cannot take, because the pawn on d5 is defending e6. Push a defended pawn.",
+      "arrows": [["e5", "e6"], ["d5", "e6"]],
+      "highlights": ["e6", "d7", "f7"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.2.2-c1",
+      "type": "which_square",
+      "fen": "6k1/5ppp/1n1n4/8/2P5/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Tap the square the c-pawn goes to so that it attacks both black knights.",
+      "answer": { "square": "c5" },
+      "concept": "pawn-fork",
+      "hints": {
+        "piece": "c4",
+        "text": "A pawn attacks the two squares diagonally ahead of it, never the one straight in front."
+      },
+      "reason": "From c5 the pawn attacks b6 and d6, and a knight is on each."
+    },
+    {
+      "id": "2.2.2-c2",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/1n1n4/8/2P5/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Win a knight.",
+      "answer": { "moves": ["c5"] },
+      "wrong": {
+        "Ra6": "The rook attacks one knight. Black defends it or moves it, and you have won nothing."
+      },
+      "concept": "pawn-fork",
+      "hints": {
+        "piece": "c4",
+        "square": "c5"
+      },
+      "reason": "c5 hits b6 and d6 at once. Black can only save one knight."
+    },
+    {
+      "id": "2.2.2-c3",
+      "type": "find_them_all",
+      "fen": "8/p2r1k1p/8/3PP3/8/8/6PP/R5K1 w - - 0 1",
+      "prompt": "Tap every black piece the e-pawn would attack from e6.",
+      "answer": { "pieces": ["d7", "f7"] },
+      "concept": "pawn-fork",
+      "hints": {
+        "piece": "e5",
+        "text": "Two squares only: the ones diagonally in front of e6."
+      },
+      "reason": "From e6 the pawn attacks d7 and f7 — the rook and the king."
+    },
+    {
+      "id": "2.2.2-c4",
+      "type": "find_the_move",
+      "fen": "8/p2r1k1p/8/3PP3/8/8/6PP/R5K1 w - - 0 1",
+      "prompt": "Win the rook.",
+      "answer": { "moves": ["e6+"] },
+      "wrong": {
+        "d6": "The wrong pawn. From d6 it attacks c7 and e7, and nothing is on either."
+      },
+      "concept": "pawn-fork",
+      "hints": {
+        "piece": "e5",
+        "square": "e6"
+      },
+      "reason": "e6 is check and attacks the rook. The king must move, and the pawn takes on d7."
+    },
+    {
+      "id": "2.2.2-c5",
+      "type": "is_it_safe",
+      "fen": "8/p2r1k1p/8/3PP3/8/8/6PP/R5K1 w - - 0 1",
+      "move": "e6+",
+      "prompt": "White pushes the pawn to e6, check. Is the pawn safe on e6?",
+      "reasons": [
+        "Yes. The pawn on d5 defends e6, so the king cannot take and has to step away.",
+        "No. Nothing defends e6, so the king just takes the pawn.",
+        "No. The rook on d7 takes the pawn."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "pawn-fork",
+      "hints": {
+        "piece": "d5",
+        "text": "Ask what is defending e6 before you push. One white pawn already is."
+      },
+      "reason": "A king may never move onto a defended square, so Kxe6 is not a legal move here."
+    },
+    {
+      "id": "2.2.2-c6",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/1n1r4/8/2P5/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "One push wins a piece. Find it.",
+      "answer": { "moves": ["c5"] },
+      "wrong": {
+        "Rd1": "Trading rooks helps Black. Look for a move that attacks two pieces at once."
+      },
+      "concept": "pawn-fork",
+      "hints": {
+        "piece": "c4",
+        "square": "c5"
+      },
+      "reason": "c5 attacks the knight on b6 and the rook on d6. Black saves the rook, White takes the knight."
+    },
+    {
+      "id": "2.2.2-c7",
+      "type": "name_the_pattern",
+      "fen": "1r6/p3q1kp/8/4PP2/8/8/6PP/R5K1 w - - 0 1",
+      "prompt": "White plays f5-f6. What has the pawn done?",
+      "options": [
+        "Check to the king on g7, and it attacks the queen on e7 as well.",
+        "Check to the king on g7, and nothing else.",
+        "Nothing at all. The king takes the pawn on f6."
+      ],
+      "answer": { "option": 0 },
+      "concept": "pawn-fork",
+      "hints": {
+        "piece": "f5",
+        "text": "From f6 a white pawn attacks e7 and g7. Look at what stands on both."
+      },
+      "reason": "The pawn on e5 defends f6, so the king cannot take, and taking with the queen loses her to exf6."
+    }
+  ],
+  "takeaway": "Push the pawn where both of its two squares are worth something — and make sure something defends it first."
+}

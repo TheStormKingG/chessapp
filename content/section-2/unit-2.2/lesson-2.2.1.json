@@ -1,0 +1,145 @@
+{
+  "id": "2.2.1",
+  "unit": "2.2",
+  "title": "The knight fork",
+  "xp": 12,
+  "card": {
+    "idea": "A fork is one piece attacking two at once. They can only save one. The knight is the best forker on the board, because it jumps: the two pieces it hits cannot block it, and neither of them can take it back.",
+    "diagrams": ["r2q3k/6pp/8/4N3/8/8/5PPP/4R1K1 w - - 0 1"],
+    "habit": "Level two begins here — basic tactics are now allowed."
+  },
+  "explain": [
+    {
+      "fen": "r2q3k/6pp/8/4N3/8/8/5PPP/4R1K1 w - - 0 1",
+      "text": "The knight on e5 can jump to f7. From f7 it attacks h8 and d8 at the same time. One of those is the king, so Black has to answer the check — and the queen is still standing on d8 when he has finished.",
+      "arrows": [["e5", "f7"]],
+      "highlights": ["f7", "d8", "h8"]
+    },
+    {
+      "fen": "2r3k1/5ppp/8/3N4/8/8/5PPP/R5K1 w - - 0 1",
+      "text": "Same idea without a queen. The knight goes to e7: check to the king on g8, and the rook on c8 is hit as well. The king must move, and then the rook comes off.",
+      "arrows": [["d5", "e7"]],
+      "highlights": ["e7", "c8", "g8"]
+    },
+    {
+      "fen": "2k1r3/pp5p/8/8/4N3/8/5PPP/R5K1 w - - 0 1",
+      "text": "The fork square is what you hunt for, not the capture. Here the knight on e4 has eight jumps. Only d6 touches two black pieces, and one of them is the king.",
+      "arrows": [["e4", "d6"]],
+      "highlights": ["d6", "c8", "e8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.2.1-c1",
+      "type": "which_square",
+      "fen": "r2q3k/6pp/8/4N3/8/8/5PPP/4R1K1 w - - 0 1",
+      "prompt": "The knight on e5 has one jump that attacks the king and the queen at once. Tap that square.",
+      "answer": { "square": "f7" },
+      "concept": "knight-fork",
+      "hints": {
+        "piece": "e5",
+        "text": "Walk through the knight's jumps one at a time. Only one of them touches the corner."
+      },
+      "reason": "From f7 the knight hits h8 and d8. No other square from e5 touches two black pieces."
+    },
+    {
+      "id": "2.2.1-c2",
+      "type": "find_the_move",
+      "fen": "r2q3k/6pp/8/4N3/8/8/5PPP/4R1K1 w - - 0 1",
+      "prompt": "Play the fork.",
+      "answer": { "moves": ["Nf7+"] },
+      "wrong": {
+        "Nc6": "The knight attacks the queen from c6, but there is no check. She just walks away."
+      },
+      "concept": "knight-fork",
+      "hints": {
+        "piece": "e5",
+        "square": "f7"
+      },
+      "reason": "Nf7 is check and attacks the queen. Black saves the king, and then the queen falls."
+    },
+    {
+      "id": "2.2.1-c3",
+      "type": "find_them_all",
+      "fen": "2r3k1/5ppp/8/3N4/8/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Tap every black piece the knight would attack from e7.",
+      "answer": { "pieces": ["c8", "g8"] },
+      "concept": "knight-fork",
+      "hints": {
+        "piece": "d5",
+        "text": "A knight on e7 reaches c8, c6, d5, f5, g6 and g8. Which of those has something on it?"
+      },
+      "reason": "From e7 the knight hits the rook on c8 and the king on g8. That is the fork."
+    },
+    {
+      "id": "2.2.1-c4",
+      "type": "find_the_move",
+      "fen": "2r3k1/5ppp/8/3N4/8/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Win the rook.",
+      "answer": { "moves": ["Ne7+"] },
+      "wrong": {
+        "Nb6": "From b6 the knight attacks the rook, but the rook simply moves. No check, no fork."
+      },
+      "concept": "knight-fork",
+      "hints": {
+        "piece": "d5",
+        "square": "e7"
+      },
+      "reason": "Ne7 is check and hits c8. The king moves, the knight takes the rook."
+    },
+    {
+      "id": "2.2.1-c5",
+      "type": "name_the_pattern",
+      "fen": "2k1r3/pp5p/8/8/4N3/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "White is about to play the knight to d6. What does that do?",
+      "options": [
+        "Check to the king on c8, and it attacks the rook on e8 as well.",
+        "It attacks the rook on e8, and nothing else.",
+        "Nothing. The pawn on b7 takes the knight."
+      ],
+      "answer": { "option": 0 },
+      "concept": "knight-fork",
+      "hints": {
+        "piece": "e4",
+        "text": "From d6 the knight reaches c8 and e8. Both have a black piece on them."
+      },
+      "reason": "A pawn on b7 takes on a6 and c6, not d6. So the knight lands safely and forks."
+    },
+    {
+      "id": "2.2.1-c6",
+      "type": "find_the_move",
+      "fen": "2k1r3/pp5p/8/8/4N3/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Play the fork.",
+      "answer": { "moves": ["Nd6+"] },
+      "wrong": {
+        "Nf6": "From f6 the knight attacks the rook, but it is not check, so Black just moves it."
+      },
+      "concept": "knight-fork",
+      "hints": {
+        "piece": "e4",
+        "square": "d6"
+      },
+      "reason": "Nd6 is check and attacks e8. The king moves and the rook goes."
+    },
+    {
+      "id": "2.2.1-c7",
+      "type": "is_it_safe",
+      "fen": "5r1k/6p1/8/4N3/8/8/5PPP/4R1K1 w - - 0 1",
+      "move": "Ng6+",
+      "prompt": "White forks the king and the rook with the knight to g6. Is the knight safe there?",
+      "reasons": [
+        "Yes. Nothing covers g6, so Black must move the king and lose the rook.",
+        "No. The pawn on g7 takes the knight.",
+        "No. The rook on f8 takes the knight."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "knight-fork",
+      "hints": {
+        "square": "g6",
+        "text": "A pawn on g7 captures on f6 and h6. Check the rook's file and rank too."
+      },
+      "reason": "The g7 pawn captures diagonally, so it does not reach g6, and the rook on f8 never sees it."
+    }
+  ],
+  "takeaway": "Hunt for the square, not the capture. A knight that lands where it hits two pieces has won one of them."
+}
