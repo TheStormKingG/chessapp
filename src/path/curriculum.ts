@@ -119,7 +119,7 @@ export const SECTION_2: SectionDef = {
     {
       id: '2.1',
       title: 'Real Chess',
-      built: false,
+      built: true,
       lessons: [
         { id: '2.1.1', title: "What does the opponent's last move threaten?" },
         { id: '2.1.2', title: 'The threat scan: checks, captures and threats for the opponent' },

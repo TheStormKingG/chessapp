@@ -1,7 +1,7 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { db, emptyProgress, saveResume, useProgress, type Progress } from '@/data';
-import { SECTION_1 } from '@/path/curriculum';
+import { SECTIONS } from '@/path/curriculum';
 import { TodayScreen } from '@/screens/TodayScreen';
 
 const FINISHED = 'You have finished everything that is built so far. More lessons are coming.';
@@ -33,8 +33,12 @@ test('Today names the active lesson', () => {
 });
 
 test('the terminal message appears only when everything built is finished', () => {
-  // All six units are built, so "everything built" is the whole section --
-  // passing 1.1 and 1.2 now leaves unit 1.3 to do, and Today must say so.
+  // "Everything built" is Section 1's six units plus unit 2.1 -- passing 1.1
+  // and 1.2 now leaves unit 1.3 to do, and Today must say so. The finished
+  // fixture below walks the declared sections and asks each unit whether it is
+  // built, rather than naming Section 1: naming it was correct exactly while
+  // no Section 2 unit was built, and would have left 2.1.1 to do while this
+  // test asserted there was nothing left.
   const throughUnit2 = emptyProgress();
   throughUnit2.units['1.1'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
   throughUnit2.units['1.2'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
@@ -47,7 +51,9 @@ test('the terminal message appears only when everything built is finished', () =
   cleanup();
 
   const finished = emptyProgress();
-  for (const u of SECTION_1.units) {
+  const built = SECTIONS.flatMap((s) => s.units).filter((u) => u.built);
+  expect(built.map((u) => u.id)).toEqual(['1.1', '1.2', '1.3', '1.4', '1.5', '1.6', '2.1']);
+  for (const u of built) {
     finished.units[u.id] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
   }
   renderWith(finished);

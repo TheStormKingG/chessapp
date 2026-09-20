@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import { emptyProgress } from '@/data';
-import { SECTION_1, SECTION_2 } from './curriculum';
+import { SECTION_1, SECTIONS } from './curriculum';
 import { pathNodes, activeLesson, activeNode, activeUnitProgress } from './progress';
 
 test('first lesson is active, the rest locked, checkpoint always attemptable', () => {
@@ -115,9 +115,20 @@ const UNIT_1_1 = ['1.1.1', '1.1.2', '1.1.3', '1.1.4', '1.1.5', '1.1.6', '1.1.7',
 
 /** Every unit of the section passed -- which, now that all six are built, is
  *  the only state in which the path has nothing left to offer. */
+/**
+ * Every unit that is BUILT, passed. This used to walk SECTION_1 alone, which
+ * was the same set exactly while Section 2 was entirely unauthored. Unit 2.1 is
+ * built now, so a Section-1-only sweep would leave 2.1.1 active and the two
+ * "nothing is left" tests below would be asserting the opposite of their names.
+ * It walks the declared sections and asks each unit, rather than naming one.
+ */
+const builtUnits = () => SECTIONS.flatMap((s) => s.units).filter((u) => u.built);
+
 const allUnitsPassed = () => {
   const p = emptyProgress();
-  for (const u of SECTION_1.units) {
+  const built = builtUnits();
+  expect(built.length, 'fixture: some unit is built').toBeGreaterThan(0);
+  for (const u of built) {
     p.units[u.id] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
   }
   return p;
@@ -164,8 +175,9 @@ test('all of a unit\'s lessons done but not passed: the checkpoint is the curren
 });
 
 test('finishing everything built leaves no active lesson', () => {
-  // "Everything built" is now all six units, so this only holds at the end of
-  // the section -- and unit 1.6's checkpoint is the last thing it holds after.
+  // "Everything built" is all six Section 1 units plus unit 2.1, so this holds
+  // past the section boundary -- 2.1's checkpoint is the last thing built.
+  expect(builtUnits().map((u) => u.id)).toEqual(['1.1', '1.2', '1.3', '1.4', '1.5', '1.6', '2.1']);
   expect(activeLesson(allUnitsPassed())).toBeNull();
   expect(activeNode(allUnitsPassed())).toBeNull();
 });
@@ -178,11 +190,18 @@ test('the path walks every declared section, in path order', () => {
   expect([...new Set(nodes.map((n) => n.section))]).toEqual(['1', '2']);
   expect(nodes.filter((n) => n.kind === 'lesson')).toHaveLength(29 + 36);
   expect(nodes.filter((n) => n.kind === 'checkpoint')).toHaveLength(6 + 8);
-  // Every Section 2 unit is declared unbuilt, so all of it reads as coming --
-  // lessons and checkpoints alike -- and none of it can steal the active node.
+  // Every Section 2 unit BUT 2.1 is declared unbuilt, so all of those read as
+  // coming -- lessons and checkpoints alike -- and none of them can steal the
+  // active node. SCOPED rather than deleted when 2.1 shipped: the rule is
+  // "unauthored content is un-attemptable", which 2.1 does not contradict.
   const s2 = nodes.filter((n) => n.section === '2');
   expect(s2).toHaveLength(36 + 8);
-  expect(s2.filter((n) => n.state !== 'coming')).toEqual([]);
+  const unbuilt = s2.filter((n) => n.unit !== '2.1');
+  // Negative control: an empty result below must not mean an empty filter.
+  expect(unbuilt).toHaveLength(31 + 7);
+  expect(unbuilt.filter((n) => n.state !== 'coming')).toEqual([]);
+  // 2.1 is built, so it is locked behind Section 1 rather than coming.
+  expect(s2.filter((n) => n.unit === '2.1' && n.state === 'coming')).toEqual([]);
   expect(nodes.filter((n) => n.state === 'active')).toHaveLength(1);
 });
 
@@ -202,18 +221,19 @@ test('a node carries its section rather than leaving it to be parsed out of the 
 test('the unit meter resolves a unit outside Section 1', () => {
   // `activeUnitProgress` used to look the active unit up in SECTION_1 alone and
   // return null when it missed, so the first Section 2 unit to be flipped on
-  // would have shown a learner no unit progress at all. Flipping 2.1 on for the
-  // length of this test is the only way to reach that state today.
-  const u = SECTION_2.units[0]!;
-  u.built = true;
-  try {
-    const p = emptyProgress();
-    for (const s1 of SECTION_1.units) {
-      p.units[s1.id] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
-    }
-    expect(activeNode(p)).toMatchObject({ kind: 'lesson', id: '2.1.1', unit: '2.1' });
-    expect(activeUnitProgress(p)).toMatchObject({ unit: '2.1', done: 0, total: 5 });
-  } finally {
-    u.built = false;
+  // would have shown a learner no unit progress at all.
+  //
+  // This test used to reach that state by mutating `SECTION_2.units[0].built`
+  // inside a try/finally, because no Section 2 unit was built. Unit 2.1 is
+  // built for real now, so the fixture is not merely redundant -- it is wrong:
+  // its `finally` restored `built = false`, which would leave the shipped
+  // curriculum object unbuilt for anything that read it afterwards in this
+  // module. The assertions are unchanged; they now run against the real
+  // curriculum, which is stronger evidence than a mutated copy of it.
+  const p = emptyProgress();
+  for (const s1 of SECTION_1.units) {
+    p.units[s1.id] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
   }
+  expect(activeNode(p)).toMatchObject({ kind: 'lesson', id: '2.1.1', unit: '2.1' });
+  expect(activeUnitProgress(p)).toMatchObject({ unit: '2.1', done: 0, total: 5 });
 });
