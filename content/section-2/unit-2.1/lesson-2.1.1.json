@@ -1,0 +1,123 @@
+{
+  "id": "2.1.1",
+  "unit": "2.1",
+  "title": "What their last move threatens",
+  "xp": 12,
+  "card": {
+    "idea": "Every move they make is also a move against you. A piece that has just moved attacks squares it did not attack before. Ask what it hits now, before you go back to your own idea.",
+    "diagrams": ["rnb1k1nr/pppp1ppp/8/2b1p3/2B1P2q/3P4/PPP2PPP/RNBQK1NR w KQkq - 2 4"],
+    "habit": "Look at the opponent's threats before your own idea."
+  },
+  "explain": [
+    {
+      "fen": "rnb1k1nr/pppp1ppp/8/2b1p3/2B1P2q/3P4/PPP2PPP/RNBQK1NR w KQkq - 2 4",
+      "text": "Black has just played the queen to h4. She now aims at f2, and the bishop on c5 aims there too. Your king is the only defender. That is a threat, and it arrived with their last move.",
+      "arrows": [["h4", "f2"], ["c5", "f2"]],
+      "highlights": ["f2"]
+    },
+    {
+      "fen": "rn1qkbnr/ppp2ppp/3p4/8/3PP1b1/5N2/PPP2PPP/RNBQKB1R w KQkq - 3 4",
+      "text": "Not every new attack is dangerous. Black has just played the bishop to g4, where it attacks your knight on f3. Notice it, then decide. Noticing is the part people skip.",
+      "arrows": [["g4", "f3"]],
+      "highlights": ["f3"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.1.1-c1",
+      "type": "name_the_pattern",
+      "fen": "rnb1k1nr/pppp1ppp/8/2b1p3/2B1P2q/3P4/PPP2PPP/RNBQK1NR w KQkq - 2 4",
+      "prompt": "Black has just played the queen to h4. What is Black threatening?",
+      "options": [
+        "Taking on f2, and it is checkmate.",
+        "Taking the pawn on h2, and nothing more.",
+        "Nothing yet. The queen is only looking."
+      ],
+      "answer": { "option": 0 },
+      "concept": "opponent-threats",
+      "hints": {
+        "square": "f2",
+        "text": "Two black pieces aim at f2. Count how many of yours defend it."
+      },
+      "reason": "The queen and the bishop both hit f2, and only the king defends it. Qxf2 is mate."
+    },
+    {
+      "id": "2.1.1-c2",
+      "type": "find_them_all",
+      "fen": "rnb1k1nr/pppp1ppp/8/2b1p3/2B1P2q/3P4/PPP2PPP/RNBQK1NR w KQkq - 2 4",
+      "prompt": "Tap every white piece the black queen on h4 attacks.",
+      "answer": { "pieces": ["e4", "f2", "h2"] },
+      "concept": "opponent-threats",
+      "hints": {
+        "piece": "h4",
+        "text": "She sees along the fourth rank and down both diagonals."
+      }
+    },
+    {
+      "id": "2.1.1-c3",
+      "type": "is_it_safe",
+      "fen": "rnb1k1nr/pppp1ppp/8/2b1p3/2B1P2q/3P4/PPP2PPP/RNBQK1NR w KQkq - 2 4",
+      "move": "Nf3",
+      "prompt": "White develops the knight to f3 and attacks the queen. Is that safe?",
+      "reasons": [
+        "Yes. The knight hits the queen and she must run.",
+        "No. Black plays Qxf2 and it is checkmate.",
+        "No. The queen simply takes the knight."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "opponent-threats",
+      "hints": {
+        "square": "f2",
+        "text": "Attacking their queen feels good. It does nothing about f2."
+      }
+    },
+    {
+      "id": "2.1.1-c4",
+      "type": "which_square",
+      "fen": "rn1qkbnr/ppp2ppp/3p4/8/3PP1b1/5N2/PPP2PPP/RNBQKB1R w KQkq - 3 4",
+      "prompt": "Black has just played the bishop to g4. Tap the white piece it now attacks.",
+      "answer": { "square": "f3" },
+      "concept": "opponent-threats",
+      "hints": {
+        "piece": "g4",
+        "text": "Follow the diagonal the bishop came down."
+      },
+      "reason": "The bishop on g4 hits f3, and nothing else of yours is on that diagonal."
+    },
+    {
+      "id": "2.1.1-c5",
+      "type": "name_the_pattern",
+      "fen": "2r3k1/5ppp/8/8/2B5/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Black has just played the rook to c8. What has changed?",
+      "options": [
+        "The rook attacks your bishop on c4, and nothing defends it.",
+        "The rook attacks your king.",
+        "Nothing has changed. The rook is on its own back rank."
+      ],
+      "answer": { "option": 0 },
+      "concept": "opponent-threats",
+      "hints": {
+        "piece": "c8",
+        "text": "The c-file is empty between the two pieces."
+      },
+      "reason": "The c-file opened when the rook arrived, and the bishop is standing on it with no defender."
+    },
+    {
+      "id": "2.1.1-c6",
+      "type": "find_the_move",
+      "fen": "2kr3r/ppp2ppp/2n5/3q4/8/2N2N2/PPP2PPP/R2QR1K1 w - - 0 1",
+      "prompt": "Black has just played the queen to d5, attacking your knight on f3. Look at her own square first, then move.",
+      "answer": { "moves": ["Nxd5"] },
+      "wrong": {
+        "Nd4": "Saving the knight leaves the queen alone on d5. Look at what her move cost her."
+      },
+      "concept": "opponent-threats",
+      "hints": {
+        "piece": "c3",
+        "text": "One of your knights already attacks d5."
+      },
+      "reason": "The queen stepped onto a square your knight on c3 already covered, and nothing defends her there."
+    }
+  ],
+  "takeaway": "Their move made a new attack. Find it before you look at your own plan."
+}

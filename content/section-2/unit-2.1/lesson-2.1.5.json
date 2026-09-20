@@ -1,0 +1,138 @@
+{
+  "id": "2.1.5",
+  "unit": "2.1",
+  "title": "The sanity check before you move",
+  "xp": 16,
+  "card": {
+    "idea": "You have found a move you like. One question left: after I play it, what do they have? Run their checks and their captures against the board as it will be, not as it is.",
+    "diagrams": ["r5k1/5ppp/8/8/8/8/1b3PPP/1R4K1 w - - 0 1"],
+    "habit": "Look at the opponent's threats before your own idea."
+  },
+  "explain": [
+    {
+      "fen": "r5k1/5ppp/8/8/8/8/1b3PPP/1R4K1 w - - 0 1",
+      "text": "The bishop on b2 is free and your rook can take it. Before you do, look at the rook's own square. It is the only thing standing between the black rook and your back rank.",
+      "arrows": [["b1", "b2"], ["a8", "a1"]],
+      "highlights": ["b2"]
+    },
+    {
+      "fen": "r5k1/5ppp/8/8/8/8/1R3PPP/6K1 b - - 0 1",
+      "text": "This is the board after Rxb2. Black plays Ra1, you have to block on b1, and he takes the rook. Checkmate. The free bishop cost the game.",
+      "arrows": [["a8", "a1"]],
+      "highlights": ["a1"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.1.5-c1",
+      "type": "is_it_safe",
+      "fen": "r5k1/5ppp/8/8/8/8/1b3PPP/1R4K1 w - - 0 1",
+      "move": "Rxb2",
+      "prompt": "White takes the free bishop on b2. Is that safe?",
+      "reasons": [
+        "Yes. Nothing takes back on b2.",
+        "No. Black plays Ra1 and mates on the back rank.",
+        "No. The king on g8 walks over and takes the rook."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "sanity-check",
+      "hints": {
+        "piece": "a8",
+        "text": "Your king has no square on the second rank. Ask what guards the first one."
+      }
+    },
+    {
+      "id": "2.1.5-c2",
+      "type": "which_square",
+      "fen": "r5k1/5ppp/8/8/8/8/1R3PPP/6K1 b - - 0 1",
+      "prompt": "White has just taken on b2. Black to move. Tap the square his rook gives check on.",
+      "answer": { "square": "a1" },
+      "concept": "sanity-check",
+      "hints": {
+        "piece": "a8",
+        "text": "The first rank is empty now. The rook has the whole file."
+      },
+      "reason": "Ra1 is check, the rook on b2 has to block on b1, and Black takes it. Mate."
+    },
+    {
+      "id": "2.1.5-c3",
+      "type": "name_the_pattern",
+      "fen": "r5k1/5ppp/8/8/8/8/1b3PPP/1R4K1 w - - 0 1",
+      "prompt": "Rxb2 wins a bishop and loses the game. What did it forget?",
+      "options": [
+        "The back rank. The rook was the only guard on it.",
+        "The bishop on b2 was defended after all.",
+        "The rook on b1 was pinned and could not move."
+      ],
+      "answer": { "option": 0 },
+      "concept": "sanity-check",
+      "hints": {
+        "square": "b1",
+        "text": "Ask what a piece is doing before you move it, not only what it can take."
+      },
+      "reason": "A piece can be busy. Moving it gives up the job it was doing."
+    },
+    {
+      "id": "2.1.5-c4",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/8/8/8/1q3PPP/1R4K1 w - - 0 1",
+      "prompt": "The same idea, with no black rook on the board. Run the check, then take.",
+      "answer": { "moves": ["Rxb2"] },
+      "concept": "sanity-check",
+      "hints": {
+        "piece": "b1",
+        "text": "Nothing of Black's reaches your back rank now."
+      },
+      "reason": "With no rook to follow up, the back rank is quiet and the queen is simply free."
+    },
+    {
+      "id": "2.1.5-c5",
+      "type": "is_it_safe",
+      "fen": "4k3/4pp2/8/8/8/8/5PPP/3R2K1 w - - 0 1",
+      "move": "Rd8+",
+      "prompt": "White gives check with the rook on d8. Is that safe?",
+      "reasons": [
+        "Yes. Nothing can reach d8.",
+        "No. The king on e8 takes the rook.",
+        "No. The pawn on e7 takes the rook."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "sanity-check",
+      "hints": {
+        "piece": "e8",
+        "text": "A check is still a move. The square it lands on needs the same question as any other."
+      }
+    },
+    {
+      "id": "2.1.5-c6",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/8/8/8/4qPPP/4R1K1 w - - 0 1",
+      "prompt": "The black queen has landed on e2. Check what Black has after you take, then take.",
+      "answer": { "moves": ["Rxe2"] },
+      "concept": "sanity-check",
+      "hints": {
+        "piece": "e1",
+        "text": "Black has no rook and no check. There is nothing to be afraid of."
+      },
+      "reason": "Nothing defends the queen on e2 and nothing answers the capture."
+    },
+    {
+      "id": "2.1.5-c7",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/8/8/8/8/4qPPP/4R1K1 w - - 0 1",
+      "prompt": "What do you check before you play a capture like this one?",
+      "options": [
+        "Whether Black has a check or a capture on the board you leave behind.",
+        "Whether the rook is your best piece.",
+        "Whether the queen is worth enough to bother taking."
+      ],
+      "answer": { "option": 0 },
+      "concept": "sanity-check",
+      "hints": {
+        "text": "The board you are looking at is not the board they will answer on."
+      },
+      "reason": "One question, every move: after this, what do they have?"
+    }
+  ],
+  "takeaway": "Before you play it, ask what they have after it."
+}
