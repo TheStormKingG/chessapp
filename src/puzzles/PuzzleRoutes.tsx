@@ -399,5 +399,6 @@ export function FixRoute() {
  */
 export function PuzzlesHomeRoute() {
   const errors = useErrors();
-  return <PuzzlesScreen fixCount={errors?.length ?? 0} />;
+  const rating = useRating();
+  return <PuzzlesScreen fixCount={errors?.length ?? 0} rating={rating} />;
 }

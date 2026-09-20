@@ -93,7 +93,7 @@ test('every puzzle in the stream starts fresh, not just the first', async () => 
     // for the move field would time out and report a missing label instead of
     // the defect. The id also proves the stream really is advancing — a test
     // that cannot observe the defect certifies the opposite of what it claims.
-    ids.push(screen.getByTestId('stream-puzzle-id').textContent ?? '');
+    ids.push(screen.getByTestId('puzzle-id').textContent ?? '');
     expect(
       screen.queryByRole('heading', { name: /^solved$|^not this time$/i }),
       `puzzle ${String(i)} opened already finished`,

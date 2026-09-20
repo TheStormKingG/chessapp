@@ -63,3 +63,45 @@ test('the screen renders whole with no count supplied, as the route mounts it', 
   expect(screen.getByRole('link', { name: /start solving/i })).toBeInTheDocument();
   expect(screen.queryByRole('link', { name: /fix my mistakes/i })).not.toBeInTheDocument();
 });
+
+/**
+ * F-PZ-1's rating, where the learner can actually see it.
+ *
+ * It was projected from the event log and rendered on no screen at all, which
+ * makes "rated puzzles" a claim nothing on the device supports — and makes the
+ * end-to-end proof that a hint does not move the rating impossible to write
+ * against anything the learner can observe. The solving screen is deliberately
+ * NOT the place (F-PZ-1 keeps numbers off it until an attempt is over); the
+ * home is.
+ *
+ * Confidence is words, not a number: "still settling" is what a learner can
+ * act on, and 0.29 is not.
+ */
+test('the puzzles home shows the learner’s own rating (F-PZ-1)', () => {
+  render(
+    <MemoryRouter>
+      <PuzzlesScreen rating={{ rating: 1042, confidence: 0.8 }} />
+    </MemoryRouter>,
+  );
+  expect(screen.getByTestId('puzzle-rating')).toHaveTextContent('1042');
+});
+
+test('a rating with little evidence behind it says so, rather than presenting a number as settled', () => {
+  render(
+    <MemoryRouter>
+      <PuzzlesScreen rating={{ rating: 800, confidence: 0 }} />
+    </MemoryRouter>,
+  );
+  const shown = screen.getByTestId('puzzle-rating');
+  expect(shown).toHaveTextContent('800');
+  expect(shown).toHaveTextContent(/still settling/i);
+
+  // And the counterpart, which is what stops the assertion above passing
+  // because the screen says "still settling" unconditionally.
+  render(
+    <MemoryRouter>
+      <PuzzlesScreen rating={{ rating: 800, confidence: 1 }} />
+    </MemoryRouter>,
+  );
+  expect(screen.getAllByTestId('puzzle-rating')[1]).not.toHaveTextContent(/still settling/i);
+});

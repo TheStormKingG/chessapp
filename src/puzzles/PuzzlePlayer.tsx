@@ -228,6 +228,19 @@ export function PuzzlePlayer({
 
   return (
     <section className="flex min-h-dvh flex-col p-4 md:mx-auto md:grid md:max-w-6xl md:grid-cols-[minmax(0,1fr)_22rem] md:items-start md:gap-x-6 md:px-6 lg:grid-cols-[minmax(0,1fr)_27rem] lg:gap-x-12">
+      {/*
+        WHICH puzzle is on screen, throughout the attempt.
+
+        Every end-to-end test that has to play a real puzzle needs to know
+        which one it was handed -- the pool is 7,909 puzzles and the pick
+        depends on the learner's projected rating, so the alternative is a
+        suite that asserts only what it can guess. It carries no rating and no
+        motif, so F-PZ-1's rule that neither is on screen before the attempt is
+        over is untouched, and it is `sr-only` so nothing is on screen at all.
+      */}
+      <span className="sr-only" data-testid="puzzle-id">
+        {puzzle.id}
+      </span>
       <header className="flex items-center justify-between gap-3 md:col-span-2">
         <button type="button" className="tap icon-control shrink-0" aria-label="Close puzzle" onClick={onExit}>
           ✕

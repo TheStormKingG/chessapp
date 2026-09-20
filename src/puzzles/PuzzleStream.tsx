@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { btn } from '@/app/Button';
-import { PuzzlePlayer } from './PuzzlePlayer';
-import { pickNext, type Pick } from './select';
-import type { AttemptResult, Puzzle, PuzzleRating } from './types';
+import { useState } from "react";
+import { btn } from "@/app/Button";
+import { PuzzlePlayer } from "./PuzzlePlayer";
+import { pickNext, type Pick } from "./select";
+import type { AttemptResult, Puzzle, PuzzleRating } from "./types";
 
 /**
  * The rated stream (F-PZ-1): one puzzle after another, chosen so predicted
@@ -39,7 +39,10 @@ export function PuzzleStream({
    * that updates mid-attempt — and it does, the projection re-runs on every
    * banked result — cannot swap the puzzle out from under the learner.
    */
-  const [{ pick }, setState] = useState<{ seen: ReadonlySet<string>; pick: Pick }>(() => {
+  const [{ pick }, setState] = useState<{
+    seen: ReadonlySet<string>;
+    pick: Pick;
+  }>(() => {
     const s = new Set(alreadySeen);
     return { seen: s, pick: pickNext(pool, rating, s) };
   });
@@ -61,9 +64,14 @@ export function PuzzleStream({
       <section className="p-4">
         <h1 className="t-display">No more puzzles</h1>
         <p className="t-body mt-3">
-          You have worked through every puzzle in this band. More arrive with the next pack.
+          You have worked through every puzzle in this band. More arrive with
+          the next pack.
         </p>
-        <button type="button" className={`${btn.primary} mt-6 w-full`} onClick={onExit}>
+        <button
+          type="button"
+          className={`${btn.primary} mt-6 w-full`}
+          onClick={onExit}
+        >
           Back to puzzles
         </button>
       </section>
@@ -71,16 +79,8 @@ export function PuzzleStream({
   }
 
   return (
-    <>
-      {/* Which puzzle is on screen, throughout the attempt and not only at the
-          end of it — the test that proves the stream advances has to read it
-          while the puzzle is still open. Not visible: F-PZ-1 keeps the rating
-          and the motif off the solving screen, and an id is neither. */}
-      <span className="sr-only" data-testid="stream-puzzle-id">
-        {puzzle.id}
-      </span>
-      <PuzzlePlayer
-        /*
+    <PuzzlePlayer
+      /*
           EVERY PUZZLE STARTS FRESH. Without this key React reuses the player
           instance as `puzzle` changes, and its reducer state — the hint, the
           misses, the result — carries into the next puzzle, which then opens
@@ -93,24 +93,27 @@ export function PuzzleStream({
           uniq -d`, which is empty, rather than assumed from their being
           Lichess ids.
         */
-        key={puzzle.id}
-        puzzle={puzzle}
-        source="rated"
-        onDone={onAttempt}
-        onExit={onExit}
-      >
-        {/* Design spec §3.2: a widened pick must not arrive silently. Said on
+      key={puzzle.id}
+      puzzle={puzzle}
+      source="rated"
+      onDone={onAttempt}
+      onExit={onExit}
+    >
+      {/* Design spec §3.2: a widened pick must not arrive silently. Said on
             the result screen, not before it, so it cannot be read as a
             difficulty hint while the puzzle is still open (F-PZ-1). */}
-        {pick.widened && (
-          <p className="t-body mt-3 text-content-dim">
-            That one was outside your usual range — you have outgrown this band.
-          </p>
-        )}
-        <button type="button" className={`${btn.secondary} mt-4 self-start`} onClick={advance}>
-          Next puzzle
-        </button>
-      </PuzzlePlayer>
-    </>
+      {pick.widened && (
+        <p className="t-body mt-3 text-content-dim">
+          That one was outside your usual range — you have outgrown this band.
+        </p>
+      )}
+      <button
+        type="button"
+        className={`${btn.secondary} mt-4 self-start`}
+        onClick={advance}
+      >
+        Next puzzle
+      </button>
+    </PuzzlePlayer>
   );
 }
