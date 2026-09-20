@@ -15,6 +15,7 @@
     "verify:content": "node scripts/verify-content.mjs",
     "gen:movement": "node scripts/gen-movement-challenges.mjs",
     "gen:openings": "node scripts/build-opening-book.mjs .cache/chess-openings",
+    "gen:puzzles": "node scripts/build-puzzles.mjs",
     "postinstall": "node scripts/copy-engine.mjs"
   },
   "dependencies": {
