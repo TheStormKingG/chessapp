@@ -51,7 +51,7 @@
 
 ## B. Standing constraints
 
-1. **Do not invent a challenge type.** Three exist: `find_them_all`, `find_the_sequence`, `play_it_out`. A lesson that will not fit is a **finding to report**, naming the lesson and the reason. A new type is a renderer, a schema change, a verifier case and an accessibility path — none of which is authoring.
+1. **Do not invent a challenge type. EIGHT exist** — `find_the_move`, `find_them_all`, `name_the_pattern`, `which_square`, `is_it_safe`, `play_it_out`, `find_the_sequence`, `guess_the_move` — and Section 1 uses seven of them. (An earlier draft of this plan said three; that was wrong, and it made units 2.6–2.8 look far more constrained than they are.) A lesson that will not fit **any of the eight** is a finding to report, naming the lesson and the reason. A new type is a renderer, a schema change, a verifier case and an accessibility path — none of which is authoring.
 
 2. **Every challenge gets a hint.** Section 1 shipped with 32 of 82 challenges having a dead hint control, found only by a later sweep. Author the hint with the challenge, not afterwards.
 
@@ -254,27 +254,41 @@ One `lesson-2.N.M.json` per lesson in Appendix A. Each carries `id`, `unit`,
 `title`, `xp`, a `card` with `idea` and `diagrams` (and `habit` where Appendix A
 assigns one), an `explain` array of FEN/text/arrows, and a `challenges` array.
 
-Target **12–14 challenges per lesson**, matching Section 1's density.
+Target **6–8 challenges per lesson**, matching Section 1's density (mean 6.7).
+
+**`lesson.schema.json` sets `challenges.maxItems: 10` and `minItems: 5`.** A lesson with 11 challenges fails validation. An earlier draft of this plan said 12–14, which is not authorable.
 
 **Every challenge carries a hint.** Not most.
 
 - [ ] **Step 3: Author the checkpoint and the guidebook**
 
 `checkpoint.json` with `unit`, `title`, `passMark: 0.75`, `sample: 10`, and a
-`bank` of **at least 20** entries spread across the unit's concepts. A bank of
-exactly 10 makes the sample deterministic and the retry pool empty.
+`bank` of **at least 30** entries spread across the unit's concepts —
+`checkpoint.schema.json` sets `bank.minItems: 30`, and Section 1's banks run
+32–36. (An earlier draft said "at least 20", which fails validation.) A bank
+close to the `sample` of 10 makes the sample deterministic and the retry pool
+empty.
 
 `guidebook.md` following 1.2's shape: the habit, then the material, in prose a
 beginner reads once and refers back to.
 
 - [ ] **Step 4: Verify the unit**
 
+**FIRST, in unit 2.1 only:** `scripts/verify-content.mjs:332` hardcodes
+`walk('content/section-1')`. Until that is widened to cover `content/section-2`,
+the verifier reports success having examined **none** of the new content — a
+silent pass, not an error. Widen it, and prove the widening by running the
+verifier against a deliberately broken Section 2 position and confirming it
+fails. A verifier that cannot see the content it is meant to gate is worse than
+no verifier, because it certifies the opposite.
+
 ```bash
-cd "/Users/stefangravesande/Documents/Projects/Preqal 2027/Apps/Chess/chessapp" && \
-  npm run verify:content
+cd "<repo>" && npm run verify:content
 ```
 
-Expected: every position legal, every challenge with one answer.
+Expected: the file and challenge counts **grow** by this unit's contribution.
+If the count is unchanged from 35 files / 400 challenges, the walk is still
+only seeing Section 1.
 
 **If a challenge fails uniqueness, fix the position, not the margin.** The usual
 cause is a second free capture or a second mate in the same number of moves.

@@ -29,19 +29,32 @@ Measured, not remembered — the plan sizes against these numbers.
 |---|---|
 | Units | 6 |
 | Lessons | 29 |
-| Challenges in lessons | 400 |
+| Challenges **in lessons** | 193 (6–8 per lesson, mean 6.7) |
 | Checkpoints | 6 (one per unit) |
+| Checkpoint bank entries | 207 (32–36 per bank) |
+| Total challenges | 400 |
 | Guidebooks | 6 |
 | On disk | 324 KB |
-| Challenge types | 3: `find_them_all`, `find_the_sequence`, `play_it_out` |
+| Challenge types available | **8** (see below) |
+| Challenge types Section 1 uses | **7** |
 
-Per-unit: 3–8 lessons, 54–87 challenges. Density is roughly **13 challenges per
-lesson**, and every unit carries a `checkpoint.json` with a `bank`, a `sample`
-of 10 and a `passMark` of 0.75, plus a `guidebook.md`.
+The schemas set hard limits the author cannot exceed:
+`lesson.schema.json` caps `challenges` at **`maxItems: 10`** (minimum 5), and
+`checkpoint.schema.json` sets **`bank.minItems: 30`**. Every unit carries a
+`checkpoint.json` with `sample: 10` and `passMark: 0.75`, plus a `guidebook.md`.
 
 Section 2 has **eight** units in Appendix A. At Section 1's density that is
-about **38 lessons and 520 challenges** — around 30 per cent more content than
-everything authored to date.
+about **38 lessons**, **~266 lesson challenges** and **~272 bank entries** —
+roughly 540 challenges in total, around 35 per cent more than everything
+authored to date.
+
+**Correction, recorded because it changes the work.** An earlier draft of this
+spec said lessons carry about 13 challenges each and that three challenge types
+exist. Both were wrong, and the method was the cause: the count grepped across
+every JSON file in a unit, so checkpoint banks were counted as lesson
+challenges, and the type list came from the same conflated sample. The real
+figures are above. Authoring to 13 per lesson would have failed schema
+validation on the first lesson.
 
 ---
 
@@ -108,9 +121,21 @@ fix.
 
 ## 4. Challenge types
 
-Section 1 uses exactly three: `find_them_all`, `find_the_sequence`,
-`play_it_out`. Section 2's material is tactical, and tactics map onto
-`find_the_sequence` and `play_it_out` naturally.
+**Eight types exist in the schemas**, and Section 1 uses seven of them:
+
+| Type | Uses in Section 1 |
+|---|---|
+| `find_the_move` | 168 |
+| `find_them_all` | 72 |
+| `name_the_pattern` | 62 |
+| `which_square` | 46 |
+| `is_it_safe` | 37 |
+| `play_it_out` | 14 |
+| `find_the_sequence` | 1 |
+| `guess_the_move` | 0 (available, unused) |
+
+Section 2's material is tactical, and tactics map onto `find_the_move` and
+`find_the_sequence` naturally.
 
 Two units are the risk:
 
@@ -132,11 +157,17 @@ For 2.6 and 2.8 specifically, the intended approach within the existing types:
 - **2.6** — `play_it_out` from the starting position against the bot, with the
   success condition being the target position's *properties* (castled, central
   pawns, minor pieces out), and `find_the_sequence` for the concrete opening
-  lines, which are forcing enough to verify.
-- **2.8** — `find_the_sequence` where the prompt is the notation and the answer
-  is playing it, which teaches reading; and `find_them_all` over a position to
-  teach writing. Going over your own game is what the review feature already
+  lines, which are forcing enough to verify. **`name_the_pattern` also fits**
+  the "what is wrong with this opening" material directly.
+- **2.8** — `find_the_move` where the prompt is the notation and the answer is
+  playing it, which teaches reading; `name_the_pattern` for naming what a
+  written move did. Going over your own game is what the review feature already
   does, so that lesson links to it rather than reimplementing it.
+
+**These two units are much less constrained than an earlier draft of this spec
+claimed.** That draft asserted only three types existed, which made 2.6 and 2.7
+look like they needed a new one. `name_the_pattern` covers 2.7.1's "which
+material can mate" and most of 2.8 without inventing anything.
 
 If either turns out not to work in practice, report it rather than forcing it.
 
