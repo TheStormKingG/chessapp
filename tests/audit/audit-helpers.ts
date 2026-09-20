@@ -185,7 +185,18 @@ export async function openLesson(page: Page, lesson: Lesson): Promise<void> {
  * `play_it_out` has no declarable answer, so it is revealed instead; the
  * caller is told which path was taken.
  */
-export async function answerCorrectly(page: Page, c: Challenge): Promise<'answered' | 'revealed'> {
+/**
+ * @param opts.scored - true when a reveal COUNTS AGAINST the learner, i.e. the
+ *   caller is driving a checkpoint. In a lesson a reveal is free, so the
+ *   driver may fall back to "Show me" for a goal it cannot play; in a
+ *   checkpoint the same fallback silently scores a miss and makes the run's
+ *   result depend on which questions the sample drew.
+ */
+export async function answerCorrectly(
+  page: Page,
+  c: Challenge,
+  opts: { scored?: boolean } = {},
+): Promise<'answered' | 'revealed'> {
   switch (c.type) {
     case 'which_square': {
       await typeMove(page, (c.answer as { square: string }).square);
@@ -240,6 +251,48 @@ export async function answerCorrectly(page: Page, c: Challenge): Promise<'answer
       return 'answered';
     }
     case 'play_it_out': {
+      // A `play_it_out` has no authored answer — it carries a `goal` and the
+      // learner plays against the engine. The driver cannot follow a line that
+      // does not exist, so this used to click "Show me", which SCORES AS A
+      // MISS.
+      //
+      // That made `phase0-exit` flaky at a measured 6.7% per run: unit 1.6's
+      // bank holds 4 of these in 34 entries, the checkpoint samples 10, and
+      // drawing 3 puts the score under the 0.75 pass mark. Every other unit
+      // has none, which is why only 1.6 ever failed. The symptom was an
+      // unhelpful "expected 'passed' to be visible".
+      //
+      // Every `play_it_out` in a checkpoint bank is `mate_in: 1`, and a mate
+      // in one is computable: play the legal move that delivers mate. The
+      // other goal kinds (`hold`, `promote`, `capture_all`, longer `mate_in`)
+      // exist only in lesson challenges, which this driver never reaches.
+      const goal = (c as { goal?: { kind?: string; moves?: number } }).goal;
+      if (goal?.kind === 'mate_in' && goal.moves === 1) {
+        const game = new Chess(c.fen);
+        const mate = game.moves({ verbose: true }).find((m) => {
+          const probe = new Chess(c.fen);
+          probe.move(m.san);
+          return probe.isCheckmate();
+        });
+        if (!mate) {
+          throw new Error(
+            `audit: ${c.id} declares mate in one but no legal move mates (FEN ${c.fen}). ` +
+              `That is a content defect, not a driver limitation.`,
+          );
+        }
+        await typeMove(page, mate.san);
+        return 'answered';
+      }
+      // In a LESSON a reveal costs nothing, so falling back is correct. In a
+      // scored checkpoint it is not: it silently becomes a miss, which is how
+      // the flake above stayed mysterious. Fail loudly there instead.
+      if (opts.scored) {
+        throw new Error(
+          `audit: ${c.id} is a play_it_out with goal ${JSON.stringify(goal)} in a SCORED ` +
+            `checkpoint, and this driver cannot play it. Clicking "Show me" would score a ` +
+            `miss and make the result depend on the random sample. Teach the driver this goal.`,
+        );
+      }
       await page.getByRole('button', { name: 'Show me' }).click();
       return 'revealed';
     }

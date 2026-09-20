@@ -25,7 +25,7 @@ async function runAttempt(
     await expect(page.getByText(`${String(i + 1)} of ${String(sample)}`)).toBeVisible({ timeout: 30_000 });
     const c = await currentChallenge(page, bank);
     drawn.push(c);
-    if (decide(c, i) === 'right') await answerCorrectly(page, c);
+    if (decide(c, i) === 'right') await answerCorrectly(page, c, { scored: true });
     else await answerWrong(page, c);
     await page.getByRole('button', { name: 'Next', exact: true }).click({ timeout: 30_000 });
   }
