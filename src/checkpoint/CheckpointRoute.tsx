@@ -5,7 +5,7 @@ import { LessonPlayer, type LessonOutcome } from '@/lesson/LessonPlayer';
 import { useProgress } from '@/data';
 import { track } from '@/analytics';
 import { btn } from '@/app/Button';
-import { SECTION_1 } from '@/path/curriculum';
+import { unitById } from '@/path/curriculum';
 import { checkpointToLesson, remediationSet, sampleChallenges, scoreAttempt } from './CheckpointMachine';
 
 type Stage =
@@ -107,7 +107,10 @@ export function CheckpointRoute() {
       });
       if (s.passed) {
         // PRD 6.4: passing before the unit's lessons are done is testing out.
-        const unitLessons = SECTION_1.units.find((u) => u.id === bank.unit)?.lessons ?? [];
+        // Any section's unit, not Section 1's. A Section 2 checkpoint looked up
+        // in SECTION_1 found nothing, so `anyUndone` was false and passing it
+        // would never have been recorded as testing out.
+        const unitLessons = unitById(bank.unit)?.lessons ?? [];
         const anyUndone = unitLessons.some((l) => !progress.lessons[l.id]?.completed);
         if (anyUndone) await append({ type: 'unit_tested_out', unit: bank.unit });
         setStage({ kind: 'passed', score: s.score, awarded: !alreadyPassed });

@@ -1,7 +1,7 @@
 import { expect, test } from 'vitest';
 import { emptyProgress } from '@/data';
-import { SECTION_1 } from './curriculum';
-import { pathNodes, activeLesson, activeNode } from './progress';
+import { SECTION_1, SECTION_2 } from './curriculum';
+import { pathNodes, activeLesson, activeNode, activeUnitProgress } from './progress';
 
 test('first lesson is active, the rest locked, checkpoint always attemptable', () => {
   const nodes = pathNodes(emptyProgress());
@@ -23,12 +23,20 @@ test('completing lessons advances the active node; passing the checkpoint unlock
   expect(nodes.find((n) => n.kind === 'checkpoint' && n.unit === '1.1')).toMatchObject({ state: 'passed' });
 });
 
-test('every unit of Section 1 is built: nothing on the path reads as coming', () => {
+test('every unit of Section 1 is built: nothing in Section 1 reads as coming', () => {
   // Units 1.3 to 1.6 used to be authored-but-invisible. This is the assertion
   // that flipping them on is what shipped, and that nothing regresses it: the
-  // whole section is reachable, so no node anywhere carries the `coming` state.
+  // whole section is reachable, so no Section 1 node carries the `coming` state.
+  //
+  // SCOPED, not deleted. Section 2 is now on the path and is declared entirely
+  // unbuilt, so a path-wide `coming` filter is loud about something that is
+  // correct. The invariant this test exists for -- every Section 1 unit built
+  // and reachable -- is unchanged and still worth a guard, so the filter narrows
+  // to Section 1's own nodes and the negative controls below stay exactly as
+  // they were. They are what stops the empty result meaning "the filter matched
+  // nothing", and `section: '1'` is now the thing they prove is non-empty.
   expect(SECTION_1.units.filter((u) => !u.built)).toEqual([]);
-  const nodes = pathNodes(emptyProgress());
+  const nodes = pathNodes(emptyProgress()).filter((n) => n.section === '1');
   expect(nodes.filter((n) => n.state === 'coming')).toEqual([]);
   // Negative control: an empty result above cannot mean "pathNodes returned
   // nothing" -- all six units, all 29 lessons and all six checkpoints are here.
@@ -77,9 +85,16 @@ test('the active node advances across a unit boundary into the newly built units
   }
 });
 
-test('unit 1.6 closes the section: its checkpoint is the last node on the path', () => {
+test('unit 1.6 closes Section 1: its checkpoint is the section\'s last node', () => {
+  // Scoped for the same reason as the test above: the last node of the PATH is
+  // now Section 2's last checkpoint. What this test guards is where SECTION 1
+  // ends, which has not moved.
   const nodes = pathNodes(emptyProgress());
-  expect(nodes[nodes.length - 1]).toMatchObject({ kind: 'checkpoint', unit: '1.6' });
+  const s1 = nodes.filter((n) => n.section === '1');
+  expect(s1).toHaveLength(29 + 6); // the boundary is real, not an empty slice
+  expect(s1[s1.length - 1]).toMatchObject({ kind: 'checkpoint', unit: '1.6' });
+  // And the section boundary is where the next section begins, not the end.
+  expect(nodes[s1.length]).toMatchObject({ section: '2', unit: '2.1' });
 });
 
 test('passing a unit early marks its unfinished lessons tested out, not active', () => {
@@ -153,4 +168,52 @@ test('finishing everything built leaves no active lesson', () => {
   // the section -- and unit 1.6's checkpoint is the last thing it holds after.
   expect(activeLesson(allUnitsPassed())).toBeNull();
   expect(activeNode(allUnitsPassed())).toBeNull();
+});
+
+/* --------------------------------------------- Section 2 on the path */
+
+test('the path walks every declared section, in path order', () => {
+  const nodes = pathNodes(emptyProgress());
+  // Section 1 first, then Section 2. The order IS the path.
+  expect([...new Set(nodes.map((n) => n.section))]).toEqual(['1', '2']);
+  expect(nodes.filter((n) => n.kind === 'lesson')).toHaveLength(29 + 36);
+  expect(nodes.filter((n) => n.kind === 'checkpoint')).toHaveLength(6 + 8);
+  // Every Section 2 unit is declared unbuilt, so all of it reads as coming --
+  // lessons and checkpoints alike -- and none of it can steal the active node.
+  const s2 = nodes.filter((n) => n.section === '2');
+  expect(s2).toHaveLength(36 + 8);
+  expect(s2.filter((n) => n.state !== 'coming')).toEqual([]);
+  expect(nodes.filter((n) => n.state === 'active')).toHaveLength(1);
+});
+
+test('a node carries its section rather than leaving it to be parsed out of the id', () => {
+  // Inferring "2" from the leading character of "2.8.3" is the kind of thing
+  // that breaks silently at Section 10, so the field is carried, not derived.
+  const nodes = pathNodes(emptyProgress());
+  expect(nodes.find((n) => n.kind === 'lesson' && n.id === '1.1.1')).toMatchObject({
+    section: '1',
+  });
+  expect(nodes.find((n) => n.kind === 'checkpoint' && n.unit === '2.8')).toMatchObject({
+    section: '2',
+  });
+  expect(nodes.filter((n) => typeof n.section !== 'string')).toEqual([]);
+});
+
+test('the unit meter resolves a unit outside Section 1', () => {
+  // `activeUnitProgress` used to look the active unit up in SECTION_1 alone and
+  // return null when it missed, so the first Section 2 unit to be flipped on
+  // would have shown a learner no unit progress at all. Flipping 2.1 on for the
+  // length of this test is the only way to reach that state today.
+  const u = SECTION_2.units[0]!;
+  u.built = true;
+  try {
+    const p = emptyProgress();
+    for (const s1 of SECTION_1.units) {
+      p.units[s1.id] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
+    }
+    expect(activeNode(p)).toMatchObject({ kind: 'lesson', id: '2.1.1', unit: '2.1' });
+    expect(activeUnitProgress(p)).toMatchObject({ unit: '2.1', done: 0, total: 5 });
+  } finally {
+    u.built = false;
+  }
 });

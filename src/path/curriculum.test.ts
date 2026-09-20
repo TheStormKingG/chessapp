@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import { emptyProgress } from '@/data';
-import { SECTION_1, SECTION_2 } from './curriculum';
+import { SECTION_1, SECTION_2, SECTIONS, unitById } from './curriculum';
 import { pathNodes } from './progress';
 
 test('Section 2 has all eight units of Appendix A, in order', () => {
@@ -44,17 +44,34 @@ test('no lesson id is declared twice across the curriculum', () => {
   expect(ids).toHaveLength(new Set(ids).size);
 });
 
-test('declaring Section 2 does not put it on the path', () => {
-  // `pathNodes` walks SECTION_1 only, so an unbuilt Section 2 unit is not
-  // merely un-attemptable, it is absent. That is deliberate for now: PathScreen
-  // renders one hardcoded section header and its meter counts every lesson
-  // pathNodes returns, so admitting eight unbuilt units today would show a
-  // learner "0 of 65" under a Section 1 heading. Wiring the path to render more
-  // than one section is the change that must land before a Section 2 unit can
-  // be flipped to `built: true`. This test fails on the day someone wires it,
-  // which is when that decision should be made rather than inherited.
+test('Section 2 is on the path, and every unit of it reads as coming', () => {
+  // This test used to assert the opposite -- that `pathNodes` walked SECTION_1
+  // alone, so an unbuilt Section 2 unit was not merely un-attemptable but
+  // absent -- and said it would fail on the day someone wired the path to
+  // render more than one section. That day is this commit, and the decision it
+  // asked to be made rather than inherited was made: the path walks every
+  // section, each section heads and meters itself, so eight unbuilt units read
+  // as "0 of 36 done" under a Section 2 heading rather than as "0 of 65" under
+  // a Section 1 one.
   const nodes = pathNodes(emptyProgress());
-  expect(nodes.filter((n) => n.unit.startsWith('2.'))).toEqual([]);
-  expect(nodes.filter((n) => n.kind === 'lesson')).toHaveLength(29);
-  expect(nodes.filter((n) => n.kind === 'checkpoint')).toHaveLength(6);
+  const s2 = nodes.filter((n) => n.section === '2');
+  expect(s2.filter((n) => n.kind === 'lesson')).toHaveLength(36);
+  expect(s2.filter((n) => n.kind === 'checkpoint')).toHaveLength(8);
+  // Declared is not the same as reachable: nothing in Section 2 is attemptable
+  // until its unit is flipped to `built: true`.
+  expect(s2.filter((n) => n.state !== 'coming')).toEqual([]);
+  // Section 1 is untouched by the widening.
+  expect(nodes.filter((n) => n.section === '1' && n.kind === 'lesson')).toHaveLength(29);
+  expect(nodes.filter((n) => n.section === '1' && n.kind === 'checkpoint')).toHaveLength(6);
+});
+
+test('SECTIONS is the path order, and every declared unit is reachable by id', () => {
+  expect(SECTIONS.map((s) => s.id)).toEqual(['1', '2']);
+  expect(unitById('1.1')).toMatchObject({ id: '1.1', built: true });
+  // The lookup that matters: a unit declared outside Section 1. Before SECTIONS
+  // existed this returned undefined, and a caller that shrugged at undefined
+  // gave a Section 2 learner a screen that silently found nothing.
+  expect(unitById('2.1')).toMatchObject({ id: '2.1', built: false });
+  expect(unitById('2.8')?.lessons).toHaveLength(3);
+  expect(unitById('9.9')).toBeUndefined();
 });

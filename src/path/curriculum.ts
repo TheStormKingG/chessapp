@@ -1,3 +1,10 @@
+export interface SectionDef {
+  id: string;
+  title: string;
+  band: string;
+  units: UnitDef[];
+}
+
 export interface UnitDef {
   id: string;
   title: string;
@@ -11,7 +18,7 @@ export interface UnitDef {
  * attemptable. All six units of Section 1 are authored, so all six are built.
  * The flag stays because Section 2 will arrive one unit at a time.
  */
-export const SECTION_1: { id: string; title: string; band: string; units: UnitDef[] } = {
+export const SECTION_1: SectionDef = {
   id: '1',
   title: 'Foundations',
   band: 'New to 400',
@@ -99,13 +106,12 @@ export const SECTION_1: { id: string; title: string; band: string; units: UnitDe
  * Declaring the ids here is also what the puzzles spec's `themeForLesson` reads,
  * which is why this file is the one place the two specs touch.
  *
- * `pathNodes` deliberately does NOT walk this section yet. PathScreen renders a
- * single hardcoded section header and its rail meter counts every lesson
- * `pathNodes` returns, so admitting eight unbuilt units today would read as
- * "0 of 65" under a Section 1 heading. Rendering more than one section is the
- * change that must land before the first unit here is flipped to `built: true`.
+ * `pathNodes` walks this section like any other (`SECTIONS` below is the path
+ * order), so its units render as a counted "coming" run under their own
+ * Section 2 header and its rail meter counts Section 2's lessons alone. An
+ * unbuilt unit is visible and un-attemptable, never active.
  */
-export const SECTION_2: { id: string; title: string; band: string; units: UnitDef[] } = {
+export const SECTION_2: SectionDef = {
   id: '2',
   title: 'Safety and the first tactics',
   band: '400 to 800',
@@ -207,3 +213,20 @@ export const SECTION_2: { id: string; title: string; band: string; units: UnitDe
     },
   ],
 };
+
+/**
+ * The path, in order. Every consumer that walks the curriculum walks THIS --
+ * `pathNodes`, the unit lookup below, the checkpoint's tested-out rule -- so
+ * declaring a Section 3 is one array entry rather than a hunt for every place
+ * `SECTION_1` was named.
+ */
+export const SECTIONS: SectionDef[] = [SECTION_1, SECTION_2];
+
+/** The unit with this id, from whichever section declares it. */
+export function unitById(id: string): UnitDef | undefined {
+  for (const s of SECTIONS) {
+    const u = s.units.find((x) => x.id === id);
+    if (u) return u;
+  }
+  return undefined;
+}
