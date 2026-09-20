@@ -101,3 +101,32 @@ describe('content concept tags', () => {
     expect(CONCEPTS.filter((c) => !used.has(c))).toEqual([]);
   });
 });
+
+/** Every `checkpoint.json` in the corpus, so the sweep cannot miss a section. */
+function checkpointFiles(): string[] {
+  return contentFiles().filter((f) => f.endsWith('checkpoint.json'));
+}
+
+test('no checkpoint question names the concept it tests (PRD 6.4)', () => {
+  // The Playwright suite checks this, but only over the 10 questions a run
+  // happens to sample from a bank of 30+, so it fails about 40% of the time
+  // and passes by luck the rest. A static sweep over every bank entry makes
+  // the same guarantee deterministically.
+  //
+  // This is not hypothetical: merging the `check-mate` tag into `checkmate`
+  // turned four 1.6 bank prompts reading "Checkmate in one move." into leaks,
+  // because the un-merged spelling was not a substring of the prompt and the
+  // merged one is. The merge was checked for entries MOVING concept; nothing
+  // checked a renamed tag against its own prompt text.
+  const leaks: string[] = [];
+  for (const file of checkpointFiles()) {
+    for (const entry of JSON.parse(readFileSync(file, 'utf8')).bank) {
+      if (entry.prompt.toLowerCase().includes(entry.concept.toLowerCase())) {
+        leaks.push(`${entry.id}: concept "${entry.concept}" appears in "${entry.prompt}"`);
+      }
+    }
+  }
+  expect(leaks).toEqual([]);
+  // Non-empty control: the sweep must actually have read banks.
+  expect(checkpointFiles().length).toBeGreaterThanOrEqual(7);
+});

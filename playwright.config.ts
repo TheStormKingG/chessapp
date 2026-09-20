@@ -37,7 +37,15 @@ export default defineConfig({
         url: `http://localhost:${port}/`,
         // Reusing a running server locally is convenient; in CI it would hide
         // a server that failed to start.
-        reuseExistingServer: !process.env['CI'],
+        //
+        // But NEVER reuse in PREVIEW mode. The command above builds before it
+        // serves, precisely so a run cannot test a stale artefact — and reuse
+        // skips the command entirely, so a server left running from an earlier
+        // run keeps serving the old build and defeats the fix. That is not
+        // hypothetical: it produced two checkpoint failures whose error said
+        // "0 bank entries match prompt ..." because the page still showed a
+        // prompt the working tree had already changed.
+        reuseExistingServer: !process.env['CI'] && !preview,
         timeout: 120_000,
       },
 });
