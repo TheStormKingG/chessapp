@@ -4,9 +4,11 @@ import {
   accentSquares,
   answerCorrectly,
   enableTextEntry,
+  lessonIds,
   openLesson,
   playThrough,
   readLesson,
+  sectionIds,
   typeMove,
 } from './audit-helpers';
 
@@ -74,6 +76,61 @@ test('a hint costs a star', async ({ page }) => {
   await page.getByRole('button', { name: 'Hint', exact: true }).click();
   await playThrough(page, lesson.challenges);
   await expect(page.getByText('2 stars · 1 hint · 0 misses')).toBeVisible();
+});
+
+/**
+ * CORPUS SWEEP. The defect this guards is a Hint control that is present,
+ * enabled, and has nothing to spend: Section 1 shipped with it on challenges
+ * that authored no hint at all, and the press was swallowed silently.
+ *
+ * The existing regression below pins lesson 1.1.1 -- the first lesson a
+ * beginner ever opens. That was the right guard for the reported defect and is
+ * the wrong shape for the rule, because the rule is a property of every
+ * challenge in the corpus and the corpus grows. So it is swept, over every
+ * lesson of every section that `lessonIds()` finds on disk.
+ *
+ * The types listed here are the ones that ask the learner to point at the
+ * board, where a hint is the only thing standing between "I do not know" and a
+ * guess. `name_the_pattern` and `is_it_safe` put three written choices on the
+ * screen; the choices ARE the narrowing, and nine Section 1 challenges
+ * deliberately author no hint on that basis. Widening this set is a content
+ * decision, not a test change.
+ */
+const NEEDS_A_HINT = new Set([
+  'which_square',
+  'find_them_all',
+  'find_the_move',
+  'guess_the_move',
+  'play_it_out',
+]);
+
+test('every board challenge in the corpus authors a hint the control can spend', () => {
+  const checked: string[] = [];
+  const hintless: string[] = [];
+  for (const id of lessonIds()) {
+    for (const c of readLesson(id).challenges) {
+      if (!NEEDS_A_HINT.has(c.type)) continue;
+      checked.push(c.id);
+      const stages = Object.values(c.hints ?? {}).filter((v) => typeof v === 'string' && v !== '');
+      if (stages.length === 0) hintless.push(c.id);
+    }
+  }
+  expect(hintless, 'challenges whose Hint control would have nothing to give').toEqual([]);
+
+  // Negative controls. An empty `hintless` reports on two possibilities at
+  // once, and only one of them is "the corpus is clean" -- the other is a sweep
+  // that walked nothing. `CONTENT` in audit-helpers was pinned to
+  // `content/section-1` until this commit, so "the sweep saw no Section 2
+  // challenges" is not hypothetical; it is the defect being fixed.
+  expect(sectionIds()).toEqual(['1', '2']);
+  for (const s of sectionIds()) {
+    expect(
+      checked.filter((id) => id.startsWith(`${s}.`)).length,
+      `section ${s} contributed no challenge to this sweep`,
+    ).toBeGreaterThan(0);
+  }
+  expect(checked).toHaveLength(new Set(checked).size);
+  expect(checked.length).toBeGreaterThanOrEqual(166);
 });
 
 /**

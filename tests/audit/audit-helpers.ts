@@ -7,7 +7,51 @@ import { expect, type ConsoleMessage, type Page } from '@playwright/test';
 /* ------------------------------------------------------------------ content */
 
 const HERE = dirname(fileURLToPath(import.meta.url));
-export const CONTENT = join(HERE, '..', '..', 'content', 'section-1');
+
+/**
+ * The corpus ROOT, not one section of it.
+ *
+ * This used to be `content/section-1`, which scoped the ENTIRE Playwright audit
+ * suite -- every lesson drive, every checkpoint attempt, every header
+ * measurement and the hint sweep that caught 32 of 82 challenges shipping with
+ * a dead hint control -- to Section 1. On the day Section 2 content landed the
+ * whole suite would have gone on being green while examining none of it.
+ *
+ * That is the same defect `scripts/verify-content.mjs` carried in its hardcoded
+ * walk, and it is the worse half of the pair: the verifier at least prints a
+ * file count a human can compare, whereas a Playwright run that silently
+ * generates no tests for a section looks exactly like one that passed them.
+ *
+ * A checker that cannot see the content it gates reports success and certifies
+ * the opposite, so nothing here names a section. The section directories, the
+ * units inside them and the lessons inside those are all read off disk.
+ */
+const CONTENT_ROOT = join(HERE, '..', '..', 'content');
+
+/** Every section directory in the corpus, in path order. */
+export function sectionIds(): string[] {
+  return readdirSync(CONTENT_ROOT)
+    .filter((d) => /^section-\d+$/.test(d))
+    .map((d) => d.slice('section-'.length))
+    .sort((a, b) => Number(a) - Number(b));
+}
+
+/** Where a unit's files live, derived from its id rather than passed around. */
+export function unitDir(unit: string): string {
+  return join(CONTENT_ROOT, `section-${unit.split('.')[0]!}`, `unit-${unit}`);
+}
+
+/**
+ * Path order for two unit ids. The previous comparator was
+ * `Number(a.split('.')[1]) - Number(b.split('.')[1])`, which compared the MINOR
+ * number alone -- correct while every unit was in Section 1, and silently
+ * interleaving 2.1 between 1.1 and 1.2 the moment it was not.
+ */
+function byUnit(a: string, b: string): number {
+  const [aMaj, aMin] = a.split('.').map(Number) as [number, number];
+  const [bMaj, bMin] = b.split('.').map(Number) as [number, number];
+  return aMaj - bMaj || aMin - bMin;
+}
 
 export interface Challenge {
   id: string;
@@ -19,7 +63,7 @@ export interface Challenge {
   options?: string[];
   reasons?: string[];
   move?: string;
-  hints?: { piece?: string; square?: string };
+  hints?: { piece?: string; square?: string; text?: string; text2?: string };
   wrong?: Record<string, string>;
   reason?: string;
   goal?: { kind: string; moves: number };
@@ -45,23 +89,32 @@ export interface CheckpointBank {
 }
 
 /**
- * Every unit directory in the corpus, in path order. Derived from disk rather
- * than listed: this used to read `['unit-1.1', 'unit-1.2']`, which was correct
- * exactly while units 1.3 to 1.6 were unbuilt, and would have gone on passing
- * -- over thirteen lessons instead of twenty-nine -- on the day they shipped.
- * A sweep that names its own inputs stops being a sweep.
+ * Every unit directory in the corpus, in path order, across every section.
+ * Derived from disk rather than listed: this used to read
+ * `['unit-1.1', 'unit-1.2']`, which was correct exactly while units 1.3 to 1.6
+ * were unbuilt, and would have gone on passing -- over thirteen lessons instead
+ * of twenty-nine -- on the day they shipped. A sweep that names its own inputs
+ * stops being a sweep.
+ *
+ * `section` narrows the sweep for the one spec that is genuinely about a single
+ * section (the PRD Phase 0 exit criterion, which is a claim about Section 1).
+ * Everything else takes the whole corpus and must keep taking it.
  */
-export function unitIds(): string[] {
-  return readdirSync(CONTENT)
-    .filter((d) => /^unit-\d+\.\d+$/.test(d))
-    .map((d) => d.slice('unit-'.length))
-    .sort((a, b) => Number(a.split('.')[1]) - Number(b.split('.')[1]));
+export function unitIds(section?: string): string[] {
+  const sections = section === undefined ? sectionIds() : [section];
+  return sections
+    .flatMap((s) =>
+      readdirSync(join(CONTENT_ROOT, `section-${s}`))
+        .filter((d) => /^unit-\d+\.\d+$/.test(d))
+        .map((d) => d.slice('unit-'.length)),
+    )
+    .sort(byUnit);
 }
 
-export function lessonIds(): string[] {
+export function lessonIds(section?: string): string[] {
   const out: string[] = [];
-  for (const unit of unitIds().map((u) => `unit-${u}`)) {
-    for (const f of readdirSync(join(CONTENT, unit))) {
+  for (const unit of unitIds(section)) {
+    for (const f of readdirSync(unitDir(unit))) {
       const m = /^lesson-([\d.]+)\.json$/.exec(f);
       if (m?.[1]) out.push(m[1]);
     }
@@ -79,11 +132,11 @@ export function lessonIds(): string[] {
 
 export function readLesson(id: string): Lesson {
   const unit = id.split('.').slice(0, 2).join('.');
-  return JSON.parse(readFileSync(join(CONTENT, `unit-${unit}`, `lesson-${id}.json`), 'utf8')) as Lesson;
+  return JSON.parse(readFileSync(join(unitDir(unit), `lesson-${id}.json`), 'utf8')) as Lesson;
 }
 
 export function readCheckpoint(unit: string): CheckpointBank {
-  return JSON.parse(readFileSync(join(CONTENT, `unit-${unit}`, 'checkpoint.json'), 'utf8')) as CheckpointBank;
+  return JSON.parse(readFileSync(join(unitDir(unit), 'checkpoint.json'), 'utf8')) as CheckpointBank;
 }
 
 /** The squares a find_them_all wants, whichever key the author used. */

@@ -91,7 +91,10 @@ async function answerWrong(page: Page, c: Challenge): Promise<void> {
 }
 
 // Every unit that has a checkpoint, read off the corpus rather than listed --
-// see `unitIds` in audit-helpers. All six of Section 1's units have one.
+// see `unitIds` in audit-helpers. That helper walked `content/section-1` alone
+// until unit 2.1 shipped, so this sweep would have gone on covering six units
+// while the corpus held seven. It now walks every section directory on disk:
+// Section 1's six units and unit 2.1.
 for (const unit of unitIds()) {
   test(`checkpoint ${unit} can be attempted early: ten unlabelled, unhinted questions`, async ({
     page,

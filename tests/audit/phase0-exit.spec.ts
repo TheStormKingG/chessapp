@@ -67,7 +67,12 @@ test.describe('PRD Phase 0 exit criterion', () => {
     log.mark('phase 0 exit');
     await enableTextEntry(page);
 
-    const units = unitIds();
+    // SECTION 1's units, explicitly. `unitIds()` now walks the whole corpus --
+    // it was scoped to `content/section-1` and so was silently blind to
+    // Section 2 -- but this test is not a corpus sweep. It is the PRD's Phase 0
+    // exit criterion, which is a claim about Section 1 and completes it end to
+    // end; widening it would make it assert something the PRD does not.
+    const units = unitIds('1');
     expect(units).toEqual(['1.1', '1.2', '1.3', '1.4', '1.5', '1.6']);
 
     // The whole section is on the path from the first screen, and nothing on it
@@ -79,7 +84,7 @@ test.describe('PRD Phase 0 exit criterion', () => {
     }
 
     for (const [u, unit] of units.entries()) {
-      const lessons = lessonIds().filter((id) => id.startsWith(`${unit}.`));
+      const lessons = lessonIds('1').filter((id) => id.startsWith(`${unit}.`));
       // The unit's first lesson is the active node the moment the unit opens.
       await page.goto('./path');
       await expect(
@@ -105,7 +110,7 @@ test.describe('PRD Phase 0 exit criterion', () => {
       await page.goto('./path');
       await expect(page.locator(`a[href="/checkpoint/${unit}"]`)).toHaveCount(1);
       if (next) {
-        const firstOfNext = lessonIds().find((id) => id.startsWith(`${next}.`))!;
+        const firstOfNext = lessonIds('1').find((id) => id.startsWith(`${next}.`))!;
         await expect(
           page.getByRole('link', {
             name: new RegExp(`^${firstOfNext.replace(/\./g, '\\.')} .*Up next$`),
