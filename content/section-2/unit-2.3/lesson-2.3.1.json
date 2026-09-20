@@ -1,0 +1,195 @@
+{
+  "id": "2.3.1",
+  "unit": "2.3",
+  "title": "The absolute pin",
+  "xp": 12,
+  "card": {
+    "idea": "A pin is one piece standing in front of another on the same line. When the piece behind is the king, the piece in front may not move at all — the rules forbid it. It is stuck where it stands, so attack it again and take it.",
+    "diagrams": [
+      "4k3/pp3ppp/2n5/1B6/8/8/P4PPP/4K3 w - - 0 1"
+    ],
+    "habit": "Keep a pin."
+  },
+  "explain": [
+    {
+      "fen": "4k3/pp3ppp/2n5/1B6/8/8/P4PPP/4K3 w - - 0 1",
+      "text": "The bishop on b5 looks along b5-c6-d7-e8. The knight stands on c6 and the king behind it on e8. If the knight moved, the king would be in check from the bishop — and you may never leave your own king in check. So the knight is not allowed to move.",
+      "arrows": [
+        [
+          "b5",
+          "e8"
+        ]
+      ],
+      "highlights": [
+        "b5",
+        "c6",
+        "e8"
+      ]
+    },
+    {
+      "fen": "4k3/pp3ppp/2n5/1B6/3P4/8/P4PPP/4K3 w - - 0 1",
+      "text": "A piece that cannot run is a target. White pushes the pawn to d5, and now the knight is attacked by a pawn and may not step aside. Black can defend it or move the king off the line — but if he does neither, the knight is gone.",
+      "arrows": [
+        [
+          "d4",
+          "d5"
+        ]
+      ],
+      "highlights": [
+        "c6",
+        "d5"
+      ]
+    },
+    {
+      "fen": "7k/pp4pp/8/4n3/8/3P4/PB4PP/6K1 w - - 0 1",
+      "text": "Same idea on the long diagonal. The bishop on b2 sees through the knight on e5 to the king on h8, and nothing defends the knight. The bishop simply takes it.",
+      "arrows": [
+        [
+          "b2",
+          "h8"
+        ]
+      ],
+      "highlights": [
+        "b2",
+        "e5",
+        "h8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.3.1-c1",
+      "type": "which_square",
+      "fen": "4k3/pp3ppp/2n5/8/8/8/P4PPP/4KB2 w - - 0 1",
+      "prompt": "Tap the square your bishop goes to so that the knight on c6 is no longer allowed to move.",
+      "answer": {
+        "square": "b5"
+      },
+      "concept": "absolute-pin",
+      "hints": {
+        "piece": "f1",
+        "text": "Find the one square that lines up the bishop, the knight and the black king."
+      },
+      "reason": "From b5 the bishop looks through c6 to the king on e8. No other square on the bishop's road does that."
+    },
+    {
+      "id": "2.3.1-c2",
+      "type": "find_them_all",
+      "fen": "4k3/pp3ppp/2n5/1B2n3/8/8/P3RPPP/4K3 w - - 0 1",
+      "prompt": "Tap every black knight that is not allowed to move.",
+      "answer": {
+        "pieces": [
+          "c6",
+          "e5"
+        ]
+      },
+      "concept": "absolute-pin",
+      "hints": {
+        "text": "Two white pieces are looking at the black king. Ask what is standing in the way of each."
+      },
+      "reason": "The bishop on b5 holds c6, and the rook on e2 holds e5. Move either knight and the king is in check."
+    },
+    {
+      "id": "2.3.1-c3",
+      "type": "name_the_pattern",
+      "fen": "4k3/pp3ppp/2n5/1B2n3/8/8/P3RPPP/4K3 w - - 0 1",
+      "prompt": "Why may the knight on e5 not move?",
+      "options": [
+        "Moving it would leave the black king in check from the rook on e2.",
+        "It has no squares to go to.",
+        "It is defending the knight on c6."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "absolute-pin",
+      "hints": {
+        "piece": "e2",
+        "text": "Look down the e-file and say what is at each end of it."
+      },
+      "reason": "The rook on e2, the knight on e5, the king on e8 — all on one file. That is the whole reason."
+    },
+    {
+      "id": "2.3.1-c4",
+      "type": "find_the_move",
+      "fen": "4k3/pp3ppp/2n5/1B6/3P4/8/P4PPP/4K3 w - - 0 1",
+      "prompt": "The knight on c6 is not allowed to move. Attack it again.",
+      "answer": {
+        "moves": [
+          "d5"
+        ]
+      },
+      "wrong": {
+        "Bxc6+": "Check, and the b7 pawn takes your bishop straight back. You had a stuck piece and you traded it off."
+      },
+      "concept": "absolute-pin",
+      "hints": {
+        "piece": "d4",
+        "square": "d5"
+      },
+      "reason": "d5 hits the knight a second time. It may not step aside, so it costs Black a piece."
+    },
+    {
+      "id": "2.3.1-c5",
+      "type": "is_it_safe",
+      "fen": "4k3/pp3ppp/2n5/1B6/8/8/P4PPP/3R1K2 w - - 0 1",
+      "move": "Rd4",
+      "prompt": "White puts the rook on d4, a square the knight on c6 is guarding. Is the rook safe there?",
+      "reasons": [
+        "Yes. The only piece attacking d4 is the knight, and it is not allowed to move.",
+        "No. The knight on c6 takes it.",
+        "No. The king walks up and takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "absolute-pin",
+      "hints": {
+        "piece": "c6",
+        "text": "A guard that may not leave its square is not really guarding anything."
+      },
+      "reason": "Nxd4 would open the b5-e8 road and put the black king in check, so it is not a legal move at all."
+    },
+    {
+      "id": "2.3.1-c6",
+      "type": "find_the_move",
+      "fen": "7k/pp4pp/8/4n3/8/3P4/PB4PP/6K1 w - - 0 1",
+      "prompt": "The knight on e5 is stuck in front of its king and nothing defends it. Take it.",
+      "answer": {
+        "moves": [
+          "Bxe5"
+        ]
+      },
+      "wrong": {
+        "d4": "The pawn attacks the knight too, but you did not need a second attacker. It was already free."
+      },
+      "concept": "absolute-pin",
+      "hints": {
+        "piece": "b2",
+        "square": "e5"
+      },
+      "reason": "Bxe5 wins a whole knight. The bishop was pinning it, so it could never have run away."
+    },
+    {
+      "id": "2.3.1-c7",
+      "type": "name_the_pattern",
+      "fen": "4k3/pp3ppp/2n5/1B6/3P4/8/P4PPP/4K3 w - - 0 1",
+      "prompt": "White has just pushed the pawn to d5. What is Black's problem?",
+      "options": [
+        "The knight is attacked and is not allowed to move, so Black must defend it or lose it.",
+        "The knight is attacked but can simply jump to a safe square.",
+        "Nothing. The bishop on b5 is hanging."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "absolute-pin",
+      "hints": {
+        "text": "Try each knight move in your head and ask what the bishop on b5 would then see."
+      },
+      "reason": "Every knight move opens the b5-e8 road, so every one of them is illegal."
+    }
+  ],
+  "takeaway": "A piece pinned against its own king may not move at all. Do not rush to take it — attack it again, and it cannot run."
+}

@@ -1,0 +1,145 @@
+{
+  "id": "2.3.2",
+  "unit": "2.3",
+  "title": "The relative pin",
+  "xp": 12,
+  "card": {
+    "idea": "When the piece behind is not the king but something valuable, the piece in front is allowed to move. It just costs you. That is a relative pin, and it is a chain rather than a wall: strong enough that nobody wants to break it, but it can be broken.",
+    "diagrams": ["3q2k1/3n1ppp/8/8/8/5N2/5PPP/3Q2K1 w - - 0 1"],
+    "habit": "Keep a pin."
+  },
+  "explain": [
+    {
+      "fen": "3q2k1/3n1ppp/8/8/8/5N2/5PPP/3Q2K1 w - - 0 1",
+      "text": "White's queen on d1 looks up the d-file. The knight on d7 is in the way and the black queen sits behind it on d8. The knight may move — nothing in the rules stops it — but the moment it does, the queens are looking at each other and Black's comes off.",
+      "arrows": [["d1", "d8"]],
+      "highlights": ["d1", "d7", "d8"]
+    },
+    {
+      "fen": "3q2k1/3n1ppp/8/4N3/8/8/5PPP/3Q2K1 w - - 0 1",
+      "text": "So treat it like a stuck piece. The white knight has come to e5 and attacks d7 a second time. Black may still play the knight away, but then he is handing over a queen to save a knight, which nobody does.",
+      "arrows": [["e5", "d7"]],
+      "highlights": ["d7", "e5"]
+    },
+    {
+      "fen": "3r2k1/pp3ppp/8/3n4/8/8/PP2PPPP/3R2K1 w - - 0 1",
+      "text": "The piece behind does not have to be a queen. Here the knight on d5 shields a rook, so moving it costs the exchange. A pawn coming to e4 is enough to win it.",
+      "arrows": [["d1", "d8"]],
+      "highlights": ["d5", "d8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.3.2-c1",
+      "type": "name_the_pattern",
+      "fen": "3q2k1/3n1ppp/8/8/8/5N2/5PPP/3Q2K1 w - - 0 1",
+      "prompt": "The knight on d7 is allowed to move. So why would Black rather not move it?",
+      "options": [
+        "The white queen on d1 would then take the black queen on d8.",
+        "The knight would be taken by the knight on f3.",
+        "It would put the black king in check."
+      ],
+      "answer": { "option": 0 },
+      "concept": "relative-pin",
+      "hints": {
+        "text": "Cover the knight on d7 with your thumb and look at what is left on the d-file."
+      },
+      "reason": "Queen on d1, knight on d7, queen on d8. Take the knight out of the middle and the two queens meet."
+    },
+    {
+      "id": "2.3.2-c2",
+      "type": "which_square",
+      "fen": "3q2k1/3n1ppp/8/8/8/5N2/5PPP/3Q2K1 w - - 0 1",
+      "prompt": "Tap the square your knight on f3 goes to so that it also attacks the knight on d7.",
+      "answer": { "square": "e5" },
+      "concept": "relative-pin",
+      "hints": {
+        "piece": "f3",
+        "text": "A knight on e5 reaches c4, c6, d3, d7, f7, g6, g4 and f3."
+      },
+      "reason": "e5 is the only square the knight on f3 can reach that touches d7."
+    },
+    {
+      "id": "2.3.2-c3",
+      "type": "is_it_safe",
+      "fen": "3q2k1/3n1ppp/8/8/8/5N2/5PPP/3Q2K1 w - - 0 1",
+      "move": "Ne5",
+      "prompt": "White plays the knight to e5, where the knight on d7 can reach it. Is the white knight safe there?",
+      "reasons": [
+        "Yes, for all practical purposes. Nxe5 is legal, but then Qxd8 wins the black queen.",
+        "No. The knight on d7 simply takes it and wins a piece.",
+        "No. The pawn on f7 takes it."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "relative-pin",
+      "hints": {
+        "piece": "d7",
+        "text": "Ask what Black would have to give up to make the capture."
+      },
+      "reason": "This is the difference from a pin against the king: the capture is legal here, it is just far too expensive."
+    },
+    {
+      "id": "2.3.2-c4",
+      "type": "find_the_move",
+      "fen": "3q2k1/3n1ppp/8/8/8/5N2/5PPP/3Q2K1 w - - 0 1",
+      "prompt": "The knight on d7 is not going anywhere. Bring a second attacker to it.",
+      "answer": { "moves": ["Ne5"] },
+      "wrong": {
+        "Qxd7": "You take a knight and Black takes your queen back. The pin was doing the work; do not trade it for one piece."
+      },
+      "concept": "relative-pin",
+      "hints": {
+        "piece": "f3",
+        "square": "e5"
+      },
+      "reason": "Ne5 attacks d7 twice over. Black cannot defend it again, and moving it costs the queen."
+    },
+    {
+      "id": "2.3.2-c5",
+      "type": "which_square",
+      "fen": "3r2k1/pp3ppp/8/3n4/8/8/PP2PPPP/3R2K1 w - - 0 1",
+      "prompt": "Tap the black piece that the knight on d5 is standing in front of.",
+      "answer": { "square": "d8" },
+      "concept": "relative-pin",
+      "hints": {
+        "piece": "d1",
+        "text": "Follow the d-file up from the white rook and keep going past the knight."
+      },
+      "reason": "The rook on d8. That is what makes the knight on d5 reluctant to move."
+    },
+    {
+      "id": "2.3.2-c6",
+      "type": "find_the_move",
+      "fen": "3r2k1/pp3ppp/8/3n4/8/8/PP2PPPP/3R2K1 w - - 0 1",
+      "prompt": "Attack the knight on d5 with a pawn.",
+      "answer": { "moves": ["e4"] },
+      "wrong": {
+        "Rxd5": "The rook takes a knight and the rook on d8 takes back. You have given five points for three."
+      },
+      "concept": "relative-pin",
+      "hints": {
+        "piece": "e2",
+        "square": "e4"
+      },
+      "reason": "e4 hits the knight. Moving it hands over the rook on d8, so Black loses material either way."
+    },
+    {
+      "id": "2.3.2-c7",
+      "type": "name_the_pattern",
+      "fen": "3r2k1/pp3ppp/8/3n4/8/8/PP2PPPP/3R2K1 w - - 0 1",
+      "prompt": "How is this different from a piece pinned in front of its own king?",
+      "options": [
+        "This knight is allowed to move. It simply costs the rook behind it.",
+        "This knight is not allowed to move either.",
+        "There is no difference at all."
+      ],
+      "answer": { "option": 0 },
+      "concept": "relative-pin",
+      "hints": {
+        "text": "One kind of pin is a rule. The other is a price."
+      },
+      "reason": "Only a king makes a pin absolute. Everything else is a price, and a desperate opponent will pay it."
+    }
+  ],
+  "takeaway": "A piece pinned to something valuable may legally move — it just costs. Attack it again and make the price impossible."
+}

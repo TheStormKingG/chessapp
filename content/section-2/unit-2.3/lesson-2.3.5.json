@@ -1,0 +1,145 @@
+{
+  "id": "2.3.5",
+  "unit": "2.3",
+  "title": "Keeping a pin rather than capturing early",
+  "xp": 14,
+  "card": {
+    "idea": "A pinned piece is not going anywhere, so there is no hurry. Taking it usually means trading your good piece for it and letting the position untangle. Leave it where it is, bring another attacker, and take it when taking wins something.",
+    "diagrams": ["3q2k1/3n1ppp/8/8/8/5N2/5PPP/3R2K1 w - - 0 1"],
+    "habit": "Keep a pin."
+  },
+  "explain": [
+    {
+      "fen": "3q2k1/3n1ppp/8/8/8/5N2/5PPP/3R2K1 w - - 0 1",
+      "text": "The rook on d1 holds the knight on d7 in front of the queen. Rxd7 is tempting and it is a mistake: the queen takes back, and White has swapped a rook for a knight. The rook was worth more doing nothing than it was worth capturing.",
+      "arrows": [["d1", "d7"]],
+      "highlights": ["d1", "d7", "d8"]
+    },
+    {
+      "fen": "3q2k1/3n1ppp/8/4N3/8/8/5PPP/3R2K1 w - - 0 1",
+      "text": "Instead the knight comes to e5. Now d7 is attacked twice and defended once, and it still may not run without handing over the queen. Nothing has been given up, and next move the knight is simply won.",
+      "arrows": [["e5", "d7"], ["d1", "d7"]],
+      "highlights": ["d7", "e5"]
+    },
+    {
+      "fen": "3q2k1/pp4pp/3n4/8/2P2B2/8/PP4PP/3R2K1 w - - 0 1",
+      "text": "Same rule with a pawn. The rook and the bishop already look at the knight on d6. Pushing the c-pawn to c5 makes three attackers against one defender, and the pawn is the cheapest attacker there is.",
+      "arrows": [["c4", "c5"]],
+      "highlights": ["c5", "d6"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.3.5-c1",
+      "type": "name_the_pattern",
+      "fen": "3q2k1/3n1ppp/8/8/8/5N2/5PPP/3R2K1 w - - 0 1",
+      "prompt": "White can play Rxd7 right now. Why is that a poor idea?",
+      "options": [
+        "The queen takes back, so White has given a rook for a knight.",
+        "The rook is lost for nothing at all.",
+        "It is not poor. It wins a piece."
+      ],
+      "answer": { "option": 0 },
+      "concept": "keep-the-pin",
+      "hints": {
+        "piece": "d8",
+        "text": "Play it out one move further. What is standing behind the knight, ready to recapture?"
+      },
+      "reason": "A rook is worth five and a knight three. Grabbing the knight here costs two points and ends the pin."
+    },
+    {
+      "id": "2.3.5-c2",
+      "type": "find_the_move",
+      "fen": "3q2k1/3n1ppp/8/8/8/5N2/5PPP/3R2K1 w - - 0 1",
+      "prompt": "The knight on d7 cannot run. Leave it there and bring another attacker instead.",
+      "answer": { "moves": ["Ne5"] },
+      "wrong": {
+        "Rxd7": "You took it, the queen took back, and a rook has gone for a knight. The pin was worth more than the capture."
+      },
+      "concept": "keep-the-pin",
+      "hints": {
+        "piece": "f3",
+        "square": "e5"
+      },
+      "reason": "Ne5 costs nothing and attacks d7 a second time. The knight is now lost properly rather than bought."
+    },
+    {
+      "id": "2.3.5-c3",
+      "type": "name_the_pattern",
+      "fen": "3q2k1/3n1ppp/8/4N3/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "The rook and the knight now both attack d7. What has Black got left?",
+      "options": [
+        "Only the queen defends it, so the knight will be won next move.",
+        "The knight is defended twice over and is perfectly safe.",
+        "Black can simply move the knight away and lose nothing."
+      ],
+      "answer": { "option": 0 },
+      "concept": "keep-the-pin",
+      "hints": {
+        "text": "Count the attackers, then count the defenders, then ask whether the knight is allowed to run."
+      },
+      "reason": "Two attackers, one defender, and no escape. That is what waiting one move bought."
+    },
+    {
+      "id": "2.3.5-c4",
+      "type": "find_them_all",
+      "fen": "3q2k1/pp4pp/3n4/8/2P2B2/8/PP4PP/3R2K1 w - - 0 1",
+      "prompt": "Tap every white piece that is already attacking the knight on d6.",
+      "answer": { "pieces": ["d1", "f4"] },
+      "concept": "keep-the-pin",
+      "hints": {
+        "text": "One is looking up a file. One is looking along a diagonal. The pawn is not looking at it yet."
+      },
+      "reason": "The rook on d1 up the file and the bishop on f4 along f4-e5-d6. Two attackers against one defender."
+    },
+    {
+      "id": "2.3.5-c5",
+      "type": "which_square",
+      "fen": "3q2k1/pp4pp/3n4/8/2P2B2/8/PP4PP/3R2K1 w - - 0 1",
+      "prompt": "Tap the square your c-pawn goes to so that it attacks the knight on d6 as well.",
+      "answer": { "square": "c5" },
+      "concept": "keep-the-pin",
+      "hints": {
+        "piece": "c4",
+        "text": "A pawn attacks the two squares diagonally ahead of it, never the one straight in front."
+      },
+      "reason": "From c5 the pawn attacks b6 and d6. That makes three attackers on the knight."
+    },
+    {
+      "id": "2.3.5-c6",
+      "type": "find_the_move",
+      "fen": "3q2k1/pp4pp/3n4/8/2P2B2/8/PP4PP/3R2K1 w - - 0 1",
+      "prompt": "Do not cash the pin in. Add one more attacker to the knight on d6.",
+      "answer": { "moves": ["c5"] },
+      "wrong": {
+        "Rxd6": "The queen takes back and your rook is gone. Adding an attacker costs nothing; taking costs the exchange."
+      },
+      "concept": "keep-the-pin",
+      "hints": {
+        "piece": "c4",
+        "square": "c5"
+      },
+      "reason": "c5 attacks the knight a third time for free. Black cannot defend it again and cannot move it."
+    },
+    {
+      "id": "2.3.5-c7",
+      "type": "is_it_safe",
+      "fen": "3q2k1/pp4pp/3n4/8/2P2B2/8/PP4PP/3R2K1 w - - 0 1",
+      "move": "c5",
+      "prompt": "White pushes the pawn to c5, right beside the black knight. Is the pawn safe there?",
+      "reasons": [
+        "Yes. No black piece attacks c5 at all.",
+        "No. The knight on d6 takes it.",
+        "No. The pawn on b7 takes it."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "keep-the-pin",
+      "hints": {
+        "piece": "d6",
+        "text": "Write out the eight squares a knight on d6 reaches. c5 is not one of them."
+      },
+      "reason": "A knight never attacks the square next to it on the diagonal, and b7 attacks a6 and c6. c5 is untouched."
+    }
+  ],
+  "takeaway": "A pinned piece is not running away. Add attackers while it sits there, and only take when taking wins."
+}
