@@ -16,14 +16,16 @@ test('Section 2 has all eight units of Appendix A, in order', () => {
   ]);
 });
 
-test('unit 2.1 is built and the other seven are not', () => {
+test('units 2.1 and 2.2 are built and the other six are not', () => {
   // SCOPED, not deleted. This used to read "every Section 2 unit is unbuilt",
-  // which was true exactly while no Section 2 content existed. Unit 2.1 is
-  // authored, verified and flipped on, so the invariant worth guarding is the
-  // one that is still load-bearing: nothing is reachable ahead of its content.
-  expect(SECTION_2.units.filter((u) => u.built).map((u) => u.id)).toEqual(['2.1']);
+  // which was true exactly while no Section 2 content existed. Units 2.1 and
+  // 2.2 are authored, verified and flipped on, so the invariant worth guarding
+  // is the one that is still load-bearing: nothing is reachable ahead of its
+  // content. The built list grows by one unit per authoring pass; the unbuilt
+  // list must shrink by exactly the same one, which is why both are spelled
+  // out rather than one being derived from the other.
+  expect(SECTION_2.units.filter((u) => u.built).map((u) => u.id)).toEqual(['2.1', '2.2']);
   expect(SECTION_2.units.filter((u) => !u.built).map((u) => u.id)).toEqual([
-    '2.2',
     '2.3',
     '2.4',
     '2.5',
@@ -71,18 +73,19 @@ test('Section 2 is on the path, and every unbuilt unit of it reads as coming', (
   expect(s2.filter((n) => n.kind === 'lesson')).toHaveLength(36);
   expect(s2.filter((n) => n.kind === 'checkpoint')).toHaveLength(8);
   // Declared is not the same as reachable: nothing in Section 2 is attemptable
-  // until its unit is flipped to `built: true`. Unit 2.1 has been, so the
-  // filter narrows to the units that are still unauthored rather than being
-  // deleted -- and it keeps a non-empty control, because "none of these are
-  // reachable" is satisfied vacuously by a filter that matched nothing.
-  const unbuilt = s2.filter((n) => n.unit !== '2.1');
-  expect(unbuilt).toHaveLength(31 + 7); // 36 - 5 lessons, 8 - 1 checkpoints
+  // until its unit is flipped to `built: true`. Units 2.1 and 2.2 have been,
+  // so the filter narrows to the units that are still unauthored rather than
+  // being deleted -- and it keeps a non-empty control, because "none of these
+  // are reachable" is satisfied vacuously by a filter that matched nothing.
+  const BUILT = ['2.1', '2.2'];
+  const unbuilt = s2.filter((n) => !BUILT.includes(n.unit));
+  expect(unbuilt).toHaveLength(27 + 6); // 36 - 5 - 4 lessons, 8 - 2 checkpoints
   expect(unbuilt.filter((n) => n.state !== 'coming')).toEqual([]);
-  // And 2.1 is genuinely the exception, not merely excluded: its six nodes are
-  // on the path and none of them reads as coming.
-  const u21 = s2.filter((n) => n.unit === '2.1');
-  expect(u21).toHaveLength(6);
-  expect(u21.filter((n) => n.state === 'coming')).toEqual([]);
+  // And the built units are genuinely the exception, not merely excluded:
+  // their nodes are on the path and none of them reads as coming.
+  const builtNodes = s2.filter((n) => BUILT.includes(n.unit));
+  expect(builtNodes).toHaveLength(11); // 5 + 4 lessons, 2 checkpoints
+  expect(builtNodes.filter((n) => n.state === 'coming')).toEqual([]);
   // Section 1 is untouched by the widening.
   expect(nodes.filter((n) => n.section === '1' && n.kind === 'lesson')).toHaveLength(29);
   expect(nodes.filter((n) => n.section === '1' && n.kind === 'checkpoint')).toHaveLength(6);
@@ -95,6 +98,11 @@ test('SECTIONS is the path order, and every declared unit is reachable by id', (
   // existed this returned undefined, and a caller that shrugged at undefined
   // gave a Section 2 learner a screen that silently found nothing.
   expect(unitById('2.1')).toMatchObject({ id: '2.1', built: true });
+  expect(unitById('2.2')).toMatchObject({ id: '2.2', built: true });
+  // The built/unbuilt boundary resolves on both sides: a unit that is declared
+  // but unauthored must still be found by id, or the screen that renders its
+  // "content coming" placeholder has nothing to render.
+  expect(unitById('2.3')).toMatchObject({ id: '2.3', built: false });
   expect(unitById('2.8')?.lessons).toHaveLength(3);
   expect(unitById('9.9')).toBeUndefined();
 });

@@ -52,7 +52,16 @@ test('the terminal message appears only when everything built is finished', () =
 
   const finished = emptyProgress();
   const built = SECTIONS.flatMap((s) => s.units).filter((u) => u.built);
-  expect(built.map((u) => u.id)).toEqual(['1.1', '1.2', '1.3', '1.4', '1.5', '1.6', '2.1']);
+  expect(built.map((u) => u.id)).toEqual([
+    '1.1',
+    '1.2',
+    '1.3',
+    '1.4',
+    '1.5',
+    '1.6',
+    '2.1',
+    '2.2',
+  ]);
   for (const u of built) {
     finished.units[u.id] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
   }

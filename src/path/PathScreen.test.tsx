@@ -87,9 +87,12 @@ test('a locked run states how long it is, and never says "Locked" per node', () 
     '5 locked',
     '3 locked',
     '5 locked',
+    '4 locked',
   ]);
-  // 33 locked lessons = Section 1's 29 plus unit 2.1's 5, minus the active one.
-  expect(runs.reduce((n, r) => n + Number(r!.split(' ')[0]), 0)).toBe(33);
+  // 37 locked lessons = Section 1's 29 plus unit 2.1's 5 and unit 2.2's 4,
+  // minus the active one. A built unit's lessons are locked, not coming, so
+  // each authoring pass moves one run from the list below into this one.
+  expect(runs.reduce((n, r) => n + Number(r!.split(' ')[0]), 0)).toBe(37);
   expect(screen.queryAllByText('Locked until you get there')).toHaveLength(0);
   // Line 67's original guarantee, unchanged: the word is still never printed
   // once per node, which is what chunk C2 bought.
@@ -265,37 +268,41 @@ test('the meter counts the section it sits beside, not the whole path', () => {
 
 test('an unbuilt run counts per unit, and nothing in it is a link', () => {
   renderPath();
-  // Section 2's units 2.2 to 2.8 are unbuilt, so every one of their 38 nodes is
+  // Section 2's units 2.3 to 2.8 are unbuilt, so every one of their 33 nodes is
   // `coming`. They must NOT fuse into one boundary: a checkpoint is never
   // grouped, so each unit's lessons form their own groove and each unit's
   // checkpoint is its own row. The number a boundary prints is the distance to
-  // the next thing that opens, and 38 is the rest of the curriculum.
+  // the next thing that opens, and 33 is the rest of the curriculum.
   //
-  // SCOPED, not deleted, when unit 2.1 was flipped on: 2.1 is built, so it is
-  // locked-behind-Section-1 rather than coming, and it is asserted as a link
-  // below -- which is what stops the shrunken `coming` list from reading as
-  // "the screen rendered nothing".
+  // SCOPED, not deleted, as each unit is flipped on: 2.1 and 2.2 are built, so
+  // they are locked-behind-Section-1 rather than coming, and both are asserted
+  // as real nodes below -- which is what stops the shrinking `coming` list
+  // from reading as "the screen rendered nothing".
   const coming = [...document.querySelectorAll('*')]
     .filter((el) => el.children.length === 0 && /^\d+ coming$/.test(el.textContent ?? ''))
     .map((el) => el.textContent);
-  expect(coming).not.toEqual(['38 coming']);
-  expect(coming).toHaveLength(7);
-  // The counts are per-unit lesson counts, and they account for all 31 lessons
-  // of units 2.2 to 2.8.
+  expect(coming).not.toEqual(['33 coming']);
+  expect(coming).toHaveLength(6);
+  // The counts are per-unit lesson counts, and they account for all 27 lessons
+  // of units 2.3 to 2.8.
   const counted = coming.reduce((n, h) => n + Number(h?.split(' ')[0]), 0);
-  // 31 lessons plus 7 checkpoints: a coming checkpoint stays inside its unit's
-  // groove, so the unit is one row rather than seven.
-  expect(counted).toBe(38);
+  // 27 lessons plus 6 checkpoints: a coming checkpoint stays inside its unit's
+  // groove, so the unit is one row rather than six.
+  expect(counted).toBe(33);
   // No groove may exceed a unit: lesson.schema caps a unit's lessons well
   // under this, so a larger number means a run spanned a unit boundary again.
   for (const h of coming) expect(Number(h?.split(' ')[0])).toBeLessThanOrEqual(10);
   expect(
-    screen.getByLabelText('2.2.1 The knight fork. Content coming'),
+    screen.getByLabelText('2.3.1 The absolute pin. Content coming'),
   ).toHaveAttribute('aria-disabled', 'true');
-  expect(screen.queryByRole('link', { name: /^2\.[2-8]/ })).toBeNull();
-  // Unit 2.1 is built: its first lesson is a real node with a real name, not a
-  // "Content coming" placeholder.
+  expect(screen.queryByRole('link', { name: /^2\.[3-8]/ })).toBeNull();
+  // Units 2.1 and 2.2 are built: their first lessons are real nodes with real
+  // names, not "Content coming" placeholders.
   expect(
     screen.queryByLabelText(/^2\.1\.1 .*Content coming$/),
   ).toBeNull();
+  expect(
+    screen.queryByLabelText(/^2\.2\.1 .*Content coming$/),
+  ).toBeNull();
+  expect(screen.getByLabelText(/^2\.2\.1 The knight fork/)).toBeInTheDocument();
 });

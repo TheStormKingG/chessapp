@@ -285,7 +285,7 @@
       "answer": {
         "square": "d8"
       },
-      "reason": "Rd8 is check and only the queen can take it, which puts her on the fork square."
+      "reason": "Rd8 is check and only the queen can take it, which leaves her on d8 — where the knight on f7 hits her and the king together."
     },
     {
       "id": "2.2-k23",

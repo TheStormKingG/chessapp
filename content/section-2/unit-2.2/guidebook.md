@@ -92,12 +92,13 @@ A check fixes that, because a check cannot be ignored.
 
 There are two versions, and they are worth learning as a pair:
 
-- **Drive the king onto the square.** You want your knight on f7, which attacks
-  d8 and h8. His queen is on d8 already, but his king is on g8. Check him, and
-  if his only square is h8, the fork is on.
-- **Force a piece onto the square.** The king is on h8 already, but d8 is
+- **Drive the king onto a target square.** You want your knight on f7, which
+  attacks d8 and h8. His queen is on d8 already, but his king is on g8. Check
+  him, and if his only square is h8, the fork is on.
+- **Force a piece onto a target square.** The king is on h8 already, but d8 is
   empty. Put a rook on d8 with check. If his queen is the only piece that can
-  take it, she has to — and now she is standing on the fork square.
+  take it, she has to — and now she is standing on d8, where the knight on f7
+  hits her.
 
 The second one costs a rook and wins a queen. That is a good trade, and it is
 the first time in this course that giving something up on purpose is the right

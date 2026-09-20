@@ -131,7 +131,7 @@ export const SECTION_2: SectionDef = {
     {
       id: '2.2',
       title: 'Forks',
-      built: false,
+      built: true,
       lessons: [
         { id: '2.2.1', title: 'The knight fork' },
         { id: '2.2.2', title: 'The pawn fork' },
