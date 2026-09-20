@@ -47,8 +47,10 @@ export function PuzzlePlayer({
   puzzle,
   source,
   onDone,
+  onMiss,
   onExit,
   firstLearnerPly = 1,
+  maxMisses,
   textEntry: forceText,
   children,
 }: {
@@ -56,6 +58,12 @@ export function PuzzlePlayer({
   source: PuzzleSource;
   /** Fired once, when the attempt finishes. Never from a dismiss control. */
   onDone: (r: AttemptResult) => void;
+  /**
+   * The running miss count, reported as each one happens. The daily puzzle's
+   * "attempts left" is the only consumer today, and it needs the number while
+   * the attempt is still open — `onDone` arrives too late to plan around.
+   */
+  onMiss?: (misses: number) => void;
   onExit: () => void;
   /**
    * Which ply of `solution` the learner plays. 1 for a pack puzzle; 0 for a
@@ -65,6 +73,18 @@ export function PuzzlePlayer({
    * still looks legal, so nothing downstream would catch it.
    */
   firstLearnerPly?: 0 | 1;
+  /**
+   * How many wrong moves the learner gets before the attempt is over. F-PZ-6's
+   * three attempts at the daily puzzle are this and nothing else. Undefined
+   * means unlimited, which is the rated and themed streams.
+   *
+   * It lives here rather than in `session.ts` because it is a policy of the
+   * SURFACE, not of the attempt: the F-PZ-4 accounting table is the same
+   * whether a miss was the first or the last one allowed, and a limit baked
+   * into the reducer would have to be threaded through every caller that does
+   * not have one.
+   */
+  maxMisses?: number;
   textEntry?: boolean;
   /** Anything the caller wants on the result screen — an explanation, a next control. */
   children?: React.ReactNode;
@@ -138,6 +158,11 @@ export function PuzzlePlayer({
     the same reason, and its test and this one both prove the ordering rather
     than the call.
   */
+  useEffect(() => {
+    if (maxMisses === undefined || s.done || s.misses < maxMisses) return;
+    dispatch({ type: 'giveUp', at: Date.now() });
+  }, [maxMisses, s.done, s.misses]);
+
   const banked = useRef(false);
   useEffect(() => {
     if (!s.done || banked.current) return;
@@ -170,7 +195,10 @@ export function PuzzlePlayer({
   const onMove = (uci: string) => {
     if (s.done || !ready) return;
     const correct = uci === s.expected;
-    if (!correct && s.expected) setLastMiss({ fen: at(s.ply), playedUci: uci, bestUci: s.expected });
+    if (!correct && s.expected) {
+      setLastMiss({ fen: at(s.ply), playedUci: uci, bestUci: s.expected });
+      onMiss?.(s.misses + 1);
+    }
     setNote(correct ? 'That is it.' : 'Not that one — the position is back, try again.');
     dispatch({ type: 'move', uci, at: Date.now() });
   };
