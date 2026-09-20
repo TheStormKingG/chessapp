@@ -76,7 +76,7 @@
       "id": "2.1.5-c4",
       "type": "find_the_move",
       "fen": "6k1/5ppp/8/8/8/8/1q3PPP/1R4K1 w - - 0 1",
-      "prompt": "The same idea, with no black rook on the board. Run the check, then take.",
+      "prompt": "The same idea, with no black rook on the board. Run the scan, then take.",
       "answer": { "moves": ["Rxb2"] },
       "concept": "sanity-check",
       "hints": {

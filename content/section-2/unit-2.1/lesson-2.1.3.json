@@ -66,7 +66,7 @@
       "id": "2.1.3-c4",
       "type": "which_square",
       "fen": "4k3/6p1/2n5/2bp4/3P4/2N5/8/4K3 w - - 0 1",
-      "prompt": "The bishop has left the board. Exactly one white piece is hanging now. Tap it.",
+      "prompt": "Your bishop on h6 has left the board. Exactly one white piece is hanging now. Tap it.",
       "answer": { "square": "d4" },
       "concept": "hanging-both-sides",
       "hints": {
@@ -109,7 +109,7 @@
       "type": "is_it_safe",
       "fen": "4k3/6p1/2n4B/2bp4/3P4/2N5/8/4K3 w - - 0 1",
       "move": "Nxd5",
-      "prompt": "White takes the pawn on d5 with the knight. Is the knight safe there?",
+      "prompt": "White takes the pawn on d5 with the knight. Is your knight safe there?",
       "reasons": [
         "Yes. No black piece covers d5.",
         "No. The knight on c6 takes back.",

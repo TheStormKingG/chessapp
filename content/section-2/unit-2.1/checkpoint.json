@@ -224,7 +224,7 @@
       "id": "2.1-k17",
       "type": "find_them_all",
       "fen": "4k3/6p1/7B/3b4/8/2N5/8/4K3 w - - 0 1",
-      "prompt": "Same board. Tap every BLACK piece that is hanging.",
+      "prompt": "Tap every BLACK piece that is hanging on this board.",
       "concept": "hanging-both-sides",
       "answer": {
         "pieces": [
