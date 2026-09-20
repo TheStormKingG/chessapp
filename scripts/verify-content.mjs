@@ -1,4 +1,4 @@
-// Content verification gate for content/section-1.
+// Content verification gate for the authored content sections (see SECTIONS below).
 //
 // What this script actually checks:
 //   - every lesson/checkpoint file validates against its JSON schema;
@@ -26,7 +26,7 @@
 //   - the Lichess-derived difficulty estimate (PRD 9.2). Not implemented in
 //     Phase 0.
 import { spawn } from 'node:child_process';
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { createInterface } from 'node:readline';
 import { join } from 'node:path';
 import Ajv from 'ajv';
@@ -329,7 +329,14 @@ async function checkChallenge(where, c) {
   }
 }
 
-const files = walk('content/section-1');
+// Every authored section, not just the first. This walk was hardcoded to
+// `content/section-1`, which meant a new section's content was never examined
+// and the run still printed OK -- a silent pass, which certifies the opposite
+// of what the gate is for. Sections are listed explicitly rather than globbed
+// so that adding one is a deliberate edit, and a missing directory is skipped
+// rather than throwing.
+const SECTIONS = ['content/section-1', 'content/section-2'];
+const files = SECTIONS.filter((d) => existsSync(d)).flatMap((d) => walk(d));
 const seenIds = new Set();
 try {
   for (const f of files) {

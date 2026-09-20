@@ -1,0 +1,133 @@
+{
+  "id": "2.1.4",
+  "unit": "2.1",
+  "title": "Counting on a contested square",
+  "xp": 14,
+  "card": {
+    "idea": "When both sides pile up on one square, count. Your attackers against their defenders. More attackers than defenders means you can win the square. Equal numbers mean leave it alone.",
+    "diagrams": ["r1bqkb1r/ppp2ppp/2np1n2/4p3/3PP3/2N2N2/PPP2PPP/R1BQKB1R w KQkq - 0 6"],
+    "habit": "Count the attackers, count the defenders, then decide."
+  },
+  "explain": [
+    {
+      "fen": "r1bqkb1r/ppp2ppp/2np1n2/4p3/3PP3/2N2N2/PPP2PPP/R1BQKB1R w KQkq - 0 6",
+      "text": "The pawn on e5 is the contested square. Your pawn on d4 and your knight on f3 attack it. Black's knight on c6 and pawn on d6 defend it. Two against two, so taking wins nothing.",
+      "arrows": [["d4", "e5"], ["f3", "e5"], ["c6", "e5"], ["d6", "e5"]],
+      "highlights": ["e5"]
+    },
+    {
+      "fen": "4k3/8/4p3/3p4/2P1P3/8/8/4K3 w - - 0 1",
+      "text": "Here the count is two against one. You take, Black takes back, you take again, and you are a pawn up. Take with the cheapest piece first, so the least is at risk.",
+      "arrows": [["c4", "d5"], ["e4", "d5"], ["e6", "d5"]],
+      "highlights": ["d5"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.1.4-c1",
+      "type": "find_them_all",
+      "fen": "r1bqkb1r/ppp2ppp/2np1n2/4p3/3PP3/2N2N2/PPP2PPP/R1BQKB1R w KQkq - 0 6",
+      "prompt": "Tap every white piece that attacks the black pawn on e5.",
+      "answer": { "pieces": ["d4", "f3"] },
+      "concept": "counting",
+      "hints": {
+        "square": "e5",
+        "text": "One of them is a pawn. One of them is a knight."
+      }
+    },
+    {
+      "id": "2.1.4-c2",
+      "type": "find_them_all",
+      "fen": "r1bqkb1r/ppp2ppp/2np1n2/4p3/3PP3/2N2N2/PPP2PPP/R1BQKB1R w KQkq - 0 6",
+      "prompt": "Same board. Tap every black piece that defends the pawn on e5.",
+      "answer": { "pieces": ["c6", "d6"] },
+      "concept": "counting",
+      "hints": {
+        "square": "e5",
+        "text": "Defenders take back. Which black pieces could land on e5 after you take?"
+      }
+    },
+    {
+      "id": "2.1.4-c3",
+      "type": "name_the_pattern",
+      "fen": "r1bqkb1r/ppp2ppp/2np1n2/4p3/3PP3/2N2N2/PPP2PPP/R1BQKB1R w KQkq - 0 6",
+      "prompt": "Two attackers, two defenders on e5. What should White do about it?",
+      "options": [
+        "Leave it. Equal numbers win nothing.",
+        "Take twice. Equal numbers still win a pawn.",
+        "Take once and leave the pawn there."
+      ],
+      "answer": { "option": 0 },
+      "concept": "counting",
+      "hints": {
+        "text": "You need more attackers than defenders, not the same number."
+      },
+      "reason": "Every capture is answered by a recapture, so the pawns come off in pairs and nobody gains."
+    },
+    {
+      "id": "2.1.4-c4",
+      "type": "which_square",
+      "fen": "4k3/8/4p3/3p4/2P1P3/8/8/4K3 w - - 0 1",
+      "prompt": "Tap the black pawn that two of your pawns attack.",
+      "answer": { "square": "d5" },
+      "concept": "counting",
+      "hints": {
+        "piece": "c4",
+        "text": "Both of your pawns point at the same square."
+      },
+      "reason": "The pawns on c4 and e4 both attack d5. Only the pawn on e6 defends it."
+    },
+    {
+      "id": "2.1.4-c5",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/4p3/3p4/2P1P3/8/8/4K3 w - - 0 1",
+      "prompt": "Two attackers against one defender on d5. What happens if you take twice?",
+      "options": [
+        "You come out a pawn ahead.",
+        "You come out a pawn behind.",
+        "It is an even trade."
+      ],
+      "answer": { "option": 0 },
+      "concept": "counting",
+      "hints": {
+        "square": "d5",
+        "text": "Three pawns go to d5 in turn. Count who runs out first."
+      },
+      "reason": "You take, Black takes back, you take again. Black has no third pawn, so you are one up."
+    },
+    {
+      "id": "2.1.4-c6",
+      "type": "find_the_move",
+      "fen": "4k3/4n3/8/3b4/2P5/8/3R4/4K3 w - - 0 1",
+      "prompt": "Your pawn and your rook both attack the bishop on d5, and the knight defends it. Start the capture.",
+      "answer": { "moves": ["cxd5"] },
+      "wrong": {
+        "Rxd5": "The rook is worth five and the bishop three. Starting with the rook gives back more than you win."
+      },
+      "concept": "counting",
+      "hints": {
+        "piece": "c4",
+        "text": "Two against one wins the square. The only question is which piece goes first."
+      },
+      "reason": "The pawn goes first, the knight takes back, and the rook takes last. You win a bishop and a knight for a pawn."
+    },
+    {
+      "id": "2.1.4-c7",
+      "type": "name_the_pattern",
+      "fen": "4k3/4n3/8/3b4/2P5/8/3R4/4K3 w - - 0 1",
+      "prompt": "When two of your pieces attack the same square, which one takes first?",
+      "options": [
+        "The cheapest one, so the least is at risk.",
+        "The strongest one, so it hits hardest.",
+        "It makes no difference which order you use."
+      ],
+      "answer": { "option": 0 },
+      "concept": "counting",
+      "hints": {
+        "text": "Whatever you put on the square first is what they take."
+      },
+      "reason": "Whatever goes first is what gets captured, so send the pawn, not the rook."
+    }
+  ],
+  "takeaway": "More attackers than defenders wins the square. Cheapest piece first."
+}
