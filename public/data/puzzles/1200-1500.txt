@@ -131,13 +131,11 @@ bbULR	1213	fork	8/8/4B3/8/1p1k4/3n4/1P2K3/8 w - - 6 54	b2b3 d3f4 e2e1 f4e6
 iCqYR	1213	backRankMate|mateIn2	k1r5/ppN2p2/r7/2p4R/3nPQ2/qP1P1P2/2P2P2/1K6 b - - 3 28	c8c7 h5h8 c7c8 h8c8             
 pF5XL	1213	mateIn2	4r3/ppk2p2/2p2p2/5B1p/1PP1P3/P1n2K1P/3r1PP1/R6R w - - 1 25	a1c1 d2d3 f3f4 c3e2                      
 vSrSs	1213	backRankMate|mateIn2	6k1/1p1r3p/pQ1p1pp1/P3p1b1/2P1P1q1/1P1R4/5PPP/3R2K1 w - - 0 28	d3d6 g4d1 d6d1 d7d1     
-2DUoL	1214	mateIn1	3k4/2p2Q1p/p5p1/3P4/1K1P4/8/1q4PP/8 w - - 4 47	b4c5 b2b5                                            
 8JLgp	1214	mateIn1	kn1N3r/pQ3pp1/B3pn2/1N5p/8/5bqP/PPPB1bP1/R3R2K b - - 5 22	f3b7 a6b7                                 
 F2DHz	1214	mateIn1	2r3k1/pb1n1rb1/qn4Qp/8/1pP5/4P1B1/P5PP/1BR2RK1 b - - 0 27	c8f8 g6h7                                 
 LXwmU	1214	backRankMate|mateIn2	1r5k/Q5pp/1p1bRn2/8/3q1P2/P7/6PP/5R1K b - - 2 32	f6g4 a7b8 d6b8 e6e8                   
 S6gGw	1214	fork	7k/2p1q3/3p2p1/5r2/P5Q1/2P4P/2P2PK1/5R2 w - - 2 33	g4g6 f5g5 g6g5 e7g5                                 
 YkXv2	1214	discoveredAttack	1r4k1/7p/3p2p1/p7/1qbbQ3/4N3/1P3RPP/1KB5 w - - 0 31	e4d4 c4a2 b1a2 b4d4                    
-eYBXm	1214	fork	4r1k1/ppp2ppp/8/8/2Q2r1P/6P1/PPP2KBq/7R w - - 0 23	c4f4 e8e2 f2e2 h2g2 e2d3 g2h1                       
 l30s9	1214	mateIn1	8/p5p1/7p/1p1nk3/3p4/1PpK1PNP/P1P3P1/8 w - - 2 29	g3e2 d5b4                                         
 rxM0b	1214	mateIn1	7Q/5q2/1p3r2/2p3k1/4B1p1/1P2P1P1/5P2/6K1 b - - 0 50	f6f2 h8h4                                       
 ygjIe	1214	mateIn1	3k2r1/R4R2/1pp5/p7/6p1/P3r3/6P1/6K1 b - - 7 44	g4g3 a7a8                                            
@@ -444,7 +442,6 @@ zzrd7	1247	mateIn2	3r3r/1R6/p1k1p3/P4ppp/2PBp3/7P/4nPPN/1R5K b - - 0 29	d8d4 b1b
 6Xd2M	1248	backRankMate	4r1k1/1pQ3pp/p7/2P5/PP6/1K3R2/4p3/2q5 b - - 0 41	e2e1q c7f7 g8h8 f7f8 e8f8 f3f8                
 CtQ77	1248	mateIn2	r2r2k1/5p1p/5PpQ/2q1P3/1p1Np3/8/KpPR3P/3R4 w - - 1 30	a2b1 a8a1 b1b2 c5c3                           
 KOia7	1248	fork	5rk1/p5p1/1p1R3p/2p5/2b1B3/5PQP/Pq4P1/6K1 w - - 1 30	d6h6 b2c1 g1h2 c1h6                               
-QrLnv	1248	mateIn1	1r5r/p2bqpp1/B2kpn1p/Q1Pp4/1n6/5NP1/PP3PP1/2KR3R b - - 0 24	d6c6 f3e5                               
 XRIi8	1248	mateIn1	1r4rk/pp1Q2b1/2p4R/5pN1/P4q1p/2P1p2P/1P3PP1/R5K1 b - - 1 32	g7h6 d7h7                               
 diCT4	1248	fork	3qk2r/1rpbbppp/3p4/1NnQp3/PP6/5N2/2P2PPP/R1B2RK1 b k - 4 15	c7c6 b5d6 e7d6 d5d6                        
 kRffX	1248	mateIn1	r4r2/pp1bn1p1/1qn1Rk2/3p2N1/3p2Q1/P7/1PPB1PPP/1R4K1 b - - 0 16	d7e6 g4e6                            
@@ -774,7 +771,6 @@ kFMoq	1283	mateIn2	r3k1r1/1p3p1p/pq2RBpP/3Q4/b7/P7/1P3PP1/3R2K1 b q - 0 22	b6e6 
 rIAUf	1283	mateIn2	4B1k1/5p1p/3p2p1/2p1p3/P3P3/3P1qP1/2PQnP2/R5K1 w - - 1 28	g1f1 e2g3 f1e1 f3h1                       
 xZK04	1283	mateIn2	r7/1p3pb1/p2pk1pp/2p1p3/2PnP3/PQ1PBqP1/1P1K1P2/R2R4 w - - 3 26	b3b7 f3e2 d2c1 e2c2                  
 51Odl	1284	fork	r4rk1/pp1n2pp/4p3/3pP2q/2pPn3/2P1BN1P/PPQ3PK/4RR2 b - - 5 20	f8f5 g2g4 h5g6 g4f5                       
-C9laR	1284	mateIn1	5r2/pQ3Nk1/6p1/3B4/4P3/5n2/PPP4p/5RqK w - - 1 29	f1g1 h2g1q                                         
 JVXD7	1284	backRankMate	3r3k/2Q3pp/p2r4/3Bpq2/1p6/8/PPP4P/1K1R4 b - - 4 33	d6d5 c7d8 d5d8 d1d8 f5f8 d8f8               
 QjwDQ	1284	discoveredAttack	r3r3/p5kp/3Q1pp1/2p5/2P3q1/4B3/PPP3P1/4R1K1 b - - 0 23	g4e6 e3h6 g7h6 e1e6 e8e6 d6e6       
 XE70u	1284	mateIn2	7R/5ppk/rp1Q3p/p2p1q2/P2B4/1P2PP1P/6PK/2n5 b - - 1 30	h7h8 d6f8 h8h7 f8g7                           
@@ -835,7 +831,6 @@ Z3e8y	1290	fork	3r1rk1/pp3ppp/2n1bb2/3n4/1P6/P3PNB1/3N1PPP/1R2KB1R w K - 1 15	f1
 gE0Sg	1290	fork|mateIn2	2QQ4/p5pk/1p3p1p/8/2P1b1P1/2q5/P2N1p1P/5B1K w - - 2 36	d2e4 c3f3 f1g2 f2f1q                    
 nOm3a	1290	mateIn2	7k/pRp1R2p/6p1/8/6P1/8/P1rr1PP1/6K1 b - - 0 23	d2f2 b7b8 f2f8 b8f8                                  
 uiV1O	1290	skewer	8/8/8/8/4R3/5pk1/7r/2R2K2 w - - 1 67	f1g1 f3f2 g1f1 h2h1 f1e2 h1c1 e4g4 g3g4                         
-1GXSR	1291	fork	1Q6/p4ppk/2p2n1p/8/3P4/2P2PPP/qB4K1/4rB2 b - - 1 34	e1b1 f1d3 g7g6 d3b1                                
 8Kwkn	1291	mateIn2	r1bqr1k1/2p2p2/p1np1bB1/1p4BQ/8/8/PP3PPP/R4RK1 b - - 3 19	f6g5 h5h7 g8f8 h7f7                       
 EKErA	1291	skewer	8/8/8/3k4/4R3/5K2/8/r7 w - - 4 72	f3f4 a1f1 f4e3 f1e1 e3d2 e1e4                                      
 LhrRE	1291	fork	1r3rk1/RPp1b1p1/3p1q2/1QpPp3/4p1Pp/2N1P2P/3P1PK1/5R2 w - - 1 36	c3e4 f6f3 g2g1 f3e4                    
@@ -856,7 +851,6 @@ uhV2x	1292	fork	2kr3r/1p6/p2p4/4pN1p/8/2N5/PPP2PPP/3R1bK1 b - - 1 23	f1c4 f5d6 d
 1LsSE	1293	fork	5rk1/5ppp/4p2q/8/1PNP2n1/P7/4Nb2/3R1RKQ w - - 0 29	f1f2 h6h1 g1h1 g4f2 h1g2 f2d1                       
 7NMPU	1293	discoveredAttack	2kr3r/p5b1/3pp2p/qpp3p1/4Pp2/P1NP1P2/1PP2PKR/4Q2R b - - 1 22	c8c7 c3d5 e6d5 e1a5           
 DNqHq	1293	mateIn2	6k1/2q1Kp2/P5p1/3B2Q1/5P2/7P/6P1/8 w - - 11 46	e7f6 c7d6 d5e6 d6e6                                  
-KZ0A9	1293	mateIn1	r1b3qr/1Np5/p1pk4/3p1p2/3P1b1p/Q1P2P2/PP3K2/4R2R b - - 5 23	d6d7 a3e7                               
 RwOnJ	1293	mateIn2	4r2k/p1p2Rp1/1q5p/5P2/2Q5/1PP4P/P3rPP1/3R2K1 w - - 1 27	d1d7 b6f2 g1h2 f2g2                         
 ZNmhN	1293	smotheredMate	rnb2r1k/ppp1pNbp/6p1/8/2QP4/1P6/PB3PqP/RN2K2R b KQ - 3 15	h8g8 f7h6 g8h8 c4g8 f8g8 h6f7       
 gEbhg	1293	mateIn2	5r1k/3p1Np1/p1b4p/1p4q1/1P3p2/PQ1B4/5PPP/4R1K1 b - - 5 29	f8f7 e1e8 f7f8 e8f8                       
@@ -1306,7 +1300,6 @@ EWvx6	1341	mateIn2	3r4/pQ3Rp1/7p/2P5/1Pk1p3/4R1P1/q5rP/7K w - - 7 40	e3e1 g2h2 h
 MByIQ	1341	mateIn2	3R4/4qp1p/5p1k/4p3/7Q/7P/5PPK/2q5 b - - 7 39	h6g6 d8g8 g6f5 h4g4                                    
 U6YDq	1341	mateIn2	6k1/1b3pp1/p3p3/4P3/5Pq1/2R5/P2r2PP/2R3QK w - - 5 31	c3c2 b7g2 g1g2 g4g2                            
 bezlb	1341	mateIn2	6rk/1b1q2p1/1p2p1Q1/4PrB1/p2P4/6R1/PP3PPP/6K1 b - - 2 35	f5g5 g3h3 g5h5 g6h5                        
-iWhGx	1341	mateIn1	8/7p/3bpk2/3p1p2/3P4/p3P2P/R4p2/3RqQrK w - - 4 40	f1g1 f2g1q                                        
 q2Hwu	1341	fork	6k1/5ppp/1p1br3/p1p5/Pn6/1PpP1N1P/2P2PP1/R1N2K2 w - - 0 27	f3e1 e6e1 f1e1 b4c2 e1d1 c2a1               
 yNvwN	1341	fork|mateIn2	2k1qr2/b1p2pp1/1p3n2/4r2p/8/1R3Q2/PP4PP/3R3K b - - 1 21	f6g4 f3a8 a7b8 a8a6                    
 5oAhB	1342	mateIn2	3R1bk1/2qn1p1p/p3B1pB/1p6/4n1P1/P1P2Q1P/2P2P2/6K1 b - - 0 30	c7d8 f3f7 g8h8 f7g8                    
@@ -1341,9 +1334,9 @@ GfZKy	1345	mateIn2	3rk2r/pp1n1pp1/2pQR2p/8/5B2/8/PPq2PPP/3R2K1 b k - 0 17	f7e6 d
 NbzV6	1345	fork	B3r3/4ppkp/p5p1/1pN3q1/2pP1nb1/2P2P2/PP3Q2/3RR1K1 w - - 0 27	f3g4 f4h3 g1f1 h3f2                       
 UaXzV	1345	fork	r1bqkbnr/ppp3pp/4p3/4Pp2/2Bn4/5N2/PPPP2PP/RNBQK2R w KQkq - 0 7	c2c3 d4f3 d1f3 d8h4 f3g3 h4c4           
 cBFvV	1345	discoveredAttack	r1b1rbk1/p1p2ppp/2p5/4q3/4NP2/2PB4/P3Q1PP/3R1RK1 b - - 0 17	e5a5 e4f6 g7f6 e2e8            
-iyGtf	1345	fork	6k1/5p2/6p1/P7/3q4/5Q1P/4r1P1/R5K1 w - - 4 47	g1h2 d4e5 f3g3 e5a1                                      
 pYsxz	1345	mateIn1	2r3r1/1p1k2p1/p3Rp2/8/1P6/PB1Q3P/5qP1/7K b - - 2 31	d7c7 d3d6                                       
 wjK2w	1345	mateIn2	4kb1r/3b1ppp/p7/1p2p1P1/4P3/2q5/P1P1QB1P/2KR3R w k - 0 22	e2d3 f8a3 c1b1 c3b2                       
+iyGtf	1345	fork	6k1/5p2/6p1/P7/3q4/5Q1P/4r1P1/R5K1 w - - 4 47	g1h2 d4e5 f3g3 e5a1                                      
 3uX6m	1346	mateIn2	5rk1/1R3ppp/2pQ1P2/K1Pp4/2q5/P7/2p5/8 b - - 0 38	g7g6 d6f8 g8f8 b7b8                                
 BjC37	1346	mateIn2	r4r1k/1b2Nppp/p3pn2/8/Np6/3R3Q/PPq3PP/5R1K b - - 3 22	f6e4 h3h7 h8h7 d3h3                           
 IYj1r	1346	mateIn1	8/pp4pk/7p/5N2/4qn2/1Q6/PPKR3P/8 w - - 6 36	c2d1 e4b1                                               
@@ -1496,7 +1489,6 @@ N5Swl	1363	mateIn2	r1k4r/1p2R1p1/p1pQ4/8/3P4/2q4P/P4PP1/6K1 b - - 1 25	c3a5 d6d7
 V55rw	1363	fork	8/6kp/6p1/8/3n4/7P/3r1P2/2RN2K1 w - - 5 40	d1e3 d4e2 g1g2 e2c1                                         
 dN1YG	1363	mateIn2	r4r1k/4b1p1/5pQp/p3p2R/q1BpP1PP/3P4/1PP5/5RK1 b - - 1 26	a4e8 h5h6 g7h6 g6h6                        
 laq5n	1363	discoveredAttack	2k5/b1p5/p5p1/2P4p/P2Bp1r1/3pR3/3P1PP1/6K1 b - - 1 30	c8d7 c5c6 d7c6 d4a7                  
-tXhuT	1363	fork	6r1/N1k2p2/4p3/1PPpP3/P1b3r1/4B1p1/7P/R2R2K1 w - - 0 28	h2g3 g4g3 g1f2 g3g2 f2e1 g2e2                  
 04SwP	1364	mateIn1	6k1/pp6/8/5bN1/1pP2P2/1P5p/Pr1p4/R2K3R w - - 1 39	g5h3 f5g4                                         
 7lbl5	1364	fork	r3r1k1/4ppbp/3p1np1/1qpP4/4P3/4BP2/PPQ1N1PP/2R1R1K1 b - - 1 17	a8a2 e2c3 b5b2 c3a2                     
 Ey0R2	1364	fork	2r2rk1/1p3ppp/p2q4/3Pn3/8/1B6/PP3PPP/R2QR1K1 w - - 0 19	a1c1 c8c1 d1c1 e5d3 c1d2 d3e1                  
@@ -1517,7 +1509,6 @@ pg3Kx	1365	discoveredAttack	5r1k/pp5p/2pp2p1/4b1q1/4Pn2/5Q2/PPP1NPPP/3R1RK1 w - 
 wFngG	1365	mateIn1	4rrk1/7p/3pp1p1/3b2B1/1p3PB1/2Q5/P4qPP/1R2R2K w - - 1 24	c3b2 d5g2                                  
 3n2SK	1366	mateIn2	3B2k1/6pp/4pp2/1P1p4/P2QbP2/6P1/2q4P/R3RKr1 w - - 1 37	d4g1 e4d3 e1e2 c2e2                          
 Ak2QQ	1366	mateIn1	r2q3r/pp3Qpp/3kpb2/2p5/2Np4/3P4/PPP2PPP/R3K2R b KQ - 5 15	d6d5 f7b7                                 
-I2NTf	1366	smotheredMate	5rk1/bN1n1ppp/pq2p3/1p2P3/6n1/1P3N2/PB3PPP/1BQ1R1K1 w - - 1 22	b7d6 b6f2 g1h1 f2g1 e1g1 g4f2  
 OYXSA	1366	discoveredAttack	rn3k1r/ppp2p2/6np/5bpQ/2Bq1p2/1P6/P2N2PP/R1B1R2K b - - 0 15	d4a1 c1a3 f8g7 e1a1            
 Vxt6j	1366	mateIn2	r3k3/p4p2/1Pp1p3/6q1/Q1BP4/2P2b2/R4P1P/4K3 w q - 0 22	b6b7 g5c1 a4d1 c1d1                           
 dKter	1366	discoveredAttack	r6k/ppp2p1B/2n1r1NQ/3p4/3P2q1/2P4b/P1P2PP1/R4RK1 b - - 2 17	f7g6 h7g6 h8g8 h6h7 g8f8 h7f7  
@@ -1757,7 +1748,6 @@ kQYJc	1393	fork|mateIn2	r1bk1r2/pp1qbBQp/2n5/8/8/8/PP3PPP/RNB1R1K1 w - - 1 17	e1
 r3xRb	1393	skewer	3r2r1/p3n3/1p2k2p/3p4/4pp1P/1B6/PP3P1P/3R1KR1 b - - 1 37	e7f5 g1g8 d8g8 b3d5 e6f6 d5g8               
 xoVXO	1393	fork	6rk/pp1nb2p/2pp2q1/4p3/4P3/1Q1P2nP/PPP1RP2/3N1RK1 w - - 0 26	f2g3 g6g3 g1h1 g3h3 e2h2 h3f1             
 5RGBp	1394	fork	3r2k1/R7/3p2pb/4p2p/1Bb1P2P/5PP1/2n2K1N/3R4 w - - 1 38	b4c3 h6e3 f2g2 e3a7                             
-D939U	1394	mateIn1	6k1/R4p2/1r5p/K1n3p1/2p1P3/Pr4B1/5PPP/2R5 w - - 5 33	c1c4 b6b5                                      
 J0wLV	1394	mateIn1	r1q1kn1r/p3ppb1/3N3p/n2pP1p1/B5P1/5NBP/PPQ2P2/2K4R b kq - 1 22	e8d8 d6f7                            
 PMJuW	1394	fork	8/8/p5k1/3P4/3KRqP1/8/8/8 b - - 1 65	f4d6 e4e6 d6e6 d5e6 g6f6 d4d5 f6e7 g4g5 a6a5 g5g6                 
 WhPBP	1394	mateIn2	r1bq1rk1/pp3ppp/2p1p3/3pP3/3Pn1P1/3B3P/PPP2P2/RN1QK2R w KQ - 1 11	f2f3 d8h4 e1f1 h4f2               
@@ -1805,7 +1795,6 @@ vKIki	1398	mateIn1	3q1rk1/5pp1/4N2p/8/1b6/1P2rP2/6PP/Q2R2K1 b - - 0 27	d8b6 a1g7
 2w0Sl	1399	skewer	6k1/4p2p/4p3/4P3/QP1q4/P7/1K6/8 w - - 1 39	b2b3 d4d1 b3c4 d1a4                                       
 9LEga	1399	discoveredAttack	r1b2b2/pp4rB/2nkpq1B/3pn2Q/3p3N/1N6/PP3PPP/R3R1K1 b - - 0 19	g7h7 h6f8 f6f8 h5h7           
 HDKCN	1399	fork|mateIn2	2r4k/6p1/p3Q3/3pPRRp/2r4q/P7/KPP5/8 b - - 1 32	c4c2 g5h5 h4h5 f5h5                             
-NmOwK	1399	mateIn1	2r1k3/5pp1/p1pQ4/4p2r/4PP2/3P4/PPP2q1p/R1B3RK w - - 0 25	c1e3 h2g1q                                 
 UvaGx	1399	discoveredAttack	8/p3pQbk/6pp/2p5/5n2/2P3RP/PP3r1K/8 w - - 2 35	h2g1 f4h3 g3h3 f2f7                         
 bnsjZ	1399	mateIn2	8/8/6p1/3B4/3Qbk2/3np2P/P4r2/R4K2 w - - 2 43	f1g1 f2g2 g1f1 e3e2                                    
 iILIx	1399	mateIn1	5rk1/ppp3pp/3bb3/3N4/7q/1P5P/PBPP1nQ1/2KR3R b - - 2 16	f2h1 g2g7                                    
@@ -2271,7 +2260,6 @@ cnUXx	1456	fork	2k1r3/1b4pp/nQ3n2/8/1b6/2P2N2/PP4PP/4K2R w K - 1 23	e1f2 b4c5 b6
 m3Kb7	1456	fork	r2q1rk1/pp2pp1p/3p2pb/3N4/2Q1P3/P6P/1P3PP1/R2R2K1 b - - 0 17	a8c8 c4c8 d8c8 d5e7 g8g7 e7c8             
 svIxM	1456	mateIn2	r7/1R3P2/2p3kp/2P1B1p1/p4pP1/2P4P/4p2K/8 b - g3 0 37	e2e1q f7f8n a8f8 b7g7                          
 0Cu8T	1457	mateIn2	4R2r/kp6/p6q/P5p1/8/2P1P1P1/1P1r2Q1/R5K1 w - - 3 32	g2d2 h6h1 g1f2 h8h2                             
-8EI0O	1457	mateIn1	8/6R1/8/1b1p1k2/3Pn3/8/2P1p3/4KrR1 w - - 6 40	g1f1 e2f1q                                            
 GSGo0	1457	mateIn2	3r1k2/2p2p1Q/pp6/8/1P4R1/P1n5/5PP1/q3NK2 w - - 5 34	g4f4 a1e1 f1e1 d8d1                             
 O8mFK	1457	mateIn2	1r4k1/4R1pp/8/r2p4/2nQ4/1N6/qPP2PPP/1K1R4 w - - 2 28	b1c1 a2a1 b3a1 a5a1                            
 VdQnH	1457	fork	r4nk1/4B1pp/p5q1/3pr3/P1p2R2/1pP3P1/1P1Q1PK1/7R b - - 1 32	e5e7 d2d5 g6e6 d5a8                         
@@ -2311,7 +2299,6 @@ aROuf	1461	mateIn2	r4k2/pp2pprp/3p1p1Q/1B1N4/3nPP2/1P4qP/P4RP1/5RK1 w - - 1 22	b
 jMcXj	1461	mateIn2	1r4k1/5pp1/7p/Q1Rp4/8/P4qPP/KP2n3/3R4 w - - 0 39	c5d5 f3b3 a2a1 b3b2                                
 risbS	1461	mateIn2	r5k1/pp3rpp/5n1N/6Q1/8/5B2/bqp2PPP/4R1K1 b - - 3 28	g8f8 g5c5 f7e7 c5e7                             
 zrBZY	1461	mateIn1	r1bq2k1/ppp3p1/2n1p1Qb/4P1B1/3P3p/2PB4/PP4PP/RN3K2 b - - 0 17	d8g5 g6e8                             
-7GFxr	1462	mateIn1	7k/8/6R1/3B4/4P1n1/8/PPP3rp/4K3 w - - 0 36	e4e5 h2h1q                                               
 F0l61	1462	fork	6rk/2p4p/1p1p1b1r/2nPp3/pBP1Bp2/P4PqP/1PQ1R1P1/5R1K w - - 2 32	b4c5 h6h3 g2h3 g3h3 e2h2 h3f1 c5g1 g8g1 
 MmvMx	1462	fork	5k2/5p2/6p1/8/Pp1pKNR1/8/1Pr5/8 w - - 2 48	f4d3 f7f5 e4f4 f5g4                                         
 V5Ldg	1462	mateIn2	r1b2rk1/1p4pp/p1n5/5p2/3q4/PBN2QP1/1P3PP1/R3K2R b KQ - 1 18	g8h8 h1h7 h8h7 f3h5                     
@@ -2395,7 +2382,6 @@ veCSw	1471	mateIn2	2kr1bnr/1pp3pp/8/p3p3/3n4/2KP2B1/PP3PPP/RN4NR w - - 0 12	g3e5
 3Hu2o	1472	fork	n4k2/6bp/1p3pp1/2p1p3/N1P1P1P1/3PB3/5PP1/5K2 b - - 5 28	f8e7 a4b6 a8b6 e3c5 e7e6 c5b6                  
 AZW6d	1472	mateIn2	2r2rk1/1bq3bR/pp2p1Q1/3p4/5P2/2P1P3/PP4P1/1BK5 b - - 0 26	f8f6 h7h8 g8h8 g6h7                       
 IH7o3	1472	discoveredAttack	3r1k2/ppp3pp/3q2b1/8/6P1/2N1R2P/PPP1Q3/6K1 b - - 6 25	d6c5 e2f2 f8g8 e3e8 d8e8 f2c5        
-PKDf2	1472	mateIn1	1r1qkb1r/pQN1ppn1/7p/2p1P3/7p/4P3/PPP2PPP/R3K2R b KQk - 2 14	e8d7 a1d1                              
 VdpDM	1472	fork	r3k3/pp3p2/2nbb3/2pNp1q1/4P3/2PP1P1r/PP5B/R2Q2RK b q - 4 22	g5h5 d5f6 e8e7 f6h5                        
 d2TSW	1472	mateIn2	3R1bk1/5r1p/p3N1p1/2p2p2/r5P1/4P2P/P7/5R1K b - - 0 30	f5g4 d8f8 f7f8 f1f8                           
 kfNKw	1472	fork	3R4/5ppk/p3b2p/2b3r1/2N5/1P5P/P3P1B1/7K w - - 4 28	d8a8 g5g2 h1g2 e6d5 g2g3 d5a8                       
@@ -2574,7 +2560,6 @@ kwoi9	1495	discoveredAttack	r1b1qbnr/ppppk2p/2n3P1/7Q/3PPp2/8/PPP3P1/RNB1KB1R b 
 tRhNX	1495	skewer	4r2k/p5pp/8/4q3/2Qp4/1P1R3P/P4PP1/5K2 w - - 12 39	d3d1 e5h2 f2f3 h2h1 f1f2 h1d1                      
 2uCak	1496	mateIn2	7r/2q1k3/p4R1P/1p2p1PB/3pP2B/1n1P4/1P6/1K5R w - - 3 33	g5g6 b3d2 b1a1 c7a5                          
 DacVE	1496	discoveredAttack	8/5k2/1N1K2p1/4pp2/4P1P1/6b1/8/8 w - - 0 40	e4f5 e5e4 d6c5 e4e3                            
-MJpQ2	1496	discoveredAttack	6rk/p1RQ2p1/1p3p1p/4p3/4P2B/1P2nP1P/6PK/q7 w - - 7 34	h4f6 e3f1 h2g1 f1g3                  
 VzlAX	1496	fork	3r2k1/p4ppp/1p2pn2/2q1N3/1P1R1P2/2P5/P3Q1PP/6K1 b - - 0 21	c5e7 e5c6 d8d4 c6e7                         
 f6c6d	1496	fork	1r1qk2r/pp2Bppp/3p4/3Pp3/4n3/1Q6/PP3PPP/RN3RK1 b k - 0 14	d8e7 b3a4 b7b5 a4e4                          
 obYzs	1496	discoveredAttack	r5k1/pq2ppbp/1p2n1p1/2pN4/2P1Q3/P3B1P1/1P2PP1P/3R2K1 b - - 9 24	a8e8 d5f6 g7f6 e4b7        

@@ -28,6 +28,9 @@ jobs:
       - run: npm run typecheck
       - run: npm test
       - run: npm run verify:content
+      # Design spec 2.5: every shipped puzzle is legal and has one answer.
+      - name: Verify puzzles
+        run: npm run verify:puzzles
       # The e2e gate runs against a production bundle, not the dev server.
       # It is built at the root base so the specs can navigate with relative
       # paths; the Pages build below keeps the /chessapp/ base.
