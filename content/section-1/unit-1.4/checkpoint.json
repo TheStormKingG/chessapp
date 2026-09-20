@@ -17,7 +17,7 @@
       "answer": {
         "option": 0
       },
-      "concept": "castling-rules"
+      "concept": "castling-restrictions"
     },
     {
       "id": "1.4-k02",
@@ -32,7 +32,7 @@
       "answer": {
         "option": 0
       },
-      "concept": "castling-rules"
+      "concept": "castling-restrictions"
     },
     {
       "id": "1.4-k03",
@@ -47,7 +47,7 @@
       "answer": {
         "option": 0
       },
-      "concept": "castling-rules"
+      "concept": "castling-restrictions"
     },
     {
       "id": "1.4-k04",
@@ -62,7 +62,7 @@
       "answer": {
         "option": 0
       },
-      "concept": "castling-rules"
+      "concept": "castling-restrictions"
     },
     {
       "id": "1.4-k05",

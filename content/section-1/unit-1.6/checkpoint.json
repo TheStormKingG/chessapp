@@ -354,7 +354,7 @@
         "moves": 1
       },
       "opponentDepth": 4,
-      "concept": "check-mate",
+      "concept": "checkmate",
       "hints": {
         "piece": "h2",
         "square": "f3"
@@ -371,7 +371,7 @@
         "moves": 1
       },
       "opponentDepth": 4,
-      "concept": "check-mate",
+      "concept": "checkmate",
       "hints": {
         "piece": "a6",
         "square": "g6"
@@ -388,7 +388,7 @@
         "moves": 1
       },
       "opponentDepth": 4,
-      "concept": "check-mate",
+      "concept": "checkmate",
       "hints": {
         "piece": "h7",
         "square": "b7"
@@ -405,7 +405,7 @@
         "moves": 1
       },
       "opponentDepth": 4,
-      "concept": "check-mate",
+      "concept": "checkmate",
       "hints": {
         "piece": "d5",
         "square": "g8"
