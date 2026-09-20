@@ -4,7 +4,7 @@ import { RailIndex, RailMeter, railMeterLabel } from '@/board';
 import { useProgress, type Progress } from '@/data';
 import { track } from '@/analytics';
 import { hasCheckpoint } from '@/lesson';
-import { SECTION_1 } from './curriculum';
+import { SECTIONS } from './curriculum';
 import { CheckpointFlag } from './PathSymbols';
 import { pathNodes, type Node } from './progress';
 import { resumeLabel, useLessonResume } from './resumeLabel';
@@ -337,19 +337,41 @@ function Group({
   );
 }
 
-export function PathScreen() {
-  const progress = useProgress((s) => s.progress);
-  const nodes = pathNodes(progress);
-  // Only the active lesson can have work waiting in it: every other node is
-  // done, locked, or not yet built.
-  const activeLesson = nodes.find(
-    (n): n is Extract<Node, { kind: 'lesson' }> => n.kind === 'lesson' && n.state === 'active',
-  );
-  const resume = useLessonResume(activeLesson?.id ?? null);
-  // An interrupted lesson says so, and its control reads as a resumption rather
-  // than a start. A missing or stale record falls straight back to the wording
-  // every other node uses.
-  const resumed = activeLesson ? resumeLabel(resume, activeLesson.id) : null;
+/**
+ * One section: its header, its own meter, and its own run of nodes.
+ *
+ * The header is the three lines the screen has always printed -- the caption,
+ * the display title, the count -- moved off `SECTION_1` and onto whichever
+ * section this is. Nothing about the visual language changes; there is simply
+ * more than one of it now.
+ *
+ * `level` exists because the sections rank equally and a screen may carry one
+ * `h1`. The first section keeps it; the rest are `h2` at the same `t-display`
+ * size, so the heading ORDER stays valid without the type changing size.
+ *
+ * **The meter counts this section's lessons, not the path's.** A single
+ * path-wide meter would read "0 of 65 done" under a "Section 1" heading: wrong
+ * about the heading, because the 36 it counts are not in Section 1, and wrong
+ * about the work, because 36 of them are declared-but-unbuilt and a learner
+ * cannot sit any of them. Per-section is also what the meter already means
+ * positionally -- it sits in the gutter beside one section's list.
+ */
+function Section({
+  section,
+  nodes,
+  level,
+  progress,
+  activeLesson,
+  resumed,
+}: {
+  section: (typeof SECTIONS)[number];
+  nodes: Node[];
+  level: 1 | 2;
+  progress: Progress;
+  activeLesson: Extract<Node, { kind: 'lesson' }> | undefined;
+  resumed: ResumeLabel | null;
+}) {
+  const Heading = level === 1 ? 'h1' : 'h2';
   // What the meter counts: lessons, because a lesson is the unit of work a
   // learner actually sits. A checkpoint is a gate on that work rather than more
   // of it, so counting it would make the total disagree with the list the
@@ -359,11 +381,11 @@ export function PathScreen() {
   const doneCount = lessons.filter((n) => n.state === 'done' || n.state === 'testedOut').length;
 
   return (
-    <section className="p-4">
+    <div>
       <p className="t-caption uppercase tracking-wide text-content-dim">
-        Section {SECTION_1.id} &middot; {SECTION_1.band}
+        Section {section.id} &middot; {section.band}
       </p>
-      <h1 className="t-display">{SECTION_1.title}</h1>
+      <Heading className="t-display">{section.title}</Heading>
       {/*
         PREMIUM-DELTA.md Δ3. The count comes first and in words, because the
         meter beside it is `aria-hidden` decoration: this line is what a screen
@@ -391,6 +413,44 @@ export function PathScreen() {
           })}
         </ol>
       </div>
+    </div>
+  );
+}
+
+export function PathScreen() {
+  const progress = useProgress((s) => s.progress);
+  const nodes = pathNodes(progress);
+  // Only the active lesson can have work waiting in it: every other node is
+  // done, locked, or not yet built.
+  const activeLesson = nodes.find(
+    (n): n is Extract<Node, { kind: 'lesson' }> => n.kind === 'lesson' && n.state === 'active',
+  );
+  const resume = useLessonResume(activeLesson?.id ?? null);
+  // An interrupted lesson says so, and its control reads as a resumption rather
+  // than a start. A missing or stale record falls straight back to the wording
+  // every other node uses.
+  const resumed = activeLesson ? resumeLabel(resume, activeLesson.id) : null;
+  // Grouped by the section each node CARRIES, not by parsing its id: a node
+  // knows which section declared it, so Section 10 cannot quietly land in
+  // Section 1 the way a `startsWith('1.')` would put it.
+  const sections = SECTIONS.map((section) => ({
+    section,
+    nodes: nodes.filter((n) => n.section === section.id),
+  })).filter((s) => s.nodes.length > 0);
+
+  return (
+    <section className="space-y-8 p-4">
+      {sections.map(({ section, nodes: own }, i) => (
+        <Section
+          key={section.id}
+          section={section}
+          nodes={own}
+          level={i === 0 ? 1 : 2}
+          progress={progress}
+          activeLesson={activeLesson}
+          resumed={resumed}
+        />
+      ))}
     </section>
   );
 }

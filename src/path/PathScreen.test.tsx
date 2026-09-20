@@ -220,3 +220,52 @@ test('a node finished on one star says "1 star", not "1 stars"', () => {
   renderPath();
   expect(screen.getByRole('link', { name: '1.1.1 The board. 1 star' })).toBeInTheDocument();
 });
+
+/* ----------------------------------------------- one header per section */
+
+test('every section on the path gets its own header, in path order', () => {
+  renderPath();
+  // The header used to be a single hardcoded `Section 1`. Section 2 is declared
+  // and now rendered, so it owes the same three lines in the same words.
+  expect(screen.getByText('Section 1 · New to 400')).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'Foundations' })).toBeInTheDocument();
+  expect(screen.getByText('Section 2 · 400 to 800')).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'Safety and the first tactics' })).toBeInTheDocument();
+  // Path order, not declaration luck.
+  const headings = screen.getAllByRole('heading').map((h) => h.textContent);
+  expect(headings).toEqual(['Foundations', 'Safety and the first tactics']);
+  // One `h1` per screen: the sections rank equally, so the rest are `h2` at the
+  // same `t-display` size. Level order stays valid for a screen reader.
+  expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Foundations');
+  expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
+    'Safety and the first tactics',
+  );
+});
+
+test('the meter counts the section it sits beside, not the whole path', () => {
+  renderPath();
+  // A single path-wide meter would read "0 of 65 done" under a Section 1
+  // heading -- wrong about the heading and wrong about the work. One meter per
+  // section, counting that section's lessons.
+  expect(screen.getByText('0 of 29 done')).toBeInTheDocument();
+  expect(screen.getByText('0 of 36 done')).toBeInTheDocument();
+  const meters = [...document.querySelectorAll('[data-rail="meter"]')];
+  expect(meters).toHaveLength(2);
+  for (const m of meters) expect(m).toHaveAttribute('data-fill', '0');
+});
+
+test('an unbuilt section collapses into one counted groove, and nothing in it is a link', () => {
+  renderPath();
+  // Section 2's eight units are all unbuilt, so every one of its 44 nodes is
+  // `coming` and they are consecutive: the existing run-grouping collapses them
+  // into a single counted boundary. That is the mechanism already on the screen
+  // applied to new data, not a new one.
+  const coming = [...document.querySelectorAll('*')]
+    .filter((el) => el.children.length === 0 && /^\d+ coming$/.test(el.textContent ?? ''))
+    .map((el) => el.textContent);
+  expect(coming).toEqual(['44 coming']);
+  expect(
+    screen.getByLabelText("2.1.1 What does the opponent's last move threaten?. Content coming"),
+  ).toHaveAttribute('aria-disabled', 'true');
+  expect(screen.queryByRole('link', { name: /^2\./ })).toBeNull();
+});
