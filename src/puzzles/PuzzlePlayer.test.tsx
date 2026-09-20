@@ -229,4 +229,76 @@ describe('PuzzlePlayer', () => {
     expect(screen.getByTestId('highlights')).not.toHaveTextContent('h2');
   });
 
+
+  /**
+   * A pack puzzle can run to four plies, so the learner moves twice and the
+   * opponent replies between. A player that only ever renders the opening
+   * position passes every single-ply test and asks the second question against
+   * a board that is two plies out of date.
+   */
+  test('a four-ply puzzle advances the board and asks again', async () => {
+    const long: Puzzle = {
+      id: 'p2',
+      rating: 1100,
+      themes: ['skewer'],
+      fen: '8/8/8/8/8/8/8/K6k w - - 0 1',
+      solution: ['a1a2', 'h1h2', 'a2a3', 'h2h3'],
+    };
+    const onDone = vi.fn();
+    render(<PuzzlePlayer puzzle={long} source="rated" onDone={onDone} onExit={vi.fn()} textEntry />);
+    const field = await screen.findByLabelText('Type a move');
+    await userEvent.type(field, 'h1h2{enter}');
+    // Not finished: the opponent replies and the learner is asked again.
+    expect(onDone).not.toHaveBeenCalled();
+    const again = await screen.findByLabelText('Type a move');
+    // The board is on the position AFTER the reply, not on the opening one.
+    // The WHOLE fen, not a fragment: the two positions share the fragment
+    // "K7/7k", so a substring match passes against a board two plies stale —
+    // which is exactly the defect this test exists to catch.
+    expect(screen.getByTestId('fen').textContent).toBe('8/8/8/8/8/K7/7k/8 b - - 3 2');
+    await userEvent.type(again, 'h2h3{enter}');
+    expect(onDone).toHaveBeenCalledWith(expect.objectContaining({ solved: true, misses: 0 }));
+  });
+
+  /**
+   * F-PZ-5. The explanation is offered only when there is a verified idea to
+   * name: a "Why?" that produces nothing is the review feature's shipped
+   * defect repeated, where an honest module was asked a question with no facts
+   * behind it and the resulting silence looked like discipline.
+   */
+  test('a miss on a puzzle with a motif can be explained', async () => {
+    render(<PuzzlePlayer puzzle={PZ} source="rated" onDone={vi.fn()} onExit={vi.fn()} textEntry />);
+    const field = await screen.findByLabelText('Type a move');
+    await userEvent.type(field, 'h1g1{enter}');
+    await userEvent.type(field, 'h1h2{enter}');
+    await userEvent.click(screen.getByRole('button', { name: /why/i }));
+    // Real text, naming both moves — not a stub and not a placeholder.
+    // Matched on the two moves rather than on a phrase: the coach picks among
+    // template variants at random, so asserting one variant's wording would be
+    // asserting the coin toss. What must hold of every variant is that it is
+    // real text naming both verified facts and leaving no placeholder behind.
+    const shown = screen.getAllByText((t) => t.includes('Kh2') && t.includes('Kg1'));
+    expect(shown.length).toBeGreaterThan(0);
+    const text = shown[0]!.textContent ?? '';
+    expect(text.length).toBeGreaterThan(20);
+    expect(text).not.toMatch(/\{\w+\}/);
+  });
+
+  test('a miss on a position with no motif is not offered an explanation', async () => {
+    const own: Puzzle = {
+      id: 'own:g1:7',
+      rating: 800,
+      themes: [],
+      fen: '8/8/8/8/8/8/8/K6k b - - 0 1',
+      solution: ['h1h2'],
+    };
+    render(
+      <PuzzlePlayer puzzle={own} source="fix" firstLearnerPly={0} onDone={vi.fn()} onExit={vi.fn()} textEntry />,
+    );
+    const field = await screen.findByLabelText('Type a move');
+    await userEvent.type(field, 'h1g1{enter}');
+    await userEvent.type(field, 'h1h2{enter}');
+    expect(screen.getByRole('heading', { name: /solved/i })).toBeInTheDocument();
+    expect(screen.queryByRole('button', { name: /why/i })).not.toBeInTheDocument();
+  });
 });

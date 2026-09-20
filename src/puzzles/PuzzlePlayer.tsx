@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { btn } from '@/app/Button';
 import { Board } from '@/board';
+import { CoachService } from '@/coach';
 import type { Highlights } from '@/lesson/LessonMachine';
 import { applyMove, type Square } from '@/rules';
 import { useSettings } from '@/app/settings';
 import { THEME_LABEL } from './themes';
+import { explainPuzzle } from './explainPuzzle';
 import { initial, reduce, result } from './session';
 import type { AttemptResult, Puzzle, PuzzleSource } from './types';
 
@@ -69,44 +71,65 @@ export function PuzzlePlayer({
 }) {
   const settingTextEntry = useSettings((s) => s.textEntry);
   const textEntry = forceText ?? settingTextEntry;
+  const coach = useMemo(() => new CoachService(), []);
 
   const [s, dispatch] = useReducer(reduce, { puzzle, source, firstLearnerPly }, (a) =>
     initial(a.puzzle, a.source, { firstLearnerPly: a.firstLearnerPly, now: Date.now() }),
   );
 
   /**
-   * The position the learner is asked about, and the opponent move that gets
-   * there. Both are derived from the puzzle rather than held in state: a
-   * position kept in state alongside the reducer is a second copy of the same
-   * fact, and the two drift the moment one is updated.
+   * Every position the solution passes through: `positions[n]` is the board
+   * after `n` plies. Derived from the puzzle rather than held in state — a
+   * position kept beside the reducer is a second copy of the same fact, and
+   * the two drift the moment one is updated.
    *
-   * An opponent move that does not fit its own FEN leaves the learner on the
-   * puzzle's own position rather than on a half-played line.
+   * A solution ply that does not fit its own position stops the line there
+   * rather than producing a half-played board. That is the same call
+   * `Board.replayFrames` makes, for the same reason.
    */
-  const opening = useMemo(() => {
-    const opener = firstLearnerPly === 1 ? puzzle.solution[0] : undefined;
-    if (opener === undefined) return { from: puzzle.fen, to: puzzle.fen, san: null };
-    try {
-      const r = applyMove(puzzle.fen, opener);
-      return { from: puzzle.fen, to: r.fen, san: r.san };
-    } catch {
-      return { from: puzzle.fen, to: puzzle.fen, san: null };
+  const positions = useMemo(() => {
+    const out = [puzzle.fen];
+    let cur = puzzle.fen;
+    for (const uci of puzzle.solution) {
+      try {
+        cur = applyMove(cur, uci).fen;
+      } catch {
+        break;
+      }
+      out.push(cur);
     }
-  }, [puzzle, firstLearnerPly]);
+    return out;
+  }, [puzzle]);
 
-  const [ready, setReady] = useState(opening.san === null);
+  const at = (ply: number) => positions[Math.min(ply, positions.length - 1)] ?? puzzle.fen;
+
+  /**
+   * The ply currently ON THE BOARD, which lags the ply the reducer is asking
+   * about while the opponent's move is played.
+   *
+   * The learner watches that move happen rather than arriving at a position
+   * that has already moved — the move is half of what the puzzle is about.
+   * While the board lags there is nothing to type into and the board is
+   * disabled, so an answer can never be played against a position the learner
+   * is not looking at. This covers the opening move and every reply after a
+   * correct move alike, which is why it is a lag and not a one-off flag.
+   */
+  const [shown, setShown] = useState(firstLearnerPly === 1 ? 0 : s.ply);
   useEffect(() => {
-    if (opening.san === null) return;
+    if (shown >= s.ply) return;
     const id = window.setTimeout(() => {
-      setReady(true);
+      setShown(s.ply);
     }, OPPONENT_BEAT_MS);
     return () => {
       clearTimeout(id);
     };
-  }, [opening.san]);
+  }, [shown, s.ply]);
 
-  const fen = ready ? opening.to : opening.from;
-  const orientation = sideToMove(opening.to);
+  const ready = shown >= s.ply;
+  const fen = at(shown);
+  // The board faces the learner: the side to move on the position they are
+  // asked about, which is never the side that plays the replayed reply.
+  const orientation = sideToMove(at(s.ply));
 
   /*
     Banked when the attempt FINISHES, which is the moment the screen is entitled
@@ -123,14 +146,7 @@ export function PuzzlePlayer({
   }, [s, onDone]);
 
   const [note, setNote] = useState<string | null>(null);
-
-  const announce = !ready
-    ? `${orientation === 'w' ? 'White' : 'Black'} to move. Watching the opponent’s move.`
-    : s.done
-      ? s.solved
-        ? 'Solved.'
-        : 'Puzzle over.'
-      : (note ?? `Your move. ${orientation === 'w' ? 'White' : 'Black'} to play.`);
+  const [showWhy, setShowWhy] = useState(false);
 
   /**
    * The hint is the square the answer starts on — a fact taken from the
@@ -141,12 +157,46 @@ export function PuzzlePlayer({
     s.hinted && s.expected ? (s.expected.slice(0, 2) as Square) : null;
   const highlights: Highlights = hintFrom ? { [hintFrom]: 'accent' } : {};
 
+  /**
+   * The last wrong move, and the position it was played in. Kept because
+   * F-PZ-5 explains a MISS, and by the time the result screen renders the
+   * reducer has moved on; the only other way to recover it would be to infer
+   * it, which is exactly the kind of guess `explainPuzzle` exists to refuse.
+   */
+  const [lastMiss, setLastMiss] = useState<{ fen: string; playedUci: string; bestUci: string } | null>(
+    null,
+  );
+
   const onMove = (uci: string) => {
-    if (s.done) return;
+    if (s.done || !ready) return;
     const correct = uci === s.expected;
+    if (!correct && s.expected) setLastMiss({ fen: at(s.ply), playedUci: uci, bestUci: s.expected });
     setNote(correct ? 'That is it.' : 'Not that one — the position is back, try again.');
     dispatch({ type: 'move', uci, at: Date.now() });
   };
+
+  /**
+   * F-PZ-5. Computed rather than fetched on demand, so the control is offered
+   * only when there is something verified to say: `explainPuzzle` returns null
+   * for a puzzle with no motif, and a "Why?" button that produces nothing is
+   * worse than no button. Null is the honest answer and this is what honest
+   * looks like on a screen.
+   */
+  const explanation = useMemo(() => {
+    if (!lastMiss) return null;
+    return explainPuzzle(coach, { ...lastMiss, theme: puzzle.themes[0] ?? null });
+  }, [coach, lastMiss, puzzle.themes]);
+
+  const announce = !ready
+    ? `${orientation === 'w' ? 'White' : 'Black'} to move. Watching the opponent’s move.`
+    : s.done
+      ? showWhy && explanation !== null
+        ? explanation
+        : s.solved
+          ? 'Solved.'
+          : 'Puzzle over.'
+      : (note ?? `Your move. ${orientation === 'w' ? 'White' : 'Black'} to play.`);
+
 
   return (
     <section className="flex min-h-dvh flex-col p-4 md:mx-auto md:grid md:max-w-6xl md:grid-cols-[minmax(0,1fr)_22rem] md:items-start md:gap-x-6 md:px-6 lg:grid-cols-[minmax(0,1fr)_27rem] lg:gap-x-12">
@@ -237,6 +287,25 @@ export function PuzzlePlayer({
                 ? puzzle.themes.map((t) => THEME_LABEL[t]).join(' · ')
                 : 'No motif recorded for this position.'}
             </p>
+            {/* F-PZ-5, on request. The explanation is only offered when there
+                is one: `explainPuzzle` returns null for a position with no
+                verified motif, which is the COMMON case for a drill built from
+                the learner's own error, and an empty "Why?" would be the
+                review feature's shipped defect repeated. */}
+            {explanation !== null &&
+              (showWhy ? (
+                <p className="t-body mt-3 border-l-2 border-accent bg-surface-raised py-2 pl-3">{explanation}</p>
+              ) : (
+                <button
+                  type="button"
+                  className={`${btn.secondary} mt-3 self-start`}
+                  onClick={() => {
+                    setShowWhy(true);
+                  }}
+                >
+                  Why?
+                </button>
+              ))}
             {children}
             <button type="button" className={`${btn.primary} mt-6 w-full md:mx-auto md:max-w-sm`} onClick={onExit}>
               Done

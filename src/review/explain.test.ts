@@ -3,6 +3,7 @@ import { CoachService } from '@/coach';
 import { explainMoment, askForBetter, REVIEW_EVENTS, SUPPLIED_FACTS, THEME_EVENT } from './explain';
 import type { ReviewedMove } from './types';
 import type { Theme } from './errorLog';
+import { PUZZLE_EVENTS, PUZZLE_FACTS } from '@/puzzles/explainPuzzle';
 
 const BANK = templates.templates as Record<string, string[]>;
 const reviewKeys = Object.keys(BANK).filter((k) => k.startsWith('review'));
@@ -112,14 +113,30 @@ test('an explanation is one to three sentences (F-RV-5)', () => {
 
 // --- Task 20: properties, not cases -----------------------------------------
 
-test('every review template only uses placeholders the review can verify', () => {
-  // SUPPLIED_FACTS is the module's own list, not a copy re-typed here: a fact
-  // added to explain.ts widens this sweep automatically, and a fact removed
-  // narrows it, which is the only way the two can stay in step.
-  const supplied = new Set<string>(SUPPLIED_FACTS);
-  expect(reviewKeys.length).toBeGreaterThan(0); // the sweep must have inputs
+/*
+ * The audit below is ONE sweep over every group of templates a module owns,
+ * not one sweep per module. The puzzle templates (F-PZ-5) joined it rather
+ * than getting a second copy of it: a duplicated sweep is a sweep that stops
+ * being run on one of the two banks the first time somebody edits only one.
+ *
+ * Each group names its own prefix, its own supplied-fact list and its own
+ * rendered-event list, all imported from the module that owns them — never
+ * re-typed here, so a fact added or removed there widens or narrows this sweep
+ * automatically, which is the only way the two can stay in step.
+ */
+const GROUPS = [
+  { name: 'review', prefix: 'review', supplied: SUPPLIED_FACTS, used: REVIEW_EVENTS },
+  { name: 'puzzle', prefix: 'puzzle', supplied: PUZZLE_FACTS, used: PUZZLE_EVENTS },
+] as const;
 
-  for (const key of reviewKeys) {
+const keysOf = (prefix: string) => Object.keys(BANK).filter((k) => k.startsWith(prefix));
+
+test.each(GROUPS)('every $name template only uses placeholders the caller can verify', (g) => {
+  const supplied = new Set<string>(g.supplied);
+  const keys = keysOf(g.prefix);
+  expect(keys.length).toBeGreaterThan(0); // the sweep must have inputs
+
+  for (const key of keys) {
     for (const variant of BANK[key]!) {
       for (const [, name] of variant.matchAll(/\{(\w+)\}/g)) {
         expect(supplied.has(name!), `${key} uses {${name}}, which nothing verifies`).toBe(true);
@@ -128,24 +145,26 @@ test('every review template only uses placeholders the review can verify', () =>
   }
 });
 
-test('every review template in the bank is one this module actually uses', () => {
+test.each(GROUPS)('every $name template in the bank is one some module actually renders', (g) => {
   // An orphan template is where an unaudited sentence hides: nothing renders it,
   // so no test exercises it, and the next caller finds it and ships it.
-  expect(reviewKeys.length).toBeGreaterThan(0);
-  const used = new Set<string>(REVIEW_EVENTS);
-  for (const key of reviewKeys) {
+  const keys = keysOf(g.prefix);
+  expect(keys.length).toBeGreaterThan(0);
+  const used = new Set<string>(g.used);
+  for (const key of keys) {
     expect(used.has(key), `${key} is in the bank but no code path renders it`).toBe(true);
   }
-  for (const used_ of REVIEW_EVENTS) {
-    expect(reviewKeys, `${used_} is rendered but absent from the bank`).toContain(used_);
+  for (const used_ of g.used) {
+    expect(keys, `${used_} is rendered but absent from the bank`).toContain(used_);
   }
 });
 
-test('every review variant carries at least one placeholder', () => {
+test.each(GROUPS)('every $name variant carries at least one placeholder', (g) => {
   // A variant with no placeholder asserts something unconditionally, which is
   // the one shape the missing-fact throw can never police.
-  expect(reviewKeys.length).toBeGreaterThan(0);
-  for (const key of reviewKeys) {
+  const keys = keysOf(g.prefix);
+  expect(keys.length).toBeGreaterThan(0);
+  for (const key of keys) {
     expect(BANK[key]!.length).toBeGreaterThan(0);
     for (const variant of BANK[key]!) {
       expect([...variant.matchAll(/\{(\w+)\}/g)].length, `${key}: "${variant}" states a fact-free claim`).toBeGreaterThan(0);

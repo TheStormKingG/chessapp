@@ -50,6 +50,38 @@
     "reviewAsk": [
       "Something better than {playedSan} was available. Can you find it?",
       "You played {playedSan}. There was a stronger move \u2014 have a go."
+    ],
+    "puzzleBackRankMate": [
+      "{playedSan} is not it. The answer here is a back-rank mate: {bestSan}, against a king shut in behind its own pawns.",
+      "Not {playedSan}. This position is a back-rank mate, and {bestSan} is the move that delivers it."
+    ],
+    "puzzleMateIn1": [
+      "{playedSan} is not it. There is mate in one here, and it is {bestSan}.",
+      "Not {playedSan}. The position is mate in one: {bestSan}."
+    ],
+    "puzzleSmotheredMate": [
+      "{playedSan} is not it. The answer here is a smothered mate: {bestSan}, with the king hemmed in by its own pieces.",
+      "Not {playedSan}. This is a smothered mate, and {bestSan} is the move that gives it."
+    ],
+    "puzzleMateIn2": [
+      "{playedSan} is not it. There is a forced mate in two here, and it starts with {bestSan}.",
+      "Not {playedSan}. Mate in two is forced from here, beginning with {bestSan}."
+    ],
+    "puzzleAttackingF2F7": [
+      "{playedSan} is not it. This position is about the f2 and f7 squares, and {bestSan} is the blow.",
+      "Not {playedSan}. The idea here is the strike at f2 or f7: {bestSan}."
+    ],
+    "puzzleSkewer": [
+      "{playedSan} is not it. The answer here is a skewer: {bestSan} attacks two pieces on a line, and the valuable one has to move.",
+      "Not {playedSan}. This is a skewer, and {bestSan} is the move that sets it up."
+    ],
+    "puzzleFork": [
+      "{playedSan} is not it. The answer here is a fork: {bestSan} attacks two pieces at once.",
+      "Not {playedSan}. This position is a fork, and {bestSan} is the move that makes it."
+    ],
+    "puzzleDiscoveredAttack": [
+      "{playedSan} is not it. The answer here is a discovered attack: {bestSan} steps out of the way and the piece behind it does the work.",
+      "Not {playedSan}. This is a discovered attack, and {bestSan} is the move that uncovers it."
     ]
   }
 }
