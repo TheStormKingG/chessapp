@@ -154,9 +154,18 @@ and the tags have already drifted:
 | `en-passant` | `en-passant-timing` |
 
 These are free-form strings and nothing catches a near-duplicate. This matters
-beyond tidiness: `concept` is what the fix-it drill and the error log join on to
-map a mistake to a lesson, so two spellings of one concept mean a learner's
-mistake finds no drill.
+beyond tidiness. `concept` is consumed by `src/checkpoint/CheckpointMachine.ts`:
+when a learner fails a checkpoint, line 25 collects the concepts they did not
+master and lines 32–36 draw the retry set from the bank entries carrying those
+concepts (PRD §6.4, "five to eight challenges drawn from the concepts that were
+missed"). Two spellings of one concept therefore split its bank in half: a
+learner who misses `checkmate` gets a retry drawn only from entries tagged
+`checkmate`, and the ones tagged `check-mate` are invisible to it. Where the
+split leaves too few entries, the retry is short or empty.
+
+(It is **not** what the fix-it drill joins on — `src/review/fixIt.ts:55` sets
+`concept: e.theme` from the error's own theme and does not consult lesson tags.
+That was checked rather than assumed.)
 
 **What this spec does:** enumerate the concept vocabulary in the schema, so an
 unknown or misspelled tag fails `verify:content` rather than shipping. Section 1's
@@ -238,6 +247,7 @@ PRD §9.4 sets it. Restated as what an authoring pass must satisfy:
 | The verifier's runtime becomes unbearable as the corpus doubles | It is already ~8 per cent slower from the `ucinewgame` reset. Measure after 2.1 and report before authoring 2.2 |
 | A lesson does not fit the three challenge types | §4: report it, do not invent a type |
 | Concept tags drift further | §5: enumerate the vocabulary so the verifier catches it |
+| Normalising Section 1's tags changes a checkpoint retry pool | The normalisation merges spellings of one concept, so a pool can only grow. A rename that MOVED entries between concepts would be a behaviour change — the plan proves no entry changes concept, only spelling |
 | Opening lines in 2.6 have more than one good move | Those lessons use the target position's properties rather than a unique move, and the concrete lines are chosen to be forcing |
 | Section 2's content pushes the app over a size budget | Content is fetched per section, not bundled. Measure with `scripts/measure-shell-size.mjs` and confirm `dataRawKiB` grows and `shellGzKiB` does not |
 
