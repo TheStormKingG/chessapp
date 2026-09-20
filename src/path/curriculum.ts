@@ -89,3 +89,121 @@ export const SECTION_1: { id: string; title: string; band: string; units: UnitDe
     },
   ],
 };
+
+/**
+ * PRD Appendix A, Section 2 (units 2.1 to 2.8). Declared ahead of its content:
+ * every unit is `built: false` until its lessons, checkpoint and guidebook have
+ * been authored and have passed `verify:content`, so a half-authored unit is
+ * never reachable by a learner.
+ *
+ * Declaring the ids here is also what the puzzles spec's `themeForLesson` reads,
+ * which is why this file is the one place the two specs touch.
+ *
+ * `pathNodes` deliberately does NOT walk this section yet. PathScreen renders a
+ * single hardcoded section header and its rail meter counts every lesson
+ * `pathNodes` returns, so admitting eight unbuilt units today would read as
+ * "0 of 65" under a Section 1 heading. Rendering more than one section is the
+ * change that must land before the first unit here is flipped to `built: true`.
+ */
+export const SECTION_2: { id: string; title: string; band: string; units: UnitDef[] } = {
+  id: '2',
+  title: 'Safety and the first tactics',
+  band: '400 to 800',
+  units: [
+    {
+      id: '2.1',
+      title: 'Real Chess',
+      built: false,
+      lessons: [
+        { id: '2.1.1', title: "What does the opponent's last move threaten?" },
+        { id: '2.1.2', title: 'The threat scan: checks, captures and threats for the opponent' },
+        { id: '2.1.3', title: 'Hanging pieces on both sides' },
+        { id: '2.1.4', title: 'Counting on a contested square' },
+        { id: '2.1.5', title: 'The sanity check before you move' },
+      ],
+    },
+    {
+      id: '2.2',
+      title: 'Forks',
+      built: false,
+      lessons: [
+        { id: '2.2.1', title: 'The knight fork' },
+        { id: '2.2.2', title: 'The pawn fork' },
+        { id: '2.2.3', title: 'The queen fork and the family fork' },
+        { id: '2.2.4', title: 'Setting up a fork with a check' },
+      ],
+    },
+    {
+      id: '2.3',
+      title: 'Pins and skewers',
+      built: false,
+      lessons: [
+        { id: '2.3.1', title: 'The absolute pin' },
+        { id: '2.3.2', title: 'The relative pin' },
+        { id: '2.3.3', title: 'Spotting a pin on both sides' },
+        { id: '2.3.4', title: 'The skewer' },
+        { id: '2.3.5', title: 'Keeping a pin rather than capturing early' },
+      ],
+    },
+    {
+      id: '2.4',
+      title: 'Back-rank and helper mates',
+      built: false,
+      lessons: [
+        { id: '2.4.1', title: 'The back-rank weakness and making an escape square' },
+        { id: '2.4.2', title: 'Support mate' },
+        { id: '2.4.3', title: 'Corridor mate' },
+        { id: '2.4.4', title: 'Smothered mate, the pattern' },
+        { id: '2.4.5', title: "Damiano's mate" },
+      ],
+    },
+    {
+      id: '2.5',
+      title: 'Discovered attacks',
+      built: false,
+      lessons: [
+        { id: '2.5.1', title: 'Discovered attack' },
+        { id: '2.5.2', title: 'Discovered check' },
+        { id: '2.5.3', title: 'Batteries on a line' },
+      ],
+    },
+    {
+      id: '2.6',
+      title: 'Opening principles and your first opening',
+      built: false,
+      lessons: [
+        { id: '2.6.1', title: 'Centre, development, castle early' },
+        {
+          id: '2.6.2',
+          title: 'Do not move the same piece twice, do not bring the queen out early',
+        },
+        { id: '2.6.3', title: 'The Italian Game as White' },
+        { id: '2.6.4', title: 'Meeting 1.e4 with 1...e5 and 1.d4 with 1...d5' },
+        { id: '2.6.5', title: 'The target position' },
+      ],
+    },
+    {
+      id: '2.7',
+      title: 'Endgame rules that decide games',
+      built: false,
+      lessons: [
+        { id: '2.7.1', title: 'What can and cannot mate' },
+        { id: '2.7.2', title: 'The rule of the square' },
+        { id: '2.7.3', title: 'King in front of the pawn, and direct opposition' },
+        { id: '2.7.4', title: 'The rook-pawn draw' },
+        { id: '2.7.5', title: 'The promotion race' },
+        { id: '2.7.6', title: 'Activate the king in the endgame' },
+      ],
+    },
+    {
+      id: '2.8',
+      title: 'Notation, the clock and slow games',
+      built: false,
+      lessons: [
+        { id: '2.8.1', title: 'Reading and writing full notation' },
+        { id: '2.8.2', title: 'Using most of your time, and never playing a bad move fast' },
+        { id: '2.8.3', title: 'Going over your own game to find the first mistake' },
+      ],
+    },
+  ],
+};
