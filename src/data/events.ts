@@ -68,6 +68,27 @@ export type EventPayload =
       drillCompleted: boolean;
       partial: boolean;
     }
+  /**
+   * One finished puzzle attempt (PRD 8.4).
+   *
+   * `source` is a union rather than a boolean because F-PZ-2 requires themed
+   * practice to have no rating impact, and Phase 2 adds sprint and streak run.
+   * A boolean would need a migration the first time a third kind arrives.
+   *
+   * `ms` is the solve time, which F-PZ-1 shows after completion and never
+   * before. It is recorded here so the screen never has to time itself.
+   */
+  | {
+      type: 'puzzle_attempted';
+      puzzleId: string;
+      themes: string[];
+      puzzleRating: number;
+      solved: boolean;
+      hinted: boolean;
+      misses: number;
+      source: 'rated' | 'themed' | 'daily' | 'fix';
+      ms: number;
+    }
   | { type: 'settings_changed'; key: string; value: string | boolean | number };
 
 export interface LearnerEvent {
