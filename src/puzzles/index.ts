@@ -16,6 +16,7 @@ export { PuzzlePlayer } from './PuzzlePlayer';
 export { PuzzlesScreen } from '@/screens/PuzzlesScreen';
 export { ThemedPractice } from './ThemedPractice';
 export { DailyPuzzle } from './DailyPuzzle';
+export { FixMyMistakes } from './FixMyMistakes';
 
 export { DAILY_ATTEMPTS, dailyIndex, localDateKey } from './daily';
 export { explainPuzzle } from './explainPuzzle';
