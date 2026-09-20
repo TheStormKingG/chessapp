@@ -140,3 +140,24 @@ test('a combination with no puzzles says so rather than opening an empty board',
   expect(screen.getByText(/no puzzles/i)).toBeInTheDocument();
   expect(screen.queryByLabelText('Type a move')).not.toBeInTheDocument();
 });
+
+/**
+ * F-PZ-2 d ends at this prop. The lesson close screen links to
+ * `/puzzles/themed?theme=<theme>`, and a link whose destination cannot act on
+ * what it was given is a link that only looks like it works.
+ */
+test('practice can be opened with a theme already chosen', async () => {
+  render(<ThemedPractice pool={POOL} onAttempt={vi.fn()} initialThemes={['fork']} />);
+  expect(screen.getByRole('checkbox', { name: /fork/i })).toBeChecked();
+  expect(screen.getByRole('checkbox', { name: /skewer/i })).not.toBeChecked();
+  const start = screen.getByRole('button', { name: /start/i });
+  expect(start).toBeEnabled();
+  await userEvent.click(start);
+  await screen.findByLabelText('Type a move');
+});
+
+test('a theme the packs do not carry is ignored rather than trusted', () => {
+  // The value arrives from a URL, so it is not a `Theme` until it is checked.
+  render(<ThemedPractice pool={POOL} onAttempt={vi.fn()} initialThemes={['nonsense'] as never} />);
+  expect(screen.getByRole('button', { name: /start/i })).toBeDisabled();
+});

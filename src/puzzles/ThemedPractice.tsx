@@ -33,11 +33,22 @@ function bounds(band: RatingBand): { min: number; max: number } {
 export function ThemedPractice({
   pool,
   onAttempt,
+  initialThemes = [],
 }: {
   pool: readonly Puzzle[];
   onAttempt: (r: AttemptResult) => void;
+  /**
+   * Themes to start with — F-PZ-2 d's lesson link arrives here, carrying a
+   * theme name out of a URL. Filtered against `THEMES` rather than trusted:
+   * the value is a string until this module has checked it, and an unchecked
+   * one would select a theme no pack carries and offer practice with nothing
+   * in it.
+   */
+  initialThemes?: readonly Theme[];
 }) {
-  const [chosen, setChosen] = useState<readonly Theme[]>([]);
+  const [chosen, setChosen] = useState<readonly Theme[]>(() =>
+    initialThemes.filter((t) => THEMES.includes(t)),
+  );
   const [band, setBand] = useState<RatingBand>('600-900');
   const [started, setStarted] = useState(false);
   const [at, setAt] = useState(0);

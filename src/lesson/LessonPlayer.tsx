@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { Link } from 'react-router';
 import { plural } from '../app/plural';
 import { btn } from '@/app/Button';
 import { Board } from '@/board';
@@ -11,6 +12,8 @@ import type { WrongMove } from './challenges/Sequence';
 import { useEngineRefutation } from './useEngineRefutation';
 import type { Lesson } from './types';
 import type { LessonResume } from '@/data/resume';
+import { THEME_LABEL } from '@/puzzles/themes';
+import { themeForLesson } from '@/path/curriculum';
 
 export interface LessonOutcome {
   lessonId: string;
@@ -141,6 +144,9 @@ export function LessonPlayer({
     }
     // `ph.index` and `ph.kind` are read through the narrowed phase above.
   }, [onProgress, lesson.id, lesson.challenges.length, challengeId, ph, results, s.totalHints, s.totalMisses]);
+
+  /** The themed practice this lesson's motif leads to, or null (F-PZ-2 d). */
+  const practice = themeForLesson(lesson.id);
 
   const [confirmingExit, setConfirmingExit] = useState(false);
   const midRun = ph.kind === 'challenge' || ph.kind === 'explain';
@@ -445,6 +451,19 @@ export function LessonPlayer({
             </p>
             <Stars earned={ph.stars} />
             <p className="t-body mt-4">{lesson.takeaway}</p>
+            {/* F-PZ-2 d. Offered only when the lesson's idea IS one of the
+                eight shipped puzzle motifs: `themeForLesson` returns null for
+                a lesson that teaches a habit or a rule, and a link to a
+                practice set with nothing in it would be worse than no link.
+                It sits with the takeaway rather than beside the action, so the
+                close screen keeps its one anchored primary control. */}
+            {practice && (
+              <p className="t-body mt-4">
+                <Link className="underline decoration-accent" to={`/puzzles/themed?theme=${practice}`}>
+                  Practise {THEME_LABEL[practice].toLowerCase()} puzzles
+                </Link>
+              </p>
+            )}
             {showXp && <p className="t-index mt-4 text-content-dim">+{ph.xp} XP</p>}
           </div>
           <button
