@@ -1,0 +1,571 @@
+{
+  "unit": "2.8",
+  "title": "Notation, the clock and slow games",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "2.8-k01",
+      "type": "which_square",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "White's first move is written 1.d4. Tap the square the pawn lands on.",
+      "answer": {
+        "square": "d4"
+      },
+      "concept": "notation",
+      "reason": "No capital letter means a pawn move, and what is left is the square it goes to."
+    },
+    {
+      "id": "2.8-k02",
+      "type": "which_square",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "White plays Nc3. A capital N means knight. Tap the square the knight lands on.",
+      "answer": {
+        "square": "c3"
+      },
+      "concept": "notation",
+      "reason": "The letter names the piece, the rest names the square it arrives on."
+    },
+    {
+      "id": "2.8-k03",
+      "type": "which_square",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 4 4",
+      "prompt": "White plays Bb5. Tap the square the bishop lands on.",
+      "answer": {
+        "square": "b5"
+      },
+      "concept": "notation",
+      "reason": "B is the bishop and b5 is where it goes. Only the bishop on f1 can get there."
+    },
+    {
+      "id": "2.8-k04",
+      "type": "which_square",
+      "fen": "rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2",
+      "prompt": "White plays exd5. Tap the square the capturing pawn lands on.",
+      "answer": {
+        "square": "d5"
+      },
+      "concept": "notation",
+      "reason": "The small e says which pawn is capturing. The square at the end is always where it lands."
+    },
+    {
+      "id": "2.8-k05",
+      "type": "which_square",
+      "fen": "r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1",
+      "prompt": "Castling on the queen's side is written O-O-O. Tap the square the white king finishes on.",
+      "answer": {
+        "square": "c1"
+      },
+      "concept": "notation",
+      "reason": "The king always travels two squares when it castles, so e1 becomes c1."
+    },
+    {
+      "id": "2.8-k06",
+      "type": "which_square",
+      "fen": "r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1",
+      "prompt": "White castles queenside, written O-O-O. Tap the square the white rook finishes on.",
+      "answer": {
+        "square": "d1"
+      },
+      "concept": "notation",
+      "reason": "The rook jumps over the king and lands beside it on d1."
+    },
+    {
+      "id": "2.8-k07",
+      "type": "which_square",
+      "fen": "6k1/5ppp/8/8/8/8/5PPP/3R1RK1 w - - 0 1",
+      "prompt": "Both white rooks can reach e1, and the move played is written Rfe1. Tap the square that rook came from.",
+      "answer": {
+        "square": "f1"
+      },
+      "concept": "notation",
+      "reason": "When two identical pieces can reach one square, the file the mover started on is added."
+    },
+    {
+      "id": "2.8-k08",
+      "type": "name_the_pattern",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq - 0 1",
+      "prompt": "A written move ends with a + sign. What is it telling you?",
+      "options": [
+        "The move gives check.",
+        "The move captures something.",
+        "The move ends the game."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "notation",
+      "reason": "A plus means check. Mate gets its own mark, the hash."
+    },
+    {
+      "id": "2.8-k09",
+      "type": "name_the_pattern",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq - 0 1",
+      "prompt": "A written move ends with a # sign. What is it telling you?",
+      "options": [
+        "It is mate, and the game is over there.",
+        "It is check, and the game carries on.",
+        "A pawn promoted on that square."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "notation",
+      "reason": "The hash is the last thing written in a game, because nothing follows mate."
+    },
+    {
+      "id": "2.8-k10",
+      "type": "name_the_pattern",
+      "fen": "rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2",
+      "prompt": "In the written move Bxc6, what is the x telling you?",
+      "options": [
+        "The bishop takes whatever is standing on c6.",
+        "The bishop is defended once it reaches c6.",
+        "The bishop started on the c-file."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "notation",
+      "reason": "An x always means a capture, and the square after it is where the capture happens."
+    },
+    {
+      "id": "2.8-k11",
+      "type": "name_the_pattern",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "Why does the written move e4 have no capital letter in front of it?",
+      "options": [
+        "It is a pawn move, and pawns have no letter of their own.",
+        "It is a king move, and the king is understood.",
+        "The letter is left off when the move is not a capture."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "notation",
+      "reason": "Every other piece has a letter. A bare square is how a pawn move is written."
+    },
+    {
+      "id": "2.8-k12",
+      "type": "find_the_move",
+      "fen": "rnbqkbnr/pppp1ppp/8/4p3/6P1/5P2/PPPPP2P/RNBQKBNR b KQkq - 0 2",
+      "prompt": "Black to move. The move written here is Qh4#. Read it, then play it on the board.",
+      "answer": {
+        "moves": [
+          "Qh4#"
+        ]
+      },
+      "wrong": {
+        "Qg5": "That is not the square the move names. Qh4 means the queen lands on h4."
+      },
+      "concept": "notation",
+      "reason": "Q is the queen, h4 is the square, and # says the game ends there. Nothing covers h4 or blocks the diagonal."
+    },
+    {
+      "id": "2.8-k13",
+      "type": "find_the_move",
+      "fen": "3r2k1/5ppp/8/8/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "White to move. The move written here is Rxd8#. Read it, then play it on the board.",
+      "answer": {
+        "moves": [
+          "Rxd8#"
+        ]
+      },
+      "wrong": {
+        "Rd4": "You have read the letter and ignored the square. Rxd8 takes on d8."
+      },
+      "concept": "notation",
+      "reason": "R is the rook, x is the capture, d8 is the square, and # says it is mate."
+    },
+    {
+      "id": "2.8-k14",
+      "type": "find_the_sequence",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "Play these moves exactly as they are written: 1.d4 d5 2.c4 e6 3.Nc3. Black's replies are played for you.",
+      "answer": {
+        "line": [
+          "d4",
+          "d5",
+          "c4",
+          "e6",
+          "Nc3"
+        ]
+      },
+      "concept": "notation",
+      "reason": "Three moves each, in the order they were played, written the way every chess book writes them."
+    },
+    {
+      "id": "2.8-k15",
+      "type": "which_square",
+      "fen": "rnbqkb1r/pppp1ppp/5n2/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 4 4",
+      "prompt": "White plays Nxe5. Tap the square the knight lands on.",
+      "answer": {
+        "square": "e5"
+      },
+      "concept": "notation",
+      "reason": "N is the knight, x is the capture, and e5 is the square it arrives on."
+    },
+    {
+      "id": "2.8-k16",
+      "type": "is_it_safe",
+      "fen": "6k1/2n3pp/8/3p4/8/8/5PPP/3R2K1 w - - 0 1",
+      "move": "Rxd5",
+      "prompt": "The pawn on d5 looks free and the rook can take it. Is the rook safe there?",
+      "reasons": [
+        "Yes. Nothing black can reach d5.",
+        "No. The knight on c7 takes it back.",
+        "No. The king on g8 takes it back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "the-clock",
+      "reason": "Nc7 covers d5. The ten seconds it takes to notice save a whole rook."
+    },
+    {
+      "id": "2.8-k17",
+      "type": "is_it_safe",
+      "fen": "6k1/5ppp/8/3p4/8/8/5PPP/3R2K1 w - - 0 1",
+      "move": "Rxd5",
+      "prompt": "The same capture on a different board. The rook takes on d5. Is it safe there?",
+      "reasons": [
+        "Yes. Nothing black defends d5.",
+        "No. The pawn on e6 takes it back.",
+        "No. The king on g8 takes it back."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "the-clock",
+      "reason": "There is no pawn on e6 and the king is three squares away. Sometimes the check says yes, and it costs the same either way."
+    },
+    {
+      "id": "2.8-k18",
+      "type": "is_it_safe",
+      "fen": "6k1/5p1p/5p2/4p3/8/8/5PPP/4R1K1 w - - 0 1",
+      "move": "Rxe5",
+      "prompt": "The rook takes the pawn on e5. Is it safe there?",
+      "reasons": [
+        "Yes. Nothing defends e5.",
+        "No. The pawn on f6 takes it back.",
+        "No. The king on g8 takes it back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "the-clock",
+      "reason": "A pawn defender is the one the eye skips, which is exactly why you look twice before you commit."
+    },
+    {
+      "id": "2.8-k19",
+      "type": "is_it_safe",
+      "fen": "6k1/5ppp/8/3n4/8/8/b4PPP/3R2K1 w - - 0 1",
+      "move": "Rxd5",
+      "prompt": "The rook takes the knight on d5. Is it safe there?",
+      "reasons": [
+        "Yes. Nothing black reaches d5.",
+        "No. The bishop on a2 takes it back.",
+        "No. The king on g8 takes it back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "the-clock",
+      "reason": "The bishop on a2 looks along a2-b3-c4-d5. A defender from the far corner is worth a second look."
+    },
+    {
+      "id": "2.8-k20",
+      "type": "is_it_safe",
+      "fen": "6k1/3r2pp/5p2/4p3/8/8/5PPP/4R1K1 w - - 0 1",
+      "move": "Rxe5",
+      "prompt": "The rook takes on e5, and there is a black rook on d7. Is the white rook safe on e5?",
+      "reasons": [
+        "Yes. The rook on d7 is on the wrong file.",
+        "No. The pawn on f6 takes it back.",
+        "No. The rook on d7 takes it back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "the-clock",
+      "reason": "The rook on d7 is the frightening piece and the pawn on f6 is the one that takes. Look at everything, not at the biggest thing."
+    },
+    {
+      "id": "2.8-k21",
+      "type": "is_it_safe",
+      "fen": "6k1/5ppp/8/8/4n3/8/5PPP/4R1K1 w - - 0 1",
+      "move": "Rxe4",
+      "prompt": "The rook takes the knight on e4. Is it safe there?",
+      "reasons": [
+        "Yes. Nothing black defends e4.",
+        "No. The pawn on f7 takes it back.",
+        "No. The king on g8 takes it back."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "the-clock",
+      "reason": "A pawn on f7 captures to e6 or g6, and the king is far away. This knight really is free."
+    },
+    {
+      "id": "2.8-k22",
+      "type": "find_the_move",
+      "fen": "r5k1/5ppp/8/8/8/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Your rook is attacked and there is plenty of time left. Do not move it away. Look along the file first.",
+      "answer": {
+        "moves": [
+          "Rxa8#"
+        ]
+      },
+      "wrong": {
+        "Rb1": "Running saved the rook and missed mate in one. The rook was attacked, and that is exactly what made you hurry."
+      },
+      "concept": "the-clock",
+      "reason": "Rxa8 takes the rook and mates on the eighth rank at the same time. Running was the fast answer and the wrong one."
+    },
+    {
+      "id": "2.8-k23",
+      "type": "find_the_move",
+      "fen": "4k3/5ppp/8/8/3q4/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "Your rook is attacked by the queen. Do not run. Look up the file first.",
+      "answer": {
+        "moves": [
+          "Rxd4"
+        ]
+      },
+      "wrong": {
+        "Rb1": "The rook is safe and the queen is still standing. Rxd4 was there the whole time."
+      },
+      "concept": "the-clock",
+      "reason": "The queen on d4 is undefended and on your rook's file. Being attacked is what makes people move before they look."
+    },
+    {
+      "id": "2.8-k24",
+      "type": "name_the_pattern",
+      "fen": "6k1/2n3pp/8/3p4/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "You have twelve minutes left in a thirty-minute game and you see a capture straight away. What comes next?",
+      "options": [
+        "Work out what your opponent plays in reply, then decide.",
+        "Play it now, while you can still see it.",
+        "Play something safer instead, to save thinking time."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "the-clock",
+      "reason": "The first move you see is a candidate. Checking the reply is the cheapest ten seconds in chess."
+    },
+    {
+      "id": "2.8-k25",
+      "type": "name_the_pattern",
+      "fen": "4k3/5ppp/8/8/8/2r5/2Q2PPP/4K3 w - - 0 1",
+      "prompt": "Your opponent has just played a move that attacks your queen. What does a strong player do first?",
+      "options": [
+        "Look at what that move stopped defending.",
+        "Move the queen at once to the nearest safe square.",
+        "Offer a draw before anything worse happens."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "the-clock",
+      "reason": "Every move that creates a threat also leaves something behind. Fear is what stops people looking."
+    },
+    {
+      "id": "2.8-k26",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/8/8/4n3/8/5PPP/4R1K1 w - - 0 1",
+      "prompt": "You finish a slow game with eighteen of your thirty minutes unused. What does that tell you?",
+      "options": [
+        "You did not use the time you were given to check your moves.",
+        "You played efficiently and should carry on doing it.",
+        "You should ask for a shorter time control next game."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "the-clock",
+      "reason": "Time left over at the end is worth nothing. Spend it on the moves that decide things, and keep enough back not to flag."
+    },
+    {
+      "id": "2.8-k27",
+      "type": "name_the_pattern",
+      "fen": "4k3/5ppp/8/8/8/2r5/2Q2PPP/4K3 w - - 0 1",
+      "prompt": "Your game review lists an Inaccuracy on move 9 and a Blunder on move 31. Which do you study first?",
+      "options": [
+        "Move 9. Everything after it was played in a position that was already worse.",
+        "Move 31. The bigger the error, the bigger the lesson.",
+        "Move 31, because it is the one you still remember."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "first-mistake",
+      "reason": "The earliest error decided what kind of game the rest of it was. Fix that and the later one often never arises."
+    },
+    {
+      "id": "2.8-k28",
+      "type": "name_the_pattern",
+      "fen": "4k3/5ppp/8/8/8/2r5/2Q2PPP/4K3 w - - 0 1",
+      "prompt": "The review labels one of your moves a Miss. What has it found?",
+      "options": [
+        "A good chance you had and did not take.",
+        "A move that gave away material outright.",
+        "A move that came straight out of the opening book."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "first-mistake",
+      "reason": "A Miss is a chance that was there. It is the label most worth going back to, because the chance will come again."
+    },
+    {
+      "id": "2.8-k29",
+      "type": "name_the_pattern",
+      "fen": "4k3/5ppp/8/8/3b4/8/5PPP/3R1K2 w - - 0 1",
+      "prompt": "The review labels one of your moves Book. What does that mean?",
+      "options": [
+        "It is a known opening move, so it was not your own decision yet.",
+        "It is a move the engine has never seen before.",
+        "It is the strongest move played in the whole game."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "first-mistake",
+      "reason": "Book moves are not marked good or bad. The review tells you the move at which your game left the book, and that is where your own choices start."
+    },
+    {
+      "id": "2.8-k30",
+      "type": "name_the_pattern",
+      "fen": "4k3/5ppp/8/8/3b4/8/5PPP/3R1K2 w - - 0 1",
+      "prompt": "The review marks the moves and hands the positions back. What is the one job it cannot do for you?",
+      "options": [
+        "Saying out loud what you missed, in words you will remember.",
+        "Deciding which of your moves were mistakes.",
+        "Showing you the position as it stood before your move."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "first-mistake",
+      "reason": "Naming the thing you missed is what makes you see it next time, and it is the only part of the review that is your work."
+    },
+    {
+      "id": "2.8-k31",
+      "type": "name_the_pattern",
+      "fen": "4k3/5ppp/2p5/3n4/8/8/5PPP/3R1K2 w - - 0 1",
+      "prompt": "A review ends with a short drill built out of your own errors. What is it for?",
+      "options": [
+        "Practising the exact things you got wrong in that game.",
+        "Raising your puzzle rating as quickly as possible.",
+        "Replaying the moves you did not have time to play."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "first-mistake",
+      "reason": "The drill comes from your error log, not from a general pile of puzzles. A clean game ends with no drill rather than a padded one."
+    },
+    {
+      "id": "2.8-k32",
+      "type": "find_the_move",
+      "fen": "4k3/5ppp/8/4q3/8/8/1B3PPP/5K2 w - - 0 1",
+      "prompt": "The review hands this position back as a key moment. Your bishop is attacked and in the game you moved it away. Find what you had.",
+      "answer": {
+        "moves": [
+          "Bxe5"
+        ]
+      },
+      "wrong": {
+        "Bc3": "The bishop is safe and the queen is still standing. Bxe5 was there the whole time."
+      },
+      "concept": "first-mistake",
+      "reason": "The queen on e5 stands on the bishop's own diagonal with nothing defending her. The threat to the bishop is what made the move look urgent."
+    },
+    {
+      "id": "2.8-k33",
+      "type": "find_the_move",
+      "fen": "4k3/5ppp/8/8/3b4/8/5PPP/3R1K2 w - - 0 1",
+      "prompt": "Another key moment from the same game. The review says you had better here. Find it.",
+      "answer": {
+        "moves": [
+          "Rxd4"
+        ]
+      },
+      "wrong": {
+        "Rd2": "Nothing was attacking the rook. Rxd4 wins the bishop for nothing."
+      },
+      "concept": "first-mistake",
+      "reason": "The rook and the bishop stand on the same file with nothing between them and nothing defending d4."
+    },
+    {
+      "id": "2.8-k34",
+      "type": "is_it_safe",
+      "fen": "4k3/5ppp/2p5/3n4/8/8/5PPP/3R1K2 w - - 0 1",
+      "move": "Rxd5",
+      "prompt": "This is the move the review marked. The rook takes the knight on d5. Was it safe?",
+      "reasons": [
+        "Yes. Nothing defends the knight on d5.",
+        "No. The pawn on c6 takes it back.",
+        "No. The king on e8 takes it back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "first-mistake",
+      "reason": "cxd5 wins a rook for a knight. The review will keep handing this back until you start looking at pawns."
+    },
+    {
+      "id": "2.8-k35",
+      "type": "is_it_safe",
+      "fen": "4k3/5ppp/8/3n4/8/8/5PPP/3R1K2 w - - 0 1",
+      "move": "Rxd5",
+      "prompt": "The same capture with the c-pawn gone. The rook takes on d5. Was it safe?",
+      "reasons": [
+        "Yes. Nothing black reaches d5.",
+        "No. The pawn on c6 takes it back.",
+        "No. The king on e8 takes it back."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "first-mistake",
+      "reason": "One pawn is the whole difference between a winning move and a losing one, which is why the review goes square by square."
+    },
+    {
+      "id": "2.8-k36",
+      "type": "find_them_all",
+      "fen": "4k3/5ppp/p7/1N2b3/8/8/5PPP/R3K3 w - - 0 1",
+      "prompt": "A position from your own game, White to move. Tap every white piece Black could take for nothing.",
+      "answer": {
+        "pieces": [
+          "a1",
+          "b5",
+          "h2"
+        ]
+      },
+      "concept": "first-mistake",
+      "reason": "The bishop on e5 looks down at a1 and up at h2, and the pawn on a6 takes the knight on b5. Nothing white defends any of the three."
+    },
+    {
+      "id": "2.8-k37",
+      "type": "which_square",
+      "fen": "3r2k1/5ppp/8/8/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "The review shows the position before your move Rd4 and says there was mate in one. Tap the square the rook should have gone to.",
+      "answer": {
+        "square": "d8"
+      },
+      "concept": "first-mistake",
+      "reason": "Rxd8 is mate on the eighth rank. A key moment hands the position back so you can find it yourself."
+    }
+  ]
+}

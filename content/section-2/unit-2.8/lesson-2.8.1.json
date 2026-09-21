@@ -1,0 +1,179 @@
+{
+  "id": "2.8.1",
+  "unit": "2.8",
+  "title": "Reading and writing full notation",
+  "xp": 12,
+  "card": {
+    "idea": "Every move has a written name. A capital letter for the piece, then the square it lands on: Nf3, Bc4, Rd8. A pawn has no letter, so it is just the square: e4. An x means a capture, a + means check, a # means checkmate, and O-O means castling.",
+    "diagrams": [
+      "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
+    ],
+    "habit": "Manage the clock."
+  },
+  "explain": [
+    {
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "text": "A written move names the piece and the square it lands on, never the square it came from. Nf3 means a knight goes to f3. Only the knight on g1 can get there, so nothing more needs saying. A pawn move drops the letter: e4 means a pawn lands on e4.",
+      "arrows": [
+        [
+          "g1",
+          "f3"
+        ],
+        [
+          "e2",
+          "e4"
+        ]
+      ]
+    },
+    {
+      "fen": "rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2",
+      "text": "An x means a capture. A piece capture keeps its letter: Bxc6. A pawn capture has no letter, so it borrows the file it left instead: exd5 is the pawn from the e-file taking on d5. That is the only time the starting square appears.",
+      "arrows": [
+        [
+          "e4",
+          "d5"
+        ]
+      ],
+      "highlights": [
+        "e4",
+        "d5"
+      ]
+    },
+    {
+      "fen": "6k1/5ppp/8/8/8/8/5PPP/R4RK1 w - - 0 1",
+      "text": "When two identical pieces could reach one square, the letter alone is not enough. Both rooks can go to d1, so the file they started on is added: Rad1 or Rfd1. Add + for check and # for mate, and you can write down any move in chess.",
+      "arrows": [
+        [
+          "a1",
+          "d1"
+        ],
+        [
+          "f1",
+          "d1"
+        ]
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.8.1-c1",
+      "type": "which_square",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "White's first move is written 1.e4. Tap the square the pawn lands on.",
+      "answer": {
+        "square": "e4"
+      },
+      "concept": "notation",
+      "hints": {
+        "piece": "e2",
+        "text": "A pawn move has no letter in front of it, so what is left is the square it goes to."
+      },
+      "reason": "There is no piece letter, so this is a pawn move, and e4 is the square it lands on."
+    },
+    {
+      "id": "2.8.1-c2",
+      "type": "which_square",
+      "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq e6 0 2",
+      "prompt": "White plays Nf3. A capital N means knight. Tap the square that knight is standing on now.",
+      "answer": {
+        "square": "g1"
+      },
+      "concept": "notation",
+      "hints": {
+        "text": "White has two knights. Only one of them can reach f3 in a single jump."
+      },
+      "reason": "The knight on b1 can only reach a3 or c3, because d2 is its own pawn. The knight on g1 is the one that goes to f3, which is why the written move does not have to say so."
+    },
+    {
+      "id": "2.8.1-c3",
+      "type": "name_the_pattern",
+      "fen": "rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2",
+      "prompt": "White writes exd5. What is the small e at the front telling you?",
+      "options": [
+        "The capturing pawn came from the e-file.",
+        "A piece called E is making the capture.",
+        "The pawn that gets taken came from the e-file."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "notation",
+      "hints": {
+        "text": "Pawns have no letter of their own, so a pawn capture has to say which pawn it was."
+      },
+      "reason": "A pawn capture names the file the pawn left, because otherwise there would be nothing to tell one pawn from another."
+    },
+    {
+      "id": "2.8.1-c4",
+      "type": "which_square",
+      "fen": "6k1/5ppp/8/8/8/8/5PPP/R4RK1 w - - 0 1",
+      "prompt": "Both white rooks can reach d1, so the move is written Rad1. Tap the square that rook comes from.",
+      "answer": {
+        "square": "a1"
+      },
+      "concept": "notation",
+      "hints": {
+        "piece": "a1",
+        "text": "The extra letter is the file the rook started on."
+      },
+      "reason": "Rad1 is the rook from the a-file. The other one would be written Rfd1."
+    },
+    {
+      "id": "2.8.1-c5",
+      "type": "find_the_move",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq - 0 1",
+      "prompt": "The move written here is Qxf7#. Read it, then play it on the board.",
+      "answer": {
+        "moves": [
+          "Qxf7#"
+        ]
+      },
+      "wrong": {
+        "Qf6": "That is not the square the move names. Qxf7 means the queen lands on f7, taking the pawn."
+      },
+      "concept": "notation",
+      "hints": {
+        "piece": "f3",
+        "square": "f7"
+      },
+      "reason": "Q is the queen, x is a capture, f7 is the square, and # says the game ends there. The bishop on c4 defends f7, so the king cannot take back."
+    },
+    {
+      "id": "2.8.1-c6",
+      "type": "which_square",
+      "fen": "r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1",
+      "prompt": "Castling on the king's side is written O-O. Tap the square the white king finishes on.",
+      "answer": {
+        "square": "g1"
+      },
+      "concept": "notation",
+      "hints": {
+        "piece": "e1",
+        "text": "The king always travels two squares when it castles."
+      },
+      "reason": "O-O moves the king from e1 to g1, and the rook hops over it to f1. Queenside castling is written O-O-O."
+    },
+    {
+      "id": "2.8.1-c7",
+      "type": "find_the_sequence",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "Play these moves as they are written: 1.e4 e5 2.Nf3 Nc6 3.Bb5. Black's replies are played for you.",
+      "answer": {
+        "line": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Bb5"
+        ]
+      },
+      "concept": "notation",
+      "hints": {
+        "piece": "e2",
+        "square": "e4"
+      },
+      "reason": "Three moves each, written in the order they were played. This opening has a name, the Ruy Lopez, but the written moves are all you need to replay it."
+    }
+  ],
+  "takeaway": "Piece letter, then the square it lands on. x for a capture, + for check, # for mate, O-O for castling."
+}
