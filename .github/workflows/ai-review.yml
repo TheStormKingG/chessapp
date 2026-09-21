@@ -67,11 +67,19 @@ jobs:
       - name: Review the diff
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          # Sonnet, not Opus. The review is per-PR and per-push, on the full
-          # diff, so cost scales with how often the branch moves rather than
-          # with how much is being changed. Override by setting this to
-          # claude-opus-5 on a branch where a deeper read is worth it.
-          ANTHROPIC_MODEL: claude-sonnet-5
+          # Opus, deliberately. This reviewer is prompted for defect classes
+          # that need reading rather than pattern-matching — a test that
+          # cannot fail, an instrument reporting on itself, state surviving
+          # between items — and the weaker model catches materially fewer of
+          # them. A review that misses the finding is not cheaper, it is only
+          # quieter.
+          #
+          # The cost driver is how OFTEN this runs, not how large the diff is:
+          # once per PR open and once per push to a PR branch. If that becomes
+          # the problem, the lever is the trigger, not the model — drop
+          # `synchronize` so it reviews on open and on demand rather than on
+          # every push. Set this to claude-sonnet-5 to trade depth for spend.
+          ANTHROPIC_MODEL: claude-opus-5
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}

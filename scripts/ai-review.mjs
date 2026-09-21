@@ -130,7 +130,7 @@ function summaryLine(text) {
 
 async function main() {
   const apiKey = required('ANTHROPIC_API_KEY');
-  const model = process.env['ANTHROPIC_MODEL'] || 'claude-sonnet-5';
+  const model = process.env['ANTHROPIC_MODEL'] || 'claude-opus-5';
   const repo = required('GITHUB_REPOSITORY');
   const prNumber = required('PR_NUMBER');
   const headSha = required('HEAD_SHA');
