@@ -82,6 +82,13 @@ const gz = (fs) => fs.reduce((n, f) => n + gzipSync(readFileSync(f), { level: 9 
 const raw = (fs) => fs.reduce((n, f) => n + statSync(f).size, 0);
 
 const shellGz = gz(shell);
+// The largest single lesson/checkpoint chunk: what a learner fetches on top of
+// the shell to reach one lesson. Zero if content is not split into chunks.
+const lessonChunks = allJs.filter((f) => /\/(lesson|checkpoint)-[^/]*\.js$/.test(f));
+const biggestLessonGz = lessonChunks.length
+  ? Math.max(...lessonChunks.map((f) => gz([f])))
+  : 0;
+
 console.log(
   JSON.stringify(
     {
@@ -95,6 +102,21 @@ console.log(
       // are downloaded on demand and are not on the critical path.
       allJsFiles: allJs.length,
       allJsGzKiB: +(gz(allJs) / 1024).toFixed(1),
+      /**
+       * The shell gate measures FIRST LOAD, which is the right reading of PRD
+       * 11's "app shell under 300 KB". But it means lazy-loading anything
+       * removes it from the gate, so the gate alone cannot stop total JS
+       * growing without limit.
+       *
+       * PRD 11's next clause is what bounds that — "time to first lesson under
+       * five seconds" — and a learner reaching their first lesson fetches the
+       * shell PLUS one lesson chunk. This is that number. It is reported, not
+       * gated: the five-second promise is about a connection and a device, not
+       * about bytes, so a threshold here would be invented rather than
+       * specified. It exists so the trade cannot be made silently.
+       */
+      firstLessonGzKiB: +((shellGz + biggestLessonGz) / 1024).toFixed(1),
+      biggestLessonGzKiB: +(biggestLessonGz / 1024).toFixed(1),
       dataRawKiB: +(raw(data) / 1024).toFixed(1),
       dataGzKiB: +(gz(data) / 1024).toFixed(1),
       engineRawKiB: +(raw(engine) / 1024).toFixed(1),

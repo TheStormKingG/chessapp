@@ -186,6 +186,26 @@ export async function openLesson(page: Page, lesson: Lesson): Promise<void> {
  * caller is told which path was taken.
  */
 /**
+ * Can the driver actually PLAY this challenge, rather than reveal it?
+ *
+ * Only `play_it_out` is ever in doubt: it carries a `goal` instead of an
+ * authored answer, so the driver has to work the move out for itself. A mate
+ * in one is computable from the position; `hold`, `promote`, `capture_all` and
+ * longer mates are not.
+ *
+ * This lives in ONE place on purpose. `answerCorrectly` uses it to decide what
+ * to do, and `lessons.spec.ts` uses it to derive which challenges it expects to
+ * see revealed. Writing the condition out twice is how the two drift, and the
+ * drift is invisible: the spec would simply expect the wrong list and fail on a
+ * lesson nobody touched.
+ */
+export function driverCanPlay(c: Challenge): boolean {
+  if (c.type !== 'play_it_out') return true;
+  const goal = (c as { goal?: { kind?: string; moves?: number } }).goal;
+  return goal?.kind === 'mate_in' && goal.moves === 1;
+}
+
+/**
  * @param opts.scored - true when a reveal COUNTS AGAINST the learner, i.e. the
  *   caller is driving a checkpoint. In a lesson a reveal is free, so the
  *   driver may fall back to "Show me" for a goal it cannot play; in a
@@ -267,7 +287,7 @@ export async function answerCorrectly(
       // other goal kinds (`hold`, `promote`, `capture_all`, longer `mate_in`)
       // exist only in lesson challenges, which this driver never reaches.
       const goal = (c as { goal?: { kind?: string; moves?: number } }).goal;
-      if (goal?.kind === 'mate_in' && goal.moves === 1) {
+      if (driverCanPlay(c)) {
         const game = new Chess(c.fen);
         const mate = game.moves({ verbose: true }).find((m) => {
           const probe = new Chess(c.fen);

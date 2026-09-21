@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import {
   ConsoleLog,
+  driverCanPlay,
   blurredShadows,
   boardElevationViolations,
   enableTextEntry,
@@ -68,8 +69,14 @@ for (const id of lessonIds()) {
     const problems = log.problems();
     expect(problems.map((p) => `${p.type}: ${p.text}`), 'console was clean').toEqual([]);
     // Surface any challenge the driver could not answer directly.
+    // A `play_it_out` is revealed only when the driver cannot work the move
+    // out for itself. It can now play a mate in one (see `driverCanPlay`), so
+    // those are ANSWERED and must not appear here. Deriving the list from the
+    // same predicate the driver uses keeps the two from drifting; spelling the
+    // condition out again here is how this assertion would silently start
+    // expecting the wrong lesson's challenges.
     expect(revealed, `challenges with no declarable answer in ${id}`).toEqual(
-      lesson.challenges.filter((c) => c.type === 'play_it_out').map((c) => c.id),
+      lesson.challenges.filter((c) => !driverCanPlay(c)).map((c) => c.id),
     );
   });
 }
