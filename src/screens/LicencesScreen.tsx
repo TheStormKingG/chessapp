@@ -76,10 +76,17 @@ const entries: Entry[] = [
       'The names of the opening lines, used to tell you which opening you played and where you left it. Dedicated to the public domain under CC0 1.0; ChessApp ships a derived index of the lines, not the original files.',
     links: [{ label: 'Project', href: 'https://github.com/lichess-org/chess-openings' }],
   },
+  {
+    name: 'Lichess puzzle database',
+    licence: 'CC0-1.0',
+    note:
+      'The positions you solve in the Puzzles tab. Dedicated to the public domain under CC0 1.0; ChessApp ships a curated derived subset, not the original files — about 7,900 puzzles across three rating bands, filtered to the eight motifs Sections 1 and 2 teach.',
+    links: [{ label: 'Project', href: 'https://database.lichess.org/' }],
+  },
 ];
 
 /**
- * NEUMORPHIC-DELTA.md §6 / chunk N2. Ten containers, one grammar: each entry
+ * NEUMORPHIC-DELTA.md §6 / chunk N2. Eleven containers, one grammar: each entry
  * is a `--surface-raised` panel on `--shadow-raised` at `--radius-card`, with
  * no border at all. The 1px `--edge-strong` ring is gone for the reason §3.1
  * gives that token — it is "every control border" — and a licence entry is

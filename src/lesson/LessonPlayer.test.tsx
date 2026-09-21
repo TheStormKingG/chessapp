@@ -1,5 +1,6 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { MemoryRouter } from 'react-router';
 import { LessonPlayer } from './LessonPlayer';
 import type { Lesson } from './types';
 
@@ -309,4 +310,47 @@ test('leaving mid-challenge warns first and says the place is saved', async () =
   await userEvent.click(screen.getByRole('button', { name: 'Exit lesson' }));
   await userEvent.click(screen.getByRole('button', { name: 'Leave' }));
   expect(onExit).toHaveBeenCalledTimes(1);
+});
+
+/**
+ * F-PZ-2 d: a lesson whose idea is one of the shipped puzzle motifs offers the
+ * themed practice for it on the way out. The link is rendered from
+ * `themeForLesson`, so a lesson that teaches a habit rather than a motif gets
+ * no link at all rather than a link to a practice set that does not exist —
+ * and a link to nowhere is the failure this pair of tests is here to stop.
+ */
+async function playToClose() {
+  await userEvent.click(screen.getByRole('button', { name: /start/i }));
+  await userEvent.click(screen.getByRole('button', { name: /next/i }));
+  await userEvent.click(screen.getByRole('button', { name: 'Pin' }));
+  await userEvent.click(screen.getByRole('button', { name: /next/i }));
+  await userEvent.type(screen.getByLabelText('Type a move'), 'e4{enter}');
+  await userEvent.click(screen.getByRole('button', { name: /next/i }));
+}
+
+test('a motif lesson offers the themed practice for its motif on the way out', async () => {
+  render(
+    <MemoryRouter>
+      <LessonPlayer
+        lesson={{ ...lesson, id: '1.3.3' }}
+        onComplete={() => {}}
+        onExit={() => {}}
+        textEntry
+      />
+    </MemoryRouter>,
+  );
+  await playToClose();
+  const link = screen.getByRole('link', { name: /practi[sc]e/i });
+  expect(link).toHaveAttribute('href', expect.stringContaining('mateIn1'));
+});
+
+test('a lesson with no motif is offered no practice link', async () => {
+  render(
+    <MemoryRouter>
+      <LessonPlayer lesson={lesson} onComplete={() => {}} onExit={() => {}} textEntry />
+    </MemoryRouter>,
+  );
+  await playToClose();
+  expect(screen.getByText('Remember this.')).toBeInTheDocument();
+  expect(screen.queryByRole('link')).not.toBeInTheDocument();
 });

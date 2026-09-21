@@ -60,9 +60,20 @@ export default defineConfig({
           {
             urlPattern: ({ url }) => url.pathname.includes('/data/'),
             handler: 'CacheFirst',
+            // The puzzle packs (`public/data/puzzles/<band>.txt`, PRD 8.4
+            // F-PZ-9) are served by this same route and for the same reason:
+            // `globPatterns` omits `txt`, so they are fetched once and held
+            // here for offline solving.
+            //
+            // maxEntries was 4, which was exactly the opening book alone. The
+            // three band packs take it to 4 and the daily pack to 5, so the
+            // bound would have started evicting on the first offline session —
+            // silently, as a cache miss looks identical to a first fetch. The
+            // cache name is left as `opening-book` deliberately: renaming it
+            // would orphan every returning client's copy of the book.
             options: {
               cacheName: 'opening-book',
-              expiration: { maxEntries: 4, maxAgeSeconds: 60 * 60 * 24 * 30 },
+              expiration: { maxEntries: 8, maxAgeSeconds: 60 * 60 * 24 * 30 },
             },
           },
         ],

@@ -37,7 +37,14 @@ export default defineConfig({
         url: `http://localhost:${port}/`,
         // Reusing a running server locally is convenient; in CI it would hide
         // a server that failed to start.
-        reuseExistingServer: !process.env['CI'],
+        // NEVER reuse in PREVIEW mode. The command above builds before it
+        // serves, precisely so a run cannot test a stale artefact — and reuse
+        // skips the command entirely. Worse, it does not check WHAT is on the
+        // port: a dev server, or a preview server from another worktree, is
+        // reused silently and the run measures somebody else's build. That
+        // produced 10 phantom failures in one session and invalidated a full
+        // suite run in another.
+        reuseExistingServer: !process.env['CI'] && !preview,
         timeout: 120_000,
       },
 });

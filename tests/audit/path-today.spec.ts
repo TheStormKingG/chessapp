@@ -25,7 +25,7 @@ async function passCheckpoint(page: Page, unit: string) {
   await page.getByRole('button', { name: 'Start', exact: true }).click();
   for (let i = 0; i < bank.sample; i++) {
     await expect(page.getByText(`${String(i + 1)} of ${String(bank.sample)}`)).toBeVisible();
-    await answerCorrectly(page, await currentChallenge(page, bank.bank));
+    await answerCorrectly(page, await currentChallenge(page, bank.bank), { scored: true });
     await page.getByRole('button', { name: 'Next', exact: true }).click();
   }
   await page.getByRole('button', { name: 'See your score' }).click();
