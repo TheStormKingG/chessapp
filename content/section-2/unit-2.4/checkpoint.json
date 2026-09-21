@@ -1,0 +1,492 @@
+{
+  "unit": "2.4",
+  "title": "Back-rank and helper mates",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "2.4-k01",
+      "type": "find_the_move",
+      "fen": "4r1k1/5ppp/8/8/8/8/5PPP/4R1K1 w - - 0 1",
+      "prompt": "Both rooks are on the e-file and it is White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Rxe8#"
+        ]
+      },
+      "concept": "back-rank",
+      "reason": "Rxe8 is mate: f7, g7 and h7 are the king's own pawns and f8 and h8 are the rook's."
+    },
+    {
+      "id": "2.4-k02",
+      "type": "find_the_move",
+      "fen": "2r3k1/5ppp/8/8/8/8/5PPP/2R3K1 w - - 0 1",
+      "prompt": "Mate in one.",
+      "answer": {
+        "moves": [
+          "Rxc8#"
+        ]
+      },
+      "concept": "back-rank",
+      "reason": "Rxc8 gives check along the eighth rank and the king has no square to step to."
+    },
+    {
+      "id": "2.4-k03",
+      "type": "find_the_move",
+      "fen": "1k2r3/ppp5/8/8/8/8/5PPP/4R1K1 w - - 0 1",
+      "prompt": "The black king has castled the other way. Mate in one.",
+      "answer": {
+        "moves": [
+          "Rxe8#"
+        ]
+      },
+      "concept": "back-rank",
+      "reason": "Rxe8 is mate. a7, b7 and c7 are its own pawns, and the rook covers the rest of the rank."
+    },
+    {
+      "id": "2.4-k04",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/8/8/8/1q3PPP/4R1K1 w - - 0 1",
+      "prompt": "Black is threatening mate on b1. Get there first.",
+      "answer": {
+        "moves": [
+          "Re8#"
+        ]
+      },
+      "concept": "back-rank",
+      "reason": "Re8 is mate, and one move slower it would have been Black mating instead."
+    },
+    {
+      "id": "2.4-k05",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/8/8/8/2r2PPP/3Q2K1 w - - 0 1",
+      "prompt": "A queen does it as well as a rook. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qd8#"
+        ]
+      },
+      "concept": "back-rank",
+      "reason": "Qd8 is check along the eighth rank, and every square the king has is a pawn of its own."
+    },
+    {
+      "id": "2.4-k06",
+      "type": "which_square",
+      "fen": "1k1r4/ppp5/8/8/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "Tap the square your rook goes to in order to give mate.",
+      "answer": {
+        "square": "d8"
+      },
+      "concept": "back-rank",
+      "reason": "Rxd8 takes the defender and mates in the same move."
+    },
+    {
+      "id": "2.4-k07",
+      "type": "name_the_pattern",
+      "fen": "3R2k1/5ppp/8/8/8/8/r4PPP/6K1 b - - 0 1",
+      "prompt": "White has just played Rd8, check. Why can Black not answer it?",
+      "options": [
+        "No square, nothing that can block on the eighth rank, and nothing that attacks the rook.",
+        "Black can block with the rook on a2.",
+        "Black can take the rook with the king."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "back-rank",
+      "reason": "Move, block, take. All three fail at once, which is what makes a check mate."
+    },
+    {
+      "id": "2.4-k08",
+      "type": "which_square",
+      "fen": "6k1/5pp1/8/8/7p/8/r4PPP/6K1 w - - 0 1",
+      "prompt": "Tap the square your h-pawn goes to so that your king would have a way out of a check on the first rank.",
+      "answer": {
+        "square": "h3"
+      },
+      "concept": "escape-square",
+      "reason": "After h3 the king has h2, and a rook on the first rank is only a check."
+    },
+    {
+      "id": "2.4-k09",
+      "type": "is_it_safe",
+      "fen": "6k1/5pp1/8/8/7p/8/r4PPP/6K1 w - - 0 1",
+      "move": "h3",
+      "prompt": "White pushes the h-pawn so the king has somewhere to go. Is the pawn safe on h3?",
+      "reasons": [
+        "Yes. Nothing black attacks h3.",
+        "No. The pawn on h4 takes it.",
+        "No. The rook on a2 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "escape-square",
+      "reason": "The black pawn on h4 captures to g3, and a rook on a2 cannot reach h3."
+    },
+    {
+      "id": "2.4-k10",
+      "type": "find_them_all",
+      "fen": "6k1/5ppp/8/8/8/8/r4PPP/3R2K1 w - - 0 1",
+      "prompt": "Tap every black pawn standing on a square its own king could otherwise use.",
+      "answer": {
+        "pieces": [
+          "f7",
+          "g7",
+          "h7"
+        ]
+      },
+      "concept": "escape-square",
+      "reason": "All three of the king's neighbours on the seventh rank are its own pawns."
+    },
+    {
+      "id": "2.4-k11",
+      "type": "name_the_pattern",
+      "fen": "6k1/5pp1/7p/8/8/8/r4PPP/6K1 w - - 0 1",
+      "prompt": "Black has played h6. What has that changed?",
+      "options": [
+        "The king now has h7, so a check on the eighth rank is only a check.",
+        "Nothing at all.",
+        "It loses, because g6 is now weak."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "escape-square",
+      "reason": "One pawn move gives the king a way out, and the whole pattern stops working."
+    },
+    {
+      "id": "2.4-k12",
+      "type": "find_the_move",
+      "fen": "r6k/7p/5P2/n7/6Q1/8/2r2PPP/6K1 w - - 0 1",
+      "prompt": "The pawn on f6 is guarding g7. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qg7#"
+        ]
+      },
+      "concept": "support-mate",
+      "reason": "Qg7 is mate: the pawn holds the queen there, g8 is hers, and h7 is the king's own pawn."
+    },
+    {
+      "id": "2.4-k13",
+      "type": "find_the_move",
+      "fen": "r6k/7p/5p1B/8/6Q1/8/2q2PPP/6K1 w - - 0 1",
+      "prompt": "The bishop on h6 is guarding g7. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qg7#"
+        ]
+      },
+      "concept": "support-mate",
+      "reason": "Qg7 is mate. Remove the bishop and the same move would simply lose the queen."
+    },
+    {
+      "id": "2.4-k14",
+      "type": "find_the_move",
+      "fen": "r5nk/5R1p/5p2/8/6Q1/8/2q2PPP/6K1 w - - 0 1",
+      "prompt": "Something of yours already guards g7. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qg7#"
+        ]
+      },
+      "concept": "support-mate",
+      "reason": "The rook on f7 is the helper, so Qg7 is mate rather than a gift."
+    },
+    {
+      "id": "2.4-k15",
+      "type": "which_square",
+      "fen": "7k/7p/5P2/8/6Q1/8/2r2PPP/6K1 w - - 0 1",
+      "prompt": "Tap the square your queen goes to in order to give mate.",
+      "answer": {
+        "square": "g7"
+      },
+      "concept": "support-mate",
+      "reason": "g7 is the square the pawn on f6 defends, which is why the queen survives there."
+    },
+    {
+      "id": "2.4-k16",
+      "type": "is_it_safe",
+      "fen": "7k/7p/5P2/8/6Q1/8/2r2PPP/6K1 w - - 0 1",
+      "move": "Qg8+",
+      "prompt": "White plays the queen to g8, right in front of the black king. Is she safe there?",
+      "reasons": [
+        "Yes. The pawn on f6 defends g8.",
+        "No. The king on h8 simply takes her.",
+        "No. The rook on c2 takes her."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "support-mate",
+      "reason": "A pawn on f6 covers g7 and e7, never g8. One square along, and the queen is lost."
+    },
+    {
+      "id": "2.4-k17",
+      "type": "name_the_pattern",
+      "fen": "r6k/7p/5p1B/8/6Q1/8/2q2PPP/6K1 w - - 0 1",
+      "prompt": "Qg7 is mate here. Which white man makes it a mate rather than a blunder?",
+      "options": [
+        "The bishop on h6, which guards g7.",
+        "The pawn on g2.",
+        "The king on g1."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "support-mate",
+      "reason": "The bishop is the helper. Without something defending g7, a queen there is simply taken."
+    },
+    {
+      "id": "2.4-k18",
+      "type": "find_the_move",
+      "fen": "kr6/1p6/8/8/8/7R/3r1PPP/6K1 w - - 0 1",
+      "prompt": "Mate in one down the a-file.",
+      "answer": {
+        "moves": [
+          "Ra3#"
+        ]
+      },
+      "concept": "corridor-mate",
+      "reason": "The pawn on b7 and the rook on b8 keep the king on the a-file, and Ra3 covers all of it."
+    },
+    {
+      "id": "2.4-k19",
+      "type": "find_the_move",
+      "fen": "6r1/6pk/6p1/8/8/R7/3r1PPP/6K1 w - - 0 1",
+      "prompt": "Mate in one up the h-file.",
+      "answer": {
+        "moves": [
+          "Rh3#"
+        ]
+      },
+      "concept": "corridor-mate",
+      "reason": "h6, h7 and h8 are the king's only squares, and a rook on h3 attacks every one."
+    },
+    {
+      "id": "2.4-k20",
+      "type": "find_the_move",
+      "fen": "6rk/6n1/R7/8/8/8/3r1PPP/6K1 w - - 0 1",
+      "prompt": "Mate in one.",
+      "answer": {
+        "moves": [
+          "Rh6#"
+        ]
+      },
+      "concept": "corridor-mate",
+      "reason": "Rh6 is mate: g7 and g8 are Black's own men, h7 is the rook's, and nothing reaches h6."
+    },
+    {
+      "id": "2.4-k21",
+      "type": "find_them_all",
+      "fen": "6r1/6pk/6p1/8/8/R7/3r1PPP/6K1 w - - 0 1",
+      "prompt": "Tap every black man that shuts its own king into the h-file.",
+      "answer": {
+        "pieces": [
+          "g6",
+          "g7",
+          "g8"
+        ]
+      },
+      "concept": "corridor-mate",
+      "reason": "Two pawns and a rook on the g-file, all Black's own. That is the wall."
+    },
+    {
+      "id": "2.4-k22",
+      "type": "which_square",
+      "fen": "kr6/1p6/8/8/8/7R/3r1PPP/6K1 w - - 0 1",
+      "prompt": "Tap the square your rook goes to in order to give mate.",
+      "answer": {
+        "square": "a3"
+      },
+      "concept": "corridor-mate",
+      "reason": "a3 is the only square on the a-file the rook can reach, and it checks the length of it."
+    },
+    {
+      "id": "2.4-k23",
+      "type": "name_the_pattern",
+      "fen": "6rk/6n1/R7/8/8/8/3r1PPP/6K1 w - - 0 1",
+      "prompt": "The black king is on h8 with its own men on g7 and g8. What follows?",
+      "options": [
+        "It can only move along the h-file, so a rook checking there takes every square it has.",
+        "It is safe, because a king in the corner is hard to reach.",
+        "It can capture the knight on g7 and escape."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "corridor-mate",
+      "reason": "Every square the king has is on one file, so one rook covers all of them at once."
+    },
+    {
+      "id": "2.4-k24",
+      "type": "find_the_move",
+      "fen": "6nk/6pp/8/6N1/8/8/2r2PPP/6K1 w - - 0 1",
+      "prompt": "Mate in one.",
+      "answer": {
+        "moves": [
+          "Nf7#"
+        ]
+      },
+      "concept": "smothered-mate",
+      "reason": "Nf7 attacks h8, and the king's own knight and pawns have taken all three of its squares."
+    },
+    {
+      "id": "2.4-k25",
+      "type": "find_the_move",
+      "fen": "kn6/pp6/8/1N6/8/8/3r1PPP/6K1 w - - 0 1",
+      "prompt": "The same cage in the other corner. Mate in one.",
+      "answer": {
+        "moves": [
+          "Nc7#"
+        ]
+      },
+      "concept": "smothered-mate",
+      "reason": "Nc7 attacks a8, and a7, b7 and b8 are all Black's own men."
+    },
+    {
+      "id": "2.4-k26",
+      "type": "find_the_move",
+      "fen": "6rk/6pp/8/6N1/8/8/2r2PPP/6K1 w - - 0 1",
+      "prompt": "The black king has no square of its own. Mate in one.",
+      "answer": {
+        "moves": [
+          "Nf7#"
+        ]
+      },
+      "concept": "smothered-mate",
+      "reason": "Only a knight can do it: it checks from f7, which nothing black attacks, and cannot be blocked."
+    },
+    {
+      "id": "2.4-k27",
+      "type": "find_them_all",
+      "fen": "kr6/pp6/8/1N6/8/8/3r1PPP/6K1 w - - 0 1",
+      "prompt": "Tap every black man standing on a square its own king could otherwise use.",
+      "answer": {
+        "pieces": [
+          "a7",
+          "b7",
+          "b8"
+        ]
+      },
+      "concept": "smothered-mate",
+      "reason": "Two pawns and a rook, and between them the king has nowhere at all to go."
+    },
+    {
+      "id": "2.4-k28",
+      "type": "which_square",
+      "fen": "6rk/6pp/8/6N1/8/8/2r2PPP/6K1 w - - 0 1",
+      "prompt": "Tap the square your knight goes to in order to give mate.",
+      "answer": {
+        "square": "f7"
+      },
+      "concept": "smothered-mate",
+      "reason": "From f7 the knight attacks h8, and no black man covers f7."
+    },
+    {
+      "id": "2.4-k29",
+      "type": "is_it_safe",
+      "fen": "6rk/6pp/8/6N1/8/8/2r2PPP/6K1 w - - 0 1",
+      "move": "Nf7#",
+      "prompt": "White drops the knight on f7, right beside the black king. Is it safe there?",
+      "reasons": [
+        "Yes. Nothing black attacks f7.",
+        "No. The pawn on g7 takes it.",
+        "No. The rook on g8 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "smothered-mate",
+      "reason": "A black pawn on g7 captures to f6 and h6, and the rook on g8 covers the g-file and the eighth rank."
+    },
+    {
+      "id": "2.4-k30",
+      "type": "find_the_move",
+      "fen": "5rk1/5p2/6P1/7Q/8/8/2r2PPP/6K1 w - - 0 1",
+      "prompt": "The pawn on g6 is guarding h7. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qh7#"
+        ]
+      },
+      "concept": "damiano",
+      "reason": "Qh7 is mate. Taking the queen is illegal, and f7 and f8 are the king's own men."
+    },
+    {
+      "id": "2.4-k31",
+      "type": "find_the_move",
+      "fen": "5bk1/5p2/6P1/7Q/8/8/2q2PPP/6K1 w - - 0 1",
+      "prompt": "Mate in one.",
+      "answer": {
+        "moves": [
+          "Qh7#"
+        ]
+      },
+      "concept": "damiano",
+      "reason": "The bishop on f8 takes the last square away, and the pawn on g6 holds the queen on h7."
+    },
+    {
+      "id": "2.4-k32",
+      "type": "find_the_move",
+      "fen": "1kr5/1pp5/1P6/Q7/8/8/3q1PPP/6K1 w - - 0 1",
+      "prompt": "The pawn on b6 is guarding a7. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qa7#"
+        ]
+      },
+      "concept": "damiano",
+      "reason": "Qa7 is mate: b7 and c7 are the king's own pawns, c8 its own rook, and a8 is covered."
+    },
+    {
+      "id": "2.4-k33",
+      "type": "which_square",
+      "fen": "5rk1/5p2/6P1/7Q/8/8/2q2PPP/6K1 w - - 0 1",
+      "prompt": "Tap the square your queen goes to in order to give mate.",
+      "answer": {
+        "square": "h7"
+      },
+      "concept": "damiano",
+      "reason": "h7 is the square the pawn on g6 defends, and the one the king cannot take on."
+    },
+    {
+      "id": "2.4-k34",
+      "type": "is_it_safe",
+      "fen": "5rk1/5p2/6P1/7Q/8/8/2q2PPP/6K1 w - - 0 1",
+      "move": "Qh7#",
+      "prompt": "White puts the queen on h7, right beside the black king. Is she safe there?",
+      "reasons": [
+        "Yes. The pawn on g6 defends her.",
+        "No. The king takes her.",
+        "No. The rook on f8 takes her."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "damiano",
+      "reason": "The pawn on g6 defends h7, so the king is not allowed to capture."
+    },
+    {
+      "id": "2.4-k35",
+      "type": "name_the_pattern",
+      "fen": "5rk1/5p2/8/7Q/8/8/2r2PPP/6K1 w - - 0 1",
+      "prompt": "There is no white pawn on g6 in this position. What happens if White plays the queen to h7?",
+      "options": [
+        "The king simply takes her, and White has given away a queen.",
+        "It is mate anyway, because of the rook on f8.",
+        "It is stalemate."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "damiano",
+      "reason": "Nothing defends h7 any more. The pawn was doing the whole of the work."
+    }
+  ]
+}
