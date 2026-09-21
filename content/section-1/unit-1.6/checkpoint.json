@@ -348,13 +348,13 @@
       "id": "1.6-k21",
       "type": "play_it_out",
       "fen": "7K/8/2p5/8/8/8/p6N/6Rk w - - 0 1",
-      "prompt": "Checkmate in one move.",
+      "prompt": "Mate in one move.",
       "goal": {
         "kind": "mate_in",
         "moves": 1
       },
       "opponentDepth": 4,
-      "concept": "check-mate",
+      "concept": "checkmate",
       "hints": {
         "piece": "h2",
         "square": "f3"
@@ -365,13 +365,13 @@
       "id": "1.6-k22",
       "type": "play_it_out",
       "fen": "8/7Q/R7/7k/1pK4P/8/8/8 w - - 0 1",
-      "prompt": "Checkmate in one move.",
+      "prompt": "Mate in one move.",
       "goal": {
         "kind": "mate_in",
         "moves": 1
       },
       "opponentDepth": 4,
-      "concept": "check-mate",
+      "concept": "checkmate",
       "hints": {
         "piece": "a6",
         "square": "g6"
@@ -382,13 +382,13 @@
       "id": "1.6-k23",
       "type": "play_it_out",
       "fen": "k7/7Q/8/8/2p2p1K/8/1R6/8 w - - 0 1",
-      "prompt": "Checkmate in one move.",
+      "prompt": "Mate in one move.",
       "goal": {
         "kind": "mate_in",
         "moves": 1
       },
       "opponentDepth": 4,
-      "concept": "check-mate",
+      "concept": "checkmate",
       "hints": {
         "piece": "h7",
         "square": "b7"
@@ -399,13 +399,13 @@
       "id": "1.6-k24",
       "type": "play_it_out",
       "fen": "4k3/2p5/2KP4/3Q4/8/8/5R2/8 w - - 0 1",
-      "prompt": "Checkmate in one move.",
+      "prompt": "Mate in one move.",
       "goal": {
         "kind": "mate_in",
         "moves": 1
       },
       "opponentDepth": 4,
-      "concept": "check-mate",
+      "concept": "checkmate",
       "hints": {
         "piece": "d5",
         "square": "g8"

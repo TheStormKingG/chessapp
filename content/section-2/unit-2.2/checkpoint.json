@@ -1,0 +1,499 @@
+{
+  "unit": "2.2",
+  "title": "Forks",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "2.2-k01",
+      "type": "find_the_move",
+      "fen": "r5k1/5ppp/4q3/1N6/8/8/5PPP/3Q2K1 w - - 0 1",
+      "prompt": "Fork the queen and the rook.",
+      "concept": "knight-fork",
+      "answer": {
+        "moves": [
+          "Nc7"
+        ]
+      },
+      "reason": "From c7 the knight attacks the rook on a8 and the queen on e6, and nothing covers c7."
+    },
+    {
+      "id": "2.2-k02",
+      "type": "find_the_move",
+      "fen": "r3k2r/5ppp/8/1N6/8/8/5PPP/4K2R w Kkq - 0 1",
+      "prompt": "Win the rook on a8.",
+      "concept": "knight-fork",
+      "answer": {
+        "moves": [
+          "Nc7+"
+        ]
+      },
+      "reason": "Nc7 is check and attacks a8. The king must move, and the rook goes."
+    },
+    {
+      "id": "2.2-k03",
+      "type": "find_the_move",
+      "fen": "3r3k/6pp/8/4N3/8/8/5PPP/4R1K1 w - - 0 1",
+      "prompt": "One jump wins the rook.",
+      "concept": "knight-fork",
+      "answer": {
+        "moves": [
+          "Nf7+"
+        ]
+      },
+      "reason": "From f7 the knight hits the king on h8 and the rook on d8 together."
+    },
+    {
+      "id": "2.2-k04",
+      "type": "find_the_move",
+      "fen": "5r1k/6p1/8/4N3/8/8/5PPP/4R1K1 w - - 0 1",
+      "prompt": "Fork the king and the rook.",
+      "concept": "knight-fork",
+      "answer": {
+        "moves": [
+          "Ng6+"
+        ]
+      },
+      "reason": "The pawn on g7 captures on f6 and h6, so g6 is safe. The knight hits h8 and f8."
+    },
+    {
+      "id": "2.2-k05",
+      "type": "find_the_move",
+      "fen": "7r/pk1q4/8/1PP5/8/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "A pawn push wins the queen.",
+      "concept": "pawn-fork",
+      "answer": {
+        "moves": [
+          "c6+"
+        ]
+      },
+      "reason": "c6 attacks b7 and d7. The pawn on b5 defends it, so the king cannot take."
+    },
+    {
+      "id": "2.2-k06",
+      "type": "find_the_move",
+      "fen": "1r6/p3q1kp/8/4PP2/8/8/6PP/R5K1 w - - 0 1",
+      "prompt": "One pawn move attacks the king and the queen.",
+      "concept": "pawn-fork",
+      "answer": {
+        "moves": [
+          "f6+"
+        ]
+      },
+      "reason": "f6 is check and hits e7. The pawn on e5 defends f6, so taking with the queen loses her too."
+    },
+    {
+      "id": "2.2-k07",
+      "type": "find_the_move",
+      "fen": "6k1/p5pp/3r1n2/8/4P3/8/5PPP/1R4K1 w - - 0 1",
+      "prompt": "Push a pawn and win a piece.",
+      "concept": "pawn-fork",
+      "answer": {
+        "moves": [
+          "e5"
+        ]
+      },
+      "reason": "From e5 the pawn attacks the rook on d6 and the knight on f6. Only one of them can be saved."
+    },
+    {
+      "id": "2.2-k08",
+      "type": "find_the_move",
+      "fen": "3q3k/6pp/3r4/4N3/8/8/5PPP/4R1K1 w - - 0 1",
+      "prompt": "King, queen and rook in one jump. Play it.",
+      "concept": "family-fork",
+      "answer": {
+        "moves": [
+          "Nf7+"
+        ]
+      },
+      "reason": "f7 attacks h8, d8 and d6 at once. The check comes first, so nothing can run."
+    },
+    {
+      "id": "2.2-k09",
+      "type": "find_them_all",
+      "fen": "2r1r1k1/5ppp/8/3N4/8/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Tap every black piece the knight would attack from e7.",
+      "concept": "knight-fork",
+      "answer": {
+        "pieces": [
+          "c8",
+          "g8"
+        ]
+      },
+      "reason": "A knight on e7 reaches c6, c8, d5, f5, g6 and g8. Only c8 and g8 are occupied."
+    },
+    {
+      "id": "2.2-k10",
+      "type": "find_them_all",
+      "fen": "3r3k/6pp/8/6N1/8/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Tap every black piece the knight would attack from f7.",
+      "concept": "knight-fork",
+      "answer": {
+        "pieces": [
+          "d8",
+          "h8"
+        ]
+      },
+      "reason": "From f7 the knight hits d8 and h8 \u2014 the rook and the king."
+    },
+    {
+      "id": "2.2-k11",
+      "type": "find_them_all",
+      "fen": "6k1/5ppp/3n1r2/8/4P3/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Tap every black piece the e-pawn would attack from e5.",
+      "concept": "pawn-fork",
+      "answer": {
+        "pieces": [
+          "d6",
+          "f6"
+        ]
+      },
+      "reason": "A pawn on e5 attacks d6 and f6, and a piece is standing on each."
+    },
+    {
+      "id": "2.2-k12",
+      "type": "find_them_all",
+      "fen": "8/1k1r3p/8/1PP5/8/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Tap every black piece the c-pawn would attack from c6.",
+      "concept": "pawn-fork",
+      "answer": {
+        "pieces": [
+          "b7",
+          "d7"
+        ]
+      },
+      "reason": "From c6 the pawn attacks b7 and d7 \u2014 the king and the rook."
+    },
+    {
+      "id": "2.2-k13",
+      "type": "find_them_all",
+      "fen": "r5k1/6pp/8/8/8/8/5PPP/3Q2K1 w - - 0 1",
+      "prompt": "Tap every black piece the queen would attack from d5.",
+      "concept": "queen-fork",
+      "answer": {
+        "pieces": [
+          "a8",
+          "g8"
+        ]
+      },
+      "reason": "Two diagonals from d5: one runs to a8, the other to g8."
+    },
+    {
+      "id": "2.2-k14",
+      "type": "find_them_all",
+      "fen": "8/r4pkp/p7/8/8/8/5PPP/3Q2K1 w - - 0 1",
+      "prompt": "Tap every black piece the queen would attack from d4.",
+      "concept": "queen-fork",
+      "answer": {
+        "pieces": [
+          "a7",
+          "g7"
+        ]
+      },
+      "reason": "d4-c5-b6-a7 reaches the rook, and d4-e5-f6-g7 reaches the king."
+    },
+    {
+      "id": "2.2-k15",
+      "type": "find_them_all",
+      "fen": "r3k3/pp5p/4q3/1N6/8/8/5PPP/3R2K1 w q - 0 1",
+      "prompt": "Tap every black piece the knight would attack from c7.",
+      "concept": "family-fork",
+      "answer": {
+        "pieces": [
+          "a8",
+          "e6",
+          "e8"
+        ]
+      },
+      "reason": "Rook, queen and king in one jump: a8, e6 and e8."
+    },
+    {
+      "id": "2.2-k16",
+      "type": "find_them_all",
+      "fen": "3q2k1/6pp/8/6N1/2Q5/8/5PPP/6K1 b - - 0 1",
+      "prompt": "Black is in check from c4. Tap every square his king can move to.",
+      "concept": "fork-with-check",
+      "answer": {
+        "squares": [
+          "f8",
+          "h8"
+        ]
+      },
+      "reason": "f7 is covered by the queen and g7 and h7 are his own pawns, so only f8 and h8 are left."
+    },
+    {
+      "id": "2.2-k17",
+      "type": "which_square",
+      "fen": "3q3k/6pp/8/6N1/8/8/5PPP/4R1K1 w - - 0 1",
+      "prompt": "Tap the square from which the knight attacks the king and the queen at once.",
+      "concept": "knight-fork",
+      "answer": {
+        "square": "f7"
+      },
+      "reason": "f7 is the only square that reaches both h8 and d8."
+    },
+    {
+      "id": "2.2-k18",
+      "type": "which_square",
+      "fen": "2r1k3/pp5p/8/1N6/8/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Tap the square where the knight forks the king and the rook.",
+      "concept": "knight-fork",
+      "answer": {
+        "square": "d6"
+      },
+      "reason": "From d6 the knight hits c8 and e8. From c7 it hits the king but not the rook."
+    },
+    {
+      "id": "2.2-k19",
+      "type": "which_square",
+      "fen": "6k1/5ppp/3n1n2/8/4P3/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Tap the square the e-pawn goes to so that it attacks both knights.",
+      "concept": "pawn-fork",
+      "answer": {
+        "square": "e5"
+      },
+      "reason": "From e5 the pawn attacks d6 and f6, and a knight is on each."
+    },
+    {
+      "id": "2.2-k20",
+      "type": "which_square",
+      "fen": "8/1k1r4/8/1PP5/8/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Tap the square the c-pawn goes to so that it attacks the king and the rook.",
+      "concept": "pawn-fork",
+      "answer": {
+        "square": "c6"
+      },
+      "reason": "c6 attacks b7 and d7, and the pawn on b5 defends it."
+    },
+    {
+      "id": "2.2-k21",
+      "type": "which_square",
+      "fen": "r5k1/6p1/8/8/8/8/5PPP/3Q2K1 w - - 0 1",
+      "prompt": "Tap the square from which the queen checks the king and attacks the rook.",
+      "concept": "queen-fork",
+      "answer": {
+        "square": "d5"
+      },
+      "reason": "d5 sees a8 down one diagonal and g8 down the other."
+    },
+    {
+      "id": "2.2-k22",
+      "type": "which_square",
+      "fen": "7k/2q3pp/8/6N1/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "The knight forks from f7 if a black piece stands on d8. Tap the square your rook must go to.",
+      "concept": "fork-with-check",
+      "answer": {
+        "square": "d8"
+      },
+      "reason": "Rd8 is check and only the queen can take it, which leaves her on d8 — where the knight on f7 hits her and the king together."
+    },
+    {
+      "id": "2.2-k23",
+      "type": "is_it_safe",
+      "fen": "2r3k1/5ppp/8/3N4/8/8/5PPP/1R4K1 w - - 0 1",
+      "move": "Ne7+",
+      "prompt": "White forks the king and the rook with Ne7 check. Is the knight safe there?",
+      "concept": "knight-fork",
+      "reasons": [
+        "Yes. Neither the king nor the rook covers e7.",
+        "No. The king on g8 takes the knight.",
+        "No. The rook on c8 takes the knight."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "reason": "e7 is two squares from the king and off the rook's file and rank."
+    },
+    {
+      "id": "2.2-k24",
+      "type": "is_it_safe",
+      "fen": "3r2k1/6pp/8/4N3/8/8/5PPP/R5K1 w - - 0 1",
+      "move": "Nf7",
+      "prompt": "White jumps to f7, attacking the rook on d8. Is the knight safe there?",
+      "concept": "knight-fork",
+      "reasons": [
+        "Yes. Nothing covers f7.",
+        "No. The king on g8 takes the knight.",
+        "No. The rook on d8 takes the knight."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "reason": "f7 is next door to g8. A fork square has to be a square the enemy does not cover."
+    },
+    {
+      "id": "2.2-k25",
+      "type": "is_it_safe",
+      "fen": "8/p2r1k1p/8/4P3/8/8/6PP/R5K1 w - - 0 1",
+      "move": "e6+",
+      "prompt": "White pushes to e6, check, attacking the rook on d7. Is the pawn safe there?",
+      "concept": "pawn-fork",
+      "reasons": [
+        "Yes. The king may not take a checking pawn.",
+        "No. Nothing defends e6, so the king simply takes it.",
+        "No. The rook on d7 takes the pawn."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "reason": "Without a pawn on d5 to defend e6, Kxe6 wins the pawn and the fork never happens."
+    },
+    {
+      "id": "2.2-k26",
+      "type": "is_it_safe",
+      "fen": "r5k1/6p1/7p/8/8/8/5PPP/3Q2K1 w - - 0 1",
+      "move": "Qd5+",
+      "prompt": "The queen forks the king and the rook from d5. Is she safe there?",
+      "concept": "queen-fork",
+      "reasons": [
+        "Yes. No black piece covers d5, so Black must answer the check.",
+        "No. The rook on a8 takes her.",
+        "No. The king takes her."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "reason": "The queen is the most expensive forker, so the square must be one nothing attacks."
+    },
+    {
+      "id": "2.2-k27",
+      "type": "is_it_safe",
+      "fen": "3q1k2/ppr3pp/8/6N1/8/8/5PPP/4R1K1 w - - 0 1",
+      "move": "Ne6+",
+      "prompt": "The knight lands on e6 with check, hitting king, queen and rook. Is it safe there?",
+      "concept": "family-fork",
+      "reasons": [
+        "Yes. Nothing attacks e6, so all three are hit for free.",
+        "No. The queen on d8 takes the knight.",
+        "No. The pawn on g7 takes the knight."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "reason": "The queen covers e7, not e6, and the g7 pawn captures on f6 and h6."
+    },
+    {
+      "id": "2.2-k28",
+      "type": "name_the_pattern",
+      "fen": "r2q3k/6pp/8/6N1/8/8/5PPP/4R1K1 w - - 0 1",
+      "prompt": "The knight is about to jump to f7. What does it attack from there?",
+      "concept": "knight-fork",
+      "options": [
+        "The king on h8 and the queen on d8.",
+        "The king on h8 only.",
+        "The queen on d8 only."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "Both at once, and the check has to be answered first, so the queen cannot run."
+    },
+    {
+      "id": "2.2-k29",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/3n1r2/8/4P3/8/5PPP/1R4K1 w - - 0 1",
+      "prompt": "White plays e4-e5. What has the pawn done?",
+      "concept": "pawn-fork",
+      "options": [
+        "It attacks the knight and the rook at once, so one of them is lost.",
+        "It attacks the rook on f6 and nothing else.",
+        "Nothing. Both black pieces defend each other."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "A pawn attacks the two squares diagonally in front of it, and here both are occupied."
+    },
+    {
+      "id": "2.2-k30",
+      "type": "name_the_pattern",
+      "fen": "1r4k1/6pp/8/8/8/8/5PPP/3Q2K1 w - - 0 1",
+      "prompt": "White plays Qb3, check. Why is that more than a check?",
+      "concept": "queen-fork",
+      "options": [
+        "It also attacks the rook on b8 down the open b-file.",
+        "It attacks nothing else.",
+        "It threatens checkmate on g8."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "One diagonal to g8, one file to b8. The king moves first and the rook is left behind."
+    },
+    {
+      "id": "2.2-k31",
+      "type": "name_the_pattern",
+      "fen": "2r1k2r/p6p/8/1N3q2/8/8/5PPP/3R2K1 w k - 0 1",
+      "prompt": "The knight goes to d6, check. How many black pieces does it attack from there?",
+      "concept": "family-fork",
+      "options": [
+        "Three: the king on e8, the rook on c8 and the queen on f5.",
+        "Two: the king on e8 and the rook on c8.",
+        "One: only the king on e8."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "King, rook and queen in one jump. The check is answered first, so the queen falls."
+    },
+    {
+      "id": "2.2-k32",
+      "type": "name_the_pattern",
+      "fen": "7k/6pp/1q6/4N3/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "White plays Rd8, check. Why give the rook up like that?",
+      "concept": "fork-with-check",
+      "options": [
+        "The queen is the only piece that can take it, and then Nf7 forks the king and the queen.",
+        "It threatens checkmate on the back rank.",
+        "It wins the queen straight away."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "The rook buys the d8 square. Nf7 then hits h8 and d8 together and wins the queen for a rook."
+    },
+    {
+      "id": "2.2-k33",
+      "type": "which_square",
+      "fen": "3q2k1/6pp/8/6N1/8/B7/5PPP/2Q3K1 w - - 0 1",
+      "prompt": "The king must be on h8 before Nf7 forks. Tap the square your queen gives check from.",
+      "concept": "fork-with-check",
+      "answer": {
+        "square": "c4"
+      },
+      "reason": "From c4 the queen checks along c4-d5-e6-f7-g8. The bishop on a3 covers f8, so the king must go to h8."
+    },
+    {
+      "id": "2.2-k34",
+      "type": "name_the_pattern",
+      "fen": "3q3k/6pp/8/6N1/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "The black queen has been forced onto d8. What does the knight do from f7?",
+      "concept": "fork-with-check",
+      "options": [
+        "Check to the king on h8, and it attacks the queen on d8 as well.",
+        "Check to the king on h8, and nothing else.",
+        "Nothing. The queen on d8 takes the knight."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "That is the whole point of the check that came first: the queen had to stand on d8."
+    },
+    {
+      "id": "2.2-k35",
+      "type": "which_square",
+      "fen": "r3k3/pp4bp/4q3/1N6/8/8/5PPP/3R2K1 w q - 0 1",
+      "prompt": "Tap the square where the knight attacks the king, the queen and the rook all at once.",
+      "concept": "family-fork",
+      "answer": {
+        "square": "c7"
+      },
+      "reason": "From c7 the knight reaches a8, e6 and e8 \u2014 rook, queen and king in one jump."
+    }
+  ]
+}

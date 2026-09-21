@@ -67,7 +67,12 @@ test.describe('PRD Phase 0 exit criterion', () => {
     log.mark('phase 0 exit');
     await enableTextEntry(page);
 
-    const units = unitIds();
+    // SECTION 1's units, explicitly. `unitIds()` now walks the whole corpus --
+    // it was scoped to `content/section-1` and so was silently blind to
+    // Section 2 -- but this test is not a corpus sweep. It is the PRD's Phase 0
+    // exit criterion, which is a claim about Section 1 and completes it end to
+    // end; widening it would make it assert something the PRD does not.
+    const units = unitIds('1');
     expect(units).toEqual(['1.1', '1.2', '1.3', '1.4', '1.5', '1.6']);
 
     // The whole section is on the path from the first screen, and nothing on it
@@ -79,7 +84,7 @@ test.describe('PRD Phase 0 exit criterion', () => {
     }
 
     for (const [u, unit] of units.entries()) {
-      const lessons = lessonIds().filter((id) => id.startsWith(`${unit}.`));
+      const lessons = lessonIds('1').filter((id) => id.startsWith(`${unit}.`));
       // The unit's first lesson is the active node the moment the unit opens.
       await page.goto('./path');
       await expect(
@@ -105,7 +110,7 @@ test.describe('PRD Phase 0 exit criterion', () => {
       await page.goto('./path');
       await expect(page.locator(`a[href="/checkpoint/${unit}"]`)).toHaveCount(1);
       if (next) {
-        const firstOfNext = lessonIds().find((id) => id.startsWith(`${next}.`))!;
+        const firstOfNext = lessonIds('1').find((id) => id.startsWith(`${next}.`))!;
         await expect(
           page.getByRole('link', {
             name: new RegExp(`^${firstOfNext.replace(/\./g, '\\.')} .*Up next$`),
@@ -114,12 +119,30 @@ test.describe('PRD Phase 0 exit criterion', () => {
       }
     }
 
-    // The section is finished: Today has nothing left to offer. (Today is the
-    // app's index route, `/` -- `/today` is a 404.)
+    // The section is finished. (Today is the app's index route, `/` --
+    // `/today` is a 404.)
+    //
+    // This used to assert Today had NOTHING left to offer, which was a claim
+    // about the corpus dressed up as a claim about Section 1: it held only
+    // while Section 1 was everything that was built. Unit 2.1 is built, so
+    // Today correctly offers 2.1.1 and the terminal message is correctly
+    // absent -- the assertion was passing for a reason that has now expired,
+    // not testing the criterion.
+    //
+    // SCOPED to what the PRD actually says: a tester who completes Section 1
+    // is done with Section 1, and the app carries them across the section
+    // boundary rather than stopping dead. The terminal message is owned by
+    // `TodayScreen.test.tsx`, which walks the built units rather than naming a
+    // section and so cannot expire the same way.
     await page.goto('./');
+    await expect(page.getByRole('link', { name: /2\.1\.1/ })).toBeVisible();
+    // Nothing of Section 1 is left to do: no Section 1 lesson is offered.
+    await expect(page.getByRole('link', { name: /Lesson 1\./ })).toHaveCount(0);
+    // And the terminal message is absent for the right reason -- there IS more
+    // built -- rather than because the locator went stale.
     await expect(
       page.getByText('You have finished everything that is built so far. More lessons are coming.'),
-    ).toBeVisible();
+    ).toHaveCount(0);
 
     /* ------------------------------------------- and a legal game vs Rosa */
 

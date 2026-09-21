@@ -1,0 +1,136 @@
+{
+  "id": "2.2.4",
+  "unit": "2.2",
+  "title": "Setting up a fork with a check",
+  "xp": 14,
+  "card": {
+    "idea": "A fork needs two pieces standing on the two squares you can hit. Often only one of them is there. A check is the way to fix that, because a check cannot be ignored: it drags the king to the square you want, or forces another piece onto it.",
+    "diagrams": ["3q2k1/6pp/8/4N3/8/B7/5PPP/2Q3K1 w - - 0 1"],
+    "habit": "Level two begins here — basic tactics are now allowed."
+  },
+  "explain": [
+    {
+      "fen": "3q2k1/6pp/8/4N3/8/B7/5PPP/2Q3K1 w - - 0 1",
+      "text": "From f7 the knight attacks d8 and h8. The queen is on d8 already, but the king is on g8, and f7 does not touch g8. Qc4 is check, f8 is covered by the bishop, and the king has to go to h8 — onto the fork.",
+      "arrows": [["c1", "c4"], ["e5", "f7"]],
+      "highlights": ["c4", "h8", "d8"]
+    },
+    {
+      "fen": "7k/2q3pp/8/4N3/8/8/5PPP/3R2K1 w - - 0 1",
+      "text": "Now the other way round. The king is already on h8, but d8 is empty, so Nf7 would be a check and nothing more. Rd8 is check, and the queen is the only piece that can take it. Now d8 is occupied.",
+      "arrows": [["d1", "d8"], ["e5", "f7"]],
+      "highlights": ["d8", "h8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.2.4-c1",
+      "type": "which_square",
+      "fen": "3q2k1/6pp/8/4N3/8/B7/5PPP/2Q3K1 w - - 0 1",
+      "prompt": "Your knight is looking for one square that attacks both d8 and h8. Tap that square.",
+      "answer": { "square": "f7" },
+      "concept": "fork-with-check",
+      "hints": {
+        "piece": "e5",
+        "text": "d8 and h8 are four files apart. A knight can only hit both from the square halfway between them."
+      },
+      "reason": "f7 is the square. Nothing else on the board attacks d8 and h8 together."
+    },
+    {
+      "id": "2.2.4-c2",
+      "type": "is_it_safe",
+      "fen": "3q2k1/6pp/8/4N3/8/B7/5PPP/2Q3K1 w - - 0 1",
+      "move": "Nf7",
+      "prompt": "White jumps to f7 straight away, attacking the queen. Is the knight safe there?",
+      "reasons": [
+        "Yes. Nothing covers f7.",
+        "No. The king on g8 takes the knight.",
+        "No. The queen on d8 takes the knight."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "fork-with-check",
+      "hints": {
+        "piece": "g8",
+        "text": "The king is standing next to f7. Ask what defends the knight once it lands."
+      },
+      "reason": "f7 is next door to g8, so the king takes it. The king has to be on h8 before f7 works."
+    },
+    {
+      "id": "2.2.4-c3",
+      "type": "find_the_move",
+      "fen": "3q2k1/6pp/8/4N3/8/B7/5PPP/2Q3K1 w - - 0 1",
+      "prompt": "Give the check that drives his king onto h8, so the knight on e5 can then fork from f7.",
+      "answer": { "moves": ["Qc4+"] },
+      "wrong": {
+        "Nf7": "The right square, the wrong moment. The king is still on g8 and takes the knight."
+      },
+      "concept": "fork-with-check",
+      "hints": {
+        "piece": "c1",
+        "square": "c4"
+      },
+      "reason": "Qc4 is check, the bishop on a3 covers f8, and the king has to step to h8. Then Nf7 forks."
+    },
+    {
+      "id": "2.2.4-c4",
+      "type": "name_the_pattern",
+      "fen": "3q2k1/6pp/8/4N3/8/B7/5PPP/2Q3K1 w - - 0 1",
+      "prompt": "Why is Qc4 check worth playing before the knight jumps?",
+      "options": [
+        "It drives the king to h8, and from f7 the knight then hits the king and the queen.",
+        "It attacks the queen on d8 as well as the king.",
+        "It threatens checkmate on g8 next move."
+      ],
+      "answer": { "option": 0 },
+      "concept": "fork-with-check",
+      "hints": {
+        "square": "h8",
+        "text": "Look at which squares the king has left once the check arrives."
+      },
+      "reason": "Blocking with Qd5 only loses the queen to Qxd5, so the king goes to h8 and Nf7 forks."
+    },
+    {
+      "id": "2.2.4-c5",
+      "type": "find_the_move",
+      "fen": "7k/2q3pp/8/4N3/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "Nf7 would fork d8 and h8, but d8 is empty. Put something on it.",
+      "answer": { "moves": ["Rd8+"] },
+      "wrong": {
+        "Nf7+": "Check, and nothing else. d8 is still empty, so the king moves and you have gained nothing."
+      },
+      "concept": "fork-with-check",
+      "hints": {
+        "piece": "d1",
+        "square": "d8"
+      },
+      "reason": "Rd8 is check, the king has no square, and only the queen can take. She lands on d8."
+    },
+    {
+      "id": "2.2.4-c6",
+      "type": "find_the_sequence",
+      "fen": "7k/2q3pp/8/4N3/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "Win the queen: your check, his only reply, then the fork.",
+      "answer": { "line": ["Rd8+", "Qxd8", "Nf7+"] },
+      "concept": "fork-with-check",
+      "hints": {
+        "piece": "d1",
+        "square": "d8"
+      },
+      "reason": "Rd8 forces Qxd8, and Nf7 then hits the king on h8 and the queen on d8 at once."
+    },
+    {
+      "id": "2.2.4-c7",
+      "type": "find_them_all",
+      "fen": "3q3k/6pp/8/4N3/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "The queen has been forced onto d8. Tap every black piece the knight would attack from f7.",
+      "answer": { "pieces": ["d8", "h8"] },
+      "concept": "fork-with-check",
+      "hints": {
+        "piece": "e5",
+        "text": "A knight on f7 reaches d6, d8, e5, g5, h6 and h8."
+      },
+      "reason": "The queen on d8 and the king on h8. The check comes first, so the queen cannot run."
+    }
+  ],
+  "takeaway": "A fork needs two targets on the right squares. A check is how you put one of them there."
+}

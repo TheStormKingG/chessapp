@@ -1,0 +1,136 @@
+{
+  "id": "2.2.3",
+  "unit": "2.2",
+  "title": "The queen fork and the family fork",
+  "xp": 14,
+  "card": {
+    "idea": "The queen has eight directions, so she forks more often than anything else — but she is also the most expensive piece on the board, so she must fork from a square nothing attacks. When a knight hits king, queen and rook all at once, that is the family fork.",
+    "diagrams": ["r5k1/6pp/8/5p2/8/8/5PPP/3Q2K1 w - - 0 1"],
+    "habit": "Level two begins here — basic tactics are now allowed."
+  },
+  "explain": [
+    {
+      "fen": "r5k1/6pp/8/5p2/8/8/5PPP/3Q2K1 w - - 0 1",
+      "text": "From d5 the queen looks up two diagonals at once: one to a8, one to g8. The king is on one of them and the rook on the other. The king must move first, so the rook is still there afterwards.",
+      "arrows": [["d1", "d5"], ["d5", "a8"], ["d5", "g8"]],
+      "highlights": ["d5", "a8", "g8"]
+    },
+    {
+      "fen": "3q1k2/ppr4p/8/6N1/8/8/5PPP/4R1K1 w - - 0 1",
+      "text": "The knight goes to e6. From there it attacks f8, d8 and c7 — the king, the queen and the rook, in one jump. Black answers the check, and White helps himself to the queen. That is the family fork.",
+      "arrows": [["g5", "e6"]],
+      "highlights": ["e6", "c7", "d8", "f8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.2.3-c1",
+      "type": "which_square",
+      "fen": "r5k1/6pp/8/5p2/8/8/5PPP/3Q2K1 w - - 0 1",
+      "prompt": "Tap the square from which the queen checks the king and attacks the rook at the same time.",
+      "answer": { "square": "d5" },
+      "concept": "queen-fork",
+      "hints": {
+        "piece": "d1",
+        "text": "Look for a square that sees the corner on a8 and the corner on g8 at the same time."
+      },
+      "reason": "d5 is where both long diagonals meet: a8 one way, g8 the other."
+    },
+    {
+      "id": "2.2.3-c2",
+      "type": "find_the_move",
+      "fen": "r5k1/6pp/8/5p2/8/8/5PPP/3Q2K1 w - - 0 1",
+      "prompt": "Win the rook.",
+      "answer": { "moves": ["Qd5+"] },
+      "wrong": {
+        "Qd8+": "Check, but the rook takes her. A fork has to hit both pieces from a safe square."
+      },
+      "concept": "queen-fork",
+      "hints": {
+        "piece": "d1",
+        "square": "d5"
+      },
+      "reason": "Qd5 is check and attacks a8. The king steps aside and the rook falls."
+    },
+    {
+      "id": "2.2.3-c3",
+      "type": "find_them_all",
+      "fen": "8/r4pkp/8/p7/8/8/5PPP/3Q2K1 w - - 0 1",
+      "prompt": "Tap every black piece the queen would attack from d4.",
+      "answer": { "pieces": ["a7", "g7"] },
+      "concept": "queen-fork",
+      "hints": {
+        "piece": "d1",
+        "text": "From d4 follow both diagonals upward, one to the left and one to the right."
+      },
+      "reason": "d4-c5-b6-a7 reaches the rook, and d4-e5-f6-g7 reaches the king."
+    },
+    {
+      "id": "2.2.3-c4",
+      "type": "find_the_move",
+      "fen": "8/r4pkp/8/p7/8/8/5PPP/3Q2K1 w - - 0 1",
+      "prompt": "Win the rook.",
+      "answer": { "moves": ["Qd4+"] },
+      "wrong": {
+        "Qd7": "The queen attacks the rook along the seventh rank — and the rook simply takes her."
+      },
+      "concept": "queen-fork",
+      "hints": {
+        "piece": "d1",
+        "square": "d4"
+      },
+      "reason": "Qd4 is check to g7 and attacks a7. The king moves, and the rook is taken."
+    },
+    {
+      "id": "2.2.3-c5",
+      "type": "name_the_pattern",
+      "fen": "3q1k2/ppr4p/8/6N1/8/8/5PPP/4R1K1 w - - 0 1",
+      "prompt": "The knight lands on e6 with check. How many black pieces does it attack from there?",
+      "options": [
+        "Three: the king on f8, the queen on d8 and the rook on c7.",
+        "Two: the king on f8 and the rook on c7.",
+        "One: only the king on f8."
+      ],
+      "answer": { "option": 0 },
+      "concept": "family-fork",
+      "hints": {
+        "piece": "g5",
+        "text": "A knight on e6 reaches c5, c7, d4, d8, f4, f8, g5 and g7. Count the ones with a black piece on them."
+      },
+      "reason": "King, queen and rook in a single jump. That is why it is called the family fork."
+    },
+    {
+      "id": "2.2.3-c6",
+      "type": "find_the_move",
+      "fen": "3q1k2/ppr4p/8/6N1/8/8/5PPP/4R1K1 w - - 0 1",
+      "prompt": "Play the family fork.",
+      "answer": { "moves": ["Ne6+"] },
+      "wrong": {
+        "Nf7": "From f7 the knight attacks the queen, but the king takes it. Check the square first."
+      },
+      "concept": "family-fork",
+      "hints": {
+        "piece": "g5",
+        "square": "e6"
+      },
+      "reason": "Ne6 is check and nothing covers e6, so Black must move the king and lose the queen."
+    },
+    {
+      "id": "2.2.3-c7",
+      "type": "find_the_move",
+      "fen": "2r1k2r/pp5p/8/5q2/4N3/8/5PPP/3R2K1 w k - 0 1",
+      "prompt": "Your knight is attacked by the queen. Move it somewhere that hurts.",
+      "answer": { "moves": ["Nd6+"] },
+      "wrong": {
+        "Ng3": "The knight runs to safety and nothing else happens. You had a better square."
+      },
+      "concept": "family-fork",
+      "hints": {
+        "piece": "e4",
+        "square": "d6"
+      },
+      "reason": "Nd6 is check and also attacks the rook on c8 and the queen on f5 — king, rook and queen together."
+    }
+  ],
+  "takeaway": "The queen forks along any two of her lines, but only from a square nothing attacks. King, queen and rook in one knight jump is the family fork."
+}

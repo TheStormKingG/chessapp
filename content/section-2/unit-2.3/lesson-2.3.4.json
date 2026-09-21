@@ -1,0 +1,144 @@
+{
+  "id": "2.3.4",
+  "unit": "2.3",
+  "title": "The skewer",
+  "xp": 14,
+  "card": {
+    "idea": "A skewer is a pin with the pieces the wrong way round. The valuable one stands in front and the smaller one behind. Check the big piece, it has to move, and you take whatever was hiding behind it. When the piece in front is the king, it has no choice at all.",
+    "diagrams": ["3q4/5ppp/8/8/3k4/8/5PPP/R5K1 w - - 0 1"],
+    "habit": "Keep a pin."
+  },
+  "explain": [
+    {
+      "fen": "3q4/5ppp/8/8/3k4/8/5PPP/R5K1 w - - 0 1",
+      "text": "The black king is on d4 and the queen on d8, with the whole d-file empty between them. White plays the rook to d1. That is check, the king must step off the file, and the queen is left standing there. The rook takes it next move.",
+      "arrows": [["a1", "d1"], ["d1", "d8"]],
+      "highlights": ["d1", "d4", "d8"]
+    },
+    {
+      "fen": "8/pp4r1/8/8/3k4/8/5PPP/2B3K1 w - - 0 1",
+      "text": "The same trick on a diagonal. The king on d4 and the rook on g7 both sit on the long road from b2 to h8. Bb2 is check, the king must leave, and the rook has nowhere to hide. Nothing black can even reach b2 to punish the bishop.",
+      "arrows": [["c1", "b2"], ["b2", "g7"]],
+      "highlights": ["b2", "d4", "g7"]
+    },
+    {
+      "fen": "3r4/5ppp/8/8/3k4/8/5PPP/R5K1 w - - 0 1",
+      "text": "Remember which way round it is. In a pin the small piece is in front and is stuck. In a skewer the big piece is in front and is forced to move, which is why the piece behind is the one that is lost.",
+      "arrows": [["a1", "d1"]],
+      "highlights": ["d4", "d8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.3.4-c1",
+      "type": "name_the_pattern",
+      "fen": "3q4/5ppp/8/8/3k4/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "The black king is on d4 and the queen on d8. What happens if White gives check down the d-file?",
+      "options": [
+        "The king must move off the file, and then the queen is taken.",
+        "The queen steps in front of the king and blocks the check.",
+        "Nothing. A king on d4 is not in danger from the d-file."
+      ],
+      "answer": { "option": 0 },
+      "concept": "skewer",
+      "hints": {
+        "text": "Check the squares between d4 and d8. Is there anything for the queen to block on?"
+      },
+      "reason": "The queen is behind the king, so it can never get in front of it to block. It can only watch the king leave."
+    },
+    {
+      "id": "2.3.4-c2",
+      "type": "which_square",
+      "fen": "3q4/5ppp/8/8/3k4/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Tap the square your rook goes to in order to check the king down the d-file.",
+      "answer": { "square": "d1" },
+      "concept": "skewer",
+      "hints": {
+        "piece": "a1",
+        "text": "The rook is on the bottom rank. Slide it along until it is under the black king."
+      },
+      "reason": "d1 is the only square on the d-file the rook can reach from a1."
+    },
+    {
+      "id": "2.3.4-c3",
+      "type": "find_the_move",
+      "fen": "3q4/5ppp/8/8/3k4/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Win the queen.",
+      "answer": { "moves": ["Rd1+"] },
+      "wrong": {
+        "Ra4+": "Also check, but along the fourth rank — and there is nothing behind the king that way. He moves and you have gained nothing."
+      },
+      "concept": "skewer",
+      "hints": {
+        "piece": "a1",
+        "square": "d1"
+      },
+      "reason": "Rd1 is check. Wherever the king goes, it leaves the d-file, and Rxd8 follows."
+    },
+    {
+      "id": "2.3.4-c4",
+      "type": "find_them_all",
+      "fen": "8/pp4r1/8/8/3k4/8/5PPP/2B3K1 w - - 0 1",
+      "prompt": "Tap the two black pieces that are standing on the same diagonal as each other.",
+      "answer": { "pieces": ["d4", "g7"] },
+      "concept": "skewer",
+      "hints": {
+        "text": "Start at b2 and walk up: c3, d4, e5, f6, g7, h8. Which of those squares are busy?"
+      },
+      "reason": "The king on d4 and the rook on g7 share the long dark diagonal. That is all a bishop needs."
+    },
+    {
+      "id": "2.3.4-c5",
+      "type": "find_the_move",
+      "fen": "8/pp4r1/8/8/3k4/8/5PPP/2B3K1 w - - 0 1",
+      "prompt": "Win the rook.",
+      "answer": { "moves": ["Bb2+"] },
+      "wrong": {
+        "Bf4": "The bishop attacks nothing and gives no check, so Black gets a free move to walk the king off the diagonal."
+      },
+      "concept": "skewer",
+      "hints": {
+        "piece": "c1",
+        "square": "b2"
+      },
+      "reason": "Bb2 is check along the diagonal. The king steps off it and the bishop takes on g7."
+    },
+    {
+      "id": "2.3.4-c6",
+      "type": "is_it_safe",
+      "fen": "8/pp4r1/8/8/3k4/8/5PPP/2B3K1 w - - 0 1",
+      "move": "Bb2+",
+      "prompt": "White gives the check with the bishop on b2. Is the bishop safe on that square?",
+      "reasons": [
+        "Yes. No black piece can reach b2 at all.",
+        "No. The rook on g7 takes it along the diagonal.",
+        "No. The king walks over and takes it."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "skewer",
+      "hints": {
+        "piece": "g7",
+        "text": "A rook moves in straight lines only. Ask whether g7 and b2 share a rank or a file."
+      },
+      "reason": "A rook cannot travel on a diagonal, and the king on d4 is three squares away. Black has to answer the check and lose the rook."
+    },
+    {
+      "id": "2.3.4-c7",
+      "type": "name_the_pattern",
+      "fen": "3r4/5ppp/8/8/3k4/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "In a pin the small piece stands in front. Here the king stands in front. What does that change?",
+      "options": [
+        "The king is forced to move, so the piece behind it is simply taken.",
+        "Nothing changes. The piece in front is stuck, as in a pin.",
+        "The king is allowed to stay where it is and lose nothing."
+      ],
+      "answer": { "option": 0 },
+      "concept": "skewer",
+      "hints": {
+        "text": "A pin freezes the front piece. This freezes nothing — it forces the front piece to run."
+      },
+      "reason": "Same line, same two pieces, opposite order — and the opposite result."
+    }
+  ],
+  "takeaway": "Same line, wrong way round. Check the big piece in front, and take whatever was standing behind it."
+}

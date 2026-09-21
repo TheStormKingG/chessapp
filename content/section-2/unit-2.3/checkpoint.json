@@ -1,0 +1,397 @@
+{
+  "unit": "2.3",
+  "title": "Pins and skewers",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "2.3-k01",
+      "type": "find_the_move",
+      "fen": "4k3/pp4pp/2n5/1B6/3P4/8/PP4PP/4K3 w - - 0 1",
+      "prompt": "The knight on c6 is not allowed to move. Attack it again.",
+      "answer": { "moves": ["d5"] },
+      "concept": "absolute-pin",
+      "reason": "d5 hits the knight a second time, and it may not step aside."
+    },
+    {
+      "id": "2.3-k02",
+      "type": "find_the_move",
+      "fen": "7k/pp4pp/8/4n3/3P4/8/PB4PP/6K1 w - - 0 1",
+      "prompt": "Nothing defends the knight on e5 and it cannot run. Take it.",
+      "answer": { "moves": ["dxe5"] },
+      "concept": "absolute-pin",
+      "reason": "The bishop on b2 sees through e5 to the king on h8, so the knight was stuck there all along."
+    },
+    {
+      "id": "2.3-k03",
+      "type": "which_square",
+      "fen": "4k3/pp3ppp/4n3/8/8/8/P4PPP/R5K1 w - - 0 1",
+      "prompt": "Tap the square your rook goes to so that the knight on e6 may no longer move.",
+      "answer": { "square": "e1" },
+      "concept": "absolute-pin",
+      "reason": "From e1 the rook looks up the file through the knight to the king on e8."
+    },
+    {
+      "id": "2.3-k04",
+      "type": "find_them_all",
+      "fen": "7k/pp3p1p/8/4n3/8/8/PP3PPP/Q5K1 w - - 0 1",
+      "prompt": "Tap every square the white queen on a1 is looking along on its way to the black king.",
+      "answer": { "squares": ["b2", "c3", "d4", "e5", "f6", "g7"] },
+      "concept": "absolute-pin",
+      "reason": "a1 to h8 is one long road, and the knight on e5 is parked in the middle of it."
+    },
+    {
+      "id": "2.3-k05",
+      "type": "name_the_pattern",
+      "fen": "4k3/pp2nppp/8/8/8/8/P3RPPP/4K3 w - - 0 1",
+      "prompt": "Why may the knight on e7 not move?",
+      "options": [
+        "Moving it would leave the black king in check from the rook on e2.",
+        "It has nowhere to go.",
+        "It would be taken by the rook on e2."
+      ],
+      "answer": { "option": 0 },
+      "concept": "absolute-pin",
+      "reason": "Rook, knight and king on one file, in that order. That is the whole of it."
+    },
+    {
+      "id": "2.3-k06",
+      "type": "is_it_safe",
+      "fen": "7k/pp4pp/8/4n3/8/3P4/PB4PP/6K1 w - - 0 1",
+      "move": "d4",
+      "prompt": "White attacks the knight on e5 with the pawn. Is the pawn safe on d4?",
+      "reasons": [
+        "Yes. Only the knight attacks d4, and it is not allowed to move.",
+        "No. The knight on e5 takes it.",
+        "No. The bishop on b2 is in its own pawn's way."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "absolute-pin",
+      "reason": "Nxd4 would open the b2-h8 road onto the black king, so it is not a legal move."
+    },
+    {
+      "id": "2.3-k07",
+      "type": "which_square",
+      "fen": "7k/pp4pp/8/4n3/8/3P4/PB4PP/6K1 w - - 0 1",
+      "prompt": "Tap the black piece that is standing directly in front of its own king.",
+      "answer": { "square": "e5" },
+      "concept": "absolute-pin",
+      "reason": "The knight on e5 sits between the bishop on b2 and the king on h8."
+    },
+    {
+      "id": "2.3-k08",
+      "type": "name_the_pattern",
+      "fen": "4k3/pp4pp/2n5/1B1P4/8/8/PP4PP/4K3 w - - 0 1",
+      "prompt": "White has just pushed the pawn to d5. What is Black's problem?",
+      "options": [
+        "The knight is attacked and may not move, so Black must defend it or lose it.",
+        "The knight is attacked but can jump to a safe square.",
+        "Nothing. The bishop on b5 is hanging."
+      ],
+      "answer": { "option": 0 },
+      "concept": "absolute-pin",
+      "reason": "Every knight move would open the b5-e8 road, so every one of them is illegal."
+    },
+    {
+      "id": "2.3-k09",
+      "type": "find_the_move",
+      "fen": "3r2k1/pp3ppp/8/3n4/8/2P5/PP4PP/3R2K1 w - - 0 1",
+      "prompt": "Attack the knight on d5 with a pawn.",
+      "answer": { "moves": ["c4"] },
+      "concept": "relative-pin",
+      "reason": "Moving the knight hands over the rook on d8, so Black loses material either way."
+    },
+    {
+      "id": "2.3-k10",
+      "type": "which_square",
+      "fen": "3q2k1/pp3ppp/3b4/8/8/8/PP3PPP/3R2K1 w - - 0 1",
+      "prompt": "Tap the black piece that the bishop on d6 is standing in front of.",
+      "answer": { "square": "d8" },
+      "concept": "relative-pin",
+      "reason": "The queen on d8. That is what makes the bishop reluctant to move."
+    },
+    {
+      "id": "2.3-k11",
+      "type": "name_the_pattern",
+      "fen": "3q2k1/pp3ppp/3b4/8/8/8/PP3PPP/3R2K1 w - - 0 1",
+      "prompt": "The bishop on d6 is allowed to move. So why would Black rather not move it?",
+      "options": [
+        "The rook on d1 would then take the queen on d8.",
+        "It would put the black king in check.",
+        "The bishop has no safe squares anyway."
+      ],
+      "answer": { "option": 0 },
+      "concept": "relative-pin",
+      "reason": "Take the bishop out of the middle and the rook is looking straight at the queen."
+    },
+    {
+      "id": "2.3-k12",
+      "type": "find_them_all",
+      "fen": "2r3k1/2n2ppp/8/8/8/8/PP3PPP/2R3K1 w - - 0 1",
+      "prompt": "Tap every empty square on the c-file between the white rook and the black knight.",
+      "answer": { "squares": ["c2", "c3", "c4", "c5", "c6"] },
+      "concept": "relative-pin",
+      "reason": "Five clear squares. An empty line is what makes the knight on c7 reluctant to move."
+    },
+    {
+      "id": "2.3-k13",
+      "type": "name_the_pattern",
+      "fen": "2r3k1/2n2ppp/8/8/8/8/PP3PPP/2R3K1 w - - 0 1",
+      "prompt": "What happens if the knight on c7 moves away?",
+      "options": [
+        "The rook on c1 takes the rook on c8.",
+        "Nothing at all.",
+        "The black king is in check."
+      ],
+      "answer": { "option": 0 },
+      "concept": "relative-pin",
+      "reason": "The knight is the only thing between the two rooks."
+    },
+    {
+      "id": "2.3-k14",
+      "type": "is_it_safe",
+      "fen": "3q2k1/3n1ppp/8/8/8/5N2/5PPP/3R2K1 w - - 0 1",
+      "move": "Ne5",
+      "prompt": "White plays the knight to e5, where the knight on d7 can reach it. Is the white knight safe there?",
+      "reasons": [
+        "Yes, for all practical purposes. Nxe5 is legal, but then Rxd8 wins the queen.",
+        "No. The knight on d7 takes it and wins a piece.",
+        "No. The pawn on f7 takes it."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "relative-pin",
+      "reason": "The capture is legal and far too expensive. That is exactly what makes this kind of pin different."
+    },
+    {
+      "id": "2.3-k15",
+      "type": "which_square",
+      "fen": "2r3k1/pp3ppp/8/2n5/8/8/PP2PPPP/2R3K1 w - - 0 1",
+      "prompt": "Tap the square your b-pawn goes to so that it attacks the knight on c5.",
+      "answer": { "square": "b4" },
+      "concept": "relative-pin",
+      "reason": "From b4 the pawn attacks a5 and c5. The knight cannot move without giving up the rook on c8."
+    },
+    {
+      "id": "2.3-k16",
+      "type": "find_them_all",
+      "fen": "4k3/pp3ppp/2n5/1B6/1b6/2N5/P4PPP/4K3 w - - 0 1",
+      "prompt": "Tap every knight on this board that is not allowed to move.",
+      "answer": { "pieces": ["c3", "c6"] },
+      "concept": "pin-both-sides",
+      "reason": "Both of them. Each stands in front of its own king with an enemy bishop looking through it."
+    },
+    {
+      "id": "2.3-k17",
+      "type": "name_the_pattern",
+      "fen": "4k3/pp3ppp/2n5/1B6/1b6/2N5/P4PPP/4K3 w - - 0 1",
+      "prompt": "Which side has a piece held in place here?",
+      "options": [
+        "Both. Each player's knight is stuck in front of its own king.",
+        "Only Black.",
+        "Only White."
+      ],
+      "answer": { "option": 0 },
+      "concept": "pin-both-sides",
+      "reason": "A player who only looks at the enemy king gets this exactly half right."
+    },
+    {
+      "id": "2.3-k18",
+      "type": "which_square",
+      "fen": "4k3/pp3ppp/2n5/1B6/1b6/2N5/P4PPP/4K3 w - - 0 1",
+      "prompt": "Tap the white piece that is not allowed to move.",
+      "answer": { "square": "c3" },
+      "concept": "pin-both-sides",
+      "reason": "The knight on c3. Move it and the bishop on b4 is giving check to the king on e1."
+    },
+    {
+      "id": "2.3-k19",
+      "type": "find_them_all",
+      "fen": "2rr2k1/pp3ppp/3n4/8/8/2N5/PP1R1PPP/2K5 w - - 0 1",
+      "prompt": "Tap every knight that is being held in place on this board.",
+      "answer": { "pieces": ["c3", "d6"] },
+      "concept": "pin-both-sides",
+      "reason": "White's on c3 in front of its king, Black's on d6 in front of its rook."
+    },
+    {
+      "id": "2.3-k20",
+      "type": "name_the_pattern",
+      "fen": "2rr2k1/pp3ppp/3n4/8/8/2N5/PP1R1PPP/2K5 w - - 0 1",
+      "prompt": "Two knights are held here. Which of them is truly unable to move?",
+      "options": [
+        "White's knight on c3 — it stands in front of its own king.",
+        "Black's knight on d6 — it stands in front of its own king.",
+        "Both may move freely."
+      ],
+      "answer": { "option": 0 },
+      "concept": "pin-both-sides",
+      "reason": "Black's knight may move and give up the rook. White's may not move at all."
+    },
+    {
+      "id": "2.3-k21",
+      "type": "which_square",
+      "fen": "2rr2k1/pp3ppp/3n4/8/8/2N5/PP1R1PPP/2K5 w - - 0 1",
+      "prompt": "Tap the black piece that the knight on d6 is standing in front of.",
+      "answer": { "square": "d8" },
+      "concept": "pin-both-sides",
+      "reason": "The rook on d8. Moving the knight would cost Black the exchange."
+    },
+    {
+      "id": "2.3-k22",
+      "type": "find_the_move",
+      "fen": "3r4/5ppp/8/8/3k4/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Win the rook on d8.",
+      "answer": { "moves": ["Rd1+"] },
+      "concept": "skewer",
+      "reason": "Check down the file. The king must step off it, and Rxd8 follows."
+    },
+    {
+      "id": "2.3-k23",
+      "type": "find_the_move",
+      "fen": "3b4/5ppp/8/8/3k4/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Win the bishop on d8.",
+      "answer": { "moves": ["Rd1+"] },
+      "concept": "skewer",
+      "reason": "The bishop cannot come down the file to block, and the king cannot stay on it."
+    },
+    {
+      "id": "2.3-k24",
+      "type": "find_the_move",
+      "fen": "8/pp4q1/8/8/3k4/8/5PPP/2B3K1 w - - 0 1",
+      "prompt": "Win the queen on g7.",
+      "answer": { "moves": ["Bb2+"] },
+      "concept": "skewer",
+      "reason": "Check along the long diagonal. The king leaves it and the bishop takes on g7."
+    },
+    {
+      "id": "2.3-k25",
+      "type": "name_the_pattern",
+      "fen": "1k5b/pp6/8/8/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "White plays Rd8, check. Why is the bishop on h8 in trouble?",
+      "options": [
+        "A bishop cannot capture along a rank, and the king must leave the eighth, so Rxh8 follows.",
+        "The bishop simply takes the rook on d8.",
+        "It is not in trouble. The king can stay on b8."
+      ],
+      "answer": { "option": 0 },
+      "concept": "skewer",
+      "reason": "The bishop and the rook never share a diagonal, so the bishop can only watch."
+    },
+    {
+      "id": "2.3-k26",
+      "type": "find_them_all",
+      "fen": "2q5/5ppp/8/8/2k5/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Tap the two black pieces that are standing on the same file as each other.",
+      "answer": { "pieces": ["c4", "c8"] },
+      "concept": "skewer",
+      "reason": "King on c4, queen on c8, and nothing at all in between them."
+    },
+    {
+      "id": "2.3-k27",
+      "type": "which_square",
+      "fen": "2q5/5ppp/8/8/2k5/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Tap the square your rook goes to in order to check the king up the c-file.",
+      "answer": { "square": "c1" },
+      "concept": "skewer",
+      "reason": "c1 is the only square on the c-file the rook can reach from a1."
+    },
+    {
+      "id": "2.3-k28",
+      "type": "is_it_safe",
+      "fen": "2q5/5ppp/8/8/2k5/8/5PPP/R5K1 w - - 0 1",
+      "move": "Rc1+",
+      "prompt": "White checks the king on c4 with the rook on c1. Is the rook safe there?",
+      "reasons": [
+        "Yes. The queen cannot see past its own king, and the king is three squares away.",
+        "No. The queen on c8 takes it.",
+        "No. The king walks down the file and takes it."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "skewer",
+      "reason": "The king is the thing blocking its own queen, which is the whole point of the position."
+    },
+    {
+      "id": "2.3-k29",
+      "type": "name_the_pattern",
+      "fen": "8/pp4q1/8/8/3k4/8/5PPP/2B3K1 w - - 0 1",
+      "prompt": "The king on d4 and the queen on g7 share one diagonal. What should the bishop on c1 do?",
+      "options": [
+        "Play Bb2, check. The king must leave the diagonal and the queen is taken.",
+        "Play Bf4, which attacks neither of them.",
+        "Nothing. The queen is guarding the diagonal."
+      ],
+      "answer": { "option": 0 },
+      "concept": "skewer",
+      "reason": "The queen is behind the king, so it can neither block nor defend. It can only be taken."
+    },
+    {
+      "id": "2.3-k30",
+      "type": "find_the_move",
+      "fen": "3r2k1/3n1ppp/8/8/8/5N2/5PPP/3R2K1 w - - 0 1",
+      "prompt": "The knight on d7 cannot run. Leave it there and bring another attacker instead.",
+      "answer": { "moves": ["Ne5"] },
+      "concept": "keep-the-pin",
+      "reason": "Ne5 costs nothing and attacks d7 a second time. Rxd7 would only trade a rook for a knight."
+    },
+    {
+      "id": "2.3-k31",
+      "type": "name_the_pattern",
+      "fen": "3r2k1/3n1ppp/8/8/8/5N2/5PPP/3R2K1 w - - 0 1",
+      "prompt": "Why should White not play Rxd7 here?",
+      "options": [
+        "The rook on d8 takes back, so a rook has gone for a knight.",
+        "The rook would be lost for nothing at all.",
+        "There is no reason. It wins a piece."
+      ],
+      "answer": { "option": 0 },
+      "concept": "keep-the-pin",
+      "reason": "Five points for three. The pin was worth more standing than it was worth spending."
+    },
+    {
+      "id": "2.3-k32",
+      "type": "which_square",
+      "fen": "3q2k1/pp4pp/3n4/8/2P5/8/PP4PP/3R2K1 w - - 0 1",
+      "prompt": "Tap the square your c-pawn goes to so that it attacks the knight on d6.",
+      "answer": { "square": "c5" },
+      "concept": "keep-the-pin",
+      "reason": "From c5 the pawn attacks b6 and d6, and the knight is not allowed to run without losing the queen."
+    },
+    {
+      "id": "2.3-k33",
+      "type": "name_the_pattern",
+      "fen": "3q2k1/pp4pp/3n4/8/2P5/8/PP4PP/3R2K1 w - - 0 1",
+      "prompt": "The knight on d6 is going nowhere. What is the right way to win it?",
+      "options": [
+        "Attack it again with the pawn, and take only when it is attacked more often than it is defended.",
+        "Take it at once with the rook.",
+        "Nothing can be done about it."
+      ],
+      "answer": { "option": 0 },
+      "concept": "keep-the-pin",
+      "reason": "Rxd6 now is a rook for a knight. One quiet pawn move makes it a knight for nothing."
+    },
+    {
+      "id": "2.3-k34",
+      "type": "is_it_safe",
+      "fen": "3q2k1/pp4pp/3n4/8/2P5/8/PP4PP/3R2K1 w - - 0 1",
+      "move": "c5",
+      "prompt": "White pushes the pawn to c5, right beside the black knight. Is the pawn safe there?",
+      "reasons": [
+        "Yes. No black piece attacks c5 at all.",
+        "No. The knight on d6 takes it.",
+        "No. The pawn on b7 takes it."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "keep-the-pin",
+      "reason": "A knight never attacks the square diagonally beside it, and b7 attacks a6 and c6."
+    },
+    {
+      "id": "2.3-k35",
+      "type": "find_them_all",
+      "fen": "3q2k1/3n1ppp/8/4N3/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "Tap every white piece that is attacking the knight on d7.",
+      "answer": { "pieces": ["d1", "e5"] },
+      "concept": "keep-the-pin",
+      "reason": "The rook up the file and the knight from e5. Two attackers against one defender."
+    }
+  ]
+}

@@ -1,0 +1,128 @@
+{
+  "id": "2.1.3",
+  "unit": "2.1",
+  "title": "Hanging pieces on both sides",
+  "xp": 14,
+  "card": {
+    "idea": "A piece is hanging when it is attacked and nothing defends it. In unit 1.2 you looked for theirs. Now look for yours in the same breath, because a position usually has loose pieces on both sides.",
+    "diagrams": ["4k3/6p1/2n4B/2bp4/3P4/2N5/8/4K3 w - - 0 1"],
+    "habit": "Count their loose pieces and yours, theirs first."
+  },
+  "explain": [
+    {
+      "fen": "4k3/6p1/2n4B/2bp4/3P4/2N5/8/4K3 w - - 0 1",
+      "text": "Black has three pieces hanging: the bishop on c5, the pawn on d5 and the pawn on g7. That is the easy half.",
+      "highlights": ["c5", "d5", "g7"]
+    },
+    {
+      "fen": "4k3/6p1/2n4B/2bp4/3P4/2N5/8/4K3 w - - 0 1",
+      "text": "The same board again, your side of it. Your bishop on h6 is attacked by the g7 pawn and defended by nobody. Your pawn on d4 is attacked twice and defended by nobody. Two of yours are hanging too.",
+      "highlights": ["h6", "d4"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.1.3-c1",
+      "type": "find_them_all",
+      "fen": "4k3/6p1/2n4B/2bp4/3P4/2N5/8/4K3 w - - 0 1",
+      "prompt": "Tap every BLACK piece that is hanging.",
+      "answer": { "pieces": ["c5", "d5", "g7"] },
+      "concept": "hanging-both-sides",
+      "hints": {
+        "piece": "d4",
+        "text": "Your pawn attacks one of them, your knight attacks another, your bishop attacks the third."
+      }
+    },
+    {
+      "id": "2.1.3-c2",
+      "type": "find_them_all",
+      "fen": "4k3/6p1/2n4B/2bp4/3P4/2N5/8/4K3 w - - 0 1",
+      "prompt": "Same board. Now tap every WHITE piece that is hanging.",
+      "answer": { "pieces": ["d4", "h6"] },
+      "concept": "hanging-both-sides",
+      "hints": {
+        "piece": "g7",
+        "text": "The pawn on g7 attacks one of them. The knight and the bishop both attack the other."
+      }
+    },
+    {
+      "id": "2.1.3-c3",
+      "type": "name_the_pattern",
+      "fen": "4k3/6p1/2n4B/2bp4/3P4/2N5/8/4K3 w - - 0 1",
+      "prompt": "Both sides have loose pieces here. Which side has more?",
+      "options": [
+        "Black, three to White's two.",
+        "White, two to Black's one.",
+        "Neither. Everything on the board is defended."
+      ],
+      "answer": { "option": 0 },
+      "concept": "hanging-both-sides",
+      "hints": {
+        "text": "Count Black's first: c5, d5, g7. Then count yours."
+      },
+      "reason": "Black has c5, d5 and g7 loose. You have d4 and h6. Five hanging pieces on one small board."
+    },
+    {
+      "id": "2.1.3-c4",
+      "type": "which_square",
+      "fen": "4k3/6p1/2n5/2bp4/3P4/2N5/8/4K3 w - - 0 1",
+      "prompt": "Your bishop on h6 has left the board. Exactly one white piece is hanging now. Tap it.",
+      "answer": { "square": "d4" },
+      "concept": "hanging-both-sides",
+      "hints": {
+        "piece": "c6",
+        "text": "The knight and the bishop both attack it, and nothing of yours defends it."
+      },
+      "reason": "The pawn on d4 is attacked by the knight on c6 and the bishop on c5, and no white piece covers it."
+    },
+    {
+      "id": "2.1.3-c5",
+      "type": "find_the_move",
+      "fen": "4k3/8/8/2r1n3/3P4/8/8/4K3 w - - 0 1",
+      "prompt": "Two black pieces are hanging to your pawn. Take the one worth more.",
+      "answer": { "moves": ["dxc5"] },
+      "wrong": {
+        "dxe5": "The knight is worth three. The rook is worth five. Take the rook."
+      },
+      "concept": "hanging-both-sides",
+      "hints": {
+        "piece": "d4",
+        "text": "A rook is worth five, a knight three."
+      },
+      "reason": "Both captures are free, so take the bigger one."
+    },
+    {
+      "id": "2.1.3-c6",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/8/8/1n6/P4PPP/6K1 w - - 0 1",
+      "prompt": "Black's knight has just landed on b3. Before you ask what it attacks, ask whether it is safe there.",
+      "answer": { "moves": ["axb3"] },
+      "concept": "hanging-both-sides",
+      "hints": {
+        "piece": "a2",
+        "text": "Your a-pawn has been watching b3 all game."
+      },
+      "reason": "Nothing defends the knight on b3, so the pawn simply takes it."
+    },
+    {
+      "id": "2.1.3-c7",
+      "type": "is_it_safe",
+      "fen": "4k3/6p1/2n4B/2bp4/3P4/2N5/8/4K3 w - - 0 1",
+      "move": "Nxd5",
+      "prompt": "White takes the pawn on d5 with the knight. Is your knight safe there?",
+      "reasons": [
+        "Yes. No black piece covers d5.",
+        "No. The knight on c6 takes back.",
+        "No. The bishop on c5 takes back."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "hanging-both-sides",
+      "hints": {
+        "piece": "c6",
+        "text": "Check every black piece in turn. The knight on c6 covers d4 and d8, not d5."
+      },
+      "reason": "The knight is safe on d5. Your pawn on d4 is still hanging, though, and that is the other half of the habit."
+    }
+  ],
+  "takeaway": "Loose pieces come in pairs. Find theirs, then find yours."
+}

@@ -1,12 +1,20 @@
 import type { Progress } from '@/data';
-import { SECTION_1 } from './curriculum';
+import { SECTIONS, unitById } from './curriculum';
 
 export type LessonNodeState = 'done' | 'active' | 'locked' | 'coming' | 'testedOut';
 
 export type Node =
-  | { kind: 'lesson'; id: string; unit: string; title: string; state: LessonNodeState }
+  | {
+      kind: 'lesson';
+      id: string;
+      section: string;
+      unit: string;
+      title: string;
+      state: LessonNodeState;
+    }
   | {
       kind: 'checkpoint';
+      section: string;
       unit: string;
       title: string;
       state: 'active' | 'available' | 'passed' | 'coming';
@@ -25,11 +33,16 @@ export function pathNodes(p: Progress): Node[] {
   const out: Node[] = [];
   let activeAssigned = false;
   let previousUnitPassed = true;
-  for (const u of SECTION_1.units) {
+  // Every section, in `SECTIONS` order, flattened into the one list the path
+  // has always been. `activeAssigned` and `previousUnitPassed` carry across the
+  // section boundary on purpose: 2.1 is gated by Section 1's last checkpoint
+  // exactly as 1.2 is gated by 1.1's.
+  const units = SECTIONS.flatMap((s) => s.units.map((u) => ({ section: s.id, u })));
+  for (const { section, u } of units) {
     const passed = p.units[u.id]?.passed ?? false;
     for (const l of u.lessons) {
       if (!u.built) {
-        out.push({ kind: 'lesson', id: l.id, unit: u.id, title: l.title, state: 'coming' });
+        out.push({ kind: 'lesson', id: l.id, section, unit: u.id, title: l.title, state: 'coming' });
         continue;
       }
       const done = p.lessons[l.id]?.completed ?? false;
@@ -40,7 +53,7 @@ export function pathNodes(p: Progress): Node[] {
         state = 'active';
         activeAssigned = true;
       } else state = 'locked';
-      out.push({ kind: 'lesson', id: l.id, unit: u.id, title: l.title, state });
+      out.push({ kind: 'lesson', id: l.id, section, unit: u.id, title: l.title, state });
     }
     let cpState: Extract<Node, { kind: 'checkpoint' }>['state'];
     if (!u.built) cpState = 'coming';
@@ -49,7 +62,13 @@ export function pathNodes(p: Progress): Node[] {
       cpState = 'active';
       activeAssigned = true;
     } else cpState = 'available';
-    out.push({ kind: 'checkpoint', unit: u.id, title: `${u.title} checkpoint`, state: cpState });
+    out.push({
+      kind: 'checkpoint',
+      section,
+      unit: u.id,
+      title: `${u.title} checkpoint`,
+      state: cpState,
+    });
     previousUnitPassed = passed;
   }
   return out;
@@ -117,7 +136,7 @@ export function activeUnitProgress(
 ): { unit: string; title: string; done: number; total: number } | null {
   const active = activeNode(p);
   if (!active) return null;
-  const unit = SECTION_1.units.find((u) => u.id === active.unit);
+  const unit = unitById(active.unit);
   if (!unit) return null;
   const lessons = pathNodes(p).filter(
     (n): n is Extract<Node, { kind: 'lesson' }> => n.kind === 'lesson' && n.unit === unit.id,

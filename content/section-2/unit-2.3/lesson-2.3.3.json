@@ -1,0 +1,131 @@
+{
+  "id": "2.3.3",
+  "unit": "2.3",
+  "title": "Spotting a pin on both sides",
+  "xp": 12,
+  "card": {
+    "idea": "A pin is not something that only happens to the other player. Before you move, look for pins pointing both ways: one of your pieces may be stuck where it stands, and a piece you were counting on to guard a square may not be allowed to do the guarding.",
+    "diagrams": ["r3k3/pp3ppp/2n5/1B6/1b6/2N5/P4PPP/R3K3 w Qq - 0 1"],
+    "habit": "Keep a pin."
+  },
+  "explain": [
+    {
+      "fen": "r3k3/pp3ppp/2n5/1B6/1b6/2N5/P4PPP/R3K3 w Qq - 0 1",
+      "text": "Two bishops, two knights, two pins. The bishop on b5 holds the knight on c6 in front of the black king. The bishop on b4 holds the knight on c3 in front of the white king. Neither knight may move, and both players have to notice.",
+      "arrows": [["b5", "e8"], ["b4", "e1"]],
+      "highlights": ["c3", "c6"]
+    },
+    {
+      "fen": "3q2k1/pp3ppp/3n4/8/1b6/2N5/PP3PPP/3RK3 w - - 0 1",
+      "text": "The two pins need not match. White's rook holds the black knight on d6 in front of the queen — that one can be broken, at a price. Black's bishop holds the white knight on c3 in front of the king — that one cannot be broken at all.",
+      "arrows": [["d1", "d8"], ["b4", "e1"]],
+      "highlights": ["c3", "d6"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.3.3-c1",
+      "type": "find_them_all",
+      "fen": "r3k3/pp3ppp/2n5/1B6/1b6/2N5/P4PPP/R3K3 w Qq - 0 1",
+      "prompt": "Tap every knight on this board that is not allowed to move.",
+      "answer": { "pieces": ["c3", "c6"] },
+      "concept": "pin-both-sides",
+      "hints": {
+        "text": "There are two bishops on the board. Follow the line each one is standing on, all the way to the end."
+      },
+      "reason": "Both of them. This is the position where a player who only looks at the enemy king gets it half right."
+    },
+    {
+      "id": "2.3.3-c2",
+      "type": "find_them_all",
+      "fen": "r3k3/pp3ppp/2n5/1B6/1b6/2N5/P4PPP/R3K3 w Qq - 0 1",
+      "prompt": "Now tap the two bishops that are doing the holding.",
+      "answer": { "pieces": ["b4", "b5"] },
+      "concept": "pin-both-sides",
+      "hints": {
+        "text": "One is White's and one is Black's. Each stands at the far end of a line with a king at the other end."
+      },
+      "reason": "b5 holds c6 against the king on e8; b4 holds c3 against the king on e1."
+    },
+    {
+      "id": "2.3.3-c3",
+      "type": "name_the_pattern",
+      "fen": "r3k3/pp3ppp/2n5/1B6/1b6/2N5/P4PPP/R3K3 w Qq - 0 1",
+      "prompt": "What is stopping White's knight on c3 from moving?",
+      "options": [
+        "The bishop on b4 would then be giving check to the white king on e1.",
+        "The knight on c6 is attacking it.",
+        "Nothing. It can go wherever it likes."
+      ],
+      "answer": { "option": 0 },
+      "concept": "pin-both-sides",
+      "hints": {
+        "piece": "b4",
+        "text": "b4, c3, d2, e1. Read that line out loud and say what is on each square."
+      },
+      "reason": "It is the same pin White has, pointing the other way. Your own pieces get pinned too."
+    },
+    {
+      "id": "2.3.3-c4",
+      "type": "which_square",
+      "fen": "r3k3/pp3ppp/2n5/1B6/1b6/2N5/P4PPP/R3K3 w Qq - 0 1",
+      "prompt": "Tap the square your a-pawn goes to so that it attacks the bishop holding your knight.",
+      "answer": { "square": "a3" },
+      "concept": "pin-both-sides",
+      "hints": {
+        "piece": "a2",
+        "text": "A pawn attacks the two squares diagonally ahead of it. Which push puts the bishop on one of them?"
+      },
+      "reason": "From a3 the pawn attacks b4. Asking the pinning piece a question is the usual way out of a pin."
+    },
+    {
+      "id": "2.3.3-c5",
+      "type": "is_it_safe",
+      "fen": "4k3/pp3ppp/2n5/1B6/1b6/2N5/P4PPP/4K3 w - - 0 1",
+      "move": "Bxc6+",
+      "prompt": "White takes the stuck knight on c6 with the bishop, giving check. Is the bishop safe there?",
+      "reasons": [
+        "Yes. The knight was pinned, so nothing can take back.",
+        "No. The pawn on b7 takes it, and White has traded a bishop for a knight.",
+        "No. The king on e8 takes it."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "pin-both-sides",
+      "hints": {
+        "piece": "b7",
+        "text": "A pinned piece cannot move. That says nothing about what defends it."
+      },
+      "reason": "Being pinned and being undefended are two different things, and only one of them was true here."
+    },
+    {
+      "id": "2.3.3-c6",
+      "type": "find_them_all",
+      "fen": "3q2k1/pp3ppp/3n4/8/1b6/2N5/PP3PPP/3RK3 w - - 0 1",
+      "prompt": "Tap every piece on this board that is being held in place, White's and Black's alike.",
+      "answer": { "pieces": ["c3", "d6"] },
+      "concept": "pin-both-sides",
+      "hints": {
+        "text": "One line runs b4-c3-d2-e1. The other runs d1-d6-d8."
+      },
+      "reason": "White's knight on c3 and Black's knight on d6. Each player has one, and each has to see both."
+    },
+    {
+      "id": "2.3.3-c7",
+      "type": "name_the_pattern",
+      "fen": "3q2k1/pp3ppp/3n4/8/1b6/2N5/PP3PPP/3RK3 w - - 0 1",
+      "prompt": "Two pieces are held here. Which of the two is truly unable to move?",
+      "options": [
+        "White's knight on c3 — moving it would leave the white king in check.",
+        "Black's knight on d6 — moving it would leave the black king in check.",
+        "Both of them are equally stuck."
+      ],
+      "answer": { "option": 0 },
+      "concept": "pin-both-sides",
+      "hints": {
+        "text": "Ask, for each one, what is standing behind it: a king, or something else."
+      },
+      "reason": "Black's knight may move and give up the queen. White's knight may not move at all. Only a king makes it a rule."
+    }
+  ],
+  "takeaway": "Look for pins in both directions. One of yours may be stuck, and a guard that is pinned is not guarding anything."
+}

@@ -70,17 +70,29 @@ test('a locked run states how long it is, and never says "Locked" per node', () 
   // it was a section heading printed twice; the counts differ, and the count is
   // the distance between the learner and the next thing that opens.
   //
-  // All six units are built now, so a fresh path has SIX locked runs, one per
-  // unit, broken apart by the checkpoints between them (a built unit's
-  // checkpoint is attemptable, never locked). Asserting the whole sequence in
-  // path order pins both the counts and the boundaries -- `getByText('5 locked')`
-  // could no longer be unambiguous once three units run five lessons long.
+  // All six Section 1 units are built, and so is unit 2.1, so a fresh path has
+  // SEVEN locked runs, one per built unit, broken apart by the checkpoints
+  // between them (a built unit's checkpoint is attemptable, never locked).
+  // Asserting the whole sequence in path order pins both the counts and the
+  // boundaries -- `getByText('5 locked')` could no longer be unambiguous once
+  // three units run five lessons long.
   const runs = [...document.querySelectorAll('*')]
     .filter((el) => el.children.length === 0 && /^\d+ locked$/.test(el.textContent ?? ''))
     .map((el) => el.textContent);
-  expect(runs).toEqual(['7 locked', '5 locked', '5 locked', '3 locked', '5 locked', '3 locked']);
-  // 28 locked lessons = all 29 minus the one that is active.
-  expect(runs.reduce((n, r) => n + Number(r!.split(' ')[0]), 0)).toBe(28);
+  expect(runs).toEqual([
+    '7 locked',
+    '5 locked',
+    '5 locked',
+    '3 locked',
+    '5 locked',
+    '3 locked',
+    '5 locked',
+    '4 locked',
+  ]);
+  // 37 locked lessons = Section 1's 29 plus unit 2.1's 5 and unit 2.2's 4,
+  // minus the active one. A built unit's lessons are locked, not coming, so
+  // each authoring pass moves one run from the list below into this one.
+  expect(runs.reduce((n, r) => n + Number(r!.split(' ')[0]), 0)).toBe(37);
   expect(screen.queryAllByText('Locked until you get there')).toHaveLength(0);
   // Line 67's original guarantee, unchanged: the word is still never printed
   // once per node, which is what chunk C2 bought.
@@ -219,4 +231,78 @@ test('a node finished on one star says "1 star", not "1 stars"', () => {
   });
   renderPath();
   expect(screen.getByRole('link', { name: '1.1.1 The board. 1 star' })).toBeInTheDocument();
+});
+
+/* ----------------------------------------------- one header per section */
+
+test('every section on the path gets its own header, in path order', () => {
+  renderPath();
+  // The header used to be a single hardcoded `Section 1`. Section 2 is declared
+  // and now rendered, so it owes the same three lines in the same words.
+  expect(screen.getByText('Section 1 · New to 400')).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'Foundations' })).toBeInTheDocument();
+  expect(screen.getByText('Section 2 · 400 to 800')).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'Safety and the first tactics' })).toBeInTheDocument();
+  // Path order, not declaration luck.
+  const headings = screen.getAllByRole('heading').map((h) => h.textContent);
+  expect(headings).toEqual(['Foundations', 'Safety and the first tactics']);
+  // One `h1` per screen: the sections rank equally, so the rest are `h2` at the
+  // same `t-display` size. Level order stays valid for a screen reader.
+  expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Foundations');
+  expect(screen.getByRole('heading', { level: 2 })).toHaveTextContent(
+    'Safety and the first tactics',
+  );
+});
+
+test('the meter counts the section it sits beside, not the whole path', () => {
+  renderPath();
+  // A single path-wide meter would read "0 of 65 done" under a Section 1
+  // heading -- wrong about the heading and wrong about the work. One meter per
+  // section, counting that section's lessons.
+  expect(screen.getByText('0 of 29 done')).toBeInTheDocument();
+  expect(screen.getByText('0 of 36 done')).toBeInTheDocument();
+  const meters = [...document.querySelectorAll('[data-rail="meter"]')];
+  expect(meters).toHaveLength(2);
+  for (const m of meters) expect(m).toHaveAttribute('data-fill', '0');
+});
+
+test('an unbuilt run counts per unit, and nothing in it is a link', () => {
+  renderPath();
+  // Section 2's units 2.3 to 2.8 are unbuilt, so every one of their 33 nodes is
+  // `coming`. They must NOT fuse into one boundary: a checkpoint is never
+  // grouped, so each unit's lessons form their own groove and each unit's
+  // checkpoint is its own row. The number a boundary prints is the distance to
+  // the next thing that opens, and 33 is the rest of the curriculum.
+  //
+  // SCOPED, not deleted, as each unit is flipped on: 2.1 and 2.2 are built, so
+  // they are locked-behind-Section-1 rather than coming, and both are asserted
+  // as real nodes below -- which is what stops the shrinking `coming` list
+  // from reading as "the screen rendered nothing".
+  const coming = [...document.querySelectorAll('*')]
+    .filter((el) => el.children.length === 0 && /^\d+ coming$/.test(el.textContent ?? ''))
+    .map((el) => el.textContent);
+  expect(coming).not.toEqual(['33 coming']);
+  expect(coming).toHaveLength(6);
+  // The counts are per-unit lesson counts, and they account for all 27 lessons
+  // of units 2.3 to 2.8.
+  const counted = coming.reduce((n, h) => n + Number(h?.split(' ')[0]), 0);
+  // 27 lessons plus 6 checkpoints: a coming checkpoint stays inside its unit's
+  // groove, so the unit is one row rather than six.
+  expect(counted).toBe(33);
+  // No groove may exceed a unit: lesson.schema caps a unit's lessons well
+  // under this, so a larger number means a run spanned a unit boundary again.
+  for (const h of coming) expect(Number(h?.split(' ')[0])).toBeLessThanOrEqual(10);
+  expect(
+    screen.getByLabelText('2.3.1 The absolute pin. Content coming'),
+  ).toHaveAttribute('aria-disabled', 'true');
+  expect(screen.queryByRole('link', { name: /^2\.[3-8]/ })).toBeNull();
+  // Units 2.1 and 2.2 are built: their first lessons are real nodes with real
+  // names, not "Content coming" placeholders.
+  expect(
+    screen.queryByLabelText(/^2\.1\.1 .*Content coming$/),
+  ).toBeNull();
+  expect(
+    screen.queryByLabelText(/^2\.2\.1 .*Content coming$/),
+  ).toBeNull();
+  expect(screen.getByLabelText(/^2\.2\.1 The knight fork/)).toBeInTheDocument();
 });

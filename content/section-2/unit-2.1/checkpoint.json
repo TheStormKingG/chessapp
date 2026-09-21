@@ -1,0 +1,444 @@
+{
+  "unit": "2.1",
+  "title": "Real Chess",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "2.1-k01",
+      "type": "which_square",
+      "fen": "rnbqkb1r/pppp1ppp/5n2/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
+      "prompt": "Black has just played the knight to f6. Tap the white piece it now attacks.",
+      "concept": "opponent-threats",
+      "answer": {
+        "square": "e4"
+      },
+      "reason": "The knight on f6 reaches e4, and nothing else of yours is on its list."
+    },
+    {
+      "id": "2.1-k02",
+      "type": "find_them_all",
+      "fen": "6k1/5ppp/8/4q3/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "Tap every square Black could give check on with his next move.",
+      "concept": "opponent-threats",
+      "answer": {
+        "squares": [
+          "e1",
+          "h2"
+        ]
+      }
+    },
+    {
+      "id": "2.1-k03",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/8/8/8/5q2/5PPP/R5K1 w - - 0 1",
+      "prompt": "Black has just played the queen to f3. How dangerous is she?",
+      "concept": "opponent-threats",
+      "options": [
+        "Nothing. She is hanging to your g-pawn.",
+        "Checkmate on g2.",
+        "Checkmate on d1."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "The pawn on g2 attacks f3 and no black piece defends her there."
+    },
+    {
+      "id": "2.1-k04",
+      "type": "is_it_safe",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
+      "prompt": "White takes the pawn on e5 with the knight. Is that safe?",
+      "concept": "opponent-threats",
+      "move": "Nxe5",
+      "reasons": [
+        "Yes. Nothing can reach e5.",
+        "No. The knight on c6 takes back.",
+        "No. The pawn on d7 takes back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      }
+    },
+    {
+      "id": "2.1-k05",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/3q4/8/2N5/5PPP/6K1 w - - 0 1",
+      "prompt": "Black's queen has just landed on d5. Look at her square before you look at her threats.",
+      "concept": "opponent-threats",
+      "answer": {
+        "moves": [
+          "Nxd5"
+        ]
+      },
+      "reason": "The knight on c3 already covered d5, and nothing defends her there."
+    },
+    {
+      "id": "2.1-k06",
+      "type": "which_square",
+      "fen": "rnbqkbnr/ppp2ppp/8/3pp3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 0 3",
+      "prompt": "Black has just played the pawn to d5. Tap the white piece it now attacks.",
+      "concept": "opponent-threats",
+      "answer": {
+        "square": "e4"
+      },
+      "reason": "Pawns take diagonally, so d5 hits e4."
+    },
+    {
+      "id": "2.1-k07",
+      "type": "find_them_all",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2NP1N2/PPP2PPP/R1BQK2R w KQkq - 0 6",
+      "prompt": "Tap every white piece Black could capture on his next move.",
+      "concept": "opponent-threats",
+      "answer": {
+        "pieces": [
+          "f2",
+          "e4"
+        ]
+      }
+    },
+    {
+      "id": "2.1-k08",
+      "type": "find_them_all",
+      "fen": "r3k2r/pppq1ppp/2n5/8/8/2N5/PPPQ1PPP/R3K2R w KQkq - 0 1",
+      "prompt": "Tap every square Black could give check on with his next move.",
+      "concept": "threat-scan",
+      "answer": {
+        "squares": [
+          "d2",
+          "e6",
+          "e7"
+        ]
+      }
+    },
+    {
+      "id": "2.1-k09",
+      "type": "name_the_pattern",
+      "fen": "2r3k1/5ppp/8/8/8/8/5PPP/2R3K1 w - - 0 1",
+      "prompt": "White to move, and both rooks are loose on the c-file. What is true?",
+      "concept": "threat-scan",
+      "options": [
+        "White takes on c8 and it is checkmate.",
+        "Black takes on c1 and it is checkmate.",
+        "Neither rook can reach the other."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "Whoever moves first takes the rook, and the back rank has no escape square."
+    },
+    {
+      "id": "2.1-k10",
+      "type": "which_square",
+      "fen": "6k1/5ppp/8/4q3/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "Black's queen has two checks. Tap the square of the one that also takes a pawn.",
+      "concept": "threat-scan",
+      "answer": {
+        "square": "h2"
+      },
+      "reason": "Qxh2 is check and wins the pawn. Qe1 is only check."
+    },
+    {
+      "id": "2.1-k11",
+      "type": "find_the_move",
+      "fen": "r4rk1/ppp2ppp/8/3n4/8/2N5/PPP2PPP/R3R1K1 w - - 0 1",
+      "prompt": "Run the scan both ways. Black has nothing, and you have something.",
+      "concept": "threat-scan",
+      "answer": {
+        "moves": [
+          "Nxd5"
+        ]
+      },
+      "reason": "Nothing defends the knight on d5."
+    },
+    {
+      "id": "2.1-k12",
+      "type": "is_it_safe",
+      "fen": "6k1/5ppp/8/8/8/5q2/5PPP/R5K1 w - - 0 1",
+      "prompt": "White takes the queen with the g-pawn. Is that safe?",
+      "concept": "threat-scan",
+      "move": "gxf3",
+      "reasons": [
+        "Yes. Nothing of Black's can take back on f3.",
+        "No. The king on g8 takes back.",
+        "No. A pawn takes back."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      }
+    },
+    {
+      "id": "2.1-k13",
+      "type": "find_them_all",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
+      "prompt": "Tap every black piece White could capture on this move.",
+      "concept": "threat-scan",
+      "answer": {
+        "pieces": [
+          "c6",
+          "e5"
+        ]
+      }
+    },
+    {
+      "id": "2.1-k14",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/8/8/2q5/5PPP/2R3K1 w - - 0 1",
+      "prompt": "Black's queen is on c3 and your rook is on c1. Take.",
+      "concept": "threat-scan",
+      "answer": {
+        "moves": [
+          "Rxc3"
+        ]
+      },
+      "reason": "The c-file is clear and nothing defends the queen."
+    },
+    {
+      "id": "2.1-k15",
+      "type": "find_them_all",
+      "fen": "4k3/8/3p4/4p3/3P1P2/8/8/4K3 w - - 0 1",
+      "prompt": "Tap every WHITE piece that is hanging.",
+      "concept": "hanging-both-sides",
+      "answer": {
+        "pieces": [
+          "d4",
+          "f4"
+        ]
+      }
+    },
+    {
+      "id": "2.1-k16",
+      "type": "find_them_all",
+      "fen": "4k3/6p1/7B/3b4/8/2N5/8/4K3 w - - 0 1",
+      "prompt": "Tap every WHITE piece that is hanging on this board.",
+      "concept": "hanging-both-sides",
+      "answer": {
+        "pieces": [
+          "h6"
+        ]
+      }
+    },
+    {
+      "id": "2.1-k17",
+      "type": "find_them_all",
+      "fen": "4k3/6p1/7B/3b4/8/2N5/8/4K3 w - - 0 1",
+      "prompt": "Tap every BLACK piece that is hanging on this board.",
+      "concept": "hanging-both-sides",
+      "answer": {
+        "pieces": [
+          "d5",
+          "g7"
+        ]
+      }
+    },
+    {
+      "id": "2.1-k18",
+      "type": "which_square",
+      "fen": "4k3/8/8/3b4/8/2N5/8/4K3 w - - 0 1",
+      "prompt": "Exactly one piece on this board is hanging. Tap it.",
+      "concept": "hanging-both-sides",
+      "answer": {
+        "square": "d5"
+      },
+      "reason": "The knight on c3 attacks the bishop and nothing defends it."
+    },
+    {
+      "id": "2.1-k19",
+      "type": "find_the_move",
+      "fen": "4k3/8/8/4r3/1n6/P7/4R3/4K3 w - - 0 1",
+      "prompt": "Two black pieces are loose. Take the one worth more.",
+      "concept": "hanging-both-sides",
+      "answer": {
+        "moves": [
+          "Rxe5+"
+        ]
+      },
+      "reason": "The rook is worth five and the knight three, and both are free."
+    },
+    {
+      "id": "2.1-k20",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/8/8/b7/5PPP/R5K1 w - - 0 1",
+      "prompt": "Black's bishop has landed on a3. Nothing defends it. Take it.",
+      "concept": "hanging-both-sides",
+      "answer": {
+        "moves": [
+          "Rxa3"
+        ]
+      },
+      "reason": "The a-file is clear and the bishop has no defender."
+    },
+    {
+      "id": "2.1-k21",
+      "type": "find_them_all",
+      "fen": "4k3/2n5/8/3p4/2P1P3/8/8/4K3 w - - 0 1",
+      "prompt": "Tap every white piece that attacks the black pawn on d5.",
+      "concept": "counting",
+      "answer": {
+        "pieces": [
+          "c4",
+          "e4"
+        ]
+      }
+    },
+    {
+      "id": "2.1-k22",
+      "type": "name_the_pattern",
+      "fen": "4k3/2n5/8/3p4/2P1P3/8/8/4K3 w - - 0 1",
+      "prompt": "Two pawns attack d5 and the knight on c7 defends it. What is the count?",
+      "concept": "counting",
+      "options": [
+        "Two attackers, one defender. Take and win a pawn.",
+        "Two attackers, two defenders. Leave it.",
+        "One attacker, one defender. Even."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "You take, the knight takes back, you take again. Black runs out first."
+    },
+    {
+      "id": "2.1-k23",
+      "type": "which_square",
+      "fen": "4k3/8/3p4/4p3/3P1P2/8/8/4K3 w - - 0 1",
+      "prompt": "Tap the black pawn that two of your pawns attack.",
+      "concept": "counting",
+      "answer": {
+        "square": "e5"
+      },
+      "reason": "The pawns on d4 and f4 both hit e5."
+    },
+    {
+      "id": "2.1-k24",
+      "type": "name_the_pattern",
+      "fen": "4k3/8/3p4/4p3/3P1P2/8/8/4K3 w - - 0 1",
+      "prompt": "Your pawns on d4 and f4 attack e5, and the pawn on d6 defends it. What is the count?",
+      "concept": "counting",
+      "options": [
+        "Two attackers, one defender. Take and win a pawn.",
+        "Even. Leave it alone.",
+        "Black has more defenders than you have attackers."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "Two against one wins the square."
+    },
+    {
+      "id": "2.1-k25",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/3r4/2P5/8/5PPP/6K1 w - - 0 1",
+      "prompt": "One of your pawns attacks d5 and nothing defends it. Take.",
+      "concept": "counting",
+      "answer": {
+        "moves": [
+          "cxd5"
+        ]
+      },
+      "reason": "The pawn takes a whole rook and nothing takes back."
+    },
+    {
+      "id": "2.1-k26",
+      "type": "find_the_move",
+      "fen": "r4rk1/ppp2ppp/8/8/8/2b5/PPP2PPP/R3R1K1 w - - 0 1",
+      "prompt": "One pawn attacks the bishop on c3 and nothing defends it. Take it.",
+      "concept": "counting",
+      "answer": {
+        "moves": [
+          "bxc3"
+        ]
+      },
+      "reason": "The b-pawn takes a free bishop."
+    },
+    {
+      "id": "2.1-k27",
+      "type": "is_it_safe",
+      "fen": "2r3k1/5ppp/8/8/8/8/5PPP/2R3K1 w - - 0 1",
+      "prompt": "White takes the rook on c8. Is that safe?",
+      "concept": "sanity-check",
+      "move": "Rxc8#",
+      "reasons": [
+        "Yes. It is checkmate, so Black never gets a reply.",
+        "No. The king on g8 takes back.",
+        "No. Black takes on c1 first."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      }
+    },
+    {
+      "id": "2.1-k28",
+      "type": "is_it_safe",
+      "fen": "6k1/5ppp/8/4q3/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "White gives check with the rook on d8. Is that safe?",
+      "concept": "sanity-check",
+      "move": "Rd8+",
+      "reasons": [
+        "Yes. Nothing of Black's attacks d8.",
+        "No. The queen on e5 takes it.",
+        "No. The king on g8 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      }
+    },
+    {
+      "id": "2.1-k29",
+      "type": "is_it_safe",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2NP1N2/PPP2PPP/R1BQK2R w KQkq - 0 6",
+      "prompt": "White takes the pawn on e5 with the knight. Is that safe?",
+      "concept": "sanity-check",
+      "move": "Nxe5",
+      "reasons": [
+        "Yes. The pawn on e5 is free.",
+        "No. The knight on c6 takes back.",
+        "No. The bishop on c5 takes back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      }
+    },
+    {
+      "id": "2.1-k30",
+      "type": "which_square",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2NP1N2/PPP2PPP/R1BQK2R w KQkq - 0 6",
+      "prompt": "Black has exactly one check here. Tap the square he gives it on.",
+      "concept": "sanity-check",
+      "answer": {
+        "square": "f2"
+      },
+      "reason": "The bishop on c5 takes on f2 with check."
+    },
+    {
+      "id": "2.1-k31",
+      "type": "find_the_move",
+      "fen": "5k2/8/8/3r4/8/8/3R4/5K2 w - - 0 1",
+      "prompt": "Check Black's reply first, then take the black rook.",
+      "concept": "sanity-check",
+      "answer": {
+        "moves": [
+          "Rxd5"
+        ]
+      },
+      "reason": "Nothing defends the rook on d5 and Black has no check in return."
+    },
+    {
+      "id": "2.1-k32",
+      "type": "find_the_move",
+      "fen": "6k1/8/8/8/3b4/8/3R4/6K1 w - - 0 1",
+      "prompt": "Check Black's reply first, then take the black bishop.",
+      "concept": "sanity-check",
+      "answer": {
+        "moves": [
+          "Rxd4"
+        ]
+      },
+      "reason": "The bishop is loose and there is no back-rank answer."
+    }
+  ]
+}

@@ -1,0 +1,167 @@
+{
+  "id": "2.1.2",
+  "unit": "2.1",
+  "title": "The threat scan: their checks, their captures",
+  "xp": 12,
+  "card": {
+    "idea": "Before you look for your own move, run a list for them. What checks do they have? What can they capture? What are they threatening next? Their checks first, because a check cannot be ignored.",
+    "diagrams": [
+      "r4rk1/pp3ppp/2n5/3q4/3b4/2N2N2/PPP2PPP/R2QR1K1 w - - 0 1"
+    ],
+    "habit": "Look at the opponent's threats before your own idea."
+  },
+  "explain": [
+    {
+      "fen": "rnb1k1nr/pppp1ppp/8/2b1p3/2B1P2q/3P4/PPP2PPP/RNBQK1NR w KQkq - 2 4",
+      "text": "Start with their checks. Here Black has three squares to check on: f2, b4 and e4. You do not have to work out which is best. You only have to see that they exist.",
+      "highlights": [
+        "f2",
+        "b4",
+        "e4"
+      ]
+    },
+    {
+      "fen": "r4rk1/pp3ppp/2n5/3q4/3b4/2N2N2/PPP2PPP/R2QR1K1 w - - 0 1",
+      "text": "Then their captures. Black can take on f3, on c3, on a2 and on f2. Four captures is a long list, and going through it is how you stop being surprised.",
+      "highlights": [
+        "f3",
+        "c3",
+        "a2",
+        "f2"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.1.2-c1",
+      "type": "find_them_all",
+      "fen": "rnb1k1nr/pppp1ppp/8/2b1p3/2B1P2q/3P4/PPP2PPP/RNBQK1NR w KQkq - 2 4",
+      "prompt": "Tap every square Black could give check on with his next move.",
+      "answer": {
+        "squares": [
+          "b4",
+          "e4",
+          "f2"
+        ]
+      },
+      "concept": "threat-scan",
+      "hints": {
+        "text": "The queen has two of them and the bishop has two. One square is on both lists.",
+        "text2": "Your king is on e1. Look down the diagonal and along the file."
+      }
+    },
+    {
+      "id": "2.1.2-c2",
+      "type": "find_them_all",
+      "fen": "r4rk1/pp3ppp/2n5/3q4/3b4/2N2N2/PPP2PPP/R2QR1K1 w - - 0 1",
+      "prompt": "Tap every white piece Black could capture on his next move.",
+      "answer": {
+        "pieces": [
+          "a2",
+          "c3",
+          "f2",
+          "f3"
+        ]
+      },
+      "concept": "threat-scan",
+      "hints": {
+        "text": "The queen takes two of them and the bishop takes two.",
+        "text2": "Do not stop at the first one you see. There are four."
+      }
+    },
+    {
+      "id": "2.1.2-c3",
+      "type": "which_square",
+      "fen": "r4rk1/pp3ppp/2n5/3q4/3b4/2N2N2/PPP2PPP/R2QR1K1 w - - 0 1",
+      "prompt": "Black has exactly one check in this position. Tap the square he would give it on.",
+      "answer": {
+        "square": "f2"
+      },
+      "concept": "threat-scan",
+      "hints": {
+        "piece": "d4",
+        "text": "Your king is on g1. Which black piece can land next to him?"
+      },
+      "reason": "The bishop on d4 takes on f2, and that is check."
+    },
+    {
+      "id": "2.1.2-c4",
+      "type": "find_the_move",
+      "fen": "r4rk1/pp3ppp/2n5/3q4/3b4/2N2N2/PPP2PPP/R2QR1K1 w - - 0 1",
+      "prompt": "You have run Black's list. Now run your own and win material.",
+      "answer": {
+        "moves": [
+          "Nxd5"
+        ]
+      },
+      "wrong": {
+        "h3": "A quiet move hands Black a free choice from his list of four captures."
+      },
+      "concept": "threat-scan",
+      "hints": {
+        "piece": "c3",
+        "text": "The black queen is standing on a square one of your knights already covers."
+      },
+      "reason": "Your knight on c3 attacks d5 and nothing of Black's defends the queen there."
+    },
+    {
+      "id": "2.1.2-c5",
+      "type": "find_them_all",
+      "fen": "r1bqkb1r/pppp1ppp/2n5/4p3/2B1n3/5N2/PPPP1PPP/RNBQ1RK1 w kq - 0 5",
+      "prompt": "A different board. Tap every white piece Black could capture on his next move.",
+      "answer": {
+        "pieces": [
+          "d2",
+          "f2"
+        ]
+      },
+      "concept": "threat-scan",
+      "hints": {
+        "piece": "e4",
+        "text": "Only one black piece has a capture at all. Look at every square it can jump to."
+      }
+    },
+    {
+      "id": "2.1.2-c6",
+      "type": "name_the_pattern",
+      "fen": "r1bqkb1r/pppp1ppp/2n5/4p3/2B1n3/5N2/PPPP1PPP/RNBQ1RK1 w kq - 0 5",
+      "prompt": "The knight on e4 can take on f2 and on d2. How worried should you be?",
+      "options": [
+        "Not worried. Both squares are defended, so either capture loses the knight.",
+        "Very worried. Both pawns are free.",
+        "Worried about f2 only. Nothing defends it."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "threat-scan",
+      "hints": {
+        "text": "Listing a capture is not the same as fearing it. Count the defenders of each square.",
+        "text2": "Your rook and king both watch f2. Your queen, bishop and knight all watch d2."
+      },
+      "reason": "A capture on a defended square is on the list but it is not a threat. Listing it is still the right habit."
+    },
+    {
+      "id": "2.1.2-c7",
+      "type": "is_it_safe",
+      "fen": "r1bqkb1r/pppp1ppp/2n5/4p3/2B1n3/5N2/PPPP1PPP/RNBQ1RK1 w kq - 0 5",
+      "move": "Nxe5",
+      "prompt": "White takes the pawn on e5 with the knight. Is that safe?",
+      "reasons": [
+        "Yes. Nothing can reach e5.",
+        "No. The knight on c6 takes back.",
+        "No. The queen on d8 takes back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "threat-scan",
+      "hints": {
+        "piece": "c6",
+        "text": "Run the scan for Black after your move, not before it."
+      }
+    }
+  ],
+  "takeaway": "Checks, then captures, then threats \u2014 theirs before yours."
+}

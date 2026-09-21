@@ -1,4 +1,4 @@
-// Content verification gate for content/section-1.
+// Content verification gate for the authored content sections (see SECTIONS below).
 //
 // What this script actually checks:
 //   - every lesson/checkpoint file validates against its JSON schema;
@@ -26,7 +26,7 @@
 //   - the Lichess-derived difficulty estimate (PRD 9.2). Not implemented in
 //     Phase 0.
 import { spawn } from 'node:child_process';
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { createInterface } from 'node:readline';
 import { join } from 'node:path';
 import Ajv from 'ajv';
@@ -39,6 +39,19 @@ const cpSchema = ajv.compile(JSON.parse(readFileSync('content/schema/checkpoint.
 const errors = [];
 const fail = (where, msg) => {
   errors.push(`${where}: ${msg}`);
+};
+
+/**
+ * A fault in the MEASURING APPARATUS, not in the content.
+ *
+ * Kept in its own list and reported under its own heading, because the two
+ * demand opposite responses: a content error means change the challenge, an
+ * instrument fault means change nothing and re-run on an idle machine. Folding
+ * them together is how a busy afternoon gets a correct position rewritten.
+ */
+const faults = [];
+const instrumentFault = (where, msg) => {
+  faults.push(`${where}: ${msg}`);
 };
 
 function walk(dir, out = []) {
@@ -252,12 +265,34 @@ async function checkChallenge(where, c) {
           [a, b] = await engine.top2(c.fen);
         } catch (e) {
           if (!(e instanceof EngineTimeout)) throw e;
-          // A hang becomes a report naming the position it was stuck on.
-          fail(
-            where,
-            `engine timed out after ${String(e.ms)}ms at depth 14; position not verified (FEN ${c.fen})`,
-          );
-          break;
+          // A timeout is NOT a finding about the content. The limit is
+          // wall-clock, so a busy machine turns a green corpus red on a
+          // position nobody touched — observed on 2.1.1-c6 while three other
+          // worktrees were building, on a run that took 2:21 against 1:11
+          // clean. Reported as a content failure it is indistinguishable from
+          // a real one, and the natural response (re-author the position, or
+          // drop it) damages content that was never wrong. A sibling verifier
+          // once deleted three good puzzles exactly this way.
+          //
+          // So: retry once with the engine reset and a doubled budget, and
+          // only if THAT also times out report it — as an instrument fault,
+          // counted separately, never as a solution defect.
+          // No explicit reset needed: top2 sends `ucinewgame` + `isready`
+          // before every search, so the retry already starts from a clean
+          // hash table.
+          try {
+            [a, b] = await engine.top2(c.fen, 14, SEARCH_TIMEOUT_MS * 2);
+          } catch (e2) {
+            if (!(e2 instanceof EngineTimeout)) throw e2;
+            instrumentFault(
+              where,
+              `engine timed out twice (${String(e.ms)}ms, then ${String(e2.ms)}ms) at depth 14. ` +
+                `This is a machine-load fault, not a content defect: the position was never ` +
+                `verified either way. Re-run on an idle machine before changing anything ` +
+                `(FEN ${c.fen})`,
+            );
+            break;
+          }
         }
         const best = legal.find((m) => m.from + m.to + (m.promotion ?? '') === a?.move);
         if (!best || best.san !== c.answer.moves[0]) {
@@ -329,7 +364,14 @@ async function checkChallenge(where, c) {
   }
 }
 
-const files = walk('content/section-1');
+// Every authored section, not just the first. This walk was hardcoded to
+// `content/section-1`, which meant a new section's content was never examined
+// and the run still printed OK -- a silent pass, which certifies the opposite
+// of what the gate is for. Sections are listed explicitly rather than globbed
+// so that adding one is a deliberate edit, and a missing directory is skipped
+// rather than throwing.
+const SECTIONS = ['content/section-1', 'content/section-2'];
+const files = SECTIONS.filter((d) => existsSync(d)).flatMap((d) => walk(d));
 const seenIds = new Set();
 try {
   for (const f of files) {
@@ -357,9 +399,23 @@ try {
   // including the timeout path that aborted a search.
   engine.close();
 }
+if (faults.length) {
+  console.error('INSTRUMENT FAULTS — the apparatus, not the content:');
+  console.error(faults.join('\n'));
+  console.error(
+    `\n${faults.length} position(s) were never verified either way. ` +
+      `Do NOT change them on the strength of this run.`,
+  );
+}
 if (errors.length) {
   console.error(errors.join('\n'));
   console.error(`\n${errors.length} content error(s)`);
   process.exit(1);
+}
+if (faults.length) {
+  // Non-zero, so a run with unverified positions can never be read as a pass —
+  // but a distinct code, so a caller can tell "your content is wrong" from
+  // "my measurement did not complete".
+  process.exit(2);
 }
 console.log(`verify-content: ${files.length} files, ${seenIds.size} challenges OK`);
