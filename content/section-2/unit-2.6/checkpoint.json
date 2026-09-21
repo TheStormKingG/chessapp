@@ -1,0 +1,475 @@
+{
+  "unit": "2.6",
+  "title": "Opening principles and your first opening",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "2.6-k01",
+      "type": "which_square",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "Tap the square White's king's pawn reaches when it steps two forward on move one.",
+      "answer": {
+        "square": "e4"
+      },
+      "concept": "centre",
+      "reason": "e2 to e4. It claims a share of the middle and frees the bishop on f1 and the queen."
+    },
+    {
+      "id": "2.6-k02",
+      "type": "which_square",
+      "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+      "prompt": "Black to play. Tap the square your king's pawn goes to, to claim the same share of the middle as White has.",
+      "answer": {
+        "square": "e5"
+      },
+      "concept": "centre",
+      "reason": "e5 stands opposite White's pawn. Neither can capture the other and Black has an equal share."
+    },
+    {
+      "id": "2.6-k03",
+      "type": "which_square",
+      "fen": "rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq - 0 1",
+      "prompt": "White has played the queen's pawn two forward. Tap the square your own queen's pawn goes to.",
+      "answer": {
+        "square": "d5"
+      },
+      "concept": "centre",
+      "reason": "d5 faces White's pawn, opens the diagonal for the bishop on c8 and gives the queen the d-file."
+    },
+    {
+      "id": "2.6-k04",
+      "type": "find_them_all",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "Tap the four squares in the middle of the board that both sides spend the opening fighting over.",
+      "answer": {
+        "squares": [
+          "d4",
+          "e4",
+          "d5",
+          "e5"
+        ]
+      },
+      "concept": "centre",
+      "reason": "d4, e4, d5 and e5. Pawns and pieces near them control more of the board than the same men on the edge."
+    },
+    {
+      "id": "2.6-k05",
+      "type": "is_it_safe",
+      "fen": "rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq - 0 1",
+      "move": "d5",
+      "prompt": "Black answers 1.d4 with the same pawn. Is it safe on d5?",
+      "reasons": [
+        "Yes. Nothing white attacks d5.",
+        "No. The pawn on d4 takes it.",
+        "No. The queen on d1 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "centre",
+      "reason": "Pawns never capture straight ahead, and the queen on d1 is blocked by her own pawn on d4."
+    },
+    {
+      "id": "2.6-k06",
+      "type": "find_them_all",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3",
+      "prompt": "Tap every white knight and bishop that has already left the square it started on.",
+      "answer": {
+        "pieces": [
+          "c4",
+          "f3"
+        ]
+      },
+      "concept": "development",
+      "reason": "The knight on f3 and the bishop on c4. The knight on b1 and the bishop on c1 are still waiting."
+    },
+    {
+      "id": "2.6-k07",
+      "type": "which_square",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/3p2B1/3P4/5N2/PPP1PPPP/RN1QKB1R b KQkq - 3 3",
+      "prompt": "A white bishop has landed on g5. Tap the square your rook's pawn goes to, to ask it where it is going.",
+      "answer": {
+        "square": "h6"
+      },
+      "concept": "development",
+      "reason": "h6 attacks the bishop. It must take, retreat or be taken, and you have gained a move."
+    },
+    {
+      "id": "2.6-k08",
+      "type": "which_square",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/1B2p3/4P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3",
+      "prompt": "A white bishop has landed on b5. Tap the square your rook's pawn goes to, to ask it where it is going.",
+      "answer": {
+        "square": "a6"
+      },
+      "concept": "development",
+      "reason": "a6 attacks the bishop with a pawn. The same habit on the other side of the board."
+    },
+    {
+      "id": "2.6-k09",
+      "type": "which_square",
+      "fen": "rn1qkbnr/ppp2ppp/3p4/4p3/2B1P1b1/5N2/PPPP1PPP/RNBQK2R w KQkq - 2 4",
+      "prompt": "A black bishop has landed on g4. Tap the square your rook's pawn goes to, to ask it where it is going.",
+      "answer": {
+        "square": "h3"
+      },
+      "concept": "development",
+      "reason": "h3 attacks the bishop on g4 and forces it to decide, which is a move you did not have to spend elsewhere."
+    },
+    {
+      "id": "2.6-k10",
+      "type": "which_square",
+      "fen": "rnbqk2r/pppp1ppp/4pn2/8/1bPP4/2N5/PP2PPPP/R1BQKBNR w KQkq - 2 4",
+      "prompt": "A black bishop has landed on b4. Tap the square your rook's pawn goes to, to ask it where it is going.",
+      "answer": {
+        "square": "a3"
+      },
+      "concept": "development",
+      "reason": "a3 hits the bishop on b4 with a pawn, and the bishop must retreat, take, or be taken."
+    },
+    {
+      "id": "2.6-k11",
+      "type": "which_square",
+      "fen": "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
+      "prompt": "Tap the square White's king lands on when he castles on the king's side.",
+      "answer": {
+        "square": "g1"
+      },
+      "concept": "castle-early",
+      "reason": "The king goes two squares to g1 and the rook on h1 jumps over it to f1."
+    },
+    {
+      "id": "2.6-k12",
+      "type": "find_them_all",
+      "fen": "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
+      "prompt": "Tap the two squares that have to be empty before White may castle on the king's side.",
+      "answer": {
+        "squares": [
+          "f1",
+          "g1"
+        ]
+      },
+      "concept": "castle-early",
+      "reason": "f1 and g1. The bishop and the knight have both gone, so White can castle this move."
+    },
+    {
+      "id": "2.6-k13",
+      "type": "which_square",
+      "fen": "rnbqk2r/ppp2ppp/3bpn2/3p4/3P1B2/3BPN2/PPP2PPP/RN1QK2R b KQkq - 2 5",
+      "prompt": "Tap the square Black's king lands on when he castles on the king's side.",
+      "answer": {
+        "square": "g8"
+      },
+      "concept": "castle-early",
+      "reason": "g8, with the rook on h8 hopping over to f8. The king leaves the middle and a rook joins in."
+    },
+    {
+      "id": "2.6-k14",
+      "type": "find_them_all",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQ1RK1 w kq - 6 5",
+      "prompt": "Tap the three white pawns standing in front of the king that has just castled.",
+      "answer": {
+        "pieces": [
+          "f2",
+          "g2",
+          "h2"
+        ]
+      },
+      "concept": "castle-early",
+      "reason": "f2, g2 and h2. None of them has moved, which is exactly what makes the castled king hard to get at."
+    },
+    {
+      "id": "2.6-k15",
+      "type": "find_the_move",
+      "fen": "rnbqkbnr/pppp1ppp/4p3/8/5PP1/8/PPPPP2P/RNBQKBNR b KQkq - 0 2",
+      "prompt": "White has pushed both pawns beside his king and opened the diagonal into e1. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qh4#"
+        ]
+      },
+      "concept": "castle-early",
+      "reason": "Qh4 is mate along h4-g3-f2-e1. The king never left the middle and now it cannot."
+    },
+    {
+      "id": "2.6-k16",
+      "type": "find_the_move",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1N3/2B1P3/8/PPPP1PPP/RNBQ1RK1 b kq - 0 5",
+      "prompt": "White has moved the same knight twice, onto a square nothing defends. Take it.",
+      "answer": {
+        "moves": [
+          "Nxe5"
+        ]
+      },
+      "concept": "piece-twice",
+      "reason": "Nxe5 wins a whole knight. Nothing white attacks e5, so the capture is simply free."
+    },
+    {
+      "id": "2.6-k17",
+      "type": "find_the_move",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1N3/2B1P3/2N5/PPPP1PPP/R1BQK2R b KQkq - 0 5",
+      "prompt": "White has grabbed a pawn with a knight that nothing can back up. Win the piece.",
+      "answer": {
+        "moves": [
+          "Nxe5"
+        ]
+      },
+      "concept": "piece-twice",
+      "reason": "Nxe5. The knight went to e5 with no support, so taking it costs Black nothing at all."
+    },
+    {
+      "id": "2.6-k18",
+      "type": "find_the_move",
+      "fen": "r1bqk1nr/pppp1pp1/2n4p/2b1N3/2B1P3/2N5/PPPP1PPP/R1BQK2R b KQkq - 0 5",
+      "prompt": "White has sent the knight from f3 to e5, where no white pawn or piece defends it. Take it.",
+      "answer": {
+        "moves": [
+          "Nxe5"
+        ]
+      },
+      "concept": "piece-twice",
+      "reason": "Nxe5 wins a piece. Moving a developed piece again, onto an undefended square, loses it."
+    },
+    {
+      "id": "2.6-k19",
+      "type": "name_the_pattern",
+      "fen": "rnbqkb1r/pppp1ppp/5n2/4p3/4P3/1B6/PPPP1PPP/RNBQK1NR b KQkq - 3 3",
+      "prompt": "White played the bishop to c4 and then straight on to b3, while Black brought a knight out. What has White lost?",
+      "options": [
+        "A move. Two bishop turns have developed one piece, and Black is a whole developing move ahead.",
+        "A pawn, because the bishop on b3 no longer guards e4.",
+        "The right to castle, because the bishop has left f1."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "piece-twice",
+      "reason": "Two moves of one bishop equal one piece out. Black used the time to bring out a knight."
+    },
+    {
+      "id": "2.6-k20",
+      "type": "name_the_pattern",
+      "fen": "r1bqkb1r/pppp1p1p/2n2np1/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq - 2 5",
+      "prompt": "White's queen has moved twice and Black has two knights out. Who has spent the opening better?",
+      "options": [
+        "Black. Two knights are out; White has moved one piece twice and has a single bishop developed.",
+        "White. The queen on f3 is the most active piece on the board, so White is ahead.",
+        "Neither. Both sides have made the same number of moves, so they must be equal."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "piece-twice",
+      "reason": "Counting moves is not the point; counting pieces that are out is. Black has two, White has one."
+    },
+    {
+      "id": "2.6-k21",
+      "type": "find_the_move",
+      "fen": "rnbqk2r/pppp1ppp/5n2/2b1p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR w KQkq - 4 4",
+      "prompt": "Black has just developed a knight and left f7 defended by the king alone. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qxf7#"
+        ]
+      },
+      "concept": "early-queen",
+      "reason": "Qxf7 is mate: the bishop on c4 defends the queen and the king has no square."
+    },
+    {
+      "id": "2.6-k22",
+      "type": "which_square",
+      "fen": "rnbqkbnr/pppp1ppp/8/4p2Q/4P3/8/PPPP1PPP/RNB1KBNR b KQkq - 1 2",
+      "prompt": "The white queen has come out on move two and attacks your pawn on e5. Tap the square your queen's knight goes to, so that it comes out and defends at the same time.",
+      "answer": {
+        "square": "c6"
+      },
+      "concept": "early-queen",
+      "reason": "Nc6 brings a piece out and guards e5. Answer a wandering queen by developing, not by panicking."
+    },
+    {
+      "id": "2.6-k23",
+      "type": "is_it_safe",
+      "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
+      "move": "Qh5",
+      "prompt": "White brings the queen out to h5 on move two. Is she safe on h5?",
+      "reasons": [
+        "Yes, for the moment. Nothing black attacks h5 \u2014 but she will be chased by pieces worth far less.",
+        "No. The pawn on g7 takes her.",
+        "No. The knight on g8 takes her."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "early-queen",
+      "reason": "The g7 pawn captures to f6 or h6, and the knight on g8 covers e7, f6 and h6. She is safe, and still misplaced."
+    },
+    {
+      "id": "2.6-k24",
+      "type": "name_the_pattern",
+      "fen": "rnbqkbnr/pppp1ppp/8/4p2Q/4P3/8/PPPP1PPP/RNB1KBNR b KQkq - 1 2",
+      "prompt": "Why is the white queen on h5 a poor idea on move two, even though she attacks two things?",
+      "options": [
+        "Every piece Black develops can chase her, so White must keep moving one piece while Black brings out new ones.",
+        "It is against the rules to move the queen before a knight.",
+        "She can never get back from h5 once she has gone there."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "early-queen",
+      "reason": "She is the most valuable piece, so anything that attacks her wins time. Bring her out after the knights and bishops."
+    },
+    {
+      "id": "2.6-k25",
+      "type": "find_them_all",
+      "fen": "r1bqkb1r/pppp1p1p/2n2np1/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq - 2 5",
+      "prompt": "Tap every black knight that has come out to a good square while the white queen was moving about.",
+      "answer": {
+        "pieces": [
+          "c6",
+          "f6"
+        ]
+      },
+      "concept": "early-queen",
+      "reason": "The knights on c6 and f6. Both came out attacking something, which is how chasing a queen pays for itself."
+    },
+    {
+      "id": "2.6-k26",
+      "type": "which_square",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+      "prompt": "Tap the square White's king's bishop goes to on move three, so that it points straight at f7.",
+      "answer": {
+        "square": "c4"
+      },
+      "concept": "italian",
+      "reason": "Bc4. From c4 the bishop looks through d5 and e6 at f7, and it clears the way for castling."
+    },
+    {
+      "id": "2.6-k27",
+      "type": "which_square",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3",
+      "prompt": "Tap the square the white bishop on c4 is aiming at \u2014 the one near the black king that only the king defends.",
+      "answer": {
+        "square": "f7"
+      },
+      "concept": "italian",
+      "reason": "f7. Every other pawn round the black king has a piece behind it; f7 has only the king."
+    },
+    {
+      "id": "2.6-k28",
+      "type": "find_the_move",
+      "fen": "rn1q1bnr/ppp1kB1p/3p2p1/4N3/4P3/2N5/PPPP1PPP/R1BbK2R w KQ - 1 7",
+      "prompt": "White gave up the queen and the black king has been dragged out to e7. Mate in one.",
+      "answer": {
+        "moves": [
+          "Nd5#"
+        ]
+      },
+      "concept": "italian",
+      "reason": "Nd5 is mate. Three developed pieces beat one queen when the enemy king is stuck in the middle."
+    },
+    {
+      "id": "2.6-k29",
+      "type": "is_it_safe",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+      "move": "Bc4",
+      "prompt": "White plays the king's bishop out to c4 on move three. Is it safe there?",
+      "reasons": [
+        "Yes. No black pawn or piece attacks c4.",
+        "No. The knight on c6 takes it.",
+        "No. The pawn on d7 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "italian",
+      "reason": "The knight on c6 covers a5, b4, d4, e7, b8 and d8. The pawn on d7 captures to c6 or e6. Neither touches c4."
+    },
+    {
+      "id": "2.6-k30",
+      "type": "name_the_pattern",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+      "prompt": "The white queen on h5 and the bishop on c4 both hit f7, and mate is threatened. Which reply stops it and gains a move?",
+      "options": [
+        "g6, which covers f7 with a pawn and attacks the queen at the same time.",
+        "Nf6, which brings a piece out and blocks the queen's view of f7.",
+        "Ke7, which guards f7 with the king a second time."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "italian",
+      "reason": "g6 defends and attacks in one move. Nf6 does not defend f7 at all and loses on the spot."
+    },
+    {
+      "id": "2.6-k31",
+      "type": "which_square",
+      "fen": "r1bq1rk1/p1pn1ppp/1p1bpn2/3p4/3P1B2/3BPN2/PPPN1PPP/R2Q1RK1 w - - 0 8",
+      "prompt": "Tap the square White's queen steps to, so that the two rooks see each other along the back rank.",
+      "answer": {
+        "square": "e2"
+      },
+      "concept": "target-position",
+      "reason": "Qe2 is her only square off the back rank: c2 is a pawn and d2 is a knight. The rooks are now joined."
+    },
+    {
+      "id": "2.6-k32",
+      "type": "find_them_all",
+      "fen": "r1bq1rk1/p1pn1ppp/1p1bpn2/3p4/3P1B2/3BPN2/PPPNQPPP/R4RK1 b - - 1 8",
+      "prompt": "Tap the two white rooks, which now have nothing between them and defend each other.",
+      "answer": {
+        "pieces": [
+          "a1",
+          "f1"
+        ]
+      },
+      "concept": "target-position",
+      "reason": "a1 and f1, with b1, c1, d1 and e1 all empty. That is the last job of the opening done."
+    },
+    {
+      "id": "2.6-k33",
+      "type": "which_square",
+      "fen": "r2q1rk1/pbpn1ppp/1p1bpn2/3p4/3P1B2/3BPN2/PPPNQPPP/R4RK1 w - - 2 9",
+      "prompt": "Black has everything out and has castled, but one black piece still stands between his own rooks. Tap it.",
+      "answer": {
+        "square": "d8"
+      },
+      "concept": "target-position",
+      "reason": "The queen on d8. One step sideways and the rooks on a8 and f8 defend each other."
+    },
+    {
+      "id": "2.6-k34",
+      "type": "name_the_pattern",
+      "fen": "r2q1rk1/pbpn1ppp/1p1bpn2/3p4/3P1B2/3BPN2/PPPNQPPP/R4RK1 w - - 2 9",
+      "prompt": "White has finished the opening. Which list describes what White has actually achieved?",
+      "options": [
+        "Pawns holding the middle, both knights and both bishops out, king castled, rooks with nothing between them.",
+        "Both rooks doubled on one file, the queen in front of them, pawns advanced on the wing.",
+        "Every pawn still at home and all the pieces lined up behind them."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "target-position",
+      "reason": "Pawns on d4 and e3, knights on f3 and d2, bishops on f4 and d3, king on g1, rooks joined on a1 and f1."
+    },
+    {
+      "id": "2.6-k35",
+      "type": "find_them_all",
+      "fen": "rnbqk2r/ppp2ppp/3bpn2/3p4/3P1B2/4PN2/PPP2PPP/RN1QKB1R w KQkq - 1 5",
+      "prompt": "Tap every white knight and bishop that still has to come out before White can finish the opening properly.",
+      "answer": {
+        "pieces": [
+          "b1",
+          "f1"
+        ]
+      },
+      "concept": "target-position",
+      "reason": "The knight on b1 and the bishop on f1. Until they move, the rooks can never be joined up."
+    }
+  ]
+}

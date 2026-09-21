@@ -1,0 +1,192 @@
+{
+  "id": "2.6.4",
+  "unit": "2.6",
+  "title": "Meeting 1.e4 with 1...e5 and 1.d4 with 1...d5",
+  "xp": 12,
+  "card": {
+    "idea": "As Black you only need one reply to each of the two common first moves, and the simplest is the same pawn back. Against 1.e4 play 1...e5. Against 1.d4 play 1...d5. You take your share of the middle, you open a line for a bishop and for the queen, and you can carry on developing.",
+    "diagrams": [
+      "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2"
+    ],
+    "habit": "When an enemy bishop or knight lands on g4, g5, b4 or b5, ask it where it is going with the flank pawn."
+  },
+  "explain": [
+    {
+      "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+      "text": "White has taken a share of the middle with 1.e4. Answer with the same pawn. After 1...e5 the two pawns stand face to face, neither one can capture the other, and Black has just as much of the middle as White has.",
+      "arrows": [
+        [
+          "e7",
+          "e5"
+        ]
+      ]
+    },
+    {
+      "fen": "rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq - 0 1",
+      "text": "Against 1.d4 do the same thing with the d-pawn. One pawn in the middle, and two lines opened at once: the bishop on c8 can now come out along d7 and e6, and the queen can step up the d-file.",
+      "arrows": [
+        [
+          "d7",
+          "d5"
+        ]
+      ]
+    },
+    {
+      "fen": "rnbqkbnr/ppppp2p/5p2/6p1/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 3",
+      "text": "Here Black answered with two pawn moves that develop nothing and open the line from h5 down to his own king. White plays the queen to h5 and it is mate on move three. Pawn moves that do not take the middle or let a piece out are usually moves you cannot afford.",
+      "arrows": [
+        [
+          "d1",
+          "h5"
+        ]
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.6.4-c1",
+      "type": "find_the_sequence",
+      "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+      "prompt": "White has played the king's pawn two forward. Answer with your own, then bring out the queen's knight and the king's bishop.",
+      "answer": {
+        "line": [
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Bc4",
+          "Bc5"
+        ]
+      },
+      "concept": "centre",
+      "hints": {
+        "piece": "e7",
+        "square": "e5"
+      },
+      "reason": "1...e5 2.Nf3 Nc6 3.Bc4 Bc5. Black matches White move for move and has a pawn in the middle with two pieces out."
+    },
+    {
+      "id": "2.6.4-c2",
+      "type": "find_the_sequence",
+      "fen": "rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq - 0 1",
+      "prompt": "White has played the queen's pawn two forward. Answer with your own, then bring out the king's knight and the queen's bishop.",
+      "answer": {
+        "line": [
+          "d5",
+          "Nf3",
+          "Nf6",
+          "Bf4",
+          "Bf5"
+        ]
+      },
+      "concept": "centre",
+      "hints": {
+        "piece": "d7",
+        "square": "d5"
+      },
+      "reason": "1...d5 2.Nf3 Nf6 3.Bf4 Bf5. Get the bishop on c8 outside the pawn chain before you shut it in by playing e6."
+    },
+    {
+      "id": "2.6.4-c3",
+      "type": "which_square",
+      "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+      "prompt": "Tap the square your king's pawn goes to, so that White cannot take the whole middle with a second pawn.",
+      "answer": {
+        "square": "e5"
+      },
+      "concept": "centre",
+      "hints": {
+        "piece": "e7"
+      },
+      "reason": "e5. The pawn stands opposite White's and stops d4 and f4 from being free moves."
+    },
+    {
+      "id": "2.6.4-c4",
+      "type": "which_square",
+      "fen": "rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq - 0 1",
+      "prompt": "White has played the queen's pawn forward two. Tap the square your own queen's pawn goes to, to claim the same amount.",
+      "answer": {
+        "square": "d5"
+      },
+      "concept": "centre",
+      "hints": {
+        "piece": "d7"
+      },
+      "reason": "d5. It faces White's pawn, opens the diagonal for the bishop on c8, and gives the queen the d-file to step up."
+    },
+    {
+      "id": "2.6.4-c5",
+      "type": "find_the_move",
+      "fen": "rnbqkbnr/ppppp2p/5p2/6p1/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 3",
+      "prompt": "Black has answered two good pawn moves with two that bring out no piece and open the line into his own king. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qh5#"
+        ]
+      },
+      "wrong": {
+        "Bxg5": "A free pawn, and Black plays fxg5 and is still in the game. There is mate on the board."
+      },
+      "concept": "development",
+      "hints": {
+        "piece": "d1",
+        "square": "h5"
+      },
+      "reason": "Qh5 is mate along h5-g6-f7-e8. f7 and g6 are empty because the pawns went to f6 and g5, and nothing can block or take."
+    },
+    {
+      "id": "2.6.4-c6",
+      "type": "name_the_pattern",
+      "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+      "prompt": "White has played 1.e4. Why is 1...e5 a better reply than 1...h6?",
+      "options": [
+        "e5 takes a share of the middle and opens lines for the bishop on f8 and the queen. h6 does neither.",
+        "h6 is not a legal first move.",
+        "e5 wins the pawn on e4."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "development",
+      "hints": {
+        "text": "Ask what each pawn move does for the pieces standing behind it."
+      },
+      "reason": "e5 claims the middle and frees two pieces. h6 frees nothing and takes no middle square."
+    },
+    {
+      "id": "2.6.4-c7",
+      "type": "is_it_safe",
+      "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
+      "move": "e5",
+      "prompt": "Black answers 1.e4 with the same pawn. Is the pawn safe on e5?",
+      "reasons": [
+        "Yes. Nothing white attacks e5.",
+        "No. The pawn on e4 takes it.",
+        "No. The queen on d1 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "centre",
+      "hints": {
+        "text": "Pawns capture on the diagonal, never straight ahead."
+      },
+      "reason": "Pawns never capture forwards, so the pawn on e4 cannot take on e5, and the queen on d1 has no line to it."
+    },
+    {
+      "id": "2.6.4-c8",
+      "type": "which_square",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/3p2B1/3P4/5N2/PPP1PPPP/RN1QKB1R b KQkq - 3 3",
+      "prompt": "A white bishop has landed on g5. Tap the square your rook's pawn goes to, to ask that bishop where it is going.",
+      "answer": {
+        "square": "h6"
+      },
+      "concept": "development",
+      "hints": {
+        "piece": "h7"
+      },
+      "reason": "h6 attacks the bishop, so it must take, retreat, or be taken. This is the habit: a bishop on g5 gets asked a question by the h-pawn."
+    }
+  ],
+  "takeaway": "1.e4 e5 and 1.d4 d5. One pawn in the middle, lines opened for your pieces, and no opening theory to remember."
+}

@@ -1,0 +1,181 @@
+{
+  "id": "2.6.3",
+  "unit": "2.6",
+  "title": "The Italian Game as White",
+  "xp": 12,
+  "card": {
+    "idea": "Three moves, playable almost every game as White: pawn to e4, knight to f3, bishop to c4. The pawn takes the middle, the knight attacks e5 and clears the way to castle, and the bishop aims at f7 \u2014 the one square near the black king that only the king defends.",
+    "diagrams": [
+      "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3"
+    ],
+    "habit": "When an enemy bishop or knight lands on g4, g5, b4 or b5, ask it where it is going with the flank pawn."
+  },
+  "explain": [
+    {
+      "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
+      "text": "One pawn each in the middle, and it is White to play. The knight on g1 has one square worth having: f3, where it comes out, attacks the pawn on e5, and empties the road between the king and the rook all at once.",
+      "arrows": [
+        [
+          "g1",
+          "f3"
+        ]
+      ]
+    },
+    {
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3",
+      "text": "Pawn to e4, knight to f3, bishop to c4. Nothing is attacked yet and nothing needs to be. White has a pawn in the middle, two pieces out, and can castle next move. The bishop points through d5 and e6 at f7.",
+      "arrows": [
+        [
+          "c4",
+          "f7"
+        ]
+      ],
+      "highlights": [
+        "f7"
+      ]
+    },
+    {
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+      "text": "Here White has left the knight at home and brought the queen to h5 instead. The queen and the bishop both hit f7, and only the black king defends it, so Qxf7 would be mate. Black has to answer that this move \u2014 and the move that answers it also chases the queen.",
+      "arrows": [
+        [
+          "h5",
+          "f7"
+        ],
+        [
+          "c4",
+          "f7"
+        ]
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.6.3-c1",
+      "type": "find_the_sequence",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "Play White's first three moves: king's pawn two forward, king's knight to the square that hits e5, then the king's bishop to the square that aims at f7.",
+      "answer": {
+        "line": [
+          "e4",
+          "e5",
+          "Nf3",
+          "Nc6",
+          "Bc4"
+        ]
+      },
+      "concept": "italian",
+      "hints": {
+        "piece": "e2",
+        "square": "e4"
+      },
+      "reason": "1.e4 e5 2.Nf3 Nc6 3.Bc4. A pawn in the middle, two pieces out, and castling available next move."
+    },
+    {
+      "id": "2.6.3-c2",
+      "type": "which_square",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+      "prompt": "Tap the square your king's bishop goes to, so that it aims at the weakest square around the black king.",
+      "answer": {
+        "square": "c4"
+      },
+      "concept": "italian",
+      "hints": {
+        "piece": "f1"
+      },
+      "reason": "Bc4. From there the bishop looks through d5 and e6 straight at f7, and f7 is guarded by the black king and nothing else."
+    },
+    {
+      "id": "2.6.3-c3",
+      "type": "find_them_all",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3",
+      "prompt": "Tap every white knight and bishop that has already left the square it started on.",
+      "answer": {
+        "pieces": [
+          "c4",
+          "f3"
+        ]
+      },
+      "concept": "development",
+      "hints": {
+        "text": "Two white pieces are off the back rank. The other two are not."
+      },
+      "reason": "The knight is on f3 and the bishop is on c4. The knight on b1 and the bishop on c1 still have to come."
+    },
+    {
+      "id": "2.6.3-c4",
+      "type": "which_square",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3",
+      "prompt": "Tap the square the white bishop on c4 is aiming at \u2014 the square next to the black king that only the king defends.",
+      "answer": {
+        "square": "f7"
+      },
+      "concept": "italian",
+      "hints": {
+        "piece": "c4"
+      },
+      "reason": "f7. Every other pawn in front of the black king is defended by a piece; f7 has only the king behind it."
+    },
+    {
+      "id": "2.6.3-c5",
+      "type": "find_the_move",
+      "fen": "r1bqkb1r/pppp1ppp/2n2n2/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR w KQkq - 4 4",
+      "prompt": "Black has just developed a knight to f6 and left f7 defended by the king alone. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qxf7#"
+        ]
+      },
+      "wrong": {
+        "Qxe5+": "A pawn with check, and Black plays Be7 and survives. There is something much better on f7."
+      },
+      "concept": "italian",
+      "hints": {
+        "piece": "h5",
+        "square": "f7"
+      },
+      "reason": "Qxf7 is mate. The bishop on c4 defends the queen, so the king cannot take her, and every other square is covered."
+    },
+    {
+      "id": "2.6.3-c6",
+      "type": "is_it_safe",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 2 3",
+      "move": "Bc4",
+      "prompt": "White plays the bishop out to c4. Is it safe there?",
+      "reasons": [
+        "Yes. No black pawn or piece attacks c4.",
+        "No. The knight on c6 takes it.",
+        "No. The pawn on d7 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "italian",
+      "hints": {
+        "text": "Work out which squares the knight on c6 covers, and which squares the pawn on d7 could capture on."
+      },
+      "reason": "Nothing reaches c4. The knight on c6 covers a5, b4, d4, e7, b8 and d8, and the pawn on d7 captures to c6 or e6."
+    },
+    {
+      "id": "2.6.3-c7",
+      "type": "name_the_pattern",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
+      "prompt": "White threatens mate on f7 next move. Which black reply stops it and gains a move by hitting the queen?",
+      "options": [
+        "g6, which covers f7 with a pawn and attacks the queen on h5 at the same time.",
+        "Nf6, which develops a piece and blocks the queen's view of f7.",
+        "Ke7, which guards f7 with the king a second time."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "italian",
+      "hints": {
+        "text": "Look for a move that defends and attacks in the same breath."
+      },
+      "reason": "g6 stops the mate and hits the queen, so Black gains a move. Nf6 does not defend f7 at all, and it is mate next move."
+    }
+  ],
+  "takeaway": "e4, Nf3, Bc4. Three moves that take the middle, develop two pieces, clear the way to castle, and point at f7."
+}
