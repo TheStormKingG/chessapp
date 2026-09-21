@@ -58,6 +58,35 @@ test.each([
   expect(document.querySelector('main')).toBeInTheDocument();
 });
 
+/**
+ * The same invariant, held AFTER the split chunk has arrived.
+ *
+ * The four puzzle routes are `React.lazy` (routes.tsx), so the assertions
+ * above now run against a suspended tree — they prove the frame survives the
+ * WAIT. Nothing proved the frame survives the ARRIVAL, and nothing proved the
+ * chunk arrives at all: a lazy import that never resolved would leave a blank
+ * modal for ever and every other test here would still pass.
+ *
+ * The counterpart to the boundary's placement: `Suspense` sits INSIDE
+ * `ModalTask`, so moving it outside takes the `<main>` away while the chunk is
+ * in flight and fails the cases above instead.
+ */
+test.each(['/puzzles/rated', '/puzzles/themed', '/puzzles/daily', '/puzzles/fix'])(
+  '%s is still a modal task once its lazy chunk has loaded',
+  async (path) => {
+    render(
+      <MemoryRouter initialEntries={[path]}>
+        <AppRoutes />
+      </MemoryRouter>,
+    );
+    // Every task in this frame owns its own dismiss control (ModalTask's
+    // docblock), so finding one is how a test says "the route is really here".
+    expect(await screen.findByRole('button', { name: /back to puzzles|close/i })).toBeInTheDocument();
+    expect(screen.queryByRole('navigation', { name: 'Main' })).not.toBeInTheDocument();
+    expect(document.querySelector('main')).toBeInTheDocument();
+  },
+);
+
 // The review is the fourth modal task. Like its neighbours it loads its own
 // content asynchronously, so this asserts on the chrome: a modal task has no
 // tab bar — one focused task, one way out.

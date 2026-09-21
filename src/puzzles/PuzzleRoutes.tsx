@@ -3,16 +3,15 @@ import { useNavigate, useSearchParams } from 'react-router';
 import { btn } from '@/app/Button';
 import { db, useProgress } from '@/data';
 import { track } from '@/analytics';
-import type { ErrorEntry } from '@/review/types';
 import { DailyPuzzle } from './DailyPuzzle';
 import { FixMyMistakes } from './FixMyMistakes';
 import { PuzzleStream } from './PuzzleStream';
 import { ThemedPractice } from './ThemedPractice';
-import { PuzzlesScreen } from '@/screens/PuzzlesScreen';
 import { bandFor, loadPack } from './packs';
 import { buildQueue } from './queue';
+import { useErrors, useRating } from './routeData';
 import { THEMES } from './themes';
-import type { AttemptResult, Puzzle, PuzzleRating, RatingBand, Theme } from './types';
+import type { AttemptResult, Puzzle, RatingBand, Theme } from './types';
 
 /**
  * Where the four solving routes get their data (design spec §5).
@@ -21,6 +20,12 @@ import type { AttemptResult, Puzzle, PuzzleRating, RatingBand, Theme } from './t
  * is deliberate: it is what makes every one of them testable without a
  * database. This file is the one place that knows about Dexie, the event log
  * and the network, and each route below is the seam between them.
+ *
+ * THIS MODULE IS THE LAZY CHUNK. `src/app/routes.tsx` reaches it through
+ * `React.lazy`, so every import above is paid for by a learner who opens a
+ * puzzle and by nobody else. The puzzles HOME deliberately lives elsewhere
+ * (`PuzzlesHomeRoute.tsx`): it is a tab in the shell, so a static import of it
+ * would drag this whole file back onto first paint.
  */
 
 /**
@@ -132,10 +137,6 @@ function useBankAttempt(): (r: AttemptResult, puzzle: Puzzle) => void {
     },
     [append],
   );
-}
-
-function useRating(): PuzzleRating {
-  return useProgress((s) => s.progress.puzzleRating);
 }
 
 /** The chrome the loading and unavailable states share, each with its own way out. */
@@ -306,36 +307,6 @@ export function DailyRoute() {
   );
 }
 
-/**
- * Every error the review feature has logged, newest game first.
- *
- * The reviews table is the store: `Review.errors` is written when a game is
- * reviewed, so this reads them rather than re-analysing anything.
- */
-function useErrors(): ErrorEntry[] | null {
-  const [errors, setErrors] = useState<ErrorEntry[] | null>(null);
-  useEffect(() => {
-    let on = true;
-    db.reviews
-      .toArray()
-      .then((reviews) => {
-        if (!on) return;
-        setErrors(
-          [...reviews]
-            .sort((a, b) => b.createdAt.localeCompare(a.createdAt))
-            .flatMap((r) => r.errors),
-        );
-      })
-      .catch(() => {
-        if (on) setErrors([]);
-      });
-    return () => {
-      on = false;
-    };
-  }, []);
-  return errors;
-}
-
 export function FixRoute() {
   const nav = useNavigate();
   const rating = useRating();
@@ -387,18 +358,4 @@ export function FixRoute() {
       />
     </>
   );
-}
-
-/**
- * The puzzles home, with the fix-my-mistakes count F-PZ-3 orders the screen by.
- *
- * The count is the number of logged errors, not the number of drills: an
- * unclassified mistake produces a lesson link and no drill, and it is still a
- * mistake waiting. Counting drills would report zero for the common case,
- * because the tagger classifies four of sixteen motifs.
- */
-export function PuzzlesHomeRoute() {
-  const errors = useErrors();
-  const rating = useRating();
-  return <PuzzlesScreen fixCount={errors?.length ?? 0} rating={rating} />;
 }

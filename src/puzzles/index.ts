@@ -17,18 +17,18 @@
 export { PuzzlePlayer } from './PuzzlePlayer';
 export { PuzzleStream } from './PuzzleStream';
 /*
-  The four solving routes and the puzzles home, which is the ONLY part of this
-  feature that reads Dexie and the network. `src/app/routes.tsx` mounts these;
-  everything they render takes plain props, which is what keeps the screens
-  testable without a database.
+  The puzzles home — the tab — which with the four solving routes is the ONLY
+  part of this feature that reads Dexie and the network. Everything they render
+  takes plain props, which is what keeps the screens testable without a
+  database.
+
+  The four SOLVING routes are deliberately NOT re-exported here. They live in
+  `./PuzzleRoutes`, which `src/app/routes.tsx` reaches through `React.lazy` so
+  that a learner who never opens a puzzle never downloads them. Naming them
+  here would put them on the static graph of every importer of this barrel and
+  quietly undo the split — a re-export is an import.
 */
-export {
-  DailyRoute,
-  FixRoute,
-  PuzzlesHomeRoute,
-  RatedRoute,
-  ThemedRoute,
-} from './PuzzleRoutes';
+export { PuzzlesHomeRoute } from './PuzzlesHomeRoute';
 export { PuzzlesScreen } from '@/screens/PuzzlesScreen';
 export { ThemedPractice } from './ThemedPractice';
 export { DailyPuzzle } from './DailyPuzzle';
