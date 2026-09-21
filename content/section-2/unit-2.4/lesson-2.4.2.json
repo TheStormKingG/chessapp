@@ -1,0 +1,196 @@
+{
+  "id": "2.4.2",
+  "unit": "2.4",
+  "title": "Support mate",
+  "xp": 12,
+  "card": {
+    "idea": "A queen beside the king is not mate: the king simply eats her. A queen beside the king with something defending her is mate. Every mate in this unit is those two pieces, the one that checks and the helper that stops the king taking it.",
+    "diagrams": [
+      "7k/7p/5P2/8/6Q1/8/2r2PPP/6K1 w - - 0 1"
+    ],
+    "habit": "Make an escape square for your king after you have developed."
+  },
+  "explain": [
+    {
+      "fen": "7k/7p/5P2/8/6Q1/8/2r2PPP/6K1 w - - 0 1",
+      "text": "The pawn on f6 is doing the work, because it guards g7. So the queen may step to g7 right beside the king, and the king is not allowed to take her. g8 is hers as well, and h7 is the king's own pawn. Mate.",
+      "arrows": [
+        [
+          "g4",
+          "g7"
+        ],
+        [
+          "f6",
+          "g7"
+        ]
+      ],
+      "highlights": [
+        "f6",
+        "g7"
+      ]
+    },
+    {
+      "fen": "r5nk/5R1p/5p2/8/6Q1/8/2q2PPP/6K1 w - - 0 1",
+      "text": "The helper need not be a pawn. Here the rook on f7 guards g7 and the queen lands there just the same. Find the helper first: if nothing defends the square, a check beside the king is simply a gift.",
+      "arrows": [
+        [
+          "g4",
+          "g7"
+        ],
+        [
+          "f7",
+          "g7"
+        ]
+      ],
+      "highlights": [
+        "f7"
+      ]
+    },
+    {
+      "fen": "r6k/7p/5p1B/8/6Q1/8/2q2PPP/6K1 w - - 0 1",
+      "text": "A bishop on h6 guards g7 too. Same mate, third helper. When someone attacks your own king this way, look for the helper and take it. Remove the helper and the mate goes with it.",
+      "arrows": [
+        [
+          "h6",
+          "g7"
+        ]
+      ],
+      "highlights": [
+        "h6"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.4.2-c1",
+      "type": "which_square",
+      "fen": "7k/7p/5P2/8/6Q1/8/2r2PPP/6K1 w - - 0 1",
+      "prompt": "Tap the white pawn that is guarding g7.",
+      "answer": {
+        "square": "f6"
+      },
+      "concept": "support-mate",
+      "hints": {
+        "text": "Which white man attacks g7 right now?"
+      },
+      "reason": "The pawn on f6 attacks g7. That is the only thing that will keep a queen alive there."
+    },
+    {
+      "id": "2.4.2-c2",
+      "type": "find_the_move",
+      "fen": "7k/7p/5P2/8/6Q1/8/2r2PPP/6K1 w - - 0 1",
+      "prompt": "The pawn on f6 guards g7. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qg7#"
+        ]
+      },
+      "wrong": {
+        "Qg8+": "Check, and nothing of yours defends g8, so the king eats the queen."
+      },
+      "concept": "support-mate",
+      "hints": {
+        "piece": "g4",
+        "square": "g7"
+      },
+      "reason": "Qg7 is mate: the king cannot take, g8 is the queen's, and h7 is its own pawn."
+    },
+    {
+      "id": "2.4.2-c3",
+      "type": "is_it_safe",
+      "fen": "7k/7p/5P2/8/6Q1/8/2r2PPP/6K1 w - - 0 1",
+      "move": "Qg8+",
+      "prompt": "White plays the queen to g8, right in front of the black king. Is she safe there?",
+      "reasons": [
+        "Yes. The pawn on f6 defends g8.",
+        "No. The king on h8 simply takes her.",
+        "No. The rook on c2 takes her."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "support-mate",
+      "hints": {
+        "text": "The pawn on f6 guards g7 and e7. Does it guard g8?"
+      },
+      "reason": "A pawn attacks the two squares diagonally ahead of it. f6 covers g7, not g8, so on g8 the queen is simply lost."
+    },
+    {
+      "id": "2.4.2-c4",
+      "type": "name_the_pattern",
+      "fen": "7k/7p/5P2/8/6Q1/8/2r2PPP/6K1 w - - 0 1",
+      "prompt": "Why is the queen mate on g7 but a blunder on g8?",
+      "options": [
+        "The pawn on f6 guards g7 and does not guard g8.",
+        "A king is not allowed to capture backwards.",
+        "g7 is a dark square, and the queen is a dark-square piece."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "support-mate",
+      "hints": {
+        "text": "One of the two squares is defended and the other is not."
+      },
+      "reason": "One square is defended and the other is not. That is the whole difference between a mate and a lost queen."
+    },
+    {
+      "id": "2.4.2-c5",
+      "type": "find_the_move",
+      "fen": "r5nk/5R1p/5p2/8/6Q1/8/2q2PPP/6K1 w - - 0 1",
+      "prompt": "This time the rook on f7 is the one guarding g7. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qg7#"
+        ]
+      },
+      "wrong": {
+        "Rxh7+": "The king takes the rook and you have thrown away the helper."
+      },
+      "concept": "support-mate",
+      "hints": {
+        "piece": "g4",
+        "square": "g7"
+      },
+      "reason": "Qg7 is mate. The rook on f7 holds the queen there, and g8 is the black knight's own square."
+    },
+    {
+      "id": "2.4.2-c6",
+      "type": "find_them_all",
+      "fen": "r6k/7p/5p1B/8/6Q1/8/2q2PPP/6K1 w - - 0 1",
+      "prompt": "Tap every white piece that attacks g7 right now.",
+      "answer": {
+        "pieces": [
+          "g4",
+          "h6"
+        ]
+      },
+      "concept": "support-mate",
+      "hints": {
+        "text": "One of them comes up the file and one along a diagonal."
+      },
+      "reason": "The queen on g4 up the g-file and the bishop on h6 on the diagonal. One will give the check, the other will hold it there."
+    },
+    {
+      "id": "2.4.2-c7",
+      "type": "name_the_pattern",
+      "fen": "r6k/7p/5p1B/8/6Q1/8/2q2PPP/6K1 w - - 0 1",
+      "prompt": "The bishop on h6 is the helper here. What would happen to the mate if Black could take it?",
+      "options": [
+        "It disappears. Qg7 would just be a free queen for the king.",
+        "Nothing. The queen mates on g7 anyway.",
+        "It becomes a mate in two instead of a mate in one."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "support-mate",
+      "hints": {
+        "text": "Ask what is left defending g7."
+      },
+      "reason": "Take the helper and nothing defends g7, so the king takes the queen. That is what to look for when it is your king being attacked."
+    }
+  ],
+  "takeaway": "A check beside the king is mate only if something defends the checking piece. Find the helper: yours to use, theirs to take."
+}

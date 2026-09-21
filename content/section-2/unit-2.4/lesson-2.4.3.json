@@ -1,0 +1,195 @@
+{
+  "id": "2.4.3",
+  "unit": "2.4",
+  "title": "Corridor mate",
+  "xp": 13,
+  "card": {
+    "idea": "The mate on the eighth rank is this same mate turned sideways. When a king has its own men all along one side, it is living in a corridor one square wide, and a rook checking from the end of that corridor covers every square the king has.",
+    "diagrams": [
+      "6rk/6n1/R7/8/8/8/3r1PPP/6K1 w - - 0 1"
+    ],
+    "habit": "Make an escape square for your king after you have developed."
+  },
+  "explain": [
+    {
+      "fen": "6rk/6n1/R7/8/8/8/3r1PPP/6K1 w - - 0 1",
+      "text": "The black king is on h8 with its own rook on g8 and its own knight on g7, so it can only ever move up and down the h-file. The rook swings to h6 and covers that whole file. Nothing black attacks h6, so there is no answer at all.",
+      "arrows": [
+        [
+          "a6",
+          "h6"
+        ],
+        [
+          "h6",
+          "h8"
+        ]
+      ],
+      "highlights": [
+        "g7",
+        "g8"
+      ]
+    },
+    {
+      "fen": "6r1/6pk/6p1/8/8/R7/3r1PPP/6K1 w - - 0 1",
+      "text": "The same corridor with the king further along it. Pawns on g6 and g7 and a rook on g8 make the wall, and h6, h7 and h8 are the corridor. Ra3 to h3 is check along it, and every square of it belongs to the rook.",
+      "arrows": [
+        [
+          "a3",
+          "h3"
+        ]
+      ],
+      "highlights": [
+        "g6",
+        "g7",
+        "g8"
+      ]
+    },
+    {
+      "fen": "kr6/1p6/8/8/8/7R/3r1PPP/6K1 w - - 0 1",
+      "text": "It works on the a-file as readily as the h-file. The pawn on b7 and the rook on b8 are the wall, the king stands in the corridor, and the rook comes to a3 to check the whole length of it.",
+      "arrows": [
+        [
+          "h3",
+          "a3"
+        ]
+      ],
+      "highlights": [
+        "b7",
+        "b8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.4.3-c1",
+      "type": "find_them_all",
+      "fen": "6rk/6n1/R7/8/8/8/3r1PPP/6K1 w - - 0 1",
+      "prompt": "Tap the two black men that shut their own king into the h-file.",
+      "answer": {
+        "pieces": [
+          "g7",
+          "g8"
+        ]
+      },
+      "concept": "corridor-mate",
+      "hints": {
+        "text": "Stand on h8 and look sideways."
+      },
+      "reason": "The rook on g8 and the knight on g7. Black built the wall itself."
+    },
+    {
+      "id": "2.4.3-c2",
+      "type": "name_the_pattern",
+      "fen": "6rk/6n1/R7/8/8/8/3r1PPP/6K1 w - - 0 1",
+      "prompt": "The black king is on h8 with its own men on g7 and g8. What does that mean for a check along the h-file?",
+      "options": [
+        "The king can only move along the h-file, and a rook checking there covers all of it.",
+        "Nothing. The king can take the rook when it arrives.",
+        "Nothing. A king in the corner is the safest king there is."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "corridor-mate",
+      "hints": {
+        "text": "List the squares the king can reach. They are all on one file."
+      },
+      "reason": "Its only squares are on the h-file, and a rook checking along that file attacks every one of them."
+    },
+    {
+      "id": "2.4.3-c3",
+      "type": "which_square",
+      "fen": "6rk/6n1/R7/8/8/8/3r1PPP/6K1 w - - 0 1",
+      "prompt": "Tap the square your rook goes to in order to give mate.",
+      "answer": {
+        "square": "h6"
+      },
+      "concept": "corridor-mate",
+      "hints": {
+        "piece": "a6"
+      },
+      "reason": "h6 is the only square on the h-file the rook can reach from a6, and it is all it needs."
+    },
+    {
+      "id": "2.4.3-c4",
+      "type": "find_the_move",
+      "fen": "6rk/6n1/R7/8/8/8/3r1PPP/6K1 w - - 0 1",
+      "prompt": "Mate in one along the h-file.",
+      "answer": {
+        "moves": [
+          "Rh6#"
+        ]
+      },
+      "wrong": {
+        "Ra8": "The rook on g8 simply takes it, and Black mates you on d1 next move."
+      },
+      "concept": "corridor-mate",
+      "hints": {
+        "piece": "a6",
+        "square": "h6"
+      },
+      "reason": "Rh6 is mate. h7 is the rook's, g7 and g8 are Black's own men, and nothing attacks h6."
+    },
+    {
+      "id": "2.4.3-c5",
+      "type": "is_it_safe",
+      "fen": "6rk/6n1/R7/8/8/8/3r1PPP/6K1 w - - 0 1",
+      "move": "Rh6#",
+      "prompt": "White swings the rook to h6, right beside the black knight and rook. Is the rook safe there?",
+      "reasons": [
+        "Yes. The knight on g7 does not cover h6, and the rook on g8 cannot reach it.",
+        "No. The knight on g7 takes it.",
+        "No. The rook on g8 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "corridor-mate",
+      "hints": {
+        "text": "Write out where a knight on g7 can go. h6 is not on the list."
+      },
+      "reason": "A knight on g7 reaches e6, e8, f5 and h5, and the rook on g8 only moves on the g-file and the eighth rank."
+    },
+    {
+      "id": "2.4.3-c6",
+      "type": "find_the_move",
+      "fen": "6r1/6pk/6p1/8/8/R7/3r1PPP/6K1 w - - 0 1",
+      "prompt": "Same corridor, king further along it. Mate in one.",
+      "answer": {
+        "moves": [
+          "Rh3#"
+        ]
+      },
+      "wrong": {
+        "Ra7": "Not even check, because the pawn on g7 is in the way."
+      },
+      "concept": "corridor-mate",
+      "hints": {
+        "piece": "a3",
+        "square": "h3"
+      },
+      "reason": "Rh3 checks the whole h-file. h6 and h8 are the king's only squares and the rook covers both."
+    },
+    {
+      "id": "2.4.3-c7",
+      "type": "name_the_pattern",
+      "fen": "kr6/1p6/8/8/8/7R/3r1PPP/6K1 w - - 0 1",
+      "prompt": "This is the same mate on the other side of the board. What is the wall made of here?",
+      "options": [
+        "The pawn on b7 and the rook on b8.",
+        "The white rook on h3.",
+        "Nothing. The king is simply in the corner."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "corridor-mate",
+      "hints": {
+        "text": "Which men stop the king stepping off the a-file?"
+      },
+      "reason": "Black's own pawn on b7 and rook on b8 keep the king on the a-file, and Ra3 checks the length of it."
+    }
+  ],
+  "takeaway": "A king with its own men down one side is living in a corridor. Check along the corridor and every square it has is covered at once."
+}

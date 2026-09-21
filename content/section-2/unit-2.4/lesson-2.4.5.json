@@ -1,0 +1,186 @@
+{
+  "id": "2.4.5",
+  "unit": "2.4",
+  "title": "Damiano's mate",
+  "xp": 14,
+  "card": {
+    "idea": "A pawn on g6 looks like nothing at all. What it does is guard h7. Put the queen on h7 beside a castled king and the pawn holds her there: the king may not take, f8 is its own rook, and g7 and h8 belong to the queen. It is the oldest mate written down, and it still works.",
+    "diagrams": [
+      "5rk1/5p2/6P1/7Q/8/8/2q2PPP/6K1 w - - 0 1"
+    ],
+    "habit": "Make an escape square for your king after you have developed."
+  },
+  "explain": [
+    {
+      "fen": "5rk1/5p2/6P1/7Q/8/8/2q2PPP/6K1 w - - 0 1",
+      "text": "The pawn on g6 guards h7, so the queen can come to h7 and check from right beside the king. Taking her is illegal, g7 and h8 are hers, f8 is Black's own rook and f7 its own pawn. Mate, and the pawn did all of it.",
+      "arrows": [
+        [
+          "h5",
+          "h7"
+        ],
+        [
+          "g6",
+          "h7"
+        ]
+      ],
+      "highlights": [
+        "g6",
+        "h7"
+      ]
+    },
+    {
+      "fen": "5bk1/5p2/6P1/7Q/8/8/2q2PPP/6K1 w - - 0 1",
+      "text": "A bishop on f8 does the same job the rook did, taking the last square away. Black's own back-rank piece is part of the mate, which is why this one turns up so often in the moves just after castling.",
+      "arrows": [
+        [
+          "h5",
+          "h7"
+        ]
+      ],
+      "highlights": [
+        "f8"
+      ]
+    },
+    {
+      "fen": "5rk1/5p2/8/7Q/8/8/2r2PPP/6K1 w - - 0 1",
+      "text": "Take the pawn on g6 off the board and nothing at all is left. Qh7 is check, the king takes the queen, and White has given a queen away for nothing. The pawn was the mate.",
+      "highlights": [
+        "h7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.4.5-c1",
+      "type": "name_the_pattern",
+      "fen": "5rk1/5p2/6P1/7Q/8/8/2q2PPP/6K1 w - - 0 1",
+      "prompt": "What is the white pawn on g6 doing in this position?",
+      "options": [
+        "It guards h7, so a queen landing there cannot be taken.",
+        "It is one step from promoting.",
+        "It is attacking the rook on f8."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "damiano",
+      "hints": {
+        "text": "A pawn attacks the two squares diagonally in front of it."
+      },
+      "reason": "A white pawn on g6 attacks f7 and h7. Guarding h7 is the whole point of it."
+    },
+    {
+      "id": "2.4.5-c2",
+      "type": "find_them_all",
+      "fen": "5rk1/5p2/6P1/7Q/8/8/2q2PPP/6K1 w - - 0 1",
+      "prompt": "Tap the squares beside the black king that its own men are standing on.",
+      "answer": {
+        "squares": [
+          "f7",
+          "f8"
+        ]
+      },
+      "concept": "damiano",
+      "hints": {
+        "text": "The king is on g8. Check all five of its neighbours."
+      },
+      "reason": "f7 is its own pawn and f8 its own rook. Only g7, h7 and h8 are left, and the queen takes all three."
+    },
+    {
+      "id": "2.4.5-c3",
+      "type": "which_square",
+      "fen": "5rk1/5p2/6P1/7Q/8/8/2q2PPP/6K1 w - - 0 1",
+      "prompt": "Tap the square your queen goes to in order to give mate.",
+      "answer": {
+        "square": "h7"
+      },
+      "concept": "damiano",
+      "hints": {
+        "piece": "h5"
+      },
+      "reason": "h7 is the square the pawn on g6 is guarding, which is exactly why the queen may stand there."
+    },
+    {
+      "id": "2.4.5-c4",
+      "type": "find_the_move",
+      "fen": "5rk1/5p2/6P1/7Q/8/8/2q2PPP/6K1 w - - 0 1",
+      "prompt": "The pawn on g6 is guarding h7. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qh7#"
+        ]
+      },
+      "wrong": {
+        "Qd5": "A nice pin on f7, and a whole free move for Black, who mates you on c1."
+      },
+      "concept": "damiano",
+      "hints": {
+        "piece": "h5",
+        "square": "h7"
+      },
+      "reason": "Qh7 is mate. The king cannot take, f7 and f8 are its own men, and g7 and h8 are the queen's."
+    },
+    {
+      "id": "2.4.5-c5",
+      "type": "is_it_safe",
+      "fen": "5rk1/5p2/6P1/7Q/8/8/2q2PPP/6K1 w - - 0 1",
+      "move": "Qh7#",
+      "prompt": "White plays the queen to h7, right next to the black king. Is the queen safe there?",
+      "reasons": [
+        "Yes. The pawn on g6 defends h7.",
+        "No. The king takes her.",
+        "No. The rook on f8 takes her."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "damiano",
+      "hints": {
+        "text": "Ask what is defending h7 before you ask anything else."
+      },
+      "reason": "The pawn on g6 defends h7, so Kxh7 is an illegal move. Without the pawn the king would simply take."
+    },
+    {
+      "id": "2.4.5-c6",
+      "type": "find_the_move",
+      "fen": "1kr5/1pp5/1P6/Q7/8/8/3q1PPP/6K1 w - - 0 1",
+      "prompt": "The same idea on the other wing: the pawn on b6 guards a7. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qa7#"
+        ]
+      },
+      "wrong": {
+        "Qa6": "The pawn on b7 takes the queen, because b6 guards a7 and not a6."
+      },
+      "concept": "damiano",
+      "hints": {
+        "piece": "a5",
+        "square": "a7"
+      },
+      "reason": "Qa7 is mate. b7 and c7 are the king's own pawns, c8 its own rook, and a8 and b7 are covered."
+    },
+    {
+      "id": "2.4.5-c7",
+      "type": "name_the_pattern",
+      "fen": "5rk1/5p2/8/7Q/8/8/2r2PPP/6K1 w - - 0 1",
+      "prompt": "There is no white pawn on g6 in this position. What happens if White plays the queen to h7?",
+      "options": [
+        "The king simply takes her. Without the pawn there is no mate at all.",
+        "It is still mate, because the rook on f8 is in the way.",
+        "It is stalemate."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "damiano",
+      "hints": {
+        "text": "Ask what is defending h7 now."
+      },
+      "reason": "Nothing defends h7, so Kxh7 is legal and White has given away a queen. The pawn was the mate."
+    }
+  ],
+  "takeaway": "A pawn on g6 turns a queen on h7 into mate. The helper does the work, and it arrives on the board looking harmless."
+}

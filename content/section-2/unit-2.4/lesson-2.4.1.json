@@ -1,0 +1,187 @@
+{
+  "id": "2.4.1",
+  "unit": "2.4",
+  "title": "The back-rank weakness and making an escape square",
+  "xp": 12,
+  "card": {
+    "idea": "Three pawns in front of a castled king keep almost everything out, and shut the king in. A rook or a queen arriving on the eighth rank is then a check the king cannot walk away from. One pawn push, made early, turns that mate back into an ordinary check.",
+    "diagrams": [
+      "6k1/5ppp/8/8/8/8/r4PPP/3R2K1 w - - 0 1"
+    ],
+    "habit": "Make an escape square for your king after you have developed."
+  },
+  "explain": [
+    {
+      "fen": "6k1/5ppp/8/8/8/8/r4PPP/3R2K1 w - - 0 1",
+      "text": "The rook comes to d8. That is check along the eighth rank, and there are three ways out of a check: move, block, take. The king cannot move, because f7, g7 and h7 are its own pawns and f8 and h8 belong to the rook. Nothing can block and nothing can take. Mate.",
+      "arrows": [
+        [
+          "d1",
+          "d8"
+        ]
+      ],
+      "highlights": [
+        "f7",
+        "g7",
+        "h7"
+      ]
+    },
+    {
+      "fen": "6k1/5pp1/8/8/7p/8/r4PPP/6K1 w - - 0 1",
+      "text": "White's king has exactly the same weakness, and the rook on a2 only has to reach the first rank. One move stops it forever. Push the h-pawn to h3 and the king has h2 to step to, so a check on the first rank stays a check.",
+      "arrows": [
+        [
+          "h2",
+          "h3"
+        ]
+      ],
+      "highlights": [
+        "g1",
+        "h2"
+      ]
+    },
+    {
+      "fen": "3r2k1/5ppp/8/8/8/8/5PPP/3R2K1 w - - 0 1",
+      "text": "Here both kings are shut in and White moves first, so Rxd8 is mate. Had Black moved first, Rxd1 would have been mate the other way round. Whoever spends one move on an escape square stops losing games like this.",
+      "arrows": [
+        [
+          "d1",
+          "d8"
+        ]
+      ],
+      "highlights": [
+        "d1",
+        "d8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.4.1-c1",
+      "type": "find_them_all",
+      "fen": "6k1/5ppp/8/8/8/8/r4PPP/3R2K1 w - - 0 1",
+      "prompt": "Tap every black pawn standing on a square its own king could otherwise step to.",
+      "answer": {
+        "pieces": [
+          "f7",
+          "g7",
+          "h7"
+        ]
+      },
+      "concept": "back-rank",
+      "hints": {
+        "text": "Look at the three squares in front of the king, not the two beside it."
+      },
+      "reason": "f7, g7 and h7 are three squares the king would be glad of. Its own pawns are sitting on all of them."
+    },
+    {
+      "id": "2.4.1-c2",
+      "type": "which_square",
+      "fen": "6k1/5ppp/8/8/8/8/r4PPP/3R2K1 w - - 0 1",
+      "prompt": "Tap the square your rook goes to in order to give mate.",
+      "answer": {
+        "square": "d8"
+      },
+      "concept": "back-rank",
+      "hints": {
+        "piece": "d1"
+      },
+      "reason": "Rd8 is check along the eighth rank, and the king has no square, no block and no capture."
+    },
+    {
+      "id": "2.4.1-c3",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/8/8/8/r4PPP/3R2K1 w - - 0 1",
+      "prompt": "The black king has no way off the eighth rank. Mate in one.",
+      "answer": {
+        "moves": [
+          "Rd8#"
+        ]
+      },
+      "wrong": {
+        "Ra1": "The rook has left the eighth rank alone, and Black now has all the time in the world to play h6."
+      },
+      "concept": "back-rank",
+      "hints": {
+        "piece": "d1",
+        "square": "d8"
+      },
+      "reason": "Rd8 is mate. f7, g7 and h7 are the king's own pawns, and f8 and h8 belong to the rook."
+    },
+    {
+      "id": "2.4.1-c4",
+      "type": "name_the_pattern",
+      "fen": "3R2k1/5ppp/8/8/8/8/r4PPP/6K1 b - - 0 1",
+      "prompt": "White has just played Rd8, check. There are three ways out of a check. Why does none of them work here?",
+      "options": [
+        "The king has no square, nothing can reach the eighth rank to block, and nothing attacks the rook.",
+        "The king may take the rook, but that would be stalemate.",
+        "Black is not really in check, because the pawns are in the way."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "back-rank",
+      "hints": {
+        "text": "Go through them in order: move, block, take."
+      },
+      "reason": "Move, block, take. All three fail at once, so the check is mate."
+    },
+    {
+      "id": "2.4.1-c5",
+      "type": "find_the_move",
+      "fen": "3r2k1/5ppp/8/8/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "Both kings are shut in behind three pawns, and it is White to move. Mate in one.",
+      "answer": {
+        "moves": [
+          "Rxd8#"
+        ]
+      },
+      "wrong": {
+        "Rd2": "A quiet move, and now it is Black who plays Rxd1 and mates you."
+      },
+      "concept": "back-rank",
+      "hints": {
+        "piece": "d1",
+        "square": "d8"
+      },
+      "reason": "Rxd8 is mate. One move later it would have been Black mating on d1 instead."
+    },
+    {
+      "id": "2.4.1-c6",
+      "type": "which_square",
+      "fen": "6k1/5pp1/8/8/7p/8/r4PPP/6K1 w - - 0 1",
+      "prompt": "Tap the square your h-pawn goes to so that your king would have a way out of a check on the first rank.",
+      "answer": {
+        "square": "h3"
+      },
+      "concept": "escape-square",
+      "hints": {
+        "piece": "h2"
+      },
+      "reason": "After h3 the king can step to h2, so a rook arriving on the first rank is only a check."
+    },
+    {
+      "id": "2.4.1-c7",
+      "type": "is_it_safe",
+      "fen": "6k1/5pp1/8/8/7p/8/r4PPP/6K1 w - - 0 1",
+      "move": "h3",
+      "prompt": "White pushes the h-pawn to h3 to give the king a hole. Is the pawn safe there?",
+      "reasons": [
+        "Yes. Nothing black attacks h3.",
+        "No. The pawn on h4 takes it.",
+        "No. The rook on a2 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "escape-square",
+      "hints": {
+        "text": "A black pawn on h4 captures to g3, not to h3."
+      },
+      "reason": "Black pawns capture downwards and to the side, so the h4 pawn hits g3. The rook on a2 cannot reach h3 at all."
+    }
+  ],
+  "takeaway": "Three pawns in front of your king shut the king in as well as the enemy out. Push one early, and a check on the back rank stays a check."
+}

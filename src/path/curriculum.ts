@@ -144,7 +144,7 @@ export const SECTION_2: SectionDef = {
     {
       id: '2.3',
       title: 'Pins and skewers',
-      built: false,
+      built: true,
       lessons: [
         { id: '2.3.1', title: 'The absolute pin' },
         { id: '2.3.2', title: 'The relative pin' },
