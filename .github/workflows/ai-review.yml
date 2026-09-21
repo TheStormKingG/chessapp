@@ -67,7 +67,11 @@ jobs:
       - name: Review the diff
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          ANTHROPIC_MODEL: claude-opus-5
+          # Sonnet, not Opus. The review is per-PR and per-push, on the full
+          # diff, so cost scales with how often the branch moves rather than
+          # with how much is being changed. Override by setting this to
+          # claude-opus-5 on a branch where a deeper read is worth it.
+          ANTHROPIC_MODEL: claude-sonnet-5
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
