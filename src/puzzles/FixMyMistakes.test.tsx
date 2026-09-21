@@ -68,7 +68,17 @@ const POOL: Puzzle[] = [];
 const RATING = { rating: 800, confidence: 0.2 };
 
 function show(errors: ErrorEntry[], onAttempt = vi.fn()) {
-  const queue = buildQueue({ errors, pool: POOL, rating: RATING, seen: new Set<string>() });
+  return showWith(errors, POOL, onAttempt);
+}
+
+/**
+ * The same render, with a pool that genuinely produces `source: 'similar'`
+ * drills. `POOL` above is empty and stays empty — every test written before
+ * this one depends on it being empty, and the drill counts they assert would
+ * change under it.
+ */
+function showWith(errors: ErrorEntry[], pool: Puzzle[], onAttempt = vi.fn()) {
+  const queue = buildQueue({ errors, pool, rating: RATING, seen: new Set<string>() });
   render(
     <MemoryRouter>
       <FixMyMistakes queue={queue} onAttempt={onAttempt} />
@@ -76,6 +86,21 @@ function show(errors: ErrorEntry[], onAttempt = vi.fn()) {
   );
   return queue;
 }
+
+/* A two-king position whose solution is legal from it, so a similar drill can
+   actually be played: `firstLearnerPly` 1 means a1a2 is the opponent's and
+   h1h2 is the learner's. `mateIn1` is the only theme `DRILL_THEME` maps a
+   review theme onto, and 800 is `RATING.rating`, so these land inside the
+   ±150 span F-PZ-3 defines "similar" by. */
+const SIMILAR_FEN = '8/8/8/8/8/8/8/K6k w - - 0 1';
+const similarPool = (): Puzzle[] =>
+  ['s1', 's2', 's3', 's4'].map((id, i) => ({
+    id,
+    rating: 790 + i,
+    themes: ['mateIn1'] as Puzzle['themes'],
+    fen: SIMILAR_FEN,
+    solution: ['a1a2', 'h1h2'],
+  }));
 
 /**
  * The unclassified path is the COMMON one: the review tagger implements four
@@ -139,4 +164,35 @@ test('a drill from the learner’s own position is played as a fix attempt', asy
 test('an empty queue says there is nothing to fix rather than rendering nothing', () => {
   show([]);
   expect(screen.getByText(/no mistakes/i)).toBeInTheDocument();
+});
+
+/**
+ * F-PZ-3 c: the queue carries the learner's exact position AND similar ones —
+ * same primary theme, rating within 150. `queue.ts` has always built them;
+ * this screen resolved only `source === 'own'`, so every similar drill was
+ * built and then had no route into the player.
+ *
+ * The assertion is a correspondence, not a spot check: every index of
+ * `queue.fix` must be offered, so a drill the screen quietly declines to route
+ * fails here whatever its source.
+ */
+test('every drill the queue built is offered, similar ones included', () => {
+  const queue = showWith([err({ theme: 'missed_mate' })], similarPool());
+  expect(queue.fix.filter((d) => d.source === 'similar').length).toBeGreaterThan(0);
+  const offered = screen.getAllByTestId(/^drill-/).map((b) => b.getAttribute('data-testid'));
+  expect(new Set(offered)).toEqual(new Set(queue.fix.map((_, i) => `drill-${String(i)}`)));
+});
+
+test('a similar drill is played as a fix attempt, from the pack puzzle’s second ply', async () => {
+  const onAttempt = vi.fn();
+  const queue = showWith([err({ theme: 'missed_mate' })], similarPool(), onAttempt);
+  const first = queue.fix.findIndex((d) => d.source === 'similar');
+  await userEvent.click(screen.getByTestId(`drill-${String(first)}`));
+  const field = await screen.findByLabelText('Type a move');
+  // `firstLearnerPly` is 1 for a pack puzzle: a1a2 is the opponent's move,
+  // already played, and h1h2 is the learner's answer.
+  await userEvent.type(field, 'h1h2{enter}');
+  expect(onAttempt).toHaveBeenCalledWith(
+    expect.objectContaining({ source: 'fix', solved: true, puzzleId: queue.fix[first]?.puzzle.id }),
+  );
 });

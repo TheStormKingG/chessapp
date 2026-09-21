@@ -5,7 +5,7 @@ import { Board } from '@/board';
 import { SECTION_1 } from '@/path/curriculum';
 import type { ErrorEntry } from '@/review/types';
 import { PuzzlePlayer } from './PuzzlePlayer';
-import type { Queue } from './queue';
+import type { FixDrill, Queue } from './queue';
 import type { AttemptResult } from './types';
 
 /**
@@ -85,8 +85,17 @@ export function FixMyMistakes({
 
       <ul className="mt-6 flex flex-col gap-4">
         {queue.lessonLinks.map((link, i) => {
-          const drillIndex = queue.fix.findIndex(
-            (d) => d.source === 'own' && d.error === link.error,
+          /*
+            EVERY drill this mistake produced, not just the learner's own
+            position. `queue.ts` also builds `source: 'similar'` drills —
+            F-PZ-3 c, same primary theme and a rating within 150 — and this
+            screen used to resolve only `'own'`, so each one was built and then
+            had nowhere to go. The queue's own order is kept: an error's exact
+            position first, then the similar ones behind it, which is what
+            F-PZ-3 asks for read per mistake rather than across the list.
+          */
+          const drills = queue.fix.flatMap((d, index) =>
+            d.error === link.error ? [{ drill: d, index }] : [],
           );
           return (
             <li
@@ -96,7 +105,8 @@ export function FixMyMistakes({
               <Mistake
                 error={link.error}
                 lessonId={link.lessonId}
-                onDrill={drillIndex >= 0 ? () => { setDrilling(drillIndex); } : null}
+                drills={drills}
+                onDrill={setDrilling}
                 index={i}
               />
             </li>
@@ -110,12 +120,15 @@ export function FixMyMistakes({
 function Mistake({
   error,
   lessonId,
+  drills,
   onDrill,
   index,
 }: {
   error: ErrorEntry;
   lessonId: string | null;
-  onDrill: (() => void) | null;
+  /** Every drill the queue built for this mistake, with its index in `queue.fix`. */
+  drills: { drill: FixDrill; index: number }[];
+  onDrill: (index: number) => void;
   index: number;
 }) {
   return (
@@ -152,10 +165,37 @@ function Mistake({
         </p>
       )}
 
-      {onDrill && (
-        <button type="button" className={`${btn.secondary} mt-3`} onClick={onDrill}>
-          Drill this position
-        </button>
+      {/*
+        A plain wrapper and not a list, deliberately: the mistakes themselves
+        are the `<li>`s of the screen's one list, and nesting a second list
+        inside each would change what "one entry per mistake" means to every
+        reader — assistive technology and test alike.
+      */}
+      {drills.length > 0 && (
+        <div className="mt-3 flex flex-wrap gap-2">
+          {drills.map((entry) => (
+            <button
+              key={entry.drill.puzzle.id}
+              type="button"
+              className={btn.secondary}
+              data-testid={`drill-${String(entry.index)}`}
+              onClick={() => {
+                onDrill(entry.index);
+              }}
+            >
+              {entry.drill.source === 'own'
+                ? 'Drill this position'
+                : /* Numbered from the SIMILAR ones only. Counting position in
+                     `drills` would label the first similar drill "1" or "2"
+                     depending on whether the own drill survived `seen`, and a
+                     learner who has already done their own position would be
+                     offered a "Similar position 2" with no 1. */
+                  `Similar position ${String(
+                    drills.filter((d) => d.drill.source === 'similar').indexOf(entry) + 1,
+                  )}`}
+            </button>
+          ))}
+        </div>
       )}
     </>
   );
