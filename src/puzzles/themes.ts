@@ -3,7 +3,11 @@ import type { Theme } from './types';
 /**
  * The eight themes PRD Appendix B assigns to Sections 1 and 2.
  *
- * Names and definitions are the Lichess theme list (CC0, PRD Appendix D).
+ * The eight TAG NAMES in `LICHESS_TAG` below are the Lichess dump's own, used
+ * verbatim because the pipeline filters on them. The labels and the
+ * one-sentence definitions further down are ChessApp's own wording, written
+ * for a learner rather than copied from the Lichess theme list.
+ *
  * Ordered by Appendix B's median puzzle rating, easiest first, so any UI that
  * lists them is ordered by difficulty without needing a second table.
  */

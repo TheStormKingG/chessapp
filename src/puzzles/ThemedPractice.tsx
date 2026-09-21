@@ -8,9 +8,10 @@ import type { AttemptResult, Puzzle, RatingBand, Theme } from './types';
  * Themed practice (F-PZ-2, design spec §5.3).
  *
  * One or more themes and a band, no timer, and no rating impact. The
- * definitions are the CC0 Lichess one-sentence definitions from `themes.ts`,
- * reused rather than re-worded, so the words the learner reads here are the
- * same words the packs were filtered on.
+ * definitions are ChessApp's own one-sentence wording from `themes.ts`, reused
+ * rather than re-worded here, so the words the learner reads are the same on
+ * every screen that names a motif. What the packs were filtered on is
+ * `LICHESS_TAG` — the Lichess dump's tag names — not this prose.
  *
  * **No rating impact is not a property of this screen.** It is a property of
  * the attempt: every attempt made here carries `source: 'themed'`, and the

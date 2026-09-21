@@ -6,8 +6,10 @@
  * and the one that bit the review feature took an afternoon to find.
  *
  * `THEMES`, `THEME_LABEL` and `THEME_DEFINITION` are exported because the
- * lesson close screen names a motif (F-PZ-2 d) and the licences screen cites
- * the CC0 theme list. `parsePack` and `loadPack` are exported because the
+ * lesson close screen names a motif (F-PZ-2 d). They are ChessApp's own
+ * wording, not Lichess's, so the licences screen has nothing to say about
+ * them; what it does list is the puzzle DATABASE the packs are derived from.
+ * `parsePack` and `loadPack` are exported because the
  * routes fetch a band; `__resetPacks` is deliberately NOT, because it is a test
  * seam and the application has no business calling it.
  */
