@@ -1,0 +1,121 @@
+{
+  "id": "2.7.5",
+  "unit": "2.7",
+  "title": "The promotion race",
+  "xp": 14,
+  "card": {
+    "idea": "When both sides have a passed pawn, stop defending and start counting. Work out how many moves each pawn needs, remember that the side to move gets there first on a tie, and then check the one thing counting misses: whether the new queen arrives with check, or whether a king is already standing in the way.",
+    "diagrams": [
+      "8/4k3/8/P7/7p/8/8/4K3 w - - 0 1",
+      "8/4k3/8/P7/7p/8/7K/8 w - - 0 1"
+    ],
+    "habit": "Activate the king and attack pawns in the endgame."
+  },
+  "explain": [
+    {
+      "fen": "8/4k3/8/P7/7p/8/8/4K3 w - - 0 1",
+      "text": "A real race. White's a5 pawn needs three moves; Black's h4 pawn needs three moves; both kings are far from both pawns. White is to move, so White queens first. Do not spend a move on the king here — a single quiet move hands the race to Black.",
+      "arrows": [["a5", "a8"], ["h4", "h1"]]
+    },
+    {
+      "fen": "8/4k3/8/P7/7p/8/7K/8 w - - 0 1",
+      "text": "Same pawns, one difference: the white king sits on h2, squarely on the h-pawn's road. Black can play h3, and then the pawn is stuck — h2 is occupied and the king simply takes it. So this is not a race at all. Count first and you will see there is nothing to fear.",
+      "highlights": ["h2", "h3"]
+    },
+    {
+      "fen": "8/4k3/8/P7/8/8/8/4K3 w - - 0 1",
+      "text": "Counting is the whole skill. Three moves for the pawn, and the black king on e7 is four files from the a-file — outside the pawn's square, as the last lesson showed. Whenever you are about to defend a passed pawn, check whether you can just outrun it instead.",
+      "arrows": [["a5", "a8"]]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.7.5-c1",
+      "type": "which_square",
+      "fen": "8/4k3/8/P7/7p/8/8/4K3 w - - 0 1",
+      "prompt": "Tap the square White's pawn is racing to.",
+      "answer": { "square": "a8" },
+      "concept": "promotion-race",
+      "hints": { "piece": "a5", "square": "a8" },
+      "reason": "a8, three moves away. Black's pawn needs three moves to reach h1, so the side to move wins the race — and that is White."
+    },
+    {
+      "id": "2.7.5-c2",
+      "type": "find_the_move",
+      "fen": "8/4k3/8/P7/7p/8/8/4K3 w - - 0 1",
+      "prompt": "Both pawns need three moves and it is your turn. Start running.",
+      "answer": { "moves": ["a6"] },
+      "wrong": {
+        "Kf2": "A move spent on the king is a move given to the h-pawn, and now Black queens first."
+      },
+      "concept": "promotion-race",
+      "hints": { "piece": "a5", "square": "a6" },
+      "reason": "a6. Three moves each and you move first, so you arrive first. Any king move throws that tempo away and loses the race you were winning."
+    },
+    {
+      "id": "2.7.5-c3",
+      "type": "find_the_move",
+      "fen": "8/4k3/8/P7/7p/8/7K/8 w - - 0 1",
+      "prompt": "Your king already blocks the h-pawn. Get on with your own.",
+      "answer": { "moves": ["a6"] },
+      "wrong": {
+        "Kh3": "Fussing over a pawn that is going nowhere. Meanwhile the black king walks into the a-pawn's square."
+      },
+      "concept": "promotion-race",
+      "hints": { "piece": "a5", "square": "a6" },
+      "reason": "a6 and queen. The h-pawn can reach h3 and no further, because your king stands on h2 and takes it — so there is no race to lose and no reason to hesitate."
+    },
+    {
+      "id": "2.7.5-c4",
+      "type": "name_the_pattern",
+      "fen": "8/4k3/8/P7/7p/8/7K/8 w - - 0 1",
+      "prompt": "Why is Black's h-pawn harmless in this position?",
+      "options": [
+        "The white king stands on h2, directly on the pawn's road, and will capture it.",
+        "A pawn on the h-file may not promote to a queen.",
+        "Black's king is too far away to escort it."
+      ],
+      "answer": { "option": 0 },
+      "concept": "promotion-race",
+      "hints": { "text": "Look at what is sitting on the squares the pawn still has to cross." },
+      "reason": "The king is in the way. A passed pawn stops being passed the moment something occupies the file in front of it, and here that something also attacks h3."
+    },
+    {
+      "id": "2.7.5-c5",
+      "type": "find_the_sequence",
+      "fen": "8/4k3/8/P7/7p/8/8/4K3 w - - 0 1",
+      "prompt": "Run the race. Push, let him push, push again.",
+      "answer": { "line": ["a6", "h3", "a7"] },
+      "concept": "promotion-race",
+      "hints": { "piece": "a5", "square": "a6" },
+      "reason": "Both pawns sprint and neither king can help. After a7 you are one move from a queen and Black is two — which is the margin you started with, kept intact."
+    },
+    {
+      "id": "2.7.5-c6",
+      "type": "name_the_pattern",
+      "fen": "8/4k3/8/P7/7p/8/8/4K3 w - - 0 1",
+      "prompt": "Both pawns need the same number of moves. What decides a tie like this?",
+      "options": [
+        "The side to move gets there first, so count from whoever's turn it is.",
+        "The pawn nearer the edge of the board promotes first.",
+        "A tie means both promote and the game is automatically drawn."
+      ],
+      "answer": { "option": 0 },
+      "concept": "counting",
+      "hints": { "text": "Three moves each, but somebody has to go first." },
+      "reason": "Whoever is to move. That is why a single quiet move is so expensive in a race: it does not lose you a pawn, it loses you the tie-break."
+    },
+    {
+      "id": "2.7.5-c7",
+      "type": "play_it_out",
+      "fen": "8/4k3/8/P7/7p/8/8/4K3 w - - 0 1",
+      "prompt": "Win the race. Make a queen before Black does.",
+      "goal": { "kind": "promote", "moves": 6 },
+      "opponentDepth": 6,
+      "concept": "promotion",
+      "hints": { "piece": "a5", "square": "a6" },
+      "reason": "Push every move and do not look back. Three pushes and you have a queen; the moment you spend a turn on the king, the count turns against you."
+    }
+  ],
+  "takeaway": "Count both pawns before you defend. Equal counts go to the side to move — and a single quiet move is enough to lose the race."
+}

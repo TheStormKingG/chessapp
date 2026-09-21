@@ -1,19 +1,55 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "type": "object",
-  "required": ["id", "unit", "title", "xp", "card", "explain", "challenges", "takeaway"],
+  "required": [
+    "id",
+    "unit",
+    "title",
+    "xp",
+    "card",
+    "explain",
+    "challenges",
+    "takeaway"
+  ],
   "properties": {
-    "id": { "type": "string", "pattern": "^[1-4]\\.[0-9]+\\.[0-9]+$" },
-    "unit": { "type": "string", "pattern": "^[1-4]\\.[0-9]+$" },
-    "title": { "type": "string", "minLength": 1 },
-    "xp": { "type": "integer", "minimum": 10, "maximum": 20 },
+    "id": {
+      "type": "string",
+      "pattern": "^[1-4]\\.[0-9]+\\.[0-9]+$"
+    },
+    "unit": {
+      "type": "string",
+      "pattern": "^[1-4]\\.[0-9]+$"
+    },
+    "title": {
+      "type": "string",
+      "minLength": 1
+    },
+    "xp": {
+      "type": "integer",
+      "minimum": 10,
+      "maximum": 20
+    },
     "card": {
       "type": "object",
-      "required": ["idea", "diagrams"],
+      "required": [
+        "idea",
+        "diagrams"
+      ],
       "properties": {
-        "idea": { "type": "string", "maxLength": 400 },
-        "diagrams": { "type": "array", "items": { "type": "string" }, "maxItems": 3 },
-        "habit": { "type": "string" }
+        "idea": {
+          "type": "string",
+          "maxLength": 400
+        },
+        "diagrams": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 3
+        },
+        "habit": {
+          "type": "string"
+        }
       }
     },
     "explain": {
@@ -22,24 +58,55 @@
       "maxItems": 3,
       "items": {
         "type": "object",
-        "required": ["fen", "text"],
+        "required": [
+          "fen",
+          "text"
+        ],
         "properties": {
-          "fen": { "type": "string" },
-          "text": { "type": "string", "maxLength": 420 },
-          "arrows": { "type": "array" },
-          "highlights": { "type": "array" }
+          "fen": {
+            "type": "string"
+          },
+          "text": {
+            "type": "string",
+            "maxLength": 420
+          },
+          "arrows": {
+            "type": "array"
+          },
+          "highlights": {
+            "type": "array"
+          }
         }
       }
     },
-    "challenges": { "type": "array", "minItems": 5, "maxItems": 10, "items": { "$ref": "#/definitions/challenge" } },
-    "takeaway": { "type": "string", "minLength": 1, "maxLength": 200 }
+    "challenges": {
+      "type": "array",
+      "minItems": 5,
+      "maxItems": 10,
+      "items": {
+        "$ref": "#/definitions/challenge"
+      }
+    },
+    "takeaway": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 200
+    }
   },
   "definitions": {
     "challenge": {
       "type": "object",
-      "required": ["id", "type", "fen", "prompt", "concept"],
+      "required": [
+        "id",
+        "type",
+        "fen",
+        "prompt",
+        "concept"
+      ],
       "properties": {
-        "id": { "type": "string" },
+        "id": {
+          "type": "string"
+        },
         "type": {
           "enum": [
             "find_the_move",
@@ -52,36 +119,52 @@
             "guess_the_move"
           ]
         },
-        "fen": { "type": "string" },
-        "prompt": { "type": "string", "maxLength": 200 },
+        "fen": {
+          "type": "string"
+        },
+        "prompt": {
+          "type": "string",
+          "maxLength": 200
+        },
         "concept": {
           "description": "design spec 2026-09-19 section 5: the enumerated concept vocabulary. CheckpointMachine draws a failed checkpoint's retry set from these tags (PRD 6.4), so a near-duplicate spelling splits a bank. Add a tag here in the same commit that first uses it.",
           "enum": [
             "absolute-pin",
             "attack-defend",
             "back-rank",
+            "battery",
             "bishop-moves",
+            "castle-early",
             "castling",
             "castling-restrictions",
+            "centre",
             "check",
             "checkmate",
             "checks-and-captures",
             "corridor-mate",
             "counting",
             "damiano",
+            "development",
+            "discovered-attack",
+            "discovered-check",
             "dont-hang",
             "draw-offer",
             "draws",
+            "early-queen",
             "en-passant",
             "en-passant-timing",
             "escape-check",
             "escape-square",
             "family-fork",
             "files",
+            "first-mistake",
             "fork-with-check",
             "habit-one",
             "hanging-both-sides",
+            "insufficient-material",
+            "italian",
             "keep-the-pin",
+            "king-activity",
             "king-moves",
             "king-safe",
             "knight-fork",
@@ -91,12 +174,15 @@
             "meeting-early-mates",
             "notation",
             "opponent-threats",
+            "opposition",
             "pawn-capture",
             "pawn-fork",
             "pawn-moves",
             "piece-safe",
+            "piece-twice",
             "pin-both-sides",
             "promotion",
+            "promotion-race",
             "queen-fork",
             "queen-mate",
             "queen-moves",
@@ -105,6 +191,8 @@
             "resigning",
             "rook-mate",
             "rook-moves",
+            "rook-pawn-draw",
+            "rule-of-the-square",
             "sanity-check",
             "setup",
             "skewer",
@@ -113,6 +201,7 @@
             "stalemate",
             "support-mate",
             "take-free",
+            "target-position",
             "the-clock",
             "threat-scan",
             "three-questions",
@@ -120,30 +209,76 @@
             "values"
           ]
         },
-        "hints": { "type": "object" },
-        "reason": { "type": "string" },
-        "answer": { "type": "object" },
-        "wrong": { "type": "object" },
+        "hints": {
+          "type": "object"
+        },
+        "reason": {
+          "type": "string"
+        },
+        "answer": {
+          "type": "object"
+        },
+        "wrong": {
+          "type": "object"
+        },
         "goal": {
           "type": "object",
-          "required": ["kind", "moves"],
+          "required": [
+            "kind",
+            "moves"
+          ],
           "properties": {
-            "kind": { "enum": ["mate_in", "promote", "capture_all", "hold"] },
-            "moves": { "type": "integer", "minimum": 1 }
+            "kind": {
+              "enum": [
+                "mate_in",
+                "promote",
+                "capture_all",
+                "hold"
+              ]
+            },
+            "moves": {
+              "type": "integer",
+              "minimum": 1
+            }
           }
         },
-        "options": { "type": "array" },
-        "reasons": { "type": "array" },
-        "move": { "type": "string" },
-        "commentary": { "type": "string" },
-        "opponentDepth": { "type": "integer" }
+        "options": {
+          "type": "array"
+        },
+        "reasons": {
+          "type": "array"
+        },
+        "move": {
+          "type": "string"
+        },
+        "commentary": {
+          "type": "string"
+        },
+        "opponentDepth": {
+          "type": "integer"
+        }
       },
       "allOf": [
         {
-          "if": { "properties": { "type": { "const": "find_them_all" } }, "required": ["type"] },
+          "if": {
+            "properties": {
+              "type": {
+                "const": "find_them_all"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
           "then": {
-            "required": ["answer"],
-            "properties": { "answer": { "$ref": "#/definitions/squaresOrPieces" } }
+            "required": [
+              "answer"
+            ],
+            "properties": {
+              "answer": {
+                "$ref": "#/definitions/squaresOrPieces"
+              }
+            }
           }
         }
       ]
@@ -151,16 +286,34 @@
     "squaresOrPieces": {
       "description": "design spec 4.7 / PRD 7.4: squares[] or pieces[]; a piece is named by the square it stands on",
       "type": "object",
-      "oneOf": [{ "required": ["squares"] }, { "required": ["pieces"] }],
+      "oneOf": [
+        {
+          "required": [
+            "squares"
+          ]
+        },
+        {
+          "required": [
+            "pieces"
+          ]
+        }
+      ],
       "properties": {
-        "squares": { "$ref": "#/definitions/squareList" },
-        "pieces": { "$ref": "#/definitions/squareList" }
+        "squares": {
+          "$ref": "#/definitions/squareList"
+        },
+        "pieces": {
+          "$ref": "#/definitions/squareList"
+        }
       }
     },
     "squareList": {
       "type": "array",
       "minItems": 1,
-      "items": { "type": "string", "pattern": "^[a-h][1-8]$" }
+      "items": {
+        "type": "string",
+        "pattern": "^[a-h][1-8]$"
+      }
     }
   }
 }

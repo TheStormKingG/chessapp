@@ -1,0 +1,187 @@
+{
+  "id": "2.8.3",
+  "unit": "2.8",
+  "title": "Going over your own game to find the first mistake",
+  "xp": 14,
+  "card": {
+    "idea": "The app reviews every game you play: a summary, the moves it labels Blunder or Best, and up to five key moments to try again. Your job is to read it in the right order. Go to the earliest mistake, not the biggest one, because every move after it was played in a position that was already worse.",
+    "diagrams": [
+      "4k3/5ppp/p7/1N6/3b4/8/5PPP/R3K3 w - - 0 1"
+    ],
+    "habit": "Manage the clock."
+  },
+  "explain": [
+    {
+      "fen": "4k3/5ppp/p7/1N6/3b4/8/5PPP/R3K3 w - - 0 1",
+      "text": "Finish a game and open the review. It marks every move, lists the ones that cost you something, and gives you the positions back to try again. None of that is work you have to do yourself. Reading it in the right order is.",
+      "highlights": [
+        "a1",
+        "b5"
+      ]
+    },
+    {
+      "fen": "4k3/5ppp/p7/1N6/3b4/8/5PPP/R3K3 w - - 0 1",
+      "text": "Start with the earliest mistake in the list. A blunder on move thirty usually happens because the position was already lost on move twelve, and the move-thirty lesson is one you will never meet again. The move-twelve lesson is one you repeat every game.",
+      "arrows": [
+        [
+          "d4",
+          "a1"
+        ],
+        [
+          "a6",
+          "b5"
+        ]
+      ]
+    },
+    {
+      "fen": "4k3/5ppp/8/8/3r4/8/1B4PP/4K3 w - - 0 1",
+      "text": "Then do the one thing the review cannot do for you: say out loud what you missed. Here the rook on d4 stands on the bishop's diagonal and nothing defends it. Name it — a piece left where a bishop can reach it — and you will see it next time.",
+      "arrows": [
+        [
+          "b2",
+          "d4"
+        ]
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.8.3-c1",
+      "type": "name_the_pattern",
+      "fen": "4k3/5ppp/p7/1N6/3b4/8/5PPP/R3K3 w - - 0 1",
+      "prompt": "Your review lists a Mistake on move 12 and a Blunder on move 28. Which one do you study first?",
+      "options": [
+        "Move 12. Everything after it was played in a position that was already worse.",
+        "Move 28. It is the bigger error, so it is the bigger lesson.",
+        "Neither. Start at the last move and work backwards."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "first-mistake",
+      "hints": {
+        "text": "Ask which of the two you are likely to meet again in another game."
+      },
+      "reason": "The earliest error is the one that decided what kind of game you were playing. Fix that and the later one often never arises."
+    },
+    {
+      "id": "2.8.3-c2",
+      "type": "find_them_all",
+      "fen": "4k3/5ppp/p7/1N6/3b4/8/5PPP/R3K3 w - - 0 1",
+      "prompt": "A position from your own game, White to move. Tap every white piece Black could take for nothing.",
+      "answer": {
+        "pieces": [
+          "a1",
+          "b5"
+        ]
+      },
+      "concept": "first-mistake",
+      "hints": {
+        "text": "Three white pieces are attacked. One of the three has a defender."
+      },
+      "reason": "The bishop on d4 looks straight down at a1, and the pawn on a6 takes the knight on b5. The pawn on f2 is attacked too, but the king defends it."
+    },
+    {
+      "id": "2.8.3-c3",
+      "type": "find_the_move",
+      "fen": "4k3/5ppp/8/8/3r4/8/1B4PP/4K3 w - - 0 1",
+      "prompt": "In the game you moved the bishop away from here. The review says you had better. Find it.",
+      "answer": {
+        "moves": [
+          "Bxd4"
+        ]
+      },
+      "wrong": {
+        "Bc3": "The bishop is safe and the rook is still standing. Bxd4 was there the whole time."
+      },
+      "concept": "first-mistake",
+      "hints": {
+        "piece": "b2",
+        "square": "d4"
+      },
+      "reason": "The rook on d4 sits on the b2-bishop's diagonal with nothing defending it, so Bxd4 wins it outright."
+    },
+    {
+      "id": "2.8.3-c4",
+      "type": "is_it_safe",
+      "fen": "4k3/5ppp/2p5/3p4/8/2N5/5PPP/4K3 w - - 0 1",
+      "move": "Nxd5",
+      "prompt": "This is the move the review marked. The knight takes on d5. Was it safe?",
+      "reasons": [
+        "Yes. Nothing defends the pawn on d5.",
+        "No. The pawn on c6 takes it back.",
+        "No. The king on e8 takes it back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "first-mistake",
+      "hints": {
+        "piece": "c6",
+        "text": "Look one rank above d5 and one file to the left."
+      },
+      "reason": "cxd5 wins a knight for a pawn. A pawn defender is the commonest thing to miss, and the review will keep showing it to you until you stop missing it."
+    },
+    {
+      "id": "2.8.3-c5",
+      "type": "find_the_move",
+      "fen": "4k3/5ppp/8/8/8/2n5/2R2PPP/4K3 w - - 0 1",
+      "prompt": "The review calls your move here a Miss. The knight on c3 has no defender. Punish it.",
+      "answer": {
+        "moves": [
+          "Rxc3"
+        ]
+      },
+      "wrong": {
+        "Rc1": "Retreating leaves the knight alive. The rook was already looking straight at it."
+      },
+      "concept": "first-mistake",
+      "hints": {
+        "piece": "c2",
+        "square": "c3"
+      },
+      "reason": "The rook and the knight are on the same file with nothing between them, and nothing takes back on c3."
+    },
+    {
+      "id": "2.8.3-c6",
+      "type": "name_the_pattern",
+      "fen": "4k3/5ppp/8/3q4/8/8/5PPP/3RK3 w - - 0 1",
+      "prompt": "The review marks one move Blunder and your very next move Best. What does that pair usually mean?",
+      "options": [
+        "You gave something away, then found the best try in the worse position that followed.",
+        "Your best move is what caused the blunder before it.",
+        "The review has contradicted itself and both labels are wrong."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "first-mistake",
+      "hints": {
+        "text": "A label says how good a move was in the position it was played in, not in the game as a whole."
+      },
+      "reason": "Best always means best available here and now. A run of good moves after a blunder is normal, and it is the blunder you go back to."
+    },
+    {
+      "id": "2.8.3-c7",
+      "type": "find_the_move",
+      "fen": "4k3/5ppp/8/3q4/8/8/5PPP/3RK3 w - - 0 1",
+      "prompt": "The same game, one move earlier. The queen stepped onto the open file. Take her.",
+      "answer": {
+        "moves": [
+          "Rxd5"
+        ]
+      },
+      "wrong": {
+        "Rd2": "The queen walked onto your rook's file and you let her leave. Rxd5 was free."
+      },
+      "concept": "first-mistake",
+      "hints": {
+        "piece": "d1",
+        "square": "d5"
+      },
+      "reason": "Nothing black defends d5, so the rook takes a whole queen. This is the kind of chance the review's key moments hand back to you."
+    }
+  ],
+  "takeaway": "Let the review mark the game, then start at the earliest mistake and name what you missed."
+}

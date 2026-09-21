@@ -1,0 +1,174 @@
+{
+  "id": "2.6.1",
+  "unit": "2.6",
+  "title": "Centre, development, castle early",
+  "xp": 12,
+  "card": {
+    "idea": "The opening has three jobs and no more. Put a pawn in the middle, bring your knights and bishops out to squares where they do something, and castle. A player who does those three things has a real game before the fighting starts.",
+    "diagrams": [
+      "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3"
+    ],
+    "habit": "When an enemy bishop or knight lands on g4, g5, b4 or b5, ask it where it is going with the flank pawn."
+  },
+  "explain": [
+    {
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "text": "Four squares in the middle decide most games: e4, d4, e5 and d5. A pawn standing on one of them takes squares away from the enemy, and a piece standing near them reaches more of the board than the same piece in a corner. Your first move is usually a pawn to one of those four.",
+      "highlights": [
+        "d4",
+        "e4",
+        "d5",
+        "e5"
+      ]
+    },
+    {
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5N2/PPPP1PPP/RNBQK2R b KQkq - 3 3",
+      "text": "White has spent three moves well. The pawn on e4 holds a share of the middle, the knight on f3 attacks the pawn on e5, and the bishop on c4 points at f7. Two pieces out, a pawn in the middle, and the king one move from safety.",
+      "arrows": [
+        [
+          "f3",
+          "e5"
+        ],
+        [
+          "c4",
+          "f7"
+        ]
+      ]
+    },
+    {
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQ1RK1 w kq - 6 5",
+      "text": "White has castled. The king sits behind three pawns that have never moved, and the rook has come from h1 to f1, towards the middle, in the same move. Black's king is still standing in the centre and the rook on h8 is doing nothing at all.",
+      "highlights": [
+        "g1",
+        "f1",
+        "e8",
+        "h8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.6.1-c1",
+      "type": "find_them_all",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "Tap the four squares in the middle of the board that both sides spend the opening fighting over.",
+      "answer": {
+        "squares": [
+          "d4",
+          "e4",
+          "d5",
+          "e5"
+        ]
+      },
+      "concept": "centre",
+      "hints": {
+        "text": "They are the four squares where the two middle files meet the two middle ranks."
+      },
+      "reason": "d4, e4, d5 and e5. A pawn on one of them stops enemy pieces using it, and every piece works harder near them."
+    },
+    {
+      "id": "2.6.1-c2",
+      "type": "which_square",
+      "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+      "prompt": "Tap the square your king's pawn reaches when it steps two forward on move one.",
+      "answer": {
+        "square": "e4"
+      },
+      "concept": "centre",
+      "hints": {
+        "piece": "e2"
+      },
+      "reason": "The pawn on e2 goes to e4. It takes a share of the middle and opens lines for both the bishop on f1 and the queen."
+    },
+    {
+      "id": "2.6.1-c3",
+      "type": "find_them_all",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQ1RK1 w kq - 6 5",
+      "prompt": "Tap every white knight and bishop still standing on the square it started on.",
+      "answer": {
+        "pieces": [
+          "b1",
+          "c1"
+        ]
+      },
+      "concept": "development",
+      "hints": {
+        "text": "One knight and one bishop have moved. Two have not."
+      },
+      "reason": "The knight on b1 and the bishop on c1 have not moved yet. Until they do, White is playing with half an army."
+    },
+    {
+      "id": "2.6.1-c4",
+      "type": "which_square",
+      "fen": "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
+      "prompt": "Tap the square your king lands on when you castle on the king's side.",
+      "answer": {
+        "square": "g1"
+      },
+      "concept": "castle-early",
+      "hints": {
+        "piece": "e1"
+      },
+      "reason": "The king goes two squares to g1 and the rook jumps over it to f1. One move, and the king is out of the middle."
+    },
+    {
+      "id": "2.6.1-c5",
+      "type": "find_them_all",
+      "fen": "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 4 4",
+      "prompt": "Tap the two squares between your king and the rook on h1 that have to be empty before you may castle.",
+      "answer": {
+        "squares": [
+          "f1",
+          "g1"
+        ]
+      },
+      "concept": "castle-early",
+      "hints": {
+        "text": "Count the squares from the king to the rook in the corner."
+      },
+      "reason": "f1 and g1. The bishop and the knight have both left, so the road is clear and White can castle right now."
+    },
+    {
+      "id": "2.6.1-c6",
+      "type": "is_it_safe",
+      "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
+      "move": "Nf3",
+      "prompt": "White brings the knight out to f3, where it attacks the pawn on e5. Is the knight safe on f3?",
+      "reasons": [
+        "Yes. Nothing black attacks f3.",
+        "No. The pawn on e5 takes it.",
+        "No. The queen on d8 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "development",
+      "hints": {
+        "text": "Look for a black piece or pawn that could reach f3 in one move."
+      },
+      "reason": "Nothing black reaches f3. The pawn on e5 captures to d4 or f4, and the queen on d8 has no line to f3."
+    },
+    {
+      "id": "2.6.1-c7",
+      "type": "find_the_move",
+      "fen": "rnbqkbnr/pppp1ppp/8/4p3/6P1/5P2/PPPPP2P/RNBQKBNR b KQkq - 0 2",
+      "prompt": "White has pushed both pawns beside his king instead of developing, and left the diagonal into e1 wide open. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qh4#"
+        ]
+      },
+      "wrong": {
+        "d5": "A good square in an ordinary game, but there is mate on the board and you have just let White play g3."
+      },
+      "concept": "castle-early",
+      "hints": {
+        "piece": "d8",
+        "square": "h4"
+      },
+      "reason": "Qh4 is mate along h4-g3-f2-e1. f2 and g3 are empty because the pawns went to f3 and g4, and nothing can block or capture."
+    }
+  ],
+  "takeaway": "A pawn in the middle, the knights and bishops out, and the king castled. Do those three, in any sensible order, and you have played the opening well."
+}

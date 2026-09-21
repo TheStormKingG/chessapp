@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { AppRoutes } from './routes';
 
@@ -81,7 +81,25 @@ test.each(['/puzzles/rated', '/puzzles/themed', '/puzzles/daily', '/puzzles/fix'
     );
     // Every task in this frame owns its own dismiss control (ModalTask's
     // docblock), so finding one is how a test says "the route is really here".
-    expect(await screen.findByRole('button', { name: /back to puzzles|close/i })).toBeInTheDocument();
+    //
+    // Re-QUERIED inside waitFor rather than held as a handle. `/puzzles/fix`
+    // paints its dismiss control, then loads the learner's error log from
+    // Dexie and re-renders, which DETACHES the node the first query returned.
+    // `await findByRole(...)` then resolves with an element that is no longer
+    // in the document by the time the assertion runs, and the failure reads
+    // "element could not be found in the document" — which looks like the
+    // route never rendered and is the opposite of what happened.
+    //
+    // Measured at 3-4 failures in every 8 runs, only ever on /puzzles/fix.
+    // Raising findByRole's timeout does NOT help, because the wait is not the
+    // problem: the element arrives on time and then leaves.
+    //
+    // The re-render is real product behaviour, not a test artefact — a learner
+    // with a slow database sees that same swap — so the test waits for the
+    // settled state rather than asserting on the first paint.
+    await waitFor(() => {
+      expect(screen.getByRole('button', { name: /back to puzzles|close/i })).toBeInTheDocument();
+    });
     expect(screen.queryByRole('navigation', { name: 'Main' })).not.toBeInTheDocument();
     expect(document.querySelector('main')).toBeInTheDocument();
   },

@@ -1,0 +1,192 @@
+{
+  "id": "2.5.3",
+  "unit": "2.5",
+  "title": "Batteries on a line",
+  "xp": 14,
+  "card": {
+    "idea": "Two of your pieces on one line, one behind the other, are a battery. The front one goes in, and the one behind takes over. It is the simplest way to beat a single defender: two attackers against one.",
+    "diagrams": [
+      "1n3rk1/pppr1ppp/8/8/8/8/PPPR1PPP/2BR2K1 w - - 0 1"
+    ]
+  },
+  "explain": [
+    {
+      "fen": "1n3rk1/pppr1ppp/8/8/8/8/PPP2RPP/3R2K1 w - - 0 1",
+      "text": "Your rook on d1 already points at the black rook on d7, but the knight on b8 guards it, so one attacker is not enough. Bring the rook on f2 across to d2 and you have two attackers on one line.",
+      "arrows": [
+        [
+          "f2",
+          "d2"
+        ],
+        [
+          "d1",
+          "d7"
+        ]
+      ],
+      "highlights": [
+        "d2"
+      ]
+    },
+    {
+      "fen": "1n3rk1/pppr1ppp/8/8/8/8/PPPR1PPP/2BR2K1 w - - 0 1",
+      "text": "Now both rooks are on the d-file. Rxd7 works: Black takes with Nxd7, and the second rook takes again. You have given a rook and taken a rook and a knight.",
+      "arrows": [
+        [
+          "d2",
+          "d7"
+        ]
+      ],
+      "highlights": [
+        "d1",
+        "d2"
+      ]
+    },
+    {
+      "fen": "5rk1/5ppp/8/8/pp6/PP6/3Q1PPP/3R2K1 w - - 0 1",
+      "text": "A queen and a rook make a battery too. The queen on d2 leads and the rook on d1 stands behind her, so Qd8 can be played although the rook on f8 takes her. Rxd8 then mates on the back rank.",
+      "arrows": [
+        [
+          "d2",
+          "d8"
+        ]
+      ],
+      "highlights": [
+        "d1",
+        "d2"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.5.3-c1",
+      "type": "which_square",
+      "fen": "1n3rk1/pppr1ppp/8/8/8/8/PPP2RPP/3R2K1 w - - 0 1",
+      "prompt": "Tap the square where the rook on f2 joins the rook on d1.",
+      "answer": {
+        "square": "d2"
+      },
+      "concept": "battery",
+      "hints": {
+        "text": "The rook can only slide along the second rank, so one square on the d-file is within reach."
+      },
+      "reason": "d2. The rook slides along the second rank and the two rooks are now one behind the other on the d-file."
+    },
+    {
+      "id": "2.5.3-c2",
+      "type": "name_the_pattern",
+      "fen": "1n3rk1/pppr1ppp/8/8/8/8/PPP2RPP/3R2K1 w - - 0 1",
+      "prompt": "Why is it worth spending a move to put a second rook on the d-file?",
+      "options": [
+        "Two attackers beat the one knight that guards d7.",
+        "Rooks are always stronger on the second rank.",
+        "It stops the knight on b8 from moving."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "battery",
+      "hints": {
+        "text": "Count the attackers on d7, then count the defenders."
+      },
+      "reason": "The rook on d7 is attacked once and guarded once, so nothing happens. Attack it twice and the count is in your favour."
+    },
+    {
+      "id": "2.5.3-c3",
+      "type": "find_them_all",
+      "fen": "1n3rk1/pppr1ppp/8/8/8/8/PPPR1PPP/2BR2K1 w - - 0 1",
+      "prompt": "Tap the two white pieces that are lined up one behind the other on the d-file.",
+      "answer": {
+        "pieces": [
+          "d1",
+          "d2"
+        ]
+      },
+      "concept": "battery",
+      "hints": {
+        "text": "Both of them are rooks, and they share a file."
+      },
+      "reason": "The rooks on d1 and d2. The one in front does the capturing and the one behind takes back."
+    },
+    {
+      "id": "2.5.3-c4",
+      "type": "find_the_move",
+      "fen": "1n3rk1/pppr1ppp/8/8/8/8/PPPR1PPP/2BR2K1 w - - 0 1",
+      "prompt": "Two rooks against one defender. Win material.",
+      "answer": {
+        "moves": [
+          "Rxd7"
+        ]
+      },
+      "wrong": {
+        "Rd6": "The pawn on c7 takes the rook, and a rook for a pawn is not a bargain."
+      },
+      "concept": "battery",
+      "hints": {
+        "piece": "d2",
+        "square": "d7"
+      },
+      "reason": "Rxd7 Nxd7 Rxd7. You give a rook and take a rook and a knight, which is a whole piece ahead."
+    },
+    {
+      "id": "2.5.3-c5",
+      "type": "is_it_safe",
+      "fen": "1n3rk1/pppr1ppp/8/8/8/8/PPPR1PPP/2BR2K1 w - - 0 1",
+      "move": "Rd6",
+      "prompt": "White pushes the front rook to d6 instead of capturing. Is it safe there?",
+      "reasons": [
+        "Yes. The second rook on d1 is defending it.",
+        "No. The pawn on c7 takes it.",
+        "No. The knight on b8 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "battery",
+      "hints": {
+        "text": "A pawn guards the two squares diagonally in front of it."
+      },
+      "reason": "The pawn on c7 covers b6 and d6. Being defended does not help when the thing attacking you is worth a pawn."
+    },
+    {
+      "id": "2.5.3-c6",
+      "type": "find_the_move",
+      "fen": "5rk1/pp3ppp/5n2/3r4/8/8/PP1R1PPP/3R2K1 w - - 0 1",
+      "prompt": "The black rook on d5 has one guard, the knight on f6. Win material.",
+      "answer": {
+        "moves": [
+          "Rxd5"
+        ]
+      },
+      "wrong": {
+        "Rc2": "You have left the file, so only one rook is aimed at d5 and the count is level again."
+      },
+      "concept": "battery",
+      "hints": {
+        "piece": "d2",
+        "square": "d5"
+      },
+      "reason": "Rxd5 Nxd5 Rxd5. Two attackers against one defender wins the extra piece every time."
+    },
+    {
+      "id": "2.5.3-c7",
+      "type": "name_the_pattern",
+      "fen": "5rk1/5ppp/8/8/pp6/PP6/3Q1PPP/3R2K1 w - - 0 1",
+      "prompt": "White can play the queen to d8 even though the rook on f8 is able to take her. Why does that work?",
+      "options": [
+        "The rook on d1 takes back on d8, and that is mate.",
+        "The rook on f8 is pinned to the king and cannot move.",
+        "A queen may not be captured on the back rank."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "battery",
+      "hints": {
+        "text": "Ask what is behind the queen before you ask whether she is safe."
+      },
+      "reason": "The piece behind is the whole point. Rxd8 covers the back rank, and f7, g7 and h7 are the black king's own pawns."
+    }
+  ],
+  "takeaway": "Line two pieces up on one file or diagonal. The front one goes in and the one behind takes over."
+}

@@ -1,0 +1,196 @@
+{
+  "id": "2.8.2",
+  "unit": "2.8",
+  "title": "Using most of your time, and never playing a bad move fast",
+  "xp": 13,
+  "card": {
+    "idea": "A slow game gives you minutes, not seconds, and the minutes are there to be spent. Almost every beginner loses with time left on the clock. The move you see first is a candidate, not an answer: before you touch the piece, ask what your opponent gets to play in reply.",
+    "diagrams": [
+      "6k1/3n4/8/4p3/4R3/8/5PPP/6K1 w - - 0 1"
+    ],
+    "habit": "Manage the clock."
+  },
+  "explain": [
+    {
+      "fen": "6k1/3n4/8/4p3/4R3/8/5PPP/6K1 w - - 0 1",
+      "text": "The pawn on e5 is there to be taken and the rook can take it. That is the move you see in one second. Spend the next ten looking at what answers it: the knight on d7 covers e5, so Rxe5 hands over a rook for a pawn.",
+      "arrows": [
+        [
+          "e4",
+          "e5"
+        ],
+        [
+          "d7",
+          "e5"
+        ]
+      ]
+    },
+    {
+      "fen": "4k3/5ppp/8/2q5/8/8/5PPP/2R1K3 w - - 0 1",
+      "text": "Hurry works the other way too. Your rook is attacked, and the fast answer is to run. Look one square further up the file and the queen is standing there undefended. Rxc5 wins her. A rushed move misses good things as often as it walks into bad ones.",
+      "arrows": [
+        [
+          "c1",
+          "c5"
+        ]
+      ]
+    },
+    {
+      "fen": "6k1/R4ppp/8/p7/8/1P6/1q3PPP/6K1 w - - 0 1",
+      "text": "Being under threat is not a reason to move quickly. Black mates on the first rank next move, so this looks frightening. It is still your turn, and Ra8 is mate first. Fear makes people move fast, and moving fast is what loses the game.",
+      "arrows": [
+        [
+          "a7",
+          "a8"
+        ]
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.8.2-c1",
+      "type": "name_the_pattern",
+      "fen": "6k1/3n4/8/4p3/4R3/8/5PPP/6K1 w - - 0 1",
+      "prompt": "You have eight minutes left and Rxe5 looks free. What do you do before you play it?",
+      "options": [
+        "Check every black piece that can reach e5.",
+        "Play it. A free pawn is a free pawn.",
+        "Move the rook somewhere safe instead and think later."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "the-clock",
+      "hints": {
+        "text": "The question is never whether you can take. It is what happens on the square afterwards."
+      },
+      "reason": "Ten seconds spent on the reply is the cheapest ten seconds in chess. Here it saves a whole rook."
+    },
+    {
+      "id": "2.8.2-c2",
+      "type": "is_it_safe",
+      "fen": "6k1/3n4/8/4p3/4R3/8/5PPP/6K1 w - - 0 1",
+      "move": "Rxe5",
+      "prompt": "The rook takes the pawn on e5. Is it safe there?",
+      "reasons": [
+        "Yes. Nothing black can reach e5.",
+        "No. The knight on d7 takes it back.",
+        "No. The king on g8 takes it back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "the-clock",
+      "hints": {
+        "piece": "d7",
+        "text": "The king on g8 is three squares from e5, so it is not the one to worry about."
+      },
+      "reason": "Nd7 covers e5. Rxe5 Nxe5 is a rook for a pawn, and it takes one second to play and the rest of the game to regret."
+    },
+    {
+      "id": "2.8.2-c3",
+      "type": "is_it_safe",
+      "fen": "6k1/6pp/5p2/4p3/8/8/4RPPP/6K1 w - - 0 1",
+      "move": "Rxe5",
+      "prompt": "Same capture, a different board. The rook takes on e5. Is it safe there?",
+      "reasons": [
+        "Yes. Nothing defends the pawn on e5.",
+        "No. The pawn on f6 takes it back.",
+        "No. The king on g8 takes it back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "the-clock",
+      "hints": {
+        "piece": "f6",
+        "text": "Black pawns capture downwards and sideways, so look at the pawn one rank above e5."
+      },
+      "reason": "The pawn on f6 takes towards e5. A defender that is a pawn is the one the eye skips over most often, which is exactly why you look twice."
+    },
+    {
+      "id": "2.8.2-c4",
+      "type": "is_it_safe",
+      "fen": "6k1/5ppp/8/3n4/8/8/5PPP/3R2K1 w - - 0 1",
+      "move": "Rxd5",
+      "prompt": "The rook takes the knight on d5. You have checked the reply. Is the rook safe there?",
+      "reasons": [
+        "Yes. No black piece can reach d5.",
+        "No. The king on g8 takes it back.",
+        "No. The pawn on f7 takes it back."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "the-clock",
+      "hints": {
+        "text": "The king is on g8 and a pawn on f7 captures to e6 or g6. Neither of them touches d5."
+      },
+      "reason": "Nothing black reaches d5, so this one really is free. Checking costs the same ten seconds whether the answer is yes or no."
+    },
+    {
+      "id": "2.8.2-c5",
+      "type": "find_the_move",
+      "fen": "4k3/5ppp/8/2q5/8/8/5PPP/2R1K3 w - - 0 1",
+      "prompt": "Your rook is attacked and the clock is fine. Do not run. Look up the file.",
+      "answer": {
+        "moves": [
+          "Rxc5"
+        ]
+      },
+      "wrong": {
+        "Rb1": "You have saved the rook and missed a free queen. That is what a hurried move costs."
+      },
+      "concept": "the-clock",
+      "hints": {
+        "piece": "c1",
+        "square": "c5"
+      },
+      "reason": "The queen on c5 is undefended, so the rook simply takes her. The threat to your rook was the thing that made you want to move fast."
+    },
+    {
+      "id": "2.8.2-c6",
+      "type": "find_the_move",
+      "fen": "6k1/R4ppp/8/p7/8/1P6/1q3PPP/6K1 w - - 0 1",
+      "prompt": "Black mates on the first rank next move. It is still your turn. Use it.",
+      "answer": {
+        "moves": [
+          "Ra8#"
+        ]
+      },
+      "wrong": {
+        "Rc7": "You walked away from the mate. Now Qb1+ forces Rc1 in front of it, and Qxc1 is mate. Being one move behind is not the same as being lost.",
+        "Rxa5": "A pawn, and then Qb1 is mate. Count who gets there first before you take anything."
+      },
+      "concept": "the-clock",
+      "hints": {
+        "piece": "a7",
+        "square": "a8"
+      },
+      "reason": "Ra8 is mate along the eighth rank. The queen on b2 cannot reach the rank to block, and Black never gets the move back."
+    },
+    {
+      "id": "2.8.2-c7",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/8/3n4/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "You are twenty minutes ahead of your opponent on the clock in a slow game. How should you spend that?",
+      "options": [
+        "Give each move the time it needs. That is what the time is for.",
+        "Play quickly so you stay ahead of him on the clock.",
+        "Save it all for the endgame and move fast until then."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "the-clock",
+      "hints": {
+        "text": "Time left on the clock at the end of the game is worth nothing at all."
+      },
+      "reason": "A clock you finish with time on is a clock you did not use. Spend it on the moves that decide things, and keep enough back to avoid flagging."
+    }
+  ],
+  "takeaway": "The first move you see is a candidate. Ask what the reply is, every time, and spend the clock on the moves that matter."
+}
