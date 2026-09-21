@@ -1,6 +1,6 @@
 import { test, expect, type Page, type Browser } from '@playwright/test';
 import { buildFixtures, startSwapServer, type Fixtures, type SwapServer } from './swFixtures';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
 /**
@@ -200,4 +200,28 @@ test('the built worker caches /data/ at runtime rather than precaching it', () =
   // And it is genuinely NOT precached: a precache entry would defeat the point.
   const manifest = /precacheAndRoute\(\[(.*?)\]/s.exec(sw)?.[1] ?? '';
   expect(manifest, 'the opening book was precached after all').not.toContain('openings.txt');
+});
+
+/**
+ * The puzzle packs (PRD 8.4 F-PZ-9) ride the same `/data/` route, for the same
+ * reason, and are held to the same negative: design spec 2.4 says the shell
+ * budget has ~7 KiB of headroom and precaching ~800 KiB of packs would break it.
+ *
+ * THE PRECONDITION IS ASSERTED BEFORE THE NEGATIVE. "The manifest does not
+ * mention the packs" passes just as happily when no pack was ever built, and a
+ * negative assertion over a fixture that has vanished still prints a tick. So
+ * the packs are first shown to exist in the source tree.
+ */
+test('the built worker does not precache the puzzle packs', () => {
+  const packs = readdirSync(join(process.cwd(), 'public/data/puzzles')).filter((f) =>
+    f.endsWith('.txt'),
+  );
+  expect(packs.length, 'no puzzle packs on disk, so the negative below proves nothing')
+    .toBeGreaterThan(0);
+
+  const sw = readFileSync(join(fixtures.a.dir, 'sw.js'), 'utf8');
+  const manifest = /precacheAndRoute\(\[(.*?)\]/s.exec(sw)?.[1] ?? '';
+  for (const p of packs) {
+    expect(manifest, `${p} was precached; globPatterns has gained txt`).not.toContain(p);
+  }
 });

@@ -1,4 +1,6 @@
 import type { LearnerEvent } from './events';
+import { nextRating } from '@/puzzles/rating';
+import type { PuzzleRating } from '@/puzzles/types';
 
 export interface Progress {
   lessons: Record<string, { stars: 1 | 2 | 3; completed: boolean }>;
@@ -13,6 +15,14 @@ export interface Progress {
   /** The games already counted, so a second visit to the review route cannot double-count. */
   gamesReviewed: Record<string, true>;
   consecutiveLosses: number;
+  /**
+   * The puzzle rating, PROJECTED from the log and never stored as an
+   * independently mutable value. When the formula changes — and it will, when
+   * Glicko-2 lands — every historical rating re-derives instead of needing a
+   * migration.
+   */
+  puzzleRating: PuzzleRating;
+  puzzlesSolved: number;
   lastEventAt: string | null;
 }
 
@@ -27,6 +37,8 @@ export function emptyProgress(): Progress {
     reviews: 0,
     gamesReviewed: {},
     consecutiveLosses: 0,
+    puzzleRating: { rating: 800, confidence: 0 },
+    puzzlesSolved: 0,
     lastEventAt: null,
   };
 }
@@ -90,6 +102,16 @@ export function reduceProgress(start: Progress, events: LearnerEvent[]): Progres
           // PRD F-EN-2: XP is never deducted, and a review is worth more than a
           // game, because the research says review is the efficient half.
           p.xp += 20;
+        }
+        break;
+      }
+      case 'puzzle_attempted': {
+        if (x.solved) p.puzzlesSolved += 1;
+        // F-PZ-2: themed practice never moves the rating.
+        // F-PZ-4: neither does a solve that came after a hint.
+        const counts = x.source !== 'themed' && !(x.solved && x.hinted);
+        if (counts) {
+          p.puzzleRating = nextRating(p.puzzleRating, x.puzzleRating, x.solved);
         }
         break;
       }

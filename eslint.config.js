@@ -5,7 +5,10 @@ import reactRefresh from 'eslint-plugin-react-refresh';
 import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
-  { ignores: ['dist', 'dev-dist', 'public/engine', 'node_modules', 'playwright-report', 'test-results'] },
+  // `.cache` holds the gitignored build inputs — the ~1 GB decompressed Lichess
+  // puzzle dump among them. ESLint lints nothing in there, but it walked it,
+  // which took a clean lint from seconds to minutes.
+  { ignores: ['dist', 'dev-dist', 'public/engine', 'node_modules', 'playwright-report', 'test-results', '.cache', 'dist-e2e*'] },
   {
     extends: [js.configs.recommended, ...tseslint.configs.recommended],
     files: ['**/*.{ts,tsx}', 'scripts/**/*.mjs'],

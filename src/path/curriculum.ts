@@ -1,3 +1,5 @@
+import type { Theme } from '@/puzzles/types';
+
 export interface SectionDef {
   id: string;
   title: string;
@@ -229,4 +231,45 @@ export function unitById(id: string): UnitDef | undefined {
     if (u) return u;
   }
   return undefined;
+}
+
+/**
+ * F-PZ-2 d: every lesson whose idea IS one of the eight shipped puzzle motifs
+ * links to the themed practice for it.
+ *
+ * WHY THIS IS A NEW MAP RATHER THAN AN INVERSION OF AN OLD ONE. The puzzles
+ * plan said to derive this from the review feature's `THEME_LESSON` instead of
+ * writing a second table. That map is a different relation: it takes a REVIEW
+ * theme — `hung_piece`, `missed_capture`, `ignored_threat`, `missed_mate` — to
+ * the lesson that teaches the habit. Inverting it yields review themes, only
+ * one of which (`missed_mate`) has a counterpart among the eight puzzle themes
+ * the packs are filtered on, and the other three would send a learner to
+ * "themed practice" for a motif no pack carries. `curriculum.test.ts` asserts
+ * the one point where the two maps meet, which is the drift the plan was
+ * rightly worried about — it is just not a drift an inversion could have
+ * prevented.
+ *
+ * Only Section 1 is authored, and only three of its lessons carry a motif; the
+ * other five themes belong to Section 2, which is a separate spec and a
+ * separate plan. Adding a lesson here is one line, and the tests check that
+ * both ends of that line exist.
+ */
+export const LESSON_THEME: Record<string, Theme> = {
+  // "Mate in one" — the mateIn1 pack is the same idea, drilled.
+  '1.3.3': 'mateIn1',
+  // "The back-rank mate".
+  '1.5.4': 'backRankMate',
+  // "Meeting Scholar's and Fool's mate" — both are the strike at f7 and f2.
+  '1.5.5': 'attackingF2F7',
+};
+
+/**
+ * The themed practice a lesson leads to, or null.
+ *
+ * Null is a real answer and the COMMON one: most lessons teach a habit or a
+ * rule rather than a motif, and a link to a practice set that does not exist
+ * is worse than no link.
+ */
+export function themeForLesson(lessonId: string): Theme | null {
+  return LESSON_THEME[lessonId] ?? null;
 }

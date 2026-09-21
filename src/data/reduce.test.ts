@@ -1,5 +1,5 @@
 import { reduceProgress, emptyProgress } from './reduce';
-import { newEvent } from './events';
+import { newEvent, type EventPayload } from './events';
 
 test('lesson completion marks the lesson and adds xp once per id', () => {
   const e = newEvent({ type: 'lesson_completed', lessonId: '1.1.1', stars: 3, xp: 10, replay: false });
@@ -155,4 +155,48 @@ test('two different games both count', () => {
     });
   const p = reduceProgress(emptyProgress(), [mk('g1'), mk('g2')]);
   expect(p.reviews).toBe(2);
+});
+
+describe('puzzle attempts', () => {
+  // The file's own helpers: newEvent builds the id and createdAt,
+  // reduceProgress(emptyProgress(), …) is the projection. No second helper.
+  const attempt = (p: Omit<Extract<EventPayload, { type: 'puzzle_attempted' }>, 'type'>) =>
+    newEvent({ type: 'puzzle_attempted', ...p });
+
+  test('a rated solve raises the puzzle rating; a themed solve does not', () => {
+    const rated = reduceProgress(emptyProgress(), [
+      attempt({ puzzleId: 'p1', themes: ['fork'], puzzleRating: 1000,
+        solved: true, hinted: false, misses: 0, source: 'rated', ms: 4000 }),
+    ]);
+    const themed = reduceProgress(emptyProgress(), [
+      attempt({ puzzleId: 'p1', themes: ['fork'], puzzleRating: 1000,
+        solved: true, hinted: false, misses: 0, source: 'themed', ms: 4000 }),
+    ]);
+    expect(rated.puzzleRating.rating).toBeGreaterThan(800);
+    // F-PZ-2: themed practice has no rating impact.
+    expect(themed.puzzleRating.rating).toBe(800);
+  });
+
+  test('a solve after a hint earns progress but does not move the rating (F-PZ-4)', () => {
+    const p = reduceProgress(emptyProgress(), [
+      attempt({ puzzleId: 'p1', themes: ['fork'], puzzleRating: 1400,
+        solved: true, hinted: true, misses: 0, source: 'rated', ms: 9000 }),
+    ]);
+    expect(p.puzzleRating.rating).toBe(800);
+    expect(p.puzzlesSolved).toBe(1);
+  });
+
+  test('the rating is a projection, so replaying the same log twice gives the same number', () => {
+    const log = [
+      attempt({ puzzleId: 'a', themes: ['fork'], puzzleRating: 900,
+        solved: true, hinted: false, misses: 0, source: 'rated', ms: 3000 }),
+      attempt({ puzzleId: 'b', themes: ['skewer'], puzzleRating: 1100,
+        solved: false, hinted: false, misses: 2, source: 'rated', ms: 12000 }),
+    ];
+    expect(reduceProgress(emptyProgress(), log).puzzleRating)
+      .toEqual(reduceProgress(emptyProgress(), log).puzzleRating);
+    // The log really did move the rating, so the equality above is not two
+    // copies of the untouched start value agreeing with each other.
+    expect(reduceProgress(emptyProgress(), log).puzzleRating.rating).not.toBe(800);
+  });
 });

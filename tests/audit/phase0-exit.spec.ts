@@ -48,7 +48,7 @@ test.describe('PRD Phase 0 exit criterion', () => {
       await expect(page.getByText(`${String(i + 1)} of ${String(bank.sample)}`)).toBeVisible({
         timeout: 30_000,
       });
-      await answerCorrectly(page, await currentChallenge(page, bank.bank));
+      await answerCorrectly(page, await currentChallenge(page, bank.bank), { scored: true });
       await page.getByRole('button', { name: 'Next', exact: true }).click();
     }
     await page.getByRole('button', { name: 'See your score' }).click();

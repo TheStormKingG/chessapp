@@ -23,6 +23,11 @@ const SCREENS = [
   ['settings', './settings'],
   ['licences', './licences'],
   ['choose-opponent', './play'],
+  // The puzzles tab and the rated stream reuse this sweep rather than growing
+  // a second one: the solving screen is a full-height layout with a board in
+  // it, which is the shape most likely to overflow at a 32px root.
+  ['puzzles', './puzzles'],
+  ['puzzles-rated', './puzzles/rated'],
   ['checkpoint-intro', './checkpoint/1.1'],
   ['not-found', './no-such-page'],
 ] as const;
