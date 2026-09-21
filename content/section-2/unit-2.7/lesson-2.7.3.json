@@ -1,0 +1,187 @@
+{
+  "id": "2.7.3",
+  "unit": "2.7",
+  "title": "King in front of the pawn, and direct opposition",
+  "xp": 14,
+  "card": {
+    "idea": "A pawn cannot escort itself. The attacker wins by getting the king in front of the pawn; the defender saves the game by standing directly in its path, face to face with the enemy king and one square between them. Whoever must move first in that stand-off is the one who gives way.",
+    "diagrams": [
+      "8/8/3k4/8/3K4/3P4/8/8 w - - 0 1",
+      "3k4/8/3K4/3P4/8/8/8/8 w - - 0 1"
+    ],
+    "habit": "Activate the king and attack pawns in the endgame."
+  },
+  "explain": [
+    {
+      "fen": "8/8/3k4/8/3K4/3P4/8/8 w - - 0 1",
+      "text": "Kings on d4 and d6, one square between them, and it is White to move. That is the stand-off, and the side to move loses it: White must step aside and let the black king stay in front of the pawn. Black holds the draw. Had it been Black to move, White would break through.",
+      "highlights": [
+        "d4",
+        "d5",
+        "d6"
+      ],
+      "arrows": [
+        [
+          "d4",
+          "d6"
+        ]
+      ]
+    },
+    {
+      "fen": "8/8/2k5/8/3K4/3P4/8/8 b - - 0 1",
+      "text": "Here the black king has drifted to c6 and it is Black to move. Kd6 restores the stand-off and draws. Anything else lets White take it instead, and then the white king walks in front of the pawn and the pawn follows it home.",
+      "arrows": [
+        [
+          "c6",
+          "d6"
+        ]
+      ]
+    },
+    {
+      "fen": "3k4/8/3K4/3P4/8/8/8/8 w - - 0 1",
+      "text": "This is what the attacker is aiming for: the king on the sixth rank directly in front of its own pawn. From here White wins whoever is to move, because the king clears the way and the pawn walks behind it. Get the king there first and the rest is technique.",
+      "highlights": [
+        "d6"
+      ],
+      "arrows": [
+        [
+          "d5",
+          "d8"
+        ]
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.7.3-c1",
+      "type": "which_square",
+      "fen": "8/8/2k5/8/3K4/3P4/8/8 b - - 0 1",
+      "prompt": "Tap the square where the black king stands face to face with the white king, one square between them.",
+      "answer": {
+        "square": "d6"
+      },
+      "concept": "opposition",
+      "hints": {
+        "piece": "c6",
+        "square": "d6"
+      },
+      "reason": "d6. Same file as the white king on d4, with d5 empty between them. That is the stand-off the defender needs."
+    },
+    {
+      "id": "2.7.3-c2",
+      "type": "find_the_move",
+      "fen": "8/8/2k5/8/3K4/3P4/8/8 b - - 0 1",
+      "prompt": "Black to move. Hold the draw.",
+      "answer": {
+        "moves": [
+          "Kd6"
+        ]
+      },
+      "wrong": {
+        "Kc7": "Too far back. White answers Kd5 and the white king gets in front of the pawn."
+      },
+      "concept": "opposition",
+      "hints": {
+        "piece": "c6",
+        "square": "d6"
+      },
+      "reason": "Kd6 and White must give way. Any other king move hands the stand-off to White, who then walks in front of the pawn and queens it."
+    },
+    {
+      "id": "2.7.3-c3",
+      "type": "find_the_move",
+      "fen": "8/8/3k4/8/4K3/4P3/8/8 b - - 0 1",
+      "prompt": "The pawn is on e3 and the white king on e4. Black to move — take up the stand-off.",
+      "answer": {
+        "moves": [
+          "Ke6"
+        ]
+      },
+      "wrong": {
+        "Kc6": "A step sideways, not into the pawn's path. White answers Ke5 and walks past."
+      },
+      "concept": "opposition",
+      "hints": {
+        "piece": "d6",
+        "square": "e6"
+      },
+      "reason": "Ke6, directly opposite e4 with e5 between. White has to move first and has to step aside, so Black holds."
+    },
+    {
+      "id": "2.7.3-c4",
+      "type": "find_the_move",
+      "fen": "8/8/5k2/8/4K3/4P3/8/8 b - - 0 1",
+      "prompt": "Same pawn, same white king, black king on f6 this time. Stop the pawn.",
+      "answer": {
+        "moves": [
+          "Ke6"
+        ]
+      },
+      "wrong": {
+        "Kg6": "Drifting away from the pawn. White plays Kd5 and escorts it home."
+      },
+      "concept": "opposition",
+      "hints": {
+        "piece": "f6",
+        "square": "e6"
+      },
+      "reason": "Ke6 again. The defender's square is always the one directly in the pawn's path, not merely near the enemy king."
+    },
+    {
+      "id": "2.7.3-c5",
+      "type": "name_the_pattern",
+      "fen": "8/8/3k4/8/3K4/3P4/8/8 w - - 0 1",
+      "prompt": "Kings on d4 and d6, pawn on d3, and it is White to move. Who is better off?",
+      "options": [
+        "Black. White must step aside, and the black king stays in front of the pawn.",
+        "White, because having the move is always worth something.",
+        "Neither. The kings are the same distance from the pawn, so it is symmetrical."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "opposition",
+      "hints": {
+        "text": "In this stand-off, having to move is a liability, not an advantage."
+      },
+      "reason": "Black holds the draw. In a king-and-pawn stand-off the side obliged to move is the side that gives ground — the one time in chess where having the move hurts."
+    },
+    {
+      "id": "2.7.3-c6",
+      "type": "name_the_pattern",
+      "fen": "3k4/8/3K4/3P4/8/8/8/8 w - - 0 1",
+      "prompt": "White's king is on d6, directly in front of its pawn on d5. What is the verdict?",
+      "options": [
+        "White wins, and it does not matter whose turn it is.",
+        "Drawn, because the black king is on the queening file.",
+        "White wins only with Black to move."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "opposition",
+      "hints": {
+        "text": "The king is already past the pawn and on the sixth rank. Ask what Black can still do about it."
+      },
+      "reason": "Won either way. Once the king reaches the sixth rank in front of its pawn, the defender can no longer be kept out and the pawn promotes. That is the target to aim for."
+    },
+    {
+      "id": "2.7.3-c7",
+      "type": "play_it_out",
+      "fen": "3k4/8/3K4/3P4/8/8/8/8 w - - 0 1",
+      "prompt": "Your king is already in front of the pawn. Make a queen.",
+      "goal": {
+        "kind": "promote",
+        "moves": 12
+      },
+      "opponentDepth": 6,
+      "concept": "promotion",
+      "hints": {
+        "piece": "d6",
+        "square": "e6"
+      },
+      "reason": "Step the king aside to take the stand-off on your terms, then bring the pawn up behind it. The king clears the path first; the pawn never goes in front."
+    }
+  ],
+  "takeaway": "The attacker wants the king in front of the pawn. The defender wants to stand in its path with one square between the kings — and let the other side move first."
+}

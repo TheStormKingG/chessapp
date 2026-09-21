@@ -1,0 +1,183 @@
+{
+  "id": "2.7.6",
+  "unit": "2.7",
+  "title": "Activate the king in the endgame",
+  "xp": 14,
+  "card": {
+    "idea": "For the whole game you have kept the king tucked away. Once the queens and rooks are gone, that habit becomes a handicap: the king is a strong attacking piece and the endgame is the one phase where it is safe to use it. Walk it to the centre, then walk it at whatever you want to win.",
+    "diagrams": [
+      "6k1/5ppp/8/8/8/8/P4PPP/4K3 w - - 0 1",
+      "6k1/5ppp/8/8/8/4K3/5PPP/8 w - - 0 1"
+    ],
+    "habit": "Activate the king and attack pawns in the endgame."
+  },
+  "explain": [
+    {
+      "fen": "6k1/5ppp/8/8/8/8/P4PPP/4K3 w - - 0 1",
+      "text": "Three pawns each on the kingside, and White has one extra pawn on a2 with nothing opposing it. Both kings are still on their back rank doing nothing. Whoever brings the king out first will be the one deciding this game — the pawn on a2 is the prize, and a king is what escorts it.",
+      "highlights": [
+        "a2",
+        "e1",
+        "g8"
+      ]
+    },
+    {
+      "fen": "6k1/5ppp/8/8/8/4K3/5PPP/8 w - - 0 1",
+      "text": "Two moves later the white king stands on e3 and nothing on the board can put it in check where it stands. No queen, no rook, no bishop — Black has a king and three pawns, and none of them reaches e3. This is why the rule reverses: the danger that justified hiding the king is not there any more.",
+      "highlights": [
+        "e3"
+      ],
+      "arrows": [
+        [
+          "e3",
+          "e4"
+        ]
+      ]
+    },
+    {
+      "fen": "6k1/5ppp/8/8/8/8/P4PPP/4K3 w - - 0 1",
+      "text": "Count the journey before you start it. From e1 the king reaches c4 in three moves and b5 in four. Black's king needs five to reach b5 from g8. One move of difference decides who attacks and who defends, and it exists only because one side thought to start walking.",
+      "arrows": [
+        [
+          "e1",
+          "b5"
+        ],
+        [
+          "g8",
+          "b5"
+        ]
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.7.6-c1",
+      "type": "which_square",
+      "fen": "6k1/5ppp/8/8/8/8/P4PPP/4K3 w - - 0 1",
+      "prompt": "Tap White's passed pawn — the one with no black pawn left to stop it.",
+      "answer": {
+        "square": "a2"
+      },
+      "concept": "king-activity",
+      "hints": {
+        "text": "Black's pawns are all on the kingside. Look at the other wing."
+      },
+      "reason": "a2. Black has nothing on the a-file or the b-file, so that pawn can run — and the king is the piece that goes with it."
+    },
+    {
+      "id": "2.7.6-c2",
+      "type": "find_them_all",
+      "fen": "6k1/5ppp/8/8/8/8/P4PPP/4K3 w - - 0 1",
+      "prompt": "Tap every square the white king on e1 is able to step to right now.",
+      "answer": {
+        "squares": [
+          "d1",
+          "d2",
+          "e2",
+          "f1"
+        ]
+      },
+      "concept": "king-activity",
+      "hints": {
+        "text": "Eight neighbours, but one of them is your own pawn and three are off the board."
+      },
+      "reason": "d1, d2, e2 and f1 — f2 is its own pawn. Four ways out, and the useful ones are the two that go towards the centre."
+    },
+    {
+      "id": "2.7.6-c3",
+      "type": "is_it_safe",
+      "fen": "6k1/5ppp/8/8/8/4K3/5PPP/8 w - - 0 1",
+      "move": "Ke4",
+      "prompt": "White marches the king up to e4, out in the open middle of the board. Is it safe there?",
+      "reasons": [
+        "Yes. Nothing left on the board can attack e4.",
+        "No. The pawn on f7 covers e4.",
+        "No. A king may not stand on the fourth rank while enemy pawns remain."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "king-safe",
+      "hints": {
+        "text": "List what Black actually has: a king on g8 and three pawns on the seventh."
+      },
+      "reason": "Perfectly safe. The f7 pawn attacks e6 and g6, not e4, and the black king is five squares away. With no queen or rook left there is nothing to be afraid of."
+    },
+    {
+      "id": "2.7.6-c4",
+      "type": "find_the_sequence",
+      "fen": "6k1/5ppp/8/8/8/8/P4PPP/4K3 w - - 0 1",
+      "prompt": "Start the walk. Bring the king off the back rank and head for the queenside.",
+      "answer": {
+        "line": [
+          "Ke2",
+          "Kf8",
+          "Kd3"
+        ]
+      },
+      "concept": "king-activity",
+      "hints": {
+        "piece": "e1",
+        "square": "e2"
+      },
+      "reason": "Ke2 and Kd3, heading for c4 and b5. Black's king sets off too, but it starts on g8 and has much further to come — the head start is what wins the a-pawn its promotion."
+    },
+    {
+      "id": "2.7.6-c5",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/8/8/8/8/P4PPP/4K3 w - - 0 1",
+      "prompt": "Through the whole game the advice was to keep the king tucked away. Why does that change here?",
+      "options": [
+        "The pieces that could punish an exposed king have all been traded, so the king becomes a fighting piece.",
+        "The rules allow the king to move further once most pieces are gone.",
+        "It does not change — the king should stay on the back rank until the very end."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "king-activity",
+      "hints": {
+        "text": "The advice never changed. What changed is what is left on the board."
+      },
+      "reason": "Nothing is left to check it. The king was hidden because queens and rooks were hunting it; once they are gone, the same king is a piece worth roughly a knight and a half, standing idle."
+    },
+    {
+      "id": "2.7.6-c6",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/8/8/8/8/P4PPP/4K3 w - - 0 1",
+      "prompt": "Both kings are on the back rank. Why does it matter so much who walks first?",
+      "options": [
+        "The king that arrives first attacks the other side's pawns while its own are still defended.",
+        "The first king to move gains an extra move later in the game.",
+        "It does not matter, because the kings will meet in the middle anyway."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "king-activity",
+      "hints": {
+        "text": "Think about who is attacking and who is stuck defending when the kings finally arrive."
+      },
+      "reason": "Whoever gets there first does the attacking. In king-and-pawn endings the active king wins pawns and the passive one defends them, and that gap opens on the very first move you spend walking."
+    },
+    {
+      "id": "2.7.6-c7",
+      "type": "play_it_out",
+      "fen": "6k1/5ppp/8/8/8/8/P4PPP/4K3 w - - 0 1",
+      "prompt": "You have the extra pawn on the queenside. Bring the king over and make a queen.",
+      "goal": {
+        "kind": "promote",
+        "moves": 14
+      },
+      "opponentDepth": 6,
+      "concept": "promotion",
+      "hints": {
+        "piece": "e1",
+        "square": "e2"
+      },
+      "reason": "Walk the king towards the a-pawn and push the pawn alongside it — either order works. Black's king is on the wrong wing, and by the time it arrives the pawn is escorted and unstoppable."
+    }
+  ],
+  "takeaway": "When the queens and rooks are gone the king stops hiding and starts working. Walk it towards the action before your opponent walks theirs."
+}

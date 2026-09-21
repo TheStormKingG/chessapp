@@ -1,0 +1,185 @@
+{
+  "id": "2.7.4",
+  "unit": "2.7",
+  "title": "The rook-pawn draw",
+  "xp": 14,
+  "card": {
+    "idea": "A pawn on the a-file or the h-file is worth less than any other pawn. If the defending king reaches the corner the pawn is running to, the game is drawn however far ahead the attacker looks — there is no room on the edge to push the defender out. Move that same pawn one file inwards and it wins.",
+    "diagrams": [
+      "5k2/8/5K2/7P/8/8/8/8 b - - 0 1",
+      "5k2/8/5K2/6P1/8/8/8/8 b - - 0 1"
+    ],
+    "habit": "Activate the king and attack pawns in the endgame."
+  },
+  "explain": [
+    {
+      "fen": "5k2/8/5K2/7P/8/8/8/8 b - - 0 1",
+      "text": "White is a pawn up with a beautifully placed king, and it is a dead draw. Black plays Kg8 and next Kh8, and once the king sits in the corner it can never be driven out: the attacking king has no square on the far side of the pawn to squeeze from, because there is no far side.",
+      "arrows": [
+        [
+          "f8",
+          "g8"
+        ],
+        [
+          "g8",
+          "h8"
+        ]
+      ],
+      "highlights": [
+        "h8"
+      ]
+    },
+    {
+      "fen": "5k2/8/5K2/6P1/8/8/8/8 b - - 0 1",
+      "text": "The identical position with the pawn on g5 instead of h5 is winning for White. Now the board continues past the pawn, so the white king has squares on the h-file to work with and the black king can be pushed out of the corner. One file is the whole difference.",
+      "highlights": [
+        "g5",
+        "h5",
+        "h6",
+        "h7"
+      ]
+    },
+    {
+      "fen": "2k5/8/2K5/P7/8/8/8/8 b - - 0 1",
+      "text": "The a-file behaves the same way. Black runs Kb8 and then Ka8, reaches the corner the pawn is heading for, and holds. Run for the corner in front of the pawn — not away from it, and not to the corner on the other side of the board.",
+      "arrows": [
+        [
+          "c8",
+          "b8"
+        ]
+      ],
+      "highlights": [
+        "a8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.7.4-c1",
+      "type": "which_square",
+      "fen": "5k2/8/5K2/7P/8/8/8/8 b - - 0 1",
+      "prompt": "Tap the corner square the black king must reach to save this game.",
+      "answer": {
+        "square": "h8"
+      },
+      "concept": "rook-pawn-draw",
+      "hints": {
+        "text": "It is the square the pawn itself is running to."
+      },
+      "reason": "h8, the pawn's own queening square. A king sitting there cannot be evicted, so the pawn can never promote."
+    },
+    {
+      "id": "2.7.4-c2",
+      "type": "find_them_all",
+      "fen": "5k2/8/5K2/7P/8/8/8/8 b - - 0 1",
+      "prompt": "The white king covers e7, f7 and g7. Tap every square the black king is actually allowed to move to.",
+      "answer": {
+        "squares": [
+          "e8",
+          "g8"
+        ]
+      },
+      "concept": "rook-pawn-draw",
+      "hints": {
+        "text": "The whole seventh rank beside the king is off limits. Only the eighth rank is left."
+      },
+      "reason": "Just e8 and g8. Two choices, and only one of them saves the game — which is why knowing where the corner is matters."
+    },
+    {
+      "id": "2.7.4-c3",
+      "type": "find_the_move",
+      "fen": "5k2/8/5K2/7P/8/8/8/8 b - - 0 1",
+      "prompt": "A pawn down against a king on f6. Head for the corner and hold the draw.",
+      "answer": {
+        "moves": [
+          "Kg8"
+        ]
+      },
+      "wrong": {
+        "Ke8": "The wrong way. The king walks away from the corner and the pawn simply runs in behind it."
+      },
+      "concept": "rook-pawn-draw",
+      "hints": {
+        "piece": "f8",
+        "square": "g8"
+      },
+      "reason": "Kg8 and then Kh8. Ke8 loses: the king abandons the corner, and with nothing guarding h8 the pawn promotes."
+    },
+    {
+      "id": "2.7.4-c4",
+      "type": "find_the_move",
+      "fen": "2k5/8/2K5/P7/8/8/8/8 b - - 0 1",
+      "prompt": "The same idea on the other edge. The pawn is on a5. Save the game.",
+      "answer": {
+        "moves": [
+          "Kb8"
+        ]
+      },
+      "wrong": {
+        "Kd8": "Away from the pawn. White's king escorts it up the a-file and queens."
+      },
+      "concept": "rook-pawn-draw",
+      "hints": {
+        "piece": "c8",
+        "square": "b8"
+      },
+      "reason": "Kb8, heading for a8. The corner in front of the pawn is the drawing square; the corner behind you is worth nothing."
+    },
+    {
+      "id": "2.7.4-c5",
+      "type": "name_the_pattern",
+      "fen": "5k2/8/5K2/6P1/8/8/8/8 b - - 0 1",
+      "prompt": "Identical position, except the pawn now stands on g5. Does Black still hold?",
+      "options": [
+        "No. With a file left beyond the pawn, White's king can push the defender out and win.",
+        "Yes. Any king-and-pawn ending with the defending king this close is drawn.",
+        "Yes, but only because it is Black to move."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "rook-pawn-draw",
+      "hints": {
+        "text": "Ask what squares the white king gains when the board continues past the pawn."
+      },
+      "reason": "White wins. The h-file gives the attacking king room to outflank, which is exactly the room an edge pawn denies it. Same kings, one file, opposite result."
+    },
+    {
+      "id": "2.7.4-c6",
+      "type": "name_the_pattern",
+      "fen": "5k2/8/5K2/7P/8/8/8/8 b - - 0 1",
+      "prompt": "Why can the defending king never be driven out of the corner here?",
+      "options": [
+        "There is no file beyond the pawn, so the attacking king has nowhere to squeeze from.",
+        "Because a king in a corner may not be put in check.",
+        "Because an edge pawn is not allowed to promote to a queen."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "rook-pawn-draw",
+      "hints": {
+        "text": "The edge of the board is doing the defending, not the king."
+      },
+      "reason": "The board runs out. To push a king off a square you need squares on both sides of it, and beyond the h-file there are none — so the attacker runs out of ideas and the game is drawn."
+    },
+    {
+      "id": "2.7.4-c7",
+      "type": "play_it_out",
+      "fen": "5k2/8/5K2/7P/8/8/8/8 b - - 0 1",
+      "prompt": "You are a pawn down and it is drawn. Prove it: hold for ten moves without letting the pawn through.",
+      "goal": {
+        "kind": "hold",
+        "moves": 10
+      },
+      "opponentDepth": 8,
+      "concept": "draws",
+      "hints": {
+        "piece": "f8",
+        "square": "g8"
+      },
+      "reason": "Run to h8 and shuffle between h8 and g8. No white move makes progress, and if White ever pushes the pawn to h7 with the king on g6 you have no legal move at all — stalemate, which is still a draw."
+    }
+  ],
+  "takeaway": "An a-pawn or h-pawn draws if the defending king reaches the corner in front of it. Move that pawn one file inwards and the same position wins."
+}
