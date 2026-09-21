@@ -1,0 +1,190 @@
+{
+  "id": "2.7.2",
+  "unit": "2.7",
+  "title": "The rule of the square",
+  "xp": 12,
+  "card": {
+    "idea": "A pawn runs for the last rank and a king runs to stop it. You do not have to count the race move by move. Draw the square whose side is the number of moves the pawn still needs: if the defending king stands inside it, or can step inside it, the pawn is caught. If not, push and queen.",
+    "diagrams": [
+      "8/4k3/8/P7/8/8/8/7K w - - 0 1",
+      "8/8/8/1P2k3/8/8/8/7K b - - 0 1"
+    ],
+    "habit": "Activate the king and attack pawns in the endgame."
+  },
+  "explain": [
+    {
+      "fen": "8/4k3/8/P7/8/8/8/7K w - - 0 1",
+      "text": "The pawn on a5 needs three moves to reach a8. So its square runs three files across and three ranks up: a5, b5, c5, d5 along the bottom, up to a8 and d8. The black king stands on e7 — one file outside. It never catches the pawn, so White simply pushes.",
+      "highlights": [
+        "a5",
+        "d5",
+        "a8",
+        "d8"
+      ],
+      "arrows": [
+        [
+          "a5",
+          "a8"
+        ]
+      ]
+    },
+    {
+      "fen": "8/8/8/1P2k3/8/8/8/7K b - - 0 1",
+      "text": "Same idea, different verdict. The pawn on b5 needs three moves, so its square is b5 to e5 and up to b8 and e8. This time the black king is standing on e5 — the far corner of the square, and therefore inside it. Black to move catches the pawn and the game is drawn.",
+      "highlights": [
+        "b5",
+        "e5",
+        "b8",
+        "e8"
+      ]
+    },
+    {
+      "fen": "8/5k2/8/1P6/8/8/8/7K w - - 0 1",
+      "text": "One file matters. Move that same king to f7 and it is outside the b5 pawn's square, so the pawn goes through. Check the corner before you spend moves: the difference between winning and drawing here is a single file.",
+      "highlights": [
+        "b5",
+        "e5",
+        "e8"
+      ],
+      "arrows": [
+        [
+          "b5",
+          "b8"
+        ]
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.7.2-c1",
+      "type": "which_square",
+      "fen": "8/4k3/8/P7/8/8/8/7K w - - 0 1",
+      "prompt": "The pawn on a5 is three moves from the last rank. Tap the fifth-rank corner of its square, three files across.",
+      "answer": {
+        "square": "d5"
+      },
+      "concept": "rule-of-the-square",
+      "hints": {
+        "text": "Count a5, b5, c5, d5 — three steps across from the pawn."
+      },
+      "reason": "d5. The square runs a5-d5 along the fifth rank and up to a8-d8. Anything outside that box is too slow."
+    },
+    {
+      "id": "2.7.2-c2",
+      "type": "find_them_all",
+      "fen": "8/5k2/8/1P6/8/8/8/7K w - - 0 1",
+      "prompt": "Tap every square on the fifth rank that belongs to the b5 pawn's square.",
+      "answer": {
+        "squares": [
+          "b5",
+          "c5",
+          "d5",
+          "e5"
+        ]
+      },
+      "concept": "rule-of-the-square",
+      "hints": {
+        "text": "Start on the pawn and count across, one file per move the pawn still needs."
+      },
+      "reason": "b5, c5, d5 and e5. The pawn needs three moves, so the box is four squares wide counting the pawn's own. The king on f7 is outside it."
+    },
+    {
+      "id": "2.7.2-c3",
+      "type": "find_the_move",
+      "fen": "8/4k3/8/P7/8/8/8/7K w - - 0 1",
+      "prompt": "The black king is outside the square. Start the pawn.",
+      "answer": {
+        "moves": [
+          "a6"
+        ]
+      },
+      "wrong": {
+        "Kg2": "A wasted move. Now the king does reach the square and your pawn is caught."
+      },
+      "concept": "rule-of-the-square",
+      "hints": {
+        "piece": "a5",
+        "square": "a6"
+      },
+      "reason": "a6 and the pawn queens. Every king move gives Black the tempo needed to step inside the square, and then the game is drawn instead of won."
+    },
+    {
+      "id": "2.7.2-c4",
+      "type": "find_the_move",
+      "fen": "8/5k2/8/1P6/8/8/8/7K w - - 0 1",
+      "prompt": "Check the corner, then move. The king on f7 is one file too far away.",
+      "answer": {
+        "moves": [
+          "b6"
+        ]
+      },
+      "wrong": {
+        "Kg2": "You gave Black the move, and Ke6 steps into the square. Drawn."
+      },
+      "concept": "rule-of-the-square",
+      "hints": {
+        "piece": "b5",
+        "square": "b6"
+      },
+      "reason": "b6. The box was b5-e5, the king was on f7, and that single file is the whole game. Push at once and nothing catches it."
+    },
+    {
+      "id": "2.7.2-c5",
+      "type": "name_the_pattern",
+      "fen": "8/8/8/1P2k3/8/8/8/7K b - - 0 1",
+      "prompt": "Black to move, king on e5, white pawn on b5. Can the king catch the pawn?",
+      "options": [
+        "Yes. e5 is the far corner of the pawn's square, so the king is inside it.",
+        "No. The pawn is already past the halfway line.",
+        "Only if the white king on h1 stays where it is."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "rule-of-the-square",
+      "hints": {
+        "text": "Draw the box from b5 and see which square the king is standing on."
+      },
+      "reason": "Inside, and on the corner exactly. The king catches the pawn in time and the game is drawn — the white king on h1 is far too distant to change anything."
+    },
+    {
+      "id": "2.7.2-c6",
+      "type": "find_the_sequence",
+      "fen": "8/4k3/8/P7/8/8/8/7K w - - 0 1",
+      "prompt": "Run it home. Push, let the king chase, push again.",
+      "answer": {
+        "line": [
+          "a6",
+          "Kd7",
+          "a7"
+        ]
+      },
+      "concept": "rule-of-the-square",
+      "hints": {
+        "piece": "a5",
+        "square": "a6"
+      },
+      "reason": "a6 and a7 and the pawn is one step from a queen. Black's king is running as fast as it can and still arrives a move late, which is exactly what the square predicted."
+    },
+    {
+      "id": "2.7.2-c7",
+      "type": "name_the_pattern",
+      "fen": "8/4k3/8/P7/8/8/8/7K w - - 0 1",
+      "prompt": "Why does drawing a box replace counting the race move by move?",
+      "options": [
+        "A king crosses a diagonal as fast as it crosses a file, so one box answers both distances at once.",
+        "Because pawns may never move backwards.",
+        "Because a king is not allowed onto the last rank while a pawn is running."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "rule-of-the-square",
+      "hints": {
+        "text": "Ask why a diagonal walk costs a king no more than a straight one."
+      },
+      "reason": "A king covers a file and a rank in the same move, so its diagonal distance to the queening square is just the larger of the two. The box reads that off for you."
+    }
+  ],
+  "takeaway": "Count the pawn's remaining moves, draw a box that size from the pawn, and look. King inside, pawn caught. King outside, push it."
+}
