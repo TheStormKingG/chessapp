@@ -1,0 +1,182 @@
+{
+  "id": "2.6.5",
+  "unit": "2.6",
+  "title": "The target position",
+  "xp": 12,
+  "card": {
+    "idea": "You do not need to memorise openings. You need a picture of what you are aiming at: pawns holding the middle, both knights and both bishops off the back rank, the king castled, and nothing left standing between your two rooks. Play towards that picture and you will have a good game.",
+    "diagrams": [
+      "r2q1rk1/pbpn1ppp/1p1bpn2/3p4/3P1B2/3BPN2/PPPNQPPP/R4RK1 w - - 2 9"
+    ],
+    "habit": "When an enemy bishop or knight lands on g4, g5, b4 or b5, ask it where it is going with the flank pawn."
+  },
+  "explain": [
+    {
+      "fen": "r2q1rk1/pbpn1ppp/1p1bpn2/3p4/3P1B2/3BPN2/PPPNQPPP/R4RK1 w - - 2 9",
+      "text": "This is the target. White's pawns hold d4 and e3, both knights and both bishops are off the back rank, the king has castled, and the squares between the rooks on a1 and f1 are empty, so the rooks defend each other. Every piece has somewhere to go.",
+      "highlights": [
+        "a1",
+        "f1",
+        "g1"
+      ]
+    },
+    {
+      "fen": "r1bq1rk1/p1pn1ppp/1p1bpn2/3p4/3P1B2/3BPN2/PPPN1PPP/R2Q1RK1 w - - 0 8",
+      "text": "White is one move from it. Everything is developed and the king has castled, but the queen still stands on d1, right between the two rooks. Step her off the back rank and the last job is done.",
+      "highlights": [
+        "d1",
+        "a1",
+        "f1"
+      ]
+    },
+    {
+      "fen": "rnbqk2r/ppp2ppp/3bpn2/3p4/3P1B2/4PN2/PPP2PPP/RN1QKB1R w KQkq - 1 5",
+      "text": "Early on it looks nothing like the target. White still has a knight on b1 and a bishop on f1, and the king is sitting in the middle. Every move from here should fix one of those three things rather than start something new.",
+      "highlights": [
+        "b1",
+        "f1",
+        "e1"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.6.5-c1",
+      "type": "find_the_sequence",
+      "fen": "rnbq1rk1/ppp2ppp/3bpn2/3p4/3P1B2/3BPN2/PPP2PPP/RN1QK2R w KQ - 3 6",
+      "prompt": "Three white moves finish the job: castle, bring the last knight out, then step the queen off the back rank so the rooks see each other.",
+      "answer": {
+        "line": [
+          "O-O",
+          "Nbd7",
+          "Nbd2",
+          "b6",
+          "Qe2"
+        ]
+      },
+      "concept": "target-position",
+      "hints": {
+        "piece": "e1",
+        "square": "g1"
+      },
+      "reason": "O-O, Nbd2, Qe2. Castle first, then the last minor piece, then the queen off the back rank. Nothing clever, and the position is finished."
+    },
+    {
+      "id": "2.6.5-c2",
+      "type": "which_square",
+      "fen": "r1bq1rk1/p1pn1ppp/1p1bpn2/3p4/3P1B2/3BPN2/PPPN1PPP/R2Q1RK1 w - - 0 8",
+      "prompt": "Tap the square your queen steps to, so that your two rooks see each other along the back rank.",
+      "answer": {
+        "square": "e2"
+      },
+      "concept": "target-position",
+      "hints": {
+        "piece": "d1"
+      },
+      "reason": "Qe2 is the only square off the back rank she has: c2 is her own pawn and d2 is her own knight. Now a1 and f1 defend each other."
+    },
+    {
+      "id": "2.6.5-c3",
+      "type": "find_them_all",
+      "fen": "r1bq1rk1/p1pn1ppp/1p1bpn2/3p4/3P1B2/3BPN2/PPPNQPPP/R4RK1 b - - 1 8",
+      "prompt": "Tap the two white rooks, which now have nothing between them and defend each other.",
+      "answer": {
+        "pieces": [
+          "a1",
+          "f1"
+        ]
+      },
+      "concept": "target-position",
+      "hints": {
+        "text": "Look along White's back rank and find the pieces at each end of the empty stretch."
+      },
+      "reason": "The rooks on a1 and f1. b1, c1, d1 and e1 are all empty, so each rook defends the other and either can swing to an open file."
+    },
+    {
+      "id": "2.6.5-c4",
+      "type": "which_square",
+      "fen": "r2q1rk1/pbpn1ppp/1p1bpn2/3p4/3P1B2/3BPN2/PPPNQPPP/R4RK1 w - - 2 9",
+      "prompt": "Black has everything out and has castled, but one black piece still stands between his own rooks. Tap it.",
+      "answer": {
+        "square": "d8"
+      },
+      "concept": "target-position",
+      "hints": {
+        "text": "Walk along Black's back rank from a8 to f8 and find the one square that is not empty."
+      },
+      "reason": "The queen on d8. Black is one move from the target too: move her and the rooks on a8 and f8 defend each other."
+    },
+    {
+      "id": "2.6.5-c5",
+      "type": "name_the_pattern",
+      "fen": "r2q1rk1/pbpn1ppp/1p1bpn2/3p4/3P1B2/3BPN2/PPPNQPPP/R4RK1 w - - 2 9",
+      "prompt": "White has reached what the whole opening was aiming at. Which list describes it?",
+      "options": [
+        "Pawns holding the middle, both knights and both bishops out, king castled, rooks with nothing between them.",
+        "Both rooks doubled on one file, the queen in front of them, and the pawns advanced on the wing.",
+        "Every pawn still at home and all the pieces lined up behind them."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "target-position",
+      "hints": {
+        "text": "Check each list against the board. Only one of them describes what you can see."
+      },
+      "reason": "Pawns on d4 and e3, knights on f3 and d2, bishops on f4 and d3, king on g1, and the rooks joined up on a1 and f1."
+    },
+    {
+      "id": "2.6.5-c6",
+      "type": "find_them_all",
+      "fen": "rnbqk2r/ppp2ppp/3bpn2/3p4/3P1B2/4PN2/PPP2PPP/RN1QKB1R w KQkq - 1 5",
+      "prompt": "Tap every white knight and bishop still sitting on the square it started on.",
+      "answer": {
+        "pieces": [
+          "b1",
+          "f1"
+        ]
+      },
+      "concept": "development",
+      "hints": {
+        "text": "One knight and one bishop are already out. Find the other two."
+      },
+      "reason": "The knight on b1 and the bishop on f1. Both have to come out before the rooks can ever join up."
+    },
+    {
+      "id": "2.6.5-c7",
+      "type": "is_it_safe",
+      "fen": "rnbqk2r/ppp2ppp/3bpn2/3p4/3P1B2/3BPN2/PPP2PPP/RN1QK2R b KQkq - 2 5",
+      "move": "O-O",
+      "prompt": "Black castles on the king's side. Is the king safe on g8?",
+      "reasons": [
+        "Yes. Three pawns that have never moved stand in front of it and no white piece attacks it.",
+        "No. The bishop on d3 gives check as soon as the king arrives.",
+        "No. The knight on f3 jumps to g5 and checks the king."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "castle-early",
+      "hints": {
+        "text": "Work out what the bishop on d3 and the knight on f3 actually attack near g8."
+      },
+      "reason": "f7, g7 and h7 are all still at home and nothing white reaches g8. The bishop on d3 hits h7, and a knight jumping to g5 would attack h7, f7 and e6."
+    },
+    {
+      "id": "2.6.5-c8",
+      "type": "which_square",
+      "fen": "rnbqk2r/ppp2ppp/3bpn2/3p4/3P1B2/3BPN2/PPP2PPP/RN1QK2R b KQkq - 2 5",
+      "prompt": "Tap the square Black's king lands on when he castles on the king's side.",
+      "answer": {
+        "square": "g8"
+      },
+      "concept": "castle-early",
+      "hints": {
+        "piece": "e8"
+      },
+      "reason": "g8. The king goes two squares towards the rook, and the rook on h8 hops over to f8."
+    }
+  ],
+  "takeaway": "Aim at the picture, not at a move list: pawns in the middle, four minor pieces out, king castled, rooks joined up."
+}

@@ -1,0 +1,199 @@
+{
+  "id": "2.6.2",
+  "unit": "2.6",
+  "title": "Do not move the same piece twice, do not bring the queen out early",
+  "xp": 12,
+  "card": {
+    "idea": "Every opening move should put a new piece on a new square. Moving one piece twice spends two moves to develop one piece. Bringing the queen out early is worse: she is chased by pieces worth a third of her, and each time she runs, your opponent has developed and you have not.",
+    "diagrams": [
+      "r1bqkb1r/pppp1p1p/2n2np1/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq - 2 5"
+    ],
+    "habit": "When an enemy bishop or knight lands on g4, g5, b4 or b5, ask it where it is going with the flank pawn."
+  },
+  "explain": [
+    {
+      "fen": "rnbqkbnr/pppp1ppp/8/4p2Q/4P3/8/PPPP1PPP/RNB1KBNR b KQkq - 1 2",
+      "text": "White has brought the queen to h5 on move two. She attacks the pawn on e5 along the rank and f7 along the diagonal, and for one move that looks frightening. The trouble is that every piece Black now develops can attack her, and she will have to move again.",
+      "arrows": [
+        [
+          "h5",
+          "e5"
+        ],
+        [
+          "h5",
+          "f7"
+        ]
+      ]
+    },
+    {
+      "fen": "r1bqkb1r/pppp1p1p/2n2np1/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq - 2 5",
+      "text": "Five moves later the queen has moved twice and stands on f3, where a knight would rather be. Black has two knights out and a pawn on g6 that chased her. White has one bishop developed. Black is ahead on the only count that matters here.",
+      "highlights": [
+        "c6",
+        "f6",
+        "f3"
+      ]
+    },
+    {
+      "fen": "r1bqk1nr/pppp1ppp/2n5/2b1p1N1/2B1P3/8/PPPP1PPP/RNBQK2R b KQkq - 5 4",
+      "text": "White has just moved the knight from f3 to g5 \u2014 the same piece twice, onto a square no white pawn or piece defends. The queen on d8 looks straight down the diagonal through e7 and f6, and simply takes it.",
+      "arrows": [
+        [
+          "d8",
+          "g5"
+        ]
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.6.2-c1",
+      "type": "which_square",
+      "fen": "rnbqkbnr/pppp1ppp/8/4p2Q/4P3/8/PPPP1PPP/RNB1KBNR b KQkq - 1 2",
+      "prompt": "The white queen attacks your pawn on e5. Tap the square your queen's knight goes to, so that it comes out and guards the pawn at the same time.",
+      "answer": {
+        "square": "c6"
+      },
+      "concept": "early-queen",
+      "hints": {
+        "piece": "b8"
+      },
+      "reason": "Nc6 develops a piece and defends e5 in one move. That is the answer to an early queen: develop, and make her move again."
+    },
+    {
+      "id": "2.6.2-c2",
+      "type": "find_the_move",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4Q3/4P3/8/PPPP1PPP/RNB1KBNR b KQkq - 0 3",
+      "prompt": "White's queen has just taken on e5, and it is check. Answer the check and win the queen.",
+      "answer": {
+        "moves": [
+          "Nxe5"
+        ]
+      },
+      "wrong": {
+        "Be7": "This blocks the check, but it leaves the queen alive and you have given up a pawn for nothing."
+      },
+      "concept": "early-queen",
+      "hints": {
+        "piece": "c6",
+        "square": "e5"
+      },
+      "reason": "Nxe5 answers the check by taking the checking piece. The queen was defended by nothing at all."
+    },
+    {
+      "id": "2.6.2-c3",
+      "type": "find_the_move",
+      "fen": "rnbqkbnr/pppp1p1p/6p1/4p2Q/4P3/8/PPPP1PPP/RNB1KBNR w KQkq - 0 3",
+      "prompt": "Black chased the queen with the g-pawn and left the long diagonal open behind it. Take the pawn with check, and hit the rook in the corner too.",
+      "answer": {
+        "moves": [
+          "Qxe5+"
+        ]
+      },
+      "wrong": {
+        "Qf3": "The queen retreats and Black has gained a move. Look along the fifth rank first."
+      },
+      "concept": "early-queen",
+      "hints": {
+        "piece": "h5",
+        "square": "e5"
+      },
+      "reason": "Qxe5 is check down the open e-file and it attacks the rook on h8 along e5-f6-g7-h8 at the same time."
+    },
+    {
+      "id": "2.6.2-c4",
+      "type": "find_the_move",
+      "fen": "r1bqkbnr/pppp1Qpp/2n5/4p3/4P3/8/PPPP1PPP/RNB1KBNR b KQkq - 0 3",
+      "prompt": "White has thrown the queen onto f7 with nothing defending her. You have exactly one legal move. Play it.",
+      "answer": {
+        "moves": [
+          "Kxf7"
+        ]
+      },
+      "concept": "early-queen",
+      "hints": {
+        "piece": "e8",
+        "square": "f7"
+      },
+      "reason": "Kxf7 is forced, and it wins the queen. An early queen sacrifice that nothing backs up is just a gift."
+    },
+    {
+      "id": "2.6.2-c5",
+      "type": "find_the_move",
+      "fen": "r1bqk1nr/pppp1ppp/2n5/2b1p1N1/2B1P3/8/PPPP1PPP/RNBQK2R b KQkq - 5 4",
+      "prompt": "White has moved the same knight twice, to a square nothing defends. Take it.",
+      "answer": {
+        "moves": [
+          "Qxg5"
+        ]
+      },
+      "wrong": {
+        "Nf6": "A sensible developing move on any other turn, but there is a free knight on g5 and you have just let it escape."
+      },
+      "concept": "piece-twice",
+      "hints": {
+        "piece": "d8",
+        "square": "g5"
+      },
+      "reason": "Qxg5 wins a whole knight. Nothing white attacks g5: the pawn on d2 blocks the bishop on c1, and no pawn covers it."
+    },
+    {
+      "id": "2.6.2-c6",
+      "type": "name_the_pattern",
+      "fen": "rnbqkb1r/pppp1ppp/5n2/4p3/4P3/1B6/PPPP1PPP/RNBQK1NR b KQkq - 3 3",
+      "prompt": "White has played the bishop to c4 and then straight on to b3, while Black brought a knight out. What has White given away?",
+      "options": [
+        "A move. The bishop has taken two turns to reach a square it could have reached in one, and Black is a developing move ahead.",
+        "A pawn, because the bishop on b3 no longer guards e4.",
+        "The right to castle, because the bishop has left f1."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "piece-twice",
+      "hints": {
+        "text": "Count how many white pieces are out, and how many moves it took."
+      },
+      "reason": "Two bishop moves have developed one piece. Black has a knight on f6 for one move, and it is Black to play."
+    },
+    {
+      "id": "2.6.2-c7",
+      "type": "find_them_all",
+      "fen": "r1bqkb1r/pppp1p1p/2n2np1/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq - 2 5",
+      "prompt": "Tap every black knight that has come out to a good square while the white queen was wandering about.",
+      "answer": {
+        "pieces": [
+          "c6",
+          "f6"
+        ]
+      },
+      "concept": "early-queen",
+      "hints": {
+        "text": "Both black knights have left the back rank."
+      },
+      "reason": "The knights on c6 and f6 both came out with a threat attached, and both of them were developed by chasing the queen."
+    },
+    {
+      "id": "2.6.2-c8",
+      "type": "is_it_safe",
+      "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
+      "move": "Qh5",
+      "prompt": "White brings the queen out to h5 on move two. Is she safe on h5?",
+      "reasons": [
+        "Yes, for now. Nothing black attacks h5 \u2014 but every move Black plays to chase her will develop a piece.",
+        "No. The pawn on g7 takes her.",
+        "No. The knight on g8 takes her."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "early-queen",
+      "hints": {
+        "text": "Black pawns capture downwards and sideways. Check which squares the g7 pawn really covers."
+      },
+      "reason": "She is safe, and that is the trap. The g7 pawn captures to f6 or h6, and the knight on g8 covers e7, f6 and h6 \u2014 not h5."
+    }
+  ],
+  "takeaway": "One piece, one move, one new square. Leave the queen at home until your knights and bishops are out and your king has castled."
+}
