@@ -70,9 +70,10 @@ test('a locked run states how long it is, and never says "Locked" per node', () 
   // it was a section heading printed twice; the counts differ, and the count is
   // the distance between the learner and the next thing that opens.
   //
-  // All six Section 1 units are built, and so is unit 2.1, so a fresh path has
-  // SEVEN locked runs, one per built unit, broken apart by the checkpoints
-  // between them (a built unit's checkpoint is attemptable, never locked).
+  // All six Section 1 units are built, and so are units 2.1 to 2.3, so a fresh
+  // path has NINE locked runs, one per built unit, broken apart by the
+  // checkpoints between them (a built unit's checkpoint is attemptable, never
+  // locked).
   // Asserting the whole sequence in path order pins both the counts and the
   // boundaries -- `getByText('5 locked')` could no longer be unambiguous once
   // three units run five lessons long.
@@ -88,11 +89,12 @@ test('a locked run states how long it is, and never says "Locked" per node', () 
     '3 locked',
     '5 locked',
     '4 locked',
+    '5 locked',
   ]);
-  // 37 locked lessons = Section 1's 29 plus unit 2.1's 5 and unit 2.2's 4,
+  // 42 locked lessons = Section 1's 29 plus unit 2.1's 5, 2.2's 4 and 2.3's 5,
   // minus the active one. A built unit's lessons are locked, not coming, so
   // each authoring pass moves one run from the list below into this one.
-  expect(runs.reduce((n, r) => n + Number(r!.split(' ')[0]), 0)).toBe(37);
+  expect(runs.reduce((n, r) => n + Number(r!.split(' ')[0]), 0)).toBe(42);
   expect(screen.queryAllByText('Locked until you get there')).toHaveLength(0);
   // Line 67's original guarantee, unchanged: the word is still never printed
   // once per node, which is what chunk C2 bought.
@@ -268,35 +270,35 @@ test('the meter counts the section it sits beside, not the whole path', () => {
 
 test('an unbuilt run counts per unit, and nothing in it is a link', () => {
   renderPath();
-  // Section 2's units 2.3 to 2.8 are unbuilt, so every one of their 33 nodes is
+  // Section 2's units 2.4 to 2.8 are unbuilt, so every one of their 27 nodes is
   // `coming`. They must NOT fuse into one boundary: a checkpoint is never
   // grouped, so each unit's lessons form their own groove and each unit's
   // checkpoint is its own row. The number a boundary prints is the distance to
-  // the next thing that opens, and 33 is the rest of the curriculum.
+  // the next thing that opens, and 27 is the rest of the curriculum.
   //
-  // SCOPED, not deleted, as each unit is flipped on: 2.1 and 2.2 are built, so
-  // they are locked-behind-Section-1 rather than coming, and both are asserted
-  // as real nodes below -- which is what stops the shrinking `coming` list
-  // from reading as "the screen rendered nothing".
+  // SCOPED, not deleted, as each unit is flipped on: 2.1 to 2.3 are built, so
+  // they are locked-behind-Section-1 rather than coming, and all three are
+  // asserted as real nodes below -- which is what stops the shrinking `coming`
+  // list from reading as "the screen rendered nothing".
   const coming = [...document.querySelectorAll('*')]
     .filter((el) => el.children.length === 0 && /^\d+ coming$/.test(el.textContent ?? ''))
     .map((el) => el.textContent);
-  expect(coming).not.toEqual(['33 coming']);
-  expect(coming).toHaveLength(6);
-  // The counts are per-unit lesson counts, and they account for all 27 lessons
-  // of units 2.3 to 2.8.
+  expect(coming).not.toEqual(['27 coming']);
+  expect(coming).toHaveLength(5);
+  // The counts are per-unit lesson counts, and they account for all 22 lessons
+  // of units 2.4 to 2.8.
   const counted = coming.reduce((n, h) => n + Number(h?.split(' ')[0]), 0);
-  // 27 lessons plus 6 checkpoints: a coming checkpoint stays inside its unit's
+  // 22 lessons plus 5 checkpoints: a coming checkpoint stays inside its unit's
   // groove, so the unit is one row rather than six.
-  expect(counted).toBe(33);
+  expect(counted).toBe(27);
   // No groove may exceed a unit: lesson.schema caps a unit's lessons well
   // under this, so a larger number means a run spanned a unit boundary again.
   for (const h of coming) expect(Number(h?.split(' ')[0])).toBeLessThanOrEqual(10);
   expect(
-    screen.getByLabelText('2.3.1 The absolute pin. Content coming'),
+    screen.getByLabelText('2.4.1 The back-rank weakness and making an escape square. Content coming'),
   ).toHaveAttribute('aria-disabled', 'true');
-  expect(screen.queryByRole('link', { name: /^2\.[3-8]/ })).toBeNull();
-  // Units 2.1 and 2.2 are built: their first lessons are real nodes with real
+  expect(screen.queryByRole('link', { name: /^2\.[4-8]/ })).toBeNull();
+  // Units 2.1 to 2.3 are built: their first lessons are real nodes with real
   // names, not "Content coming" placeholders.
   expect(
     screen.queryByLabelText(/^2\.1\.1 .*Content coming$/),
@@ -304,5 +306,9 @@ test('an unbuilt run counts per unit, and nothing in it is a link', () => {
   expect(
     screen.queryByLabelText(/^2\.2\.1 .*Content coming$/),
   ).toBeNull();
+  expect(
+    screen.queryByLabelText(/^2\.3\.1 .*Content coming$/),
+  ).toBeNull();
   expect(screen.getByLabelText(/^2\.2\.1 The knight fork/)).toBeInTheDocument();
+  expect(screen.getByLabelText(/^2\.3\.1 The absolute pin/)).toBeInTheDocument();
 });

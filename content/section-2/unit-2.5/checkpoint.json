@@ -1,0 +1,488 @@
+{
+  "unit": "2.5",
+  "title": "Discovered attacks",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "2.5-k01",
+      "type": "find_the_move",
+      "fen": "rnq3kr/pp1ppppp/3n4/2P5/8/8/PP1PPPPP/R1RQ1BK1 w - - 0 1",
+      "prompt": "The pawn on c5 is standing in front of your rook on c1. Win a piece.",
+      "answer": {
+        "moves": [
+          "cxd6"
+        ]
+      },
+      "concept": "discovered-attack",
+      "reason": "cxd6 takes the knight and opens the c-file on to the queen on c8. exd6 answers, but then Rxc8 wins her."
+    },
+    {
+      "id": "2.5-k02",
+      "type": "find_the_move",
+      "fen": "rrb1q1k1/ppp2ppp/3b4/4P3/8/8/PP3PPP/RNBQR1K1 w - - 0 1",
+      "prompt": "The pawn on e5 hides your rook on e1 from the black queen on e8. Win a piece.",
+      "answer": {
+        "moves": [
+          "exd6"
+        ]
+      },
+      "concept": "discovered-attack",
+      "reason": "exd6 takes the bishop and opens the file. cxd6 would hand over the queen to Rxe8."
+    },
+    {
+      "id": "2.5-k03",
+      "type": "find_the_move",
+      "fen": "rrbq2k1/ppp2ppp/4n3/3P4/8/8/PPP1QPPP/RNBR2K1 w - - 0 1",
+      "prompt": "Your rook on d1 is behind your own pawn on d5. Take the knight.",
+      "answer": {
+        "moves": [
+          "dxe6"
+        ]
+      },
+      "concept": "discovered-attack",
+      "reason": "dxe6 wins the knight and opens the d-file. The knight was the queen's only guard, so fxe6 runs into Rxd8."
+    },
+    {
+      "id": "2.5-k04",
+      "type": "find_the_move",
+      "fen": "rrbq3k/ppp2ppp/8/3N4/4Pn2/8/PPP1QPPP/R2R1BK1 w - - 0 1",
+      "prompt": "Your knight on d5 is standing in your own rook's way. Move it, and take something as you go.",
+      "answer": {
+        "moves": [
+          "Nxf4"
+        ]
+      },
+      "concept": "discovered-attack",
+      "reason": "Nxf4 wins the knight on f4 and turns the rook on d1 on to the queen on d8 at the same moment."
+    },
+    {
+      "id": "2.5-k05",
+      "type": "which_square",
+      "fen": "rrbq3k/ppp2ppp/1b6/3N4/4P3/8/PPP1QPPP/R1BR2K1 w - - 0 1",
+      "prompt": "Tap the white piece that attacks the black queen the moment the knight on d5 moves away.",
+      "answer": {
+        "square": "d1"
+      },
+      "concept": "discovered-attack",
+      "reason": "The rook on d1. It is already on the queen's file, with only your own knight in the way."
+    },
+    {
+      "id": "2.5-k06",
+      "type": "name_the_pattern",
+      "fen": "rrb1q1k1/ppp2ppp/3n4/4P3/8/8/PP3PPP/RNBQR1K1 w - - 0 1",
+      "prompt": "White plays exd6 and Black recaptures cxd6. What has Black overlooked?",
+      "options": [
+        "The rook on e1 now takes the queen on e8 for nothing.",
+        "The pawn on c7 was pinned and was not allowed to capture.",
+        "The queen on e8 was already guarded twice."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "discovered-attack",
+      "reason": "The knight on d6 was the queen's only guard. Once the pawn takes its place the queen is alone on an open file."
+    },
+    {
+      "id": "2.5-k07",
+      "type": "is_it_safe",
+      "fen": "rrbq2k1/ppp2ppp/4n3/3P4/8/8/PPP1QPPP/RNBR2K1 w - - 0 1",
+      "move": "Qxe6",
+      "prompt": "White takes the knight with the queen instead of the pawn. Is she safe on e6?",
+      "reasons": [
+        "Yes. Nothing black covers e6.",
+        "No. The pawn on f7 takes her.",
+        "No. The rook on b8 takes her."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "discovered-attack",
+      "reason": "The pawn on f7 guards e6, and so does the bishop on c8. dxe6 wins the same piece and keeps the queen."
+    },
+    {
+      "id": "2.5-k08",
+      "type": "find_them_all",
+      "fen": "rrbq3k/ppp2ppp/8/3N4/4Pb2/8/PPP1QPPP/R2R1BK1 w - - 0 1",
+      "prompt": "Tap the two white pieces that are standing on the d-file.",
+      "answer": {
+        "pieces": [
+          "d1",
+          "d5"
+        ]
+      },
+      "concept": "discovered-attack",
+      "reason": "The rook on d1 and the knight on d5. The knight is the door; the rook is the attack behind it."
+    },
+    {
+      "id": "2.5-k09",
+      "type": "which_square",
+      "fen": "rrb1q1k1/ppp2ppp/3b4/4P3/8/8/PP3PPP/RNBQR1K1 w - - 0 1",
+      "prompt": "Tap the black piece that comes under attack the moment the pawn on e5 captures.",
+      "answer": {
+        "square": "e8"
+      },
+      "concept": "discovered-attack",
+      "reason": "The queen on e8. She is on the same file as the rook on e1, and only the white pawn is in between."
+    },
+    {
+      "id": "2.5-k10",
+      "type": "which_square",
+      "fen": "rnq3kr/pp1ppppp/3n4/2P5/8/8/PP1PPPPP/R1RQ1BK1 w - - 0 1",
+      "prompt": "Tap the white rook that is waiting behind the pawn on c5.",
+      "answer": {
+        "square": "c1"
+      },
+      "concept": "discovered-attack",
+      "reason": "The rook on c1. The pawn is the only thing between it and the black queen on c8."
+    },
+    {
+      "id": "2.5-k11",
+      "type": "which_square",
+      "fen": "rrbq2k1/ppp2ppp/4n3/3P4/8/8/PPP1QPPP/RNBR2K1 w - - 0 1",
+      "prompt": "Tap the square your pawn on d5 should capture on.",
+      "answer": {
+        "square": "e6"
+      },
+      "concept": "discovered-attack",
+      "reason": "e6. The pawn takes a knight and steps off the d-file, so the rook on d1 hits the queen."
+    },
+    {
+      "id": "2.5-k12",
+      "type": "name_the_pattern",
+      "fen": "rrbq3k/ppp2ppp/8/3N4/4Pn2/8/PPP1QPPP/R2R1BK1 w - - 0 1",
+      "prompt": "Every move the knight on d5 makes opens the d-file. What decides which one to play?",
+      "options": [
+        "Play the one that wins something as it goes.",
+        "Play the one that takes the knight furthest from your own king.",
+        "Any of them is equally good, because the file opens either way."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "discovered-attack",
+      "reason": "The file opens whatever the knight does, so the knight's own move is free. Spend it on a capture."
+    },
+    {
+      "id": "2.5-k13",
+      "type": "find_the_move",
+      "fen": "rnb1kb1r/pppp1ppp/2q5/4N3/8/3B4/PPPP1PPP/R1BQR1K1 w kq - 0 1",
+      "prompt": "The black queen on c6 is guarded three times. Take her anyway.",
+      "answer": {
+        "moves": [
+          "Nxc6+"
+        ]
+      },
+      "concept": "discovered-check",
+      "reason": "Nxc6 uncovers the rook's check on e8. Every one of the three guards would have to ignore the check, so none of them may take."
+    },
+    {
+      "id": "2.5-k14",
+      "type": "find_the_move",
+      "fen": "rnbqkb1r/pppp1ppp/6n1/4N3/8/3B4/PPPP1PPP/R1BQR1K1 w kq - 0 1",
+      "prompt": "Win the black knight on g6.",
+      "answer": {
+        "moves": [
+          "Nxg6+"
+        ]
+      },
+      "concept": "discovered-check",
+      "reason": "Nxg6 opens the rook's check on the king, so neither the f7 nor the h7 pawn may take back."
+    },
+    {
+      "id": "2.5-k15",
+      "type": "find_the_move",
+      "fen": "rnb1kb1r/pppp1ppp/6q1/4N3/8/8/PPPP1PPP/RN1RQBK1 w kq - 0 1",
+      "prompt": "Your queen on e1 is aimed down the file at the black king. Move the knight and win the black queen.",
+      "answer": {
+        "moves": [
+          "Nxg6+"
+        ]
+      },
+      "concept": "discovered-check",
+      "reason": "It does not have to be a rook behind. Nxg6 uncovers the white queen's check, and the pawns on f7 and h7 may not recapture."
+    },
+    {
+      "id": "2.5-k16",
+      "type": "which_square",
+      "fen": "rnb1kb1r/pppp1ppp/2q5/4N3/8/3B4/PPPP1PPP/R1BQR1K1 w kq - 0 1",
+      "prompt": "Tap the white piece that is hiding the rook on e1 from the black king.",
+      "answer": {
+        "square": "e5"
+      },
+      "concept": "discovered-check",
+      "reason": "The knight on e5. While it stands there the king is safe; the moment it moves, the rook is giving check."
+    },
+    {
+      "id": "2.5-k17",
+      "type": "name_the_pattern",
+      "fen": "rnb1kb1r/pppp1ppp/2q5/4N3/8/3B4/PPPP1PPP/R1BQR1K1 w kq - 0 1",
+      "prompt": "After Nxc6, why can Black not reply bxc6?",
+      "options": [
+        "The king on e8 is in check, and bxc6 does not answer the check.",
+        "The pawn on b7 is pinned by the bishop on d3.",
+        "bxc6 is not a legal pawn capture."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "discovered-check",
+      "reason": "A move made while your king is in check has to deal with the check. Taking on c6 leaves the rook still attacking e8."
+    },
+    {
+      "id": "2.5-k18",
+      "type": "is_it_safe",
+      "fen": "rnbqkb1r/pppp1ppp/6n1/4N3/8/3B4/PPPP1PPP/R1BQR1K1 w kq - 0 1",
+      "move": "Nxf7+",
+      "prompt": "White takes the pawn on f7 with the same idea. Is the knight safe there?",
+      "reasons": [
+        "Yes. Black is in check, so nothing may capture it.",
+        "No. The king on e8 takes it and answers the check in the same move.",
+        "No. The pawn on g7 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "discovered-check",
+      "reason": "Kxf7 steps off the e-file and captures at once, so it is a legal answer to the check. g6 was the square, not f7."
+    },
+    {
+      "id": "2.5-k19",
+      "type": "which_square",
+      "fen": "rnb1kb1r/pppq1ppp/8/4N3/8/3B4/PPPP1PPP/R1BQR1K1 w kq - 0 1",
+      "prompt": "Tap the black piece that is lost as soon as the knight on e5 moves with check.",
+      "answer": {
+        "square": "d7"
+      },
+      "concept": "discovered-check",
+      "reason": "The queen on d7. The knight can reach her, and the check behind it stops anything taking back."
+    },
+    {
+      "id": "2.5-k20",
+      "type": "name_the_pattern",
+      "fen": "rnb1kb1r/pppq1ppp/8/4N3/8/3B4/PPPP1PPP/R1BQR1K1 w kq - 0 1",
+      "prompt": "The queen on d7 is guarded by a bishop, a knight and the king. Why is she still lost after Nxd7?",
+      "options": [
+        "Only the king can capture and answer the check at once, and that is a queen for a knight.",
+        "The bishop on c8 is pinned to the king.",
+        "The knight on b8 has no legal moves."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "discovered-check",
+      "reason": "Guards are only guards if they are allowed to move. Two of these three are not, while the king is in check."
+    },
+    {
+      "id": "2.5-k21",
+      "type": "name_the_pattern",
+      "fen": "rn2kbnr/ppqp1ppp/8/4B3/8/5N2/PPPP1PPP/RN1QR1K1 w kq - 0 1",
+      "prompt": "The bishop on e5 hides the rook on e1 from the king on e8. What does Bxc7 do?",
+      "options": [
+        "It takes the queen and uncovers the rook's check in one move.",
+        "It gives check with the bishop itself.",
+        "It defends the rook on e1."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "discovered-check",
+      "reason": "The bishop on c7 is not attacking the king at all. The check comes from the rook it has just stopped blocking."
+    },
+    {
+      "id": "2.5-k22",
+      "type": "which_square",
+      "fen": "rnb1kb1r/pppp1ppp/6q1/4N3/8/8/PPPP1PPP/RN1RQBK1 w kq - 0 1",
+      "prompt": "Tap the white piece that gives check the moment the knight leaves e5.",
+      "answer": {
+        "square": "e1"
+      },
+      "concept": "discovered-check",
+      "reason": "The queen on e1. The piece hiding behind the front man does not have to be a rook."
+    },
+    {
+      "id": "2.5-k23",
+      "type": "is_it_safe",
+      "fen": "rnb1kb1r/pppp1ppp/6q1/4N3/8/8/PPPP1PPP/RN1RQBK1 w kq - 0 1",
+      "move": "Nxd7+",
+      "prompt": "White takes the pawn on d7 instead of the queen. Is the knight safe there?",
+      "reasons": [
+        "Yes. Black is in check, so nothing may capture it.",
+        "No. The king on e8 takes it and answers the check at the same time.",
+        "No. The rook on h8 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "discovered-check",
+      "reason": "The king is next to d7, so Kxd7 captures and leaves the file in one move. A pawn was not worth the knight."
+    },
+    {
+      "id": "2.5-k24",
+      "type": "name_the_pattern",
+      "fen": "rnbqkb1r/pppp1ppp/6n1/4N3/8/3B4/PPPP1PPP/R1BQR1K1 w kq - 0 1",
+      "prompt": "White plays Nxg6. Which of these is true?",
+      "options": [
+        "Black is in check from the rook, so neither pawn may take the knight.",
+        "Black may reply hxg6 and come out a piece ahead.",
+        "The knight on g6 is the piece giving the check."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "discovered-check",
+      "reason": "The check comes from the rook on e1 down the open file. The knight is only the piece that stopped blocking it."
+    },
+    {
+      "id": "2.5-k25",
+      "type": "find_the_move",
+      "fen": "1n3rk1/pppr1ppp/8/8/8/8/PPPR1PPP/3Q2K1 w - - 0 1",
+      "prompt": "The rook on d2 and the queen on d1 are lined up on the same file. Win material.",
+      "answer": {
+        "moves": [
+          "Rxd7"
+        ]
+      },
+      "concept": "battery",
+      "reason": "Rxd7 Nxd7 Qxd7. You give a rook and take a rook and a knight, which is a piece ahead."
+    },
+    {
+      "id": "2.5-k26",
+      "type": "find_the_move",
+      "fen": "5rk1/pp3ppp/5n2/3r4/8/8/PP1R1PPP/3Q2K1 w - - 0 1",
+      "prompt": "The black rook on d5 has one guard and you have two attackers on the file. Win material.",
+      "answer": {
+        "moves": [
+          "Rxd5"
+        ]
+      },
+      "concept": "battery",
+      "reason": "Rxd5 Nxd5 Qxd5. Two attackers against one defender wins the extra piece."
+    },
+    {
+      "id": "2.5-k27",
+      "type": "find_them_all",
+      "fen": "1n3rk1/pppr1ppp/8/8/8/8/PPPR1PPP/3Q2K1 w - - 0 1",
+      "prompt": "Tap the two white pieces that are lined up one behind the other on the d-file.",
+      "answer": {
+        "pieces": [
+          "d1",
+          "d2"
+        ]
+      },
+      "concept": "battery",
+      "reason": "The queen on d1 and the rook on d2. The rook goes in first and the queen takes over."
+    },
+    {
+      "id": "2.5-k28",
+      "type": "which_square",
+      "fen": "1n3rk1/pppr1ppp/8/8/8/8/PPP2RPP/3R2K1 w - - 0 1",
+      "prompt": "Tap the only square on the d-file that the rook on f2 can reach.",
+      "answer": {
+        "square": "d2"
+      },
+      "concept": "battery",
+      "reason": "d2. It slides along the second rank and lands directly in front of the rook on d1."
+    },
+    {
+      "id": "2.5-k29",
+      "type": "name_the_pattern",
+      "fen": "5rk1/pp3ppp/5n2/3r4/8/8/PP1R1PPP/3R2K1 w - - 0 1",
+      "prompt": "The rook on d5 is guarded once, by the knight on f6. Why does Rxd5 win material?",
+      "options": [
+        "Two attackers against one defender: the second rook takes again.",
+        "The knight on f6 is pinned and cannot recapture.",
+        "The rook on d5 has no square to run to."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "battery",
+      "reason": "Count attackers and defenders before you capture. Two against one wins whatever is standing there."
+    },
+    {
+      "id": "2.5-k30",
+      "type": "which_square",
+      "fen": "5rk1/pp3ppp/5n2/3r4/8/8/PP1R1PPP/3R2K1 w - - 0 1",
+      "prompt": "Tap the black piece that is guarding the rook on d5.",
+      "answer": {
+        "square": "f6"
+      },
+      "concept": "battery",
+      "reason": "The knight on f6. It is the only defender, which is why two attackers are enough."
+    },
+    {
+      "id": "2.5-k31",
+      "type": "is_it_safe",
+      "fen": "5rk1/pp3ppp/5n2/3r4/8/8/PP1R1PPP/3Q2K1 w - - 0 1",
+      "move": "Rxd5",
+      "prompt": "White captures on d5. Is the rook safe there?",
+      "reasons": [
+        "Yes. Nothing attacks d5 any more.",
+        "No. The knight on f6 takes it, and the queen on d1 takes back.",
+        "No. The rook on f8 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "battery",
+      "reason": "It is not safe, and it does not need to be. The piece behind it recaptures and you come out a knight ahead."
+    },
+    {
+      "id": "2.5-k32",
+      "type": "which_square",
+      "fen": "5rk1/5ppp/8/8/pp6/PP6/3Q1PPP/3R2K1 w - - 0 1",
+      "prompt": "Tap the white piece standing behind the queen on d2.",
+      "answer": {
+        "square": "d1"
+      },
+      "concept": "battery",
+      "reason": "The rook on d1. Because it is there, the queen may walk into d8 where the rook on f8 can take her."
+    },
+    {
+      "id": "2.5-k33",
+      "type": "name_the_pattern",
+      "fen": "1n3rk1/pppr1ppp/8/8/8/8/PPP2RPP/3R2K1 w - - 0 1",
+      "prompt": "What does moving the rook from f2 to d2 achieve?",
+      "options": [
+        "It adds a second attacker to the black rook on d7.",
+        "It puts the black king on g8 in check.",
+        "It stops the knight on b8 from moving."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "battery",
+      "reason": "One attacker against one defender is nothing. Two against one wins the rook on d7."
+    },
+    {
+      "id": "2.5-k34",
+      "type": "which_square",
+      "fen": "1n3rk1/pppr1ppp/8/8/8/8/PPPR1PPP/2BR2K1 w - - 0 1",
+      "prompt": "Tap the white rook that does the capturing on d7 first.",
+      "answer": {
+        "square": "d2"
+      },
+      "concept": "battery",
+      "reason": "The rook on d2, the one in front. The rook on d1 waits behind it and takes back afterwards."
+    },
+    {
+      "id": "2.5-k35",
+      "type": "find_them_all",
+      "fen": "5rk1/pp3ppp/5n2/3r4/8/8/PP1R1PPP/3R2K1 w - - 0 1",
+      "prompt": "Tap the two white pieces that share the d-file.",
+      "answer": {
+        "pieces": [
+          "d1",
+          "d2"
+        ]
+      },
+      "concept": "battery",
+      "reason": "The rooks on d1 and d2. Between them they attack d5 twice, and only the knight on f6 defends it."
+    }
+  ]
+}

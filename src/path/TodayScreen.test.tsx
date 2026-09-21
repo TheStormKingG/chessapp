@@ -61,6 +61,7 @@ test('the terminal message appears only when everything built is finished', () =
     '1.6',
     '2.1',
     '2.2',
+    '2.3',
   ]);
   for (const u of built) {
     finished.units[u.id] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };

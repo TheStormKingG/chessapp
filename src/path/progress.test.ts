@@ -175,8 +175,8 @@ test('all of a unit\'s lessons done but not passed: the checkpoint is the curren
 });
 
 test('finishing everything built leaves no active lesson', () => {
-  // "Everything built" is all six Section 1 units plus units 2.1 and 2.2, so
-  // this holds past the section boundary -- 2.2's checkpoint is now the last
+  // "Everything built" is all six Section 1 units plus units 2.1 to 2.3, so
+  // this holds past the section boundary -- 2.3's checkpoint is now the last
   // thing built, and the list is spelled out so that a unit flipped on without
   // this test being revisited fails here rather than silently shrinking what
   // "everything" means.
@@ -189,6 +189,7 @@ test('finishing everything built leaves no active lesson', () => {
     '1.6',
     '2.1',
     '2.2',
+    '2.3',
   ]);
   expect(activeLesson(allUnitsPassed())).toBeNull();
   expect(activeNode(allUnitsPassed())).toBeNull();
@@ -202,23 +203,23 @@ test('the path walks every declared section, in path order', () => {
   expect([...new Set(nodes.map((n) => n.section))]).toEqual(['1', '2']);
   expect(nodes.filter((n) => n.kind === 'lesson')).toHaveLength(29 + 36);
   expect(nodes.filter((n) => n.kind === 'checkpoint')).toHaveLength(6 + 8);
-  // Every Section 2 unit BUT 2.1 and 2.2 is declared unbuilt, so all of those
+  // Every Section 2 unit BUT 2.1 to 2.3 is declared unbuilt, so all of those
   // read as coming -- lessons and checkpoints alike -- and none of them can
   // steal the active node. SCOPED rather than deleted as each unit ships: the
   // rule is "unauthored content is un-attemptable", which a built unit does
   // not contradict.
-  const BUILT = ['2.1', '2.2'];
+  const BUILT = ['2.1', '2.2', '2.3'];
   const s2 = nodes.filter((n) => n.section === '2');
   expect(s2).toHaveLength(36 + 8);
   const unbuilt = s2.filter((n) => !BUILT.includes(n.unit));
   // Negative control: an empty result below must not mean an empty filter.
-  expect(unbuilt).toHaveLength(27 + 6);
+  expect(unbuilt).toHaveLength(22 + 5);
   expect(unbuilt.filter((n) => n.state !== 'coming')).toEqual([]);
-  // 2.1 and 2.2 are built, so they are locked behind Section 1 rather than
+  // 2.1 to 2.3 are built, so they are locked behind Section 1 rather than
   // coming -- and the control is non-empty, so "none are coming" cannot pass
   // by matching nothing.
   const builtNodes = s2.filter((n) => BUILT.includes(n.unit));
-  expect(builtNodes).toHaveLength(11);
+  expect(builtNodes).toHaveLength(17);
   expect(builtNodes.filter((n) => n.state === 'coming')).toEqual([]);
   expect(nodes.filter((n) => n.state === 'active')).toHaveLength(1);
 });

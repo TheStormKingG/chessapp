@@ -1,0 +1,188 @@
+{
+  "id": "2.4.4",
+  "unit": "2.4",
+  "title": "Smothered mate, the pattern",
+  "xp": 13,
+  "card": {
+    "idea": "Sometimes a king is not merely short of squares, it has none at all, because its own pieces stand on every one. Then no ordinary check works, because anything that comes close enough can be taken. A knight does not need to come close, and it cannot be blocked.",
+    "diagrams": [
+      "6rk/6pp/8/6N1/8/8/2r2PPP/6K1 w - - 0 1"
+    ],
+    "habit": "Make an escape square for your king after you have developed."
+  },
+  "explain": [
+    {
+      "fen": "6rk/6pp/8/6N1/8/8/2r2PPP/6K1 w - - 0 1",
+      "text": "Count the black king's squares. g8 is its own rook, g7 and h7 are its own pawns. It has none. The knight hops to f7 and gives check from a square no black man attacks, so there is no move, no block and no capture.",
+      "arrows": [
+        [
+          "g5",
+          "f7"
+        ]
+      ],
+      "highlights": [
+        "g7",
+        "g8",
+        "h7"
+      ]
+    },
+    {
+      "fen": "kr6/pp6/8/1N6/8/8/3r1PPP/6K1 w - - 0 1",
+      "text": "The same picture in the other corner. The rook on b8 and the pawns on a7 and b7 do the smothering, and the knight comes to c7. Black's own pieces built the cage, which is what makes this one worth knowing.",
+      "arrows": [
+        [
+          "b5",
+          "c7"
+        ]
+      ],
+      "highlights": [
+        "a7",
+        "b7",
+        "b8"
+      ]
+    },
+    {
+      "fen": "6nk/6pp/8/6N1/8/8/2r2PPP/6K1 w - - 0 1",
+      "text": "It need not be a rook on g8: a knight there shuts the king in just as well. After you castle, look at your own king and ask which of your pieces are standing on the squares it might want.",
+      "highlights": [
+        "g8",
+        "g7",
+        "h7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.4.4-c1",
+      "type": "find_them_all",
+      "fen": "6rk/6pp/8/6N1/8/8/2r2PPP/6K1 w - - 0 1",
+      "prompt": "Tap every black man standing on a square its own king could otherwise use.",
+      "answer": {
+        "pieces": [
+          "g7",
+          "g8",
+          "h7"
+        ]
+      },
+      "concept": "smothered-mate",
+      "hints": {
+        "text": "The king is on h8. Name its neighbours one by one."
+      },
+      "reason": "g7, g8 and h7 are the king's only neighbours, and all three are its own men."
+    },
+    {
+      "id": "2.4.4-c2",
+      "type": "name_the_pattern",
+      "fen": "6rk/6pp/8/6N1/8/8/2r2PPP/6K1 w - - 0 1",
+      "prompt": "The black king has no square at all. Why is a knight the only piece that can mate it here?",
+      "options": [
+        "A knight checks from a square nothing black attacks, and it cannot be blocked.",
+        "A knight is worth less than a rook, so it is allowed to stand closer.",
+        "Any piece would mate. The king has no squares, so any check ends it."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "smothered-mate",
+      "hints": {
+        "text": "Try giving the check with a rook or a queen instead and see what Black replies."
+      },
+      "reason": "A rook or a queen has to come to a square Black can answer. A knight lands on f7, which nothing black covers."
+    },
+    {
+      "id": "2.4.4-c3",
+      "type": "which_square",
+      "fen": "6rk/6pp/8/6N1/8/8/2r2PPP/6K1 w - - 0 1",
+      "prompt": "Tap the square your knight goes to in order to give mate.",
+      "answer": {
+        "square": "f7"
+      },
+      "concept": "smothered-mate",
+      "hints": {
+        "piece": "g5"
+      },
+      "reason": "From f7 the knight attacks h8, and nothing black attacks f7."
+    },
+    {
+      "id": "2.4.4-c4",
+      "type": "find_the_move",
+      "fen": "6rk/6pp/8/6N1/8/8/2r2PPP/6K1 w - - 0 1",
+      "prompt": "Mate in one.",
+      "answer": {
+        "moves": [
+          "Nf7#"
+        ]
+      },
+      "wrong": {
+        "Nh3": "The knight has wandered off, and Black mates you on c1 next move."
+      },
+      "concept": "smothered-mate",
+      "hints": {
+        "piece": "g5",
+        "square": "f7"
+      },
+      "reason": "Nf7 is mate. The king has no square of its own, and nothing black reaches f7."
+    },
+    {
+      "id": "2.4.4-c5",
+      "type": "is_it_safe",
+      "fen": "6rk/6pp/8/6N1/8/8/2r2PPP/6K1 w - - 0 1",
+      "move": "Nf7#",
+      "prompt": "White drops the knight on f7, right beside the black king. Is the knight safe there?",
+      "reasons": [
+        "Yes. Nothing black attacks f7. The pawns capture the other way.",
+        "No. The pawn on g7 takes it.",
+        "No. The rook on g8 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "smothered-mate",
+      "hints": {
+        "text": "A black pawn on g7 captures to f6 and h6."
+      },
+      "reason": "Black pawns capture towards the first rank, so g7 hits f6 and h6. The rook on g8 covers the g-file and the eighth rank, not f7."
+    },
+    {
+      "id": "2.4.4-c6",
+      "type": "find_the_move",
+      "fen": "kr6/pp6/8/1N6/8/8/3r1PPP/6K1 w - - 0 1",
+      "prompt": "The same cage in the other corner. Mate in one.",
+      "answer": {
+        "moves": [
+          "Nc7#"
+        ]
+      },
+      "wrong": {
+        "Nd6": "A fine square for a knight, and Black mates you on d1 while you admire it."
+      },
+      "concept": "smothered-mate",
+      "hints": {
+        "piece": "b5",
+        "square": "c7"
+      },
+      "reason": "Nc7 attacks a8, and a7, b7 and b8 are all Black's own men. Nothing reaches c7."
+    },
+    {
+      "id": "2.4.4-c7",
+      "type": "name_the_pattern",
+      "fen": "6nk/6pp/8/6N1/8/8/2r2PPP/6K1 w - - 0 1",
+      "prompt": "The rook on g8 has been swapped for a knight. Does the mate still work?",
+      "options": [
+        "Yes. What matters is that the square is occupied, not which piece is on it.",
+        "No. Only a rook can shut a king in like this.",
+        "No, because a knight on g8 defends f7."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "smothered-mate",
+      "hints": {
+        "text": "Work out where a black knight on g8 can actually go."
+      },
+      "reason": "A knight on g8 reaches e7, f6 and h6, so it does not cover f7. The king still has no square, and Nf7 is still mate."
+    }
+  ],
+  "takeaway": "When a king has no squares because of its own pieces, a knight is the piece that mates it. Look for the same cage around your own king."
+}

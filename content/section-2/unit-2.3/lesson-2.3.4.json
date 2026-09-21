@@ -79,7 +79,7 @@
       "id": "2.3.4-c4",
       "type": "find_them_all",
       "fen": "8/pp4r1/8/8/3k4/8/5PPP/2B3K1 w - - 0 1",
-      "prompt": "Tap the two black pieces that are standing on the same diagonal as each other.",
+      "prompt": "Tap the two black pieces that are standing on the long dark diagonal, the one from b2 to h8.",
       "answer": { "pieces": ["d4", "g7"] },
       "concept": "skewer",
       "hints": {

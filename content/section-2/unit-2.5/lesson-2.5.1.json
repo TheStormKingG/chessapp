@@ -1,0 +1,214 @@
+{
+  "id": "2.5.1",
+  "unit": "2.5",
+  "title": "Discovered attack",
+  "xp": 12,
+  "card": {
+    "idea": "One piece steps aside and a different piece behind it does the damage. The piece that moves is only the door. Every square it goes to opens the line, so pick the square that wins something on the way as well.",
+    "diagrams": [
+      "rrbq3k/ppp2ppp/1b6/3N4/4P3/8/PPP1QPPP/R1BR2K1 w - - 0 1"
+    ]
+  },
+  "explain": [
+    {
+      "fen": "rrbq3k/ppp2ppp/1b6/3N4/4P3/8/PPP1QPPP/R1BR2K1 w - - 0 1",
+      "text": "Your rook on d1 is looking at the black queen on d8, and your own knight on d5 is the only thing in the way. Move the knight and the rook's attack switches on. The knight is not the piece attacking the queen. It only has to leave.",
+      "arrows": [
+        [
+          "d1",
+          "d8"
+        ]
+      ],
+      "highlights": [
+        "d5"
+      ]
+    },
+    {
+      "fen": "rrbq3k/ppp2ppp/1b6/3N4/4P3/8/PPP1QPPP/R1BR2K1 w - - 0 1",
+      "text": "So send the knight somewhere it also does harm. Nxb6 takes a bishop and opens the file in the same move. The pawns on a7 and c7 do guard b6, but axb6 lets the rook come to d8, and that is mate.",
+      "arrows": [
+        [
+          "d5",
+          "b6"
+        ],
+        [
+          "d1",
+          "d8"
+        ]
+      ],
+      "highlights": [
+        "b6"
+      ]
+    },
+    {
+      "fen": "rrb1q1k1/ppp2ppp/3n4/4P3/8/8/PP3PPP/RNBQR1K1 w - - 0 1",
+      "text": "A pawn can be the door too. The pawn on e5 hides your rook on e1 from the black queen on e8. exd6 wins the knight, and cxd6 does not save Black: the knight on d6 was the queen's only guard, so Rxe8 follows.",
+      "arrows": [
+        [
+          "e1",
+          "e8"
+        ],
+        [
+          "e5",
+          "d6"
+        ]
+      ],
+      "highlights": [
+        "e5"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.5.1-c1",
+      "type": "which_square",
+      "fen": "rrbq3k/ppp2ppp/1b6/3N4/4P3/8/PPP1QPPP/R1BR2K1 w - - 0 1",
+      "prompt": "Tap the white piece that will attack the black queen as soon as the knight on d5 moves away.",
+      "answer": {
+        "square": "d1"
+      },
+      "concept": "discovered-attack",
+      "hints": {
+        "text": "It is already on the same file as the queen."
+      },
+      "reason": "The rook on d1. The knight on d5 is the only thing standing between it and the queen on d8."
+    },
+    {
+      "id": "2.5.1-c2",
+      "type": "find_the_move",
+      "fen": "rrbq3k/ppp2ppp/1b6/3N4/4P3/8/PPP1QPPP/R1BR2K1 w - - 0 1",
+      "prompt": "The bishop on b6 is guarded by two pawns. Take it anyway.",
+      "answer": {
+        "moves": [
+          "Nxb6"
+        ]
+      },
+      "wrong": {
+        "Nf4": "The file opens, but you have taken nothing, so Black simply moves the queen away."
+      },
+      "concept": "discovered-attack",
+      "hints": {
+        "piece": "d5",
+        "square": "b6"
+      },
+      "reason": "Nxb6 wins a bishop and opens the d-file in one move. Black cannot both take the knight back and save the queen."
+    },
+    {
+      "id": "2.5.1-c3",
+      "type": "name_the_pattern",
+      "fen": "rrbq3k/ppp2ppp/1b6/3N4/4P3/8/PPP1QPPP/R1BR2K1 w - - 0 1",
+      "prompt": "Black answers Nxb6 with axb6, winning the knight back. What has Black missed?",
+      "options": [
+        "The rook on d1 comes to d8, and that is mate.",
+        "The pawn on a7 is pinned and is not allowed to capture.",
+        "The knight on b6 was defended, so axb6 loses a pawn."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "discovered-attack",
+      "hints": {
+        "text": "Look down the d-file once the knight has gone."
+      },
+      "reason": "Taking the knight costs a move, and the d-file is already open. Rxd8 arrives on the back rank first."
+    },
+    {
+      "id": "2.5.1-c4",
+      "type": "find_the_move",
+      "fen": "rrbq3k/1pp2ppp/1p6/8/4P3/8/PPP1QPPP/R1BR2K1 w - - 0 1",
+      "prompt": "This is the same game one move later: White played Nxb6 and Black replied axb6. Finish it.",
+      "answer": {
+        "moves": [
+          "Rxd8#"
+        ]
+      },
+      "concept": "discovered-attack",
+      "hints": {
+        "piece": "d1",
+        "square": "d8"
+      },
+      "reason": "Rxd8 is mate. The rook covers the whole back rank, and g7 and h7 are the black king's own pawns."
+    },
+    {
+      "id": "2.5.1-c5",
+      "type": "find_the_move",
+      "fen": "rrb1q1k1/ppp2ppp/3n4/4P3/8/8/PP3PPP/RNBQR1K1 w - - 0 1",
+      "prompt": "The pawn on e5 is hiding your rook from the black queen. Win a piece.",
+      "answer": {
+        "moves": [
+          "exd6"
+        ]
+      },
+      "wrong": {
+        "Qxd6": "The queen grabs the knight, but the pawn on c7 takes her straight back."
+      },
+      "concept": "discovered-attack",
+      "hints": {
+        "piece": "e5",
+        "square": "d6"
+      },
+      "reason": "exd6 wins the knight and opens the e-file. cxd6 replies, but the knight was the queen's only guard, so Rxe8 comes next."
+    },
+    {
+      "id": "2.5.1-c6",
+      "type": "is_it_safe",
+      "fen": "rrb1q1k1/ppp2ppp/3n4/4P3/8/8/PP3PPP/RNBQR1K1 w - - 0 1",
+      "move": "Qxd6",
+      "prompt": "White sends the queen to d6 to take the knight instead. Is she safe there?",
+      "reasons": [
+        "Yes. The knight has gone and nothing else covers d6.",
+        "No. The pawn on c7 takes her.",
+        "No. The rook on b8 takes her."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "discovered-attack",
+      "hints": {
+        "text": "A pawn guards the two squares diagonally in front of it."
+      },
+      "reason": "The pawn on c7 covers b6 and d6. Taking with the pawn on e5 wins the same piece and keeps the queen."
+    },
+    {
+      "id": "2.5.1-c7",
+      "type": "find_the_move",
+      "fen": "rrbq3k/ppp2ppp/8/3N4/4Pb2/8/PPP1QPPP/R2R1BK1 w - - 0 1",
+      "prompt": "Nothing is defending the bishop on f4. Take it, and notice what opens behind the knight.",
+      "answer": {
+        "moves": [
+          "Nxf4"
+        ]
+      },
+      "wrong": {
+        "Nc3": "The d-file opens, but the bishop on f4 is still there and Black just moves the queen."
+      },
+      "concept": "discovered-attack",
+      "hints": {
+        "piece": "d5",
+        "square": "f4"
+      },
+      "reason": "Nxf4 wins the bishop and turns the rook on d1 on to the queen at the same moment. Black cannot answer both."
+    },
+    {
+      "id": "2.5.1-c8",
+      "type": "name_the_pattern",
+      "fen": "rrbq3k/ppp2ppp/8/3N4/4Pb2/8/PPP1QPPP/R2R1BK1 w - - 0 1",
+      "prompt": "The knight on d5 has eight moves and every one of them opens the d-file. What makes Nxf4 the best of the eight?",
+      "options": [
+        "It wins a piece while it opens the file.",
+        "It is the only one of the eight that is legal.",
+        "It puts the black king in check."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "discovered-attack",
+      "hints": {
+        "text": "Compare what each knight move picks up on its way."
+      },
+      "reason": "All eight open the file. Nxc7 takes a pawn, the other six take nothing, and only Nxf4 takes a piece."
+    }
+  ],
+  "takeaway": "Move the front piece and the piece behind it takes over. Choose the square that wins something on the way."
+}

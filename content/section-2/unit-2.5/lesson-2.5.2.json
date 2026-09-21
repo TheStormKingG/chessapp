@@ -1,0 +1,193 @@
+{
+  "id": "2.5.2",
+  "unit": "2.5",
+  "title": "Discovered check",
+  "xp": 12,
+  "card": {
+    "idea": "When the piece behind is aimed at the king, moving the front piece gives check. A check has to be answered before anything else, so whatever the front piece just took cannot be taken back.",
+    "diagrams": [
+      "rnb1kb1r/pppp1ppp/6q1/4N3/8/6P1/PPPP1PBP/R1BQR1K1 w kq - 0 1"
+    ]
+  },
+  "explain": [
+    {
+      "fen": "rnb1kb1r/pppp1ppp/6q1/4N3/8/6P1/PPPP1PBP/R1BQR1K1 w kq - 0 1",
+      "text": "The rook on e1 is aimed straight down the e-file at the black king on e8, and your own knight on e5 is blocking it. Move that knight and the king is in check — from the rook, not from the knight.",
+      "arrows": [
+        [
+          "e1",
+          "e8"
+        ]
+      ],
+      "highlights": [
+        "e5"
+      ]
+    },
+    {
+      "fen": "rnb1kb1r/pppp1ppp/6q1/4N3/8/6P1/PPPP1PBP/R1BQR1K1 w kq - 0 1",
+      "text": "Nxg6 takes the queen. The pawns on f7 and h7 both guard g6, and neither of them may capture: Black is in check, and taking on g6 does nothing about the check. The queen is simply gone.",
+      "arrows": [
+        [
+          "e5",
+          "g6"
+        ]
+      ],
+      "highlights": [
+        "f7",
+        "h7"
+      ]
+    },
+    {
+      "fen": "rnb1kb1r/pppq1ppp/8/4N3/8/3B4/PPPP1PPP/R1BQR1K1 w kq - 0 1",
+      "text": "Here the queen on d7 has three guards: the bishop on c8, the knight on b8 and the king on e8. Nxd7 still wins her. Two of the three may not move while the king is in check, and the third is the king, so Kxd7 is a queen for a knight.",
+      "arrows": [
+        [
+          "e5",
+          "d7"
+        ],
+        [
+          "e1",
+          "e8"
+        ]
+      ],
+      "highlights": [
+        "d7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "2.5.2-c1",
+      "type": "which_square",
+      "fen": "rnb1kb1r/pppp1ppp/6q1/4N3/8/6P1/PPPP1PBP/R1BQR1K1 w kq - 0 1",
+      "prompt": "Tap the white piece standing between the rook on e1 and the black king on e8.",
+      "answer": {
+        "square": "e5"
+      },
+      "concept": "discovered-check",
+      "hints": {
+        "text": "Look along the e-file, from your rook towards the king."
+      },
+      "reason": "The knight on e5. While it stands there the king is safe; the moment it leaves, the rook is giving check."
+    },
+    {
+      "id": "2.5.2-c2",
+      "type": "find_the_move",
+      "fen": "rnb1kb1r/pppp1ppp/6q1/4N3/8/6P1/PPPP1PBP/R1BQR1K1 w kq - 0 1",
+      "prompt": "Move the knight so that the rook gives check and the black queen is taken in the same move.",
+      "answer": {
+        "moves": [
+          "Nxg6+"
+        ]
+      },
+      "wrong": {
+        "Nc6+": "That opens the check too, but it takes nothing, so Black answers the check and then saves the queen."
+      },
+      "concept": "discovered-check",
+      "hints": {
+        "piece": "e5",
+        "square": "g6"
+      },
+      "reason": "Nxg6 takes the queen and uncovers the rook's check. Neither pawn may recapture while the king is in check."
+    },
+    {
+      "id": "2.5.2-c3",
+      "type": "name_the_pattern",
+      "fen": "rnb1kb1r/pppp1ppp/6q1/4N3/8/6P1/PPPP1PBP/R1BQR1K1 w kq - 0 1",
+      "prompt": "After Nxg6, why is Black not allowed to play hxg6?",
+      "options": [
+        "The king is in check, and hxg6 does nothing about the check.",
+        "A pawn is not allowed to capture towards the h-file.",
+        "The pawn on h7 is pinned by the bishop on g2."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "discovered-check",
+      "hints": {
+        "text": "What is the one thing you must do when your king is in check?"
+      },
+      "reason": "Every move you make while in check has to answer the check. hxg6 leaves the rook on e1 still attacking the king, so it is not a legal move."
+    },
+    {
+      "id": "2.5.2-c4",
+      "type": "is_it_safe",
+      "fen": "rnb1kb1r/pppp1ppp/6q1/4N3/8/6P1/PPPP1PBP/R1BQR1K1 w kq - 0 1",
+      "move": "Nxf7+",
+      "prompt": "White tries the same idea with Nxf7 instead, taking a pawn. Is the knight safe on f7?",
+      "reasons": [
+        "Yes. Black is in check, so nothing at all may capture it.",
+        "No. The king on e8 takes it and steps out of check in the same move.",
+        "No. The pawn on g7 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "discovered-check",
+      "hints": {
+        "text": "One black man can capture and answer the check at the same time."
+      },
+      "reason": "Kxf7 leaves the e-file and captures at once, so it is a legal answer to the check. g6 was the square to go to, not f7."
+    },
+    {
+      "id": "2.5.2-c5",
+      "type": "find_the_move",
+      "fen": "rnb1kb1r/pppq1ppp/8/4N3/8/3B4/PPPP1PPP/R1BQR1K1 w kq - 0 1",
+      "prompt": "The black queen on d7 is guarded three times. Win her anyway.",
+      "answer": {
+        "moves": [
+          "Nxd7+"
+        ]
+      },
+      "wrong": {
+        "Nf3+": "A discovered check that takes nothing. Black answers it and the queen is still there."
+      },
+      "concept": "discovered-check",
+      "hints": {
+        "piece": "e5",
+        "square": "d7"
+      },
+      "reason": "Nxd7 uncovers the rook's check on e8, so the bishop and the knight may not take back. Kxd7 is legal, but that is a queen for a knight."
+    },
+    {
+      "id": "2.5.2-c6",
+      "type": "find_them_all",
+      "fen": "rnb1kb1r/pppq1ppp/8/4N3/8/3B4/PPPP1PPP/R1BQR1K1 w kq - 0 1",
+      "prompt": "Tap every black man that is guarding the queen on d7.",
+      "answer": {
+        "pieces": [
+          "b8",
+          "c8",
+          "e8"
+        ]
+      },
+      "concept": "discovered-check",
+      "hints": {
+        "text": "One of the three is the king itself."
+      },
+      "reason": "The knight on b8, the bishop on c8 and the king on e8. Three guards, and a discovered check makes two of them useless."
+    },
+    {
+      "id": "2.5.2-c7",
+      "type": "find_the_move",
+      "fen": "rn2kbnr/ppqp1ppp/8/4B3/8/5N2/PPPP1PPP/RN1QR1K1 w kq - 0 1",
+      "prompt": "A bishop can be the front piece too. Win the black queen.",
+      "answer": {
+        "moves": [
+          "Bxc7+"
+        ]
+      },
+      "wrong": {
+        "Bxg7+": "A discovered check, but it only wins a pawn, and the bishop on f8 takes yours once the check is answered."
+      },
+      "concept": "discovered-check",
+      "hints": {
+        "piece": "e5",
+        "square": "c7"
+      },
+      "reason": "Bxc7 steps off the e-file, so the rook on e1 checks the king on e8 and the queen on c7 is gone at the same time."
+    }
+  ],
+  "takeaway": "A check must be answered before anything else, so the piece your front man just took can never be recaptured."
+}
