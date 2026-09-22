@@ -99,7 +99,7 @@
         ]
       },
       "wrong": {
-        "Ra1": "The rook has left the eighth rank alone, and Black now has all the time in the world to play h6."
+        "Ra1": "The rook steps in front of Black's rook and hangs: Rxa1 is mate on the spot."
       },
       "concept": "back-rank",
       "hints": {
@@ -138,7 +138,7 @@
         ]
       },
       "wrong": {
-        "Rd2": "A quiet move, and now it is Black who plays Rxd1 and mates you."
+        "Rd2": "A quiet move, and Black just takes: Rxd2 wins your rook for nothing."
       },
       "concept": "back-rank",
       "hints": {

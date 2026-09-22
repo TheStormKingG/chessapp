@@ -257,7 +257,7 @@
         "square": "d7"
       },
       "concept": "discovered-check",
-      "reason": "The queen on d7. The knight can reach her, and the check behind it stops anything taking back."
+      "reason": "The queen on d7. The knight can reach her, and of the three guards only the king may take back — queen for knight."
     },
     {
       "id": "2.5-k20",

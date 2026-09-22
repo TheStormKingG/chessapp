@@ -137,7 +137,7 @@
       "answer": {
         "square": "h2"
       },
-      "reason": "Qxh2 is check and wins the pawn. Qe1 is only check."
+      "reason": "Qxh2 is the check that also grabs a pawn — though the king simply takes back, so it is not a good move. Qe1 is only check."
     },
     {
       "id": "2.1-k11",

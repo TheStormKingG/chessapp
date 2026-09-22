@@ -129,7 +129,7 @@
       "id": "2.7.4-c5",
       "type": "name_the_pattern",
       "fen": "5k2/8/5K2/6P1/8/8/8/8 b - - 0 1",
-      "prompt": "Identical position, except the pawn now stands on g5. Does Black still hold?",
+      "prompt": "The same position as the h-pawn draw, but with the pawn on g5. Does Black still hold?",
       "options": [
         "No. With a file left beyond the pawn, White's king can push the defender out and win.",
         "Yes. Any king-and-pawn ending with the defending king this close is drawn.",

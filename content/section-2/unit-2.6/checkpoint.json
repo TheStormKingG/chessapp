@@ -439,7 +439,7 @@
         "square": "d8"
       },
       "concept": "target-position",
-      "reason": "The queen on d8. One step sideways and the rooks on a8 and f8 defend each other."
+      "reason": "The queen on d8. One step off the back rank (Qe7) and the rooks on a8 and f8 defend each other."
     },
     {
       "id": "2.6-k34",

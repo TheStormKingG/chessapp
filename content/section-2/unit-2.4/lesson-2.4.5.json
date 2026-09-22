@@ -112,7 +112,7 @@
         ]
       },
       "wrong": {
-        "Qd5": "A nice pin on f7, and a whole free move for Black, who mates you on c1."
+        "Qd5": "A nice pin on f7, but you have given Black a free move: Qc1+ Qd1 Qxd1 and you are mated anyway, one move later."
       },
       "concept": "damiano",
       "hints": {

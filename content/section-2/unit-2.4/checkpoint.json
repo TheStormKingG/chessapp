@@ -34,7 +34,7 @@
       "id": "2.4-k03",
       "type": "find_the_move",
       "fen": "1k2r3/ppp5/8/8/8/8/5PPP/4R1K1 w - - 0 1",
-      "prompt": "The black king has castled the other way. Mate in one.",
+      "prompt": "The black king went the other way. Mate in one.",
       "answer": {
         "moves": [
           "Rxe8#"
@@ -47,7 +47,7 @@
       "id": "2.4-k04",
       "type": "find_the_move",
       "fen": "6k1/5ppp/8/8/8/8/1q3PPP/4R1K1 w - - 0 1",
-      "prompt": "Black is threatening mate on b1. Get there first.",
+      "prompt": "Your own back rank is thin: the queen on b2 mates on b1 the moment your rook leaves the first rank. Mate first.",
       "answer": {
         "moves": [
           "Re8#"
@@ -391,7 +391,7 @@
       "type": "is_it_safe",
       "fen": "6rk/6pp/8/6N1/8/8/2r2PPP/6K1 w - - 0 1",
       "move": "Nf7#",
-      "prompt": "White drops the knight on f7, right beside the black king. Is it safe there?",
+      "prompt": "White drops the knight on f7, a knight's leap from the black king. Is it safe there?",
       "reasons": [
         "Yes. Nothing black attacks f7.",
         "No. The pawn on g7 takes it.",

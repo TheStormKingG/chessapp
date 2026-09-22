@@ -121,7 +121,7 @@
         ]
       },
       "wrong": {
-        "Ra8": "The rook on g8 simply takes it, and Black mates you on d1 next move."
+        "Ra8": "The rook on g8 simply takes it, and you have lost a rook for nothing, with Rd1 still hanging over you."
       },
       "concept": "corridor-mate",
       "hints": {
@@ -135,7 +135,7 @@
       "type": "is_it_safe",
       "fen": "6rk/6n1/R7/8/8/8/3r1PPP/6K1 w - - 0 1",
       "move": "Rh6#",
-      "prompt": "White swings the rook to h6, right beside the black knight and rook. Is the rook safe there?",
+      "prompt": "White swings the rook to h6, right beside the black knight. Is the rook safe there?",
       "reasons": [
         "Yes. The knight on g7 does not cover h6, and the rook on g8 cannot reach it.",
         "No. The knight on g7 takes it.",

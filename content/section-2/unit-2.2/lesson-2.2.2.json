@@ -107,7 +107,7 @@
       "prompt": "One push wins a piece. Find it.",
       "answer": { "moves": ["c5"] },
       "wrong": {
-        "Rd1": "Trading rooks helps Black. Look for a move that attacks two pieces at once."
+        "Rd1": "Rd1 hangs the rook with check — Rxd1 is checkmate on the back rank. Look for a move that attacks two pieces at once."
       },
       "concept": "pawn-fork",
       "hints": {

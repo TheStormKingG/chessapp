@@ -127,7 +127,7 @@
         ]
       },
       "wrong": {
-        "Qxe5+": "A pawn with check, and Black plays Be7 and survives. There is something much better on f7."
+        "Qxe5+": "That drops the queen — the knight on c6 guards e5 and takes it. There is something much better on f7."
       },
       "concept": "italian",
       "hints": {

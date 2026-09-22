@@ -160,7 +160,7 @@
         ]
       },
       "wrong": {
-        "d5": "A good square in an ordinary game, but there is mate on the board and you have just let White play g3."
+        "d5": "A good square in an ordinary game, but there is mate on the board and you have just let White block the diagonal with g5."
       },
       "concept": "castle-early",
       "hints": {

@@ -78,20 +78,20 @@
     {
       "id": "2.3-k06",
       "type": "is_it_safe",
-      "fen": "7k/pp5p/8/4n3/8/3P4/PB4PP/6K1 w - - 0 1",
+      "fen": "4k3/pp5p/2n5/8/B7/3P4/6PP/6K1 w - - 0 1",
       "move": "d4",
-      "prompt": "White attacks the knight on e5 with the pawn. Is the pawn safe on d4?",
+      "prompt": "White pushes the pawn to d4, where the knight on c6 attacks it. Is the pawn safe on d4?",
       "reasons": [
-        "Yes. Only the knight attacks d4, and it is not allowed to move.",
-        "No. The knight on e5 takes it.",
-        "No. The bishop on b2 is in its own pawn's way."
+        "Yes. Only the knight on c6 attacks d4, and the bishop on a4 pins it to the king.",
+        "No. The knight on c6 takes it.",
+        "No. The black king walks over and collects it."
       ],
       "answer": {
         "safe": true,
         "reason": 0
       },
       "concept": "absolute-pin",
-      "reason": "Nxd4 would open the b2-h8 road onto the black king, so it is not a legal move."
+      "reason": "Nxd4 would leave the black king in check from the bishop on a4, so it is not a legal move. A pinned defender is not a defender."
     },
     {
       "id": "2.3-k07",

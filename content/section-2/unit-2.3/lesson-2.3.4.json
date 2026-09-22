@@ -120,7 +120,7 @@
         "piece": "g7",
         "text": "A rook moves in straight lines only. Ask whether g7 and b2 share a rank or a file."
       },
-      "reason": "A rook cannot travel on a diagonal, and the king on d4 is three squares away. Black has to answer the check and lose the rook."
+      "reason": "A rook cannot travel on a diagonal, and the king on d4 is two squares away. Black has to answer the check and lose the rook."
     },
     {
       "id": "2.3.4-c7",
