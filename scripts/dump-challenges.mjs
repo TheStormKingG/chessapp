@@ -1,6 +1,10 @@
 // Prints every challenge of a unit as prose + an ASCII board + legal-move facts,
 // so a reviewer can check what the text CLAIMS against what the position IS.
-// Review instrument only: not part of the build.
+// Review instrument only: not part of the build. Run it per unit before
+// flipping that unit live -- `node scripts/dump-challenges.mjs 2.4` -- and read
+// the output against each board. It exists because no automated gate catches
+// prose that contradicts its own position: verify:content checks that answers
+// are right, not that the sentences around them are true.
 import { readdirSync, readFileSync } from 'node:fs';
 import { Chess } from 'chess.js';
 
