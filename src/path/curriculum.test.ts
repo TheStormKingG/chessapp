@@ -18,23 +18,27 @@ test('Section 2 has all eight units of Appendix A, in order', () => {
   ]);
 });
 
-test('units 2.1 to 2.3 are built and the other five are not', () => {
-  // SCOPED, not deleted. This used to read "every Section 2 unit is unbuilt",
-  // which was true exactly while no Section 2 content existed. Units 2.1 to
-  // 2.3 are authored, verified and flipped on, so the invariant worth guarding
-  // is the one that is still load-bearing: nothing is reachable ahead of its
-  // content. The built list grows by one unit per authoring pass; the unbuilt
-  // list must shrink by exactly the same one, which is why both are spelled
-  // out rather than one being derived from the other.
-  expect(SECTION_2.units.filter((u) => u.built).map((u) => u.id)).toEqual(['2.1', '2.2', '2.3']);
-  expect(SECTION_2.units.filter((u) => !u.built).map((u) => u.id)).toEqual([
+test('every unit of Section 2 is built, and the flag is not vacuously set', () => {
+  // SCOPED, not deleted. This has now read three ways: "every Section 2 unit is
+  // unbuilt", then "2.1 to 2.3 are built and the other five are not", and now
+  // this. The invariant has never changed -- nothing is reachable ahead of its
+  // content -- only which side of the boundary each unit sits on. All eight are
+  // authored, verified and flipped on, so the unbuilt list is empty and the
+  // built list is spelled out: a unit silently dropped from SECTION_2 would
+  // otherwise leave both filters agreeing.
+  expect(SECTION_2.units.filter((u) => u.built).map((u) => u.id)).toEqual([
+    '2.1',
+    '2.2',
+    '2.3',
     '2.4',
     '2.5',
     '2.6',
     '2.7',
     '2.8',
   ]);
-  // Both filters above are empty over an empty list. Eight units are here.
+  expect(SECTION_2.units.filter((u) => !u.built)).toEqual([]);
+  // The line above is satisfied vacuously by an empty section, and there is no
+  // longer an unbuilt unit to serve as the control, so the count is the control.
   expect(SECTION_2.units).toHaveLength(8);
 });
 
@@ -60,34 +64,22 @@ test('no lesson id is declared twice across the curriculum', () => {
   expect(ids).toHaveLength(new Set(ids).size);
 });
 
-test('Section 2 is on the path, and every unbuilt unit of it reads as coming', () => {
-  // This test used to assert the opposite -- that `pathNodes` walked SECTION_1
-  // alone, so an unbuilt Section 2 unit was not merely un-attemptable but
-  // absent -- and said it would fail on the day someone wired the path to
-  // render more than one section. That day is this commit, and the decision it
-  // asked to be made rather than inherited was made: the path walks every
-  // section, each section heads and meters itself, so eight unbuilt units read
-  // as "0 of 36 done" under a Section 2 heading rather than as "0 of 65" under
-  // a Section 1 one.
+test('Section 2 is on the path, and nothing in it reads as coming', () => {
+  // This test has tracked the built boundary as it moved: first Section 2 was
+  // absent from the path, then eight unbuilt units read as coming, then five,
+  // and now none. The path still walks every section, each section heads and
+  // meters itself, and Section 2's 36 lessons count under their own heading.
   const nodes = pathNodes(emptyProgress());
   const s2 = nodes.filter((n) => n.section === '2');
   expect(s2.filter((n) => n.kind === 'lesson')).toHaveLength(36);
   expect(s2.filter((n) => n.kind === 'checkpoint')).toHaveLength(8);
-  // Declared is not the same as reachable: nothing in Section 2 is attemptable
-  // until its unit is flipped to `built: true`. Units 2.1 to 2.3 have been,
-  // so the filter narrows to the units that are still unauthored rather than
-  // being deleted -- and it keeps a non-empty control, because "none of these
-  // are reachable" is satisfied vacuously by a filter that matched nothing.
-  const BUILT = ['2.1', '2.2', '2.3'];
-  const unbuilt = s2.filter((n) => !BUILT.includes(n.unit));
-  expect(unbuilt).toHaveLength(22 + 5); // 36 - 5 - 4 - 5 lessons, 8 - 3 checkpoints
-  expect(unbuilt.filter((n) => n.state !== 'coming')).toEqual([]);
-  // And the built units are genuinely the exception, not merely excluded:
-  // their nodes are on the path and none of them reads as coming.
-  const builtNodes = s2.filter((n) => BUILT.includes(n.unit));
-  expect(builtNodes).toHaveLength(17); // 5 + 4 + 5 lessons, 3 checkpoints
-  expect(builtNodes.filter((n) => n.state === 'coming')).toEqual([]);
-  // Section 1 is untouched by the widening.
+  // Every unit is authored, so every Section 2 node is locked behind Section 1
+  // rather than coming. `coming` now has no real instance anywhere on the path,
+  // which is why the rule it guards stays armed by the synthetic fixture in
+  // progress.test.ts rather than being deleted with the last real instance.
+  expect(s2.filter((n) => n.state === 'coming')).toEqual([]);
+  expect(s2).toHaveLength(44); // 36 lessons + 8 checkpoints: the line above is not vacuous
+  // Section 1 is untouched.
   expect(nodes.filter((n) => n.section === '1' && n.kind === 'lesson')).toHaveLength(29);
   expect(nodes.filter((n) => n.section === '1' && n.kind === 'checkpoint')).toHaveLength(6);
 });
@@ -97,15 +89,17 @@ test('SECTIONS is the path order, and every declared unit is reachable by id', (
   expect(unitById('1.1')).toMatchObject({ id: '1.1', built: true });
   // The lookup that matters: a unit declared outside Section 1. Before SECTIONS
   // existed this returned undefined, and a caller that shrugged at undefined
-  // gave a Section 2 learner a screen that silently found nothing.
-  expect(unitById('2.1')).toMatchObject({ id: '2.1', built: true });
-  expect(unitById('2.2')).toMatchObject({ id: '2.2', built: true });
-  expect(unitById('2.3')).toMatchObject({ id: '2.3', built: true });
-  // The built/unbuilt boundary resolves on both sides: a unit that is declared
-  // but unauthored must still be found by id, or the screen that renders its
-  // "content coming" placeholder has nothing to render. 2.4 is the still-
-  // unbuilt control that 2.3 used to be.
-  expect(unitById('2.4')).toMatchObject({ id: '2.4', built: false });
+  // gave a Section 2 learner a screen that silently found nothing. Every unit
+  // resolves now, so the loop replaces the hand-listed cases that used to track
+  // the built boundary -- a unit added to SECTION_2 without being wired into
+  // `unitById` is caught here rather than by whichever id happened to be named.
+  for (const u of SECTIONS.flatMap((s) => s.units)) {
+    expect(unitById(u.id), `unit ${u.id} does not resolve by id`).toMatchObject({
+      id: u.id,
+      built: true,
+    });
+  }
+  expect(SECTIONS.flatMap((s) => s.units)).toHaveLength(14); // the loop above is not vacuous
   expect(unitById('2.8')?.lessons).toHaveLength(3);
   expect(unitById('9.9')).toBeUndefined();
 });

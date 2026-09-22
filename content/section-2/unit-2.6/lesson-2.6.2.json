@@ -143,7 +143,7 @@
       "fen": "rnbqkb1r/pppp1ppp/5n2/4p3/4P3/1B6/PPPP1PPP/RNBQK1NR b KQkq - 3 3",
       "prompt": "White has played the bishop to c4 and then straight on to b3, while Black brought a knight out. What has White given away?",
       "options": [
-        "A move. The bishop has taken two turns to reach a square it could have reached in one, and Black is a developing move ahead.",
+        "A move. Two bishop turns have developed one piece, and Black is a whole developing move ahead.",
         "A pawn, because the bishop on b3 no longer guards e4.",
         "The right to castle, because the bishop has left f1."
       ],

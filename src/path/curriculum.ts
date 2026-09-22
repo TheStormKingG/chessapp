@@ -156,7 +156,7 @@ export const SECTION_2: SectionDef = {
     {
       id: '2.4',
       title: 'Back-rank and helper mates',
-      built: false,
+      built: true,
       lessons: [
         { id: '2.4.1', title: 'The back-rank weakness and making an escape square' },
         { id: '2.4.2', title: 'Support mate' },
@@ -168,7 +168,7 @@ export const SECTION_2: SectionDef = {
     {
       id: '2.5',
       title: 'Discovered attacks',
-      built: false,
+      built: true,
       lessons: [
         { id: '2.5.1', title: 'Discovered attack' },
         { id: '2.5.2', title: 'Discovered check' },
@@ -178,7 +178,7 @@ export const SECTION_2: SectionDef = {
     {
       id: '2.6',
       title: 'Opening principles and your first opening',
-      built: false,
+      built: true,
       lessons: [
         { id: '2.6.1', title: 'Centre, development, castle early' },
         {
@@ -193,7 +193,7 @@ export const SECTION_2: SectionDef = {
     {
       id: '2.7',
       title: 'Endgame rules that decide games',
-      built: false,
+      built: true,
       lessons: [
         { id: '2.7.1', title: 'What can and cannot mate' },
         { id: '2.7.2', title: 'The rule of the square' },
@@ -206,7 +206,7 @@ export const SECTION_2: SectionDef = {
     {
       id: '2.8',
       title: 'Notation, the clock and slow games',
-      built: false,
+      built: true,
       lessons: [
         { id: '2.8.1', title: 'Reading and writing full notation' },
         { id: '2.8.2', title: 'Using most of your time, and never playing a bad move fast' },

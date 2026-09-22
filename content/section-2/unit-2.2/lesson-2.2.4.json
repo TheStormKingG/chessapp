@@ -96,7 +96,7 @@
       "prompt": "Nf7 would fork d8 and h8, but d8 is empty. Put something on it.",
       "answer": { "moves": ["Rd8+"] },
       "wrong": {
-        "Nf7+": "Check, and nothing else. d8 is still empty, so the king moves and you have gained nothing."
+        "Nf7+": "Check, but the queen on c7 simply takes on f7. d8 is still empty, so there is nothing to fork — and you have dropped a knight."
       },
       "concept": "fork-with-check",
       "hints": {

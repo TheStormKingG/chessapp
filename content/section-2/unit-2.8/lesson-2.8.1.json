@@ -27,7 +27,7 @@
     },
     {
       "fen": "rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2",
-      "text": "An x means a capture. A piece capture keeps its letter: Bxc6. A pawn capture has no letter, so it borrows the file it left instead: exd5 is the pawn from the e-file taking on d5. That is the only time the starting square appears.",
+      "text": "An x means a capture. A piece capture keeps its letter: Bxc6. A pawn capture has no letter, so it borrows the file it left instead: exd5 is the pawn from the e-file taking on d5. That is the only ordinary case where the starting square appears.",
       "arrows": [
         [
           "e4",

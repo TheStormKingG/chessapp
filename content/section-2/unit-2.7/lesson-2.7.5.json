@@ -56,7 +56,7 @@
       "id": "2.7.5-c3",
       "type": "find_the_move",
       "fen": "8/4k3/8/P7/7p/8/7K/8 w - - 0 1",
-      "prompt": "Your king already blocks the h-pawn. Get on with your own.",
+      "prompt": "Your king already stands on the h-pawn's road. Get on with your own.",
       "answer": { "moves": ["a6"] },
       "wrong": {
         "Kh3": "Fussing over a pawn that is going nowhere. Meanwhile the black king walks into the a-pawn's square."
@@ -78,7 +78,7 @@
       "answer": { "option": 0 },
       "concept": "promotion-race",
       "hints": { "text": "Look at what is sitting on the squares the pawn still has to cross." },
-      "reason": "The king is in the way. A passed pawn stops being passed the moment something occupies the file in front of it, and here that something also attacks h3."
+      "reason": "The king is in the way. The king is in the way. The h-pawn is still passed, but it is blockaded: the white king sits on the square in front of it and attacks h3, so it can never get through."
     },
     {
       "id": "2.7.5-c5",

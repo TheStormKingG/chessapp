@@ -124,7 +124,7 @@
         ]
       },
       "wrong": {
-        "Bxg5": "A free pawn, and Black plays fxg5 and is still in the game. There is mate on the board."
+        "Bxg5": "It grabs a pawn and hands back the bishop after fxg5 — and Qh5 is still mate anyway. Play the mate."
       },
       "concept": "development",
       "hints": {

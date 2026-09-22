@@ -179,7 +179,7 @@
         ]
       },
       "wrong": {
-        "Bxg7+": "A discovered check, but it only wins a pawn, and the bishop on f8 takes yours once the check is answered."
+        "Bxg7+": "A discovered check, and it does win the rook on h8 as well as the pawn — but Bxc7 takes the queen, which is more."
       },
       "concept": "discovered-check",
       "hints": {

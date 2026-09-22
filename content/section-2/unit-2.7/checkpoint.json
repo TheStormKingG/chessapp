@@ -257,7 +257,7 @@
       "id": "2.7-k21",
       "type": "find_them_all",
       "fen": "5k2/8/5K2/7P/8/8/8/8 b - - 0 1",
-      "prompt": "The white king covers the seventh rank. Tap every square the black king may move to.",
+      "prompt": "The white king covers e7, f7 and g7. Tap every square the black king may move to.",
       "answer": {
         "squares": [
           "e8",

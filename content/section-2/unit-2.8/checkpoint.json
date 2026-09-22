@@ -484,7 +484,7 @@
         ]
       },
       "wrong": {
-        "Bc3": "The bishop is safe and the queen is still standing. Bxe5 was there the whole time."
+        "Bc3": "The bishop is still on her diagonal, so Qxc3 just takes it. Bxe5 was there the whole time."
       },
       "concept": "first-mistake",
       "reason": "The queen on e5 stands on the bishop's own diagonal with nothing defending her. The threat to the bishop is what made the move look urgent."
@@ -554,7 +554,7 @@
         ]
       },
       "concept": "first-mistake",
-      "reason": "The bishop on e5 looks down at a1 and up at h2, and the pawn on a6 takes the knight on b5. Nothing white defends any of the three."
+      "reason": "The bishop on e5 rakes both diagonals, hitting a1 one way and h2 the other, and the pawn on a6 takes the knight on b5. Nothing white defends any of the three."
     },
     {
       "id": "2.8-k37",
