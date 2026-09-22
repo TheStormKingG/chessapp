@@ -33,12 +33,12 @@ test('Today names the active lesson', () => {
 });
 
 test('the terminal message appears only when everything built is finished', () => {
-  // "Everything built" is Section 1's six units plus unit 2.1 -- passing 1.1
-  // and 1.2 now leaves unit 1.3 to do, and Today must say so. The finished
-  // fixture below walks the declared sections and asks each unit whether it is
-  // built, rather than naming Section 1: naming it was correct exactly while
-  // no Section 2 unit was built, and would have left 2.1.1 to do while this
-  // test asserted there was nothing left.
+  // "Everything built" is now all fourteen units -- Section 1's six and all
+  // eight of Section 2. Passing 1.1 and 1.2 leaves unit 1.3 to do, and Today
+  // must say so. The finished fixture below walks the declared sections and
+  // asks each unit whether it is built, rather than naming Section 1: naming
+  // it was correct exactly while no Section 2 unit was built, and would have
+  // left 2.1.1 to do while this test asserted there was nothing left.
   const throughUnit2 = emptyProgress();
   throughUnit2.units['1.1'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
   throughUnit2.units['1.2'] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
@@ -62,6 +62,11 @@ test('the terminal message appears only when everything built is finished', () =
     '2.1',
     '2.2',
     '2.3',
+    '2.4',
+    '2.5',
+    '2.6',
+    '2.7',
+    '2.8',
   ]);
   for (const u of built) {
     finished.units[u.id] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
