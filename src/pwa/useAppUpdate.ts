@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router';
 import { useRegisterSW } from 'virtual:pwa-register/react';
+import { onStaleChunk } from '@/lesson/loader';
 import { shouldApplyUpdate, UPDATE_APPLIED_KEY } from './updatePolicy';
 
 /**
@@ -94,6 +95,37 @@ export function useAppUpdate(): AppUpdate {
     }
     void updateServiceWorker(true);
   }, [applying, updateServiceWorker]);
+
+  /*
+   * The one case that overrides the hold.
+   *
+   * `shouldApplyUpdate` deliberately keeps a waiting build back while the
+   * learner is inside an activity (F-OF-5), and `sw-upgrade.spec.ts` protects
+   * that. But a deploy replaces the artefact, so a held client's index asks for
+   * chunk hashes that no longer exist -- and then the activity it was being
+   * spared an interruption from is a screen reading "that lesson could not be
+   * loaded".
+   *
+   * A chunk fetch failing is positive evidence that THIS build is already
+   * broken for THIS learner, which is not the case the hold was written for. So
+   * the loader calls this, and only this, takes the waiting worker. Reloading
+   * without taking it recovers nothing: the held worker would serve the same
+   * stale index back.
+   *
+   * The guarantee is untouched in the case it is about -- an ordinary update
+   * arriving mid-lesson still waits -- because nothing here fires unless an
+   * import has actually failed.
+   */
+  useEffect(() => {
+    onStaleChunk(() => {
+      try {
+        sessionStorage.setItem(UPDATE_APPLIED_KEY, '1');
+      } catch {
+        /* the update itself matters more than the notice afterwards */
+      }
+      void updateServiceWorker(true);
+    });
+  }, [updateServiceWorker]);
 
   const applyNow = useCallback(() => {
     setApplied(true);

@@ -28,7 +28,22 @@ test.describe('licences', () => {
   });
 });
 
+/*
+ * Same precondition as `tests/smoke.spec.ts`, same reason: the manifest link
+ * and the registered worker are build outputs, and a dev server has neither in
+ * the form these assert on.
+ *
+ * This file also sits in `tests/audit-platform/`, which NO workflow runs --
+ * `deploy.yml` runs `tests/e2e` only. So these two could pass in exactly one
+ * situation: somebody running them locally with PREVIEW=1 set by hand. Skipping
+ * with the reason attached is what makes that visible at the point of running,
+ * instead of leaving a red spec that is neither broken nor covered.
+ */
+const BUILT_ARTEFACT = !!process.env['PREVIEW'] || !!process.env['SMOKE_URL'];
+
 test.describe('pwa', () => {
+  test.skip(!BUILT_ARTEFACT, 'needs a production build: run with PREVIEW=1');
+
   test('the manifest parses and its start_url and scope match the deployed base', async ({ page, request }) => {
     await page.goto('./');
     const href = await page.locator('link[rel="manifest"]').getAttribute('href');

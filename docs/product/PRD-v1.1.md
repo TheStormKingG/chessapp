@@ -314,7 +314,7 @@ Each feature lists what it must do (requirements are numbered so they can be tra
 
 | ID | Requirement |
 |---|---|
-| F-PZ-1 | **Rated puzzles.** An unlimited stream of puzzles from the curated Lichess pool, each with a rating, chosen so the learner's predicted success is between 70 and 85 per cent. The learner has a puzzle rating computed with Glicko-2, the rating method that tracks both a number and how certain it is, starting at 800 with a high uncertainty, computed on the device and reconciled on the server. Each puzzle shows its rating, its themes and the learner's time after completion, never before. |
+| F-PZ-1 | **Rated puzzles.** An unlimited stream of puzzles from the curated Lichess pool, each with a rating, chosen so the learner's predicted success is between 70 and 85 per cent. The learner has a puzzle rating computed with Glicko-2, the rating method that tracks both a number and how certain it is, starting at 800 with a high uncertainty, computed on the device and reconciled on the server. *(Amended 23 September 2026: what ships is a simpler logistic update carrying a confidence, not Glicko-2 -- see the amendment at the Rating service in section 5.1.)* Each puzzle shows its rating, its themes and the learner's time after completion, never before. |
 | F-PZ-2 | **Themed practice.** The learner picks one or more themes and a difficulty band and solves without a timer and without rating impact. Themes carry the one-sentence definitions from the Lichess theme list. Every lesson links to the themed practice for its motif. |
 | F-PZ-3 | **Fix my mistakes.** A set built from the learner's error log, first the exact positions from their games (with the opponent's move replayed), then similar positions from the concept bank, scheduled on the repetition ladder. "Similar" means the same primary theme tag and a puzzle rating within 150 points of the learner's puzzle rating. Mistakes the tagger cannot classify (positional or quiet-move errors) are logged as judgement errors and produce a link to the relevant lesson instead of a drill. This set is the first item in the daily plan's puzzle slot whenever it is non-empty. |
 | F-PZ-4 | **Hint accounting.** Correct moves made before any hint earn full credit. Correct moves after a hint earn progress credit but no rating change. A puzzle failed after a hint counts as failed for mastery. The rule is shown in the hint control's tooltip. |
@@ -567,6 +567,30 @@ The stack aligns with the owner's existing toolchain (Next.js, Vercel, Supabase)
 - **Coach service.** Maps engine facts and tags to lines from the template bank, with per-persona variation.
 - **Bot service.** Builds each bot from a persona file (rating, style weights, opening preferences, error parameters), requests multi-line output from the engine, samples a move by rating and style, and applies the error model. Swaps to Maia-2 sampling when the flag is on.
 - **Scheduler.** Maintains concept and mistake review items on the expanding ladder and assembles the daily plan and the puzzle set.
+> **Amendment, 23 September 2026 — Glicko-2 is specified but NOT what ships.**
+>
+> The puzzle rating that shipped is a single-player logistic update: the same
+> expectation curve Elo and Glicko share, with a step that shrinks from 64 to 8
+> as a stored confidence accrues over roughly 24 attempts (`src/puzzles/rating.ts`).
+> It is not Glicko-2: there is no rating deviation, no volatility, and no rating
+> period.
+>
+> This was a deliberate scoping decision taken when puzzles were built, not an
+> omission. Glicko-2's advantages -- a principled uncertainty and a volatility
+> term -- need a rating period and a server-side recomputation that Phase 0 does
+> not have, and the shipped confidence already delivers the property the product
+> actually depends on, which is that early attempts move the rating fast and a
+> settled rating drifts rather than jumps.
+>
+> Every clause below and in **F-PZ-1**, **F-PG-2** and the glossary that names
+> Glicko-2 therefore describes the intended end state, not the current build.
+> The substitution is contained: `nextRating` is pure and total, and the
+> persisted shape already carries a confidence, so adopting Glicko-2 later
+> replaces that one function and migrates nothing.
+>
+> **F-PG-2's estimated rating does not ship at all in Phase 0** and is unaffected
+> either way.
+
 - **Rating service.** Glicko-2 for puzzles (learner versus puzzle, using the puzzle's rating and deviation) and for bot games (learner versus bot as a rated entity), and a blended estimate for display. Computed on device for instant feedback and recomputed on the server from the event log as the authoritative value.
 - **Sync.** Every state change is an event with a client-generated identifier. Events are written locally and to the outbox, flushed on start, on reconnect and after each write. The server applies events idempotently and returns snapshots and deltas.
 
@@ -829,7 +853,7 @@ The app assigns labels by the drop in expected score (win per cent) between the 
 | Brilliant | A sound sacrifice (material given up and not immediately regained) that is best or excellent, from a position that was not already clearly winning | same | same | same |
 | Book | A move within the first ten moves that appears in at least 5 per cent of games from that position in the opening book (built from the Lichess database across all bands) | same | same | same |
 
-The opening book is not precached with the app shell. It is fetched on the first review that needs it and held in the service worker's cache from then on, so every later review has it offline. The cost of precaching it is about 300 KiB on every first load against 7.2 KiB of headroom in the shell budget, which the opening name does not justify. The consequence is stated rather than hidden: a first-ever review performed offline, before any review has run online, shows no opening name. The review itself still runs and the summary is otherwise complete.
+The opening book is not precached with the app shell. It is fetched on the first review that needs it and held in the service worker's cache from then on, so every later review has it offline. The cost of precaching it is about 300 KiB on every first load against the headroom in the shell budget, which the opening name does not justify. (Amended 23 September 2026: that headroom was stated here as 7.2 KiB, measured when the figure was written. It is now about 61 KiB, measured on the shipping artefact at 238.9 KiB against the 300 KiB budget. The decision is unchanged and the correction does not weaken it -- 300 KiB does not fit in 61 KiB either -- but the old number is restated rather than quietly replaced, because a margin that has moved by a factor of eight is the kind of premise a later reader should re-derive rather than inherit.) The consequence is stated rather than hidden: a first-ever review performed offline, before any review has run online, shows no opening name. The review itself still runs and the summary is otherwise complete.
 
 Mate handling follows the Lichess rules (allowing a forced mate is a blunder unless the position was already lost by a wide margin, and delaying a mate carries no label). Thresholds are to be tuned in beta so that the label distribution at each band looks like the distribution on the incumbent platforms.
 
