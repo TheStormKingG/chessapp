@@ -245,15 +245,17 @@ function skinFor(node: Node): string {
   // occupies the same box, so each keeps a real border at 3:1 (§3.3) AND the
   // raise. That is the control grammar, not the two-grammar mistake: the raise
   // is the depth, the border is the bound, and only the active row adds a key.
-  const card = 'n-raised bg-surface-raised text-content';
+  const card = 'n-panel n-edge bg-panel text-content';
   const keyEdge = 'border-b-[3px] border-b-key-accent';
   if (node.state === 'active') {
     return node.kind === 'checkpoint'
-      ? `n-raised border-2 border-signal bg-signal-soft text-signal ${keyEdge}`
+      ? `n-panel border-2 border-signal bg-signal-soft text-signal ${keyEdge}`
       : `border-2 border-accent ${card} ${keyEdge}`;
   }
   if (node.state === 'passed' || node.state === 'done' || node.state === 'testedOut') {
-    return `border border-edge-strong ${card}`;
+    // `card` already carries n-edge, which paints the lit/shadow pair per side.
+    // A blanket `border-edge-strong` here would repaint all four and undo it.
+    return card;
   }
   // The remaining case is a checkpoint of a built unit that is attemptable but
   // not yet due: an outline, not a slab.

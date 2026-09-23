@@ -39,7 +39,7 @@ export function LessonRoute() {
         <p>That lesson could not be loaded.</p>
         <button
           type="button"
-          className="tap mt-3 rounded-lg border border-edge-strong px-4"
+          className="tap mt-3 rounded-control border border-edge-strong px-4"
           onClick={() => {
             void nav('/path');
           }}

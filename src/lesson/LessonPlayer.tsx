@@ -234,7 +234,7 @@ export function LessonPlayer({
       </header>
 
       {confirmingExit && (
-        <div className="mt-6 rounded-lg border border-edge-strong p-4 md:col-span-2">
+        <div className="mt-6 rounded-card border border-edge-strong p-4 md:col-span-2">
           <h2 className="t-title">{`Leave the ${onProgress ? 'lesson' : 'attempt'}?`}</h2>
           <p className="t-body mt-2">
             {onProgress

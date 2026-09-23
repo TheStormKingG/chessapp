@@ -127,7 +127,7 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
       </header>
 
       {confirmingExit && (
-        <div className="mt-3 rounded-lg border border-edge-strong p-4 md:col-span-2">
+        <div className="mt-3 rounded-card border border-edge-strong p-4 md:col-span-2">
           <h2 className="t-title">Leave the game?</h2>
           <p className="t-body mt-2">This game is not saved, and you would start a new one.</p>
           <div className="mt-4 flex gap-2">
@@ -221,7 +221,7 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
               </button>
             </div>
             {confirmingResign ? (
-              <div className="mt-4 rounded-lg border border-edge-strong p-4">
+              <div className="mt-4 rounded-card border border-edge-strong p-4">
                 <h2 className="t-title">Resign this game?</h2>
                 <p className="t-body mt-2">{persona.name} wins, and the game is over. There is no taking this back.</p>
                 <div className="mt-4 flex gap-2">
@@ -270,7 +270,7 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
           // review the review screen cannot build.
           const reviewable = g.sans.length > 0;
           return (
-          <div className="mt-4 rounded-xl border border-edge-strong bg-surface-raised p-4">
+          <div className="n-panel n-edge mt-4 rounded-card bg-panel p-4">
             <p className="t-heading">{RESULT_LINE[result]}</p>
             {/* Crowns reward playing without help (F-PL-4), so they show on every finished game.
                 The result line above leads, and on a loss the crowns read as a report. */}

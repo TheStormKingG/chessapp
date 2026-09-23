@@ -35,9 +35,34 @@
      1.19:1 above --surface — a lift, not a boundary. The boundary is the
      shadow pair below, or --edge-strong where the element is a control. */
   --surface-raised: #f6f8fa;
+  /*
+   * The reference's panel fill, verbatim: white at 0.72 over the ground rather
+   * than an opaque grey mixed to look like it. Composited on --surface it
+   * resolves to #f4f6f9, which is within a point of --surface-raised, so every
+   * text ratio computed against that token still holds. What changes is that
+   * the ground shows through, so a panel reads as the same material lifted
+   * rather than as a lighter rectangle placed on top.
+   */
+  --panel: rgba(255, 255, 255, 0.72);
   --content: #0f172b; /* 14.08:1 on --surface, 16.75:1 on a panel */
   --content-dim: #475569; /* 5.99:1 on --surface, 7.12:1 on a panel */
   --edge: #cbd3df; /* hairlines only: decorative, no contrast duty */
+  /*
+   * The lit edge. preqal bounds its panels with `1.5px solid
+   * rgba(255,255,255,0.92)` and no dark outline at all — the white IS the
+   * material catching the light, which is why its cards read as raised
+   * surfaces where ours read as outlined boxes.
+   *
+   * We cannot copy it wholesale: `controls.spec.ts` requires every control
+   * that paints a surface to carry a border of at least 3:1, and white on the
+   * ground is 1.27:1. So the edge is split the way the light actually falls —
+   * white where the light comes from (top and left), --edge-strong where the
+   * shadow lands (bottom and right). The guard skips sides painted in a
+   * decorative token and takes the MINIMUM of the rest, so the slate pair is
+   * what it measures: 3.76:1, unchanged. Nothing is weakened; the same
+   * contrast is delivered by two sides instead of four.
+   */
+  --edge-lit: rgba(255, 255, 255, 0.92);
   --edge-strong: #64748b; /* 3.76:1 on --surface, 4.47:1 on a panel — every control border */
 
   /*
@@ -59,6 +84,17 @@
 
   /* Control scale — measured on the reference verbatim. */
   --shadow-raised: 3px 3px 6px var(--n-dark), -3px -3px 6px var(--n-light);
+  /*
+   * Panel scale — the value preqal actually puts on a CARD, measured live
+   * 2026-09-23 off `DIV.rounded-2xl` (5 instances). The previous pass gave
+   * cards `--shadow-raised`, which is measured verbatim too — but off the
+   * reference's PILL BADGE (`SPAN.inline-flex`, 6 instances). Both readings of
+   * "measured on the reference" were honest; they were measured off different
+   * objects, and the card got the pill's. At a card's size 3px/6px reads as
+   * grime under the border rather than as lift.
+   */
+  --shadow-panel:
+    7px 8px 20px rgba(163, 177, 198, 0.45), -4px -4px 14px rgba(255, 255, 255, 0.9);
   /* Hero scale — measured verbatim. At most ONE element per screen. */
   --shadow-raised-lg:
     12px 14px 32px rgba(163, 177, 198, 0.55), -6px -6px 20px rgba(255, 255, 255, 0.9);
@@ -141,6 +177,7 @@
 @theme inline {
   --color-surface: var(--surface);
   --color-surface-raised: var(--surface-raised);
+  --color-panel: var(--panel);
   --color-content: var(--content);
   --color-content-dim: var(--content-dim);
   --color-edge: var(--edge);
@@ -295,19 +332,33 @@ body {
   --type-index-small-leading: 1rem; /* 16px */
 }
 
+/*
+ * Display weight, raised 700 -> 800.
+ *
+ * The type SCALE here is already Apple's: 17px body, 15px label, 13px caption
+ * are iOS text styles, and on Apple hardware --font-sans resolves to SF Pro,
+ * so the app is already set in Apple's own face. What it was not doing was
+ * using it with any conviction -- 700 at the top of a scale whose face ships
+ * Heavy and Black. preqal, the reference, sets its headings at 900.
+ *
+ * Costs nothing: no new family, no new file, no request. It is a number.
+ * Tracking tightens as size grows, which is what a display face wants and the
+ * reason -0.02em was already on the largest step alone.
+ */
 @utility t-display-lg {
   font-family: var(--font-sans);
   font-size: var(--type-display-lg-size);
   line-height: var(--type-display-lg-leading);
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-weight: 800;
+  letter-spacing: -0.03em;
 }
 
 @utility t-display {
   font-family: var(--font-sans);
   font-size: var(--type-display-size);
   line-height: var(--type-display-leading);
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: -0.02em;
 }
 
 @utility t-title {
@@ -315,6 +366,7 @@ body {
   font-size: var(--type-title-size);
   line-height: var(--type-title-leading);
   font-weight: 700;
+  letter-spacing: -0.01em;
 }
 
 @utility t-heading {
@@ -525,6 +577,84 @@ body {
   transform: translateY(1px);
 }
 
+/*
+ * The same press, extended to every raised surface that is tappable.
+ *
+ * The two classes above were the only things in the app that answered a touch.
+ * Everything else a learner actually presses — the lesson card on Today, a
+ * path node, a tab — took the press silently, which on a soft surface means no
+ * feedback at all, because there is no browser default worth anything here
+ * (the comment above says so and it applies to these too).
+ *
+ * The grammar is the one already established rather than a second one: the
+ * surface sinks into the ground it was raised out of. Transition covers only
+ * transform and box-shadow, both compositor-cheap, and both collapse to 1ms
+ * under the reduced-motion block at the end of this file — which removes the
+ * animation and keeps the state, so the press is still legible without motion.
+ */
+.tap.n-panel,
+.tap.n-raised,
+a.n-panel,
+a.n-raised {
+  transition:
+    box-shadow var(--motion-fast) var(--ease-out),
+    transform var(--motion-fast) var(--ease-out);
+}
+
+.tap.n-panel:active:not([aria-disabled='true']),
+.tap.n-raised:active:not([aria-disabled='true']),
+a.n-panel:active:not([aria-disabled='true']),
+a.n-raised:active:not([aria-disabled='true']) {
+  box-shadow: var(--shadow-inset);
+  transform: translateY(1px);
+}
+
+/*
+ * Entrance. A list of cards that simply exists on first paint reads as a
+ * document; the same list arriving reads as an interface. 8px and 240ms, with
+ * a 40ms step between siblings -- short enough that the last item is in under
+ * a quarter-second, which is the ceiling for something a learner sees on every
+ * launch (they will see this more than any other animation in the app).
+ *
+ * `both` holds the from-state before the delay elapses, or every item would
+ * paint at full opacity and then jump back to start.
+ */
+@keyframes rise-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@utility rise {
+  animation: rise-in var(--motion-screen) var(--ease-out) both;
+}
+
+@utility rise-stagger {
+  & > * {
+    animation: rise-in var(--motion-screen) var(--ease-out) both;
+  }
+  & > *:nth-child(1) {
+    animation-delay: 0ms;
+  }
+  & > *:nth-child(2) {
+    animation-delay: 40ms;
+  }
+  & > *:nth-child(3) {
+    animation-delay: 80ms;
+  }
+  & > *:nth-child(4) {
+    animation-delay: 120ms;
+  }
+  & > *:nth-child(n + 5) {
+    animation-delay: 160ms;
+  }
+}
+
 .btn:disabled,
 .btn[aria-disabled='true'],
 .icon-control:disabled,
@@ -624,6 +754,28 @@ input[type='checkbox']:checked::before {
 
 @utility n-raised-lg {
   box-shadow: var(--shadow-raised-lg);
+}
+
+/*
+ * A card-sized raise. `n-raised` stays as it is for pill- and control-sized
+ * things, which is the size it was measured at.
+ */
+@utility n-panel {
+  box-shadow: var(--shadow-panel);
+}
+
+/*
+ * The material edge (see --edge-lit). Pairs with n-panel on any raised
+ * surface; replaces a uniform `border border-edge-strong`, and keeps that
+ * token on the two sides the guard measures.
+ */
+@utility n-edge {
+  border-width: 1.5px;
+  border-style: solid;
+  border-top-color: var(--edge-lit);
+  border-left-color: var(--edge-lit);
+  border-bottom-color: var(--edge-strong);
+  border-right-color: var(--edge-strong);
 }
 
 @utility n-inset {

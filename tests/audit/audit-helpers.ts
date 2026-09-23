@@ -615,6 +615,7 @@ export const BLUR_CAP_PX = 4;
 /** The `:root` custom properties whose value a blurred shadow may equal. */
 export const SANCTIONED_SHADOW_TOKENS = [
   '--shadow-raised',
+  '--shadow-panel',
   '--shadow-raised-lg',
   '--shadow-inset',
   '--shadow-inset-soft',

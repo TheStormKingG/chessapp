@@ -139,7 +139,7 @@ export function TodayScreen() {
         {next ? (
           <Link
             to={next.kind === 'lesson' ? `/lesson/${next.id}` : `/checkpoint/${next.unit}`}
-            className="tap n-raised mt-2 block rounded-control border border-edge-strong bg-surface-raised p-4 xl:rounded-hero xl:p-6 xl:n-raised-lg"
+            className="tap n-panel n-edge mt-2 block rounded-card bg-panel p-4 xl:rounded-hero xl:p-6 xl:n-raised-lg"
           >
             {/* Δ4.4: the position and the words are one row, so the card grows by
                 the board's 120px only where there is room beside the text. The
@@ -177,7 +177,7 @@ export function TodayScreen() {
             </span>
           </Link>
         ) : (
-          <p className="t-body n-raised mt-2 rounded-card bg-surface-raised p-4">
+          <p className="t-body n-panel n-edge mt-2 rounded-card bg-panel p-4">
             You have finished everything that is built so far. More lessons are coming.
           </p>
         )}
@@ -190,7 +190,7 @@ export function TodayScreen() {
       */}
       <div className="contents xl:col-start-2 xl:row-start-1 xl:block">
         {unit && (
-          <section aria-label="This unit" className="hidden xl:block">
+          <section aria-label="This unit" className="mt-6 xl:mt-0">
             <h2 className="t-caption uppercase tracking-wide text-content-dim">This unit</h2>
             {/*
               The count comes first and in words, exactly as PathScreen states
@@ -255,8 +255,32 @@ export function TodayScreen() {
             </button>
           </div>
         )}
-        <Link to="/play" className="t-heading tap n-raised mt-2 block rounded-control border border-edge-strong bg-surface-raised p-4">
+        <Link to="/play" className="t-heading tap n-panel n-edge mt-2 block rounded-card bg-panel p-4">
           Play a coached game
+        </Link>
+
+        {/*
+          The daily puzzle shipped with the puzzles feature and Today has never
+          offered it, so the one screen a learner opens by default sent them
+          nowhere for it. It sits under Play rather than under "On the path"
+          because it is not path progress: finishing it advances nothing, which
+          is exactly why it suits the ten-minutes-and-no-appetite-for-a-lesson
+          case PRD 3.3 job 5 describes.
+
+          One line of copy, no puzzle state read here: Today already loads the
+          path, the resume record and the unit meter, and fetching a pack to
+          label this card would put the puzzle stream's cost on the launch
+          screen for a subtitle.
+        */}
+        <h2 className="t-caption mt-6 uppercase tracking-wide text-content-dim">Practice</h2>
+        <Link
+          to="/puzzles/daily"
+          className="tap n-panel n-edge mt-2 block rounded-card bg-panel p-4"
+        >
+          <span className="t-heading block">Today&rsquo;s puzzle</span>
+          <span className="t-label mt-1 block text-content-dim">
+            One position, one move. A few minutes.
+          </span>
         </Link>
       </div>
 

@@ -112,7 +112,7 @@ export function LicencesScreen() {
       </p>
       <ul className="mt-4 space-y-4">
         {entries.map((e) => (
-          <li key={e.name} className="n-raised rounded-card bg-surface-raised p-4 [overflow-wrap:anywhere]">
+          <li key={e.name} className="n-panel n-edge rounded-card bg-panel p-4 [overflow-wrap:anywhere]">
             <h2 className="t-heading">
               {e.name}
               {e.version ? ` ${e.version}` : ''}
