@@ -139,7 +139,7 @@ export function TodayScreen() {
         {next ? (
           <Link
             to={next.kind === 'lesson' ? `/lesson/${next.id}` : `/checkpoint/${next.unit}`}
-            className="tap n-raised mt-2 block rounded-control border border-edge-strong bg-surface-raised p-4 xl:rounded-hero xl:p-6 xl:n-raised-lg"
+            className="tap n-panel n-edge mt-2 block rounded-card bg-panel p-4 xl:rounded-hero xl:p-6 xl:n-raised-lg"
           >
             {/* Δ4.4: the position and the words are one row, so the card grows by
                 the board's 120px only where there is room beside the text. The
@@ -255,7 +255,7 @@ export function TodayScreen() {
             </button>
           </div>
         )}
-        <Link to="/play" className="t-heading tap n-raised mt-2 block rounded-control border border-edge-strong bg-surface-raised p-4">
+        <Link to="/play" className="t-heading tap n-panel n-edge mt-2 block rounded-card bg-panel p-4">
           Play a coached game
         </Link>
       </div>

@@ -215,7 +215,21 @@ test('the locked run is a groove and the rows that can be pressed are raised', (
   for (const g of grooves) {
     expect(g.querySelector('a')).toBeNull();
   }
-  expect(document.querySelectorAll('.n-raised').length).toBeGreaterThan(0);
+  // SCOPED, not loosened. The claim is "a row that can be pressed is raised",
+  // and the raise is now carried by `n-panel` on the node card -- the
+  // card-scale shadow measured off the reference's panel -- where it used to be
+  // `n-raised`, which is the reference's PILL scale and stays on pill-sized
+  // things. Both are raises, so both satisfy the rule and the selector names
+  // both; pinning it to one class name would have been asserting the
+  // implementation rather than the grammar, which is what let this break on a
+  // rename that changed nothing about the design.
+  const raised = document.querySelectorAll('.n-panel, .n-raised');
+  expect(raised.length).toBeGreaterThan(0);
+  // ...and a raised row is never inside the groove, which is the half of the
+  // grammar the count alone does not check.
+  for (const r of raised) {
+    expect(r.closest('.n-inset-soft')).toBeNull();
+  }
 });
 
 test('--accent-soft has left this screen', () => {
