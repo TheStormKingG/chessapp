@@ -32,7 +32,31 @@ test('live app loads with the tab bar', async ({ page }) => {
  *
  * Cost: two HTTP fetches, well under a second. It cannot hang the deploy gate.
  */
+/*
+ * PRECONDITION, stated rather than discovered.
+ *
+ * This asserts on a worker Workbox generates AT BUILD TIME. A dev server has
+ * no such file -- vite-plugin-pwa does not emit a precache manifest in dev --
+ * so run without `SMOKE_URL` (a deployed site) or `PREVIEW=1` (a local
+ * production build), it fetched `localhost:5173/sw.js`, parsed zero entries,
+ * and failed with "no precache manifest entries parsed". That message describes
+ * the artefact and says nothing about the run mode, so the failure reads as a
+ * broken service worker when the truth is that the test was pointed at a
+ * server that could never satisfy it.
+ *
+ * CI always meets the precondition: `smoke.yml` sets SMOKE_URL to the deployed
+ * site, and `deploy.yml` runs the e2e project with PREVIEW=1. Only the default
+ * local invocation could not, and it failed rather than saying so -- which is
+ * how three specs sat in the "known failing" pile for a day without anyone
+ * being able to tell breakage from a missing flag.
+ */
+const BUILT_WORKER = !!process.env['SMOKE_URL'] || !!process.env['PREVIEW'];
+
 test('the served service worker precaches the build the served index.html references', async ({ request, baseURL }) => {
+  test.skip(
+    !BUILT_WORKER,
+    'needs a built service worker: run with PREVIEW=1 (local build) or SMOKE_URL (deployed site)',
+  );
   const base = new URL(baseURL ?? 'http://localhost:5173/');
   const swUrl = new URL('sw.js', base);
 
