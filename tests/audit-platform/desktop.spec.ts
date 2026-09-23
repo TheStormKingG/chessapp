@@ -305,22 +305,33 @@ test.describe('the phone layout is untouched', () => {
     const m = await contentShare(page);
     const board = await box(page, '[data-testid="today-lesson-board"]');
     test.info().annotations.push({ type: 'compact', description: JSON.stringify({ ...m, board }) });
-    // §7.1's compact row: 390 x 543, 64% of the window, and the ~301px void
-    // beneath it is Delta 4's unfinished business, deliberately not re-opened.
+    // §7.1's compact row was 390 x 543, and the ~301px void beneath it was
+    // recorded here as "Delta 4's unfinished business, deliberately not
+    // re-opened". Pass 5 re-opened it on purpose: 757 now, so the void is ~87px.
     //
-    // 545 until chunk N2 retired `--key-raised`. The two pixels are that token's
-    // 2px solid bottom border leaving the "On the path" card, which now carries
-    // the soft raise alone (§6: one depth grammar per element class). This
-    // assertion exists to catch the DESKTOP pass leaking onto the phone, and it
-    // is re-pinned rather than loosened -- a tolerance here would stop it
-    // catching exactly the kind of drift it was written for. The three
-    // desktop-only regions below are the assertion that carries that intent, and
-    // they are unchanged.
+    // The history of this number is the point. 545 until chunk N2 retired
+    // `--key-raised` (its 2px bottom border leaving the "On the path" card);
+    // 543 until the unit meter came to the phone. Each time it is RE-PINNED
+    // rather than given a tolerance, because a tolerance here would stop it
+    // catching the drift it exists for -- the DESKTOP pass leaking onto the
+    // phone by accident.
+    //
+    // What closed the void was a deliberate decision, not leakage: the phone
+    // was being given the leftovers of a desktop layout. "This unit" -- a
+    // two-line meter saying how far through the current unit the learner is --
+    // was `hidden xl:block`, so a phone showed two cards and a bare link on a
+    // 844px screen. It is now the one former desktop-only region that reaches
+    // the phone, and it is named here rather than dropped from the list, so
+    // this stays a statement about WHICH regions cross over instead of becoming
+    // a weaker statement about how many.
     expect(Math.round(m.w)).toBe(390);
-    expect(Math.round(m.h)).toBe(543);
+    expect(Math.round(m.h)).toBe(757);
     expect(board.width, 'the compact board is not 120px').toBeCloseTo(120, 0);
-    // None of the desktop-only regions reach the phone.
-    for (const name of ['This unit', 'Up next', 'Recently finished']) {
+    // Deliberately on the phone now.
+    await expect(page.getByRole('region', { name: 'This unit' })).toHaveCount(1);
+    // ...and these two are still desktop-only, so the rule is not vacuous: a
+    // desktop pass that leaked wholesale would still be caught here.
+    for (const name of ['Up next', 'Recently finished']) {
       await expect(page.getByRole('region', { name })).toHaveCount(0);
     }
   });

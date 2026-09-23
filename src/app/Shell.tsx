@@ -26,7 +26,7 @@ export function Shell({ children }: { children: ReactNode }) {
     <div className="flex min-h-full md:flex-row">
       <nav
         aria-label="Main"
-        className="fixed inset-x-0 bottom-0 z-10 border-t border-edge-strong bg-surface-raised md:sticky md:inset-x-auto md:top-0 md:bottom-auto md:h-dvh md:w-60 md:shrink-0 md:border-t-0 md:border-r"
+        className="fixed inset-x-0 bottom-0 z-10 border-t border-edge-strong bg-panel backdrop-blur-xl md:sticky md:inset-x-auto md:top-0 md:bottom-auto md:h-dvh md:w-60 md:shrink-0 md:border-t-0 md:border-r"
       >
         {/* A wordmark, not a heading: the screens own the document outline. */}
         <p className="t-label hidden px-4 pt-5 pb-3 font-semibold tracking-wide text-content-dim md:block">ChessApp</p>

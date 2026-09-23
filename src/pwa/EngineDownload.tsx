@@ -112,11 +112,11 @@ export function EngineDownload({ onReady }: { onReady?: () => void }) {
 
   if (status === 'error')
     return (
-      <div role="alert" className="n-raised rounded-card bg-surface-raised p-4">
+      <div role="alert" className="n-panel n-edge rounded-card bg-panel p-4">
         <p className="text-[1.0625rem] leading-[1.625rem] text-content">{ENGINE_ERROR}</p>
         <button
           type="button"
-          className="tap mt-3 rounded-lg border border-edge-strong px-4 text-[0.9375rem] font-medium text-content"
+          className="tap mt-3 rounded-control border border-edge-strong px-4 text-[0.9375rem] font-medium text-content"
           onClick={retry}
         >
           Retry
@@ -131,7 +131,7 @@ export function EngineDownload({ onReady }: { onReady?: () => void }) {
   const expected = total > 0 ? total : Math.max(ENGINE_BYTES, loaded);
   const percent = Math.min(100, Math.round((loaded / expected) * 100));
   return (
-    <div className="n-raised rounded-card bg-surface-raised p-4">
+    <div className="n-panel n-edge rounded-card bg-panel p-4">
       <p id="engine-download-label" className="text-[1.0625rem] leading-[1.625rem] font-semibold text-content">
         Getting your opponent ready
       </p>

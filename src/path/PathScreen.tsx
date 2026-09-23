@@ -249,11 +249,13 @@ function skinFor(node: Node): string {
   const keyEdge = 'border-b-[3px] border-b-key-accent';
   if (node.state === 'active') {
     return node.kind === 'checkpoint'
-      ? `n-raised border-2 border-signal bg-signal-soft text-signal ${keyEdge}`
+      ? `n-panel border-2 border-signal bg-signal-soft text-signal ${keyEdge}`
       : `border-2 border-accent ${card} ${keyEdge}`;
   }
   if (node.state === 'passed' || node.state === 'done' || node.state === 'testedOut') {
-    return `border border-edge-strong ${card}`;
+    // `card` already carries n-edge, which paints the lit/shadow pair per side.
+    // A blanket `border-edge-strong` here would repaint all four and undo it.
+    return card;
   }
   // The remaining case is a checkpoint of a built unit that is attemptable but
   // not yet due: an outline, not a slab.
