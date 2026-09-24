@@ -7,6 +7,7 @@ import { CoachBubble, CoachService } from '@/coach';
 import type { Square } from '@/rules';
 import { useSettings } from '@/app/settings';
 import { initLesson, reduce, currentChallenge, type Highlights, type LessonState } from './LessonMachine';
+import { Annotation } from './Annotation';
 import { ChallengeView } from './challenges/ChallengeView';
 import type { WrongMove } from './challenges/Sequence';
 import { useEngineRefutation } from './useEngineRefutation';
@@ -374,6 +375,14 @@ export function LessonPlayer({
               All `md:`, so the phone column is untouched. */}
           <div className="md:col-start-2 md:row-start-3 md:flex md:flex-col md:self-stretch">
           <CoachBubble text={s.feedback} tone={s.feedbackTone} />
+          {/* The story game's own paragraph, after the coach's reaction and
+              only once the move is settled -- `busy` is exactly `correct` or
+              `revealed`. See `Annotation.tsx` for why this is not the coach
+              line: they are different voices making different claims, and one
+              of them would have to be dropped to share a component. */}
+          {c.type === 'guess_the_move' && busy && (
+            <Annotation fen={c.fen} move={c.answer.moves[0]} text={c.commentary} />
+          )}
           <div className="mt-4 flex gap-2 md:order-2">
             {!busy && s.hintsAllowed && (
               <>

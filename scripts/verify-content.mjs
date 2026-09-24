@@ -347,12 +347,34 @@ async function checkChallenge(where, c) {
       if (!c.goal?.kind || !(c.goal.moves > 0)) fail(where, 'play_it_out needs a goal with moves');
       break;
     case 'guess_the_move': {
-      const g = new Chess(c.fen);
+      // A fresh position per move. The original reused one board and played the
+      // moves onto it in turn, so a second answer move was reported "illegal"
+      // when it was merely White's move played on Black's turn -- a true
+      // statement about the wrong position, next to the real finding. These are
+      // ALTERNATIVE answers, not a line; `find_the_sequence` is the type that
+      // walks a board forward.
       for (const s of c.answer.moves) {
-        if (!tryMove(g, s)) {
-          fail(where, `guess move ${s} illegal`);
-          break;
-        }
+        if (!tryMove(new Chess(c.fen), s)) fail(where, `guess move ${s} illegal`);
+      }
+      /*
+       * The two checks that make this type different from `find_the_move`,
+       * which is what it silently was until the commentary got a renderer.
+       *
+       * ONE move, not a list. `find_the_move` accepts alternatives because
+       * several moves can be equally best. A story game is replaying a game
+       * somebody actually played, and the commentary is about the move they
+       * played -- so accepting a second move means the learner can be told
+       * "correct" and then read a paragraph about a different move. The schema
+       * cannot express this (it is the same `answer.moves` shape), so it is
+       * caught here.
+       */
+      if (c.answer.moves.length !== 1) {
+        fail(where, `guess_the_move takes exactly one move, got ${c.answer.moves.length}`);
+      }
+      // The schema requires a non-empty string; whitespace satisfies that and
+      // renders as nothing at all, which is the state this whole type was in.
+      if (!String(c.commentary ?? '').trim()) {
+        fail(where, 'guess_the_move needs commentary -- it is the point of the type');
       }
       break;
     }

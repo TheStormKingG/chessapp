@@ -201,6 +201,29 @@
               }
             }
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "guess_the_move"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "commentary"
+            ],
+            "properties": {
+              "commentary": {
+                "type": "string",
+                "minLength": 1
+              }
+            }
+          }
         }
       ]
     },
