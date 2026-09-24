@@ -22,27 +22,23 @@ import { buildFixtures, startSwapServer, type Fixtures, type SwapServer } from '
  * Build B is built with `--minify false`, so every chunk hash differs. That is
  * the same condition a content release produces, reached by a different route.
  *
- * STATUS: `fixme`. The FIX is shipped and unit-tested (`staleChunk.test.ts`,
- * 7 cases); this end-to-end reproduction is NOT working and is parked rather
- * than deleted, because what it learned is worth more than the file.
+ * STATUS: passing, and verified to FAIL with the recovery disabled -- without
+ * that control it would be a test that cannot catch the thing it names.
  *
- * What it disproved -- my own assumption. Swapping the server is not enough.
- * While the new worker is merely WAITING, Workbox has not run its cleanup, so
- * the old build's chunks are still in the precache and every lazy import is
- * served from there. Nothing 404s. The live failure needs the state AFTER
- * cleanup: new entries in place, old ones purged, and a page still running the
- * old index. That state cannot be reached by swapping builds alone.
+ * What it took, recorded because the first attempts all failed for reasons
+ * that were not the fix. Swapping the builds is NOT enough: while the new
+ * worker is merely WAITING, Workbox has not run its cleanup, so the old
+ * build's chunks are still precached and nothing 404s. The live failure needs
+ * the state AFTER cleanup -- new entries in place, old ones purged, a page
+ * still running the old index -- which is reproduced here by evicting the
+ * chunks by hand. The cache STATE is simulated; the 404 that follows is real,
+ * served by the real swap server, and the recovery is real.
  *
- * Evicting the chunks by hand reproduces the cache state, and the 404 that
- * follows is real. What then defeated it was incidental: inside a lesson the
- * tab bar is hidden (a lesson is modal, by design), the next lesson is LOCKED
- * on a fresh profile so it is not a link, and driving the remaining route
- * races the very reload the fix performs. Each obstacle is a correct product
- * behaviour, which is the signal that the harness, not the fix, is what is
- * missing here.
- *
- * To finish it, the likely route is a seeded profile (so a second lesson is
- * unlocked) plus waiting on the reload rather than clicking through it.
+ * Driving the UI was the other dead end: inside a lesson the tab bar is hidden
+ * (a lesson is modal, by design), the next lesson is LOCKED on a fresh profile
+ * so it is not a link, and whatever route was left raced the reload the fix
+ * performs. A plain `goto` is both simpler and more faithful -- the document
+ * comes from the worker's precache, so the client stays on the old build.
  *
  * WHY IT IS ITS OWN FILE. `sw-upgrade.spec.ts` is `mode: 'serial'`, so one
  * failure there skips every test after it -- including the guarantee tests.
@@ -97,7 +93,7 @@ async function returningVisitorOnBuildA(browser: Browser, path: string): Promise
   return page;
 }
 
-test.fixme('a held client recovers when a deploy takes its chunk away', async ({ browser }) => {
+test('a held client recovers when a deploy takes its chunk away', async ({ browser }) => {
   const page = await returningVisitorOnBuildA(browser, '/lesson/1.1.1');
 
   server.serve(fixtures.b);
@@ -147,13 +143,20 @@ test.fixme('a held client recovers when a deploy takes its chunk away', async ({
   // Now ask A's still-running index for a chunk that is in no cache and that
   // B's artefact does not contain. This is a client-side navigation, so the
   // page keeps running A's index rather than re-fetching a document.
-  // The tab bar is hidden inside a lesson by design (a lesson is modal), so
-  // the way out is the lesson's own exit control.
-  await page.getByRole('button', { name: 'Exit lesson' }).click();
-  // 1.1.2 is LOCKED on a fresh profile, so it is not a link. The unit
-  // checkpoint is ("attempt any time to test out") and its chunk is lazily
-  // imported and was evicted above, which is what this needs.
-  await page.getByRole('link', { name: /checkpoint/i }).first().click();
+  /*
+   * A real navigation, not a click.
+   *
+   * Driving the UI was what defeated the earlier attempts: inside a lesson the
+   * tab bar is hidden (a lesson is modal, by design), the next lesson is LOCKED
+   * on a fresh profile so it is not a link, and whatever route was left raced
+   * the reload the fix performs.
+   *
+   * `goto` is also the more faithful move. The document comes from the WORKER's
+   * precache -- still build A's index.html, because only the chunks were
+   * evicted -- so the client stays on A and asks A's index for a chunk that no
+   * longer exists anywhere. That is the live failure exactly.
+   */
+  await page.goto(`${server.origin}/checkpoint/1.1`);
 
   // It takes the waiting worker and comes back on B...
   await expect.poll(async () => (await clientState(page)).entry, { timeout: 45_000 }).toBe(fixtures.b.entry);

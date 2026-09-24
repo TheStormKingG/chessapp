@@ -29,8 +29,37 @@ jobs:
       - run: npm test
       - run: npm run verify:content
       # Design spec 2.5: every shipped puzzle is legal and has one answer.
+      #
+      # Cached on the CONTENT of the puzzle packs, because the packs are static
+      # and the check is expensive: it was 398s of a 612s deploy -- 65% of every
+      # release spent re-proving 7,909 puzzles that had not changed since the
+      # last release.
+      #
+      # The key is a hash of the packs themselves, so it is the DATA that
+      # decides, not a branch name or a date. Edit a pack and the key changes,
+      # the cache misses, and the full check runs. There is no path on which a
+      # changed puzzle ships unverified, which is the only property this
+      # optimisation is allowed to cost nothing on.
+      #
+      # The marker is written only after the check passes, so a failed run
+      # leaves no cache and the next run repeats the work rather than
+      # inheriting a pass it never earned.
+      - name: Puzzle verification cache
+        id: puzzle-cache
+        uses: actions/cache@v4
+        with:
+          path: .puzzles-verified
+          key: puzzles-${{ hashFiles('public/data/puzzles/**', 'scripts/verify-puzzles.mjs') }}
       - name: Verify puzzles
-        run: npm run verify:puzzles
+        if: steps.puzzle-cache.outputs.cache-hit != 'true'
+        run: |
+          npm run verify:puzzles
+          echo "verified ${{ hashFiles('public/data/puzzles/**', 'scripts/verify-puzzles.mjs') }}" > .puzzles-verified
+      - name: Puzzle verification (cached)
+        if: steps.puzzle-cache.outputs.cache-hit == 'true'
+        run: |
+          echo "Puzzle packs unchanged since the last verified run; skipping."
+          cat .puzzles-verified
       # The e2e gate runs against a production bundle, not the dev server.
       # It is built at the root base so the specs can navigate with relative
       # paths; the Pages build below keeps the /chessapp/ base.

@@ -52,6 +52,24 @@ const lesson: Lesson = {
 
 const atFirstChallenge = (): LessonState => reduce(initLesson(lesson), { type: 'next' });
 
+/** The reported 2.3 shape: a pawn push judged before it is played. */
+const SAFE_FEN = '4k3/pp5p/2n5/8/B7/3P4/6PP/6K1 w - - 0 1';
+const safeLesson: Lesson = {
+  ...lesson,
+  challenges: [
+    {
+      id: 's1',
+      type: 'is_it_safe',
+      fen: SAFE_FEN,
+      move: 'd4',
+      prompt: 'White pushes the pawn to d4. Is the pawn safe there?',
+      concept: 'absolute-pin',
+      reasons: ['Yes, the knight is pinned.', 'No, the knight takes it.', 'No, the king collects it.'],
+      answer: { safe: true, reason: 0 },
+    },
+  ],
+};
+
 test('a correct move leaves the position AFTER that move on the state', () => {
   const s = reduce(atFirstChallenge(), {
     type: 'attempt',
@@ -101,6 +119,33 @@ test('a second miss auto-reveals, and shows the answer played out', () => {
   s = reduce(s, { type: 'attempt', attempt: { kind: 'move', uci: 'g1f1' } });
   expect(s.phase).toMatchObject({ status: 'revealed' });
   expect(s.answeredFen).toBe(applyMove(FEN, 'Bxd5').fen);
+});
+
+test('an is_it_safe shows its proposed move ONCE ANSWERED, never before', () => {
+  /*
+   * The exercise is judging a move you have not played -- "you want to play the
+   * queen to d4, is that safe?" -- which is the sanity-check-before-you-move
+   * skill. Showing the move up front would delete the exercise, so the board
+   * stays on the real position while the question is open.
+   *
+   * But once the verdict and the reason are in, the answer was only ever
+   * DESCRIBED. Playing the move then demonstrates it, which is the payoff the
+   * challenge never had.
+   */
+  let s = reduce(initLesson(safeLesson), { type: 'next' });
+  expect(s.phase).toMatchObject({ kind: 'challenge', index: 0 });
+  expect(s.answeredFen, 'the move must not be shown while the question is open').toBeNull();
+
+  s = reduce(s, { type: 'attempt', attempt: { kind: 'safe', safe: true, reason: 0 } });
+  expect(s.phase).toMatchObject({ status: 'correct' });
+  expect(s.answeredFen).toBe(applyMove(SAFE_FEN, 'd4').fen);
+});
+
+test('a wrong is_it_safe verdict still leaves the question open on the real board', () => {
+  let s = reduce(initLesson(safeLesson), { type: 'next' });
+  s = reduce(s, { type: 'attempt', attempt: { kind: 'safe', safe: false, reason: 1 } });
+  expect(s.phase).toMatchObject({ status: 'retry' });
+  expect(s.answeredFen).toBeNull();
 });
 
 test('a square-pick challenge never produces a position', () => {

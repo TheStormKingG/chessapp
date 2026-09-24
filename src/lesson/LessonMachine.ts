@@ -160,6 +160,15 @@ function finish(s: LessonState): LessonState {
  * has no `answer` property at all, and a drill has no single move to show.
  */
 function answerMove(c: Challenge): string | undefined {
+  /*
+   * `is_it_safe` carries its move separately, because the move is the QUESTION
+   * rather than the answer: "you want to play the queen to d4 -- is that safe?"
+   * The board deliberately stays on the real position while that is open, or
+   * the exercise (judge it before you commit) disappears. Once it is answered
+   * the move is worth playing, so the verdict is demonstrated instead of only
+   * described.
+   */
+  if (c.type === 'is_it_safe') return c.move;
   if (!('answer' in c)) return undefined;
   const a = c.answer as { moves?: string[] } | undefined;
   return a && 'moves' in a ? a.moves?.[0] : undefined;
@@ -316,9 +325,15 @@ function reduceInner(s: LessonState, a: Action): LessonState {
           feedbackTone: 'good',
           highlights: {},
           refutation: null,
-          // The move the learner actually played, not the canonical answer.
+          // The move the learner actually played, not the canonical answer --
+          // except for `is_it_safe`, whose "attempt" is a verdict about a move
+          // the challenge itself names (see `answerMove`).
           answeredFen:
-            a.attempt.kind === 'move' ? positionAfter(c, a.attempt.uci) : null,
+            a.attempt.kind === 'move'
+              ? positionAfter(c, a.attempt.uci)
+              : a.attempt.kind === 'safe'
+                ? positionAfter(c, answerMove(c))
+                : null,
           results: { ...s.results, [c.id]: { ...r, correct: true, mastery } },
         };
       }
