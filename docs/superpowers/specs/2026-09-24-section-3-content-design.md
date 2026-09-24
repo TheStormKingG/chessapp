@@ -48,7 +48,7 @@ schema's own note says to add a tag in the same commit that first uses it; with
 twenty-five arriving at once the risk is a typo, not an omission, so the tag
 list is written **once, up front, as one commit**, and authoring draws from it.
 
-### 2.2 `guess_the_move` has never been authored
+### 2.2 `guess_the_move` has never been authored — RESOLVED 2026-09-24
 
 Unit 3.12 is four annotated story games in the Logical Chess style, and
 `guess_the_move` is the type for them. **No content file in the repository uses
@@ -61,6 +61,46 @@ Treat 3.12 as **a feature with content attached**, not as authoring. It needs
 its renderer exercised, a verifier case, and a keyboard path, before its four
 games are written. Scheduling it like the other eleven units is the mistake
 this section is most likely to make.
+
+**Built 2026-09-24, and the diagnosis above was wrong in the way that
+mattered.** The type was not un-rendered. `ChallengeView` has always handled it
+— in the same `case` as `find_the_move`, which is why it looked fine. What no
+component read was `commentary`, the one field that makes it a story game
+rather than a puzzle. A 3.12 authored against the old code would have accepted
+the move, said "correct", and discarded the paragraph, and every test would
+have passed. "Has never been authored" is a weaker claim than the truth: it had
+never been authored, so nobody had noticed it was already broken.
+
+What shipped:
+
+  - `src/lesson/Annotation.tsx` renders the commentary once the move is settled
+    (`correct` or `revealed`; withheld while attempting, since the paragraph is
+    the answer). It is a second voice beside the coach, not the coach's line —
+    PRD F-PL-3 caps the coach at one line per move, and the two make different
+    claims: the coach reacts to what the learner did, the annotation says what
+    the move meant in the game. Sharing one component would cost a learner who
+    guessed wrong their own feedback.
+  - Both schemas now **require** `commentary` on this type. Absent, it was
+    valid.
+  - The verifier rejects a whitespace-only commentary (which satisfies the
+    schema's `minLength: 1` and renders as nothing — the state the type was
+    already in) and rejects more than one answer move. A story game replays a
+    game somebody played; a second accepted move means "correct" followed by a
+    paragraph about a different move. The schema cannot express that.
+  - Fixed in passing: the verifier played the answer moves onto ONE board in
+    turn, so a second was reported "illegal" when it was only White's move on
+    Black's turn.
+
+**Accessibility**: `role="note"` labelled "From the game", the same contract
+`CoachBubble` uses. Deliberately NOT a live region — it enters at the same
+instant as the coach's line, and two polite regions firing together queue and
+read in sequence, which buries the feedback the learner asked for behind a
+paragraph. The header counter remains the screen's one announcement.
+
+**No engine gate applies to this type**, which changes 3.12's cost: the
+verifier runs Stockfish only for a single-answer `find_the_move`. A story game's
+answer is the move that was played, not the move the engine prefers, so 3.12
+authors without the engine ambiguity margins that pace every other unit.
 
 ### 2.3 The explorer at your band (3.10) — RESOLVED, dropped
 
@@ -150,8 +190,10 @@ Authoring order follows the PRD's own dependency order rather than unit number:
 ## 5. Open decisions for the owner
 
 1. ~~**3.10's explorer**~~ — **resolved 2026-09-24: dropped** (§2.3).
-2. **3.12's story games** — confirm `guess_the_move` gets its renderer/verifier
-   /accessibility pass as a build task before its content is scheduled.
+2. ~~**3.12's story games**~~ — **resolved 2026-09-24**: the commentary
+   renderer, the two schema requirements, the verifier's two new rejections and
+   the accessibility contract all shipped (§2.2). 3.12 is now ordinary
+   authoring, and cheaper than its siblings because no engine gate applies.
 3. **Habit levels.** PRD §2 puts level two "from unit 2.2 through Section 3" and
    level three at Section 4. Section 3's habits are authored as level two; the
    transition is Section 4's problem, but the grader must not penalise a rule
