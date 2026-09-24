@@ -109,7 +109,11 @@ export function ChallengeView({
     case 'is_it_safe':
       return (
         <>
-          <Board fen={c.fen} orientation="w" mode="static" highlights={highlights} />
+          {/* The real position while the question is open -- the exercise is
+              judging a move BEFORE playing it -- and the move played once the
+              verdict and reason are in, so the answer is demonstrated rather
+              than only described. `answeredFen` is null until then. */}
+          <Board fen={answeredFen ?? c.fen} orientation="w" mode="static" highlights={highlights} />
           {/* A group step, not a control step. §3.3 sets the rhythm by role --
               "8 inside a control, 12 between related lines, 24 between groups"
               -- and the gap between the position and the question asked about
