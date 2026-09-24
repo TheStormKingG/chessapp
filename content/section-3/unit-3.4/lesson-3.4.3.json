@@ -1,0 +1,171 @@
+{
+  "id": "3.4.3",
+  "unit": "3.4",
+  "title": "Lolli's, Epaulette, Dovetail and Hook",
+  "xp": 15,
+  "card": {
+    "idea": "Four more shapes, and this time look at who is doing the blocking. Two of them are built almost entirely out of Black's own men: rooks either side of the king, or pawns on the two corner squares beside him. The other two are White's: one pawn holding a queen, or a pawn holding a knight holding a rook.",
+    "diagrams": [
+      "1r4k1/3Q3p/5Pp1/8/8/8/8/6K1 w - - 0 1",
+      "1k2r3/p1p5/P7/8/8/8/8/6KQ w - - 0 1",
+      "6rk/3R4/7p/6N1/5P2/8/8/6K1 w - - 0 1"
+    ],
+    "habit": "Ask which of the king's squares his own men have already taken."
+  },
+  "explain": [
+    {
+      "fen": "1r4k1/3Q3p/5Pp1/8/8/8/8/6K1 w - - 0 1",
+      "text": "Lolli's mate is a pawn and a queen. The pawn on f6 guards g7, so the queen can land right beside the king and not be taken. From g7 she covers f7, f8 and h8, and h7 is Black's own pawn. One pawn is all the help she needs.",
+      "arrows": [
+        ["d7", "g7"],
+        ["f6", "g7"]
+      ],
+      "highlights": ["g7", "f6"]
+    },
+    {
+      "fen": "3rkr2/pp6/8/8/8/7Q/8/6K1 w - - 0 1",
+      "text": "The epaulette mate is the one Black builds himself. His rooks stand on d8 and f8 like a pair of epaulettes, so the king between them cannot move sideways at all. Qe6 is check up the file and covers d7, e7 and f7 as well. Nothing is left.",
+      "arrows": [
+        ["h3", "e6"],
+        ["e6", "e8"]
+      ],
+      "highlights": ["d8", "f8"]
+    },
+    {
+      "fen": "6rk/3R4/7p/6N1/5P2/8/8/6K1 w - - 0 1",
+      "text": "The hook mate is a chain. The pawn on f4 holds the knight on g5, the knight holds the rook when it lands on h7, and the rook does the checking. The black pawn on h6 is attacking that knight, which is exactly why the pawn on f4 is in the picture.",
+      "arrows": [
+        ["f4", "g5"],
+        ["g5", "h7"],
+        ["d7", "h7"]
+      ],
+      "highlights": ["h7", "g5"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.4.3-c1",
+      "type": "which_square",
+      "fen": "1r4k1/3Q3p/5Pp1/8/8/8/8/6K1 w - - 0 1",
+      "prompt": "The white pawn on f6 guards one of the squares beside the black king. Tap the square where the queen mates.",
+      "answer": { "square": "g7" },
+      "concept": "lolli-mate",
+      "hints": {
+        "text": "The queen wants to stand where the pawn can protect her."
+      },
+      "reason": "Qg7 is mate. The pawn on f6 holds her, so Kxg7 is illegal. From g7 she covers f7, f8 and h8, and h7 is Black's own pawn. A pawn on f6 and a queen on g7 is Lolli's mate."
+    },
+    {
+      "id": "3.4.3-c2",
+      "type": "find_the_move",
+      "fen": "1r4k1/3Q3p/5Pp1/q7/8/8/8/6K1 w - - 0 1",
+      "prompt": "Black has a queen of his own and a rook on b8 covering the whole back rank. So checks along the eighth get taken.",
+      "answer": { "moves": ["Qg7#"] },
+      "wrong": {
+        "Qd8+": "Rxd8. The rook on b8 is watching the back rank, and the mate here is beside the king, not behind him."
+      },
+      "concept": "lolli-mate",
+      "hints": {
+        "piece": "d7",
+        "square": "g7"
+      },
+      "reason": "Qg7 is mate: the pawn on f6 guards her, f7, f8 and h8 are all hers from g7, and h7 is Black's own pawn. Neither the rook on b8 nor the queen on a5 can reach g7."
+    },
+    {
+      "id": "3.4.3-c3",
+      "type": "name_the_pattern",
+      "fen": "3rkr2/pp6/8/8/8/7Q/8/6K1 w - - 0 1",
+      "prompt": "Qe6 is mate here. What is actually trapping the black king?",
+      "options": [
+        "Black's own rooks on d8 and f8, which take away both sideways squares.",
+        "The white king on g1, which covers the escape squares from a distance.",
+        "The pawns on a7 and b7, which block the king's route out of the corner."
+      ],
+      "answer": { "option": 0 },
+      "concept": "epaulette-mate",
+      "hints": {
+        "text": "List the five squares the king could use, then say who owns each one."
+      },
+      "reason": "The king on e8 has five squares. d8 and f8 are his own rooks; the queen on e6 takes d7, e7 and f7. The name comes from the two rooks sitting like epaulettes on his shoulders."
+    },
+    {
+      "id": "3.4.3-c4",
+      "type": "find_the_move",
+      "fen": "3rkr2/pp4pp/8/8/8/7Q/8/6K1 w - - 0 1",
+      "prompt": "Black has two rooks for your queen, and both of them are in his own king's way. One move finishes it.",
+      "answer": { "moves": ["Qe6#"] },
+      "wrong": {
+        "Qh5+": "Ke7 is legal and the king is out. The check has to cover d7, e7 and f7 all at once, and only e6 does that."
+      },
+      "concept": "epaulette-mate",
+      "hints": {
+        "piece": "h3",
+        "square": "e6"
+      },
+      "reason": "Qe6 is check up the e-file and covers d7, e7 and f7 at the same time. d8 and f8 are Black's own rooks. That is the epaulette mate."
+    },
+    {
+      "id": "3.4.3-c5",
+      "type": "find_them_all",
+      "fen": "1k2r3/p1p5/P7/8/8/8/8/6KQ w - - 0 1",
+      "prompt": "Qb7 is mate here. Tap the two black pawns that make it work by standing on the king's corner squares.",
+      "answer": { "pieces": ["a7", "c7"] },
+      "concept": "dovetail-mate",
+      "hints": {
+        "text": "Look at the two squares that touch b8 corner to corner."
+      },
+      "reason": "a7 and c7 are Black's own pawns, so the king cannot use either. The queen on b7 covers a8 and c8, and the white pawn on a6 guards her. That V-shape is the dovetail mate."
+    },
+    {
+      "id": "3.4.3-c6",
+      "type": "find_the_move",
+      "fen": "1k2r3/p1p5/P7/6pp/8/8/8/6KQ w - - 0 1",
+      "prompt": "The little pawn on a6 is doing more than it looks. Find the square beside the king where the queen cannot be taken.",
+      "answer": { "moves": ["Qb7#"] },
+      "wrong": {
+        "Qc6": "A quiet move, and it is not even check, so Black gets a turn. The square you want is b7, where the pawn on a6 protects the queen."
+      },
+      "concept": "dovetail-mate",
+      "hints": {
+        "piece": "h1",
+        "square": "b7"
+      },
+      "reason": "Qb7 is mate. The pawn on a6 guards b7, so Kxb7 is illegal; a8 and c8 belong to the queen; and a7 and c7 are Black's own pawns. Dovetail mate."
+    },
+    {
+      "id": "3.4.3-c7",
+      "type": "is_it_safe",
+      "fen": "6rk/3R4/7p/6N1/5P2/8/8/6K1 w - - 0 1",
+      "move": "Rh7#",
+      "prompt": "White swings the rook across to h7, right beside the king, and Black has a pawn on h6. Is the rook safe on h7?",
+      "reasons": [
+        "Yes. The knight on g5 guards h7, and a black pawn on h6 cannot capture backwards.",
+        "No. The pawn on h6 takes the rook.",
+        "No. The rook on g8 slides across and takes it."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "hook-mate",
+      "hints": {
+        "text": "Which way do black pawns capture?"
+      },
+      "reason": "The knight on g5 covers h7, so Kxh7 is illegal, and a black pawn on h6 captures towards g5, never back to h7. Rh7 is mate: g8 is Black's own rook and g7 belongs to the rook that just arrived."
+    },
+    {
+      "id": "3.4.3-c8",
+      "type": "find_the_move",
+      "fen": "6rk/3R4/7p/6N1/q4P2/8/8/6K1 w - - 0 1",
+      "prompt": "Black's queen on a4 is attacking your rook along the diagonal through b5 and c6. You do not have time to move it away.",
+      "answer": { "moves": ["Rh7#"] },
+      "wrong": {
+        "Rd6": "Saving the rook hands Black the game, because he has a queen for your knight. The rook on the seventh was one move from mate."
+      },
+      "concept": "hook-mate",
+      "hints": {
+        "piece": "d7",
+        "square": "h7"
+      },
+      "reason": "Rh7 is mate. The knight on g5 guards the rook, the pawn on f4 guards the knight, and g8 is Black's own rook. Rook, knight and pawn hooked together: the hook mate."
+    }
+  ],
+  "takeaway": "Lolli's needs one pawn, the epaulette needs Black's own rooks, the dovetail his own pawns, and the hook is three white men holding each other up."
+}

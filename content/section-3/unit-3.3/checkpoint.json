@@ -1,0 +1,385 @@
+{
+  "unit": "3.3",
+  "title": "Trapped pieces and promotion",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "3.3-k01",
+      "type": "find_the_move",
+      "fen": "r5k1/p4ppp/5p2/7n/8/4P3/2P2PPP/3R2K1 w - - 0 1",
+      "prompt": "The knight on h5 has two squares, f4 and g3, and your pawns cover both. Attack it.",
+      "answer": { "moves": ["g4"] },
+      "concept": "trapped-piece",
+      "reason": "g4 attacks the knight and it has to be answered at once. Nf4 is met by exf4, Ng3 by hxg3, and g6 only defends it: gxh5 gxh5 wins a knight for a pawn."
+    },
+    {
+      "id": "3.3-k02",
+      "type": "find_them_all",
+      "fen": "r5k1/p4ppp/5p2/7n/8/4P3/2P2PPP/3R2K1 w - - 0 1",
+      "prompt": "Black's own pawns are standing on f6 and g7. Tap the only two squares the knight on h5 can move to.",
+      "answer": { "squares": ["f4", "g3"] },
+      "concept": "trapped-piece",
+      "reason": "f4 and g3. The pawn on e3 covers f4, and f2 and h2 both cover g3, so the knight has two squares and each one loses it."
+    },
+    {
+      "id": "3.3-k03",
+      "type": "is_it_safe",
+      "fen": "r5k1/p4ppp/5p2/7n/8/4P3/2P2PPP/3R2K1 w - - 0 1",
+      "move": "g4",
+      "prompt": "White wants to play g4, right beside the knight. Is the pawn safe on g4?",
+      "reasons": [
+        "Yes. A knight on h5 covers f4, f6, g3 and g7, and g4 is not one of them.",
+        "No. The knight on h5 takes it.",
+        "No. The rook on a8 comes down to a4 and takes it."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "trapped-piece",
+      "reason": "A knight never attacks the square beside it, and the rook on a8 is blocked by its own pawn on a7. g4 is safe, and from there it attacks h5."
+    },
+    {
+      "id": "3.3-k04",
+      "type": "find_the_move",
+      "fen": "r5k1/1p3ppp/2p5/n7/8/3P4/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "The knight on a5 has two squares, b3 and c4, and your pawns cover both. Attack it.",
+      "answer": { "moves": ["b4"] },
+      "concept": "trapped-piece",
+      "reason": "b4 attacks the knight. Nb3 is met by axb3 or cxb3, Nc4 by dxc4, and b6 only defends it: bxa5 bxa5 wins a knight for a pawn."
+    },
+    {
+      "id": "3.3-k05",
+      "type": "find_them_all",
+      "fen": "r5k1/1p3ppp/2p5/n7/8/3P4/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "Black's own pawns hold b7 and c6. Tap the only two squares the knight on a5 can move to.",
+      "answer": { "squares": ["b3", "c4"] },
+      "concept": "trapped-piece",
+      "reason": "b3 and c4. The pawns on a2 and c2 both cover b3, and d3 covers c4, so the knight loses itself on either square."
+    },
+    {
+      "id": "3.3-k06",
+      "type": "which_square",
+      "fen": "r5k1/1p3ppp/2p5/n7/8/3P4/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "Nothing attacks the knight on a5 yet, so it can sit there. Tap the square White's b-pawn must reach to attack it.",
+      "answer": { "square": "b4" },
+      "concept": "trapped-piece",
+      "reason": "b4. A white pawn on b4 attacks a5 and c5, and a5 is where the knight is standing."
+    },
+    {
+      "id": "3.3-k07",
+      "type": "find_the_move",
+      "fen": "3r2k1/pp5p/6p1/5p2/7n/8/PP2PPPP/R5K1 w - - 0 1",
+      "prompt": "The knight on h4 has only f3 and g2, and both cost it. Push a pawn at it.",
+      "answer": { "moves": ["g3"] },
+      "concept": "trapped-piece",
+      "reason": "g3 attacks the knight. Nf3+ is met by exf3, Ng2 by Kxg2, and g5 only defends it: gxh4 gxh4 still wins a knight for a pawn."
+    },
+    {
+      "id": "3.3-k08",
+      "type": "find_them_all",
+      "fen": "3r2k1/pp5p/6p1/5p2/7n/8/PP2PPPP/R5K1 w - - 0 1",
+      "prompt": "Black's own pawns hold f5 and g6. Tap the only two squares the knight on h4 can move to.",
+      "answer": { "squares": ["f3", "g2"] },
+      "concept": "trapped-piece",
+      "reason": "f3 and g2. Both e2 and g2 cover f3, and g2 is your own pawn with the king behind it, so taking it just hands the knight to the king."
+    },
+    {
+      "id": "3.3-k09",
+      "type": "name_the_pattern",
+      "fen": "3r2k1/pp5p/6p1/5p2/7n/8/PP2PPPP/R5K1 w - - 0 1",
+      "prompt": "The knight on h4 already has nowhere safe to go. Why does g3 win it when a rook move does not?",
+      "options": [
+        "Because g3 attacks it, and a piece with no safe square only loses itself once it is forced to move.",
+        "Because g3 opens a file for the rook on a1.",
+        "Because the knight on h4 is pinned against the king on g8."
+      ],
+      "answer": { "option": 0 },
+      "concept": "trapped-piece",
+      "reason": "A trapped piece sits happily until something attacks it, and g3 is the only move that asks the question. There is no pin here, and the rook on a1 never uses the g-file."
+    },
+    {
+      "id": "3.3-k10",
+      "type": "which_square",
+      "fen": "8/pk3ppp/2n5/8/8/8/PPP2PPb/1K1R4 w - - 0 1",
+      "prompt": "The bishop on h2 runs up the long diagonal, to g3, f4, e5, d6, c7 or b8. Tap the square White's g-pawn must reach to close every one of them.",
+      "answer": { "square": "g3" },
+      "concept": "trapped-piece",
+      "reason": "g3. The pawn lands on the first square of the diagonal and f2 defends it, so Bxg3 fxg3 only gives the bishop up for a pawn."
+    },
+    {
+      "id": "3.3-k11",
+      "type": "find_them_all",
+      "fen": "8/pk3ppp/2n5/8/8/6P1/PPP2P1b/1K1R4 w - - 0 1",
+      "prompt": "The pawn has landed on g3. Tap both squares the bishop on h2 can still reach.",
+      "answer": { "squares": ["g1", "g3"] },
+      "concept": "trapped-piece",
+      "reason": "g1 and g3. The rook on d1 covers the whole first rank, so Bg1 is met by Rxg1, and Bxg3 by fxg3."
+    },
+    {
+      "id": "3.3-k12",
+      "type": "name_the_pattern",
+      "fen": "8/pk3ppp/2n5/8/8/6P1/PPP2P1b/1K1R4 w - - 0 1",
+      "prompt": "Nothing on the board attacks the bishop on h2. Why is it lost anyway?",
+      "options": [
+        "Both of its squares are covered, so the moment anything attacks it, it has nowhere to go.",
+        "It is pinned against the king on b7.",
+        "A bishop on the edge of the board can never move."
+      ],
+      "answer": { "option": 0 },
+      "concept": "trapped-piece",
+      "reason": "Trapped is not the same as attacked. Bg1 loses to Rxg1 and Bxg3 to fxg3, so White takes his time and brings the rook to h1."
+    },
+    {
+      "id": "3.3-k13",
+      "type": "find_the_move",
+      "fen": "8/1p3Ppk/4q2p/8/8/8/1P4PP/6K1 w - - 0 1",
+      "prompt": "Promote, but not to a queen. Black's king and queen sit a knight's move apart from the same square.",
+      "answer": { "moves": ["f8=N+"] },
+      "concept": "under-promotion",
+      "reason": "f8=N is check and attacks e6 as well. The king has only g8 and h8, and Nxe6 then takes the queen with nothing able to chase the knight."
+    },
+    {
+      "id": "3.3-k14",
+      "type": "which_square",
+      "fen": "8/1p3Ppk/4q2p/8/8/8/1P4PP/6K1 w - - 0 1",
+      "prompt": "A white knight on f8 would give check to the king on h7. Tap the other black piece it attacks from that square.",
+      "answer": { "square": "e6" },
+      "concept": "under-promotion",
+      "reason": "e6. A knight on f8 covers d7, e6, g6 and h7, which is the queen and the king at the same time."
+    },
+    {
+      "id": "3.3-k15",
+      "type": "name_the_pattern",
+      "fen": "8/1p3Ppk/4q2p/8/8/8/1P4PP/6K1 w - - 0 1",
+      "prompt": "Why is a knight worth more than a queen on f8 here?",
+      "options": [
+        "It arrives with check and wins the queen; a new queen on f8 gives no check and attacks nothing.",
+        "Because a queen on f8 could be captured by the pawn on g7.",
+        "Because a knight cannot be pinned."
+      ],
+      "answer": { "option": 0 },
+      "concept": "under-promotion",
+      "reason": "Count the prize. A knight is worth three and it wins a queen worth nine, while a new queen sits on f8 attacking nothing. A black pawn on g7 captures on f6 and h6, never on f8."
+    },
+    {
+      "id": "3.3-k16",
+      "type": "find_the_move",
+      "fen": "8/3P1kpp/2q5/8/8/7P/5PP1/6K1 w - - 0 1",
+      "prompt": "Same idea, different geometry. Promote to the piece that checks the king on f7 and hits the queen on c6.",
+      "answer": { "moves": ["d8=N+"] },
+      "concept": "under-promotion",
+      "reason": "d8=N is check and attacks c6. The king cannot both step out of check and defend the queen, so Nxc6 follows and the knight is not attacked there."
+    },
+    {
+      "id": "3.3-k17",
+      "type": "find_the_sequence",
+      "fen": "8/3P1kpp/2q5/8/8/7P/5PP1/6K1 w - - 0 1",
+      "prompt": "Play it out: promote with check, let the king step to e7, and take the queen with check.",
+      "answer": { "line": ["d8=N+", "Ke7", "Nxc6+"] },
+      "concept": "under-promotion",
+      "reason": "d8=N is check, Ke7 attacks the knight, and Nxc6 answers that by leaving with the queen and giving check on the way out."
+    },
+    {
+      "id": "3.3-k18",
+      "type": "which_square",
+      "fen": "8/3P1kpp/2q5/8/8/7P/5PP1/6K1 w - - 0 1",
+      "prompt": "A white knight on d8 would check the king on f7. Tap the other black piece it attacks from that square.",
+      "answer": { "square": "c6" },
+      "concept": "under-promotion",
+      "reason": "c6. A knight on d8 covers b7, c6, e6 and f7, so it forks the king and the queen from one square."
+    },
+    {
+      "id": "3.3-k19",
+      "type": "find_the_move",
+      "fen": "8/6P1/7k/8/6P1/8/8/K7 w - - 0 1",
+      "prompt": "The king on h6 has five squares and your pawn on g4 covers one of them. Promote so that he keeps a move.",
+      "answer": { "moves": ["g8=R"] },
+      "concept": "under-promotion",
+      "reason": "g8=R covers the g-file and the eighth rank, so h7 stays free and Kh7 is legal. A queen would cover h7 along the diagonal as well, and Black, not in check, would be stalemated."
+    },
+    {
+      "id": "3.3-k20",
+      "type": "is_it_safe",
+      "fen": "8/6P1/7k/8/6P1/8/8/K7 w - - 0 1",
+      "move": "g8=Q",
+      "prompt": "White promotes to a queen on g8. No black piece is anywhere near her. Is she safe there?",
+      "reasons": [
+        "Yes, completely, and that is exactly the problem: Black has no legal move at all.",
+        "No. The king on h6 takes her.",
+        "No. Black plays Kh7 and wins her next move."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "under-promotion",
+      "reason": "She is safe and the game is over. g5, g6, g7 and h7 are all hers, h5 belongs to the pawn on g4, and Black is not in check: stalemate. The king on h6 is not next to g8, and Kh7 is not a legal move once she lands."
+    },
+    {
+      "id": "3.3-k21",
+      "type": "name_the_pattern",
+      "fen": "8/6P1/7k/8/6P1/8/8/K7 w - - 0 1",
+      "prompt": "What does a rook on g8 leave the black king that a queen on g8 does not?",
+      "options": [
+        "h7 — a rook covers the g-file but not the diagonal, so Black still has a move.",
+        "g5 — a rook attacks along the fifth rank.",
+        "Nothing; a rook stalemates him just as the queen does."
+      ],
+      "answer": { "option": 0 },
+      "concept": "under-promotion",
+      "reason": "h7. The queen reaches it along the g8-h7 diagonal and the rook does not. That one square is the whole difference between a win and a draw."
+    },
+    {
+      "id": "3.3-k22",
+      "type": "find_the_move",
+      "fen": "8/1P6/k7/8/1P6/7K/8/8 w - - 0 1",
+      "prompt": "The same trap on the queenside. The king on a6 has five squares and your pawn on b4 covers one. Promote.",
+      "answer": { "moves": ["b8=R"] },
+      "concept": "under-promotion",
+      "reason": "b8=R covers the b-file and the eighth rank, so a7 stays free and Ka7 is legal. A queen covers a7 along the diagonal too, and that is stalemate."
+    },
+    {
+      "id": "3.3-k23",
+      "type": "which_square",
+      "fen": "8/1P6/k7/8/1P6/7K/8/8 w - - 0 1",
+      "prompt": "A rook on b8 leaves the black king exactly one move; a queen on b8 leaves him none. Tap that one square.",
+      "answer": { "square": "a7" },
+      "concept": "under-promotion",
+      "reason": "a7. It sits on the b8-a7 diagonal, which only a queen or a bishop covers. b7, b6 and b5 are on the file and a5 belongs to the pawn on b4."
+    },
+    {
+      "id": "3.3-k24",
+      "type": "name_the_pattern",
+      "fen": "8/1P6/k7/8/1P6/7K/8/8 w - - 0 1",
+      "prompt": "Both a queen and a rook on b8 are completely safe. What actually separates them?",
+      "options": [
+        "How many of the king's squares they take away — the queen takes the last one and turns a win into stalemate.",
+        "How quickly they can be brought back to help the king on h3.",
+        "The rook gives check from b8 and the queen does not."
+      ],
+      "answer": { "option": 0 },
+      "concept": "under-promotion",
+      "reason": "Neither piece gives check from b8. The only question is whether Black is left a legal move, and the rook is the one that leaves a7."
+    },
+    {
+      "id": "3.3-k25",
+      "type": "find_the_move",
+      "fen": "6k1/2b1nppp/8/3PP3/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "One pawn, two pieces. Push it at them.",
+      "answer": { "moves": ["d6"] },
+      "concept": "advanced-pawn",
+      "reason": "d6 attacks the bishop on c7 and the knight on e7 at once, and the pawn on e5 holds d6. Bxd6 exd6 simply attacks the knight again, so a piece goes either way."
+    },
+    {
+      "id": "3.3-k26",
+      "type": "find_them_all",
+      "fen": "6k1/2b1nppp/8/3PP3/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "The pawn on d5 is one square from doing damage. Tap both black pieces it attacks the moment it lands on d6.",
+      "answer": { "pieces": ["c7", "e7"] },
+      "concept": "advanced-pawn",
+      "reason": "The bishop on c7 and the knight on e7. The bishop can take on d6, but the pawn on e5 recaptures and attacks the knight all over again."
+    },
+    {
+      "id": "3.3-k27",
+      "type": "name_the_pattern",
+      "fen": "6k1/2b1nppp/8/3PP3/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Why does one pawn beat two pieces here?",
+      "options": [
+        "It attacks two squares at once and is worth less than either piece, so taking it is no answer.",
+        "It opens the d-file for a rook.",
+        "It promotes on the very next move."
+      ],
+      "answer": { "option": 0 },
+      "concept": "advanced-pawn",
+      "reason": "A pawn forks for free: one point of material holding two pieces worth three each. There is no rook on the board, and d6 is still two moves from the eighth rank."
+    },
+    {
+      "id": "3.3-k28",
+      "type": "find_the_move",
+      "fen": "8/1k3ppp/8/5PPP/8/8/8/K7 w - - 0 1",
+      "prompt": "Three pawns against three, and the black king is stuck on the queenside. Break through.",
+      "answer": { "moves": ["g6"] },
+      "concept": "advanced-pawn",
+      "reason": "g6. hxg6 is met by f6 and fxg6 by h6, and in both lines the pawn on the far side of the capture runs home before the king can get back."
+    },
+    {
+      "id": "3.3-k29",
+      "type": "find_the_sequence",
+      "fen": "8/1k3ppp/8/5PPP/8/8/8/K7 w - - 0 1",
+      "prompt": "Play it out: break with the middle pawn, let the h-pawn take, then push the f-pawn.",
+      "answer": { "line": ["g6", "hxg6", "f6"] },
+      "concept": "advanced-pawn",
+      "reason": "g6 hxg6 f6, and after gxf6 the h-pawn walks in with h6, h7, h8 while the black king is still on the other side of the board."
+    },
+    {
+      "id": "3.3-k30",
+      "type": "which_square",
+      "fen": "8/1k3ppp/8/5PPP/8/8/8/K7 w - - 0 1",
+      "prompt": "One pawn has to go first so the other two can run. Tap the square it must reach.",
+      "answer": { "square": "g6" },
+      "concept": "advanced-pawn",
+      "reason": "g6. Both f7 and h7 can capture it, and whichever one does, the white pawn on the far side of that capture has a clear road."
+    },
+    {
+      "id": "3.3-k31",
+      "type": "find_the_move",
+      "fen": "6k1/pp1r1npp/8/4PP2/8/8/1P4PP/R5K1 w - - 0 1",
+      "prompt": "The rook and the knight are two squares apart on the seventh rank. Put a pawn between them.",
+      "answer": { "moves": ["e6"] },
+      "concept": "advanced-pawn",
+      "reason": "e6 attacks the rook on d7 and the knight on f7, and the pawn on f5 holds it. Black saves one of them and exd7 or exf7 takes the other."
+    },
+    {
+      "id": "3.3-k32",
+      "type": "find_them_all",
+      "fen": "6k1/pp1r1npp/8/4PP2/8/8/1P4PP/R5K1 w - - 0 1",
+      "prompt": "Tap both black pieces the pawn on e5 will attack the moment it steps to e6.",
+      "answer": { "pieces": ["d7", "f7"] },
+      "concept": "advanced-pawn",
+      "reason": "The rook on d7 and the knight on f7. Neither of them attacks e6, and the pawn on f5 defends it, so the pawn cannot simply be taken off."
+    },
+    {
+      "id": "3.3-k33",
+      "type": "is_it_safe",
+      "fen": "6k1/pp1r1npp/8/4PP2/8/8/1P4PP/R5K1 w - - 0 1",
+      "move": "e6",
+      "prompt": "White pushes the pawn to e6, right between a rook and a knight. Is it safe there?",
+      "reasons": [
+        "Yes. Neither piece attacks e6, and the pawn on f5 defends it in any case.",
+        "No. The rook on d7 takes it.",
+        "No. The knight on f7 takes it."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "advanced-pawn",
+      "reason": "A rook on d7 covers the d-file and the seventh rank, never e6. A knight on f7 reaches d6, d8, e5, g5, h6 and h8, never e6. And f5 is behind the pawn in any case."
+    },
+    {
+      "id": "3.3-k34",
+      "type": "find_the_move",
+      "fen": "r1n3k1/p5pp/1PP5/8/8/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "The pawn on b6 is one square from the eighth rank, and two black pieces are standing on it. Push.",
+      "answer": { "moves": ["b7"] },
+      "concept": "advanced-pawn",
+      "reason": "b7 attacks the rook on a8 and the knight on c8, and the pawn on c6 defends it. Whichever piece moves, the pawn takes the other one and becomes a queen in the same move."
+    },
+    {
+      "id": "3.3-k35",
+      "type": "find_them_all",
+      "fen": "r1n3k1/p5pp/1PP5/8/8/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Tap both black pieces the pawn on b6 will attack the moment it reaches b7.",
+      "answer": { "pieces": ["a8", "c8"] },
+      "concept": "advanced-pawn",
+      "reason": "The rook on a8 and the knight on c8. Neither can take the pawn on b7: the rook does not attack it, and a knight on c8 covers a7, b6, d6 and e7."
+    },
+    {
+      "id": "3.3-k36",
+      "type": "name_the_pattern",
+      "fen": "r1n3k1/p5pp/1PP5/8/8/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "Why is b7 worth more than an ordinary fork?",
+      "options": [
+        "Because taking either piece also makes a queen — the fork and the promotion are the same move.",
+        "Because it defends the pawn on c6.",
+        "Because it gives check to the king on g8."
+      ],
+      "answer": { "option": 0 },
+      "concept": "advanced-pawn",
+      "reason": "b7 forks a rook and a knight, and both captures land on the eighth rank as a new queen. It is not check, and it is c6 that defends b7, not the other way round."
+    }
+  ]
+}

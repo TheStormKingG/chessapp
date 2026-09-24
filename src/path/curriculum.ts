@@ -267,7 +267,7 @@ export const SECTION_3: SectionDef = {
     {
       id: '3.3',
       title: 'Trapped pieces and promotion',
-      built: false,
+      built: true,
       lessons: [
         { id: '3.3.1', title: 'Trapping a piece' },
         { id: '3.3.2', title: 'Promotion tactics and under-promotion' },
@@ -277,7 +277,7 @@ export const SECTION_3: SectionDef = {
     {
       id: '3.4',
       title: 'Named mates, first wave',
-      built: false,
+      built: true,
       lessons: [
         { id: '3.4.1', title: "Anastasia's, Arabian, Greco's and Opera mates" },
         { id: '3.4.2', title: "Morphy's, Pillsbury's and Boden's mates" },
@@ -288,7 +288,7 @@ export const SECTION_3: SectionDef = {
     {
       id: '3.5',
       title: 'Drawing weapons',
-      built: false,
+      built: true,
       lessons: [
         { id: '3.5.1', title: 'Perpetual check' },
         { id: '3.5.2', title: 'Stalemate tricks as a defence' },
@@ -298,7 +298,7 @@ export const SECTION_3: SectionDef = {
     {
       id: '3.6',
       title: 'The four elements',
-      built: false,
+      built: true,
       lessons: [
         { id: '3.6.1', title: 'Force, time, space and pawn structure' },
         { id: '3.6.2', title: 'Piece activity and improving the worst piece' },

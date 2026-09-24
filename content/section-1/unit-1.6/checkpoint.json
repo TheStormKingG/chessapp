@@ -347,7 +347,7 @@
     {
       "id": "1.6-k21",
       "type": "play_it_out",
-      "fen": "7K/8/2p5/8/8/8/p6N/6Rk w - - 0 1",
+      "fen": "1k6/2N5/1K6/8/R7/8/8/8 w - - 0 1",
       "prompt": "Mate in one move.",
       "goal": {
         "kind": "mate_in",
@@ -356,15 +356,15 @@
       "opponentDepth": 4,
       "concept": "checkmate",
       "hints": {
-        "piece": "h2",
-        "square": "f3"
+        "piece": "a4",
+        "square": "a8"
       },
-      "reason": "The knight goes to f3: check, and the king has nowhere to go."
+      "reason": "The rook goes to a8: check, and the king has nowhere to go."
     },
     {
       "id": "1.6-k22",
       "type": "play_it_out",
-      "fen": "8/7Q/R7/7k/1pK4P/8/8/8 w - - 0 1",
+      "fen": "8/4Q3/R7/7k/1pK4P/8/8/8 w - - 0 1",
       "prompt": "Mate in one move.",
       "goal": {
         "kind": "mate_in",
@@ -373,10 +373,10 @@
       "opponentDepth": 4,
       "concept": "checkmate",
       "hints": {
-        "piece": "a6",
-        "square": "g6"
+        "piece": "e7",
+        "square": "g5"
       },
-      "reason": "The rook goes to g6: check, and the king has nowhere to go."
+      "reason": "The queen goes to g5: check, and the king has nowhere to go."
     },
     {
       "id": "1.6-k23",

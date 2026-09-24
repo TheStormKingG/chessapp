@@ -1,0 +1,143 @@
+{
+  "id": "3.5.1",
+  "unit": "3.5",
+  "title": "Perpetual check",
+  "xp": 15,
+  "card": {
+    "idea": "A perpetual check is a draw you take on purpose. You are losing, so half a point is a rescue, not a disappointment. Find a check the king must answer, then a second check from the other side, and the position comes straight back. Repeat it three times and the game is drawn, whatever the material on the board says.",
+    "diagrams": [
+      "5rk1/5p1p/8/3Q4/pp6/8/2r5/7K w - - 0 1",
+      "5rk1/5p1p/8/1Q6/8/r7/pp3P1P/6K1 w - - 0 1"
+    ],
+    "habit": "When you are losing, count checks, not pieces."
+  },
+  "explain": [
+    {
+      "fen": "5rk1/5p1p/8/3Q4/pp6/8/2r5/7K w - - 0 1",
+      "text": "Your queen is alone against two rooks and four pawns, so playing on loses. Qg5 is check, and Black has exactly one legal answer: Kh8. His own rook on f8 and his own pawns on f7 and h7 have taken every other square his king might have used.",
+      "arrows": [
+        ["d5", "g5"],
+        ["g5", "g7"]
+      ],
+      "highlights": ["g5", "h8"]
+    },
+    {
+      "fen": "5r1k/5p1p/8/6Q1/pp6/8/2r5/7K w - - 1 2",
+      "text": "The king has gone to h8, so check him from the other side. Qf6 hits h8 down the long diagonal through g7, and Kg8 is again the only legal move. The queen is safe on f6: the rook on f8 cannot reach her, because Black's own pawn on f7 is in the way.",
+      "arrows": [
+        ["g5", "f6"],
+        ["f6", "h8"]
+      ],
+      "highlights": ["f6", "g8"]
+    },
+    {
+      "fen": "5rk1/5p1p/5Q2/8/pp6/8/2r5/7K w - - 4 3",
+      "text": "Two checks later the board is exactly where it started, with the queen ready to go back to g5. Repeat the position a third time and the game is drawn. Your queen is still alone against two rooks and four pawns, and the score is still half a point each.",
+      "arrows": [["f6", "g5"]],
+      "highlights": ["f6"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.5.1-c1",
+      "type": "find_them_all",
+      "fen": "5rk1/5p1p/8/3Q4/pp6/8/2r5/7K w - - 0 1",
+      "prompt": "Black's king on g8 is boxed in by his own army. Tap every square beside him that one of his own men is standing on.",
+      "answer": { "squares": ["f7", "f8", "h7"] },
+      "concept": "perpetual-check",
+      "hints": {
+        "text": "There are five squares around g8. Ignore the empty ones."
+      },
+      "reason": "f7 and h7 are his own pawns and f8 is his own rook. Only g7 and h8 are left, and a check down the g-file takes g7 away too, which leaves him exactly one square."
+    },
+    {
+      "id": "3.5.1-c2",
+      "type": "which_square",
+      "fen": "5rk1/5p1p/8/3Q4/pp6/8/2r5/7K w - - 0 1",
+      "prompt": "You have three checks in this position. Tap the square your queen must check from: the one that leaves Black a single legal answer.",
+      "answer": { "square": "g5" },
+      "concept": "perpetual-check",
+      "hints": {
+        "text": "The g-file is the only open road to his king."
+      },
+      "reason": "Qg5 is check down the g-file and Kh8 is the only legal reply. Qg2 is check too, but it leaves two answers, and Qxf7 leaves three and hands the queen to the rook on f8."
+    },
+    {
+      "id": "3.5.1-c3",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/8/3Q4/pp6/8/2r5/7K w - - 0 1",
+      "prompt": "Your queen is alone against two rooks and four pawns. Playing on loses, so stop playing on and start checking.",
+      "answer": { "moves": ["Qg5+"] },
+      "wrong": {
+        "Qd8": "Rxd8. The rook on f8 takes her along the back rank, and you have given away the only piece that could keep checking.",
+        "Qxf7+": "Rxf7, or Kxf7 if he prefers. f7 is defended by the rook on f8, so this check costs you the queen and the draw with it."
+      },
+      "concept": "perpetual-check",
+      "hints": {
+        "piece": "d5",
+        "square": "g5"
+      },
+      "reason": "Qg5 is check and Kh8 is Black's only legal move. Qf6 is then check again and Kg8 is forced, so the position comes straight back and Black never gets a free move."
+    },
+    {
+      "id": "3.5.1-c4",
+      "type": "find_the_sequence",
+      "fen": "5rk1/5p1p/8/3Q4/pp6/8/2r5/7K w - - 0 1",
+      "prompt": "Play out the shuttle: check, let him move, check from the other side, let him move, and check again.",
+      "answer": { "line": ["Qg5+", "Kh8", "Qf6+", "Kg8", "Qg5+"] },
+      "concept": "perpetual-check",
+      "hints": {
+        "piece": "d5",
+        "square": "g5"
+      },
+      "reason": "Every check here has exactly one legal answer, so Black never gets a move of his own. That is the second time the position has stood; one more pair of checks makes it the third, and a draw."
+    },
+    {
+      "id": "3.5.1-c5",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/8/8/7Q/8/pp1r4/7K w - - 0 1",
+      "prompt": "Black has two pawns on the second rank and a new queen is one move away. Find the check that means it will never matter.",
+      "answer": { "moves": ["Qg5+"] },
+      "concept": "perpetual-check",
+      "hints": {
+        "piece": "h4",
+        "square": "g5"
+      },
+      "reason": "Qg5 is check, Kh8 is forced, Qf6 is check again and Kg8 is forced. A pawn needs a free move to promote, and Black never gets one."
+    },
+    {
+      "id": "3.5.1-c6",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/8/1Q6/8/r7/pp3P1P/6K1 w - - 0 1",
+      "prompt": "Two black pawns are one step from queening and your queen cannot stop both. Take the half point instead.",
+      "answer": { "moves": ["Qg5+"] },
+      "wrong": {
+        "Qxb2": "Qxb2 a1=Q+ Qxa1 Rxa1+ and you have traded the only piece that could check for one pawn. Black is a rook up and you have no draw left."
+      },
+      "concept": "perpetual-check",
+      "hints": {
+        "piece": "b5",
+        "square": "g5"
+      },
+      "reason": "Qg5 is check with Kh8 forced, Qf6 is check with Kg8 forced. Chasing the pawns loses; the queen is worth more as a checker than as a catcher."
+    },
+    {
+      "id": "3.5.1-c7",
+      "type": "name_the_pattern",
+      "fen": "5r1k/5p1p/8/6Q1/pp6/8/2r5/7K w - - 1 2",
+      "prompt": "Black's king has just gone to h8. Qf6 and Qg7 are both check. Why is Qf6 the one that works?",
+      "options": [
+        "Qf6 checks from a square the king cannot reach, and Kg8 is forced. Qg7 puts the queen right beside him, and Kxg7 takes her.",
+        "Qg7 is not legal, because the king is standing next to g7.",
+        "They are the same: both force Kg8, so either will repeat the position."
+      ],
+      "answer": { "option": 0 },
+      "concept": "perpetual-check",
+      "hints": {
+        "text": "Ask what Black's only legal reply is in each case, then look at what is left on the board."
+      },
+      "reason": "A perpetual only works while the checking piece stays out of reach. Qg7 forces exactly one reply as well, but that reply is Kxg7, and a queen you no longer own cannot check anybody."
+    }
+  ],
+  "takeaway": "A perpetual check is not a failure to win. It is a way to not lose: two checking squares the king has to shuttle between, until the position repeats and the game is drawn."
+}

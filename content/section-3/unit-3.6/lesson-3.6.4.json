@@ -1,0 +1,178 @@
+{
+  "id": "3.6.4",
+  "unit": "3.6",
+  "title": "Which side is better, and why",
+  "xp": 16,
+  "card": {
+    "idea": "Judging a position is a sentence with a because in it. Not “White looks better” but “White is better because his rook is on the seventh”. Walk the four elements in order, stop at the first one clearly out of balance, and say it out loud. If none of them is, level is the right answer.",
+    "diagrams": [
+      "r5k1/pp3ppp/5n2/8/8/5N2/PP3PPP/R2R2K1 w - - 0 1",
+      "rn1qkb1r/ppp2pp1/4p3/8/2B5/5N2/PPPQ1PPP/R3R1K1 w - - 0 1",
+      "8/6pp/6k1/5p1p/P4PP1/6KP/8/8 w - - 0 1"
+    ],
+    "habit": "Say it with a because in it."
+  },
+  "explain": [
+    {
+      "fen": "r5k1/pp3ppp/5n2/8/8/5N2/PP3PPP/R2R2K1 w - - 0 1",
+      "text": "Element one. A knight each, pawns on the same five files each, both kings tucked behind three pawns. White has two rooks and Black has one. Counting settled it on the first item of the list, so there is no need to look further: White is better, by a rook.",
+      "arrows": [],
+      "highlights": [
+        "a1",
+        "d1",
+        "a8"
+      ]
+    },
+    {
+      "fen": "rn1qkb1r/ppp2pp1/4p3/8/2B5/5N2/PPPQ1PPP/R3R1K1 w - - 0 1",
+      "text": "Element two. Count first and it is dead level: queen, two rooks, a bishop, a knight and six pawns apiece. But the black king still stands on e8 and cannot castle, his rooks cannot reach each other, and White is finished developing. One king is safe and the other is not.",
+      "arrows": [],
+      "highlights": [
+        "e8"
+      ]
+    },
+    {
+      "fen": "8/6pp/6k1/5p1p/P4PP1/6KP/8/8 w - - 0 1",
+      "text": "Element four. Four pawns each and nothing but kings besides. White's a4 pawn has no black pawn anywhere on the a or b file to stop it, while Black's h-pawns are stacked on one file. An outside passed pawn drags the enemy king away, and the rest falls.",
+      "arrows": [],
+      "highlights": [
+        "a4",
+        "h5",
+        "h7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.6.4-c1",
+      "type": "name_the_pattern",
+      "fen": "r5k1/pp3ppp/5n2/8/8/5N2/PP3PPP/R2R2K1 w - - 0 1",
+      "prompt": "Walk the list. Which element decides this one?",
+      "options": [
+        "Piece activity. White’s rooks are better placed than Black’s.",
+        "King safety. Black’s king has fewer defenders nearby.",
+        "Material. White has two rooks against one and everything else matches."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "four-elements",
+      "hints": {
+        "text": "The first item on the list is the one you can count."
+      },
+      "reason": "A knight each, the same five pawn files each, both kings behind three pawns. White simply has an extra rook, and you never need to look past that."
+    },
+    {
+      "id": "3.6.4-c2",
+      "type": "is_it_safe",
+      "fen": "r5k1/pp3ppp/5n2/8/8/5N2/PP3PPP/R2R2K1 w - - 0 1",
+      "move": "Rd7",
+      "prompt": "Being a rook up is no reason to stop looking. White plays Rd7. Is the rook safe there?",
+      "reasons": [
+        "Yes. Nothing black can reach d7.",
+        "No. The knight on f6 takes it.",
+        "No. The rook on a8 swings across and takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "four-elements",
+      "hints": {
+        "text": "A knight on f6 covers eight squares. One of them is d7."
+      },
+      "reason": "Nf6 covers d7 and nothing of White’s defends it, so Rd7 just drops a rook. The rook on a8 is nowhere near it — its own pawn on a7 blocks the file."
+    },
+    {
+      "id": "3.6.4-c3",
+      "type": "name_the_pattern",
+      "fen": "rn1qkb1r/ppp2pp1/4p3/8/2B5/5N2/PPPQ1PPP/R3R1K1 w - - 0 1",
+      "prompt": "Queen, two rooks, bishop, knight and six pawns each. Which element decides it?",
+      "options": [
+        "King safety. Black’s king is stuck on e8 and White is castled and finished developing.",
+        "Material. White has slightly more once you count the pawns properly.",
+        "Pawn structure. Black’s pawn on e6 is a long-term weakness."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "four-elements",
+      "hints": {
+        "text": "Count the pieces first, confirm it is level, then look at the two kings."
+      },
+      "reason": "The material is exactly equal. The black king sits in the middle with no way to castle and his rooks cannot speak to each other, while White is developed and safe."
+    },
+    {
+      "id": "3.6.4-c4",
+      "type": "which_square",
+      "fen": "rn1qkb1r/ppp2pp1/4p3/8/2B5/5N2/PPPQ1PPP/R3R1K1 w - - 0 1",
+      "prompt": "Tap the black piece that has no legal move at all.",
+      "answer": {
+        "square": "a8"
+      },
+      "concept": "piece-activity",
+      "hints": {
+        "text": "A rook in the corner needs either the file or the rank to be open."
+      },
+      "reason": "The rook on a8. Its own pawn stands on a7 and its own knight on b8, so it has nowhere to go — a second problem hiding behind the king-safety one."
+    },
+    {
+      "id": "3.6.4-c5",
+      "type": "name_the_pattern",
+      "fen": "8/6pp/6k1/5p1p/P4PP1/6KP/8/8 w - - 0 1",
+      "prompt": "Four pawns each and only kings besides. Which element decides it?",
+      "options": [
+        "Nothing. Four pawns each with no pieces is always drawn.",
+        "Pawn structure. White has a passed pawn on the far wing and Black’s h-pawns are doubled.",
+        "King safety. The white king is the safer of the two."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "four-elements",
+      "hints": {
+        "text": "Look for a pawn with nothing left in its way, and look at the h-file."
+      },
+      "reason": "Nothing black stands on the a or b file, so a4 runs. The black king has to leave the kingside to deal with it, and the doubled h-pawns are one pawn doing the work of two."
+    },
+    {
+      "id": "3.6.4-c6",
+      "type": "name_the_pattern",
+      "fen": "r5k1/ppp2ppp/5n2/8/8/5N2/PPP2PPP/6K1 b - - 0 1",
+      "prompt": "Black to move. Which element decides this one, and for whom?",
+      "options": [
+        "White, on piece activity. His knight is better placed than Black’s.",
+        "Level. A rook is not much in a quiet position like this one.",
+        "Black, on material. He has a rook and White has none."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "four-elements",
+      "hints": {
+        "text": "Count both sides before you look at anything else."
+      },
+      "reason": "A knight each and six pawns each on the same files. Black has a whole rook more, and no amount of activity makes that up."
+    },
+    {
+      "id": "3.6.4-c7",
+      "type": "name_the_pattern",
+      "fen": "r1b3k1/1p1p1ppp/4p3/4N3/8/8/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "A rook, a minor piece and six pawns each. Who is better, and why?",
+      "options": [
+        "Level. Both sides have a rook, a minor piece and the same number of pawns.",
+        "White. The bishop on c8 cannot move, and it is also the only thing defending d7.",
+        "Black. Two bishops beat a knight and a rook in an open position."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "four-elements",
+      "hints": {
+        "text": "A piece with no squares can still be holding something. Ask what happens when you take that job away."
+      },
+      "reason": "The bishop on c8 has no legal move and is the sole defender of d7. A piece that cannot move and cannot be replaced is the easiest target there is, so White simply collects the pawn."
+    }
+  ],
+  "takeaway": "Walk the four in order, stop at the first that is out of balance, and name it with a because. Level is a real answer too."
+}

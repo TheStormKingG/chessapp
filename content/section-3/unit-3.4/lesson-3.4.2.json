@@ -1,0 +1,179 @@
+{
+  "id": "3.4.2",
+  "unit": "3.4",
+  "title": "Morphy's, Pillsbury's and Boden's",
+  "xp": 15,
+  "card": {
+    "idea": "Three mates that all start with a bishop pointing at a long diagonal. Two of them add a rook, one file apart, and the file decides the name. The third needs no rook at all: two bishops on crossing diagonals catch a king that has castled the other way and is sitting behind his own pieces.",
+    "diagrams": [
+      "6rk/p7/5R2/8/8/8/1B6/4K3 w - - 0 1",
+      "5rk1/p4p1p/8/8/8/8/1B5K/3R4 w - - 0 1",
+      "2kr4/3p4/8/8/5B2/8/8/5BK1 w - - 0 1"
+    ],
+    "habit": "Before you move a piece, ask whose line it is standing on."
+  },
+  "explain": [
+    {
+      "fen": "6rk/p7/5R2/8/8/8/1B6/4K3 w - - 0 1",
+      "text": "Morphy's mate is a bishop and a rook, and the point is that the rook is standing in its own bishop's way. Move it to h6 and two pieces check at once: the rook down the h-file, the bishop from b2 through g7. A double check may only be answered by a king move, and g8 is Black's own rook.",
+      "arrows": [
+        ["f6", "h6"],
+        ["b2", "h8"]
+      ],
+      "highlights": ["h6", "g7"]
+    },
+    {
+      "fen": "5rk1/p4p1p/8/8/8/8/1B5K/3R4 w - - 0 1",
+      "text": "Pillsbury's mate is the same two pieces one file across. The g-file is empty, so Rg1 is check all the way up it. f8, f7 and h7 are Black's own men, g7 belongs to the rook, and the bishop on b2 covers the h8 corner from six squares away.",
+      "arrows": [
+        ["d1", "g1"],
+        ["b2", "h8"]
+      ],
+      "highlights": ["g1", "h8"]
+    },
+    {
+      "fen": "2kr4/3p4/8/8/5B2/8/8/5BK1 w - - 0 1",
+      "text": "Boden's mate is two bishops on crossing diagonals. Ba6 is check through b7. The other bishop on f4 runs the other way and takes b8 and c7 away. d7 and d8 are Black's own pawn and rook. Two bishops, four squares, and a king who castled into it.",
+      "arrows": [
+        ["f1", "c8"],
+        ["f4", "b8"]
+      ],
+      "highlights": ["a6", "b8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.4.2-c1",
+      "type": "which_square",
+      "fen": "6rk/p7/5R2/8/8/8/1B6/4K3 w - - 0 1",
+      "prompt": "The rook on f6 is standing on its own bishop's diagonal. Tap the square it should move to so that both pieces give check at once.",
+      "answer": { "square": "h6" },
+      "concept": "morphy-mate",
+      "hints": {
+        "text": "Stay on the sixth rank and go to the edge."
+      },
+      "reason": "Rh6 is a double check: the rook down the h-file and the bishop from b2 through the square the rook has just left. A double check can only be answered by a king move, and the king has nowhere. g8 is his own rook and g7 is the bishop's."
+    },
+    {
+      "id": "3.4.2-c2",
+      "type": "find_the_move",
+      "fen": "6rk/8/5R2/8/q7/8/1B6/4K3 w - - 0 1",
+      "prompt": "Black has a queen on a4 and it is your move. One rook move gives two checks at the same time.",
+      "answer": { "moves": ["Rh6#"] },
+      "wrong": {
+        "Rf8+": "That is a discovered check too, because every rook move opens the bishop's diagonal. But Kh7 is legal, and the mate has gone."
+      },
+      "concept": "morphy-mate",
+      "hints": {
+        "piece": "f6",
+        "square": "h6"
+      },
+      "reason": "Rh6 uncovers the bishop on b2 and checks down the h-file at the same time. Double check, so only the king may move, and g8 is his own rook while g7 belongs to the bishop. Morphy's mate."
+    },
+    {
+      "id": "3.4.2-c3",
+      "type": "name_the_pattern",
+      "fen": "6rk/p7/5R2/8/8/8/1B6/4K3 w - - 0 1",
+      "prompt": "Why does Black's own rook on g8 matter so much in this picture?",
+      "options": [
+        "It takes g8 away from the king, so after Rh6 he has no square at all.",
+        "It guards h6, so the white rook cannot go there.",
+        "It pins the white rook on f6 to the white king on e1."
+      ],
+      "answer": { "option": 0 },
+      "concept": "morphy-mate",
+      "hints": {
+        "text": "Imagine g8 empty and play Rh6 again. Where does the king go?"
+      },
+      "reason": "Take the rook off g8 and the king just steps there after Rh6, because nothing of White's covers a light square in that corner. Nearly every named mate works like this: one of the squares is shut by the defender's own piece."
+    },
+    {
+      "id": "3.4.2-c4",
+      "type": "find_them_all",
+      "fen": "5rk1/p4p1p/8/8/8/8/1B5K/3R4 w - - 0 1",
+      "prompt": "Rg1 is mate here. Tap the three black men that are doing White's work by shutting their own king in.",
+      "answer": { "pieces": ["f8", "f7", "h7"] },
+      "concept": "pillsbury-mate",
+      "hints": {
+        "text": "Look at every square touching the king on g8 and ask who is standing on it."
+      },
+      "reason": "f8 is his rook, f7 and h7 are his pawns. That leaves g7 for the rook coming up the g-file and h8 for the bishop on b2, and the king is mated."
+    },
+    {
+      "id": "3.4.2-c5",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/8/8/8/8/1B5K/3R4 w - - 0 1",
+      "prompt": "The g-file is empty and the bishop on b2 already owns h8. Bring the rook.",
+      "answer": { "moves": ["Rg1#"] },
+      "wrong": {
+        "Rd8": "Rxd8. The back rank is guarded by the rook on f8. The open file here is the g-file, not the d-file."
+      },
+      "concept": "pillsbury-mate",
+      "hints": {
+        "piece": "d1",
+        "square": "g1"
+      },
+      "reason": "Rg1 is check up the whole file. f8, f7 and h7 are Black's own men, g7 is the rook's, and h8 belongs to the bishop on b2. A rook on the g-file with a bishop on the long diagonal is Pillsbury's mate."
+    },
+    {
+      "id": "3.4.2-c6",
+      "type": "is_it_safe",
+      "fen": "5rk1/p4p1p/8/8/8/8/1B5K/3R4 w - - 0 1",
+      "move": "Rd8",
+      "prompt": "Before looking for the mate, try the obvious back-rank check first: Rd8. Is the rook safe on d8?",
+      "reasons": [
+        "Yes. Nothing on the board covers d8.",
+        "No. The rook on f8 takes it straight away.",
+        "No. The king steps across and takes it."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "pillsbury-mate",
+      "hints": {
+        "text": "The back rank is not empty. Count what is standing on it."
+      },
+      "reason": "Rxd8 and White has thrown a rook away. It is not even check, because the rook on f8 is in the way. The file that is actually open is the g-file."
+    },
+    {
+      "id": "3.4.2-c7",
+      "type": "which_square",
+      "fen": "2kr4/3p4/8/8/5B2/8/8/5BK1 w - - 0 1",
+      "prompt": "Two white bishops, and a black king on c8 who castled long. Tap the square where a bishop gives mate.",
+      "answer": { "square": "a6" },
+      "concept": "boden-mate",
+      "hints": {
+        "text": "b7 is empty. What can see c8 straight through it?"
+      },
+      "reason": "Ba6 is check through b7. The bishop on f4 covers b8 and c7 from the other diagonal, d7 is Black's pawn and d8 his rook. Two bishops crossing: Boden's mate."
+    },
+    {
+      "id": "3.4.2-c8",
+      "type": "find_the_move",
+      "fen": "2kr4/3p4/8/8/5B1q/8/8/5BK1 w - - 0 1",
+      "prompt": "Black's queen on h4 is attacking your bishop on f4 along the rank. Ignore her.",
+      "answer": { "moves": ["Ba6#"] },
+      "wrong": {
+        "Be3": "Saving the bishop throws the mate away: from e3 it no longer covers b8 or c7, and Black is the one with a queen."
+      },
+      "concept": "boden-mate",
+      "hints": {
+        "piece": "f1",
+        "square": "a6"
+      },
+      "reason": "Ba6 is mate through b7. The other bishop holds b8 and c7, d7 and d8 are Black's own men, and the queen on h4 cannot reach b7 to block or a6 to capture."
+    },
+    {
+      "id": "3.4.2-c9",
+      "type": "find_the_sequence",
+      "fen": "2kr4/1p1n4/8/8/4QB2/8/8/5BK1 w - - 0 1",
+      "prompt": "The pawn on b7 is standing on the mating diagonal. Give up the queen to drag it off, then play the mate.",
+      "answer": { "line": ["Qc6+", "bxc6", "Ba6#"] },
+      "concept": "boden-mate",
+      "hints": {
+        "piece": "e4",
+        "square": "c6"
+      },
+      "reason": "Qc6 is check and bxc6 is Black's only legal answer: the knight on d7 cannot reach c6, nothing can block on c7, and the king has no square. Now b7 is empty and Ba6 is mate through it."
+    }
+  ],
+  "takeaway": "A bishop on a long diagonal turns an ordinary rook check into a mate, and two bishops on crossing diagonals need no rook at all."
+}

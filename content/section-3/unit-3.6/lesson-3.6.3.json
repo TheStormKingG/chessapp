@@ -1,0 +1,199 @@
+{
+  "id": "3.6.3",
+  "unit": "3.6",
+  "title": "When to trade and when to keep pieces on",
+  "xp": 15,
+  "card": {
+    "idea": "A trade is two captures, not one. Before you call anything a trade, count the takers: if nothing can take back it is a free piece, and if they have more takers than you it is a gift. Once it really is a trade, the question is only ever which of you gets the better of it.",
+    "diagrams": [
+      "2b3k1/ppp2ppp/8/4n3/8/3B1N2/PPP2PPP/6K1 w - - 0 1",
+      "6k1/pp3ppp/2p1bn2/3N4/4P3/1B6/PP3PPP/6K1 w - - 0 1",
+      "r1b3k1/1p1p1ppp/3Np3/8/8/8/PPP2PPP/4R1K1 w - - 0 1"
+    ],
+    "habit": "Count the takers before you call it a trade."
+  },
+  "explain": [
+    {
+      "fen": "2b3k1/ppp2ppp/8/4n3/8/3B1N2/PPP2PPP/6K1 w - - 0 1",
+      "text": "The knight on f3 attacks the knight on e5, so this looks like an even swap. Count the takers on e5 first. No black pawn covers it and no black piece reaches it, so nothing can recapture. Nxe5 is not a trade at all. It is a whole knight, and the word trade nearly hid it.",
+      "arrows": [
+        [
+          "f3",
+          "e5"
+        ]
+      ],
+      "highlights": [
+        "e5"
+      ]
+    },
+    {
+      "fen": "6k1/pp3ppp/2p1bn2/3N4/4P3/1B6/PP3PPP/6K1 w - - 0 1",
+      "text": "Now count both ways. Three black men hit the knight on d5 — the pawn on c6, the bishop on e6 and the knight on f6 — and only two white ones hold it, the bishop on b3 and the pawn on e4. One attacker too many, so the knight cannot stay. Take on f6 and leave with check.",
+      "arrows": [
+        [
+          "c6",
+          "d5"
+        ],
+        [
+          "e6",
+          "d5"
+        ],
+        [
+          "f6",
+          "d5"
+        ]
+      ],
+      "highlights": [
+        "d5"
+      ]
+    },
+    {
+      "fen": "r1b3k1/1p1p1ppp/3Np3/8/8/8/PPP2PPP/4R1K1 w - - 0 1",
+      "text": "Nxc8 wins nothing and loses everything. The knight on d6 is White's best piece, sitting where no pawn can drive it away. The bishop on c8 has no legal move at all, walled in by its own pawns on b7 and d7. Swapping the best piece on the board for the worst is the trade to refuse.",
+      "arrows": [
+        [
+          "d6",
+          "c8"
+        ]
+      ],
+      "highlights": [
+        "d6",
+        "c8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.6.3-c1",
+      "type": "find_the_move",
+      "fen": "2b3k1/ppp2ppp/8/4n3/8/3B1N2/PPP2PPP/6K1 w - - 0 1",
+      "prompt": "One capture here looks like an even swap and is not. Count the takers, then play it.",
+      "answer": {
+        "moves": [
+          "Nxe5"
+        ]
+      },
+      "wrong": {
+        "Bxh7+": "Kxh7, and the bishop is gone for a single pawn."
+      },
+      "concept": "trading",
+      "hints": {
+        "piece": "f3",
+        "square": "e5"
+      },
+      "reason": "Nxe5, and nothing takes back. No black pawn covers e5 and no black piece reaches it, so this is a knight for nothing rather than knight for knight."
+    },
+    {
+      "id": "3.6.3-c2",
+      "type": "which_square",
+      "fen": "6k1/pp3ppp/2p1bn2/3N4/4P3/1B6/PP3PPP/6K1 w - - 0 1",
+      "prompt": "Tap the white piece that has more black men attacking it than white men defending it.",
+      "answer": {
+        "square": "d5"
+      },
+      "concept": "trading",
+      "hints": {
+        "text": "Count both sides of every white piece that sits in Black’s half."
+      },
+      "reason": "The knight on d5. Three attack it — c6, e6 and f6 — and two defend it, b3 and e4. One too many, so it has to be resolved now."
+    },
+    {
+      "id": "3.6.3-c3",
+      "type": "find_the_move",
+      "fen": "6k1/pp3ppp/2p1bn2/3N4/4P3/1B6/PP3PPP/6K1 w - - 0 1",
+      "prompt": "Your knight on d5 has one more attacker than defender. Leave the square, and take something on the way out.",
+      "answer": {
+        "moves": [
+          "Nxf6+"
+        ]
+      },
+      "wrong": {
+        "Nb6": "axb6 — the pawn on a7 simply takes the knight."
+      },
+      "concept": "trading",
+      "hints": {
+        "piece": "d5",
+        "square": "f6"
+      },
+      "reason": "Nxf6 is check, so Black must answer it, and you have swapped off the knight that was both attacking d5 and eyeing your pawn on e4. Quietly retreating leaves that pawn hanging."
+    },
+    {
+      "id": "3.6.3-c4",
+      "type": "name_the_pattern",
+      "fen": "r1b3k1/1p1p1ppp/3Np3/8/8/8/PPP2PPP/4R1K1 w - - 0 1",
+      "prompt": "The knight on d6 is White’s best piece. The bishop on c8 has no legal move. Why is Nxc8 a poor idea?",
+      "options": [
+        "It swaps the best piece on the board for the worst, and Black is delighted to take back.",
+        "It wins a piece, because nothing is defending the bishop on c8.",
+        "It opens the c-file, which helps Black’s rook far more than White’s."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "trading",
+      "hints": {
+        "text": "Both pieces are worth three. Ask what each of them was actually doing."
+      },
+      "reason": "The rook on a8 recaptures, so nothing is won. Black exchanges a bishop that could not move for the knight that was strangling him, which is the best news he has had all game."
+    },
+    {
+      "id": "3.6.3-c5",
+      "type": "find_the_move",
+      "fen": "3r4/p1k3pp/8/8/8/5K2/PP4PP/3R4 w - - 0 1",
+      "prompt": "You are a pawn up, with two queenside pawns against one. Head for the ending.",
+      "answer": {
+        "moves": [
+          "Rxd8"
+        ]
+      },
+      "wrong": {
+        "Rc1+": "Kb7, and the check has bought nothing: your rook has left the d-file and Black’s is still sitting on d8."
+      },
+      "concept": "trading",
+      "hints": {
+        "piece": "d1",
+        "square": "d8"
+      },
+      "reason": "Rxd8 Kxd8 and the rooks are gone. Two pawns against one on the queenside makes a passed pawn, and with no pieces left to blockade it that is the game."
+    },
+    {
+      "id": "3.6.3-c6",
+      "type": "find_the_sequence",
+      "fen": "3r2k1/pp1n1ppp/4p3/4N3/8/8/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "Three pieces meet on d7. Count the whole exchange before you begin it, then play it out.",
+      "answer": {
+        "line": [
+          "Rxd7",
+          "Rxd7",
+          "Nxd7"
+        ]
+      },
+      "concept": "trading",
+      "hints": {
+        "piece": "d1",
+        "square": "d7"
+      },
+      "reason": "Rook takes knight, rook takes rook, knight takes rook. You give a rook and collect a knight and a rook, so you finish a whole knight up. Counting the third capture is what makes the first one work."
+    },
+    {
+      "id": "3.6.3-c7",
+      "type": "name_the_pattern",
+      "fen": "3r4/p1k3pp/8/8/8/5K2/PP4PP/3R4 w - - 0 1",
+      "prompt": "You are a pawn up and nothing else is out of balance. Which swaps do you want?",
+      "options": [
+        "Trade pawns and keep the pieces on, so there is still something to attack with.",
+        "Trade pieces and keep the pawns on, so the extra pawn is a bigger share of what is left.",
+        "Avoid all trades. A pawn up is fragile and every swap risks losing the advantage."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "trading",
+      "hints": {
+        "text": "Think about what an extra pawn is worth with queens on, and what it is worth with only kings left."
+      },
+      "reason": "One pawn among sixteen barely shows. One pawn in a king-and-pawn ending is usually the whole game, so the side that is ahead trades pieces and the side that is behind keeps them on."
+    }
+  ],
+  "takeaway": "Count the takers before you call it a trade. Then ask what each piece was doing, not what it is worth on the chart."
+}

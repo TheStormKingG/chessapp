@@ -1,0 +1,181 @@
+{
+  "id": "3.6.2",
+  "unit": "3.6",
+  "title": "Good pieces and bad pieces",
+  "xp": 15,
+  "card": {
+    "idea": "A piece is not good or bad because of what it is, but because of where it stands and what is in its way. Activity is the one element with no number attached, so give it one: count the squares a piece can go to. A piece with no squares is not really on the board.",
+    "diagrams": [
+      "2b3k1/1p1p1ppp/4p3/4N3/8/8/PPP2PPP/6K1 w - - 0 1",
+      "n3r1k1/p1p2ppp/1p6/4N3/8/8/PPP2PPP/3R2K1 w - - 0 1",
+      "r5k1/pp1R1ppp/8/8/8/8/PP3PPP/6K1 w - - 0 1"
+    ],
+    "habit": "Count the squares before you judge the piece."
+  },
+  "explain": [
+    {
+      "fen": "2b3k1/1p1p1ppp/4p3/4N3/8/8/PPP2PPP/6K1 w - - 0 1",
+      "text": "A minor piece each and six pawns each, so material is level. Now count squares. The knight on e5 has eight. The bishop on c8 has none at all: b7 and d7 are its own pawns and they are the only squares it can reach. White is playing a piece up in everything but the count.",
+      "arrows": [],
+      "highlights": [
+        "c8",
+        "b7",
+        "d7"
+      ]
+    },
+    {
+      "fen": "n3r1k1/p1p2ppp/1p6/4N3/8/8/PPP2PPP/3R2K1 w - - 0 1",
+      "text": "The same idea with a knight. Black's knight on a8 can go to b6 or c7 and both are occupied by its own pawns, so it has no move whatever. It is not lost and nothing attacks it. It simply takes no part in the game, and White plays the rest of the board a piece to the good.",
+      "arrows": [],
+      "highlights": [
+        "a8",
+        "b6",
+        "c7"
+      ]
+    },
+    {
+      "fen": "r5k1/pp1R1ppp/8/8/8/8/PP3PPP/6K1 w - - 0 1",
+      "text": "A rook each and five pawns each. But White's has reached the seventh rank, where it sits behind pawns that cannot run away from it. It does not rake the whole rank: going left it stops at b7, going right it stops at f7. Those two are enough to tie Black down.",
+      "arrows": [
+        [
+          "d7",
+          "b7"
+        ],
+        [
+          "d7",
+          "f7"
+        ]
+      ],
+      "highlights": [
+        "b7",
+        "f7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.6.2-c1",
+      "type": "which_square",
+      "fen": "2b3k1/1p1p1ppp/4p3/4N3/8/8/PPP2PPP/6K1 w - - 0 1",
+      "prompt": "Tap the black piece that cannot move to a single square.",
+      "answer": {
+        "square": "c8"
+      },
+      "concept": "piece-activity",
+      "hints": {
+        "text": "A bishop only ever moves diagonally. Check both diagonals out of the corner."
+      },
+      "reason": "The bishop on c8. Its only two squares are b7 and d7, and its own pawns are standing on both of them."
+    },
+    {
+      "id": "3.6.2-c2",
+      "type": "name_the_pattern",
+      "fen": "2b3k1/1p1p1ppp/4p3/4N3/8/8/PPP2PPP/6K1 w - - 0 1",
+      "prompt": "A minor piece and six pawns each. Who is better, and why?",
+      "options": [
+        "White, because his knight has eight squares and the black bishop has none.",
+        "Level, because a bishop and a knight are both worth three points.",
+        "Black, because bishops are stronger than knights in open positions."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "piece-activity",
+      "hints": {
+        "text": "The points are equal. Count squares instead."
+      },
+      "reason": "Three points each on paper. On the board one of them does everything and the other does nothing, and that is worth far more than the naming of the pieces."
+    },
+    {
+      "id": "3.6.2-c3",
+      "type": "which_square",
+      "fen": "n3r1k1/p1p2ppp/1p6/4N3/8/8/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "Tap the black piece that has no legal move at all.",
+      "answer": {
+        "square": "a8"
+      },
+      "concept": "piece-activity",
+      "hints": {
+        "text": "A knight in the corner only ever has two squares to begin with."
+      },
+      "reason": "The knight on a8. From there it can only reach b6 and c7, and Black has a pawn on each of them."
+    },
+    {
+      "id": "3.6.2-c4",
+      "type": "name_the_pattern",
+      "fen": "n3r1k1/p1p2ppp/1p6/4N3/8/8/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "A rook, a knight and six pawns each. Who is better, and why?",
+      "options": [
+        "Level. Both sides have exactly the same pieces and the same number of pawns.",
+        "White, because Black’s knight has no move at all, so Black fights the rest of the board a piece short.",
+        "Black, because his pawn on b6 controls more space than any white pawn."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "piece-activity",
+      "hints": {
+        "text": "Having a piece and using a piece are different things."
+      },
+      "reason": "The pieces match exactly, which is what makes it a pure activity question. One of Black’s three pieces cannot move, so everywhere else White is effectively a piece up."
+    },
+    {
+      "id": "3.6.2-c5",
+      "type": "find_them_all",
+      "fen": "r5k1/pp1R1ppp/8/8/8/8/PP3PPP/6K1 w - - 0 1",
+      "prompt": "Tap every black pawn the rook on d7 actually attacks right now.",
+      "answer": {
+        "pieces": [
+          "b7",
+          "f7"
+        ]
+      },
+      "concept": "piece-activity",
+      "hints": {
+        "text": "A rook stops at the first man it meets on each side. It cannot see past him."
+      },
+      "reason": "Only b7 and f7. Going left the rook stops at b7, so a7 behind it is untouched; going right it stops at f7, so g7 and h7 are untouched. A rook on the seventh does not hit everything on the rank."
+    },
+    {
+      "id": "3.6.2-c6",
+      "type": "is_it_safe",
+      "fen": "r5kn/ppp2p1p/6p1/8/8/8/PPP1BPPP/3R2K1 w - - 0 1",
+      "move": "Rd7",
+      "prompt": "White swings the rook to the seventh rank with Rd7. Is it safe there?",
+      "reasons": [
+        "Yes. Nothing black attacks d7.",
+        "No. The pawn on c7 takes it.",
+        "No. The knight on h8 comes out to f7 and hits it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "piece-activity",
+      "hints": {
+        "text": "Check the knight in the corner before you worry about it."
+      },
+      "reason": "Nothing black covers d7. The c7 pawn captures towards b6 and d6, not d7, and the knight on h8 has no legal move at all: f7 and g6 are its own pawns."
+    },
+    {
+      "id": "3.6.2-c7",
+      "type": "name_the_pattern",
+      "fen": "6k1/pp3ppp/8/8/8/8/PP1r1PPP/R5K1 b - - 0 1",
+      "prompt": "A rook and five pawns each, and Black to move. Who is better, and why?",
+      "options": [
+        "White, because his rook stands on an open file and Black’s does not.",
+        "Level, because each side has a rook and the same number of pawns.",
+        "Black, because his rook has reached the second rank and White’s is doing nothing."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "piece-activity",
+      "hints": {
+        "text": "One of the rooks is already among the pawns. Which one?"
+      },
+      "reason": "The black rook on d2 attacks b2 and f2 and White has nothing similar. Same material, same pawn count, and the rook that got in first decides it."
+    }
+  ],
+  "takeaway": "Count the squares a piece can reach. A piece with none is not on the board, whatever the point count says about it."
+}

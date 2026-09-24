@@ -1,0 +1,140 @@
+{
+  "id": "3.3.1",
+  "unit": "3.3",
+  "title": "Trapping a piece",
+  "xp": 14,
+  "card": {
+    "idea": "A piece is trapped when every square it can reach loses it. That is a counting job, not a tactic: list the squares, cross off the ones your pawns already cover and the ones its own men are standing on, and if nothing is left, the piece is yours. All you need then is a move that attacks it.",
+    "diagrams": [
+      "3r2k1/1p4pp/5p2/7n/8/4P3/1P3PPP/R5K1 w - - 0 1",
+      "8/1p3pkp/5np1/8/8/1P6/b1P2PPP/R5K1 w - - 0 1",
+      "4r1k1/pppn1ppp/8/8/3B4/8/1PP2PPP/R5K1 w - - 0 1"
+    ],
+    "habit": "Count its squares before you count its value."
+  },
+  "explain": [
+    {
+      "fen": "3r2k1/1p4pp/5p2/7n/8/4P3/1P3PPP/R5K1 w - - 0 1",
+      "text": "The knight on h5 is not attacked, and it still has nowhere to go. Its own pawns sit on f6 and g7; the pawn on e3 covers f4, and f2 and h2 both cover g3. So attack it: g4. Now it has to move, and the only two squares it has both lose it.",
+      "arrows": [["g2", "g4"], ["e3", "f4"], ["h2", "g3"]],
+      "highlights": ["h5", "f4", "g3"]
+    },
+    {
+      "fen": "8/1p3pkp/5np1/8/8/8/bPP2PPP/R5K1 w - - 0 1",
+      "text": "A bishop is harder to shut in, because it runs on a long diagonal. This one on a2 has c4, d5 and e6 up the diagonal. One pawn closes all three: b3, held by the pawn on c2. Now a2 leads only to b1, where the rook on a1 is already looking.",
+      "arrows": [["b2", "b3"], ["a2", "e6"], ["a1", "b1"]],
+      "highlights": ["a2", "b3", "b1"]
+    },
+    {
+      "fen": "4r1k1/pppn1ppp/8/8/3B4/8/1PP2PPP/R5K1 w - - 0 1",
+      "text": "The same trap works against you. Bxa7 wins a pawn and the bishop can still walk home through b6 and c5, so Black shuts that door first with b6. Now a7 leads to b8 and b6 only, and the knight on d7 covers both. A free pawn that costs a bishop was never free.",
+      "arrows": [["d4", "a7"], ["b7", "b6"], ["d7", "b8"], ["d7", "b6"]],
+      "highlights": ["a7", "b8", "b6"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.3.1-c1",
+      "type": "find_them_all",
+      "fen": "3r2k1/1p4pp/5p2/7n/8/4P3/1P3PPP/R5K1 w - - 0 1",
+      "prompt": "Black's own pawns are standing on f6 and g7. Tap the only two squares the knight on h5 can move to.",
+      "answer": { "squares": ["f4", "g3"] },
+      "concept": "trapped-piece",
+      "hints": {
+        "text": "A knight on h5 reaches f4, f6, g3 and g7. Two of those are already occupied."
+      },
+      "reason": "f4 and g3. The pawn on e3 covers f4, and f2 and h2 both cover g3, so the knight has two squares and loses itself on either one."
+    },
+    {
+      "id": "3.3.1-c2",
+      "type": "which_square",
+      "fen": "3r2k1/1p4pp/5p2/7n/8/4P3/1P3PPP/R5K1 w - - 0 1",
+      "prompt": "Nothing attacks the knight yet, so it can sit on h5 all day. Tap the square White's g-pawn must reach to attack it.",
+      "answer": { "square": "g4" },
+      "concept": "trapped-piece",
+      "hints": {
+        "text": "A white pawn attacks the two squares diagonally in front of it."
+      },
+      "reason": "g4. A white pawn on g4 attacks f5 and h5, and h5 is where the knight is standing."
+    },
+    {
+      "id": "3.3.1-c3",
+      "type": "find_the_move",
+      "fen": "3r2k1/1p4pp/5p2/7n/8/4P3/1P3PPP/R5K1 w - - 0 1",
+      "prompt": "The knight on h5 has only f4 and g3, and your pawns cover both. Put the question to it.",
+      "answer": { "moves": ["g4"] },
+      "wrong": {
+        "g3": "g3 covers f4 a second time and never touches the knight, and that free move is the whole game: g6 defends h5 and opens g7, so the knight always has a way out.",
+        "e4": "e4 lets go of f4, and f4 is exactly the square the knight wanted. Nf4, and now nothing at all attacks it there."
+      },
+      "concept": "trapped-piece",
+      "hints": { "piece": "g2", "square": "g4" },
+      "reason": "g4 attacks the knight and it has to be dealt with at once. Ng3 is met by hxg3, Nf4 by exf4, and g6 only defends it: gxh5 gxh5 still wins a knight for a pawn."
+    },
+    {
+      "id": "3.3.1-c4",
+      "type": "find_the_sequence",
+      "fen": "3r2k1/1p4pp/5p2/7n/8/4P3/1P3PPP/R5K1 w - - 0 1",
+      "prompt": "Play it out: attack the knight, and if it jumps to g3, take it with the pawn that keeps f2 where it is.",
+      "answer": { "line": ["g4", "Ng3", "hxg3"] },
+      "concept": "trapped-piece",
+      "hints": {
+        "text": "Two pawns cover g3. Only one of them can leave without opening a file at your own king."
+      },
+      "reason": "g4 attacks the knight, Ng3 is one of its two squares, and hxg3 takes it while the pawn on f2 stays in front of your king."
+    },
+    {
+      "id": "3.3.1-c5",
+      "type": "which_square",
+      "fen": "8/1p3pkp/5np1/8/8/8/bPP2PPP/R5K1 w - - 0 1",
+      "prompt": "The bishop on a2 runs up the long diagonal, to c4, d5 or e6. Tap the square White's b-pawn must reach to close all three at once.",
+      "answer": { "square": "b3" },
+      "concept": "trapped-piece",
+      "hints": {
+        "text": "Block the diagonal on its very first square, and make sure something is holding the blocker."
+      },
+      "reason": "b3. It blocks the diagonal at the first square, and the pawn on c2 defends it, so Bxb3 cxb3 only gives the bishop away for a pawn."
+    },
+    {
+      "id": "3.3.1-c6",
+      "type": "find_them_all",
+      "fen": "8/1p3pkp/5np1/8/8/1P6/b1P2PPP/R5K1 w - - 0 1",
+      "prompt": "The pawn has landed on b3. Tap both squares the bishop on a2 can still reach.",
+      "answer": { "squares": ["b1", "b3"] },
+      "concept": "trapped-piece",
+      "hints": { "text": "One of them is a capture. The other is the corner square behind it." },
+      "reason": "b1 and b3. The rook on a1 covers the whole first rank, so Bb1 is met by Rxb1, and Bxb3 by cxb3. Two squares, and neither is a home."
+    },
+    {
+      "id": "3.3.1-c7",
+      "type": "find_the_move",
+      "fen": "3r2k1/1p3ppp/2p5/n7/8/3P4/PPP2PPP/R5K1 w - - 0 1",
+      "prompt": "Same idea, other wing. The knight on a5 has only b3 and c4, and your pawns cover both. Make it move.",
+      "answer": { "moves": ["b4"] },
+      "wrong": {
+        "b3": "b3 never touches the knight, and Black spends the free move well: c5 opens c6, and the knight steps out to a square nothing attacks.",
+        "d4": "d4 gives up the guard of c4, the one square the knight was missing. Nc4, and it is out for nothing."
+      },
+      "concept": "trapped-piece",
+      "hints": { "piece": "b2", "square": "b4" },
+      "reason": "b4 attacks the knight. Nb3 is met by axb3 or cxb3, Nc4 by dxc4, and b6 only defends it: bxa5 bxa5 still wins a knight for a pawn."
+    },
+    {
+      "id": "3.3.1-c8",
+      "type": "is_it_safe",
+      "fen": "4r1k1/pppn1ppp/8/8/3B4/8/1PP2PPP/R5K1 w - - 0 1",
+      "move": "Bxa7",
+      "prompt": "The pawn on a7 is defended by nothing, so White can take it. Is the bishop safe on a7?",
+      "reasons": [
+        "Yes. Nothing attacks a7, so it is simply a free pawn.",
+        "No. Black plays b6, and then a7 leads only to b8 and b6 — the knight on d7 covers both.",
+        "No. The rook on e8 takes the bishop at once."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "trapped-piece",
+      "hints": { "text": "Count the bishop's squares after Black has had one move, not before." },
+      "reason": "Safe for exactly one move. b6 closes the diagonal behind the bishop, and the knight on d7 watches b8 and b6, so Bxb6 cxb6 ends with a bishop given for two pawns. The rook on e8 never reaches a7 at all."
+    }
+  ],
+  "takeaway": "A piece is trapped when every square it can reach loses it. Count the squares first, then find the move that attacks it, in that order."
+}

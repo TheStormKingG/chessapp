@@ -1,0 +1,156 @@
+{
+  "id": "3.5.4",
+  "unit": "3.5",
+  "title": "When a draw is the right result",
+  "xp": 14,
+  "card": {
+    "idea": "Half a point is not a failure. It is what a lost position is worth once you find the saving idea, and the players who collect those half points finish above the players who fight on and lose. The skill is honesty: look at the material, look at your king, decide whether you are playing for a win or for a draw, and then play for that.",
+    "diagrams": [
+      "7k/2R5/8/PP6/3q4/8/5P1P/5RK1 b - - 0 1",
+      "5rk1/3p1p1p/8/3Q4/pp6/8/2r5/7K w - - 0 1"
+    ],
+    "habit": "Decide what you are playing for before you choose the move."
+  },
+  "explain": [
+    {
+      "fen": "7k/2R5/8/PP6/3q4/8/5P1P/5RK1 b - - 0 1",
+      "text": "Be honest about this one. Black has a queen and nothing else; White has two rooks, four pawns and two of them running on a5 and b5. There is no win here and no fortress either, so stop looking for one. The only thing left to play for is the repetition, and it starts with a check on g4.",
+      "arrows": [["d4", "g4"]],
+      "highlights": ["a5", "b5", "g4"]
+    },
+    {
+      "fen": "7k/2R5/8/PP6/6q1/8/5P1P/5RK1 w - - 0 1",
+      "text": "Qg4 has landed and White has exactly one legal move: Kh1. Qf3 then checks again and Kg1 is forced back, so the two kings' squares are the whole of White's remaining game. A rook and four pawns up, and the best he can get is half a point.",
+      "arrows": [
+        ["g4", "g1"],
+        ["g1", "h1"]
+      ],
+      "highlights": ["g1", "h1"]
+    },
+    {
+      "fen": "5rk1/3p1p1p/8/3Q4/pp6/8/2r5/7K w - - 0 1",
+      "text": "Now the same judgement from the losing side of a queen. The pawn on d7 is free and Qxd7 takes it, and that is exactly the mistake: a pawn does not change a lost position, but the move spent taking it does. Qg5 is check, Kh8 is forced, and the draw begins.",
+      "arrows": [
+        ["d5", "d7"],
+        ["d5", "g5"]
+      ],
+      "highlights": ["d7", "g5"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.5.4-c1",
+      "type": "name_the_pattern",
+      "fen": "7k/2R5/8/PP6/3q4/8/5P1P/5RK1 b - - 0 1",
+      "prompt": "Black has a queen and a king. White has two rooks, four pawns and two connected passers. What should Black be playing for?",
+      "options": [
+        "A draw. The material is hopeless, so the only plan worth having is a line of checks that repeats the position.",
+        "A win. A queen is stronger than two rooks in an open position, so Black should keep playing.",
+        "A win on time. Black should shuffle the queen and hope White runs out of clock."
+      ],
+      "answer": { "option": 0 },
+      "concept": "when-to-draw",
+      "hints": {
+        "text": "Count the material, then look at how far the a5 and b5 pawns have to travel."
+      },
+      "reason": "Two rooks and four pawns beat a lone queen, and the passers on a5 and b5 decide it soon. Deciding that early is what lets you spot Qg4 instead of drifting."
+    },
+    {
+      "id": "3.5.4-c2",
+      "type": "which_square",
+      "fen": "7k/2R5/8/PP6/3q4/8/5P1P/5RK1 b - - 0 1",
+      "prompt": "Three of Black's moves are check. Tap the square the queen must check from: the one that leaves White a single legal answer.",
+      "answer": { "square": "g4" },
+      "concept": "when-to-draw",
+      "hints": {
+        "text": "One check loses the queen to a rook, one loses it to a pawn's defenders. The third is the one you want."
+      },
+      "reason": "Qg4 forces Kh1 and nothing else. Qg7 is met by Rxg7 from the rook on c7, and Qxf2 loses the queen too, because f2 is defended by both the rook on f1 and the king."
+    },
+    {
+      "id": "3.5.4-c3",
+      "type": "find_the_move",
+      "fen": "7k/2R5/8/PP6/3q4/8/5P1P/5RK1 b - - 0 1",
+      "prompt": "You are a queen against two rooks and four pawns. Play the move that makes it a draw.",
+      "answer": { "moves": ["Qg4+"] },
+      "wrong": {
+        "Qg7+": "Rxg7. The rook on c7 covers the whole seventh rank, so this check simply hands over the queen.",
+        "Qxf2+": "Rxf2 or Kxf2. The pawn on f2 is defended twice, and with the queen gone there are no more checks and no more draw."
+      },
+      "concept": "when-to-draw",
+      "hints": {
+        "piece": "d4",
+        "square": "g4"
+      },
+      "reason": "Qg4 is check with Kh1 forced, Qf3 is check with Kg1 forced, and the position repeats. White never gets the free move his passed pawns need."
+    },
+    {
+      "id": "3.5.4-c4",
+      "type": "name_the_pattern",
+      "fen": "7k/2R5/8/PP6/6q1/8/5P1P/5RK1 w - - 0 1",
+      "prompt": "Now look at it from White's chair. He is a rook and four pawns to the good and it is his move. What is the result?",
+      "options": [
+        "A draw. Kh1 is his only legal move, Qf3 checks him straight back to g1, and there is no way off those two squares.",
+        "White wins. He is far ahead on material, so the checks must run out soon.",
+        "Black wins. White has only one legal move, so he is one move from being stalemated."
+      ],
+      "answer": { "option": 0 },
+      "concept": "when-to-draw",
+      "hints": {
+        "text": "Count White's legal moves in this position, then count them again after Qf3."
+      },
+      "reason": "White is in check with a single legal reply, and the same is true after Qf3. Material only matters if you get a move to use it, and here White never does. He should take the draw and forget the rook."
+    },
+    {
+      "id": "3.5.4-c5",
+      "type": "is_it_safe",
+      "fen": "5rk1/3p1p1p/8/3Q4/pp6/8/2r5/7K w - - 0 1",
+      "move": "Qxd7",
+      "prompt": "The pawn on d7 is undefended and your queen can just take it. Is Qxd7 safe?",
+      "reasons": [
+        "Yes. A free pawn is a free pawn, and it brings you closer to equal material.",
+        "No. Qxd7 is not check, so Black gets a free move, and one pawn does not change a position where you are two rooks and four pawns down.",
+        "No. The rook on f8 recaptures on d7."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "when-to-draw",
+      "hints": {
+        "text": "Ask what taking the pawn is meant to achieve when the rest of the board is lost."
+      },
+      "reason": "Nothing takes back on d7, so the pawn really is free. It still loses, because the draw was never about material: it was about never letting Black have a move of his own."
+    },
+    {
+      "id": "3.5.4-c6",
+      "type": "find_the_move",
+      "fen": "5rk1/3p1p1p/8/3Q4/pp6/8/2r5/7K w - - 0 1",
+      "prompt": "Ignore the free pawn on d7 and play for the half point instead.",
+      "answer": { "moves": ["Qg5+"] },
+      "wrong": {
+        "Qxd7": "A pawn, and a free move for Black. You are still two rooks and four pawns down, and now the checks have to start all over again from a worse square."
+      },
+      "concept": "when-to-draw",
+      "hints": {
+        "piece": "d5",
+        "square": "g5"
+      },
+      "reason": "Qg5 is check and Kh8 is the only legal answer; Qf6 then checks and Kg8 is forced. Black's own rook on f8 and pawns on f7 and h7 do the rest of the work for you."
+    },
+    {
+      "id": "3.5.4-c7",
+      "type": "find_the_move",
+      "fen": "7k/8/1R6/P1P5/2q5/8/5P1P/5RK1 b - - 0 1",
+      "prompt": "A rook is hanging on f1 and taking it is check. Find the move that draws instead.",
+      "answer": { "moves": ["Qg4+"] },
+      "wrong": {
+        "Qxf1+": "Kxf1 is forced and you have swapped a queen for a rook. Now you have nothing to check with, and White has a rook and two passed pawns."
+      },
+      "concept": "when-to-draw",
+      "hints": {
+        "piece": "c4",
+        "square": "g4"
+      },
+      "reason": "Qg4 forces Kh1 and Qf3 forces Kg1, and the position repeats. Winning a rook with check looks like the greedy move, but the king takes it back and the draw goes with it."
+    }
+  ],
+  "takeaway": "Decide honestly what the position is worth before you pick a move. Half a point saved from a lost game counts exactly as much as half a point given away from a won one."
+}

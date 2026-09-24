@@ -1,0 +1,181 @@
+{
+  "id": "3.6.1",
+  "unit": "3.6",
+  "title": "The four elements",
+  "xp": 14,
+  "card": {
+    "idea": "Four things decide who stands better: material, king safety, piece activity and pawn structure. Walk the list in that order. Nearly every position is decided by one of the four while the other three are level, and naming which one is what judging a position means.",
+    "diagrams": [
+      "r5k1/pp3ppp/2p5/8/8/2P5/PP3PPP/R3B1K1 w - - 0 1",
+      "3q1rk1/ppppp3/8/8/8/8/PP3PPP/3Q1RK1 w - - 0 1",
+      "8/p1p4p/2p1k3/8/8/4K3/PP4PP/8 w - - 0 1"
+    ],
+    "habit": "Name the element, then name the side."
+  },
+  "explain": [
+    {
+      "fen": "r5k1/pp3ppp/2p5/8/8/2P5/PP3PPP/R3B1K1 w - - 0 1",
+      "text": "Start with the one you can count. Both sides have a rook and six pawns, and the pawns stand on the same six files, so the structures match. White also has a bishop. Nothing else is out of balance, so the judgement is finished: White is better, and the element is material.",
+      "arrows": [],
+      "highlights": [
+        "e1"
+      ]
+    },
+    {
+      "fen": "3q1rk1/ppppp3/8/8/8/8/PP3PPP/3Q1RK1 w - - 0 1",
+      "text": "Now material is level: a queen, a rook and five pawns each. But f7, g7 and h7 are empty while White still has all three pawns in front of his king. One king has a roof and the other has none, so White is much better, and the element is king safety.",
+      "arrows": [
+        [
+          "d1",
+          "g4"
+        ]
+      ],
+      "highlights": [
+        "f7",
+        "g7",
+        "h7"
+      ]
+    },
+    {
+      "fen": "8/p1p4p/2p1k3/8/8/4K3/PP4PP/8 w - - 0 1",
+      "text": "Four pawns each, so material is level again. But White's sit in two touching pairs, and every black pawn stands alone with no friend on either side — including two stacked on the c-file. Pawns cannot move backwards, so this never gets better. White is winning on structure.",
+      "arrows": [],
+      "highlights": [
+        "c6",
+        "c7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.6.1-c1",
+      "type": "which_square",
+      "fen": "r5k1/pp3ppp/2p5/8/8/2P5/PP3PPP/R3B1K1 w - - 0 1",
+      "prompt": "Both sides have a rook and six pawns on the same files. Tap the one piece that makes this position unequal.",
+      "answer": {
+        "square": "e1"
+      },
+      "concept": "values",
+      "hints": {
+        "text": "Look for the piece that has no opposite number."
+      },
+      "reason": "The bishop on e1. Black has no minor piece at all, so White is a bishop up and everything else matches."
+    },
+    {
+      "id": "3.6.1-c2",
+      "type": "name_the_pattern",
+      "fen": "r5k1/pp3ppp/2p5/8/8/2P5/PP3PPP/R3B1K1 w - - 0 1",
+      "prompt": "Which of the four elements decides this position?",
+      "options": [
+        "Material. White has an extra bishop and everything else is level.",
+        "Pawn structure. White has the healthier pawns.",
+        "King safety. The black king is the more exposed of the two."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "four-elements",
+      "hints": {
+        "text": "Count the wood first. If that settles it, stop there."
+      },
+      "reason": "Both kings sit behind three pawns and both sets of pawns stand on the same files. Only the extra bishop is different, so material is the whole story."
+    },
+    {
+      "id": "3.6.1-c3",
+      "type": "find_them_all",
+      "fen": "3q1rk1/ppppp3/8/8/8/8/PP3PPP/3Q1RK1 w - - 0 1",
+      "prompt": "Tap the three empty squares in front of Black's king where his pawns ought to be standing.",
+      "answer": {
+        "squares": [
+          "f7",
+          "g7",
+          "h7"
+        ]
+      },
+      "concept": "king-safe",
+      "hints": {
+        "text": "Compare the squares around g8 with the squares around g1."
+      },
+      "reason": "f7, g7 and h7 are bare. White has all three of his, which is the whole difference between the two kings."
+    },
+    {
+      "id": "3.6.1-c4",
+      "type": "name_the_pattern",
+      "fen": "3q1rk1/ppppp3/8/8/8/8/PP3PPP/3Q1RK1 w - - 0 1",
+      "prompt": "A queen, a rook and five pawns each. Which element decides it?",
+      "options": [
+        "Material. White has more, once you count carefully.",
+        "King safety. Black has no pawns left in front of his king and White has all three.",
+        "Piece activity. The white rook is on a much better square than the black one."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "four-elements",
+      "hints": {
+        "text": "The counting is done and it came out level. Go to the next item on the list."
+      },
+      "reason": "The material really is equal, and both rooks sit on f-file squares. The bare squares round the black king are the only difference, and they are enough."
+    },
+    {
+      "id": "3.6.1-c5",
+      "type": "find_them_all",
+      "fen": "8/p1p4p/2p1k3/8/8/4K3/PP4PP/8 w - - 0 1",
+      "prompt": "Tap every black pawn that has no friendly pawn on a next-door file.",
+      "answer": {
+        "pieces": [
+          "a7",
+          "c6",
+          "c7",
+          "h7"
+        ]
+      },
+      "concept": "four-elements",
+      "hints": {
+        "text": "Check the file either side of each pawn. The b, d and g files are empty."
+      },
+      "reason": "All four of them. The b, d and g files are bare, so a7, c7, c6 and h7 each stand alone — and the two c-pawns are stacked on top of each other as well."
+    },
+    {
+      "id": "3.6.1-c6",
+      "type": "name_the_pattern",
+      "fen": "8/p1p4p/2p1k3/8/8/4K3/PP4PP/8 w - - 0 1",
+      "prompt": "Four pawns each and no pieces at all. Which element decides it?",
+      "options": [
+        "Nothing does. With four pawns each and no pieces this has to be a draw.",
+        "King activity. Whichever king reaches the middle first wins.",
+        "Pawn structure. White has two healthy pairs, Black has four pawns standing alone."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "four-elements",
+      "hints": {
+        "text": "Count the pawns, then look at how they are arranged."
+      },
+      "reason": "Equal numbers do not mean equal pawns. Two touching pairs defend each other and make a passed pawn; four loners defend nothing and have to be babysat one at a time."
+    },
+    {
+      "id": "3.6.1-c7",
+      "type": "is_it_safe",
+      "fen": "2b3k1/1p1p1ppp/4p3/4N3/8/8/PPP2PPP/6K1 w - - 0 1",
+      "move": "Nc4",
+      "prompt": "White steps the knight to c4, deep in Black’s half. Is it safe there?",
+      "reasons": [
+        "Yes. Nothing black covers c4 at all.",
+        "No. The bishop on c8 takes it.",
+        "No. The pawn on d7 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "piece-activity",
+      "hints": {
+        "text": "List everything black that can reach c4. The list is short."
+      },
+      "reason": "Not one black man attacks c4. The bishop on c8 is walled in by its own pawns on b7 and d7 and has no legal move, and the d7 pawn captures towards c6 and e6, never towards c4."
+    }
+  ],
+  "takeaway": "Material, king safety, piece activity, pawn structure. Walk the list in order and stop at the first one that is clearly out of balance."
+}
