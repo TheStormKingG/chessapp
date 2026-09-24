@@ -27,9 +27,30 @@ export function UpdateNotice() {
   const busy = isActivityRoute(pathname);
 
   return (
+    /*
+     * Anchored to the BOTTOM, not the top.
+     *
+     * `fixed top-0` put a full-bleed bar over the first thing on every screen
+     * — on Today that is the `Today` heading, which it covered outright.
+     * Found by looking at the deployed site on a returning client, which is
+     * the only client that ever sees this component: it cannot appear without
+     * an update having been applied, so no fresh session and no test fixture
+     * renders it in its real context.
+     *
+     * Bottom-anchored above the tab bar is the app's existing convention for a
+     * transient notice (`InstallPrompt` sits at the same `bottom-16`), so this
+     * is the house pattern rather than a second one.
+     *
+     * It enters from below — the edge it is anchored to, and the edge it would
+     * leave by. Animated because it appears UNANNOUNCED, after a reload the
+     * learner did not ask for, and something arriving out of nowhere at the
+     * edge of vision reads as a glitch; 240ms, ease-out, collapsed to 1ms by
+     * the reduced-motion block in theme.css.
+     */
     <div
       role="status"
-      className="t-label fixed inset-x-0 top-0 z-20 flex items-center justify-between gap-3 bg-accent px-4 py-2 text-accent-on"
+      className="t-label n-panel n-lit fixed inset-x-0 bottom-16 z-20 mx-auto flex max-w-md items-center justify-between gap-3 rounded-card bg-accent px-4 py-3 text-accent-on md:bottom-4"
+      style={{ animation: 'rise-in var(--motion-screen) var(--ease-out) both' }}
     >
       {justUpdated ? (
         <span>ChessApp updated to the latest version.</span>
