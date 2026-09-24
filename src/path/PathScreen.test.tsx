@@ -70,7 +70,7 @@ test('a locked run states how long it is, and never says "Locked" per node', () 
   // it was a section heading printed twice; the counts differ, and the count is
   // the distance between the learner and the next thing that opens.
   //
-  // All fourteen units are built, so a fresh path has FOURTEEN locked runs,
+  // Fifteen units are built now, so a fresh path has FIFTEEN locked runs,
   // one per unit, broken apart by the checkpoints between them (a built unit's
   // checkpoint is attemptable, never locked).
   // Asserting the whole sequence in path order pins both the counts and the
@@ -94,11 +94,12 @@ test('a locked run states how long it is, and never says "Locked" per node', () 
     '5 locked',
     '6 locked',
     '3 locked',
+    '4 locked',
   ]);
-  // 64 locked lessons = Section 1's 29 plus Section 2's 36, minus the active
-  // one. Every authoring pass moved one run out of the `coming` list and into
-  // this one; with unit 2.8 flipped on, that list is now empty for real.
-  expect(runs.reduce((n, r) => n + Number(r!.split(' ')[0]), 0)).toBe(64);
+  // 68 locked lessons = Section 1's 29, Section 2's 36 and unit 3.1's 4, minus
+  // the active one. Every authoring pass moves one run out of the `coming`
+  // list and into this one; 3.1 is the first of Section 3 to make that trip.
+  expect(runs.reduce((n, r) => n + Number(r!.split(' ')[0]), 0)).toBe(68);
   expect(screen.queryAllByText('Locked until you get there')).toHaveLength(0);
   // Line 67's original guarantee, unchanged: the word is still never printed
   // once per node, which is what chunk C2 bought.
@@ -307,17 +308,20 @@ test('Section 3 is what reads as coming now, and Section 2 does not', () => {
     .map((el) => el.textContent);
   // One groove per unit, never fused into one run for the rest of the
   // curriculum -- the defect that printed "44 coming" once.
-  expect(coming).toHaveLength(12);
-  expect(coming.every((c) => Number(c?.split(' ')[0]) <= 10)).toBe(true);
+  expect(coming).toHaveLength(11); // 3.1 is built now; eleven units are not
+  expect(coming.every((c) => Number(c?.split(' ')[0]) <= 11)).toBe(true);
   // Section 2 is authored, so none of it is coming...
   expect(screen.getByLabelText(/^2\.4\.1 The back-rank weakness/)).toBeInTheDocument();
   expect(screen.getByLabelText(/^2\.8\.3 Going over your own game/)).toBeInTheDocument();
   // ...and Section 3 is, and carries no link.
-  expect(screen.getByLabelText(/^3\.1\.1 Capture the guard\. Content coming/)).toHaveAttribute(
+  // 3.1 is authored, so it is a real node with a real name...
+  expect(screen.getByLabelText(/^3\.1\.1 Capture the guard/)).toBeInTheDocument();
+  expect(screen.queryByLabelText(/^3\.1\.1 .*Content coming/)).toBeNull();
+  // ...and 3.2 onward is what is still coming.
+  expect(screen.getByLabelText(/^3\.2\.1 X-ray attacks and defences\. Content coming/)).toHaveAttribute(
     'aria-disabled',
     'true',
   );
-  expect(screen.queryByRole('link', { name: /^3\./ })).toBeNull();
 });
 
 test('an unbuilt run counts per unit, and nothing in it is a link', () => {
@@ -339,21 +343,22 @@ test('an unbuilt run counts per unit, and nothing in it is a link', () => {
     .filter((el) => el.children.length === 0 && /^\d+ coming$/.test(el.textContent ?? ''))
     .map((el) => el.textContent);
 
-  // One groove per unit: twelve units, twelve grooves, never one fused run.
-  expect(coming).toHaveLength(12);
-  expect(coming).not.toEqual(['58 coming']);
+  // One groove per unit: eleven unbuilt units, eleven grooves, never one fused
+  // run. 3.1 was the twelfth until it was flipped on.
+  expect(coming).toHaveLength(11);
+  expect(coming).not.toEqual(['53 coming']);
   // Each count is that unit's lessons plus its checkpoint, which stays INSIDE
-  // the groove rather than breaking it. 3.1 has four lessons, so five.
-  expect(coming[0]).toBe('5 coming');
+  // the groove rather than breaking it. 3.2 leads now, with three lessons.
+  expect(coming[0]).toBe('4 coming');
   // No unit's groove may exceed the schema's ten-lesson cap plus its
   // checkpoint; a larger number means a run spanned a unit boundary again.
   for (const c of coming) expect(Number(c?.split(' ')[0])).toBeLessThanOrEqual(11);
   // Every node in them is un-attemptable...
-  expect(screen.getByLabelText('3.1.1 Capture the guard. Content coming')).toHaveAttribute(
-    'aria-disabled',
-    'true',
-  );
-  expect(screen.queryByRole('link', { name: /^3\./ })).toBeNull();
+  expect(
+    screen.getByLabelText('3.2.1 X-ray attacks and defences. Content coming'),
+  ).toHaveAttribute('aria-disabled', 'true');
+  // No link into an unbuilt unit. 3.1 is excluded because it IS built now.
+  expect(screen.queryByRole('link', { name: /^3\.(?!1\b)/ })).toBeNull();
   // ...and the control: the built sections are still real links, so "no links"
   // above is not the whole screen having failed to render.
   expect(screen.getByLabelText(/^2\.4\.1 The back-rank weakness/)).toBeInTheDocument();

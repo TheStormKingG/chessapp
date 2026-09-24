@@ -194,6 +194,7 @@ test('finishing everything built leaves no active lesson', () => {
     '2.6',
     '2.7',
     '2.8',
+    '3.1',
   ]);
   expect(activeLesson(allUnitsPassed())).toBeNull();
   expect(activeNode(allUnitsPassed())).toBeNull();
@@ -215,9 +216,16 @@ test('the path walks every declared section, in path order', () => {
   const s2 = nodes.filter((n) => n.section === '2');
   expect(s2).toHaveLength(36 + 8);
   expect(s2.filter((n) => n.state === 'coming')).toEqual([]);
+  // Section 3's boundary has started moving: 3.1 is built, the other eleven
+  // units are not. Both sides asserted, so neither can pass by matching nothing.
   const s3 = nodes.filter((n) => n.section === '3');
   expect(s3).toHaveLength(46 + 12);
-  expect(s3.filter((n) => n.state !== 'coming')).toEqual([]);
+  const s3Built = s3.filter((n) => n.unit === '3.1');
+  expect(s3Built).toHaveLength(4 + 1);
+  expect(s3Built.filter((n) => n.state === 'coming')).toEqual([]);
+  const s3Coming = s3.filter((n) => n.unit !== '3.1');
+  expect(s3Coming).toHaveLength(42 + 11);
+  expect(s3Coming.filter((n) => n.state !== 'coming')).toEqual([]);
   expect(nodes.filter((n) => n.state === 'active')).toHaveLength(1);
 });
 

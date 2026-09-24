@@ -82,8 +82,12 @@ test('Section 2 is built, Section 3 is declared and reads as coming', () => {
   const s3 = nodes.filter((n) => n.section === '3');
   expect(s3.filter((n) => n.kind === 'lesson')).toHaveLength(46);
   expect(s3.filter((n) => n.kind === 'checkpoint')).toHaveLength(12);
-  expect(s3.filter((n) => n.state !== 'coming')).toEqual([]);
-  expect(s3).toHaveLength(58); // and neither is this one
+  expect(s3).toHaveLength(58);
+  // The boundary has started moving INSIDE Section 3: 3.1 is authored, the
+  // other eleven units are not. Asserting both sides is what stops this
+  // passing on an empty filter as the boundary walks forward.
+  expect(s3.filter((n) => n.unit === '3.1' && n.state === 'coming')).toEqual([]);
+  expect(s3.filter((n) => n.unit !== '3.1' && n.state !== 'coming')).toEqual([]);
 
   // Section 1 is untouched.
   expect(nodes.filter((n) => n.section === '1' && n.kind === 'lesson')).toHaveLength(29);
@@ -103,7 +107,8 @@ test('SECTIONS is the path order, and every declared unit is reachable by id', (
   expect(SECTIONS.flatMap((s) => s.units)).toHaveLength(26); // the loop is not vacuous
   // Both sides of the boundary, named, so neither can quietly become the other.
   expect(unitById('2.8')).toMatchObject({ built: true });
-  expect(unitById('3.1')).toMatchObject({ built: false });
+  expect(unitById('3.1')).toMatchObject({ built: true });
+  expect(unitById('3.2')).toMatchObject({ built: false });
   expect(unitById('2.8')?.lessons).toHaveLength(3);
   expect(unitById('9.9')).toBeUndefined();
 });
