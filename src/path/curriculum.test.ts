@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import { emptyProgress } from '@/data';
-import { LESSON_THEME, SECTION_1, SECTION_2, SECTIONS, themeForLesson, unitById } from './curriculum';
+import { LESSON_THEME, SECTION_1, SECTION_2, SECTION_3, SECTIONS, themeForLesson, unitById } from './curriculum';
 import { THEME_LESSON } from '@/review/errorLog';
 import { THEMES } from '@/puzzles/themes';
 import { pathNodes } from './progress';
@@ -83,11 +83,25 @@ test('Section 2 is built, Section 3 is declared and reads as coming', () => {
   expect(s3.filter((n) => n.kind === 'lesson')).toHaveLength(46);
   expect(s3.filter((n) => n.kind === 'checkpoint')).toHaveLength(12);
   expect(s3).toHaveLength(58);
-  // The boundary has started moving INSIDE Section 3: 3.1 is authored, the
-  // other eleven units are not. Asserting both sides is what stops this
-  // passing on an empty filter as the boundary walks forward.
-  expect(s3.filter((n) => n.unit === '3.1' && n.state === 'coming')).toEqual([]);
-  expect(s3.filter((n) => n.unit !== '3.1' && n.state !== 'coming')).toEqual([]);
+  /*
+   * The boundary inside Section 3 is now DERIVED from the flag rather than
+   * named, because it moves once per unit authored and this assertion was
+   * being rewritten every time -- which is how a test stops being read and
+   * starts being updated to whatever the code now does.
+   *
+   * Derivation costs nothing here PROVIDED both partitions are known to be
+   * non-empty, which is what the two length checks below buy. Without them a
+   * section that was wholly built, or wholly coming, would satisfy both
+   * filters by matching nothing, and this test would go quiet at exactly the
+   * two moments it exists for.
+   */
+  const built = new Set(SECTION_3.units.filter((u) => u.built).map((u) => u.id));
+  const s3Built = s3.filter((n) => built.has(n.unit));
+  const s3Coming = s3.filter((n) => !built.has(n.unit));
+  expect(s3Built.length).toBeGreaterThan(0);
+  expect(s3Coming.length).toBeGreaterThan(0);
+  expect(s3Built.filter((n) => n.state === 'coming')).toEqual([]);
+  expect(s3Coming.filter((n) => n.state !== 'coming')).toEqual([]);
 
   // Section 1 is untouched.
   expect(nodes.filter((n) => n.section === '1' && n.kind === 'lesson')).toHaveLength(29);
@@ -110,11 +124,16 @@ test('SECTIONS is the path order, and every declared unit is reachable by id', (
   // Both sides of the boundary, named, so neither can quietly become the other.
   expect(unitById('2.8')).toMatchObject({ built: true });
   expect(unitById('3.1')).toMatchObject({ built: true });
-  expect(unitById('3.2')).toMatchObject({ built: false });
-  // Section 4 is declared and wholly unauthored. Asserting the FIRST unit of it
-  // rather than the count means flipping 4.1 live fails here, which is the
-  // reminder to move this line rather than to delete it.
-  expect(unitById('4.1')).toMatchObject({ built: false });
+  // The unbuilt side is taken from wherever the boundary currently is rather
+  // than named, for the reason given in the test below: naming it means
+  // rewriting this line once per unit authored, and a line rewritten that
+  // often is not being read. `builtFlag.test.ts` is what holds the flag
+  // honest against the disk; this only needs SOME unit to still be coming, so
+  // that `unitById` is exercised on a declared-but-unauthored unit -- the case
+  // that has to keep working for the "content coming" placeholder to render.
+  const coming = SECTIONS.flatMap((s) => s.units).filter((u) => !u.built);
+  expect(coming.length).toBeGreaterThan(0);
+  expect(unitById(coming[0]!.id)).toMatchObject({ built: false });
   expect(unitById('4.12')?.lessons).toHaveLength(4);
   expect(unitById('2.8')?.lessons).toHaveLength(3);
   expect(unitById('9.9')).toBeUndefined();

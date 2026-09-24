@@ -1,0 +1,148 @@
+{
+  "id": "3.2.1",
+  "unit": "3.2",
+  "title": "Seeing through a piece",
+  "xp": 15,
+  "card": {
+    "idea": "A rook or a bishop does not stop at the first piece it meets. Look at the square behind that piece too. Your own piece standing there may already be defended, and an enemy piece standing there may already be stuck. The line is what matters, not the first thing standing on it.",
+    "diagrams": [
+      "6k1/5ppp/8/1p1r4/2b5/1B6/5PPP/3RK3 w - - 0 1",
+      "2r3k1/5ppp/1p6/2n5/8/1P3N2/5PPP/2R3K1 w - - 0 1",
+      "6k1/5ppp/8/1p1b4/8/1B6/5PPP/4K3 w - - 0 1"
+    ],
+    "habit": "Look one square past the piece in the way."
+  },
+  "explain": [
+    {
+      "fen": "6k1/5ppp/8/1p1r4/2b5/1B6/5PPP/3RK3 w - - 0 1",
+      "text": "The rook on d5 is defended by the bishop on c4, so Rxd5 looks like an even trade. It is not. Your bishop on b3 points through c4 at d5, and when the black bishop recaptures it lands on that very square. Rxd5 Bxd5 Bxd5 and you are a bishop up.",
+      "arrows": [
+        ["b3", "d5"],
+        ["d1", "d5"]
+      ],
+      "highlights": ["b3", "c4", "d5"]
+    },
+    {
+      "fen": "6k1/5ppp/8/1p1b4/8/1B6/5PPP/4K3 w - - 0 1",
+      "text": "The same board two moves later. The bishop that was guarding d5 is now standing on d5, and your bishop on b3 has a clear diagonal to it. Bxd5 wins it. A defender that recaptures has not saved anything: it has walked onto the square you were aiming at.",
+      "arrows": [["b3", "d5"]],
+      "highlights": ["d5"]
+    },
+    {
+      "fen": "2r3k1/5ppp/1p6/2n5/8/1P3N2/5PPP/2R3K1 w - - 0 1",
+      "text": "Now the other direction. Your rook on c1 already looks at c8; the knight on c5 is the only thing in between. That knight cannot step aside, because Rxc8 would follow. So attack it with something it cannot trade with: b4, and Black must choose which piece to give up.",
+      "arrows": [
+        ["c1", "c8"],
+        ["b3", "b4"]
+      ],
+      "highlights": ["c1", "c5", "c8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.2.1-c1",
+      "type": "which_square",
+      "fen": "6k1/5ppp/8/1p1r4/2b5/1B6/5PPP/3RK3 w - - 0 1",
+      "prompt": "Rxd5 looks like a straight rook trade. Tap the white piece that already points at d5, right through Black's bishop on c4.",
+      "answer": { "square": "b3" },
+      "concept": "x-ray",
+      "hints": {
+        "text": "Follow the diagonal that ends on d5."
+      },
+      "reason": "The bishop on b3 covers c4 and then d5. It is not defending d5 yet, because the black bishop is in the way, and that bishop is the one that will recapture."
+    },
+    {
+      "id": "3.2.1-c2",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/1p1r4/2b5/1B6/5PPP/3RK3 w - - 0 1",
+      "prompt": "Black's rook on d5 is defended by the bishop on c4. Take it anyway.",
+      "answer": { "moves": ["Rxd5"] },
+      "wrong": {
+        "Bxc4": "bxc4 takes back and you have swapped bishops for nothing. The bishop on b3 was the whole point; leave it where it is."
+      },
+      "concept": "x-ray",
+      "hints": {
+        "piece": "d1",
+        "square": "d5"
+      },
+      "reason": "Rxd5 Bxd5 and the bishop is now on d5, where your bishop on b3 takes it. Nothing of Black's covers d5 once the bishop has moved there."
+    },
+    {
+      "id": "3.2.1-c3",
+      "type": "find_the_sequence",
+      "fen": "6k1/5ppp/8/1p1r4/2b5/1B6/5PPP/3RK3 w - - 0 1",
+      "prompt": "Play it out: take the rook, let the bishop recapture, then take the bishop on the square it just moved to.",
+      "answer": { "line": ["Rxd5", "Bxd5", "Bxd5"] },
+      "concept": "x-ray",
+      "hints": {
+        "piece": "d1",
+        "square": "d5"
+      },
+      "reason": "Rxd5 Bxd5 Bxd5. The defender stood on your bishop's diagonal the whole time, one square short of the square it was guarding."
+    },
+    {
+      "id": "3.2.1-c4",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/8/1p1b4/8/1B6/5PPP/4K3 w - - 0 1",
+      "prompt": "Black's bishop has just recaptured on d5. Why did that have to cost him the piece?",
+      "options": [
+        "He was guarding d5 from c4, which is a square on your bishop's diagonal, so recapturing put him in front of it.",
+        "The bishop on d5 is pinned to the king on g8 and cannot move.",
+        "The pawn on b5 is now undefended, so the bishop has to stay and guard it."
+      ],
+      "answer": { "option": 0 },
+      "concept": "x-ray",
+      "hints": {
+        "text": "Ask where the guard was standing, not where it is now."
+      },
+      "reason": "A defender that recaptures moves onto the square it was defending. Your bishop on b3 covers that square through c4. It is not a pin: the pawn on f7 blocks the line to the king, and the bishop on d5 does not guard b5."
+    },
+    {
+      "id": "3.2.1-c5",
+      "type": "find_them_all",
+      "fen": "2r3k1/5ppp/1p6/2n5/8/1P3N2/5PPP/2R3K1 w - - 0 1",
+      "prompt": "Your rook on c1 owns the c-file. Tap every black piece standing on that file.",
+      "answer": { "pieces": ["c5", "c8"] },
+      "concept": "x-ray",
+      "hints": {
+        "text": "Two of them, and one is hiding the other."
+      },
+      "reason": "The knight on c5 and the rook on c8. The knight is the only thing between your rook and that rook, which is why it is not allowed to move."
+    },
+    {
+      "id": "3.2.1-c6",
+      "type": "find_the_move",
+      "fen": "2r3k1/5ppp/1p6/2n5/8/1P3N2/5PPP/2R3K1 w - - 0 1",
+      "prompt": "The knight on c5 cannot move, because Rxc8 would follow. Attack it with a pawn.",
+      "answer": { "moves": ["b4"] },
+      "wrong": {
+        "Rxc5": "bxc5 takes back and you have paid a rook for a knight. The knight was defended; attack it again instead of buying it."
+      },
+      "concept": "x-ray",
+      "hints": {
+        "piece": "b3",
+        "square": "b4"
+      },
+      "reason": "b4 attacks the knight, and the knight cannot capture the pawn or step away. bxc5 bxc5 wins a piece for a pawn, and moving the knight loses the rook on c8, which nothing defends."
+    },
+    {
+      "id": "3.2.1-c7",
+      "type": "is_it_safe",
+      "fen": "2r3k1/5ppp/1p6/2n5/8/1P3N2/5PPP/2R3K1 w - - 0 1",
+      "move": "Rxc5",
+      "prompt": "White could simply take the knight with Rxc5. Is the rook safe on c5?",
+      "reasons": [
+        "Yes. The knight was Black's only guard of c5.",
+        "No. The pawn on b6 takes it back, so you have paid a rook for a knight.",
+        "No. The pawn on b7 takes it back."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "x-ray",
+      "hints": {
+        "text": "Count the black pieces that cover c5 before you take."
+      },
+      "reason": "bxc5 answers, and the rook on c8 can take as well. Black's pawn is on b6, not b7. The knight is defended, so attack it a second time rather than buying it."
+    }
+  ],
+  "takeaway": "A line does not stop at the first piece on it. Ask what stands behind, because a defender that recaptures usually steps onto the square you were already aiming at."
+}

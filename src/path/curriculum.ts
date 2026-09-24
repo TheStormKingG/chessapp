@@ -257,7 +257,7 @@ export const SECTION_3: SectionDef = {
     {
       id: '3.2',
       title: 'X-ray, double check and discovered check in depth',
-      built: false,
+      built: true,
       lessons: [
         { id: '3.2.1', title: 'X-ray attacks and defences' },
         { id: '3.2.2', title: 'Double check' },
