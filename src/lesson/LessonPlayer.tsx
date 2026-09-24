@@ -348,6 +348,7 @@ export function LessonPlayer({
           <ChallengeView
             key={`${c.id}#${s.results[c.id]?.misses ?? 0}`}
             c={c}
+            answeredFen={s.answeredFen}
             highlights={s.highlights}
             refutation={s.refutation}
             busy={busy}

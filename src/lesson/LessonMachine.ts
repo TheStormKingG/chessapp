@@ -1,4 +1,4 @@
-import type { Square } from '@/rules';
+import { applyMove, type Square } from '@/rules';
 import type { Replay } from '@/board/types';
 import { checkAnswer, type Attempt } from './answers';
 import { stars } from './stars';
@@ -69,6 +69,24 @@ export interface LessonState {
    * cannot play the line still draws it.
    */
   refutation: { from: Square; to: Square; replay?: Replay } | null;
+  /**
+   * The position AFTER the move that answered the current challenge, or null.
+   *
+   * The board is a controlled component: `ChallengeView` hands it a FEN and it
+   * renders exactly that. It was handed `c.fen` unconditionally, so a move the
+   * machine had just accepted was graded and then visually undone — the learner
+   * was told "yes" while watching the piece snap back to where it started.
+   *
+   * It lives here rather than in the view because the machine is what knows
+   * WHICH move was accepted. A challenge may authorise several; showing a
+   * different correct move than the one played would be a second bug wearing
+   * the first one's clothes.
+   *
+   * Null for anything that does not move a piece (`which_square`), because
+   * there is no move to show and inventing one would be worse than showing
+   * nothing.
+   */
+  answeredFen: string | null;
   totalHints: number;
   totalMisses: number;
 }
@@ -91,6 +109,7 @@ export function initLesson(lesson: Lesson, hintsAllowed = true): LessonState {
     hintsAllowed,
     hintAvailable: false,
     results: {},
+    answeredFen: null,
     feedback: null,
     feedbackTone: 'neutral',
     highlights: {},
@@ -113,6 +132,8 @@ function startChallenge(s: LessonState, index: number): LessonState {
     feedbackTone: 'neutral',
     highlights: {},
     refutation: null,
+    // A new challenge always begins from its OWN position.
+    answeredFen: null,
   };
 }
 
@@ -125,6 +146,32 @@ function finish(s: LessonState): LessonState {
     feedback: s.lesson.takeaway,
     feedbackTone: 'neutral',
   };
+}
+
+/**
+ * The position after `move` is played from `c.fen`, or null when there is no
+ * move to play. Total: an unparseable or illegal move yields null rather than
+ * throwing, because a rendering nicety must never be able to break grading.
+ */
+/**
+ * The challenge's own answering move, where it has one.
+ *
+ * Narrowed with `'answer' in c` rather than optional chaining: `play_it_out`
+ * has no `answer` property at all, and a drill has no single move to show.
+ */
+function answerMove(c: Challenge): string | undefined {
+  if (!('answer' in c)) return undefined;
+  const a = c.answer as { moves?: string[] } | undefined;
+  return a && 'moves' in a ? a.moves?.[0] : undefined;
+}
+
+function positionAfter(c: Challenge, move: string | undefined): string | null {
+  if (!move) return null;
+  try {
+    return applyMove(c.fen, move).fen;
+  } catch {
+    return null;
+  }
 }
 
 function resultOf(s: LessonState, id: string): ChallengeResult {
@@ -166,6 +213,8 @@ function applyMiss(
       feedbackTone: 'neutral',
       highlights: revealHighlights(c),
       refutation: null,
+      // An auto-reveal is a reveal: it shows the move, for the same reason.
+      answeredFen: positionAfter(c, answerMove(c)),
     };
   }
   return {
@@ -175,6 +224,8 @@ function applyMiss(
     totalMisses,
     feedback: authored ?? missFeedback(detail),
     feedbackTone: 'bad',
+    // Trying again means trying again from where the challenge really is.
+    answeredFen: null,
   };
 }
 
@@ -265,6 +316,9 @@ function reduceInner(s: LessonState, a: Action): LessonState {
           feedbackTone: 'good',
           highlights: {},
           refutation: null,
+          // The move the learner actually played, not the canonical answer.
+          answeredFen:
+            a.attempt.kind === 'move' ? positionAfter(c, a.attempt.uci) : null,
           results: { ...s.results, [c.id]: { ...r, correct: true, mastery } },
         };
       }
@@ -292,6 +346,8 @@ function reduceInner(s: LessonState, a: Action): LessonState {
         feedbackTone: 'neutral',
         highlights: revealHighlights(c),
         refutation: null,
+        // "Show me" that does not show the move is the same defect in a hat.
+        answeredFen: positionAfter(c, answerMove(c)),
       };
     }
   }

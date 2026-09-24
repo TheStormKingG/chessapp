@@ -3,6 +3,8 @@ import type { CSSProperties, KeyboardEvent } from 'react';
 import { Chessboard, defaultPieces } from 'react-chessboard';
 import type { PieceDropHandlerArgs, SquareHandlerArgs } from 'react-chessboard';
 import { applyMove, legalMoves, type Square } from '@/rules';
+import { useSettings } from '@/app/settings';
+import { playMoveSound } from '@/audio/moveSound';
 import { describeSquare } from './describeSquare';
 import { handleDrop } from './dropHandler';
 import type { BoardProps, BoardMove, HighlightKind, MarkKind, Replay } from './types';
@@ -169,6 +171,57 @@ export function Board(props: BoardProps & { size?: number; decorative?: boolean;
   // Everything below reads `interactive`, never `!decorative`, so a future
   // third mode cannot silently inherit the wrong half.
   const interactive = !decorative;
+
+  /*
+   * ─── The move cue ─────────────────────────────────────────────────────────
+   *
+   * Fired from the POSITION changing, not from the learner's gesture.
+   *
+   * Hooking the drop handler would only ever sound the moves a learner makes
+   * by hand, and miss the ones the app plays for them: a revealed answer, a
+   * coached game's reply, a refutation replayed on the board. Those are the
+   * moves a beginner most needs marked, because they happen without warning.
+   *
+   * So the fen is diffed. If exactly one legal move connects the previous
+   * position to the new one, that was the move, and its own result says
+   * whether it was a capture or a check. A change that no single move explains
+   * -- a new challenge, a reset, a jump -- is silent, which is right: nothing
+   * moved, the board was replaced.
+   *
+   * Decorative boards never sound. Today's card carries a 120px position that
+   * changes whenever the next lesson changes, and it is a picture, not a move.
+   */
+  /*
+   * The mute flag is READ at the moment a sound would play, not subscribed to.
+   *
+   * Subscribing (`useSettings((s) => s.soundMuted)`) made every board re-render
+   * when the store hydrated, and react-chessboard measures its squares in a
+   * mount effect -- during that extra render the container has no layout in
+   * jsdom and it throws "Square width not found". Five FixItDrill tests went
+   * red on a change that was only supposed to add a sound.
+   *
+   * Reading at the point of use is also simply correct for a fire-and-forget
+   * cue: the value matters for the microsecond the sound starts, and nothing
+   * about the board's rendering depends on it, so a subscription buys a
+   * re-render of every board on every settings change and nothing else.
+   */
+  const prevFen = useRef(fen);
+  useEffect(() => {
+    const from = prevFen.current;
+    prevFen.current = fen;
+    if (from === fen || decorative || useSettings.getState().soundMuted) return;
+    for (const m of legalMoves(from)) {
+      let r;
+      try {
+        r = applyMove(from, m.uci);
+      } catch {
+        continue;
+      }
+      if (r.fen !== fen) continue;
+      playMoveSound(r.check ? 'check' : r.capture ? 'capture' : 'move');
+      return;
+    }
+  }, [fen, decorative]);
   // P4b: a fixed square edge in px, for the places a board is shown at a size
   // the column does not decide -- today's lesson card wants 120px. `size` is
   // declared here rather than on `BoardProps` in `types.ts` because it is a
