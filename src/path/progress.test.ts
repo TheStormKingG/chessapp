@@ -204,10 +204,10 @@ test('finishing everything built leaves no active lesson', () => {
 
 test('the path walks every declared section, in path order', () => {
   const nodes = pathNodes(emptyProgress());
-  // Section 1, then 2, then 3. The order IS the path.
-  expect([...new Set(nodes.map((n) => n.section))]).toEqual(['1', '2', '3']);
-  expect(nodes.filter((n) => n.kind === 'lesson')).toHaveLength(29 + 36 + 46);
-  expect(nodes.filter((n) => n.kind === 'checkpoint')).toHaveLength(6 + 8 + 12);
+  // Section 1, then 2, then 3, then 4. The order IS the path.
+  expect([...new Set(nodes.map((n) => n.section))]).toEqual(['1', '2', '3', '4']);
+  expect(nodes.filter((n) => n.kind === 'lesson')).toHaveLength(29 + 36 + 46 + 53);
+  expect(nodes.filter((n) => n.kind === 'checkpoint')).toHaveLength(6 + 8 + 12 + 12);
   // SCOPED rather than deleted, for the fourth time. This has tracked the built
   // boundary through every authoring pass: eight unbuilt Section 2 units, then
   // five, then none -- and now a whole unbuilt Section 3. Both sides are
@@ -226,6 +226,13 @@ test('the path walks every declared section, in path order', () => {
   const s3Coming = s3.filter((n) => n.unit !== '3.1');
   expect(s3Coming).toHaveLength(42 + 11);
   expect(s3Coming.filter((n) => n.state !== 'coming')).toEqual([]);
+  // Section 4 is declared whole and authored nowhere, which is the state
+  // Section 3 was in this morning. One side of this is an empty set by
+  // construction, so the length is asserted too and the filter cannot pass by
+  // matching nothing.
+  const s4 = nodes.filter((n) => n.section === '4');
+  expect(s4).toHaveLength(53 + 12);
+  expect(s4.filter((n) => n.state !== 'coming')).toEqual([]);
   expect(nodes.filter((n) => n.state === 'active')).toHaveLength(1);
 });
 

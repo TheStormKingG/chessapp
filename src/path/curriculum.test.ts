@@ -95,7 +95,7 @@ test('Section 2 is built, Section 3 is declared and reads as coming', () => {
 });
 
 test('SECTIONS is the path order, and every declared unit is reachable by id', () => {
-  expect(SECTIONS.map((s) => s.id)).toEqual(['1', '2', '3']);
+  expect(SECTIONS.map((s) => s.id)).toEqual(['1', '2', '3', '4']);
   expect(unitById('1.1')).toMatchObject({ id: '1.1', built: true });
   // Every declared unit resolves, built or not. That second half is the point:
   // a unit that is declared but unauthored must still be found by id, or the
@@ -104,11 +104,18 @@ test('SECTIONS is the path order, and every declared unit is reachable by id', (
   for (const u of SECTIONS.flatMap((s) => s.units)) {
     expect(unitById(u.id), `unit ${u.id} does not resolve by id`).toMatchObject({ id: u.id });
   }
-  expect(SECTIONS.flatMap((s) => s.units)).toHaveLength(26); // the loop is not vacuous
+  // 38, which is the PRD's own total for v1. The loop above is not vacuous, and
+  // this number is the one place the app says how big the finished path is.
+  expect(SECTIONS.flatMap((s) => s.units)).toHaveLength(38);
   // Both sides of the boundary, named, so neither can quietly become the other.
   expect(unitById('2.8')).toMatchObject({ built: true });
   expect(unitById('3.1')).toMatchObject({ built: true });
   expect(unitById('3.2')).toMatchObject({ built: false });
+  // Section 4 is declared and wholly unauthored. Asserting the FIRST unit of it
+  // rather than the count means flipping 4.1 live fails here, which is the
+  // reminder to move this line rather than to delete it.
+  expect(unitById('4.1')).toMatchObject({ built: false });
+  expect(unitById('4.12')?.lessons).toHaveLength(4);
   expect(unitById('2.8')?.lessons).toHaveLength(3);
   expect(unitById('9.9')).toBeUndefined();
 });

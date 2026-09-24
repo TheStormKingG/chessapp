@@ -268,17 +268,25 @@ test('every section on the path gets its own header, in path order', () => {
   // it is visible and un-attemptable, not hidden.
   expect(screen.getByText('Section 3 · 800 to 1200')).toBeInTheDocument();
   expect(screen.getByRole('heading', { name: 'Fluency and planning' })).toBeInTheDocument();
+  expect(screen.getByText('Section 4 · 1200 to 1600')).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'Club player' })).toBeInTheDocument();
   // Path order, not declaration luck.
   const headings = screen.getAllByRole('heading').map((h) => h.textContent);
-  expect(headings).toEqual(['Foundations', 'Safety and the first tactics', 'Fluency and planning']);
+  expect(headings).toEqual([
+    'Foundations',
+    'Safety and the first tactics',
+    'Fluency and planning',
+    'Club player',
+  ]);
   // One `h1` per screen: the sections rank equally, so the rest are `h2` at the
   // same `t-display` size. Level order stays valid for a screen reader.
   expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Foundations');
-  // getAllByRole, not getByRole: there are two h2s now, and the single-element
+  // getAllByRole, not getByRole: there are three h2s now, and the single-element
   // form throws on more than one match rather than checking the first.
   expect(screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent)).toEqual([
     'Safety and the first tactics',
     'Fluency and planning',
+    'Club player',
   ]);
 });
 
@@ -292,23 +300,25 @@ test('the meter counts the section it sits beside, not the whole path', () => {
   // An unauthored section still meters itself -- "0 of 46" is the honest
   // statement of a section nobody can start yet.
   expect(screen.getByText('0 of 46 done')).toBeInTheDocument();
+  expect(screen.getByText('0 of 53 done')).toBeInTheDocument();
   const meters = [...document.querySelectorAll('[data-rail="meter"]')];
-  expect(meters).toHaveLength(3);
+  expect(meters).toHaveLength(4);
   for (const m of meters) expect(m).toHaveAttribute('data-fill', '0');
 });
 
 test('Section 3 is what reads as coming now, and Section 2 does not', () => {
   renderPath();
-  // SCOPED through six passes. It counted 27 coming nodes across units 2.4 to
-  // 2.8, then fewer, then none once 2.8 shipped -- and now twelve, because
-  // Section 3 is declared and unauthored. The claim never changed: unauthored
-  // content is visible and un-attemptable. Only which units are unauthored did.
+  // SCOPED through seven passes. It counted 27 coming nodes across units 2.4 to
+  // 2.8, then fewer, then none once 2.8 shipped, then twelve for Section 3 --
+  // and now 23, because Section 4 is declared and unauthored too. The claim
+  // never changed: unauthored content is visible and un-attemptable. Only which
+  // units are unauthored did.
   const coming = [...document.querySelectorAll('*')]
     .filter((el) => el.children.length === 0 && /^\d+ coming$/.test(el.textContent ?? ''))
     .map((el) => el.textContent);
   // One groove per unit, never fused into one run for the rest of the
   // curriculum -- the defect that printed "44 coming" once.
-  expect(coming).toHaveLength(11); // 3.1 is built now; eleven units are not
+  expect(coming).toHaveLength(23); // eleven unbuilt in Section 3, twelve in Section 4
   expect(coming.every((c) => Number(c?.split(' ')[0]) <= 11)).toBe(true);
   // Section 2 is authored, so none of it is coming...
   expect(screen.getByLabelText(/^2\.4\.1 The back-rank weakness/)).toBeInTheDocument();
@@ -335,18 +345,19 @@ test('an unbuilt run counts per unit, and nothing in it is a link', () => {
    *
    * The rule: a coming run breaks at the UNIT boundary. It printed "44 coming"
    * once, for eleven units at a time, which is the defect this exists to catch.
-   * When Section 3 ships, this needs the synthetic fixture back until Section 4
-   * is declared -- the same cycle, and worth knowing before it bites.
+   * Section 4 is now declared as well, so the real-data supply outlives Section
+   * 3 shipping and the synthetic fixture stays gone. It comes back only if the
+   * whole path is ever built, which is the end of v1.
    */
   renderPath();
   const coming = [...document.querySelectorAll('*')]
     .filter((el) => el.children.length === 0 && /^\d+ coming$/.test(el.textContent ?? ''))
     .map((el) => el.textContent);
 
-  // One groove per unit: eleven unbuilt units, eleven grooves, never one fused
-  // run. 3.1 was the twelfth until it was flipped on.
-  expect(coming).toHaveLength(11);
-  expect(coming).not.toEqual(['53 coming']);
+  // One groove per unit: 23 unbuilt units, 23 grooves, never one fused run.
+  // Eleven of them are Section 3 (3.1 is flipped on), twelve are Section 4.
+  expect(coming).toHaveLength(23);
+  expect(coming).not.toEqual(['118 coming']);
   // Each count is that unit's lessons plus its checkpoint, which stays INSIDE
   // the groove rather than breaking it. 3.2 leads now, with three lessons.
   expect(coming[0]).toBe('4 coming');

@@ -376,7 +376,170 @@ export const SECTION_3: SectionDef = {
   ],
 };
 
-export const SECTIONS: SectionDef[] = [SECTION_1, SECTION_2, SECTION_3];
+/**
+ * PRD Appendix A, Section 4 (units 4.1 to 4.12). Declared ahead of its content,
+ * exactly as Sections 2 and 3 were: every unit is `built: false` until its
+ * lessons, checkpoint and guidebook are authored and pass `verify:content`.
+ *
+ * Lesson lists are the PRD's own sentences, one lesson per sentence, so the
+ * counts differ by unit (three for 4.1, six for 4.6 and 4.9). Resisting the
+ * urge to even them out keeps this table checkable against the PRD by reading,
+ * which is the only check it gets.
+ *
+ * Two units name work the app cannot do yet, and the flag is the honest record
+ * of that rather than a promise:
+ *   - 4.11 is five model games, which is the `guess_the_move` challenge type.
+ *     That type has a schema and a verifier and has never been authored or
+ *     rendered; 3.12 needs it first.
+ *   - 4.12's error log is a feature, not content -- there is nowhere to keep a
+ *     learner's own annotated mistakes today.
+ */
+export const SECTION_4: SectionDef = {
+  id: '4',
+  title: 'Club player',
+  band: '1200 to 1600',
+  units: [
+    {
+      id: '4.1',
+      title: 'Deflection and decoy',
+      built: false,
+      lessons: [
+        { id: '4.1.1', title: 'Deflection in depth' },
+        { id: '4.1.2', title: 'Decoy and attraction' },
+        { id: '4.1.3', title: 'The removal-of-the-guard family together' },
+      ],
+    },
+    {
+      id: '4.2',
+      title: 'Interference, clearance and desperado',
+      built: false,
+      lessons: [
+        { id: '4.2.1', title: 'Interference' },
+        { id: '4.2.2', title: 'Line and square clearance' },
+        { id: '4.2.3', title: 'Desperado' },
+      ],
+    },
+    {
+      id: '4.3',
+      title: 'In-between moves and defence',
+      built: false,
+      lessons: [
+        { id: '4.3.1', title: 'The zwischenzug' },
+        { id: '4.3.2', title: 'Counter-attack instead of retreat' },
+        { id: '4.3.3', title: 'Interposition and desperado defence' },
+        { id: '4.3.4', title: "Recognising the opponent's threats two moves deep" },
+      ],
+    },
+    {
+      id: '4.4',
+      title: 'Zugzwang, the Greek gift and named mates, second wave',
+      built: false,
+      lessons: [
+        { id: '4.4.1', title: 'Zugzwang as a weapon' },
+        { id: '4.4.2', title: 'The Greek gift sacrifice' },
+        { id: '4.4.3', title: "Legal's, Blackburne's, Mayet's, Reti's and Anderssen's mates" },
+        { id: '4.4.4', title: 'Triangle and kill-box mates' },
+      ],
+    },
+    {
+      id: '4.5',
+      title: 'Combinations and calculation',
+      built: false,
+      lessons: [
+        { id: '4.5.1', title: 'Combinations as chains of motifs' },
+        { id: '4.5.2', title: 'Comparing candidates rather than analysing one to death' },
+        { id: '4.5.3', title: 'Forcing lines to five ply' },
+        { id: '4.5.4', title: 'Knowing when a position is critical' },
+      ],
+    },
+    {
+      id: '4.6',
+      title: "Stean's six",
+      built: false,
+      lessons: [
+        { id: '4.6.1', title: 'Outposts and holes' },
+        { id: '4.6.2', title: 'Weak pawns' },
+        { id: '4.6.3', title: 'Open and half-open files' },
+        { id: '4.6.4', title: 'Colour complexes and the good and bad bishop' },
+        { id: '4.6.5', title: 'Space' },
+        { id: '4.6.6', title: 'The minority attack' },
+      ],
+    },
+    {
+      id: '4.7',
+      title: 'Bishops, knights and the isolated pawn',
+      built: false,
+      lessons: [
+        { id: '4.7.1', title: 'The bishop pair in open positions' },
+        { id: '4.7.2', title: 'Knight against bishop rules of thumb' },
+        { id: '4.7.3', title: "Playing with and against the isolated queen's pawn" },
+        { id: '4.7.4', title: 'Pawn majorities and creating a passed pawn' },
+      ],
+    },
+    {
+      id: '4.8',
+      title: 'Reading the position and making a plan',
+      built: false,
+      lessons: [
+        { id: '4.8.1', title: 'The imbalances' },
+        { id: '4.8.2', title: 'Which side of the board to play on' },
+        { id: '4.8.3', title: 'The initiative' },
+        { id: '4.8.4', title: 'What does my opponent want' },
+        { id: '4.8.5', title: 'Exchanging to a plan' },
+      ],
+    },
+    {
+      id: '4.9',
+      title: 'Rook endings',
+      built: false,
+      lessons: [
+        { id: '4.9.1', title: 'The Lucena bridge' },
+        { id: '4.9.2', title: 'The Philidor defence' },
+        { id: '4.9.3', title: 'The rook on the seventh' },
+        { id: '4.9.4', title: 'Rooks behind passed pawns' },
+        { id: '4.9.5', title: 'Cutting the king off' },
+        { id: '4.9.6', title: 'The active rook' },
+      ],
+    },
+    {
+      id: '4.10',
+      title: 'Pawn endings and the wrong bishop',
+      built: false,
+      lessons: [
+        { id: '4.10.1', title: 'Key squares' },
+        { id: '4.10.2', title: 'Triangulation and outflanking' },
+        { id: '4.10.3', title: 'The breakthrough' },
+        { id: '4.10.4', title: 'The wrong-coloured bishop' },
+        { id: '4.10.5', title: 'Opposite-coloured bishops and the drawing tendency' },
+      ],
+    },
+    {
+      id: '4.11',
+      title: 'Opening plans through model games',
+      built: false,
+      lessons: [
+        { id: '4.11.1', title: 'The slow Italian plan' },
+        { id: '4.11.2', title: 'The Carlsbad minority attack' },
+        { id: '4.11.3', title: "The King's Indian Attack plan" },
+        { id: '4.11.4', title: 'The Caro-Kann c5 break' },
+        { id: '4.11.5', title: 'How to study one model game' },
+      ],
+    },
+    {
+      id: '4.12',
+      title: 'Practical skills',
+      built: false,
+      lessons: [
+        { id: '4.12.1', title: 'Critical moments and where the time goes' },
+        { id: '4.12.2', title: 'Time trouble rules' },
+        { id: '4.12.3', title: 'Playing the board, not the rating' },
+        { id: '4.12.4', title: 'Keeping an error log and reading it' },
+      ],
+    },
+  ],
+};
+
+export const SECTIONS: SectionDef[] = [SECTION_1, SECTION_2, SECTION_3, SECTION_4];
 
 /** The unit with this id, from whichever section declares it. */
 export function unitById(id: string): UnitDef | undefined {
