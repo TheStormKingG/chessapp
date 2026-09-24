@@ -100,7 +100,7 @@ export function FixMyMistakes({
           return (
             <li
               key={`${link.error.gameId}:${String(link.error.ply)}`}
-              className="n-panel n-edge rounded-card bg-panel p-4"
+              className="n-panel n-lit n-edge rounded-card bg-panel p-4"
             >
               <Mistake
                 error={link.error}

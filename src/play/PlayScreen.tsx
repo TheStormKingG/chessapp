@@ -270,7 +270,7 @@ function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; ti
           // review the review screen cannot build.
           const reviewable = g.sans.length > 0;
           return (
-          <div className="n-panel n-edge mt-4 rounded-card bg-panel p-4">
+          <div className="n-panel n-lit n-edge mt-4 rounded-card bg-panel p-4">
             <p className="t-heading">{RESULT_LINE[result]}</p>
             {/* Crowns reward playing without help (F-PL-4), so they show on every finished game.
                 The result line above leads, and on a loss the crowns read as a report. */}

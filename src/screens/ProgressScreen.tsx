@@ -43,7 +43,7 @@ export function ProgressScreen() {
       <p className="t-index mt-1 text-content-dim">{p.xp} XP so far</p>
 
       {!started ? (
-        <p className="t-body n-panel n-edge mt-6 rounded-card bg-panel p-4">
+        <p className="t-body n-panel n-lit n-edge mt-6 rounded-card bg-panel p-4">
           Nothing here yet. Finish a lesson and it starts filling in.{' '}
           <Link to="/" className="underline">
             Go to Today
@@ -54,7 +54,7 @@ export function ProgressScreen() {
 
       {/* ── The path ─────────────────────────────────────────────────────── */}
       <h2 className="t-caption mt-6 uppercase tracking-wide text-content-dim">The path</h2>
-      <div className="n-panel n-edge mt-2 rounded-card bg-panel p-4">
+      <div className="n-panel n-lit n-edge mt-2 rounded-card bg-panel p-4">
         <p className="t-index text-content-dim">
           {done} of {totalLessons} lessons done
         </p>
@@ -74,9 +74,9 @@ export function ProgressScreen() {
               </p>
               <div
                 aria-hidden="true"
-                className="n-inset-soft mt-2 h-2 w-full rounded-control bg-track"
+                className="n-inset-soft n-lit-sunken mt-2 h-2 w-full rounded-control bg-track"
               >
-                <div className="h-2 rounded-control bg-accent" style={{ width: `${String(pct)}%` }} />
+                <div className="n-lit h-2 rounded-control bg-accent" style={{ width: `${String(pct)}%` }} />
               </div>
             </div>
           );
@@ -85,7 +85,7 @@ export function ProgressScreen() {
 
       {/* ── Everything else, as plain counted rows ───────────────────────── */}
       <h2 className="t-caption mt-6 uppercase tracking-wide text-content-dim">Totals</h2>
-      <dl className="n-panel n-edge mt-2 rounded-card bg-panel">
+      <dl className="n-panel n-lit n-edge mt-2 rounded-card bg-panel">
         {[
           ['Checkpoints passed', `${String(unitsPassed)} of ${String(totalUnits)}`],
           ['Stars earned', String(stars)],

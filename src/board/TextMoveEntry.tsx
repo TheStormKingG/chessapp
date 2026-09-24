@@ -28,7 +28,7 @@ export function TextMoveEntry({ onSubmit }: { onSubmit: (text: string) => void }
     >
       <input
         aria-label="Type a move"
-        className="tap t-index n-inset-soft flex-1 rounded-control border border-edge-strong bg-surface-raised px-3 text-content accent-accent placeholder:text-content-dim focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-accent"
+        className="tap t-index n-inset-soft n-lit-sunken flex-1 rounded-control border border-edge-strong bg-surface-raised px-3 text-content accent-accent placeholder:text-content-dim focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-accent"
         placeholder="e.g. e4 or Nf3"
         value={v}
         onChange={(e) => setV(e.target.value)}

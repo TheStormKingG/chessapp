@@ -139,7 +139,7 @@ export function TodayScreen() {
         {next ? (
           <Link
             to={next.kind === 'lesson' ? `/lesson/${next.id}` : `/checkpoint/${next.unit}`}
-            className="tap n-panel n-edge mt-2 block rounded-card bg-panel p-4 xl:rounded-hero xl:p-6 xl:n-raised-lg"
+            className="tap n-panel n-lit n-edge mt-2 block rounded-card bg-panel p-4 xl:rounded-hero xl:p-6 xl:n-raised-lg"
           >
             {/* Δ4.4: the position and the words are one row, so the card grows by
                 the board's 120px only where there is room beside the text. The
@@ -177,7 +177,7 @@ export function TodayScreen() {
             </span>
           </Link>
         ) : (
-          <p className="t-body n-panel n-edge mt-2 rounded-card bg-panel p-4">
+          <p className="t-body n-panel n-lit n-edge mt-2 rounded-card bg-panel p-4">
             You have finished everything that is built so far. More lessons are coming.
           </p>
         )}
@@ -203,9 +203,9 @@ export function TodayScreen() {
             <p className="t-index mt-1 text-content-dim">
               {unit.done} of {unit.total} lessons done
             </p>
-            <div aria-hidden="true" className="n-inset-soft mt-2 h-2 w-full rounded-control bg-track">
+            <div aria-hidden="true" className="n-inset-soft n-lit-sunken mt-2 h-2 w-full rounded-control bg-track">
               <div
-                className="h-2 rounded-control bg-accent"
+                className="n-lit h-2 rounded-control bg-accent"
                 style={{ width: `${String(Math.round((unit.done / unit.total) * 100))}%` }}
               />
             </div>
@@ -255,7 +255,7 @@ export function TodayScreen() {
             </button>
           </div>
         )}
-        <Link to="/play" className="t-heading tap n-panel n-edge mt-2 block rounded-card bg-panel p-4">
+        <Link to="/play" className="t-heading tap n-panel n-lit n-edge mt-2 block rounded-card bg-panel p-4">
           Play a coached game
         </Link>
 
@@ -275,7 +275,7 @@ export function TodayScreen() {
         <h2 className="t-caption mt-6 uppercase tracking-wide text-content-dim">Practice</h2>
         <Link
           to="/puzzles/daily"
-          className="tap n-panel n-edge mt-2 block rounded-card bg-panel p-4"
+          className="tap n-panel n-lit n-edge mt-2 block rounded-card bg-panel p-4"
         >
           <span className="t-heading block">Today&rsquo;s puzzle</span>
           <span className="t-label mt-1 block text-content-dim">

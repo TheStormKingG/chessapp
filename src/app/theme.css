@@ -44,6 +44,41 @@
    * rather than as a lighter rectangle placed on top.
    */
   --panel: rgba(255, 255, 255, 0.72);
+
+  /*
+   * ─── Sheen: the "slight 3D" ──────────────────────────────────────────────
+   *
+   * A flat fill reads as paper. A real object lit from above is brightest at
+   * its top edge and falls off towards its base, and that single gradient is
+   * what makes a surface read as a THING rather than a rectangle. It is the
+   * whole of the 3D here: no perspective, no bevel, no gloss, no tilt.
+   *
+   * Painted as `background-image`, never as the `background` shorthand, so the
+   * computed `background-color` stays exactly what it was. That matters beyond
+   * tidiness: `controls.spec.ts` composites a control's own background colour
+   * over its backdrop to get the face it measures text against. A gradient in
+   * the shorthand would blank that colour, and the sweep would start measuring
+   * every label against the page ground instead of the panel.
+   *
+   * The stop is at 55%, not 100%: light falls off, it does not ramp evenly to
+   * the bottom, and a full-height ramp reads as a gradient rather than as a lit
+   * surface.
+   */
+  --sheen: linear-gradient(180deg, rgba(255, 255, 255, 0.55) 0%, rgba(255, 255, 255, 0) 55%);
+  /*
+   * The filled action's own sheen, and the reason it is 0.14 and not more.
+   * White text measures 7.41:1 on the flat accent. Composited at the top of the
+   * gradient it becomes 5.30:1 at 0.14 -- and 4.58:1 at 0.20, which clears the
+   * 4.5:1 rule by 0.08 and would put the next adjustment through the floor.
+   * Measured, not judged by eye.
+   */
+  --sheen-accent: linear-gradient(180deg, rgba(255, 255, 255, 0.14) 0%, rgba(255, 255, 255, 0) 55%);
+  /*
+   * The inverse, for anything cut INTO the ground: shade collects at the top of
+   * a recess, where the near wall blocks the light. Same idea, opposite sign,
+   * and it is what makes a groove read as a groove rather than as a grey bar.
+   */
+  --sheen-sunken: linear-gradient(180deg, rgba(120, 138, 165, 0.22) 0%, rgba(120, 138, 165, 0) 45%);
   --content: #0f172b; /* 14.08:1 on --surface, 16.75:1 on a panel */
   --content-dim: #475569; /* 5.99:1 on --surface, 7.12:1 on a panel */
   --edge: #cbd3df; /* hairlines only: decorative, no contrast duty */
@@ -473,7 +508,12 @@ body {
  * absorbing it, which is why the target measures 47px, never 41.
  */
 @utility btn-primary {
-  background: var(--accent);
+  /*
+   * Split from the `background` shorthand ON PURPOSE: the shorthand resets
+   * background-image, so the sheen and the colour cannot both be set that way.
+   */
+  background-color: var(--accent);
+  background-image: var(--sheen-accent);
   color: var(--accent-on);
   border-color: var(--accent);
   border-bottom: 3px solid var(--key-accent);
@@ -607,6 +647,23 @@ a.n-panel:active:not([aria-disabled='true']),
 a.n-raised:active:not([aria-disabled='true']) {
   box-shadow: var(--shadow-inset);
   transform: translateY(1px);
+}
+
+/*
+ * A pressed surface stops catching light and starts collecting shade.
+ *
+ * The shadow already inverts on press; leaving the sheen pointing the same way
+ * is the detail that would keep it looking like a picture of a button rather
+ * than a button. Nobody will name this, and that is the point -- it is the
+ * difference between a press that is drawn and a press that is lit.
+ */
+.btn:active:not(:disabled):not([aria-disabled='true']),
+.icon-control:active:not(:disabled):not([aria-disabled='true']),
+.tap.n-panel:active:not([aria-disabled='true']),
+.tap.n-raised:active:not([aria-disabled='true']),
+a.n-panel:active:not([aria-disabled='true']),
+a.n-raised:active:not([aria-disabled='true']) {
+  background-image: var(--sheen-sunken);
 }
 
 /*
@@ -784,6 +841,16 @@ input[type='checkbox']:checked::before {
 
 @utility n-inset-soft {
   box-shadow: var(--shadow-inset-soft);
+}
+
+/* Lit from above. Pairs with any raised surface. */
+@utility n-lit {
+  background-image: var(--sheen);
+}
+
+/* Shaded at the top. Pairs with n-inset / n-inset-soft. */
+@utility n-lit-sunken {
+  background-image: var(--sheen-sunken);
 }
 
 /*

@@ -245,7 +245,7 @@ function skinFor(node: Node): string {
   // occupies the same box, so each keeps a real border at 3:1 (§3.3) AND the
   // raise. That is the control grammar, not the two-grammar mistake: the raise
   // is the depth, the border is the bound, and only the active row adds a key.
-  const card = 'n-panel n-edge bg-panel text-content';
+  const card = 'n-panel n-lit n-edge bg-panel text-content';
   const keyEdge = 'border-b-[3px] border-b-key-accent';
   if (node.state === 'active') {
     return node.kind === 'checkpoint'
