@@ -1,0 +1,151 @@
+{
+  "id": "3.7.3",
+  "unit": "3.7",
+  "title": "Passed pawns",
+  "xp": 15,
+  "card": {
+    "idea": "A pawn has got past when no enemy pawn stands in front of it on its own file or on either file beside it. Three files, that is the whole test. After that only a piece or a king can stop it, and any piece that stops it has stopped doing anything else.",
+    "diagrams": [
+      "6k1/5ppp/2p5/P3p3/4P3/8/5PPP/6K1 w - - 0 1",
+      "6k1/1p3ppp/8/P7/8/8/5PPP/6K1 w - - 0 1",
+      "6k1/pp6/8/1PP5/8/8/8/6K1 w - - 0 1"
+    ],
+    "habit": "Check three files, not one."
+  },
+  "explain": [
+    {
+      "fen": "6k1/5ppp/2p5/P3p3/4P3/8/5PPP/6K1 w - - 0 1",
+      "text": "Five pawns each. For the pawn on a5 the three files to check are the a-file and the b-file, since there is no file to its left, and Black has a pawn on neither: a5 is through. Black's c6 is through as well. White's e4 is not, because the pawn on e5 is standing right in front of it.",
+      "arrows": [["a5", "a8"], ["c6", "c1"]],
+      "highlights": ["a5", "c6", "e4", "e5"]
+    },
+    {
+      "fen": "6k1/1p3ppp/8/P7/8/8/5PPP/6K1 w - - 0 1",
+      "text": "Almost the same white pawn, and this one has not got through. The black pawn on b7 is one file over and still in front of it, so a6 is met by bxa6. One pawn on a next-door file is the entire difference between a runner and an ordinary pawn.",
+      "arrows": [["b7", "a6"]],
+      "highlights": ["a5", "a6", "b7"]
+    },
+    {
+      "fen": "6k1/pp6/8/1PP5/8/8/8/6K1 w - - 0 1",
+      "text": "Two pawns each and not one of them is through yet. So make one: c6 bxc6 bxc6, and now no black pawn is left on b, c or d to stop the pawn on c6. It needs two moves to reach c8. The black king on g8 needs four to get there, so it is two moves too slow.",
+      "arrows": [["c5", "c6"], ["b5", "c6"]],
+      "highlights": ["b7", "c6"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.7.3-c1",
+      "type": "find_them_all",
+      "fen": "6k1/5ppp/2p5/P3p3/4P3/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Tap every pawn on the board, either colour, that no enemy pawn is able to stop.",
+      "answer": { "pieces": ["a5", "c6"] },
+      "concept": "passed-pawn",
+      "hints": {
+        "text": "For each pawn, look up its own file and the one or two files beside it."
+      },
+      "reason": "White's a5 and Black's c6. For a5 the files to check are a and b, and Black has a pawn on neither. For c6 they are b, c and d, and White has a pawn on none of them. Everything else on the board has an enemy pawn in its way."
+    },
+    {
+      "id": "3.7.3-c2",
+      "type": "which_square",
+      "fen": "6k1/5ppp/2p5/P3p3/4P3/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Tap the one white pawn that has an enemy pawn standing directly in front of it.",
+      "answer": { "square": "e4" },
+      "concept": "passed-pawn",
+      "hints": {
+        "text": "Look for the two pawns that are nose to nose."
+      },
+      "reason": "e4. The black pawn on e5 is on the square in front of it, so neither of them can move again unless something takes. f2, g2 and h2 have black pawns on their files too, but further up, so they can still advance; the a-pawn has nothing on its road at all."
+    },
+    {
+      "id": "3.7.3-c3",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/2p5/P3p3/4P3/8/5PPP/6K1 w - - 0 1",
+      "prompt": "White's a5 and Black's c6 have both got through. What is the thing that is true of both of them?",
+      "options": [
+        "Both of them are safe, because a pawn like this has no enemy pawn anywhere near it.",
+        "Both of them will queen by force, because a pawn like this cannot be caught.",
+        "No enemy pawn can ever stop either of them. Only a piece or a king can, and it has to go and do it."
+      ],
+      "answer": { "option": 2 },
+      "concept": "passed-pawn",
+      "hints": {
+        "text": "Being unstoppable by pawns is not the same as being unstoppable."
+      },
+      "reason": "It is a fact about pawns, and only about pawns. A king in time, or a piece parked in front, stops either of them — which is exactly why they are worth having: whatever does the stopping is tied up for the rest of the game."
+    },
+    {
+      "id": "3.7.3-c4",
+      "type": "is_it_safe",
+      "fen": "6k1/1p3ppp/8/P7/8/8/5PPP/6K1 w - - 0 1",
+      "move": "a6",
+      "prompt": "White pushes the pawn on to a6. Is it safe there?",
+      "reasons": [
+        "No. The pawn on b7 takes it.",
+        "Yes. Nothing black can reach a6 at all.",
+        "No. The black king walks over and takes it."
+      ],
+      "answer": { "safe": false, "reason": 0 },
+      "concept": "passed-pawn",
+      "hints": {
+        "text": "Black pawns capture towards the two squares diagonally below them."
+      },
+      "reason": "bxa6. The pawn on b7 captures towards a6 and c6, so a6 is one of the two squares it covers. The king is six moves away and is not the problem here; the pawn next door is."
+    },
+    {
+      "id": "3.7.3-c5",
+      "type": "which_square",
+      "fen": "6k1/1p3ppp/8/P7/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "One single black pawn is the reason the pawn on a5 has not got through. Tap it.",
+      "answer": { "square": "b7" },
+      "concept": "passed-pawn",
+      "hints": {
+        "text": "Check the a-file first. It is empty, so look one file over."
+      },
+      "reason": "b7. The a-file itself is clear, but b is a next-door file and the pawn on b7 is still in front of a5. From b7 it covers a6, which is the square the a-pawn has to cross. Trade it or get past it and the a-pawn is a runner."
+    },
+    {
+      "id": "3.7.3-c6",
+      "type": "find_the_move",
+      "fen": "6k1/pp6/8/1PP5/8/8/8/6K1 w - - 0 1",
+      "prompt": "Two pawns each and neither side has one through yet. Make one.",
+      "answer": { "moves": ["c6"] },
+      "wrong": {
+        "b6": "axb6 cxb6, and the pawn on b7 is standing right in front of your last pawn. Nothing gets through on that side."
+      },
+      "concept": "passed-pawn",
+      "hints": {
+        "piece": "c5",
+        "text": "Offer the pawn that has a friend able to take back on the same square."
+      },
+      "reason": "c6. If Black takes, bxc6, you take back with the other pawn and the new pawn on c6 has b, c and d all clear in front of it. If Black leaves it alone with b6, then c7 and the pawn queens next move."
+    },
+    {
+      "id": "3.7.3-c7",
+      "type": "find_the_sequence",
+      "fen": "6k1/pp6/8/1PP5/8/8/8/6K1 w - - 0 1",
+      "prompt": "Play it out: break with the c-pawn, let the b-pawn take, then take back with the other pawn.",
+      "answer": { "line": ["c6", "bxc6", "bxc6"] },
+      "concept": "passed-pawn",
+      "hints": {
+        "piece": "b5",
+        "square": "c6"
+      },
+      "reason": "c6 bxc6 bxc6. Two pawns have come off, and the one left standing on c6 has no black pawn on b, c or d in front of it. Black is left with a pawn on a7 that is also through, but four moves further from home."
+    },
+    {
+      "id": "3.7.3-c8",
+      "type": "play_it_out",
+      "fen": "6k1/pp6/8/1PP5/8/8/8/6K1 w - - 0 1",
+      "prompt": "Now finish the job against a live opponent. Get a pawn to the eighth rank. You have six moves and the black king is running back.",
+      "goal": { "kind": "promote", "moves": 6 },
+      "concept": "passed-pawn",
+      "hints": {
+        "piece": "c5",
+        "text": "Break first. Pushing the pawns one square at a time gives Black the time he needs."
+      },
+      "reason": "c6 is the only start that works, whichever way Black answers it. After that the pawn walks in: the king on g8 is four moves from c8 and the pawn is two, and White's own king does not need to move at all."
+    }
+  ],
+  "takeaway": "Three files decide it: its own and the two beside it. A pawn with no enemy pawn in front of it on any of them can only be stopped by a piece."
+}

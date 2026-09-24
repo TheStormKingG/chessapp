@@ -1,0 +1,179 @@
+{
+  "id": "3.11.2",
+  "unit": "3.11",
+  "title": "Checks, captures and threats for the opponent's replies",
+  "xp": 14,
+  "card": {
+    "idea": "In Section 2 you learned to scan the board in front of you for their checks and captures. A candidate move changes that board. So the scan moves too: you run it on the position as it will be after the move you are thinking of, and you run it once for each move on your list.",
+    "diagrams": [
+      "2r3k1/5ppp/1q6/8/Q2n4/3B4/5PPP/R5K1 b - - 0 1",
+      "6k1/5ppp/1qN5/8/8/8/5PPP/3R2K1 b - - 0 1"
+    ],
+    "habit": "Run their checks and captures on the board your move will make, not the one in front of you."
+  },
+  "explain": [
+    {
+      "fen": "2r3k1/5ppp/1q6/8/Q2n4/3B4/5PPP/R5K1 b - - 0 1",
+      "text": "You have just put the bishop on d3. Now ask which of Black's pieces can check you here. Three can: the queen from b6, the rook from c8 and the knight from d4. Naming the pieces rather than the squares they land on is what lets you do this quickly, because a piece checks from where it stands.",
+      "highlights": [
+        "b6",
+        "c8",
+        "d4"
+      ]
+    },
+    {
+      "fen": "6k1/5ppp/1qN5/8/8/8/5PPP/3R2K1 b - - 0 1",
+      "text": "Before the knight took on c6, Black had no check anywhere on the board. The knight was standing on d4, in the way of the queen's diagonal. Taking with it opened that diagonal, and now Qxf2 is check. The move made the threat. That is why the scan belongs after the move, not before it.",
+      "arrows": [
+        [
+          "b6",
+          "f2"
+        ]
+      ],
+      "highlights": [
+        "b6",
+        "f2"
+      ]
+    },
+    {
+      "fen": "3r2k1/1b3ppp/8/2n5/P2RB3/8/5PPP/6K1 b - - 0 1",
+      "text": "Checks, then captures, then threats. Black has no check. He can take on a4, d4 and e4. And the rook you just played to d4 is threatening Rxd8 mate, which is the third list and the one that decides everything: two of his three captures lose to it on the spot.",
+      "highlights": [
+        "a4",
+        "d4",
+        "e4",
+        "d8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.11.2-c1",
+      "type": "find_them_all",
+      "fen": "2r3k1/5ppp/1q6/8/Q2n4/3B4/5PPP/R5K1 b - - 0 1",
+      "prompt": "This is the board after your bishop landed on d3. Tap every black piece that can give check from where it is standing.",
+      "answer": {
+        "pieces": [
+          "b6",
+          "c8",
+          "d4"
+        ]
+      },
+      "concept": "threat-scan",
+      "hints": {
+        "text": "Three of Black's four pieces can do it. Look down the c-file, along the b-file, and at what a knight on d4 reaches."
+      },
+      "reason": "The queen reaches b1, the rook reaches c1 and the knight reaches e2 or f3. Naming the piece is faster than naming the square, and a piece that cannot check at all is one you can stop thinking about."
+    },
+    {
+      "id": "3.11.2-c2",
+      "type": "find_them_all",
+      "fen": "6k1/5ppp/1qN5/8/8/8/5PPP/3R2K1 b - - 0 1",
+      "prompt": "You have just taken on c6 with the knight. One move ago Black had no check anywhere. Tap every black piece that can give check now.",
+      "answer": {
+        "pieces": [
+          "b6"
+        ]
+      },
+      "concept": "threat-scan",
+      "hints": {
+        "text": "Your knight was standing on d4 a moment ago. What was it blocking?"
+      },
+      "reason": "Qxf2 is check, and it exists only because the knight left d4 and opened the diagonal. Your own move built the threat, so scanning before you moved would never have shown it to you."
+    },
+    {
+      "id": "3.11.2-c3",
+      "type": "which_square",
+      "fen": "6k1/5ppp/1qN5/8/8/8/5PPP/3R2K1 b - - 0 1",
+      "prompt": "Same board. You know the check is coming from the queen. Tap the square she gives it on.",
+      "answer": {
+        "square": "f2"
+      },
+      "concept": "threat-scan",
+      "hints": {
+        "piece": "b6",
+        "text": "Follow the diagonal from b6 towards your king and stop at the first thing on it."
+      },
+      "reason": "Qxf2 is check. Knowing which piece can check is the fast half of the scan; knowing the square is the half you need before you can work out whether the check hurts."
+    },
+    {
+      "id": "3.11.2-c4",
+      "type": "find_them_all",
+      "fen": "3r2k1/1b3ppp/8/2n5/P2RB3/8/5PPP/6K1 b - - 0 1",
+      "prompt": "This is the board after you played the rook to d4. Black has no check here, so move to the next list. Tap every white piece Black can take.",
+      "answer": {
+        "pieces": [
+          "a4",
+          "d4",
+          "e4"
+        ]
+      },
+      "concept": "threat-scan",
+      "hints": {
+        "text": "The knight can reach two of them. The rook on d8 and the bishop on b7 take care of the rest."
+      },
+      "reason": "Nxa4, Rxd4, Nxe4 and Bxe4. Three white pieces, and the rook you have just moved is one of them, which is the whole reason for running the list after the move rather than before it."
+    },
+    {
+      "id": "3.11.2-c5",
+      "type": "find_the_move",
+      "fen": "3r2k1/1b3ppp/8/2n5/P2RB3/8/5PPP/6K1 b - - 0 1",
+      "prompt": "You are Black, with three captures on your list. White is threatening Rxd8 mate. Only one of the three deals with that.",
+      "answer": {
+        "moves": [
+          "Rxd4"
+        ]
+      },
+      "wrong": {
+        "Nxe4": "Rxd8 is mate. Your knight won a bishop on the far side of the board while the rook it ignored gave mate.",
+        "Bxe4": "Rxd8 is mate. The threat was against d8 and you answered it on e4."
+      },
+      "concept": "threat-scan",
+      "hints": {
+        "piece": "d8",
+        "square": "d4"
+      },
+      "reason": "Rxd4 takes a rook nothing defends and removes the mate in one move. This is why the threats list comes after the captures list but outranks it: a capture that ignores a mate is not a candidate at all."
+    },
+    {
+      "id": "3.11.2-c6",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/1qn5/8/3N4/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "You want to take on c6. You have scanned the board it would leave and found Black's check. It does not refute the move. Play it.",
+      "answer": {
+        "moves": [
+          "Nxc6"
+        ]
+      },
+      "wrong": {
+        "Nf5": "The knight steps away from the trade and Black keeps everything. Running the scan is not the same as being frightened by it."
+      },
+      "concept": "threat-scan",
+      "hints": {
+        "piece": "d4",
+        "square": "c6"
+      },
+      "reason": "Qxf2 is check and you have to meet it, but meeting it costs nothing. A scan that finds a check is not a reason to abandon the move; it is a reason to calculate one more move."
+    },
+    {
+      "id": "3.11.2-c7",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/1qN5/8/8/8/5PPP/3R2K1 b - - 0 1",
+      "prompt": "You scanned this board before you moved the knight and found nothing. You scanned it again after, and found a check. Why?",
+      "options": [
+        "Black moved a piece in between, which is what created the check.",
+        "The first scan was careless. The check was there all along and you missed it.",
+        "The knight was blocking the diagonal, so the move created the check. The board you scan has to be the board your move makes."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "threat-scan",
+      "hints": {
+        "text": "Put the knight back on d4 and look at the b6 queen's diagonal again."
+      },
+      "reason": "Both scans were right about the board they were run on. This is the whole difference between the scan you learned in Section 2 and the one you run now: that one looked at the position, this one looks at each position your list can produce."
+    }
+  ],
+  "takeaway": "Run their checks and captures on the board your move will leave behind. Your own move is what builds half of their threats."
+}

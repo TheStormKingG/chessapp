@@ -1,0 +1,510 @@
+{
+  "unit": "3.8",
+  "title": "King safety and attacking the king",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "3.8-k01",
+      "type": "find_the_move",
+      "fen": "5rk1/5p2/7p/6p1/8/3Q4/2B2PPP/6K1 w - - 0 1",
+      "prompt": "Black has pushed every pawn in front of his king. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qh7#"
+        ]
+      },
+      "concept": "king-safe",
+      "reason": "Qh7 is mate. The bishop on c2 covers h7 once the queen leaves d3, and Black's own rook fills f8, so there is no square and no capture."
+    },
+    {
+      "id": "3.8-k02",
+      "type": "find_them_all",
+      "fen": "5rk1/5p2/7p/6p1/8/3Q4/2B2PPP/6K1 w - - 0 1",
+      "prompt": "Tap every one of the three squares directly in front of the black king that has no pawn standing on it.",
+      "answer": {
+        "squares": [
+          "g7",
+          "h7"
+        ]
+      },
+      "concept": "king-safe",
+      "reason": "Only f7 still holds a pawn. g7 and h7 are bare, and h7 is where the queen lands."
+    },
+    {
+      "id": "3.8-k03",
+      "type": "find_the_move",
+      "fen": "5rk1/5p2/7p/5Qp1/8/8/5PPP/1B4K1 w - - 0 1",
+      "prompt": "The shelter has marched up the board and left the king bare. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qh7#"
+        ]
+      },
+      "concept": "king-safe",
+      "reason": "Qh7 is mate, held there by the bishop on b1 as soon as the queen steps off f5. f8 is Black's own rook and g7 is empty but covered by the queen."
+    },
+    {
+      "id": "3.8-k04",
+      "type": "name_the_pattern",
+      "fen": "5rk1/5p2/7p/5Qp1/8/8/5PPP/1B4K1 w - - 0 1",
+      "prompt": "Black's pawns sit on f7, g5 and h6 instead of f7, g7 and h7. What has that cost him?",
+      "answer": {
+        "option": 2
+      },
+      "concept": "king-safe",
+      "reason": "Two squares, not a pawn. A pawn on h7 would have filled h7 and a pawn on g7 would have covered it; from g5 and h6 neither does.",
+      "options": [
+        "His rook on f8 is shut in and cannot reach the h-file.",
+        "His pawns are now easy to win, and the material loss decides the game.",
+        "The squares g7 and h7 are both empty and neither is covered by a pawn any more."
+      ]
+    },
+    {
+      "id": "3.8-k05",
+      "type": "find_the_move",
+      "fen": "n5rk/5pp1/8/8/3Q4/3B4/5PPP/6K1 w - - 0 1",
+      "prompt": "The black king sits on h8 with no pawn on h7. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qh4#"
+        ]
+      },
+      "concept": "king-safe",
+      "reason": "Qh4 is mate down the empty h-file. The bishop on d3 covers h7, g8 is Black's own rook and g7 is his own pawn."
+    },
+    {
+      "id": "3.8-k06",
+      "type": "find_the_move",
+      "fen": "1n3rk1/5p1p/8/8/3B4/1Q6/5PPP/6K1 w - - 0 1",
+      "prompt": "The g-pawn has gone and the file is empty from the third rank to the king. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qg3#"
+        ]
+      },
+      "concept": "king-safe",
+      "reason": "Qg3 is mate. The bishop on d4 covers g7 and h8, f8 is Black's own rook, and no black piece can reach the g-file to block."
+    },
+    {
+      "id": "3.8-k07",
+      "type": "find_them_all",
+      "fen": "1n3rk1/5p1p/7B/8/8/2Q5/5PPP/6K1 w - - 0 1",
+      "prompt": "Tap every white piece that attacks g7, the empty square beside the black king.",
+      "answer": {
+        "pieces": [
+          "c3",
+          "h6"
+        ]
+      },
+      "concept": "king-safe",
+      "reason": "The queen on c3 along the long diagonal and the bishop on h6 from the other side. Two attackers, and only the king answering for the square."
+    },
+    {
+      "id": "3.8-k08",
+      "type": "which_square",
+      "fen": "3QRrk1/6pp/8/5p2/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Black's f-pawn ran to f5 and left the long light diagonal open. Tap the square on that diagonal where White's queen gives check.",
+      "answer": {
+        "square": "d5"
+      },
+      "concept": "king-safe",
+      "reason": "Qd5 is check along d5, e6, f7, g8, because f7 is empty. It is the only checking square the queen has here."
+    },
+    {
+      "id": "3.8-k09",
+      "type": "is_it_safe",
+      "fen": "r1b2rk1/ppp1nppp/3b4/3p4/7q/3P4/PPP1BPPP/RNBQK2R w KQ - 0 1",
+      "prompt": "White would like to castle short. Is g1 a safe square for him?",
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "king-safe",
+      "reason": "After O-O, h2 is attacked by the queen on h4 and the bishop on d6 and defended only by the king. Qxh2 is mate, with no legal reply at all.",
+      "move": "O-O",
+      "reasons": [
+        "No. The queen on h4 and the bishop on d6 both hit h2, and Qxh2 is mate at once.",
+        "Yes. All three pawns are still on their squares and no black piece has crossed the fourth rank.",
+        "No. The knight on e7 comes to g6 and then f4, and the attack is unstoppable."
+      ]
+    },
+    {
+      "id": "3.8-k10",
+      "type": "find_the_move",
+      "fen": "1n3rk1/5ppp/6Q1/8/8/8/5PPP/1B4K1 w - - 0 1",
+      "prompt": "Queen on g6, bishop on b1, one diagonal. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qxh7#"
+        ]
+      },
+      "concept": "battery",
+      "reason": "Qxh7 is mate. The bishop on b1 covers h7 once the queen has left g6, so the king may not take, and f8 is Black's own rook."
+    },
+    {
+      "id": "3.8-k11",
+      "type": "name_the_pattern",
+      "fen": "1n3rk1/5ppp/6Q1/8/8/8/5PPP/1B4K1 w - - 0 1",
+      "prompt": "The queen is in front and the bishop behind. Why is that the right way round?",
+      "answer": {
+        "option": 0
+      },
+      "concept": "battery",
+      "reason": "The front piece is the one that can reach the end of the line, and the piece behind is what stops the king taking it.",
+      "options": [
+        "Only the front piece can reach the square beside the king, and the piece behind is what holds it there.",
+        "The bishop is worth less, so it should be the one that lands beside the king.",
+        "A queen can never be supported by a bishop on the same diagonal."
+      ]
+    },
+    {
+      "id": "3.8-k12",
+      "type": "find_the_move",
+      "fen": "5rk1/5ppp/8/5Q2/8/3B4/5PPP/6K1 w - - 0 1",
+      "prompt": "Queen on f5, bishop on d3, and they share a diagonal that ends beside the king. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qxh7#"
+        ]
+      },
+      "concept": "battery",
+      "reason": "Qxh7 is mate, held by the bishop on d3 as soon as the queen leaves f5. Black's own rook fills f8 and his pawn fills g7."
+    },
+    {
+      "id": "3.8-k13",
+      "type": "find_the_move",
+      "fen": "5rk1/5pp1/8/7R/8/8/5PPQ/6K1 w - - 0 1",
+      "prompt": "Rook on h5, queen on h2, and the h-file has no pawn left on it. Mate in one.",
+      "answer": {
+        "moves": [
+          "Rh8#"
+        ]
+      },
+      "concept": "battery",
+      "reason": "Rh8 is mate: the queen on h2 sees h8 the moment the rook clears the file, f8 is Black's own rook and g7 his own pawn."
+    },
+    {
+      "id": "3.8-k14",
+      "type": "which_square",
+      "fen": "5rk1/5pp1/8/7R/8/8/5PPQ/6K1 w - - 0 1",
+      "prompt": "Tap the square on the h-file where the rook mates, with the queen holding it from behind.",
+      "answer": {
+        "square": "h8"
+      },
+      "concept": "battery",
+      "reason": "h8. The rook lands there and the queen on h2 covers it through the empty file, so the king cannot capture."
+    },
+    {
+      "id": "3.8-k15",
+      "type": "find_the_move",
+      "fen": "5rk1/5ppp/8/q7/4Q3/8/2B2PPP/6K1 w - - 0 1",
+      "prompt": "The black queen is on a5 and a long way from home. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qxh7#"
+        ]
+      },
+      "concept": "battery",
+      "reason": "Qxh7 is mate, supported by the bishop on c2 once the queen leaves e4. The black queen on a5 cannot reach any square that matters."
+    },
+    {
+      "id": "3.8-k16",
+      "type": "find_the_move",
+      "fen": "5rk1/5pp1/8/8/8/8/5PP1/3Q2KR w - - 0 1",
+      "prompt": "Rook on h1, queen on d1, and h7 and h8 are both empty. Which move sets up mate next move?",
+      "answer": {
+        "moves": [
+          "Qh5"
+        ]
+      },
+      "concept": "battery",
+      "reason": "Qh5 puts the queen in front of the rook on the open file. Qh8 is mate next move against every black reply except f6 and f5, which give the king a way out through f7."
+    },
+    {
+      "id": "3.8-k17",
+      "type": "name_the_pattern",
+      "fen": "5rk1/5pp1/7R/8/7Q/8/5PP1/6K1 w - - 0 1",
+      "prompt": "Rook on h6, queen on h4, black king on g8, and h7 is empty. What makes Rh8 mate rather than a free rook?",
+      "answer": {
+        "option": 2
+      },
+      "concept": "battery",
+      "reason": "The queen behind the rook is the whole point: the moment the rook leaves h6 the queen covers h8, so Kxh8 is illegal.",
+      "options": [
+        "The rook is defended by the pawn on g7.",
+        "The black king has no moves anyway, so any check would be mate.",
+        "The queen on h4 covers h8 as soon as the rook steps off h6, so the king may not take the rook."
+      ]
+    },
+    {
+      "id": "3.8-k18",
+      "type": "find_them_all",
+      "fen": "1n3rk1/5ppp/8/8/4Q3/3B4/5PPP/6K1 w - - 0 1",
+      "prompt": "Tap both white pieces standing on the diagonal that runs from b1 up to the square beside the black king.",
+      "answer": {
+        "pieces": [
+          "d3",
+          "e4"
+        ]
+      },
+      "concept": "battery",
+      "reason": "The bishop on d3 and the queen on e4 both stand on b1 to h7. The queen is in front, so she is the one who lands on h7."
+    },
+    {
+      "id": "3.8-k19",
+      "type": "find_the_move",
+      "fen": "5rk1/5pp1/7p/6P1/7P/3Q4/5P2/6KR w - - 0 1",
+      "prompt": "Black has pushed his h-pawn out to meet yours. Open the king up with a pawn.",
+      "answer": {
+        "moves": [
+          "gxh6"
+        ]
+      },
+      "concept": "pawn-storm",
+      "reason": "gxh6 wins the pawn and leaves a white pawn on h6, which attacks g7. If Black recaptures with gxh6 the last pawn in front of his king has gone and the queen comes in with check."
+    },
+    {
+      "id": "3.8-k20",
+      "type": "which_square",
+      "fen": "5rk1/5pp1/7p/6P1/7P/3Q4/5P2/6KR w - - 0 1",
+      "prompt": "Tap the black pawn that stepped out of the shelter and is now standing where a white pawn can take it.",
+      "answer": {
+        "square": "h6"
+      },
+      "concept": "pawn-storm",
+      "reason": "h6. The pawn on g5 takes it, and what comes back is a white pawn on h6 one square from the king."
+    },
+    {
+      "id": "3.8-k21",
+      "type": "find_the_move",
+      "fen": "2r3k1/5pp1/7p/6P1/7P/3Q4/5P2/6KR w - - 0 1",
+      "prompt": "The black rook has gone to c8 and left the king to look after himself. Break the shelter with a pawn.",
+      "answer": {
+        "moves": [
+          "gxh6"
+        ]
+      },
+      "concept": "pawn-storm",
+      "reason": "gxh6 takes the pawn that stepped out and puts a white pawn on h6 attacking g7. Recapturing with gxh6 strips the king completely, and the rook on c8 is on the wrong side of the board."
+    },
+    {
+      "id": "3.8-k22",
+      "type": "find_the_move",
+      "fen": "5rk1/5ppp/7P/6P1/8/3Q4/5P2/6KR w - - 0 1",
+      "prompt": "Your pawn on h6 is already past the shelter. Finish the job with it.",
+      "answer": {
+        "moves": [
+          "hxg7"
+        ]
+      },
+      "concept": "pawn-storm",
+      "reason": "hxg7 puts a white pawn on g7 right beside the king and clears the h-file as far as h7. Qxh7 is mate next move unless Black moves the h-pawn or opens f7 for the king."
+    },
+    {
+      "id": "3.8-k23",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/6p1/7P/3QB3/8/5PP1/6K1 w - - 0 1",
+      "prompt": "The queen on d4 wants g7 and cannot go there yet. Send a pawn to hold the square for her.",
+      "answer": {
+        "moves": [
+          "h6"
+        ]
+      },
+      "concept": "pawn-storm",
+      "reason": "h6 cannot be taken by anything and it covers g7, so Qg7 is mate next move against every reply except f6, which blocks the queen's diagonal."
+    },
+    {
+      "id": "3.8-k24",
+      "type": "name_the_pattern",
+      "fen": "5rk1/5p1p/6p1/7P/3Q4/8/5PP1/4R1K1 w - - 0 1",
+      "prompt": "Both h5-h6 and hxg6 are legal. Why is the push the stronger of the two?",
+      "answer": {
+        "option": 1
+      },
+      "concept": "pawn-storm",
+      "reason": "The capture trades the pawn off; the push keeps it, and a pawn on h6 is what lets the queen stand on g7.",
+      "options": [
+        "The push wins a pawn while the capture only trades one.",
+        "A pawn on h6 covers g7 and cannot be captured, so it stays and holds the queen's landing square.",
+        "The push comes with check, so Black has no time to reply."
+      ]
+    },
+    {
+      "id": "3.8-k25",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/6p1/7P/8/3Q4/5PP1/6KR w - - 0 1",
+      "prompt": "One pawn move plants a pawn beside the black king that nothing on the board can ever capture. Find it.",
+      "answer": {
+        "moves": [
+          "h6"
+        ]
+      },
+      "concept": "pawn-storm",
+      "reason": "Nothing of Black's can capture on h6: the pawn on g6 takes on f5 and h5, the pawn on h7 takes on g6, and the king is two squares away. The pawn sits there for good and takes g7 from the king."
+    },
+    {
+      "id": "3.8-k26",
+      "type": "find_the_sequence",
+      "fen": "6k1/5p1p/6p1/7P/8/3Q4/5PP1/6KR w - - 0 1",
+      "prompt": "Three moves. Check the king down onto the seventh rank first, then let the pawn deliver it.",
+      "answer": {
+        "line": [
+          "Qd8+",
+          "Kg7",
+          "h6#"
+        ]
+      },
+      "concept": "pawn-storm",
+      "reason": "Qd8 is check and Kg7 is the only legal answer. h6 is then mate: the rook on h1 covers h6 the moment the pawn steps off h5, so the king cannot take."
+    },
+    {
+      "id": "3.8-k27",
+      "type": "find_them_all",
+      "fen": "5rk1/5ppp/7P/6P1/8/3Q4/5P2/6KR w - - 0 1",
+      "prompt": "Tap every white pawn that has already crossed onto Black's half of the board.",
+      "answer": {
+        "pieces": [
+          "g5",
+          "h6"
+        ]
+      },
+      "concept": "pawn-storm",
+      "reason": "The pawns on g5 and h6. The one on f2 is still at home — two marching pawns is usually enough to break a shelter open."
+    },
+    {
+      "id": "3.8-k28",
+      "type": "find_them_all",
+      "fen": "r1bq1rk1/pp3ppp/8/7Q/8/2B2R2/PP3PPP/R5K1 b - - 0 1",
+      "prompt": "Tap every white piece that already attacks one of the five squares next to the black king.",
+      "answer": {
+        "pieces": [
+          "c3",
+          "f3",
+          "h5"
+        ]
+      },
+      "concept": "attack-signs",
+      "reason": "The bishop on c3 attacks g7, the rook on f3 attacks f7, and the queen on h5 attacks both f7 and h7. The rook on a1 is not in the attack yet."
+    },
+    {
+      "id": "3.8-k29",
+      "type": "which_square",
+      "fen": "r1bq1rk1/pp3ppp/8/7Q/8/2B2R2/PP3PPP/R5K1 b - - 0 1",
+      "prompt": "Tap the square beside the black king that two different white pieces are attacking.",
+      "answer": {
+        "square": "f7"
+      },
+      "concept": "attack-signs",
+      "reason": "f7, hit by the rook on f3 down the file and by the queen on h5 along the diagonal. The rook on f8 and the king both answer for it, which is why it holds for now."
+    },
+    {
+      "id": "3.8-k30",
+      "type": "name_the_pattern",
+      "fen": "r1bq1rk1/pp3ppp/8/7Q/8/2B2R2/PP3PPP/R5K1 b - - 0 1",
+      "prompt": "Three white pieces are aimed at the king and material is level. What is stopping White from landing on h7 right now?",
+      "answer": {
+        "option": 1
+      },
+      "concept": "attack-signs",
+      "reason": "Nothing of White's supports h7 yet, so the queen would simply be taken. An attack needs the landing square covered before the landing.",
+      "options": [
+        "The rook on f8 defends h7 along the eighth rank.",
+        "Nothing of White's covers h7, so the king would take the queen the moment she arrived.",
+        "The pawn on g7 defends h7."
+      ]
+    },
+    {
+      "id": "3.8-k31",
+      "type": "is_it_safe",
+      "fen": "r1bq1rk1/pp3ppp/8/7Q/8/2B2R2/PP3PPP/R5K1 w - - 0 1",
+      "prompt": "White to move, and the queen can take the pawn beside the king with check. Is she safe on h7?",
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "attack-signs",
+      "reason": "Kxh7 is Black's only legal reply and it wins the queen. Nothing of White's covers h7 — the bishop on c3 covers g7 and the rook on f3 covers f7, but neither touches h7.",
+      "move": "Qxh7+",
+      "reasons": [
+        "No. Kxh7 is the only legal answer and it takes the queen for a pawn.",
+        "Yes. The bishop on c3 covers h7 from the long diagonal.",
+        "No. The rook on f8 takes her."
+      ]
+    },
+    {
+      "id": "3.8-k32",
+      "type": "name_the_pattern",
+      "fen": "r5k1/pp3ppp/2b2r2/8/7q/7P/PP3PP1/R1BQ1RK1 w - - 0 1",
+      "prompt": "White to move, and it is White's king that is being counted out. Which reading is right?",
+      "answer": {
+        "option": 1
+      },
+      "concept": "attack-signs",
+      "reason": "Two black pieces hit f2 and a third hits g2, while White's rooks on a1 and f1 attack nothing at all. Material is level; the difference is the count round the kings.",
+      "options": [
+        "White is the exchange down and must win it back immediately.",
+        "Two black pieces attack f2 and a third attacks g2, and neither white rook is defending anything.",
+        "Black's rook on a8 is about to swing to h8 and mate on the h-file."
+      ]
+    },
+    {
+      "id": "3.8-k33",
+      "type": "which_square",
+      "fen": "r5k1/pp3ppp/2b2r2/8/7q/7P/PP3PP1/R1BQ1RK1 w - - 0 1",
+      "prompt": "Tap the pawn in front of White's king that both the black queen and the black rook are attacking.",
+      "answer": {
+        "square": "f2"
+      },
+      "concept": "attack-signs",
+      "reason": "f2, hit by the rook on f6 down the file and the queen on h4 along the diagonal. It is defended twice, by the rook on f1 and the king."
+    },
+    {
+      "id": "3.8-k34",
+      "type": "find_them_all",
+      "fen": "r2q1rk1/pp3ppp/5n2/8/8/2B2RQ1/PP3PPP/R5K1 b - - 0 1",
+      "prompt": "Tap every black piece other than the king that answers for one of the five squares beside the black king.",
+      "answer": {
+        "pieces": [
+          "d8",
+          "f6",
+          "f8"
+        ]
+      },
+      "concept": "attack-signs",
+      "reason": "The queen on d8 covers f8, the rook on f8 covers f7, and the knight on f6 covers h7. The knight is also the piece blocking the bishop on c3."
+    },
+    {
+      "id": "3.8-k35",
+      "type": "name_the_pattern",
+      "fen": "r2q1rk1/pp3ppp/5n2/8/8/2B2RQ1/PP3PPP/R5K1 b - - 0 1",
+      "prompt": "Only one white piece attacks a square beside the black king, and yet Black is close to lost. Why?",
+      "answer": {
+        "option": 0
+      },
+      "concept": "attack-signs",
+      "reason": "Bxf6 removes the knight and opens the long diagonal at the same time, and then the queen on g3 and the bishop both point at g7 with only the king answering.",
+      "options": [
+        "The knight on f6 is both the defender of h7 and the blocker of the bishop on c3, and Bxf6 takes it.",
+        "The rook on f3 is about to swing to h3, and nothing can stop it.",
+        "Black's queen on d8 is trapped and will be won in a few moves."
+      ]
+    },
+    {
+      "id": "3.8-k36",
+      "type": "name_the_pattern",
+      "fen": "r2q1rk1/pp3pp1/5n1p/8/8/2B2RQ1/PP3PPP/R5K1 b - - 0 1",
+      "prompt": "Black has played the h-pawn to h6. What has that changed about the squares round his king?",
+      "answer": {
+        "option": 2
+      },
+      "concept": "attack-signs",
+      "reason": "h7 is now a hole the knight covers instead of a pawn, and the pawn on h6 is a target the attacker can hit with a piece or a pawn.",
+      "options": [
+        "Nothing at all: the king simply has an escape square, which is always an improvement.",
+        "The rook on f8 is now defended twice instead of once.",
+        "h7 is empty now and only the knight on f6 answers for it, and the pawn on h6 is itself something to attack."
+      ]
+    }
+  ]
+}

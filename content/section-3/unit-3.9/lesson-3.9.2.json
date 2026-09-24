@@ -1,0 +1,143 @@
+{
+  "id": "3.9.2",
+  "unit": "3.9",
+  "title": "King and pawn against king, complete",
+  "xp": 16,
+  "card": {
+    "idea": "One pawn, two kings, and a rule that settles every one of them. For a pawn anywhere except the a- and h-files, mark the three squares two ranks in front of it. Those are its key squares: get your king onto one of them and the pawn queens, whoever is to move. The defender's whole job is to stop you.",
+    "diagrams": [
+      "8/8/3k4/8/8/1K6/3P4/8 w - - 0 1",
+      "k7/8/1K6/P7/8/8/8/8 b - - 0 1"
+    ],
+    "habit": "Find the three key squares first, then work out how to stand on one."
+  },
+  "explain": [
+    {
+      "fen": "8/8/3k4/8/8/1K6/3P4/8 w - - 0 1",
+      "text": "The pawn is on d2, so its key squares are c4, d4 and e4 — the three squares two ranks in front of it. From b3 your king can reach exactly one of them. Kc4 wins the game; all nine other moves, pushes included, only draw.",
+      "arrows": [["b3", "c4"]],
+      "highlights": ["c4", "d4", "e4"]
+    },
+    {
+      "fen": "8/8/8/3k4/8/8/2KP4/8 w - - 0 1",
+      "text": "The king goes first and the pawn follows. Kd3 steps in front of your own pawn and is the only move that wins. Kc3 walks beside it instead and draws, and d4 is worse still: the black king on d5 simply takes it, because nothing of yours defends d4.",
+      "arrows": [["c2", "d3"]],
+      "highlights": ["d3", "d4"]
+    },
+    {
+      "fen": "k7/8/1K6/P7/8/8/8/8 b - - 0 1",
+      "text": "The one ending where none of this applies. It is a rook pawn, and Black's king sits on a8. That is drawn from any set-up at all: 1...Kb8 2.a6 Ka8 3.a7 leaves Black with no legal move and no check, which is stalemate and half a point.",
+      "arrows": [["a5", "a6"]],
+      "highlights": ["a8", "b8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.9.2-c1",
+      "type": "which_square",
+      "fen": "8/8/3k4/8/8/1K6/3P4/8 w - - 0 1",
+      "prompt": "The pawn is on d2. Of the three squares two ranks in front of it, your king can reach exactly one from b3. Tap it.",
+      "answer": { "square": "c4" },
+      "concept": "key-squares",
+      "hints": {
+        "text": "Two ranks in front of d2 is the fourth rank. Which of those three squares is one step from b3?"
+      },
+      "reason": "c4, d4 and e4 are the key squares for a pawn on d2, and c4 is the only one the king on b3 can step to."
+    },
+    {
+      "id": "3.9.2-c2",
+      "type": "find_them_all",
+      "fen": "8/8/3k4/8/8/1K6/3P4/8 w - - 0 1",
+      "prompt": "Tap the three squares that win this ending for White the moment his king stands on one of them, whoever is to move.",
+      "answer": { "squares": ["c4", "d4", "e4"] },
+      "concept": "key-squares",
+      "hints": {
+        "text": "Count two ranks up from the pawn, then take that square and the one either side of it."
+      },
+      "reason": "For any pawn off the edge files, the three squares two ranks in front are the key squares. A white king standing on c4, d4 or e4 here wins, with Black to move or without."
+    },
+    {
+      "id": "3.9.2-c3",
+      "type": "find_the_move",
+      "fen": "8/8/3k4/8/8/1K6/3P4/8 w - - 0 1",
+      "prompt": "Ten legal moves and one win. Go where the pawn needs you.",
+      "answer": { "moves": ["Kc4"] },
+      "wrong": {
+        "d4": "The pawn cannot walk there on its own. After d4 Black holds with any of Kc7, Kd7, Ke7, Ke6, Kd5 or Kc6.",
+        "Kb4": "One file short. b4 is not one of the three squares, and Kd5 is then enough for Black."
+      },
+      "concept": "key-squares",
+      "hints": {
+        "piece": "b3",
+        "square": "c4"
+      },
+      "reason": "Kc4 is the only winning move. It is the one key square the king can reach, and every other move on the board — both pawn pushes included — lets Black draw."
+    },
+    {
+      "id": "3.9.2-c4",
+      "type": "find_the_move",
+      "fen": "8/8/8/3k4/8/8/2KP4/8 w - - 0 1",
+      "prompt": "Nine moves. The king travels first in this ending, and only one square is the right one.",
+      "answer": { "moves": ["Kd3"] },
+      "wrong": {
+        "d4": "Straight into his king. d4 is undefended and Kxd4 follows, and a king against a bare king is a draw.",
+        "Kc3": "Beside the pawn is not in front of it. After Kc3 Black answers Kc5 and holds."
+      },
+      "concept": "key-squares",
+      "hints": {
+        "piece": "c2",
+        "square": "d3"
+      },
+      "reason": "Kd3 steps in front of the pawn and is the only winning move here. Once the king leads, the pawn can follow behind it in safety."
+    },
+    {
+      "id": "3.9.2-c5",
+      "type": "find_the_move",
+      "fen": "8/8/3k4/8/8/8/1KP5/8 b - - 0 1",
+      "prompt": "You are Black, and seven of your eight king moves lose. Head for the pawn's own file, and pick the right square on it.",
+      "answer": { "moves": ["Kc6"] },
+      "wrong": {
+        "Kc5": "The right file, the wrong square. White replies Kc3 and you cannot stop him reaching the fourth rank.",
+        "Kd5": "Too far forward and off the file. Kb3 then wins for White."
+      },
+      "concept": "key-squares",
+      "hints": {
+        "piece": "d6",
+        "square": "c6"
+      },
+      "reason": "Kc6 is the only move that draws. Kc5 and Kc7 are on the same file and both lose, so the file alone is not the answer — the exact square is."
+    },
+    {
+      "id": "3.9.2-c6",
+      "type": "name_the_pattern",
+      "fen": "k7/8/1K6/P7/8/8/8/8 b - - 0 1",
+      "prompt": "White's king is on the sixth rank in front of his pawn and Black has exactly one legal move. Why is this still only a draw?",
+      "options": [
+        "It is a rook pawn, and Black's king is on a8. That corner is drawn from any set-up at all, because White can never make him give it up.",
+        "White has too little material left to force a win.",
+        "Black is threatening to take the pawn on a5."
+      ],
+      "answer": { "option": 0 },
+      "concept": "key-squares",
+      "hints": {
+        "text": "Play 1...Kb8 2.a6 Ka8 3.a7 and count Black's legal moves."
+      },
+      "reason": "The a- and h-files are the exception to everything in this lesson. With Black's king on a8 against an a-pawn the game is drawn however the pieces stand, and the try 1...Kb8 2.a6 Ka8 3.a7 ends in stalemate."
+    },
+    {
+      "id": "3.9.2-c7",
+      "type": "play_it_out",
+      "fen": "8/8/8/8/8/5k2/7P/6K1 b - - 0 1",
+      "goal": { "kind": "hold", "moves": 10 },
+      "opponentDepth": 8,
+      "concept": "key-squares",
+      "prompt": "A rook pawn again, and you are the defender. Hold the draw for ten moves. Walk towards the corner the pawn is heading for, not away from it.",
+      "hints": {
+        "piece": "f3",
+        "square": "g4"
+      },
+      "reason": "Four of your five moves draw and only Ke2 loses, because it steps out of reach of the corner. Everything else keeps the king near g7, g8 and h8, and once he stands there the pawn can never get past him."
+    }
+  ],
+  "takeaway": "Mark the three squares two ranks in front of the pawn. Standing on one wins; a rook pawn has no such squares, and its corner is a fortress."
+}

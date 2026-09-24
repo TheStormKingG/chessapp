@@ -1,0 +1,196 @@
+{
+  "id": "3.11.4",
+  "unit": "3.11",
+  "title": "The blunder check as the last step",
+  "xp": 16,
+  "card": {
+    "idea": "You have your list, you have calculated it, you have chosen. One step left, and it is the one everybody skips: before your hand touches the piece, look at the square you are moving to and at everything your piece is walking away from. The move you have just spent two minutes on is the move you are least able to see clearly.",
+    "diagrams": [
+      "r5k1/5ppp/1n6/4p3/8/8/5PPP/3R2K1 w - - 0 1",
+      "6k1/5pp1/8/8/n2b4/8/1PR2PPP/7K w - - 0 1"
+    ],
+    "habit": "Before the piece leaves your hand: can it be taken there, and what has it stopped guarding?"
+  },
+  "explain": [
+    {
+      "fen": "r5k1/5ppp/1n6/4p3/8/8/5PPP/3R2K1 w - - 0 1",
+      "text": "Rd5 attacks the pawn on e5 and looks like a good active move. The blunder check is one question: can anything take on d5? The knight on b6 can, and it is nowhere near the part of the board you were thinking about. That is where blunders live — outside the picture you built while you were calculating.",
+      "arrows": [
+        [
+          "d1",
+          "d5"
+        ],
+        [
+          "b6",
+          "d5"
+        ]
+      ],
+      "highlights": [
+        "d5",
+        "b6"
+      ]
+    },
+    {
+      "fen": "6k1/5pp1/8/8/n2b4/8/1PR2PPP/7K w - - 0 1",
+      "text": "Rc7 is safe on c7 — nothing black can reach it. And it is still a blunder, because the rook on c2 was the only piece defending b2 and the only piece defending f2. The first half of the check asks where you are going. The second half asks what you are leaving.",
+      "arrows": [
+        [
+          "c2",
+          "b2"
+        ],
+        [
+          "c2",
+          "f2"
+        ]
+      ],
+      "highlights": [
+        "b2",
+        "f2"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.11.4-c1",
+      "type": "is_it_safe",
+      "fen": "r5k1/5ppp/1n6/4p3/8/8/5PPP/3R2K1 w - - 0 1",
+      "move": "Rd5",
+      "prompt": "You have decided on Rd5, attacking the pawn on e5. Run the last check before you play it. Is the rook safe on d5?",
+      "reasons": [
+        "Yes. Nothing black can reach d5.",
+        "No. The rook on a8 comes down the d-file and takes it.",
+        "No. The knight on b6 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "blunder-check",
+      "hints": {
+        "text": "A knight does not attack in straight lines, so it is easy to leave out. Count its eight squares."
+      },
+      "reason": "Nxd5 wins a rook for a knight. The knight on b6 was doing nothing at all in the part of the board you were calculating, which is exactly why you did not see it."
+    },
+    {
+      "id": "3.11.4-c2",
+      "type": "is_it_safe",
+      "fen": "b5k1/5pp1/8/4p3/8/8/5PPP/3R2K1 w - - 0 1",
+      "move": "Rd5",
+      "prompt": "The same idea on a different board. You play the rook to d5 to hit the pawn on e5. Is the rook safe on d5?",
+      "reasons": [
+        "No. The bishop on a8 takes it from the corner.",
+        "Yes. Nothing attacks d5.",
+        "No. The pawn on e5 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "blunder-check",
+      "hints": {
+        "text": "Follow the long diagonal out of the corner and see where it stops."
+      },
+      "reason": "Bxd5. A bishop in the corner attacks across the whole board and gets forgotten precisely because it is so far away. A pawn on e5 cannot take on d5 at all — pawns capture forwards."
+    },
+    {
+      "id": "3.11.4-c3",
+      "type": "is_it_safe",
+      "fen": "1k2r3/5ppp/1n6/4p3/8/8/5PPP/1R1R2K1 w - - 0 1",
+      "move": "Rd5",
+      "prompt": "Third board, same move. The knight on b6 looks like it covers d5 again. Is the rook safe on d5?",
+      "reasons": [
+        "Yes. The knight is pinned to the king by the rook on b1 and cannot legally move.",
+        "No. The knight on b6 takes it.",
+        "No. The rook on e8 slides across and takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "blunder-check",
+      "hints": {
+        "text": "Look down the b-file before you decide what the knight can do."
+      },
+      "reason": "The check is worth running even when the answer is yes. A piece that appears to cover the square may not be allowed to move, and the only way to find that out is to look rather than to assume."
+    },
+    {
+      "id": "3.11.4-c4",
+      "type": "is_it_safe",
+      "fen": "6k1/5pp1/8/8/n2b4/8/1PR2PPP/7K w - - 0 1",
+      "move": "Rc7",
+      "prompt": "You want the rook on the seventh rank, so you play Rc7. First half of the check: is the rook safe on c7?",
+      "reasons": [
+        "No. The bishop on d4 takes it.",
+        "Yes. No black piece attacks c7.",
+        "No. The knight on a4 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "blunder-check",
+      "hints": {
+        "text": "Check the bishop's two diagonals and the knight's eight squares. None of them reaches c7."
+      },
+      "reason": "The rook is perfectly safe where it lands, and the move is still a blunder. Half a blunder check passed is not a blunder check passed."
+    },
+    {
+      "id": "3.11.4-c5",
+      "type": "find_them_all",
+      "fen": "6k1/5pp1/8/8/n2b4/8/1PR2PPP/7K w - - 0 1",
+      "prompt": "Second half of the check. Tap every white piece that your rook is defending now and would stop defending the moment it goes to c7.",
+      "answer": {
+        "pieces": [
+          "b2",
+          "f2"
+        ]
+      },
+      "concept": "blunder-check",
+      "hints": {
+        "text": "The rook on c2 covers its own rank in both directions. Your king is in the corner and reaches neither end of it."
+      },
+      "reason": "b2 and f2. Both are attacked and both are defended only by that rook, so Nxb2 or Bxf2 follows. The g2 and h2 pawns keep the king as a defender, which is why they are not on the list."
+    },
+    {
+      "id": "3.11.4-c6",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/8/8/8/1r3PPP/R6K w - - 0 1",
+      "prompt": "Black's rook is on your second rank and the pawn on f2 has nothing defending it. Run the check on your own move, then play the one that survives it.",
+      "answer": {
+        "moves": [
+          "Ra8+"
+        ]
+      },
+      "wrong": {
+        "Rb1": "Rxb1 is mate. You attacked his rook and never asked what taking yours would do to your own back rank.",
+        "Rd1": "A sensible-looking move that does nothing about f2, and Rxf2 takes the pawn for free. Your move has to be more forcing than his."
+      },
+      "concept": "blunder-check",
+      "hints": {
+        "piece": "a1",
+        "square": "a8"
+      },
+      "reason": "Ra8 is check, Rb8 is the only answer, and Rxb8 is mate. When your own move is forcing, the blunder check is short: he never gets the move he needed."
+    },
+    {
+      "id": "3.11.4-c7",
+      "type": "name_the_pattern",
+      "fen": "6k1/5pp1/8/8/n2b4/8/1PR2PPP/7K w - - 0 1",
+      "prompt": "You checked that the rook was safe on c7 and it was. You still lost a pawn. What was missing from the check?",
+      "options": [
+        "The second question: what was that piece defending before it moved?",
+        "Nothing. Losing a pawn there was unavoidable whatever White played.",
+        "You should have checked whether the rook could be attacked on the move after next."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "blunder-check",
+      "hints": {
+        "text": "A piece that moves takes its defence of everything else with it."
+      },
+      "reason": "Every move is two moves: a piece arrives somewhere and a piece leaves somewhere. The arriving half is the one you have just been calculating, so it is the leaving half that gets skipped."
+    }
+  ],
+  "takeaway": "Two questions, every time, before the piece leaves your hand: can it be taken where it lands, and what has it stopped defending?"
+}

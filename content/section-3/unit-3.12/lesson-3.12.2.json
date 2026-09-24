@@ -1,0 +1,140 @@
+{
+  "id": "3.12.2",
+  "unit": "3.12",
+  "title": "A 1000-level game, guess the move",
+  "xp": 15,
+  "card": {
+    "idea": "This one is not from a book. It is a game at about a thousand and it goes the way those games go: both sides develop sensibly, one of them develops for one move too long, and it is over four moves later. Nothing spectacular happens. Three white pieces were pointing the same way and one black piece was not.",
+    "diagrams": [
+      "r1b2rk1/p1q2ppp/1pnbp3/2p3N1/3PB3/2P5/PP3PPP/R1BQR1K1 b - - 1 12",
+      "r4r1k/pbq3p1/1pnbpp2/2p3NQ/3P4/2P5/PPB2PPP/R1B1R1K1 b - - 1 15"
+    ],
+    "habit": "Before you develop another piece, ask what is pointing at your king."
+  },
+  "explain": [
+    {
+      "fen": "r1b2rk1/ppq2ppp/2nbp3/2p5/3PB3/2P2N2/PP3PPP/R1BQ1RK1 w - - 1 11",
+      "text": "The pawns have come off in the centre and White recaptured on e4 with the bishop, not the knight. That is the whole plan: the bishop now runs from e4 to h7. The knight that used to guard h7 from f6 has been traded off, so the only defender of h7 is the king standing beside it.",
+      "arrows": [
+        [
+          "e4",
+          "h7"
+        ]
+      ],
+      "highlights": [
+        "h7"
+      ]
+    },
+    {
+      "fen": "r4r1k/pbq2ppB/1pnbp3/2p3NQ/3P4/2P5/PP3PPP/R1B1R1K1 b - - 2 14",
+      "text": "Three pieces are placed: the bishop on h7, the knight on g5, the queen on h5. The king cannot take the bishop, because the knight guards h7. The threat is simply to move the bishop somewhere down the diagonal — the check then comes from the queen behind it.",
+      "highlights": [
+        "h7",
+        "g5",
+        "h5"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.12.2-c1",
+      "type": "guess_the_move",
+      "fen": "r1bq1rk1/pp3ppp/2nbpn2/2pp4/3P4/2PBPN2/PP1N1PPP/R1BQ1RK1 w - - 5 8",
+      "prompt": "Everything is developed and the position is symmetrical. Play the pawn break this set-up was built for.",
+      "answer": {
+        "moves": [
+          "e4"
+        ]
+      },
+      "commentary": "e4 is the move the whole formation exists for. The pawns come off — 8...dxe4 9.Nxe4 Nxe4 — and White recaptures with 10.Bxe4, which is the move that matters: the bishop lands on the long diagonal aimed at h7, and Black’s knight, the piece that was guarding h7, has left the board. Black replied 10...Qc7 and White finished with 11.Re1.",
+      "concept": "story-game",
+      "reason": "e4 opens the centre, and after the exchanges White’s bishop lands on e4, on the diagonal that ends at h7.",
+      "hints": {
+        "text": "Which of your pawns has been waiting on the third rank?"
+      }
+    },
+    {
+      "id": "3.12.2-c2",
+      "type": "guess_the_move",
+      "fen": "r1b2rk1/p1q2ppp/1pnbp3/2p5/3PB3/2P2N2/PP3PPP/R1BQR1K1 w - - 0 12",
+      "prompt": "Your bishop on e4 already looks at h7. Bring a second attacker to the same square.",
+      "answer": {
+        "moves": [
+          "Ng5"
+        ]
+      },
+      "commentary": "Ng5 puts a second piece on h7 and threatens 13.Qh5, after which h7 cannot be held: the queen takes there with the knight guarding her, and the black king has his own rook on f8 and his own pawns on f7 and g7. Black needed a move on the kingside and played 12...Bb7 instead — a good developing move at the wrong moment.",
+      "concept": "story-game",
+      "reason": "Ng5 is the second attacker on h7 and prepares Qh5.",
+      "hints": {
+        "text": "A knight two squares from h7."
+      }
+    },
+    {
+      "id": "3.12.2-c3",
+      "type": "guess_the_move",
+      "fen": "r4rk1/pbq2ppp/1pnbp3/2p3N1/3PB3/2P5/PP3PPP/R1BQR1K1 w - - 2 13",
+      "prompt": "Count the guards on h7 for both sides before you decide. Then play the move.",
+      "answer": {
+        "moves": [
+          "Bxh7+"
+        ]
+      },
+      "commentary": "Bxh7+ is not a sacrifice, and that is worth being sure of before you play it. The knight on g5 guards h7, so 13...Kxh7 is not a legal move at all — Kh8 is the only reply Black has. He is a pawn down with a white bishop standing next to his king.",
+      "concept": "king-safe",
+      "reason": "Bxh7+ wins a pawn outright: the knight on g5 guards the bishop, so the king may not take it, and Kh8 is Black’s only legal move.",
+      "hints": {
+        "text": "What guards h7 for White?"
+      }
+    },
+    {
+      "id": "3.12.2-c4",
+      "type": "guess_the_move",
+      "fen": "r4r1k/pbq2ppB/1pnbp3/2p3N1/3P4/2P5/PP3PPP/R1BQR1K1 w - - 1 14",
+      "prompt": "Bishop and knight are in place. Bring the third piece to the file the king is on.",
+      "answer": {
+        "moves": [
+          "Qh5"
+        ]
+      },
+      "commentary": "Qh5 lines the queen up behind the bishop on the h-file. Now the threat is to move the bishop anywhere at all down the b1-h7 diagonal: it leaves with check from the queen behind it, and Qh7 is mate the move after. Black played 14...f6, attacking the knight, which is one move too slow.",
+      "concept": "story-game",
+      "reason": "Qh5 sets up the discovered check: the bishop steps off h7 and the queen behind it gives the check.",
+      "hints": {
+        "text": "The h-file."
+      }
+    },
+    {
+      "id": "3.12.2-c5",
+      "type": "guess_the_move",
+      "fen": "r4r1k/pbq3pB/1pnbpp2/2p3NQ/3P4/2P5/PP3PPP/R1B1R1K1 w - - 0 15",
+      "prompt": "Your own bishop on h7 is in the way of your queen. Move it, and look at what moving it does.",
+      "answer": {
+        "moves": [
+          "Bc2+"
+        ]
+      },
+      "commentary": "Bc2+ — the bishop steps aside and the check comes from the queen behind it. That is the whole of a discovered check: the piece that moves is not the piece that checks, so it can go anywhere it likes. c2 keeps it on the diagonal and well out of reach. 15...Kg8 is Black’s only legal move.",
+      "concept": "discovered-check",
+      "reason": "Bc2+ is a discovered check: the queen on h5 gives the check, so the bishop is free to go wherever it likes.",
+      "hints": {
+        "text": "It can go anywhere on the diagonal. Pick the safest square."
+      }
+    },
+    {
+      "id": "3.12.2-c6",
+      "type": "guess_the_move",
+      "fen": "r4rk1/pbq3p1/1pnbpp2/2p3NQ/3P4/2P5/PPB2PPP/R1B1R1K1 w - - 2 16",
+      "prompt": "Mate in one.",
+      "answer": {
+        "moves": [
+          "Qh7#"
+        ]
+      },
+      "commentary": "Qh7 is mate. The knight on g5 guards the queen, so the king cannot take her, and the same knight covers f7, which 14...f6 had just emptied. g7 is Black’s own pawn and f8 his own rook. He is one pawn down on material: the position was perfectly playable four moves ago.",
+      "concept": "checkmate",
+      "reason": "Qh7 is mate: the knight on g5 guards the queen and covers f7, and Black’s own rook and pawn take the rest."
+    }
+  ],
+  "takeaway": "Three pieces aimed at one square beat four pieces aimed at nothing. Before you develop again, count what is pointing at your own king."
+}

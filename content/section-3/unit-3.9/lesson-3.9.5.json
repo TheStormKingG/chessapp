@@ -1,0 +1,146 @@
+{
+  "id": "3.9.5",
+  "unit": "3.9",
+  "title": "Passed pawns must be pushed and blockaded",
+  "xp": 15,
+  "card": {
+    "idea": "A passed pawn has nothing in front of it and nothing beside it, so the only thing that stops it is a king or a piece standing in its path. That cuts both ways. Push yours the moment it is passed, because a tempo spent elsewhere is a tempo the defender uses to arrive — and put something of yours directly in front of his.",
+    "diagrams": [
+      "8/8/8/2P5/4k3/8/1K6/8 w - - 0 1",
+      "8/8/8/7P/3k4/8/8/K7 b - - 0 1"
+    ],
+    "habit": "Push it, or stand in front of it. Chasing it from behind does nothing."
+  },
+  "explain": [
+    {
+      "fen": "8/8/8/2P5/4k3/8/1K6/8 w - - 0 1",
+      "text": "One free pawn and nine legal moves. Only c6 wins. Each of the eight king moves loses the race by a single tempo, and Kd5 is the answer to every one of them. A passed pawn that waits for its king is usually a passed pawn that gets caught.",
+      "arrows": [["c5", "c6"]],
+      "highlights": ["c6"]
+    },
+    {
+      "fen": "8/8/8/7P/3k4/8/8/K7 b - - 0 1",
+      "text": "The same race from the defending side. The pawn on h5 needs three moves to reach h8, and your king on d4 is one step outside the box it can be caught in. Ke5 steps inside. The other seven king moves are all a tempo short, and h6 refutes every one of them.",
+      "arrows": [["d4", "e5"]],
+      "highlights": ["e5", "h5"]
+    },
+    {
+      "fen": "8/4k3/8/8/8/8/1K1P4/8 b - - 0 1",
+      "text": "Blockading is the same job from the other end: get in front of the pawn and stay there. Kd6 is the only move that draws. Kd7 and Kd8 stand on the same file and both lose, so it is not the file that saves you — it is the exact square on it.",
+      "arrows": [["e7", "d6"]],
+      "highlights": ["d6", "d2"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.9.5-c1",
+      "type": "which_square",
+      "fen": "8/8/8/5P2/1k6/8/8/K7 b - - 0 1",
+      "prompt": "The pawn on f5 is three moves from queening and your king is on b4. Tap the one square your king can step to that still catches it.",
+      "answer": { "square": "c5" },
+      "concept": "passed-pawn",
+      "hints": {
+        "text": "The pawn needs three moves. Your king needs to be three moves from f8 after this one."
+      },
+      "reason": "Kc5 is the only one of eight king moves that draws. Every other move leaves the king a tempo short, and f6 then runs the pawn through."
+    },
+    {
+      "id": "3.9.5-c2",
+      "type": "find_the_move",
+      "fen": "8/8/8/7P/3k4/8/8/K7 b - - 0 1",
+      "prompt": "White's king is on a1 and will not arrive in time for anything. Your own king has eight moves and exactly one of them catches the pawn.",
+      "answer": { "moves": ["Ke5"] },
+      "wrong": {
+        "Kd5": "Towards the pawn, but along the wrong line. h6 is the answer and you are one move behind for the rest of the game.",
+        "Ke4": "Sideways instead of forwards. h6 again, and the pawn is gone."
+      },
+      "concept": "passed-pawn",
+      "hints": {
+        "piece": "d4",
+        "square": "e5"
+      },
+      "reason": "Ke5 is the only drawing move. The other seven all allow h6, after which the pawn reaches h8 before the king reaches the corner."
+    },
+    {
+      "id": "3.9.5-c3",
+      "type": "find_them_all",
+      "fen": "8/8/8/8/8/1k6/7P/6K1 b - - 0 1",
+      "prompt": "Your king is on b3 and the pawn is still at home on h2. Tap every square your king can step to that still saves the game.",
+      "answer": { "squares": ["c4", "c3"] },
+      "concept": "passed-pawn",
+      "hints": {
+        "text": "A pawn on its starting square can jump two. Chase it as though it were already one rank further on."
+      },
+      "reason": "Only c4 and c3 hold; the other six lose. Against Kb4 the single move that wins for White is h2-h4, so treat a pawn on its home square as if it stood a rank further up."
+    },
+    {
+      "id": "3.9.5-c4",
+      "type": "find_the_move",
+      "fen": "8/8/8/2P5/4k3/8/1K6/8 w - - 0 1",
+      "prompt": "Your king is far away and his is not. Nine moves, one win.",
+      "answer": { "moves": ["c6"] },
+      "wrong": {
+        "Kc3": "The king cannot help from here and the pawn cannot wait. Kd5 answers this and every other king move.",
+        "Kb3": "Same story. One tempo spent on the king is the tempo Black needed, and Kd5 collects it."
+      },
+      "concept": "passed-pawn",
+      "hints": {
+        "piece": "c5",
+        "square": "c6"
+      },
+      "reason": "c6 is the only winning move. All eight king moves draw, and Kd5 is a sufficient answer to each of them."
+    },
+    {
+      "id": "3.9.5-c5",
+      "type": "find_the_move",
+      "fen": "8/8/8/8/8/8/1K2kP2/8 w - - 0 1",
+      "prompt": "His king is standing right beside your pawn. Ten moves, one win, and it is not a king move.",
+      "answer": { "moves": ["f4"] },
+      "wrong": {
+        "f3": "One square is not enough: Kxf3 takes it, and two bare kings is a draw.",
+        "Kc3": "Any king move and Black simply takes on f2 or steps in front of the pawn. All eight of them draw."
+      },
+      "concept": "passed-pawn",
+      "hints": {
+        "piece": "f2",
+        "square": "f4"
+      },
+      "reason": "f4 is the only winning move. The double step is the one jump that clears the black king's reach; f3 drops the pawn at once and every king move is too slow."
+    },
+    {
+      "id": "3.9.5-c6",
+      "type": "find_the_move",
+      "fen": "8/4k3/8/8/8/8/1K1P4/8 b - - 0 1",
+      "prompt": "You are Black. The pawn on d2 is free and coming. Get in its way, and pick the square carefully — seven of your eight moves lose.",
+      "answer": { "moves": ["Kd6"] },
+      "wrong": {
+        "Kd7": "In front of the pawn, but one rank too far back. It loses.",
+        "Ke6": "Beside the file rather than on it, and that loses too."
+      },
+      "concept": "passed-pawn",
+      "hints": {
+        "piece": "e7",
+        "square": "d6"
+      },
+      "reason": "Kd6 is the only drawing move. Kd7 and Kd8 are also on the pawn's file and both lose, so standing in the way is only half of it; the distance is the other half."
+    },
+    {
+      "id": "3.9.5-c7",
+      "type": "name_the_pattern",
+      "fen": "8/4k3/8/8/8/8/1K1P4/8 b - - 0 1",
+      "prompt": "Kd6 draws and Kd7 loses, although both put the king on the pawn's file in front of it. What does that tell you about blockading?",
+      "options": [
+        "Being in front of the pawn is not enough on its own — the blockading king has to be at the right distance as well.",
+        "Any square on the pawn's file will do, because a pawn can never move through a piece on its own file.",
+        "Kd6 is better because it attacks the pawn on d2."
+      ],
+      "answer": { "option": 0 },
+      "concept": "passed-pawn",
+      "hints": {
+        "text": "Kd8, Kd7 and Kd6 are all on the d-file in front of the pawn. Only one of them holds."
+      },
+      "reason": "Kd8, Kd7 and Kd6 all stand on the pawn's file in front of it, and only Kd6 draws. The file gets you into the argument; the square decides it."
+    }
+  ],
+  "takeaway": "Push a passed pawn the move it becomes one, and stop his by standing in front of it — on the right square, not merely on the right file."
+}

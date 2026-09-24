@@ -1,0 +1,534 @@
+{
+  "unit": "3.11",
+  "title": "Candidate moves and the blunder check",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "3.11-k01",
+      "type": "find_them_all",
+      "fen": "6k1/p1R2ppp/8/3n4/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "The knight on d5 attacks your rook. Tap every square that rook can go to that gives check or takes something.",
+      "answer": {
+        "squares": [
+          "a7",
+          "c8",
+          "f7"
+        ]
+      },
+      "concept": "candidate-moves",
+      "reason": "Rxa7, Rc8 and Rxf7. The rook has twelve squares and only three of them do anything to Black, which is the whole shortlist."
+    },
+    {
+      "id": "3.11-k02",
+      "type": "find_the_move",
+      "fen": "6k1/p1R2ppp/8/3n4/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Three squares on your list. Calculate all three and play the one that finishes the game.",
+      "answer": {
+        "moves": [
+          "Rc8#"
+        ]
+      },
+      "concept": "candidate-moves",
+      "reason": "Rc8 is mate: the king's own pawns hold f7, g7 and h7, and nothing black covers the eighth rank."
+    },
+    {
+      "id": "3.11-k03",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/2r5/3N4/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Your knight has two checks and no captures. That is the whole list. Play the one that is worth something.",
+      "answer": {
+        "moves": [
+          "Ne7+"
+        ]
+      },
+      "concept": "candidate-moves",
+      "reason": "Ne7 is check and attacks the rook on c6 at the same time. Nf6 is the other check and simply loses the knight to gxf6."
+    },
+    {
+      "id": "3.11-k04",
+      "type": "find_them_all",
+      "fen": "6k1/5ppp/2b5/3N4/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Your knight has eight squares. Tap the ones that give check or take something — those are the only ones worth calculating.",
+      "answer": {
+        "squares": [
+          "e7",
+          "f6"
+        ]
+      },
+      "concept": "candidate-moves",
+      "reason": "Ne7 and Nf6 are both check. The other six knight moves neither check nor capture, so none of them can force anything."
+    },
+    {
+      "id": "3.11-k05",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/2b5/3N4/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "You have the two squares. Calculate them both, then play the one that wins a piece.",
+      "answer": {
+        "moves": [
+          "Ne7+"
+        ]
+      },
+      "concept": "candidate-moves",
+      "reason": "Ne7 is check and hits the bishop on c6. The king has to move, and then the bishop comes off. Nf6 is met by gxf6."
+    },
+    {
+      "id": "3.11-k06",
+      "type": "find_them_all",
+      "fen": "2r3k1/5ppp/8/8/8/1b6/5PPP/3RR1K1 w - - 0 1",
+      "prompt": "Build the shortlist. Tap every square White can move a piece to that gives check or takes a black piece.",
+      "answer": {
+        "squares": [
+          "d8",
+          "e8"
+        ]
+      },
+      "concept": "candidate-moves",
+      "reason": "Rd8 and Re8 are the only checks on the board and there are no captures at all. Two moves, and both of them are answered by the rook on c8."
+    },
+    {
+      "id": "3.11-k07",
+      "type": "which_square",
+      "fen": "2q3k1/5ppp/8/3N4/8/8/5PPP/3R2K1 w - - 0 1",
+      "prompt": "Your knight has two checks. Tap the square of the one that also attacks the queen.",
+      "answer": {
+        "square": "e7"
+      },
+      "concept": "candidate-moves",
+      "reason": "Ne7 gives check and hits c8 in the same move. Nf6 is the other check and reaches nothing at all."
+    },
+    {
+      "id": "3.11-k08",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/2b5/3N4/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Why build a short list of moves first instead of looking for the best move straight away?",
+      "options": [
+        "Because a longer list is always safer, so you should list every legal move you have.",
+        "Because the best move is always a check or a capture, so the rest can be ignored.",
+        "Because judging a move and finding it are two jobs, and doing both at once is how good moves get skipped."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "candidate-moves",
+      "reason": "Collect first, judge second. A move you dismiss before you have looked at it is a move you never actually considered."
+    },
+    {
+      "id": "3.11-k09",
+      "type": "find_them_all",
+      "fen": "1r4k1/2q2ppp/8/8/3B4/8/5PPP/1R4K1 b - - 0 1",
+      "prompt": "This is the board your bishop move would leave. Tap every black piece that can give check from where it stands.",
+      "answer": {
+        "pieces": [
+          "b8",
+          "c7"
+        ]
+      },
+      "concept": "threat-scan",
+      "reason": "The rook takes on b1 and the queen reaches c1 or h2. Naming the piece rather than the square is the fast way to run the list."
+    },
+    {
+      "id": "3.11-k10",
+      "type": "which_square",
+      "fen": "1r4k1/2q2ppp/8/8/3B4/8/5PPP/1R4K1 b - - 0 1",
+      "prompt": "Same board. One of Black's checks is not a check at all but mate. Tap the square it lands on.",
+      "answer": {
+        "square": "b1"
+      },
+      "concept": "threat-scan",
+      "reason": "Rxb1 is mate. The first rank is covered from b1 to h1, and f2, g2 and h2 are White's own pawns."
+    },
+    {
+      "id": "3.11-k11",
+      "type": "find_the_move",
+      "fen": "1r4k1/2q2ppp/8/8/3B4/8/5PPP/1R4K1 b - - 0 1",
+      "prompt": "You are Black. Run your own list of checks and captures, then play the one that ends it.",
+      "answer": {
+        "moves": [
+          "Rxb1#"
+        ]
+      },
+      "concept": "threat-scan",
+      "reason": "Rxb1 is mate, and Qxh2 is the other check and only wins a pawn. The list had two entries and calculating them separated them at once."
+    },
+    {
+      "id": "3.11-k12",
+      "type": "find_them_all",
+      "fen": "6k1/5ppp/8/4q3/8/5N2/5PPP/2R3K1 b - - 0 1",
+      "prompt": "The board after White put a knight on f3. Tap every black piece that can give check from where it is standing.",
+      "answer": {
+        "pieces": [
+          "e5"
+        ]
+      },
+      "concept": "threat-scan",
+      "reason": "Only the queen, and she can do it on e1 or by taking on h2. The rook on c1 and the king have nothing, so one piece is the whole list."
+    },
+    {
+      "id": "3.11-k13",
+      "type": "find_them_all",
+      "fen": "r4rk1/5ppp/3n4/8/2B1N3/8/5PPP/6K1 b - - 0 1",
+      "prompt": "The board after White played a knight to e4. Now run the second list: tap every white piece Black can take.",
+      "answer": {
+        "pieces": [
+          "c4",
+          "e4"
+        ]
+      },
+      "concept": "threat-scan",
+      "reason": "Nxc4 and Nxe4. One black knight reaches both of them, which is exactly the sort of thing a list finds and a glance does not."
+    },
+    {
+      "id": "3.11-k14",
+      "type": "find_them_all",
+      "fen": "r4rk1/5ppp/8/8/2B1N3/8/5PPP/6K1 b - - 0 1",
+      "prompt": "A different board after the same knight move. Tap every black piece that can give check from where it is standing.",
+      "answer": {
+        "pieces": [
+          "a8"
+        ]
+      },
+      "concept": "threat-scan",
+      "reason": "Only the rook on a8, which reaches a1. The rook on f8 is blocked by its own pawn and a knight on e4 does not cover a1."
+    },
+    {
+      "id": "3.11-k15",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/8/4q3/8/5N2/5PPP/2R3K1 b - - 0 1",
+      "prompt": "You ran their checks and captures before you chose your move, and found nothing. Why run the list a second time?",
+      "options": [
+        "Because the first list is usually wrong and needs checking.",
+        "Because your own move changes the board, and a line you unblock gives them a check they did not have.",
+        "Because they will have moved a piece in between, which is what creates new threats."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "threat-scan",
+      "reason": "Both lists are correct about the board they were run on. The one that matters is the one run on the board your move will make."
+    },
+    {
+      "id": "3.11-k16",
+      "type": "find_the_sequence",
+      "fen": "3r2k1/1n3ppp/8/8/8/8/3R1PPP/3R2K1 w - - 0 1",
+      "prompt": "Three ply. Take on d8, let the knight take back, then take again.",
+      "answer": {
+        "line": [
+          "Rxd8+",
+          "Nxd8",
+          "Rxd8#"
+        ]
+      },
+      "concept": "forcing-line",
+      "reason": "Nxd8 is Black's only legal answer: the king cannot leave the eighth rank and the knight on b7 cannot reach e8 or f8 to block."
+    },
+    {
+      "id": "3.11-k17",
+      "type": "find_the_move",
+      "fen": "3r2k1/1n3ppp/8/8/8/8/3R1PPP/3R2K1 w - - 0 1",
+      "prompt": "You have calculated three ply and you know what is at the end. Play the first move.",
+      "answer": {
+        "moves": [
+          "Rxd8+"
+        ]
+      },
+      "concept": "forcing-line",
+      "reason": "Rook for rook looks like nothing until you have seen the third ply, where the second rook lands on d8 with mate."
+    },
+    {
+      "id": "3.11-k18",
+      "type": "find_the_sequence",
+      "fen": "2r3k1/5ppp/8/5q2/8/8/2R2PPP/2R3K1 w - - 0 1",
+      "prompt": "Black's queen is guarding c8 from a long way off. Three ply: take, let her take back, take again.",
+      "answer": {
+        "line": [
+          "Rxc8+",
+          "Qxc8",
+          "Rxc8#"
+        ]
+      },
+      "concept": "forcing-line",
+      "reason": "Qxc8 is the only legal answer. She has to leave f5 to make it, and the second rook takes on c8 with mate."
+    },
+    {
+      "id": "3.11-k19",
+      "type": "find_the_move",
+      "fen": "2r3k1/5ppp/8/5q2/8/8/2R2PPP/2R3K1 w - - 0 1",
+      "prompt": "You are a queen down. Calculate to the third ply before you decide that matters, then play the first move.",
+      "answer": {
+        "moves": [
+          "Rxc8+"
+        ]
+      },
+      "concept": "forcing-line",
+      "reason": "Being a queen down is irrelevant when the whole game is two moves long. The queen is the only defender of c8 and she cannot be on two squares."
+    },
+    {
+      "id": "3.11-k20",
+      "type": "find_the_move",
+      "fen": "1r4k1/5ppp/2n5/8/8/8/1R3PPP/1R4K1 w - - 0 1",
+      "prompt": "Doubled rooks against one rook on the eighth. Play the first move of the line.",
+      "answer": {
+        "moves": [
+          "Rxb8+"
+        ]
+      },
+      "concept": "forcing-line",
+      "reason": "Black can take back with the knight or block on d8 with it, and both lose to the second rook. Two answers is still short enough to calculate."
+    },
+    {
+      "id": "3.11-k21",
+      "type": "play_it_out",
+      "fen": "1r4k1/5ppp/2n5/8/8/8/1R3PPP/1R4K1 w - - 0 1",
+      "prompt": "Two moves. Your opponent answers for himself, and he has two ways of doing it. Mate him either way.",
+      "goal": {
+        "kind": "mate_in",
+        "moves": 2
+      },
+      "opponentDepth": 6,
+      "concept": "forcing-line",
+      "reason": "Rxb8 is check. The knight takes on b8 or blocks on d8, and the second rook takes it there with mate. Calculating both branches is what makes it safe to start."
+    },
+    {
+      "id": "3.11-k22",
+      "type": "name_the_pattern",
+      "fen": "3r2k1/1n3ppp/8/8/8/8/3R1PPP/3R2K1 w - - 0 1",
+      "prompt": "Why is three ply enough here, when a strong player might calculate ten?",
+      "options": [
+        "Because three ply is the most anybody can hold in their head.",
+        "Because the moves are forcing, so the position runs out of choices before your calculation runs out.",
+        "Because the third move is always the last one that matters in any position."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "forcing-line",
+      "reason": "Depth is cheap when the opponent has one legal answer and expensive when he has thirty. That is the whole reason to calculate forcing moves first."
+    },
+    {
+      "id": "3.11-k23",
+      "type": "is_it_safe",
+      "fen": "6k1/5ppp/8/8/8/6b1/5PPP/1R4K1 w - - 0 1",
+      "move": "Rb8+",
+      "prompt": "You have found a check and you are about to play it. One look first: is the rook safe on b8?",
+      "reasons": [
+        "No. The bishop on g3 takes it along the diagonal.",
+        "Yes. It is check, so Black has to answer it and cannot take.",
+        "No. The king on g8 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "blunder-check",
+      "reason": "Bxb8. A check is not a guarantee of anything: taking the checking piece is one of the three ways to answer a check, and here it is free."
+    },
+    {
+      "id": "3.11-k24",
+      "type": "is_it_safe",
+      "fen": "6k1/1b3pp1/8/8/8/8/5PPP/3R2K1 w - - 0 1",
+      "move": "Rd5",
+      "prompt": "You want the rook on the fifth rank where it covers more ground. Is the rook safe on d5?",
+      "reasons": [
+        "Yes. Nothing attacks d5.",
+        "No. The bishop on b7 takes it.",
+        "No. The pawn on f7 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "blunder-check",
+      "reason": "Bxd5. The bishop is three squares away on a diagonal you were not thinking about, which is where almost all of these live."
+    },
+    {
+      "id": "3.11-k25",
+      "type": "is_it_safe",
+      "fen": "r5k1/1n3ppp/8/4p3/8/8/5PPP/2R3K1 w - - 0 1",
+      "move": "Rc5",
+      "prompt": "The rook steps out to c5 to attack the pawn on e5. Is the rook safe on c5?",
+      "reasons": [
+        "Yes. Nothing black reaches c5.",
+        "No. The knight on b7 takes it.",
+        "No. The rook on a8 comes down and takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "blunder-check",
+      "reason": "Nxc5 wins a rook for a knight. A knight sitting on the edge of the board still covers four squares in the middle of it."
+    },
+    {
+      "id": "3.11-k26",
+      "type": "is_it_safe",
+      "fen": "6k1/1b3pp1/8/8/8/8/5PPP/4R1K1 w - - 0 1",
+      "move": "Re5",
+      "prompt": "Nearly the same board and nearly the same move, one file across. Is the rook safe on e5?",
+      "reasons": [
+        "No. The bishop on b7 takes it.",
+        "No. The pawn on f7 takes it.",
+        "Yes. The bishop's diagonal out of b7 runs through d5, not e5."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 2
+      },
+      "concept": "blunder-check",
+      "reason": "Running the check when the answer turns out to be yes is not wasted work. One square along a diagonal is the entire difference between the two boards."
+    },
+    {
+      "id": "3.11-k27",
+      "type": "find_them_all",
+      "fen": "6k1/5pp1/8/8/n2b4/8/1P2RPPP/7K w - - 0 1",
+      "prompt": "You are about to play the rook to e7. Tap every white piece it is defending now and would stop defending the moment it goes.",
+      "answer": {
+        "pieces": [
+          "b2",
+          "f2"
+        ]
+      },
+      "concept": "blunder-check",
+      "reason": "b2 and f2, both attacked and both defended by that rook alone. The g2 and h2 pawns keep the king, which is why they are not on the list."
+    },
+    {
+      "id": "3.11-k28",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/4b3/8/8/2N5/5PPP/3R2K1 w - - 0 1",
+      "prompt": "The bishop on e6 looks like it is doing a job. Work out what, then play your move.",
+      "answer": {
+        "moves": [
+          "Rd8#"
+        ]
+      },
+      "concept": "blunder-check",
+      "reason": "Rd8 is mate. The bishop on e6 reaches c8 but not d8, so it guards the wrong end of the rank, and the king's three pawns do the rest."
+    },
+    {
+      "id": "3.11-k29",
+      "type": "name_the_pattern",
+      "fen": "6k1/5pp1/8/8/n2b4/8/1P2RPPP/7K w - - 0 1",
+      "prompt": "You checked that your rook could not be taken where it was going, and it could not. What else was there to check?",
+      "options": [
+        "What the rook was defending before it left.",
+        "Nothing else. A piece that cannot be taken has passed the test.",
+        "Whether the rook could be attacked two moves later."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "blunder-check",
+      "reason": "Every move is an arrival and a departure. The arrival is what you have just been calculating, so the departure is the half that gets skipped."
+    },
+    {
+      "id": "3.11-k30",
+      "type": "is_it_safe",
+      "fen": "6k1/5ppp/8/3n4/3R4/8/5PPP/6K1 w - - 0 1",
+      "move": "Rxd5",
+      "prompt": "Black has just taken on d5 and you had the recapture set up in advance. Is the rook safe on d5?",
+      "reasons": [
+        "No. The pawn on f7 takes it back.",
+        "No. The king walks over and collects it.",
+        "Yes. No black piece covers d5."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 2
+      },
+      "concept": "the-clock",
+      "reason": "One way to take back and nothing covering the square. This is the case where taking back without looking is safe, and it is safe because you looked once beforehand."
+    },
+    {
+      "id": "3.11-k31",
+      "type": "is_it_safe",
+      "fen": "6k1/5ppp/2p5/3n4/3R4/8/5PPP/6K1 w - - 0 1",
+      "move": "Rxd5",
+      "prompt": "The same recapture, and one black pawn stands somewhere else. Is the rook safe on d5?",
+      "reasons": [
+        "Yes. Only the knight covered d5 and you have just taken it.",
+        "No. The pawn on c6 takes it back.",
+        "No. The pawn on f7 takes it back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "the-clock",
+      "reason": "cxd5, and a rook has gone for a knight. The pawn on c6 is the whole difference, and a recapture played in advance is exactly the state in which you do not see it."
+    },
+    {
+      "id": "3.11-k32",
+      "type": "find_them_all",
+      "fen": "r5k1/p4ppp/8/8/4b3/3P2N1/5PPP/4R1K1 w - - 0 1",
+      "prompt": "Before you set up a recapture on e4 in advance, count how many ways you have of making it. Tap every white piece that can take there.",
+      "answer": {
+        "pieces": [
+          "d3",
+          "e1",
+          "g3"
+        ]
+      },
+      "concept": "the-clock",
+      "reason": "The pawn on d3, the knight on g3 and the rook on e1. Three very different games, and a recapture set up in advance picks one of them blind."
+    },
+    {
+      "id": "3.11-k33",
+      "type": "which_square",
+      "fen": "6k1/5ppp/8/8/8/8/5PP1/2r3K1 w - - 0 1",
+      "prompt": "You have four minutes left. Count your legal moves, then tap the square your king goes to.",
+      "answer": {
+        "square": "h2"
+      },
+      "concept": "the-clock",
+      "reason": "Kh2 is the only legal move on the board. Counting legal moves costs a second and sometimes it finishes the whole job."
+    },
+    {
+      "id": "3.11-k34",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/8/8/8/8/5PP1/2r3K1 w - - 0 1",
+      "prompt": "You have nineteen minutes left in a thirty-minute game and this position in front of you. How much time does it deserve?",
+      "options": [
+        "None. There is one legal move, so there is nothing to choose between.",
+        "About a minute. You are in check, and check is always worth care.",
+        "The same as every other move. Spreading your time evenly is the safest plan."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "the-clock",
+      "reason": "Time saved on a forced move is time available for the move with twelve choices. Spreading evenly spends most of it where there was nothing to decide."
+    },
+    {
+      "id": "3.11-k35",
+      "type": "name_the_pattern",
+      "fen": "r5k1/p4ppp/8/8/4b3/3P2N1/5PPP/4R1K1 w - - 0 1",
+      "prompt": "Thirty-minute game, twelve moves played, twenty-five minutes left. Which part of the game should take most of what remains?",
+      "options": [
+        "The next handful of moves, where the position stops resembling anything you have prepared.",
+        "The opening you are still in, so you never come out of it worse.",
+        "The endgame, kept in reserve, because that is where games are decided."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "the-clock",
+      "reason": "The opening is prepared and therefore cheap; the endgame has fewer pieces and fewer choices. The expensive part is the stretch just after preparation runs out."
+    },
+    {
+      "id": "3.11-k36",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/2p5/3n4/3R4/8/5PPP/6K1 w - - 0 1",
+      "prompt": "When is it safe to set a move up in advance, so that it plays itself the instant your opponent moves?",
+      "options": [
+        "When you are taking back on a square with one way of doing it, or when you are under ten seconds.",
+        "Whenever you are behind on time, because the seconds saved matter more than the move.",
+        "Whenever the move you want to make is a check, because a check cannot be ignored."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "the-clock",
+      "reason": "A move set up in advance is a move made without looking. Recapturing is the one case where that is usually right, and only when there is exactly one way to do it."
+    }
+  ]
+}

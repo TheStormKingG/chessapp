@@ -1,0 +1,212 @@
+{
+  "id": "3.7.2",
+  "unit": "3.7",
+  "title": "The seventh rank",
+  "xp": 15,
+  "card": {
+    "idea": "The seventh rank is where the enemy pawns are still sitting on their starting squares, and a pawn cannot walk backwards. A rook that gets there attacks men that cannot step out of its way. But it only attacks the first man on each side of it, because a rook cannot see through anything.",
+    "diagrams": [
+      "4r1k1/1pp2pp1/p6p/8/8/P6P/1PP2PP1/3R2K1 w - - 0 1",
+      "4r1k1/1ppR1pp1/p6p/8/8/P6P/1PP2PP1/6K1 b - - 0 1",
+      "5rk1/R5pp/8/8/8/8/6PP/6K1 b - - 0 1"
+    ],
+    "habit": "Get the rook to the seventh, then count what it really hits."
+  },
+  "explain": [
+    {
+      "fen": "4r1k1/1pp2pp1/p6p/8/8/P6P/1PP2PP1/3R2K1 w - - 0 1",
+      "text": "A rook and six pawns each. Two files carry no pawns, d and e, and Black's rook is already sitting on the e-file. So White takes the other one, and takes it all the way: Rd7. Nothing of Black's covers d7, and the rook lands in among pawns that have never moved.",
+      "arrows": [
+        [
+          "d1",
+          "d7"
+        ]
+      ],
+      "highlights": [
+        "d7"
+      ]
+    },
+    {
+      "fen": "4r1k1/1ppR1pp1/p6p/8/8/P6P/1PP2PP1/6K1 b - - 0 1",
+      "text": "The rook has arrived. Now count what it actually attacks along the rank. Going left it stops at c7. Going right it stops at f7. Those two, and no more: b7 is sitting behind c7 and g7 behind f7, and the rook cannot see past a man to reach them.",
+      "arrows": [
+        [
+          "d7",
+          "c7"
+        ],
+        [
+          "d7",
+          "f7"
+        ]
+      ],
+      "highlights": [
+        "c7",
+        "f7",
+        "b7",
+        "g7"
+      ]
+    },
+    {
+      "fen": "5rk1/R5pp/8/8/8/8/6PP/6K1 b - - 0 1",
+      "text": "Here the seventh rank is clear all the way from the rook to the pawns, and that is worth more than the pawn it attacks. The rook covers f7, so the black king has exactly one legal move in the whole position: h8. A king cut off like that has stopped playing.",
+      "arrows": [
+        [
+          "a7",
+          "g7"
+        ]
+      ],
+      "highlights": [
+        "f7",
+        "h8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.7.2-c1",
+      "type": "which_square",
+      "fen": "4r1k1/1pp2pp1/p6p/8/8/P6P/1PP2PP1/3R2K1 w - - 0 1",
+      "prompt": "Black's rook has already taken the e-file, so White takes the other empty one. Tap the square on the seventh rank that the rook on d1 can reach in one move.",
+      "answer": {
+        "square": "d7"
+      },
+      "concept": "rook-on-seventh",
+      "hints": {
+        "piece": "d1",
+        "text": "A rook on d1 can only reach the seventh rank on one square."
+      },
+      "reason": "d7. The rook travels up its own file, so d7 is the only square on the seventh it can get to, and nothing of Black's is covering it."
+    },
+    {
+      "id": "3.7.2-c2",
+      "type": "find_them_all",
+      "fen": "4r1k1/1ppR1pp1/p6p/8/8/P6P/1PP2PP1/6K1 b - - 0 1",
+      "prompt": "The rook has landed on d7. Tap every black pawn it attacks from there.",
+      "answer": {
+        "pieces": [
+          "c7",
+          "f7"
+        ]
+      },
+      "concept": "rook-on-seventh",
+      "hints": {
+        "text": "A rook stops at the first man it meets on each side. It cannot look past him."
+      },
+      "reason": "c7 and f7, and only those. Going left the rook meets c7 and stops, so b7 behind it is untouched; going right it meets f7 and stops, so g7 behind that is untouched. Two pawns, not a whole rank."
+    },
+    {
+      "id": "3.7.2-c3",
+      "type": "name_the_pattern",
+      "fen": "4r1k1/1ppR1pp1/p6p/8/8/P6P/1PP2PP1/6K1 b - - 0 1",
+      "prompt": "Why is d7 a better home for the rook than d6 would have been?",
+      "options": [
+        "On the seventh the rook attacks the whole rank at once, every square from a7 to h7.",
+        "On the seventh it attacks pawns that have never moved, and a pawn cannot go backwards to run away from it.",
+        "On the seventh the rook is safe, because a rook beside the enemy king can never be taken."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "rook-on-seventh",
+      "hints": {
+        "text": "Ask what the pawns on the seventh rank are able to do about it."
+      },
+      "reason": "It is about what the targets can do, not about how many there are. This rook attacks two pawns, not eight. But a pawn that has never moved cannot retreat, so those two have to be defended by pieces or given up."
+    },
+    {
+      "id": "3.7.2-c4",
+      "type": "which_square",
+      "fen": "5rk1/R5pp/8/8/8/8/6PP/6K1 b - - 0 1",
+      "prompt": "The white rook has the seventh rank to itself. It is Black's move. Tap the only square his king is allowed to go to.",
+      "answer": {
+        "square": "h8"
+      },
+      "concept": "rook-on-seventh",
+      "hints": {
+        "text": "Four of the king's neighbours are his own men. Check the fifth against the rook."
+      },
+      "reason": "h8 is the whole list. f8 is his own rook, g7 and h7 are his own pawns, and f7 is covered by the rook on a7. That is what a rook on the seventh does to a king."
+    },
+    {
+      "id": "3.7.2-c5",
+      "type": "find_them_all",
+      "fen": "5rk1/R5pp/8/8/8/8/6PP/6K1 b - - 0 1",
+      "prompt": "Tap every empty square on the seventh rank that the rook on a7 controls.",
+      "answer": {
+        "squares": [
+          "b7",
+          "c7",
+          "d7",
+          "e7",
+          "f7"
+        ]
+      },
+      "concept": "rook-on-seventh",
+      "hints": {
+        "text": "Walk right from a7 until you meet a man, and stop there."
+      },
+      "reason": "b7 through f7. The rook runs along the empty rank and stops when it reaches the pawn on g7, which it attacks but cannot pass. h7 is behind that pawn and is not controlled at all."
+    },
+    {
+      "id": "3.7.2-c6",
+      "type": "find_the_move",
+      "fen": "7k/1b3n1p/p1p1p1p1/8/8/8/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "Black's bishop and his knight are both sitting on the seventh rank with nothing defending either of them. Find the square that hits both.",
+      "answer": {
+        "moves": [
+          "Rd7"
+        ]
+      },
+      "wrong": {
+        "Rd8+": "Nxd8. The knight on f7 covers d8, so that is a rook handed over for a knight."
+      },
+      "concept": "rook-on-seventh",
+      "hints": {
+        "piece": "d1",
+        "text": "Land on the rank between them, not on the rank behind them."
+      },
+      "reason": "Rd7 attacks the bishop on b7 to the left and the knight on f7 to the right, and c7, e7 and the squares in between are all empty. Neither piece is defended, and one move cannot save two pieces."
+    },
+    {
+      "id": "3.7.2-c7",
+      "type": "name_the_pattern",
+      "fen": "7k/1b3n1p/p1p1p1p1/8/8/8/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "Rd7 attacks the bishop on b7 and the knight on f7 at the same time. Why can Black not save both of them?",
+      "options": [
+        "Black is in check after Rd7, so he has to spend his move on the king.",
+        "Both of them are pinned against the king on h8, so neither is allowed to move.",
+        "Nothing on the board defends either piece, and a move can only move one man."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "rook-on-seventh",
+      "hints": {
+        "text": "Check the position after Rd7 first: is the black king actually in check?"
+      },
+      "reason": "Rd7 is not check — d7 and h8 are not on a line for a rook — and nothing is pinned. It is the plainest kind of double attack: two loose men, one move to save them, so one of them goes."
+    },
+    {
+      "id": "3.7.2-c8",
+      "type": "is_it_safe",
+      "fen": "2b1r1k1/1pp2pp1/p6p/8/8/P6P/1PP2PP1/3R1BK1 w - - 0 1",
+      "move": "Rd7",
+      "prompt": "White heads for the seventh rank again with Rd7. Is the rook safe there this time?",
+      "reasons": [
+        "No. The bishop on c8 takes it.",
+        "No. The pawn on c7 takes it.",
+        "Yes. The rook on e8 cannot reach d7, so nothing can take it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "rook-on-seventh",
+      "hints": {
+        "text": "One black piece has been added since the first diagram. Find its diagonal."
+      },
+      "reason": "Bxd7. The bishop on c8 watches d7 along the diagonal, and that one piece is the whole difference from the first position. The pawn on c7 captures towards b6 and d6, so it is no use here, and the rook on e8 really is stuck on its own file."
+    }
+  ],
+  "takeaway": "A rook on the seventh attacks the first man it meets on each side and no further. When the rank between it and the king is clear, the king stops playing."
+}

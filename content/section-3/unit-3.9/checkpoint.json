@@ -1,0 +1,498 @@
+{
+  "unit": "3.9",
+  "title": "Endgames continued",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "3.9-k01",
+      "type": "find_the_move",
+      "fen": "k7/8/8/8/8/8/1P6/K7 w - - 0 1",
+      "prompt": "His king is on a8 and yours on a1. Four legal moves, and only one of them wins.",
+      "answer": {
+        "moves": [
+          "Ka2"
+        ]
+      },
+      "concept": "opposition",
+      "reason": "Ka2 leaves a3 to a7 \u2014 five squares \u2014 between the kings on the a-file, with Black to move. b3, b4 and Kb1 all draw."
+    },
+    {
+      "id": "3.9-k02",
+      "type": "find_the_move",
+      "fen": "1k6/8/8/8/8/8/5P2/K7 w - - 0 1",
+      "prompt": "The pawn on f2 will not decide this game. Get on his file with the right count between you.",
+      "answer": {
+        "moves": [
+          "Kb2"
+        ]
+      },
+      "concept": "opposition",
+      "reason": "Kb2 is the only winning move: five squares from b3 to b7 and Black has to move. f3, f4, Ka2 and Kb1 all throw the win away."
+    },
+    {
+      "id": "3.9-k03",
+      "type": "find_the_move",
+      "fen": "8/8/8/8/8/1P6/3k4/K7 b - - 0 1",
+      "prompt": "You are Black and seven of your eight king moves lose. Find the one that faces his king across a single square.",
+      "answer": {
+        "moves": [
+          "Kc3"
+        ]
+      },
+      "concept": "opposition",
+      "reason": "Kc3 is the only draw. a1 and c3 sit on one diagonal with only b2 between them, and White is the one who has to move."
+    },
+    {
+      "id": "3.9-k04",
+      "type": "find_the_move",
+      "fen": "8/8/8/8/8/2P5/4k3/1K6 b - - 0 1",
+      "prompt": "Black to move, eight king moves, one draw. It is a diagonal one.",
+      "answer": {
+        "moves": [
+          "Kd3"
+        ]
+      },
+      "concept": "opposition",
+      "reason": "Kd3 holds. b1 and d3 share a diagonal with c2 between them and White must move first; every other king move loses."
+    },
+    {
+      "id": "3.9-k05",
+      "type": "which_square",
+      "fen": "8/8/8/8/k7/8/3P4/1K6 w - - 0 1",
+      "prompt": "Your king is on b1 and his on a4. Tap the square that faces him across exactly one square on a diagonal.",
+      "answer": {
+        "square": "c2"
+      },
+      "concept": "opposition",
+      "reason": "Kc2 is the only winning move of the seven. c2 and a4 share a diagonal with b3 between them, and it leaves Black to move."
+    },
+    {
+      "id": "3.9-k06",
+      "type": "find_them_all",
+      "fen": "8/8/8/3k4/8/8/8/K7 w - - 0 1",
+      "prompt": "His king is on d5. Tap every square on the d-file from which a white king would face him down the file with an odd number of squares between them.",
+      "answer": {
+        "squares": [
+          "d7",
+          "d3",
+          "d1"
+        ]
+      },
+      "concept": "opposition",
+      "reason": "d7 and d3 leave one square between; d1 leaves three. d6 and d4 are next door, d8 and d2 leave two, and even numbers are the wrong side of the standoff."
+    },
+    {
+      "id": "3.9-k07",
+      "type": "name_the_pattern",
+      "fen": "8/8/8/8/8/3P4/5k2/2K5 b - - 0 1",
+      "prompt": "Black to move. Ke3 draws and all seven other king moves lose. What makes e3 the square?",
+      "options": [
+        "It faces the white king across one square on a diagonal, and it is White who has to move next.",
+        "It is the only move that attacks the pawn on d3.",
+        "It blocks the pawn, because a king standing in front of a pawn stops it moving."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "opposition",
+      "reason": "c1 and e3 lie on one diagonal with d2 between them. Ke2 attacks d3 as well, so that is not what separates them, and e3 is not on the pawn's file at all."
+    },
+    {
+      "id": "3.9-k08",
+      "type": "find_the_move",
+      "fen": "8/8/2k5/8/8/1K6/3P4/8 w - - 0 1",
+      "prompt": "Ten legal moves and one win. Take your king two ranks in front of the pawn.",
+      "answer": {
+        "moves": [
+          "Kc4"
+        ]
+      },
+      "concept": "key-squares",
+      "reason": "c4, d4 and e4 are the squares that win this ending, and c4 is the only one the king on b3 can reach. The two pawn pushes both draw."
+    },
+    {
+      "id": "3.9-k09",
+      "type": "find_the_move",
+      "fen": "8/8/3k4/8/8/2K5/4P3/8 w - - 0 1",
+      "prompt": "The pawn is on e2 and your king is on c3. Ten moves, one win.",
+      "answer": {
+        "moves": [
+          "Kd4"
+        ]
+      },
+      "concept": "key-squares",
+      "reason": "d4, e4 and f4 win this ending outright, and d4 is the only one within reach. Kc4, Kb4, e3 and e4 all let Black hold."
+    },
+    {
+      "id": "3.9-k10",
+      "type": "find_the_move",
+      "fen": "8/8/8/3k4/8/1K6/2P5/8 w - - 0 1",
+      "prompt": "Eight moves, one win, and it is not a pawn move. The pawn is on c2.",
+      "answer": {
+        "moves": [
+          "Kb4"
+        ]
+      },
+      "concept": "key-squares",
+      "reason": "b4, c4 and d4 are the winning squares for a c2 pawn, and Kb4 is the one the king can take. Even c4, which looks active, is only a draw."
+    },
+    {
+      "id": "3.9-k11",
+      "type": "find_the_move",
+      "fen": "8/3k4/8/8/8/8/K1P5/8 b - - 0 1",
+      "prompt": "You are Black. Seven of your eight moves lose to the pawn on c2. Find the one that holds.",
+      "answer": {
+        "moves": [
+          "Kc6"
+        ]
+      },
+      "concept": "key-squares",
+      "reason": "Kc6 is the only draw. Kc7 and Kc8 are on the same file and both lose, so it is the exact square rather than the file that saves the game."
+    },
+    {
+      "id": "3.9-k12",
+      "type": "which_square",
+      "fen": "8/8/3k4/8/8/2K5/4P3/8 w - - 0 1",
+      "prompt": "Three squares win this ending outright. Tap the only one of them that your king on c3 can step to this move.",
+      "answer": {
+        "square": "d4"
+      },
+      "concept": "key-squares",
+      "reason": "d4, e4 and f4 are the winning squares for a pawn on e2, and d4 is the one within a king's step of c3. Kd4 is the only winning move in the position."
+    },
+    {
+      "id": "3.9-k13",
+      "type": "find_them_all",
+      "fen": "8/8/3k4/8/8/2K5/4P3/8 w - - 0 1",
+      "prompt": "Tap the three squares that win this ending for White the moment his king stands on one of them, whoever is to move.",
+      "answer": {
+        "squares": [
+          "d4",
+          "e4",
+          "f4"
+        ]
+      },
+      "concept": "key-squares",
+      "reason": "For a pawn off the edge files, the three squares two ranks in front of it decide the game. For a pawn on e2 those are d4, e4 and f4."
+    },
+    {
+      "id": "3.9-k14",
+      "type": "name_the_pattern",
+      "fen": "7k/8/6K1/7P/8/8/8/8 b - - 0 1",
+      "prompt": "White's king is on the sixth in front of his pawn and Black has one legal move. Why is this a draw?",
+      "options": [
+        "It is a rook pawn and Black's king is already in its corner, which is drawn however the pieces stand.",
+        "White has too little material left to force a win.",
+        "Black is threatening to capture the pawn on h5."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "key-squares",
+      "reason": "The a- and h-files are the exception: a defending king on h8 against an h-pawn draws from any set-up. The black king on h8 cannot reach h5, so there is no threat there."
+    },
+    {
+      "id": "3.9-k15",
+      "type": "find_the_move",
+      "fen": "8/8/8/8/8/P7/6k1/K7 b - - 0 1",
+      "prompt": "The pawn on a3 is running and your king is on g2. Eight moves, one draw.",
+      "answer": {
+        "moves": [
+          "Kf3"
+        ]
+      },
+      "concept": "passed-pawn",
+      "reason": "Kf3 is the only move that catches the pawn. Every other king move is one tempo short, and the pawn reaches a8 first."
+    },
+    {
+      "id": "3.9-k16",
+      "type": "find_the_move",
+      "fen": "8/8/8/6P1/2k5/8/8/K7 b - - 0 1",
+      "prompt": "The pawn on g5 needs three moves to queen and your king is on c4. Find the only move that catches it.",
+      "answer": {
+        "moves": [
+          "Kd5"
+        ]
+      },
+      "concept": "passed-pawn",
+      "reason": "Kd5 is the only drawing move. From c4 the king is one step outside the box the pawn can be caught in, and d5 steps into it."
+    },
+    {
+      "id": "3.9-k17",
+      "type": "find_the_move",
+      "fen": "8/8/5P2/2k5/8/8/8/K7 b - - 0 1",
+      "prompt": "White's king is in the corner and will not help. Your king is on c5 and the pawn is on f6. One move draws.",
+      "answer": {
+        "moves": [
+          "Kd6"
+        ]
+      },
+      "concept": "passed-pawn",
+      "reason": "Kd6 is the only move that catches the pawn; the other seven lose. Towards the queening square, not towards the pawn."
+    },
+    {
+      "id": "3.9-k18",
+      "type": "find_the_move",
+      "fen": "8/8/7P/4k3/8/8/8/K7 b - - 0 1",
+      "prompt": "Pawn on h6, your king on e5, and White's king a long way off. Eight moves and one of them saves the game.",
+      "answer": {
+        "moves": [
+          "Kf6"
+        ]
+      },
+      "concept": "passed-pawn",
+      "reason": "Kf6 is the only draw. It heads for the corner the pawn is going to, which is always shorter than chasing the pawn itself."
+    },
+    {
+      "id": "3.9-k19",
+      "type": "is_it_safe",
+      "fen": "8/8/8/8/8/2P2k2/8/K7 b - - 0 1",
+      "move": "Ke4",
+      "prompt": "The pawn on c3 is running and White's king is stuck on a1. You play Ke4 to chase it down. Does that work?",
+      "reasons": [
+        "Yes. e4 is the one square that brings your king inside the box the pawn can still be caught in, and the other seven moves all lose.",
+        "No. White answers c4 and your king is a move behind for the rest of the game.",
+        "No. Ke4 steps into the reach of the white king."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "passed-pawn",
+      "reason": "Ke4 is the only one of eight king moves that draws. The white king on a1 is six squares away and has no say in it; the race is between the king and the pawn."
+    },
+    {
+      "id": "3.9-k20",
+      "type": "find_them_all",
+      "fen": "8/8/8/5P2/8/8/8/8 w - - 0 1",
+      "prompt": "A white pawn stands on f5, three moves from f8, and White moves first. Tap every square from a5 to e5 on which a black king would still catch it.",
+      "answer": {
+        "squares": [
+          "c5",
+          "d5",
+          "e5"
+        ]
+      },
+      "concept": "passed-pawn",
+      "reason": "c5, d5 and e5 all catch the pawn; a5 and b5 are one step too far and it queens. Three moves for the pawn means three files of reach for the king."
+    },
+    {
+      "id": "3.9-k21",
+      "type": "name_the_pattern",
+      "fen": "8/8/8/6P1/2k5/8/8/K7 b - - 0 1",
+      "prompt": "Kd5 draws here and Kc5 loses, although both step forward and both go towards the pawn on g5. What separates them?",
+      "options": [
+        "Kd5 is the only one that brings the king inside the box the pawn can still be caught in; c5 is a file too far back.",
+        "Kd5 attacks the pawn and Kc5 does not.",
+        "Kc5 walks into a check from the white king on a1."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "passed-pawn",
+      "reason": "Neither square attacks g5, and a king on a1 cannot check anything on c5. The pawn needs three moves, so the king must be within three of the queening square."
+    },
+    {
+      "id": "3.9-k22",
+      "type": "find_the_move",
+      "fen": "K7/8/8/8/5Q2/8/7p/7k w - - 0 1",
+      "prompt": "A rook pawn on the seventh usually draws. Not when the king behind it has no air. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qf1#"
+        ]
+      },
+      "concept": "queen-vs-pawn",
+      "reason": "Qf1 is mate: h2 is his own pawn, g1 and h1 are on the queen's rank and g2 is on her diagonal, so there is no square at all."
+    },
+    {
+      "id": "3.9-k23",
+      "type": "find_the_move",
+      "fen": "7K/8/5k2/8/4Q3/8/4p3/8 w - - 0 1",
+      "prompt": "His king has wandered to f6 and the pawn on e2 is on its own. Take what is free.",
+      "answer": {
+        "moves": [
+          "Qxe2"
+        ]
+      },
+      "concept": "queen-vs-pawn",
+      "reason": "Qxe2 wins the pawn outright and leaves queen and king against a bare king. The king on f6 is too far away to have defended it."
+    },
+    {
+      "id": "3.9-k24",
+      "type": "find_the_move",
+      "fen": "K7/8/2k5/8/1Q6/8/3p4/8 w - - 0 1",
+      "prompt": "The pawn on d2 is a move from queening and his king is on c6. One move ends it.",
+      "answer": {
+        "moves": [
+          "Qxd2"
+        ]
+      },
+      "concept": "queen-vs-pawn",
+      "reason": "Qxd2 simply takes the pawn: his king is two squares away and nothing defends it. With no pawn left, the queen mates at leisure."
+    },
+    {
+      "id": "3.9-k25",
+      "type": "find_the_move",
+      "fen": "8/8/5k2/3Q4/8/8/6p1/7K w - - 0 1",
+      "prompt": "The pawn on g2 sits right beside your king on h1. Your queen is not the piece that should take it.",
+      "answer": {
+        "moves": [
+          "Kxg2"
+        ]
+      },
+      "concept": "queen-vs-pawn",
+      "reason": "Kxg2 takes the pawn with the king, which is safe because his own king is far away on f6. Queen and king against a bare king is a straightforward win."
+    },
+    {
+      "id": "3.9-k26",
+      "type": "is_it_safe",
+      "fen": "5Q1K/8/8/8/8/8/5p2/7k w - - 0 1",
+      "move": "Qxf2",
+      "prompt": "You are a queen up and the pawn on f2 is free, so you take it. Does Qxf2 win the game?",
+      "reasons": [
+        "Yes. Once the pawn is gone it is queen and king against a bare king, which always wins.",
+        "No. After Qxf2 the black king on h1 has no legal move and is not in check, so it is stalemate.",
+        "No. The black king recaptures on f2 and the queen is lost."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "queen-vs-pawn",
+      "reason": "A queen on f2 covers g1, g2 and h2, which are the black king's only squares. He is not in check, so there is no move and the game is drawn."
+    },
+    {
+      "id": "3.9-k27",
+      "type": "which_square",
+      "fen": "5Q1K/8/8/8/8/8/5p2/7k w - - 0 1",
+      "prompt": "Tap the square where taking a free pawn would leave Black with no legal move at all.",
+      "answer": {
+        "square": "f2"
+      },
+      "concept": "queen-vs-pawn",
+      "reason": "A queen on f2 takes g1, g2 and h2 away from the black king on h1 in one move. With no check and no move, that is stalemate."
+    },
+    {
+      "id": "3.9-k28",
+      "type": "name_the_pattern",
+      "fen": "K7/8/8/8/3Q4/8/5p2/5k2 w - - 0 1",
+      "prompt": "Queen and king against king and one pawn on f2, and every move White has is worth the same: nothing. Why?",
+      "options": [
+        "It is a bishop pawn with its king beside it and White's king in the far corner. Qxf2 is met by Kxf2, and the queen has no other way to win the pawn.",
+        "The pawn on f2 is defended, so the queen may not take it.",
+        "White has already repeated the position three times."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "queen-vs-pawn",
+      "reason": "Pawns on the a-, c-, f- and h-files hold this ending; pawns on b, d, e and g lose it. Nothing defends f2 here, and no repetition has taken place: Qxf2 is simply met by Kxf2."
+    },
+    {
+      "id": "3.9-k29",
+      "type": "find_the_move",
+      "fen": "R7/8/8/8/3K4/8/p1k5/8 w - - 0 1",
+      "prompt": "The pawn on a2 is one square from a queen and your rook is already on the a-file. Finish it.",
+      "answer": {
+        "moves": [
+          "Rxa2+"
+        ]
+      },
+      "concept": "rook-vs-pawn",
+      "reason": "Rxa2 is check and it takes the pawn. His king on c2 cannot reach a2 to recapture, so it is rook and king against a bare king."
+    },
+    {
+      "id": "3.9-k30",
+      "type": "find_the_move",
+      "fen": "6R1/8/8/4K3/8/1p6/8/1k6 w - - 0 1",
+      "prompt": "Your rook on g8 already covers the eighth rank and his pawn is on b3. Nothing needs doing with the rook.",
+      "answer": {
+        "moves": [
+          "Kd4"
+        ]
+      },
+      "concept": "rook-vs-pawn",
+      "reason": "Kd4 is the only winning move. The rook cannot improve on g8, so the way forward is the king walking towards the pawn."
+    },
+    {
+      "id": "3.9-k31",
+      "type": "find_the_move",
+      "fen": "R7/8/8/8/8/1pk1K3/8/8 w - - 0 1",
+      "prompt": "His pawn on b3 is escorted by its king on c3 and you are one move short. Buy the move.",
+      "answer": {
+        "moves": [
+          "Rc8+"
+        ]
+      },
+      "concept": "rook-vs-pawn",
+      "reason": "Rc8 is check, so his king must move off c3 and you get the tempo you were missing. Every other move on the board draws."
+    },
+    {
+      "id": "3.9-k32",
+      "type": "find_the_move",
+      "fen": "8/8/8/8/4K3/1k6/1p6/7R w - - 0 1",
+      "prompt": "The rook on h1 already holds the first rank, so the pawn on b2 is stuck. Twenty-two moves and one of them wins.",
+      "answer": {
+        "moves": [
+          "Kd3"
+        ]
+      },
+      "concept": "rook-vs-pawn",
+      "reason": "Kd3 is the only winning move. Once the queening rank is yours the rook has finished; what the position needs is the second piece."
+    },
+    {
+      "id": "3.9-k33",
+      "type": "is_it_safe",
+      "fen": "8/8/8/8/4K3/1k6/1p6/7R w - - 0 1",
+      "move": "Ra1",
+      "prompt": "You slide the rook along the first rank to a1, right next to the square the pawn on b2 wants. Is the rook safe there?",
+      "reasons": [
+        "Yes. From a1 the rook still covers b1 along the rank, so the pawn can never promote.",
+        "No. A pawn on b2 captures towards a1, so bxa1=Q wins the rook and makes a queen in one move.",
+        "No. The black king on b3 attacks a1 and takes the rook next move."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "rook-vs-pawn",
+      "reason": "bxa1=Q is a capture and a promotion at once. The rook belongs anywhere on the first rank except the two squares the pawn can capture on."
+    },
+    {
+      "id": "3.9-k34",
+      "type": "is_it_safe",
+      "fen": "8/8/8/8/4K3/2k5/p7/R7 w - - 0 1",
+      "move": "Rxa2",
+      "prompt": "The pawn on a2 is one square from a queen, and your rook can simply take it. Is Rxa2 safe?",
+      "reasons": [
+        "Yes. His king on c3 is two squares from a2, so nothing takes back, and rook and king against a bare king is a win.",
+        "No. The black king recaptures on a2 and you are left with nothing.",
+        "No. Once the pawn is gone it is a bare king each way, and that is a draw."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "rook-vs-pawn",
+      "reason": "Rxa2 is the only winning move in the position. A king on c3 cannot reach a2, and taking the pawn leaves rook and king against a lone king."
+    },
+    {
+      "id": "3.9-k35",
+      "type": "name_the_pattern",
+      "fen": "6R1/8/8/4K3/8/1p6/8/1k6 w - - 0 1",
+      "prompt": "Kd4 wins here and every single rook move draws. Why is the rook the piece that should stay still?",
+      "options": [
+        "From g8 the rook already covers the rank the pawn is heading for, so moving it can only make things worse.",
+        "The rook is pinned to the white king on e5.",
+        "A rook may not move on the same turn that a pawn is about to promote."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "rook-vs-pawn",
+      "reason": "The rook's job in this ending is the queening rank, and on g8 it already has it. Nothing pins it, and no rule stops a rook moving; it simply has nothing better to do."
+    }
+  ]
+}

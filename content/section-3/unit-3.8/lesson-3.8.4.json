@@ -1,0 +1,205 @@
+{
+  "id": "3.8.4",
+  "unit": "3.8",
+  "title": "Recognising an attack coming",
+  "xp": 15,
+  "card": {
+    "idea": "An attack does not arrive in one move. It is built, and while it is being built it is visible: count the pieces pointing at your king, count the ones answering for it, and look at which of your own pieces could get back in time. If the first number is bigger, stop what you are doing.",
+    "diagrams": [
+      "r1bq1rk1/pp3pp1/7p/7Q/8/2B2R2/PP3PPP/4R1K1 b - - 0 1",
+      "4r1k1/pp3ppp/2b2r2/8/7q/7P/PP3PP1/R1BQ1RK1 w - - 0 1"
+    ],
+    "habit": "Before every move, count attackers and defenders around your own king."
+  },
+  "explain": [
+    {
+      "fen": "r1bq1rk1/pp3pp1/7p/7Q/8/2B2R2/PP3PPP/4R1K1 b - - 0 1",
+      "text": "Black to play, and the count is already lost. The queen on h5, the rook on f3 and the bishop on c3 all touch a square next to the king. g7 has nothing but the king answering for it. The bishop on c8 and the rook on a8 are on the wrong side of the board.",
+      "arrows": [
+        [
+          "c3",
+          "g7"
+        ],
+        [
+          "f3",
+          "f7"
+        ],
+        [
+          "h5",
+          "f7"
+        ]
+      ],
+      "highlights": [
+        "g7",
+        "f7"
+      ]
+    },
+    {
+      "fen": "4r1k1/pp3ppp/2b2r2/8/7q/7P/PP3PP1/R1BQ1RK1 w - - 0 1",
+      "text": "The same picture from the other chair. White to play, and it is White's king in trouble: the queen on h4 and the rook on f6 both hit f2, the bishop on c6 hits g2, and White's own rooks are on a1 and f1 doing nothing about it.",
+      "arrows": [
+        [
+          "h4",
+          "f2"
+        ],
+        [
+          "f6",
+          "f2"
+        ],
+        [
+          "c6",
+          "g2"
+        ]
+      ],
+      "highlights": [
+        "f2",
+        "g2"
+      ]
+    },
+    {
+      "fen": "r1bq1rk1/pp3pp1/7p/7Q/6P1/2B2R2/PP3P1P/R5K1 b - - 0 1",
+      "text": "Three white pieces are aimed at Black's king and the g-pawn is marching, and yet the position is level. Black plays Qg5 and offers the trade. Take the attacking queen off and there is no attack left — the answer to being attacked is often a trade, not a defender.",
+      "arrows": [
+        [
+          "d8",
+          "g5"
+        ],
+        [
+          "h5",
+          "g5"
+        ]
+      ],
+      "highlights": [
+        "g5",
+        "h5"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.8.4-c1",
+      "type": "find_them_all",
+      "fen": "r1bq1rk1/pp3pp1/7p/7Q/8/2B2R2/PP3PPP/4R1K1 b - - 0 1",
+      "prompt": "Tap every white piece that already attacks one of the five squares next to the black king.",
+      "answer": {
+        "pieces": [
+          "c3",
+          "f3",
+          "h5"
+        ]
+      },
+      "concept": "attack-signs",
+      "hints": {
+        "text": "The five squares are f7, f8, g7, h7 and h8. Work out what hits each of them."
+      },
+      "reason": "The bishop on c3 attacks g7, and the rook on f3 and the queen on h5 both attack f7. The rook on e1 is not part of it yet — that is the piece White would add next."
+    },
+    {
+      "id": "3.8.4-c2",
+      "type": "which_square",
+      "fen": "r1bq1rk1/pp3pp1/7p/7Q/8/2B2R2/PP3PPP/4R1K1 b - - 0 1",
+      "prompt": "One square beside the black king is attacked by a white piece and answered for by nobody except the king himself. Tap it.",
+      "answer": {
+        "square": "g7"
+      },
+      "concept": "attack-signs",
+      "hints": {
+        "text": "f7 has the rook on f8 behind it. What has g7 got?"
+      },
+      "reason": "g7. The bishop on c3 looks straight at it, and no black piece defends it — only the king. That is the square an attack like this is built around."
+    },
+    {
+      "id": "3.8.4-c3",
+      "type": "name_the_pattern",
+      "fen": "r1bq1rk1/pp3pp1/7p/7Q/8/2B2R2/PP3PPP/4R1K1 b - - 0 1",
+      "prompt": "Black to move, and the engine already calls this close to winning for White. Which reading of the position is right?",
+      "options": [
+        "Black is fine: material is level and no white piece has crossed the fourth rank.",
+        "White's only real threat is a back-rank mate, so Black should make an escape square.",
+        "Three white pieces touch the squares around the king and only the king answers for g7, while Black's rook and bishop are still at home."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "attack-signs",
+      "hints": {
+        "text": "Count the pieces on each side of the board, not the pawns."
+      },
+      "reason": "Material is level, which is exactly why the count of attackers is the thing that decides. Three white pieces are in the attack and none of Black's four pieces is defending."
+    },
+    {
+      "id": "3.8.4-c4",
+      "type": "name_the_pattern",
+      "fen": "4r1k1/pp3ppp/2b2r2/8/7q/7P/PP3PP1/R1BQ1RK1 w - - 0 1",
+      "prompt": "It is White's move, and this time it is White's king that is in trouble. What is the warning sign?",
+      "options": [
+        "White is a pawn down and must win it back at once.",
+        "The pawn on f2 is attacked twice and defended twice, and every black piece is pointed at the king while White's rooks are not.",
+        "The h-file is open, so Black will double rooks on it."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "attack-signs",
+      "hints": {
+        "text": "Look at f2 and g2, and then look at where White's rooks are aimed."
+      },
+      "reason": "The queen on h4 and the rook on f6 both hit f2, the bishop on c6 hits g2, and White's rooks on a1 and f1 are not attacking anything. Material is dead level; the difference is which king has company."
+    },
+    {
+      "id": "3.8.4-c5",
+      "type": "which_square",
+      "fen": "4r1k1/pp3ppp/2b2r2/8/7q/7P/PP3PP1/R1BQ1RK1 w - - 0 1",
+      "prompt": "Tap the pawn in front of White's king that two black pieces are already attacking.",
+      "answer": {
+        "square": "f2"
+      },
+      "concept": "attack-signs",
+      "hints": {
+        "text": "One of the two attackers is on the same file and one is on a diagonal."
+      },
+      "reason": "f2, hit by the rook on f6 down the file and by the queen on h4 along the diagonal. It is defended twice as well, which is the only reason White is still standing."
+    },
+    {
+      "id": "3.8.4-c6",
+      "type": "name_the_pattern",
+      "fen": "r1bq1rk1/pp3pp1/7p/7Q/6P1/2B2R2/PP3P1P/R5K1 b - - 0 1",
+      "prompt": "Queen, rook and bishop all aimed at Black's king, and a pawn on the way. The engine calls this level. What is Black's resource?",
+      "options": [
+        "h5, stopping the pawn before it arrives.",
+        "Kh8, stepping out of the diagonal before the bishop arrives.",
+        "Qg5, offering to trade queens — take the attacking queen off and the attack goes with her."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "attack-signs",
+      "hints": {
+        "text": "Which white piece is doing most of the work, and can you offer to swap it off?"
+      },
+      "reason": "Qg5 meets the queen on h5 head on. An attack of three pieces without its queen is not an attack, and that is why the count here comes out level."
+    },
+    {
+      "id": "3.8.4-c7",
+      "type": "is_it_safe",
+      "fen": "r1bq1rk1/pp3pp1/7p/7Q/8/2B2R2/PP3PPP/R5K1 b - - 0 1",
+      "move": "Bg4",
+      "prompt": "Black wants to chase the white queen off h5 with the bishop. Is the bishop safe on g4?",
+      "reasons": [
+        "No. The queen on h5 already attacks g4, and no black piece defends that square.",
+        "Yes. The queen must move, and the bishop cannot be taken on g4.",
+        "No. The rook on f3 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "attack-signs",
+      "hints": {
+        "text": "Before you attack a piece, check whether the square you attack it from is one it already covers."
+      },
+      "reason": "The queen on h5 attacks g4, and the only black piece watching g4 is the bishop that would be standing on it. Qxg4 just wins a piece."
+    }
+  ],
+  "takeaway": "An attack is built one piece at a time and you can count it. Attackers against defenders, and which of your pieces could get home in time."
+}

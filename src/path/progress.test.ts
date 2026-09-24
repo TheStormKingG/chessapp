@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import { emptyProgress } from '@/data';
-import { SECTION_1, SECTION_3, SECTIONS } from './curriculum';
+import { SECTION_1, SECTION_4, SECTIONS } from './curriculum';
 import { pathNodes, activeLesson, activeNode, activeUnitProgress } from './progress';
 
 test('first lesson is active, the rest locked, checkpoint always attemptable', () => {
@@ -216,34 +216,31 @@ test('the path walks every declared section, in path order', () => {
   const s2 = nodes.filter((n) => n.section === '2');
   expect(s2).toHaveLength(36 + 8);
   expect(s2.filter((n) => n.state === 'coming')).toEqual([]);
-  /*
-   * Section 3's boundary moves once per unit authored, so it is DERIVED from
-   * the flag rather than named. Naming it meant editing this block on every
-   * flip, which is the road to a test that records what the code does instead
-   * of what it should do.
-   *
-   * The derivation is only safe because both partitions are asserted
-   * non-empty. A section entirely built, or entirely coming, would otherwise
-   * satisfy both filters by matching nothing -- and those are exactly the two
-   * moments this assertion is here for.
-   */
+  // Section 3 is wholly authored now, so it owes what Section 2 owes.
   const s3 = nodes.filter((n) => n.section === '3');
   expect(s3).toHaveLength(46 + 12);
-  const built3 = new Set(SECTION_3.units.filter((u) => u.built).map((u) => u.id));
-  const s3Built = s3.filter((n) => built3.has(n.unit));
-  const s3Coming = s3.filter((n) => !built3.has(n.unit));
-  expect(s3Built.length).toBeGreaterThan(0);
-  expect(s3Coming.length).toBeGreaterThan(0);
-  expect(s3Built).toHaveLength(s3.length - s3Coming.length); // the split is total
-  expect(s3Built.filter((n) => n.state === 'coming')).toEqual([]);
-  expect(s3Coming.filter((n) => n.state !== 'coming')).toEqual([]);
-  // Section 4 is declared whole and authored nowhere, which is the state
-  // Section 3 was in this morning. One side of this is an empty set by
-  // construction, so the length is asserted too and the filter cannot pass by
-  // matching nothing.
+  expect(s3.filter((n) => n.state === 'coming')).toEqual([]);
+  /*
+   * Section 4 carries the moving boundary now, DERIVED from the flag rather
+   * than named: it moves once per unit authored, and naming it meant editing
+   * this block on every flip -- the road to a test that records what the code
+   * does instead of what it should do.
+   *
+   * The derivation is only safe while both partitions are non-empty, which the
+   * length checks buy. That is not theoretical: this block was on Section 3
+   * until a moment ago and FAILED the instant Section 3 became wholly built,
+   * which is the designed behaviour rather than a nuisance. It will fail the
+   * same way when Section 4 completes, which is the end of v1.
+   */
   const s4 = nodes.filter((n) => n.section === '4');
   expect(s4).toHaveLength(53 + 12);
-  expect(s4.filter((n) => n.state !== 'coming')).toEqual([]);
+  const built4 = new Set(SECTION_4.units.filter((u) => u.built).map((u) => u.id));
+  const s4Built = s4.filter((n) => built4.has(n.unit));
+  const s4Coming = s4.filter((n) => !built4.has(n.unit));
+  expect(s4Coming.length).toBeGreaterThan(0);
+  expect(s4Built).toHaveLength(s4.length - s4Coming.length); // the split is total
+  expect(s4Built.filter((n) => n.state === 'coming')).toEqual([]);
+  expect(s4Coming.filter((n) => n.state !== 'coming')).toEqual([]);
   expect(nodes.filter((n) => n.state === 'active')).toHaveLength(1);
 });
 

@@ -1,0 +1,202 @@
+{
+  "id": "3.8.3",
+  "unit": "3.8",
+  "title": "Opening lines with pawn advances",
+  "xp": 15,
+  "card": {
+    "idea": "Pieces cannot attack a king through a wall of pawns, so send a pawn to knock a hole in it. A pawn that reaches the sixth rank either takes something, or sits on a square the king cannot touch and hands your queen a landing place. Pawns are the cheapest attackers you own.",
+    "diagrams": [
+      "5rk1/5p1p/6p1/7P/3Q4/8/5PP1/6KR w - - 0 1",
+      "5rk1/5p2/6pp/7P/8/3Q4/5PP1/6KR w - - 0 1"
+    ],
+    "habit": "March a pawn at the king's shelter when your own king is not in the same danger."
+  },
+  "explain": [
+    {
+      "fen": "5rk1/5p1p/6p1/7P/3Q4/8/5PP1/6KR w - - 0 1",
+      "text": "The pawn on h5 marches: h6. No black pawn can take it, the king cannot reach it, and it now covers g7. The queen on d4 already looks at g7 along the long diagonal, so Qg7 is mate next move unless Black blocks the diagonal with f6.",
+      "arrows": [
+        [
+          "h5",
+          "h6"
+        ],
+        [
+          "d4",
+          "g7"
+        ]
+      ],
+      "highlights": [
+        "h6",
+        "g7"
+      ]
+    },
+    {
+      "fen": "5rk1/5p1p/6p1/7P/2BQ4/8/5PP1/6K1 w - - 0 1",
+      "text": "The same push with one piece added. The bishop on c4 pins the f-pawn against the king, so f6 is not a legal move and the diagonal cannot be blocked. After h6 Black has six legal moves and Qg7 is mate against every one of them.",
+      "arrows": [
+        [
+          "h5",
+          "h6"
+        ],
+        [
+          "c4",
+          "g8"
+        ]
+      ],
+      "highlights": [
+        "h6",
+        "f7"
+      ]
+    },
+    {
+      "fen": "5rk1/5p2/6pp/7P/8/3Q4/5PP1/6KR w - - 0 1",
+      "text": "When the shelter has already moved, take with the pawn rather than a piece: hxg6. A white pawn now stands on g6 beside the king, the h-file is clear down to h6, and the rook on h1 is looking straight at what is left of the shelter.",
+      "arrows": [
+        [
+          "h5",
+          "g6"
+        ],
+        [
+          "h1",
+          "h6"
+        ]
+      ],
+      "highlights": [
+        "g6",
+        "h6"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.8.3-c1",
+      "type": "which_square",
+      "fen": "5rk1/5p1p/6p1/7P/3Q4/8/5PP1/6KR w - - 0 1",
+      "prompt": "White's h-pawn is one step from a square no black pawn can take and the king cannot reach. Tap that square.",
+      "answer": {
+        "square": "h6"
+      },
+      "concept": "pawn-storm",
+      "hints": {
+        "text": "The pawn on g6 captures on f5 and h5, not forward."
+      },
+      "reason": "h6. Black's pawn on g6 captures on f5 and h5, his pawn on h7 captures on g6, and the king on g8 is two squares away. Nothing of Black's touches h6."
+    },
+    {
+      "id": "3.8.3-c2",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/6p1/7P/3Q4/8/5PP1/6KR w - - 0 1",
+      "prompt": "Your queen wants g7 and cannot go there yet, because the king would take her. Send a pawn to fix that.",
+      "answer": {
+        "moves": [
+          "h6"
+        ]
+      },
+      "wrong": {
+        "hxg6": "You open the h-file, but you have also traded off the pawn that was going to hold your queen on g7, and Black recaptures.",
+        "Qg7+": "Kxg7 — the only legal answer and a winning one. Nothing holds your queen on g7 yet."
+      },
+      "concept": "pawn-storm",
+      "hints": {
+        "piece": "h5",
+        "square": "h6"
+      },
+      "reason": "h6 cannot be taken, and it covers g7. Qg7 is then mate against every black reply except f6, which blocks the queen's diagonal."
+    },
+    {
+      "id": "3.8.3-c3",
+      "type": "name_the_pattern",
+      "fen": "5rk1/5p1p/6p1/7P/3Q4/8/5PP1/6KR w - - 0 1",
+      "prompt": "Why push the h-pawn on rather than capture with it?",
+      "options": [
+        "A pawn on h6 covers g7, and g7 is the square the queen needs. Capturing trades that pawn off.",
+        "The capture loses a pawn, and White cannot afford to be a pawn down.",
+        "The push gives check, so Black has no time to defend."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "pawn-storm",
+      "hints": {
+        "text": "Ask what each pawn move leaves you with once the dust settles."
+      },
+      "reason": "You are not after the pawn on g6. You are after g7, and the only thing that can hold a queen there is a pawn on h6."
+    },
+    {
+      "id": "3.8.3-c4",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/6p1/7P/2BQ4/8/5PP1/6K1 w - - 0 1",
+      "prompt": "Same push, and this time the bishop on c4 has already nailed the f-pawn to the king. Play it.",
+      "answer": {
+        "moves": [
+          "h6"
+        ]
+      },
+      "wrong": {
+        "hxg6": "Black recaptures and your best pawn has gone. The point was the square h6, not the pawn on g6.",
+        "Bxf7+": "Rxf7 or Kxf7, and you have given a bishop for a pawn and let the f-pawn off its pin."
+      },
+      "concept": "pawn-storm",
+      "hints": {
+        "piece": "h5",
+        "square": "h6"
+      },
+      "reason": "The f-pawn is pinned by the bishop on c4, so f6 is illegal and the diagonal cannot be blocked. After h6 Qg7 is mate against all six of Black's legal moves."
+    },
+    {
+      "id": "3.8.3-c5",
+      "type": "which_square",
+      "fen": "5rk1/5p2/6pp/7P/8/3Q4/5PP1/6KR w - - 0 1",
+      "prompt": "Black's shelter has already moved. Tap the square where White's h-pawn can capture and leave a pawn of its own beside the king.",
+      "answer": {
+        "square": "g6"
+      },
+      "concept": "pawn-storm",
+      "hints": {
+        "text": "Pawns take diagonally forward. Where can the pawn on h5 go?"
+      },
+      "reason": "g6. The pawn on h5 takes there, and what is left is a white pawn on g6 one square from the king, with the h-file cleared behind it."
+    },
+    {
+      "id": "3.8.3-c6",
+      "type": "find_the_move",
+      "fen": "5rk1/5p2/6pp/7P/8/3Q4/5PP1/6KR w - - 0 1",
+      "prompt": "Open the king up, and use the cheapest piece you own to do it.",
+      "answer": {
+        "moves": [
+          "hxg6"
+        ]
+      },
+      "wrong": {
+        "Qxg6+": "Kh8 or fxg6. You have used the queen where a pawn would have done the job, and the pawn was the one that could stay there.",
+        "Rh2": "The h-file is still blocked by your own pawn on h5. Clear it first."
+      },
+      "concept": "pawn-storm",
+      "hints": {
+        "piece": "h5",
+        "square": "g6"
+      },
+      "reason": "hxg6 wins a pawn, plants a white pawn beside the king, and clears the h-file so the rook on h1 looks straight at the pawn on h6."
+    },
+    {
+      "id": "3.8.3-c7",
+      "type": "find_the_sequence",
+      "fen": "3r2k1/5p1p/6p1/7P/8/3Q4/5PP1/6KR w - - 0 1",
+      "prompt": "Three moves. Drive the king down onto the seventh rank, then let the pawn finish it.",
+      "answer": {
+        "line": [
+          "Qxd8+",
+          "Kg7",
+          "h6#"
+        ]
+      },
+      "concept": "pawn-storm",
+      "hints": {
+        "piece": "d3",
+        "square": "d8"
+      },
+      "reason": "Qxd8 is check and Kg7 is the only legal answer. h6 is then mate: the pawn checks the king, and the rook on h1 covers h6 the moment the pawn steps off h5, so the king cannot take it."
+    }
+  ],
+  "takeaway": "A pawn sent at the king costs almost nothing and does what no piece can: it opens a line, or it takes a square away and stays there."
+}

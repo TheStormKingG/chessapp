@@ -1,0 +1,214 @@
+{
+  "id": "3.10.2",
+  "unit": "3.10",
+  "title": "White: the Italian in depth",
+  "xp": 16,
+  "card": {
+    "idea": "1.e4, 2.Nf3, 3.Bc4. Three moves and the bishop already points at f7, the square near the black king that the king alone defends. Then c3 and d3, castle, the rook to e1, and the queen’s knight round by d2 and f1. The break you are building towards is d4.",
+    "diagrams": [
+      "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R b KQkq - 0 4",
+      "r1bq1rk1/ppp2ppp/2np1n2/2b1p3/2B1P3/2PP1N2/PP3PPP/RNBQR1K1 b - - 3 7",
+      "r1bqk2r/pppp1ppp/2n5/2b1p3/2B1n3/2PP1N2/PP3PPP/RNBQK2R w KQkq - 0 6"
+    ],
+    "habit": "Develop to aggressive squares and castle early."
+  },
+  "explain": [
+    {
+      "fen": "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R b KQkq - 0 4",
+      "text": "The bishop on c4 is the point of the whole opening. Its diagonal ends on f7, and on this board the king on e8 is the only black man that defends f7. The pawn on c3 asks for d4 next, which would give White two pawns side by side in the middle.",
+      "arrows": [
+        [
+          "c4",
+          "f7"
+        ],
+        [
+          "c3",
+          "d4"
+        ]
+      ],
+      "highlights": [
+        "f7",
+        "d4"
+      ]
+    },
+    {
+      "fen": "r1bq1rk1/ppp2ppp/2np1n2/2b1p3/2B1P3/2PP1N2/PP3PPP/RNBQR1K1 b - - 3 7",
+      "text": "Both kings are away and White has filled in the rest. The rook stepped to e1, behind the e-pawn. The knight on b1 has a route now that c3 is taken: d2, then f1, then g3. Nothing here was memorised. Each move put a piece on a square the plan had already asked for.",
+      "arrows": [
+        [
+          "b1",
+          "d2"
+        ],
+        [
+          "d2",
+          "f1"
+        ]
+      ],
+      "highlights": [
+        "e1",
+        "d2"
+      ]
+    },
+    {
+      "fen": "r1bqk2r/pppp1ppp/2n5/2b1p3/2B1n3/2PP1N2/PP3PPP/RNBQK2R w KQkq - 0 6",
+      "text": "And here is the one thing worth knowing by heart, because it happens. Black has grabbed the e-pawn with the knight on f6. The pawn on d3 takes back, and it is the only capture on e4 that White has. Black has swapped a knight for a pawn.",
+      "arrows": [
+        [
+          "d3",
+          "e4"
+        ]
+      ],
+      "highlights": [
+        "e4"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.10.2-c1",
+      "type": "which_square",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2PP1N2/PP3PPP/RNBQK2R b KQkq - 0 5",
+      "prompt": "White’s own pawn has taken c3 from the knight on b1. Tap the square that knight goes to instead.",
+      "answer": {
+        "square": "d2"
+      },
+      "concept": "italian",
+      "hints": {
+        "text": "It has two squares. One of them faces the middle of the board."
+      },
+      "reason": "d2. With the pawn on c3 the knight has only a3 and d2, and a3 points at nothing. From d2 it goes on to f1 and then g3, once the rook has left f1."
+    },
+    {
+      "id": "3.10.2-c2",
+      "type": "find_the_move",
+      "fen": "r1bqk2r/pppp1ppp/2n5/2b1p3/2B1n3/2PP1N2/PP3PPP/RNBQK2R w KQkq - 0 6",
+      "prompt": "Black has just taken the pawn on e4 with the knight. Take the knight.",
+      "answer": {
+        "moves": [
+          "dxe4"
+        ]
+      },
+      "wrong": {
+        "Bxf7+": "Kxf7 is the only answer and the king is out in the open - but you have spent a bishop on a pawn and the knight on e4 is still standing. Take the knight first.",
+        "Nxe5": "Nxe5 takes back, and that is a knight for a pawn the wrong way round. The free piece was on e4."
+      },
+      "concept": "italian",
+      "hints": {
+        "piece": "d3",
+        "square": "e4"
+      },
+      "reason": "dxe4 is White’s only capture on e4, and it wins a knight for the pawn Black just took. This is the price of grabbing a centre pawn with a piece that nothing is backing up."
+    },
+    {
+      "id": "3.10.2-c3",
+      "type": "is_it_safe",
+      "fen": "r1bqk1nr/pppp1ppp/2n5/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R b KQkq - 0 4",
+      "move": "Bxf2+",
+      "prompt": "Black fancies a raid of his own: Bxf2 is check. Is the bishop safe on f2?",
+      "reasons": [
+        "No. The king simply takes it, and Black has given a bishop for a pawn.",
+        "No. The rook on h1 takes it.",
+        "Yes. White has to get out of check, so the bishop survives."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "italian",
+      "hints": {
+        "text": "Count the ways out of check. One of them is to take the checking piece."
+      },
+      "reason": "Kxf2 is legal, and it is the only capture on f2. Black has spent a bishop on a pawn and moved White’s king one square. The rook on h1 can reach g1 and f1 along the rank - f2 is not on its lines at all."
+    },
+    {
+      "id": "3.10.2-c4",
+      "type": "name_the_pattern",
+      "fen": "r1bq1rk1/ppp2ppp/2np1n2/2b1p3/2B1P3/2PP1N2/PP3PPP/RNBQR1K1 b - - 3 7",
+      "prompt": "White has just played the rook to e1. Why that square?",
+      "options": [
+        "It defends the knight on f3.",
+        "It attacks the pawn on e5 down the file.",
+        "It stands behind the e-pawn, ready for the file when the middle opens."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "italian",
+      "hints": {
+        "text": "Look up the e-file from e1 and see how far the rook actually gets."
+      },
+      "reason": "A rook on e1 reaches e2, e3 and f1 - White’s own pawn on e4 stops it, so it does not touch e5, and f3 is not on its lines. It is there for later, when the e-file opens."
+    },
+    {
+      "id": "3.10.2-c5",
+      "type": "find_the_sequence",
+      "fen": "r1bqk2r/ppp2ppp/2np1n2/2b1p3/2B1P3/2PP1N2/PP3PPP/RNBQK2R w KQkq - 0 6",
+      "prompt": "Finish the setup: tuck the king away, let Black do the same, then put the rook behind the e-pawn.",
+      "answer": {
+        "line": [
+          "O-O",
+          "O-O",
+          "Re1"
+        ]
+      },
+      "concept": "italian",
+      "hints": {
+        "piece": "e1",
+        "square": "g1"
+      },
+      "reason": "O-O O-O Re1. Three moves, none of them memorised - castling was always the plan, and e1 is the square the rook wanted once the king had left it."
+    },
+    {
+      "id": "3.10.2-c6",
+      "type": "find_them_all",
+      "fen": "r1bq1rk1/ppp2ppp/2np1n2/2b1p3/2B1P3/2PP1N2/PP3PPP/RNBQR1K1 b - - 3 7",
+      "prompt": "White is building towards the break d4. Tap every black man that already covers d4.",
+      "answer": {
+        "pieces": [
+          "c5",
+          "c6",
+          "e5"
+        ]
+      },
+      "concept": "italian",
+      "hints": {
+        "text": "One pawn and two pieces. The queen is not one of them."
+      },
+      "reason": "The pawn on e5, the knight on c6 and the bishop on c5. The queen on d8 does not reach d4 - Black’s own pawn on d6 is in the way. Three defenders is why White props the break up with c3 first."
+    },
+    {
+      "id": "3.10.2-c7",
+      "type": "name_the_pattern",
+      "fen": "r1bqkb1r/pppp1ppp/2n2n2/4p1N1/2B1P3/8/PPPP1PPP/RNBQK2R b KQkq - 5 4",
+      "prompt": "Two white men are aimed at f7 and the knight is one move from taking it. What should Black do?",
+      "options": [
+        "Play d5. The pawn blocks the diagonal, so the bishop no longer reaches f7.",
+        "Play h6 to chase the knight away.",
+        "Take the knight with the bishop on f8."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "italian",
+      "hints": {
+        "text": "The bishop is doing half the work. Get in its way."
+      },
+      "reason": "d5 steps into the diagonal and attacks the bishop at the same time, so c4 no longer sees f7. h6 is legal but it does not stop Nxf7. And the bishop on f8 cannot reach g5: it moves on the other colour of square."
+    },
+    {
+      "id": "3.10.2-c8",
+      "type": "which_square",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2PP1N2/PP3PPP/RNBQK2R b KQkq - 0 5",
+      "prompt": "White’s pawns stand on c3, d3 and e4. Tap the square the middle pawn is heading for.",
+      "answer": {
+        "square": "d4"
+      },
+      "concept": "italian",
+      "hints": {
+        "text": "The pawn on c3 was played to back this square up."
+      },
+      "reason": "d4. It is why the pawn went to c3 in the first place. White usually castles before playing it, so that the king is not sitting on the file when the middle opens."
+    }
+  ],
+  "takeaway": "Bishop to c4 pointing at f7, knight to f3, c3 and d3, castle, rook to e1, knight round by d2. Then d4 when it is ready. Squares, not a move order."
+}

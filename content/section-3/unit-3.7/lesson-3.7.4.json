@@ -1,0 +1,225 @@
+{
+  "id": "3.7.4",
+  "unit": "3.7",
+  "title": "Isolated, doubled and backward pawns as targets",
+  "xp": 15,
+  "card": {
+    "idea": "Three pawn faults, and underneath they are one fault: the pawn cannot be defended by another pawn. Isolated means no friend on either side. Doubled means two on one file, blocking each other and covering only one file between them. Backward means the neighbours went on without it, so the square in front belongs to the enemy.",
+    "diagrams": [
+      "3r2k1/p1p1ppp1/2p5/8/8/8/PP1PPPP1/2R3K1 w - - 0 1",
+      "3r2k1/5pp1/3p4/2p1p2n/4P3/2N5/PP3PP1/3R2K1 w - - 0 1",
+      "8/1p2kp2/3p2pn/2p1p3/1r2P3/4N3/PP3PPP/3R2K1 w - - 0 1"
+    ],
+    "habit": "A pawn no pawn can defend is a target for the rest of the game."
+  },
+  "explain": [
+    {
+      "fen": "3r2k1/p1p1ppp1/2p5/8/8/8/PP1PPPP1/2R3K1 w - - 0 1",
+      "text": "Six pawns each and a rook each. White's six stand in two touching groups. Black's stand in three: a7 all on its own, the pair stacked on c6 and c7, and the three on the kingside. Pawns cannot move sideways and cannot go back, so a7 and the c-pawns will never have a friend beside them.",
+      "arrows": [
+        [
+          "c1",
+          "c6"
+        ]
+      ],
+      "highlights": [
+        "a7",
+        "c6",
+        "c7"
+      ]
+    },
+    {
+      "fen": "3r2k1/5pp1/3p4/2p1p2n/4P3/2N5/PP3PP1/3R2K1 w - - 0 1",
+      "text": "The pawn on d6 has been left behind: its neighbours on c5 and e5 have both gone past it. No black pawn can ever cover d5 now, because those two are the pawns that would have done it. So d5 is a square White can move into and stay on, held by the pawn on e4.",
+      "arrows": [
+        [
+          "c3",
+          "d5"
+        ],
+        [
+          "e4",
+          "d5"
+        ]
+      ],
+      "highlights": [
+        "d5",
+        "d6",
+        "c5",
+        "e5"
+      ]
+    },
+    {
+      "fen": "8/1p2kp2/3p2pn/2p1p3/1r2P3/4N3/PP3PPP/3R2K1 w - - 0 1",
+      "text": "Same fault, and now it costs a piece. The knight goes to d5 with check, hitting the king on e7 and the rook on b4 in the same move. It can sit there because no black pawn reaches d5, and the black king has to move first.",
+      "arrows": [
+        [
+          "e3",
+          "d5"
+        ],
+        [
+          "d5",
+          "b4"
+        ],
+        [
+          "d5",
+          "e7"
+        ]
+      ],
+      "highlights": [
+        "d5",
+        "b4",
+        "e7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.7.4-c1",
+      "type": "find_them_all",
+      "fen": "3r2k1/p1p1ppp1/2p5/8/8/8/PP1PPPP1/2R3K1 w - - 0 1",
+      "prompt": "Tap every black pawn that has no friendly pawn on either of the files next to it.",
+      "answer": {
+        "pieces": [
+          "a7",
+          "c6",
+          "c7"
+        ]
+      },
+      "concept": "pawn-weakness",
+      "hints": {
+        "text": "For each pawn, look one file left and one file right. Any rank counts."
+      },
+      "reason": "a7, c6 and c7. a7 has nothing on the b-file; c6 and c7 have nothing on b or d. The three kingside pawns all have a neighbour, so they can look after each other."
+    },
+    {
+      "id": "3.7.4-c2",
+      "type": "find_them_all",
+      "fen": "3r2k1/p1p1ppp1/2p5/8/8/8/PP1PPPP1/2R3K1 w - - 0 1",
+      "prompt": "Tap the two black pawns that are standing on the same file as each other.",
+      "answer": {
+        "pieces": [
+          "c6",
+          "c7"
+        ]
+      },
+      "concept": "pawn-weakness",
+      "hints": {
+        "text": "Only one file has two black pawns on it."
+      },
+      "reason": "c6 and c7. Stacked like that, the back one can never get past the front one, and neither of them can ever be defended by a pawn, because Black has nothing left on the b-file or the d-file."
+    },
+    {
+      "id": "3.7.4-c3",
+      "type": "name_the_pattern",
+      "fen": "3r2k1/p1p1ppp1/2p5/8/8/8/PP1PPPP1/2R3K1 w - - 0 1",
+      "prompt": "Six pawns each and a rook each. Which side would you rather be, and why?",
+      "options": [
+        "White. Black's pawns are in three groups that cannot help one another; White's are in two.",
+        "Level. Six pawns and a rook each is the same on both sides, and nothing is hanging.",
+        "Black. The two pawns on the c-file give him an extra guard on d5 and b5."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "pawn-weakness",
+      "hints": {
+        "text": "Count the groups of touching pawns on each side, not the pawns."
+      },
+      "reason": "Count groups. White has a2-b2 and d2-e2-f2-g2, so two. Black has a7, then c6-c7, then e7-f7-g7, so three. More groups means more pawns that a piece has to be spent defending, and it does not get better on its own."
+    },
+    {
+      "id": "3.7.4-c4",
+      "type": "which_square",
+      "fen": "3r2k1/5pp1/3p4/2p1p2n/4P3/2N5/PP3PP1/3R2K1 w - - 0 1",
+      "prompt": "Black's pawn on d6 has been left behind by its neighbours on c5 and e5. Tap the square straight in front of it, which no black pawn can attack.",
+      "answer": {
+        "square": "d5"
+      },
+      "concept": "pawn-weakness",
+      "hints": {
+        "text": "Only a pawn on c6 or on e6 could cover that square. Ask where Black's c-pawn and e-pawn actually are."
+      },
+      "reason": "d5. The only pawns that could ever cover it are a black pawn on c6 or on e6, and Black's c-pawn and e-pawn have both already gone past to the fifth rank. Pawns do not come back, so the square is White's for good."
+    },
+    {
+      "id": "3.7.4-c5",
+      "type": "is_it_safe",
+      "fen": "3r2k1/5pp1/3p4/2p1p2n/4P3/2N5/PP3PP1/3R2K1 w - - 0 1",
+      "move": "Nd5",
+      "prompt": "White drops the knight into the square in front of that pawn with Nd5. Is it safe there?",
+      "reasons": [
+        "No. The pawn on c5 takes it.",
+        "Yes. No black pawn covers d5, and the pawn on e4 is holding the knight anyway.",
+        "No. The rook on d8 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "pawn-weakness",
+      "hints": {
+        "text": "Black pawns capture towards the two squares diagonally below them. Check where c5 really goes."
+      },
+      "reason": "Nothing of Black's attacks d5. The pawn on c5 captures towards b4 and d4, the rook on d8 is blocked by its own pawn on d6, and the knight on h5 does not reach. The pawn on e4 guards the square as well, so even a piece coming later cannot simply take."
+    },
+    {
+      "id": "3.7.4-c6",
+      "type": "name_the_pattern",
+      "fen": "3r2k1/5pp1/3p4/2p1p2n/4P3/2N5/PP3PP1/3R2K1 w - - 0 1",
+      "prompt": "Why is the pawn on d6 a better thing to attack than the pawns on f7 and g7?",
+      "options": [
+        "It is worth more than the others, because a pawn on the sixth rank is nearly home.",
+        "No black pawn can ever defend it, so every extra attacker White brings has to be answered with a piece.",
+        "It is the only black pawn on the board that another black pawn is not defending."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "pawn-weakness",
+      "hints": {
+        "text": "Ask which black pawn could ever come and defend d6. Then check the same question for f7."
+      },
+      "reason": "A pawn on c7 or e7 would defend d6, and Black has neither and can never get one. f7 and g7 are not defended by pawns either at the moment, but Black's kingside pawns can still move and cover each other. d6 is stuck, and a stuck target is what pieces are for."
+    },
+    {
+      "id": "3.7.4-c7",
+      "type": "find_the_move",
+      "fen": "8/1p2kp2/3p2pn/2p1p3/1r2P3/4N3/PP3PPP/3R2K1 w - - 0 1",
+      "prompt": "The knight has one square in the middle that no black pawn can take away from it, and from there it hits two things. Use it.",
+      "answer": {
+        "moves": [
+          "Nd5+"
+        ]
+      },
+      "wrong": {
+        "Nf5+": "gxf5. The pawn on g6 covers f5, so that square is not a hole at all; d5 is the one no pawn reaches."
+      },
+      "concept": "pawn-weakness",
+      "hints": {
+        "piece": "e3",
+        "text": "One of the two knight checks lands on a square a pawn covers. The other does not."
+      },
+      "reason": "Nd5 is check to the king on e7 and attacks the rook on b4 at the same time. The king has to move, and then Nxb4 wins the rook for the knight. The square works because Black's c-pawn and e-pawn are already past it."
+    },
+    {
+      "id": "3.7.4-c8",
+      "type": "name_the_pattern",
+      "fen": "8/1p2kp2/3p2pn/2p1p3/1r2P3/4N3/PP3PPP/3R2K1 w - - 0 1",
+      "prompt": "What is it about Black's pawns that makes d5 available to a white knight in the first place?",
+      "options": [
+        "The knight arrives with check, and a piece that gives check cannot be captured.",
+        "His rook on b4 is tied to the white pawn on b2, so it cannot come and guard d5.",
+        "His c-pawn and his e-pawn have both gone past that square, and pawns cannot come back."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "pawn-weakness",
+      "hints": {
+        "text": "Work out which pawns would have to be on c6 and e6 to cover d5, and where those pawns are now."
+      },
+      "reason": "Only a pawn on c6 or e6 covers d5, and Black's c-pawn is on c5 and his e-pawn on e5. Short of capturing something on one of those squares he will never cover d5 again, which is why the pawn on d6 being left behind costs him a rook here."
+    }
+  ],
+  "takeaway": "Isolated, doubled, backward: all three mean no pawn can defend it. Attack the pawn if you can reach it, and use the square in front of it if you cannot."
+}

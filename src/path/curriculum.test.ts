@@ -1,6 +1,14 @@
 import { expect, test } from 'vitest';
 import { emptyProgress } from '@/data';
-import { LESSON_THEME, SECTION_1, SECTION_2, SECTION_3, SECTIONS, themeForLesson, unitById } from './curriculum';
+import {
+  LESSON_THEME,
+  SECTION_1,
+  SECTION_2,
+  SECTION_4,
+  SECTIONS,
+  themeForLesson,
+  unitById,
+} from './curriculum';
 import { THEME_LESSON } from '@/review/errorLog';
 import { THEMES } from '@/puzzles/themes';
 import { pathNodes } from './progress';
@@ -64,11 +72,12 @@ test('no lesson id is declared twice across the curriculum', () => {
   expect(ids).toHaveLength(new Set(ids).size);
 });
 
-test('Section 2 is built, Section 3 is declared and reads as coming', () => {
+test('Sections 2 and 3 are built, Section 4 is declared and reads as coming', () => {
   // This test has tracked the built boundary through every move it has made:
   // Section 2 absent from the path, then eight of its units coming, then five,
-  // then none -- and now Section 3 is declared and ALL of it is coming. The
-  // boundary moved forward a section; the rule did not change.
+  // then none; then Section 3 declared and wholly coming, then partly built,
+  // and now wholly built. The boundary has moved forward a section again; the
+  // rule has not changed once.
   const nodes = pathNodes(emptyProgress());
   const s2 = nodes.filter((n) => n.section === '2');
   expect(s2.filter((n) => n.kind === 'lesson')).toHaveLength(36);
@@ -76,32 +85,36 @@ test('Section 2 is built, Section 3 is declared and reads as coming', () => {
   expect(s2.filter((n) => n.state === 'coming')).toEqual([]);
   expect(s2).toHaveLength(44); // the line above is not vacuous
 
-  // Section 3 is the live instance of `coming` again. Since 2.8 shipped this
-  // rule was held only by a synthetic fixture, because nothing real was
-  // unbuilt; declaring Section 3 is what puts real data back under it.
+  // Section 3 is now wholly authored, so it owes what Section 2 owes: nothing
+  // in it reads as coming.
   const s3 = nodes.filter((n) => n.section === '3');
   expect(s3.filter((n) => n.kind === 'lesson')).toHaveLength(46);
   expect(s3.filter((n) => n.kind === 'checkpoint')).toHaveLength(12);
   expect(s3).toHaveLength(58);
+  expect(s3.filter((n) => n.state === 'coming')).toEqual([]);
   /*
-   * The boundary inside Section 3 is now DERIVED from the flag rather than
-   * named, because it moves once per unit authored and this assertion was
-   * being rewritten every time -- which is how a test stops being read and
-   * starts being updated to whatever the code now does.
+   * And Section 4 is the live instance of `coming`, which is the third time
+   * that role has moved: Section 2 held it, then Section 3, now Section 4.
    *
-   * Derivation costs nothing here PROVIDED both partitions are known to be
-   * non-empty, which is what the two length checks below buy. Without them a
-   * section that was wholly built, or wholly coming, would satisfy both
-   * filters by matching nothing, and this test would go quiet at exactly the
-   * two moments it exists for.
+   * The split is DERIVED from the flag rather than named, because it moves
+   * once per unit authored and a named boundary was being rewritten every
+   * time -- which is how a test stops being read and starts being updated to
+   * whatever the code now does.
+   *
+   * Derivation is only safe while both partitions are non-empty, which the two
+   * length checks below buy. That is not theoretical: this assertion was on
+   * Section 3 until a moment ago, and it FAILED the instant Section 3 became
+   * wholly built -- exactly as designed, rather than going quiet. Moving it to
+   * Section 4 is the intended response, and it will fail again the same way
+   * when Section 4 completes, which is the end of v1.
    */
-  const built = new Set(SECTION_3.units.filter((u) => u.built).map((u) => u.id));
-  const s3Built = s3.filter((n) => built.has(n.unit));
-  const s3Coming = s3.filter((n) => !built.has(n.unit));
-  expect(s3Built.length).toBeGreaterThan(0);
-  expect(s3Coming.length).toBeGreaterThan(0);
-  expect(s3Built.filter((n) => n.state === 'coming')).toEqual([]);
-  expect(s3Coming.filter((n) => n.state !== 'coming')).toEqual([]);
+  const built = new Set(SECTION_4.units.filter((u) => u.built).map((u) => u.id));
+  const s4 = nodes.filter((n) => n.section === '4');
+  const s4Built = s4.filter((n) => built.has(n.unit));
+  const s4Coming = s4.filter((n) => !built.has(n.unit));
+  expect(s4Coming.length).toBeGreaterThan(0);
+  expect(s4Coming.filter((n) => n.state !== 'coming')).toEqual([]);
+  expect(s4Built.filter((n) => n.state === 'coming')).toEqual([]);
 
   // Section 1 is untouched.
   expect(nodes.filter((n) => n.section === '1' && n.kind === 'lesson')).toHaveLength(29);
