@@ -55,11 +55,11 @@
       "move": "Nf6",
       "prompt": "Black develops with Nf6, attacking the queen. Is that safe?",
       "reasons": [
-        "Qxf7 is checkmate: the bishop on c4 guards f7, so the king cannot take the queen.",
         "The knight on f6 is simply taken by the queen for nothing.",
+        "Qxf7 is checkmate: the bishop on c4 guards f7, so the king cannot take the queen.",
         "It is safe, because the knight attacks the queen and she has to move."
       ],
-      "answer": { "safe": false, "reason": 0 },
+      "answer": { "safe": false, "reason": 1 },
       "concept": "meeting-early-mates",
       "reason": "Attacking a piece does not help if the piece mates you first. Deal with f7 before you do anything else.",
       "hints": { "piece": "g8", "square": "f7" }
@@ -99,11 +99,11 @@
       "move": "g4",
       "prompt": "White has played f3 and now wants g4. Is that safe?",
       "reasons": [
-        "It opens the road from h4 to the white king, and Qh4 is mate on the spot.",
+        "It is safe: the pawns keep Black's pieces out.",
         "The pawn on g4 is hanging and Black just takes it.",
-        "It is safe: the pawns keep Black's pieces out."
+        "It opens the road from h4 to the white king, and Qh4 is mate on the spot."
       ],
-      "answer": { "safe": false, "reason": 0 },
+      "answer": { "safe": false, "reason": 2 },
       "concept": "meeting-early-mates",
       "reason": "f3 and g4 together strip the cover from e1 along the diagonal. Never move both pawns in front of your own king this early.",
       "hints": { "piece": "g2", "square": "h4" }

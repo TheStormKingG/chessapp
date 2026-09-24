@@ -1,0 +1,199 @@
+{
+  "id": "3.10.4",
+  "unit": "3.10",
+  "title": "Black against 1.d4: the Queen's Gambit Declined",
+  "xp": 16,
+  "card": {
+    "idea": "1.d4 d5 2.c4 e6. The pawn on e6 holds d5, so when White takes there a pawn takes back and Black keeps a pawn in the middle. That is the whole of declining. The bill is the bishop on c8, and the rest of the plan is Nf6, Be7, castle, and then finding that bishop a way out.",
+    "diagrams": [
+      "rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+      "rnbqk2r/ppp1bppp/4pn2/3p2B1/2PP4/2N5/PP2PPPP/R2QKBNR w KQkq - 4 5",
+      "rnbqkbnr/p3pppp/8/1p6/2pP4/4P3/1P3PPP/RNBQKBNR w KQkq - 0 6"
+    ],
+    "habit": "Develop to aggressive squares and castle early."
+  },
+  "explain": [
+    {
+      "fen": "rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+      "text": "White has offered the c-pawn. Black declines by propping d5 up with the e-pawn, and cxd5 now runs into exd5. It is the same job the c6 pawn does against 1.e4, done with the other pawn - and nothing about it is memorised.",
+      "arrows": [
+        [
+          "e6",
+          "d5"
+        ]
+      ],
+      "highlights": [
+        "d5",
+        "c4"
+      ]
+    },
+    {
+      "fen": "rnbqk2r/ppp1bppp/4pn2/3p2B1/2PP4/2N5/PP2PPPP/R2QKBNR w KQkq - 4 5",
+      "text": "Black’s men go to the squares the plan asked for. The knight on f6 guards d5 a second time, and the bishop on e7 steps between the bishop on g5 and the queen, freeing the knight and clearing the way to castle. The bishop on c8 has nowhere to go: d7 is its only square.",
+      "arrows": [
+        [
+          "f6",
+          "d5"
+        ],
+        [
+          "e7",
+          "g5"
+        ]
+      ],
+      "highlights": [
+        "d5",
+        "c8"
+      ]
+    },
+    {
+      "fen": "rnbqkbnr/p3pppp/8/1p6/2pP4/4P3/1P3PPP/RNBQKBNR w KQkq - 0 6",
+      "text": "This is what happens when the pawn is taken and then defended. Black played dxc4 and b5, White answered a4 and opened the file, and the pawns came off. Now Qf3 looks down an empty diagonal at the rook on a8 and hits f7 at the same time. The pawn that used to guard that diagonal was on b7.",
+      "arrows": [
+        [
+          "d1",
+          "a4"
+        ]
+      ],
+      "highlights": [
+        "a8",
+        "b7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.10.4-c1",
+      "type": "name_the_pattern",
+      "fen": "rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/8/PP2PPPP/RNBQKBNR w KQkq - 0 3",
+      "prompt": "White has offered the pawn on c4 and Black answered with e6 instead of taking it. What does e6 do?",
+      "options": [
+        "It shuts the bishop on f1 in for good.",
+        "It backs up d5, so if White takes there a pawn takes back.",
+        "It attacks the pawn on d4."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "queens-gambit-declined",
+      "hints": {
+        "text": "Play cxd5 in your head and ask what takes back."
+      },
+      "reason": "cxd5 exd5 and Black still has a pawn on d5. A black pawn on e6 captures towards d5 and f5, never d4. And White’s bishop on f1 comes out the moment e3 is played, which is available right now."
+    },
+    {
+      "id": "3.10.4-c2",
+      "type": "which_square",
+      "fen": "rnbq1rk1/ppp1bppp/4pn2/3p2B1/2PP4/2N1P3/PP3PPP/R2QKBNR w KQ - 1 6",
+      "prompt": "One black piece has exactly one square it can move to. Tap that piece.",
+      "answer": {
+        "square": "c8"
+      },
+      "concept": "queens-gambit-declined",
+      "hints": {
+        "text": "It is the piece nobody has found a job for yet."
+      },
+      "reason": "The bishop on c8. Its light diagonal is shut by Black’s own pawn on e6 and b7 is a pawn too, so d7 is everything it has. Freeing it is the rest of the plan."
+    },
+    {
+      "id": "3.10.4-c3",
+      "type": "find_the_move",
+      "fen": "r1bqkb1r/pppn1ppp/5n2/3N2B1/3P4/8/PP2PPPP/R2QKBNR b KQkq - 0 6",
+      "prompt": "White has just grabbed the pawn on d5 with the knight, attacking your knight on f6. Take the knight, even though it looks as if you lose the queen.",
+      "answer": {
+        "moves": [
+          "Nxd5"
+        ]
+      },
+      "wrong": {
+        "Be7": "That saves the queen, but Nxe7 wins a bishop straight away and Black is a pawn down as well. The knight on d5 was takeable.",
+        "h6": "Bxf6 and Black has lost a knight for nothing, with the knight on d5 still sitting there. Look at what actually attacks d5."
+      },
+      "concept": "queens-gambit-declined",
+      "hints": {
+        "piece": "f6",
+        "square": "d5"
+      },
+      "reason": "Nxd5 wins a piece. Bxd8 looks like the end of it, but Bb4 is check and Qd2 is White’s only legal answer; Bxd2 takes the queen back, Kxd2 Kxd8 and Black is a piece up for a pawn with White’s king stranded on d2."
+    },
+    {
+      "id": "3.10.4-c4",
+      "type": "is_it_safe",
+      "fen": "rnbqkbnr/ppp2ppp/4p3/3p4/2PP4/2N5/PP2PPPP/R1BQKBNR b KQkq - 1 3",
+      "move": "dxc4",
+      "prompt": "Black takes the offered pawn: dxc4. Is that pawn safe on c4 right now?",
+      "reasons": [
+        "Yes. Nothing white attacks c4 this move - but e3 and Bxc4 win it straight back.",
+        "No. The bishop on f1 takes it at once.",
+        "No. The knight on c3 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "queens-gambit-declined",
+      "hints": {
+        "text": "Nothing can take it this move. Ask what White plays next instead."
+      },
+      "reason": "Nothing reaches c4 yet: the bishop on f1 is blocked by White’s own pawn on e2, and a knight on c3 covers a4, b1, b5, d5 and e4 - not c4. But e3 comes, then Bxc4, so the pawn was only ever a loan. That is why Black declines."
+    },
+    {
+      "id": "3.10.4-c5",
+      "type": "find_the_move",
+      "fen": "rnbqkbnr/p3pppp/8/1p6/2pP4/4P3/1P3PPP/RNBQKBNR w KQkq - 0 6",
+      "prompt": "Black took the c-pawn and then played b5 to hang on to it. The b-file has opened. Punish it.",
+      "answer": {
+        "moves": [
+          "Qf3"
+        ]
+      },
+      "wrong": {
+        "Bxc4": "bxc4 takes back. You have swapped a bishop for two pawns and let Black off.",
+        "b3": "A slow try at the pawn. Black has time to bring a piece out, and the open diagonal to a8 closes again."
+      },
+      "concept": "queens-gambit-declined",
+      "hints": {
+        "piece": "d1",
+        "square": "f3"
+      },
+      "reason": "Qf3 attacks the rook on a8 all the way down an empty diagonal and the pawn on f7 at the same time. The pawn that used to stand on b7 and block that diagonal is the one Black pushed to b5 to defend the extra pawn."
+    },
+    {
+      "id": "3.10.4-c6",
+      "type": "find_them_all",
+      "fen": "rnbqk2r/ppp1bppp/4pn2/3p2B1/2PP4/2N5/PP2PPPP/R2QKBNR w KQkq - 4 5",
+      "prompt": "Tap every black man that is guarding the d5 square.",
+      "answer": {
+        "pieces": [
+          "d8",
+          "e6",
+          "f6"
+        ]
+      },
+      "concept": "queens-gambit-declined",
+      "hints": {
+        "text": "One pawn, one knight, and one piece looking straight down the file."
+      },
+      "reason": "The pawn on e6, the knight on f6 and the queen on d8 down the open d-file. Three defenders against one attacker is why cxd5 wins nothing here."
+    },
+    {
+      "id": "3.10.4-c7",
+      "type": "name_the_pattern",
+      "fen": "rnbq1rk1/ppp1bppp/4pn2/3p2B1/2PP4/2N1P3/PP3PPP/R2QKBNR w KQ - 1 6",
+      "prompt": "Black has castled and the pawns are settled. What is the next job in Black’s plan?",
+      "options": [
+        "Push the pawn to e5 at once and open the middle.",
+        "Find a square for the bishop on c8 - it is the one piece with nothing to do.",
+        "Bring the rook to e8 and attack down the e-file."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "queens-gambit-declined",
+      "hints": {
+        "text": "Look for the piece with the fewest squares."
+      },
+      "reason": "The bishop on c8 still has only d7. Black frees it with dxc4 and then b6 and Bb7, or by playing Nbd7 first. Pushing e5 at once is a move too early, and a rook on e8 would be looking straight at Black’s own pawn on e6."
+    }
+  ],
+  "takeaway": "Declining means the pawn on e6 holds d5, so a capture there is answered by a pawn. The bill is the bishop on c8, and the rest of the plan is paying it."
+}

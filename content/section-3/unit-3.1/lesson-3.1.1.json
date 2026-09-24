@@ -58,11 +58,11 @@
       "move": "Qg7+",
       "prompt": "White wants to play the queen to g7, right beside the black king. Is she safe there?",
       "reasons": [
-        "Yes. The pawn on h6 holds her, so nothing can take her.",
         "No. The bishop on f8 takes her.",
+        "Yes. The pawn on h6 holds her, so nothing can take her.",
         "No. The pawn on h7 takes her."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 0 },
       "concept": "removing-the-defender",
       "hints": {
         "text": "The pawn on h6 keeps the king off g7. It does not keep anything else off."
@@ -132,11 +132,11 @@
       "fen": "r4b1k/ppp4p/2n4P/8/6Q1/8/6P1/5RK1 w - - 0 1",
       "prompt": "Why is it worth giving a whole rook for that bishop on f8?",
       "options": [
-        "It takes away the only piece that could capture a queen on g7, and Qg7 is then mate.",
         "It opens the f-file so the rook can come back to f8 later.",
+        "It takes away the only piece that could capture a queen on g7, and Qg7 is then mate.",
         "It wins a piece, because the bishop on f8 was undefended."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "concept": "removing-the-defender",
       "hints": {
         "text": "Play Rxf8 Rxf8 in your head and then ask what is left guarding g7."

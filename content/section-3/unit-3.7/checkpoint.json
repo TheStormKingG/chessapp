@@ -1,0 +1,526 @@
+{
+  "unit": "3.7",
+  "title": "Files, ranks and pawns",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "3.7-k01",
+      "type": "which_square",
+      "fen": "r4rk1/pp1ppppp/8/8/8/8/PP1PPPPP/R4RK1 w - - 0 1",
+      "prompt": "Seven pawns each, and exactly one file carries none of them. Tap the square on White's first rank where a rook belongs.",
+      "answer": {
+        "square": "c1"
+      },
+      "concept": "open-file",
+      "reason": "c1. Every other file has a pawn of each colour standing on it. Both rooks can reach c1 and it does not matter which one goes; getting there before Black does is the whole point."
+    },
+    {
+      "id": "3.7-k02",
+      "type": "find_them_all",
+      "fen": "r4rk1/pp1ppppp/8/8/8/8/PP1PPPPP/R4RK1 w - - 0 1",
+      "prompt": "Tap both pawns that would have to come off the board before the b-file looked like the c-file.",
+      "answer": {
+        "pieces": [
+          "b2",
+          "b7"
+        ]
+      },
+      "concept": "open-file",
+      "reason": "The white pawn on b2 and the black pawn on b7. A file only counts as clear when neither side has a pawn on it, so one of the two leaving is not enough."
+    },
+    {
+      "id": "3.7-k03",
+      "type": "find_the_move",
+      "fen": "2rr2k1/pp1pppp1/7p/8/8/8/PPRPPPPP/2R3K1 w - - 0 1",
+      "prompt": "Two white rooks on the c-file against one black rook standing on it, and that rook has a single defender. Collect.",
+      "answer": {
+        "moves": [
+          "Rxc8"
+        ]
+      },
+      "concept": "open-file",
+      "reason": "Rxc8. The rook on d8 takes back, and the second white rook takes that one on c8 with check. Two attackers against one defender means the last capture is free."
+    },
+    {
+      "id": "3.7-k04",
+      "type": "find_the_sequence",
+      "fen": "2rr2k1/pp1pppp1/7p/8/8/8/PPRPPPPP/2R3K1 w - - 0 1",
+      "prompt": "Play it out: take on c8, let the other rook take back, then take again with the rook that was waiting behind.",
+      "answer": {
+        "line": [
+          "Rxc8",
+          "Rxc8",
+          "Rxc8+"
+        ]
+      },
+      "concept": "open-file",
+      "reason": "Rxc8 Rxc8 Rxc8 is check, and Black has no rook left. The pawn on h6 gives his king h7, so it is a rook rather than a mate."
+    },
+    {
+      "id": "3.7-k05",
+      "type": "name_the_pattern",
+      "fen": "2rr2k1/pp1pppp1/7p/8/8/8/PPRPPPPP/2R3K1 w - - 0 1",
+      "prompt": "Why is the second white rook on that file worth the move it took to bring it up?",
+      "options": [
+        "Because two rooks on one file attack twice as many squares as one rook does.",
+        "Because the defender only takes back once. The rook standing behind takes last and keeps the file.",
+        "Because a rook is never in danger while another rook is standing directly behind it."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "open-file",
+      "reason": "It is a counting job: two attackers against one defender means three captures on the square, and the side with two pieces makes the first and the last. The rook behind is not covering extra squares — the rook in front is in its way."
+    },
+    {
+      "id": "3.7-k06",
+      "type": "which_square",
+      "fen": "1k2r3/pppp2pp/5p2/8/8/4P3/PPPP2PP/1K3R2 w - - 0 1",
+      "prompt": "White has no f-pawn, so his rook on f1 is already looking at something. Tap the black pawn it attacks.",
+      "answer": {
+        "square": "f6"
+      },
+      "concept": "open-file",
+      "reason": "f6. f2 through f5 are empty, so the rook runs up the file until it meets that pawn and stops there. It has one defender, the pawn on g7."
+    },
+    {
+      "id": "3.7-k07",
+      "type": "name_the_pattern",
+      "fen": "1k2r3/pppp2pp/5p2/8/8/4P3/PPPP2PP/1K3R2 w - - 0 1",
+      "prompt": "Each rook here is pressing a pawn on a file its own side has no pawn on. How is that different from a file with no pawns at all on it?",
+      "options": [
+        "There is no difference at all. A rook is exactly as strong on either kind of file.",
+        "The enemy pawn is still standing there, and that pawn is the target: it cannot step sideways out of the way.",
+        "It is worse than a blocked file, because your own pawn is not there to support the rook."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "open-file",
+      "reason": "A file carrying only the enemy's pawn gives you a target rather than a road. Pawns go forwards and capture sideways, so the pawn at the end of that file cannot dodge; something has to be spent defending it."
+    },
+    {
+      "id": "3.7-k08",
+      "type": "is_it_safe",
+      "fen": "3r2k1/pp2bppp/2p5/8/8/8/PP2PPPP/2R2BK1 w - - 0 1",
+      "move": "Rc5",
+      "prompt": "White runs the rook up to c5 so that it hits c6 from close range. Is the rook safe on c5?",
+      "reasons": [
+        "Yes. Nothing black attacks c5 at the moment.",
+        "No. The pawn on b7 takes it.",
+        "No. The bishop on e7 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "open-file",
+      "reason": "Bxc5. The bishop on e7 watches d6 and c5 along its diagonal. The pawn on b7 captures towards a6 and c6, not c5, so it is not the one to worry about."
+    },
+    {
+      "id": "3.7-k09",
+      "type": "find_them_all",
+      "fen": "1k2r3/pppp2pp/5p2/8/8/4P3/PPPP2PP/1K3R2 w - - 0 1",
+      "prompt": "Tap every empty square on the f-file that the rook on f1 controls.",
+      "answer": {
+        "squares": [
+          "f2",
+          "f3",
+          "f4",
+          "f5"
+        ]
+      },
+      "concept": "open-file",
+      "reason": "f2 up to f5. The rook runs up the file and stops on reaching the black pawn on f6, which it attacks but cannot pass, so f7 and f8 behind that pawn are not controlled at all."
+    },
+    {
+      "id": "3.7-k10",
+      "type": "find_the_move",
+      "fen": "7k/1b3n2/p1p1p1pp/8/8/8/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "Black's bishop and his knight are both sitting on the seventh rank with nothing defending either of them. Find the square that hits both at once.",
+      "answer": {
+        "moves": [
+          "Rd7"
+        ]
+      },
+      "concept": "rook-on-seventh",
+      "reason": "Rd7. The rook attacks the bishop on b7 to its left and the knight on f7 to its right, with c7 and e7 empty in between. One move cannot save two loose pieces."
+    },
+    {
+      "id": "3.7-k11",
+      "type": "name_the_pattern",
+      "fen": "7k/1b3n2/p1p1p1pp/8/8/8/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "After Rd7 the bishop on b7 and the knight on f7 are both attacked. Why can Black not save both of them?",
+      "options": [
+        "Rd7 is check, so Black has to spend his move getting the king out of the way.",
+        "Both of them are pinned against the king on h8, so neither is allowed to move.",
+        "Nothing on the board is defending either piece, and one move can only move one man."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "rook-on-seventh",
+      "reason": "Rd7 is not check and nothing is pinned. It is the plainest double attack there is: two loose men, one move to rescue them, so one of them goes."
+    },
+    {
+      "id": "3.7-k12",
+      "type": "find_them_all",
+      "fen": "7k/1b1R1n2/p1p1p1pp/8/8/8/PPP2PPP/6K1 b - - 0 1",
+      "prompt": "The rook has landed on d7. Tap every black piece it attacks from there.",
+      "answer": {
+        "pieces": [
+          "b7",
+          "f7"
+        ]
+      },
+      "concept": "rook-on-seventh",
+      "reason": "The bishop on b7 and the knight on f7. c7 and e7 are empty, so the rook reaches both of them; nothing else on that rank is within its reach."
+    },
+    {
+      "id": "3.7-k13",
+      "type": "which_square",
+      "fen": "5rk1/R4ppp/8/8/8/8/5PPP/6K1 b - - 0 1",
+      "prompt": "White's rook has the seventh rank almost to itself, and it is Black's move. Tap the only square his king is allowed to go to.",
+      "answer": {
+        "square": "h8"
+      },
+      "concept": "rook-on-seventh",
+      "reason": "h8 and nothing else. f8 is his own rook, f7, g7 and h7 are his own pawns, and there is nowhere else a king on g8 can reach."
+    },
+    {
+      "id": "3.7-k14",
+      "type": "find_them_all",
+      "fen": "5rk1/R4ppp/8/8/8/8/5PPP/6K1 b - - 0 1",
+      "prompt": "Tap every empty square on the seventh rank that the rook on a7 controls.",
+      "answer": {
+        "squares": [
+          "b7",
+          "c7",
+          "d7",
+          "e7"
+        ]
+      },
+      "concept": "rook-on-seventh",
+      "reason": "b7 through e7. The rook runs along the empty rank and stops at the pawn on f7, which it attacks but cannot see past, so g7 and h7 are outside its reach."
+    },
+    {
+      "id": "3.7-k15",
+      "type": "is_it_safe",
+      "fen": "2b1r1k1/1pp2ppp/p7/8/8/P7/1PP2PPP/3R1BK1 w - - 0 1",
+      "move": "Rd7",
+      "prompt": "White heads for the seventh rank with Rd7. Is the rook safe there?",
+      "reasons": [
+        "Yes. The rook on e8 cannot leave its file, so nothing can take it.",
+        "No. The bishop on c8 takes it.",
+        "No. The pawn on c7 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "rook-on-seventh",
+      "reason": "Bxd7. The bishop on c8 watches d7 along the diagonal. The pawn on c7 captures towards b6 and d6, so it is no help to Black here, and the rook on e8 really is stuck on its own file."
+    },
+    {
+      "id": "3.7-k16",
+      "type": "name_the_pattern",
+      "fen": "5rk1/R4ppp/8/8/8/8/5PPP/6K1 b - - 0 1",
+      "prompt": "A rook each and three pawns each, so nothing is out of balance on the count. Why is White better here?",
+      "options": [
+        "His rook has cut the black king down to one legal square, so Black is effectively playing a piece short.",
+        "He is threatening Rxf7 and then mate on the back rank.",
+        "His rook attacks all three black pawns at once from a7."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "rook-on-seventh",
+      "reason": "The rook on that rank attacks f7 and covers the squares the king would use. A king with one move left is not defending anything and not going anywhere, which is worth far more than the material count says."
+    },
+    {
+      "id": "3.7-k17",
+      "type": "which_square",
+      "fen": "7k/1b3n2/p1p1p1pp/8/8/8/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "The d-file is clear from top to bottom. Tap the square on the seventh rank that the rook on d1 can reach in one move.",
+      "answer": {
+        "square": "d7"
+      },
+      "concept": "rook-on-seventh",
+      "reason": "d7. A rook travels up its own file, so that is the only square on the seventh it can reach, and nothing of Black's is covering it."
+    },
+    {
+      "id": "3.7-k18",
+      "type": "find_them_all",
+      "fen": "4r1k1/pppR1pp1/7p/8/8/P6P/1PP2PP1/6K1 b - - 0 1",
+      "prompt": "Tap every black pawn the rook on d7 attacks.",
+      "answer": {
+        "pieces": [
+          "c7",
+          "f7"
+        ]
+      },
+      "concept": "rook-on-seventh",
+      "reason": "c7 and f7, and only those two. Going left the rook stops at c7, so a7 and b7 behind it are untouched; going right it stops at f7, so g7 is untouched as well."
+    },
+    {
+      "id": "3.7-k19",
+      "type": "find_the_move",
+      "fen": "1k6/6pp/8/5PP1/8/8/8/1K6 w - - 0 1",
+      "prompt": "Two pawns each, and not one of the four has a clear road yet. Make one.",
+      "answer": {
+        "moves": [
+          "f6"
+        ]
+      },
+      "concept": "passed-pawn",
+      "reason": "f6. If Black takes, gxf6, you take back with the other pawn and the new pawn on f6 has e, f and g all clear ahead of it. If Black leaves it with g6, then f7 and the pawn queens next move."
+    },
+    {
+      "id": "3.7-k20",
+      "type": "find_the_sequence",
+      "fen": "1k6/6pp/8/5PP1/8/8/8/1K6 w - - 0 1",
+      "prompt": "Play it out: break with the f-pawn, let the g-pawn take, then take back with the other pawn.",
+      "answer": {
+        "line": [
+          "f6",
+          "gxf6",
+          "gxf6"
+        ]
+      },
+      "concept": "passed-pawn",
+      "reason": "f6 gxf6 gxf6. Two pawns have come off and the one left on f6 has no black pawn on e, f or g in front of it. Black's h-pawn is clear too, but it is six moves from home and White's is two."
+    },
+    {
+      "id": "3.7-k21",
+      "type": "play_it_out",
+      "fen": "1k6/6pp/8/5PP1/8/8/8/1K6 w - - 0 1",
+      "prompt": "Get a pawn to the eighth rank against a live opponent. You have six moves and the black king is on his way back.",
+      "goal": {
+        "kind": "promote",
+        "moves": 6
+      },
+      "concept": "passed-pawn",
+      "reason": "f6 is the only start that works, whichever way Black answers it. After that the pawn walks in: the king on b8 is four moves from f8 and the pawn is two, and White's own king does not need to move at all."
+    },
+    {
+      "id": "3.7-k22",
+      "type": "find_them_all",
+      "fen": "6k1/4pppp/8/P1p5/8/8/4PPPP/6K1 w - - 0 1",
+      "prompt": "Tap every pawn on the board, either colour, that no enemy pawn is able to stop.",
+      "answer": {
+        "pieces": [
+          "a5",
+          "c5"
+        ]
+      },
+      "concept": "passed-pawn",
+      "reason": "White's a5 and Black's c5. For a5 the files to check are a and b, and Black has a pawn on neither. For c5 they are b, c and d, and White has a pawn on none of them."
+    },
+    {
+      "id": "3.7-k23",
+      "type": "which_square",
+      "fen": "6k1/4pppp/8/P1p5/8/8/4PPPP/6K1 w - - 0 1",
+      "prompt": "Tap the one white pawn with no black pawn anywhere in front of it, on its own file or on the file beside it.",
+      "answer": {
+        "square": "a5"
+      },
+      "concept": "passed-pawn",
+      "reason": "a5. Black has nothing on the a-file or the b-file at all. Every other white pawn has a black pawn on its own file: e2 against e7, f2 against f7, and so on."
+    },
+    {
+      "id": "3.7-k24",
+      "type": "which_square",
+      "fen": "6k1/2p2ppp/8/1P6/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "One single black pawn is the reason the white pawn on b5 does not have a clear road. Tap it.",
+      "answer": {
+        "square": "c7"
+      },
+      "concept": "passed-pawn",
+      "reason": "c7. The b-file itself is empty, but c is a next-door file and that pawn is still in front of b5, covering b6 on the way down. Trade it or get past it and the b-pawn is a runner."
+    },
+    {
+      "id": "3.7-k25",
+      "type": "is_it_safe",
+      "fen": "6k1/2p2ppp/8/1P6/8/8/5PPP/6K1 w - - 0 1",
+      "move": "b6",
+      "prompt": "White pushes the pawn on to b6. Is it safe there?",
+      "reasons": [
+        "No. The black king walks over and takes it.",
+        "Yes. Nothing black can reach b6 at all.",
+        "No. The pawn on c7 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "passed-pawn",
+      "reason": "cxb6. A black pawn on c7 captures towards b6 and d6, so b6 is one of the two squares it covers. The king is five moves away and is not the problem; the pawn on the next file is."
+    },
+    {
+      "id": "3.7-k26",
+      "type": "name_the_pattern",
+      "fen": "6k1/4pppp/8/P1p5/8/8/4PPPP/6K1 w - - 0 1",
+      "prompt": "White's a5 and Black's c5 both have a clear road in front of them. What is true of both?",
+      "options": [
+        "No enemy pawn can ever stop either of them. Only a piece or a king can, and it has to go there and stay.",
+        "Both of them queen by force, because a pawn with a clear road cannot be caught.",
+        "Both of them are safe from capture, because no enemy pawn is anywhere near them."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "passed-pawn",
+      "reason": "It is a fact about pawns and only about pawns. A king arriving in time, or a piece parked in front, stops either — which is exactly why they are worth having: whatever does the stopping is tied up for the rest of the game."
+    },
+    {
+      "id": "3.7-k27",
+      "type": "name_the_pattern",
+      "fen": "6k1/2p2ppp/8/1P6/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Four pawns each and no pieces. What should White be trying to do here?",
+      "options": [
+        "Push the three kingside pawns and leave the b-pawn where it is as a decoy.",
+        "Push the b-pawn at once, since a pawn on the fifth rank is already too fast to catch.",
+        "Bring the king up and trade off the pawn on c7, because while it stands there the b-pawn is going nowhere."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "passed-pawn",
+      "reason": "The whole position turns on one pawn. While c7 is on the board it covers b6 and the white pawn cannot get by; once it is gone the b-pawn has nothing in front of it and Black has to leave the kingside to deal with it."
+    },
+    {
+      "id": "3.7-k28",
+      "type": "find_the_move",
+      "fen": "8/1p2kp2/3p2pn/2p1p3/1r2P3/4N3/PP3P1P/3R2K1 w - - 0 1",
+      "prompt": "Black's c-pawn and e-pawn have both gone past the square in front of his pawn on d6. Put the knight there and see what it hits.",
+      "answer": {
+        "moves": [
+          "Nd5+"
+        ]
+      },
+      "concept": "pawn-weakness",
+      "reason": "Nd5 is check to the king on e7 and attacks the rook on b4 in the same move. The king has to move and then Nxb4 wins the rook for the knight. Nf5 is also check, but the pawn on g6 covers f5."
+    },
+    {
+      "id": "3.7-k29",
+      "type": "name_the_pattern",
+      "fen": "8/1p2kp2/3p2pn/2p1p3/1r2P3/4N3/PP3P1P/3R2K1 w - - 0 1",
+      "prompt": "What is it about Black's pawns that lets a white knight sit on d5 and stay there?",
+      "options": [
+        "His rook on b4 is tied to the white pawn on b2, so it cannot come across to guard d5.",
+        "His c-pawn and his e-pawn have both gone past that square, and pawns cannot come back.",
+        "A knight that arrives with check can never be captured afterwards."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "pawn-weakness",
+      "reason": "Only a black pawn on c6 or e6 covers d5, and Black's c-pawn is on c5 and his e-pawn on e5. Short of capturing something on one of those two squares he can never cover d5 again."
+    },
+    {
+      "id": "3.7-k30",
+      "type": "find_them_all",
+      "fen": "4r1k1/p1p2pp1/2p4p/8/8/8/PP2PPPP/4R1K1 w - - 0 1",
+      "prompt": "Tap every black pawn that has no friendly pawn on either of the files next to it.",
+      "answer": {
+        "pieces": [
+          "a7",
+          "c6",
+          "c7"
+        ]
+      },
+      "concept": "pawn-weakness",
+      "reason": "a7, c6 and c7. a7 has nothing on the b-file; c6 and c7 have nothing on b or d. The three on the kingside all have a neighbour and can look after each other."
+    },
+    {
+      "id": "3.7-k31",
+      "type": "find_them_all",
+      "fen": "4r1k1/p1p2pp1/2p4p/8/8/8/PP2PPPP/4R1K1 w - - 0 1",
+      "prompt": "Tap the two black pawns standing on the same file as each other.",
+      "answer": {
+        "pieces": [
+          "c6",
+          "c7"
+        ]
+      },
+      "concept": "pawn-weakness",
+      "reason": "c6 and c7. Stacked like that the back one can never get past the front one, and with the b-file and the d-file empty of black pawns neither of them will ever be defended by a pawn."
+    },
+    {
+      "id": "3.7-k32",
+      "type": "name_the_pattern",
+      "fen": "4r1k1/p1p2pp1/2p4p/8/8/8/PP2PPPP/4R1K1 w - - 0 1",
+      "prompt": "Six pawns each and a rook each. Which side would you rather be, and why?",
+      "options": [
+        "Level. Six pawns and a rook each is the same on both sides, and nothing is hanging.",
+        "White. Black's pawns are in three groups that cannot help one another, and White's are in two.",
+        "Black. The two pawns on the c-file give him an extra guard on b5 and d5."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "pawn-weakness",
+      "reason": "Count the groups of touching pawns. White has a2-b2 and e2-f2-g2-h2, so two. Black has a7, then c6-c7, then f7-g7-h6, so three. More groups means more pawns a piece has to be spent guarding, and pawns never move backwards to fix it."
+    },
+    {
+      "id": "3.7-k33",
+      "type": "which_square",
+      "fen": "4r1k1/5pp1/3p3p/2p1p2n/4P3/2N5/PP3PPP/4R1K1 w - - 0 1",
+      "prompt": "Black's pawn on d6 has been left behind by its neighbours on c5 and e5. Tap the square directly in front of it, the one no black pawn can attack.",
+      "answer": {
+        "square": "d5"
+      },
+      "concept": "pawn-weakness",
+      "reason": "d5. Only a black pawn on c6 or e6 could ever cover it, and Black's c-pawn and e-pawn have both gone past to the fifth rank already. Pawns do not come back, so the square stays White's."
+    },
+    {
+      "id": "3.7-k34",
+      "type": "is_it_safe",
+      "fen": "4r1k1/5pp1/3p3p/2p1p2n/4P3/2N5/PP3PPP/4R1K1 w - - 0 1",
+      "move": "Nd5",
+      "prompt": "White drops the knight into the square in front of that pawn with Nd5. Is it safe there?",
+      "reasons": [
+        "No. The pawn on c5 takes it.",
+        "Yes. No black pawn covers d5, and the pawn on e4 is holding the knight in any case.",
+        "No. The rook on e8 swings across and takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "pawn-weakness",
+      "reason": "Nothing of Black's attacks d5. The pawn on c5 captures towards b4 and d4, the knight on h5 reaches f4, f6, g3 and g7 but not d5, and the rook on e8 would need two moves. The pawn on e4 guards the square as well."
+    },
+    {
+      "id": "3.7-k35",
+      "type": "name_the_pattern",
+      "fen": "4r1k1/5pp1/3p3p/2p1p2n/4P3/2N5/PP3PPP/4R1K1 w - - 0 1",
+      "prompt": "Why is the pawn on d6 a better thing to attack than the pawns on f7 and g7?",
+      "options": [
+        "It is the only black pawn on the board that another black pawn is not defending.",
+        "It is worth more than the others, because a pawn on the sixth rank is nearly home.",
+        "No black pawn can ever defend it, so every attacker White adds has to be answered with a piece."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "pawn-weakness",
+      "reason": "A black pawn on c7 or e7 would defend d6, and Black has neither and can never get one. f7 and g7 are not defended by pawns either just now, but Black's kingside pawns can still move and cover each other. d6 is stuck."
+    },
+    {
+      "id": "3.7-k36",
+      "type": "find_them_all",
+      "fen": "4r1k1/5pp1/3p3p/2p1p2n/4P3/2N5/PP3PPP/4R1K1 w - - 0 1",
+      "prompt": "Tap both black pawns that have advanced past the one on d6 and left it behind.",
+      "answer": {
+        "pieces": [
+          "c5",
+          "e5"
+        ]
+      },
+      "concept": "pawn-weakness",
+      "reason": "c5 and e5. They are the two pawns that could have defended d6 from c7 or e7, and they are the two that could have covered d5 from c6 or e6. Having gone by, they can do neither ever again."
+    }
+  ]
+}

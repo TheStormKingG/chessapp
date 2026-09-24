@@ -515,6 +515,19 @@ if (files.length === 0) {
   process.exit(1);
 }
 const seenIds = new Set();
+/**
+ * Where the correct answer sat, per `is_it_safe` item, across the whole corpus.
+ *
+ * Collected here and judged after the walk, because this is a defect that does
+ * not exist in any single item -- every one of the 176 was individually
+ * correct, and every per-item check passed on all of them.
+ */
+const answerSlots = [];
+/** The two challenge types whose answer is an index into a list of choices. */
+const INDEXED_ANSWER = [
+  { type: 'is_it_safe', list: 'reasons', index: 'reason' },
+  { type: 'name_the_pattern', list: 'options', index: 'option' },
+];
 try {
   for (const f of files) {
     const doc = JSON.parse(readFileSync(f, 'utf8'));
@@ -528,6 +541,10 @@ try {
     for (const c of challenges) {
       if (seenIds.has(c.id)) fail(f, `duplicate challenge id ${c.id}`);
       seenIds.add(c.id);
+      for (const k of INDEXED_ANSWER) {
+        if (c.type !== k.type || !Array.isArray(c[k.list])) continue;
+        answerSlots.push({ type: k.type, slot: c.answer?.[k.index], of: c[k.list].length });
+      }
       await checkChallenge(`${f} ${c.id}`, c);
     }
     if (!isCp) {
@@ -541,6 +558,61 @@ try {
   // including the timeout path that aborted a search.
   engine.close();
 }
+/*
+ * ─── A corpus-level check, because the defect is corpus-level ───────────────
+ *
+ * Two challenge types answer with an INDEX into a list of choices, and for
+ * both of them the corpus had settled into a pattern a learner could play.
+ *
+ *   is_it_safe        97 / 79 / 0      -- never the third reason, in 176 items
+ *   name_the_pattern  284 / 25 / 17    -- 87% the FIRST option, in 326 items
+ *
+ * In seventeen of twenty-five units, every single `name_the_pattern` answer was
+ * option one. Tap the top choice and be right nearly nine times in ten.
+ *
+ * Every one of those items was written on its own, was correct on its own, and
+ * passed every per-item check in this file. That is the whole difficulty: there
+ * is no defect in any single item, and a hole in five hundred of them at once.
+ * Nothing per-item can see it, so the unit of analysis has to be the corpus and
+ * the check has to live after the walk rather than inside it.
+ *
+ * The bar is deliberately low. This does not ask for a uniform distribution --
+ * real content clusters, and demanding balance would make authors shuffle
+ * answers to satisfy a number rather than to teach. It asks only that no choice
+ * is ABANDONED, which is the part a learner can exploit. Below `MIN_SAMPLE`
+ * items it says nothing, since a small corpus can skew honestly.
+ *
+ * Found twice, independently, by the authors of units 3.10 and 3.8 while
+ * measuring the corpus for other reasons -- which is itself the lesson about
+ * how a defect of this shape surfaces.
+ */
+{
+  const MIN_SAMPLE = 30;
+  const MIN_SHARE = 0.1;
+  const groups = new Map();
+  for (const { type, slot, of } of answerSlots) {
+    if (!Number.isInteger(slot) || !Number.isInteger(of) || of < 2) continue;
+    const key = `${type}:${String(of)}`;
+    if (!groups.has(key)) groups.set(key, { type, of, slots: [] });
+    groups.get(key).slots.push(slot);
+  }
+  for (const { type, of, slots } of groups.values()) {
+    if (slots.length < MIN_SAMPLE) continue;
+    const counts = Array.from({ length: of }, (_, i) => slots.filter((s) => s === i).length);
+    const floor = Math.max(1, Math.floor(slots.length * MIN_SHARE));
+    const starved = counts.flatMap((n, i) => (n < floor ? [`choice ${String(i)} (${String(n)})`] : []));
+    if (starved.length) {
+      errors.push(
+        `${type} answers are predictable across the corpus: of ${String(slots.length)} items with ` +
+          `${String(of)} choices, the correct one lands at [${counts.join(', ')}]. ` +
+          `Starved: ${starved.join(', ')} -- under the ${String(floor)}-item floor. ` +
+          `A learner who notices can discard those choices unread. This is not a defect in ` +
+          `any single item; rotate which choice is correct across the corpus.`,
+      );
+    }
+  }
+}
+
 if (faults.length) {
   console.error('INSTRUMENT FAULTS — the apparatus, not the content:');
   console.error(faults.join('\n'));

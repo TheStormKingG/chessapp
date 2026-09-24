@@ -143,11 +143,11 @@
       "prompt": "Four pawns each and no pieces at all. Which element decides it?",
       "options": [
         "Nothing does. With four pawns each and no pieces this has to be a draw.",
-        "King activity. Whichever king reaches the middle first wins.",
-        "Pawn structure. White has two healthy pairs, Black has four pawns standing alone."
+        "Pawn structure. White has two healthy pairs, Black has four pawns standing alone.",
+        "King activity. Whichever king reaches the middle first wins."
       ],
       "answer": {
-        "option": 2
+        "option": 1
       },
       "concept": "four-elements",
       "hints": {
@@ -162,13 +162,13 @@
       "move": "Nc4",
       "prompt": "White steps the knight to c4, deep in Black’s half. Is it safe there?",
       "reasons": [
-        "Yes. Nothing black covers c4 at all.",
+        "No. The pawn on d7 takes it.",
         "No. The bishop on c8 takes it.",
-        "No. The pawn on d7 takes it."
+        "Yes. Nothing black covers c4 at all."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "piece-activity",
       "hints": {

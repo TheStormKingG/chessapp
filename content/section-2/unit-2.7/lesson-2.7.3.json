@@ -133,12 +133,12 @@
       "fen": "8/8/3k4/8/3K4/3P4/8/8 w - - 0 1",
       "prompt": "Kings on d4 and d6, pawn on d3, and it is White to move. Who is better off?",
       "options": [
-        "Black. White must step aside, and the black king stays in front of the pawn.",
         "White, because having the move is always worth something.",
+        "Black. White must step aside, and the black king stays in front of the pawn.",
         "Neither. The kings are the same distance from the pawn, so it is symmetrical."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "opposition",
       "hints": {
@@ -152,12 +152,12 @@
       "fen": "3k4/8/3K4/3P4/8/8/8/8 w - - 0 1",
       "prompt": "White's king is on d6, directly in front of its pawn on d5. What is the verdict?",
       "options": [
-        "White wins, and it does not matter whose turn it is.",
         "Drawn, because the black king is on the queening file.",
+        "White wins, and it does not matter whose turn it is.",
         "White wins only with Black to move."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "opposition",
       "hints": {

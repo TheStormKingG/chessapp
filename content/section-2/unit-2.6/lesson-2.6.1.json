@@ -135,13 +135,13 @@
       "move": "Nf3",
       "prompt": "White brings the knight out to f3, where it attacks the pawn on e5. Is the knight safe on f3?",
       "reasons": [
-        "Yes. Nothing black attacks f3.",
+        "No. The queen on d8 takes it.",
         "No. The pawn on e5 takes it.",
-        "No. The queen on d8 takes it."
+        "Yes. Nothing black attacks f3."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "development",
       "hints": {

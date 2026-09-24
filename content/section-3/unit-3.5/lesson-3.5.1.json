@@ -127,11 +127,11 @@
       "fen": "5r1k/5p1p/8/6Q1/pp6/8/2r5/7K w - - 1 2",
       "prompt": "Black's king has just gone to h8. Qf6 and Qg7 are both check. Why is Qf6 the one that works?",
       "options": [
-        "Qf6 checks from a square the king cannot reach, and Kg8 is forced. Qg7 puts the queen right beside him, and Kxg7 takes her.",
         "Qg7 is not legal, because the king is standing next to g7.",
+        "Qf6 checks from a square the king cannot reach, and Kg8 is forced. Qg7 puts the queen right beside him, and Kxg7 takes her.",
         "They are the same: both force Kg8, so either will repeat the position."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "concept": "perpetual-check",
       "hints": {
         "text": "Ask what Black's only legal reply is in each case, then look at what is left on the board."

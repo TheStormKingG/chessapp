@@ -308,7 +308,7 @@ export const SECTION_3: SectionDef = {
     {
       id: '3.7',
       title: 'Files, ranks and pawns',
-      built: false,
+      built: true,
       lessons: [
         { id: '3.7.1', title: 'Open files and doubling rooks' },
         { id: '3.7.2', title: 'The seventh rank' },
@@ -319,7 +319,7 @@ export const SECTION_3: SectionDef = {
     {
       id: '3.8',
       title: 'King safety and attacking the king',
-      built: false,
+      built: true,
       lessons: [
         { id: '3.8.1', title: 'The pawn shield and when not to castle' },
         { id: '3.8.2', title: 'Batteries against the king' },
@@ -330,7 +330,7 @@ export const SECTION_3: SectionDef = {
     {
       id: '3.9',
       title: 'Endgames continued',
-      built: false,
+      built: true,
       lessons: [
         { id: '3.9.1', title: 'Distant and diagonal opposition' },
         { id: '3.9.2', title: 'King and pawn against king, complete' },
@@ -342,7 +342,7 @@ export const SECTION_3: SectionDef = {
     {
       id: '3.10',
       title: 'Building a repertoire skeleton',
-      built: false,
+      built: true,
       lessons: [
         { id: '3.10.1', title: 'What a repertoire is and why plans beat lines' },
         { id: '3.10.2', title: 'White: the Italian in depth' },
@@ -353,7 +353,7 @@ export const SECTION_3: SectionDef = {
     {
       id: '3.11',
       title: 'Candidate moves and the blunder check',
-      built: false,
+      built: true,
       lessons: [
         { id: '3.11.1', title: 'Two or three candidate moves before calculating' },
         { id: '3.11.2', title: "Checks, captures and threats for the opponent's replies" },
@@ -365,7 +365,7 @@ export const SECTION_3: SectionDef = {
     {
       id: '3.12',
       title: 'Story games',
-      built: false,
+      built: true,
       lessons: [
         { id: '3.12.1', title: 'Morphy at the Opera' },
         { id: '3.12.2', title: 'A 1000-level game, guess the move' },

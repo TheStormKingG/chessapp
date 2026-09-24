@@ -143,13 +143,13 @@
       "move": "Bc4",
       "prompt": "White plays the bishop out to c4. Is it safe there?",
       "reasons": [
-        "Yes. No black pawn or piece attacks c4.",
         "No. The knight on c6 takes it.",
-        "No. The pawn on d7 takes it."
+        "No. The pawn on d7 takes it.",
+        "Yes. No black pawn or piece attacks c4."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "italian",
       "hints": {
@@ -163,12 +163,12 @@
       "fen": "r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
       "prompt": "White threatens mate on f7 next move. Which black reply stops it and gains a move by hitting the queen?",
       "options": [
-        "g6, which covers f7 with a pawn and attacks the queen on h5 at the same time.",
         "Nf6, which develops a piece and blocks the queen's view of f7.",
+        "g6, which covers f7 with a pawn and attacks the queen on h5 at the same time.",
         "Ke7, which guards f7 with the king a second time."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "italian",
       "hints": {

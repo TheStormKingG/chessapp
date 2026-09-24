@@ -304,12 +304,12 @@
       "fen": "7k/8/8/8/8/3B4/8/4K3 w - - 0 1",
       "prompt": "King and bishop against a bare king. What is the result with best play?",
       "options": [
-        "A draw — a lone bishop can never force mate.",
+        "White mates only if the black king strays to a light square.",
         "White mates, but it takes around thirty moves.",
-        "White mates only if the black king strays to a light square."
+        "A draw — a lone bishop can never force mate."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "insufficient-material",
       "reason": "Drawn from the start. Half the board is a colour the bishop can never touch."
@@ -320,12 +320,12 @@
       "fen": "7k/8/8/8/8/2N2N2/8/4K3 w - - 0 1",
       "prompt": "Two knights against a bare king. What is the honest verdict?",
       "options": [
-        "It cannot be forced — closing the net gives stalemate instead.",
         "A routine mate, easier than king and rook.",
+        "It cannot be forced — closing the net gives stalemate instead.",
         "Mate only if the knights sit on squares of the same colour."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "insufficient-material",
       "reason": "It cannot be forced. Treat two knights against a bare king as a draw and play for something else."
@@ -336,12 +336,12 @@
       "fen": "5k2/8/5K2/6P1/8/8/8/8 b - - 0 1",
       "prompt": "The same position as the h-pawn draw, but with the pawn on g5. Does Black still hold?",
       "options": [
-        "No. With a file beyond the pawn, White's king can push the defender out and win.",
         "Yes — the defending king is close enough, whatever the file.",
+        "No. With a file beyond the pawn, White's king can push the defender out and win.",
         "Yes, but only because it is Black to move."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "rook-pawn-draw",
       "reason": "White wins. The h-file gives the attacker room to outflank, which is exactly what an edge pawn lacks."
@@ -352,12 +352,12 @@
       "fen": "5k2/8/5K2/7P/8/8/8/8 b - - 0 1",
       "prompt": "Why can the defending king never be driven out of the corner here?",
       "options": [
-        "There is no file beyond the pawn, so the attacking king has nowhere to squeeze from.",
         "A king in the corner cannot legally be checked.",
+        "There is no file beyond the pawn, so the attacking king has nowhere to squeeze from.",
         "An edge pawn is not permitted to promote to a queen."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "rook-pawn-draw",
       "reason": "The board runs out. Pushing a king off a square needs squares on both sides of it, and past the h-file there are none."
@@ -384,12 +384,12 @@
       "fen": "3k4/8/3K4/3P4/8/8/8/8 w - - 0 1",
       "prompt": "White's king is on d6, directly in front of its own pawn on d5. What is the verdict?",
       "options": [
-        "White wins, whoever is to move.",
         "Drawn, because the black king sits on the queening file.",
+        "White wins, whoever is to move.",
         "White wins only with Black to move."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "opposition",
       "reason": "Won either way. A king on the sixth rank ahead of its pawn can no longer be kept out."
@@ -400,12 +400,12 @@
       "fen": "8/4k3/8/P7/7p/8/8/4K3 w - - 0 1",
       "prompt": "Both pawns need the same number of moves. What settles a tie like this?",
       "options": [
-        "The side to move arrives first.",
         "The pawn closer to the edge of the board promotes first.",
+        "The side to move arrives first.",
         "A tie means both promote and the game is drawn by rule."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "counting",
       "reason": "Whoever is to move. That is why one quiet move is so expensive: it costs you the tie-break, not a pawn."
@@ -416,12 +416,12 @@
       "fen": "6k1/5ppp/8/8/8/8/P4PPP/4K3 w - - 0 1",
       "prompt": "For the whole game the king has been kept tucked away. Why does that change in an ending?",
       "options": [
-        "The pieces that could punish an exposed king have been traded, so the king becomes a fighting piece.",
+        "It does not change; the king belongs on the back rank to the end.",
         "The rules let the king move further once most pieces are gone.",
-        "It does not change; the king belongs on the back rank to the end."
+        "The pieces that could punish an exposed king have been traded, so the king becomes a fighting piece."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "king-activity",
       "reason": "Nothing is left to check it. The same king that had to hide is now a piece worth about a knight and a half."
@@ -451,13 +451,13 @@
       "move": "Ke4",
       "prompt": "White marches the king to e4, into the open centre. Is it safe there?",
       "reasons": [
-        "Yes. Nothing Black has left can attack e4.",
+        "No. The black king on g8 defends the fourth rank.",
         "No. The pawn on f7 covers e4.",
-        "No. The black king on g8 defends the fourth rank."
+        "Yes. Nothing Black has left can attack e4."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "king-safe",
       "reason": "Entirely safe. The f7 pawn hits e6 and g6, and with no queen or rook on the board there is nothing to fear."
@@ -469,13 +469,13 @@
       "move": "Ke2",
       "prompt": "White starts the walk with Ke2. Is the king safe on e2?",
       "reasons": [
-        "Yes. Black has a king on g8 and three pawns, and none of them reaches e2.",
+        "No. The black king can reach e2 in two moves.",
         "No. The pawn on f7 attacks e2 down the file.",
-        "No. The black king can reach e2 in two moves."
+        "Yes. Black has a king on g8 and three pawns, and none of them reaches e2."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "king-activity",
       "reason": "Safe, and the first step of the journey. Black's nearest man is five squares away."
@@ -487,13 +487,13 @@
       "move": "Kh3",
       "prompt": "White plays Kh3, attacking the pawn on h4. Is the king safe there?",
       "reasons": [
-        "Yes. A black pawn on h4 captures towards g3, not h3.",
         "No. The pawn on h4 takes it.",
-        "No. The black king on e7 defends h4."
+        "No. The black king on e7 defends h4.",
+        "Yes. A black pawn on h4 captures towards g3, not h3."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "king-safe",
       "reason": "Safe. A pawn never captures straight down the file it stands on, so h4 cannot touch h3 — though pushing the a-pawn is still the stronger move."

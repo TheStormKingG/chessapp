@@ -1,0 +1,195 @@
+{
+  "id": "3.10.3",
+  "unit": "3.10",
+  "title": "Black against 1.e4: the Caro-Kann",
+  "xp": 16,
+  "card": {
+    "idea": "1...c6 looks slow and it is doing one job: it lets the pawn go to d5 with another pawn behind it. After that Black’s plan is short. Get the light-squared bishop out to f5 before any pawn goes to e6, then play e6, a knight to f6 or d7, the bishop to e7, and castle.",
+    "diagrams": [
+      "rnbqkbnr/pp2pppp/2p5/3p4/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 3",
+      "rn1qkbnr/pp2pppp/2p5/5b2/3PN3/8/PPP2PPP/R1BQKBNR w KQkq - 1 5",
+      "r1bqkb1r/pp1npppp/2p2n2/8/3PN3/8/PPP1QPPP/R1B1KBNR w KQkq - 3 6"
+    ],
+    "habit": "Develop to aggressive squares and castle early."
+  },
+  "explain": [
+    {
+      "fen": "rnbqkbnr/pp2pppp/2p5/3p4/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 3",
+      "text": "The point of 1...c6 arrives on move two. The pawn goes to d5 and a pawn on c6 is standing behind it, along with the queen on d8. If White takes on d5, the c-pawn takes back and Black still has a pawn in the middle. The knight on b8 gives up c6 for this and goes to d7 instead.",
+      "arrows": [
+        [
+          "c6",
+          "d5"
+        ]
+      ],
+      "highlights": [
+        "d5",
+        "c6"
+      ]
+    },
+    {
+      "fen": "rn1qkbnr/pp2pppp/2p5/5b2/3PN3/8/PPP2PPP/R1BQKBNR w KQkq - 1 5",
+      "text": "Black has traded the d5 pawn for White’s e-pawn and now plays the move the opening was arranged for. The bishop steps out to f5, where nothing white can reach it, and from there it also attacks the knight on e4. The road it used was c8-d7-e6-f5, and a pawn on e6 closes it.",
+      "arrows": [
+        [
+          "f5",
+          "e4"
+        ]
+      ],
+      "highlights": [
+        "f5",
+        "e6"
+      ]
+    },
+    {
+      "fen": "r1bqkb1r/pp1npppp/2p2n2/8/3PN3/8/PPP1QPPP/R1B1KBNR w KQkq - 3 6",
+      "text": "And here is the one line to know by heart, because Black walks into it. The knight drops to d6 and that is mate: it covers e8 and f7, every other square round the king is filled by Black’s own men, and the pawn on e7 may not take because the queen on e2 is looking straight at the king.",
+      "arrows": [
+        [
+          "e4",
+          "d6"
+        ],
+        [
+          "e2",
+          "e8"
+        ]
+      ],
+      "highlights": [
+        "d6",
+        "e7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.10.3-c1",
+      "type": "name_the_pattern",
+      "fen": "rnbqkbnr/pp2pppp/2p5/3p4/3PP3/8/PPP2PPP/RNBQKBNR w KQkq - 0 3",
+      "prompt": "Why did Black put a pawn on c6 before playing the pawn to d5?",
+      "options": [
+        "So that d5 has a pawn behind it: if White takes there, the c-pawn takes back.",
+        "It opens c6 as a square for the knight on b8.",
+        "It attacks the pawn on d4."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "caro-kann",
+      "hints": {
+        "text": "Play exd5 in your head and ask what takes back."
+      },
+      "reason": "exd5 cxd5 and Black still has a pawn in the middle. The pawn on c6 takes that square away from the knight on b8, which goes to a6 or d7 instead, and a black pawn on c6 captures towards b5 and d5, never d4."
+    },
+    {
+      "id": "3.10.3-c2",
+      "type": "which_square",
+      "fen": "rnbqkbnr/pp2pppp/2p5/8/3PN3/8/PPP2PPP/R1BQKBNR b KQkq - 0 4",
+      "prompt": "Black wants the light-squared bishop outside the pawns before any pawn goes to e6. Tap the square it goes to.",
+      "answer": {
+        "square": "f5"
+      },
+      "concept": "caro-kann",
+      "hints": {
+        "text": "Far enough out to attack the knight that just landed in the middle."
+      },
+      "reason": "f5. The bishop can reach d7, e6, f5, g4 and h3 from c8, and f5 is the one that stands outside the chain and attacks the knight on e4 at the same time."
+    },
+    {
+      "id": "3.10.3-c3",
+      "type": "find_the_move",
+      "fen": "r1bqkb1r/pp1npppp/2p2n2/8/3PN3/8/PPP1QPPP/R1B1KBNR w KQkq - 3 6",
+      "prompt": "Black has just put the second knight on f6 and the white queen is already on e2. Mate in one.",
+      "answer": {
+        "moves": [
+          "Nd6#"
+        ]
+      },
+      "wrong": {
+        "Nxf6+": "Black takes back with Nxf6 or gxf6 and the game goes on. There is a move here that ends it.",
+        "Ng5": "The knight heads for f7, but Black has a whole move to deal with that. Look for the square where the knight cannot be taken."
+      },
+      "concept": "caro-kann",
+      "hints": {
+        "piece": "e4",
+        "square": "d6"
+      },
+      "reason": "Nd6 is mate and it is the only mate on the board. The knight covers e8 and f7, d7, d8, e7 and f8 are all blocked by Black’s own men, and exd6 is not legal - the pawn on e7 is standing between the queen on e2 and the king."
+    },
+    {
+      "id": "3.10.3-c4",
+      "type": "is_it_safe",
+      "fen": "rnbqkbnr/pp2pppp/2p5/8/3PN3/8/PPP2PPP/R1BQKBNR b KQkq - 0 4",
+      "move": "Bf5",
+      "prompt": "Black plays the bishop out to f5, right in front of the knight on e4. Is it safe there?",
+      "reasons": [
+        "No. The queen takes it from d1.",
+        "No. The knight on e4 takes it.",
+        "Yes. Nothing white reaches f5, and the bishop attacks the knight into the bargain."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 2
+      },
+      "concept": "caro-kann",
+      "hints": {
+        "text": "List what White has that could get to f5. There is nothing on that colour yet."
+      },
+      "reason": "Nothing of White’s touches f5. The queen on d1 reaches d2, d3, e2, f3, g4 and h5; the knight on e4 reaches c3, c5, d2, d6, f6, g3 and g5. Neither list has f5 on it, and the bishop attacks the knight, so White usually moves it to g3."
+    },
+    {
+      "id": "3.10.3-c5",
+      "type": "find_them_all",
+      "fen": "rnbqkbnr/pp3ppp/2p1p3/8/3PN3/8/PPP2PPP/R1BQKBNR w KQkq - 0 5",
+      "prompt": "Black played the pawn to e6 before getting the bishop out. Tap every square that bishop on c8 can still reach.",
+      "answer": {
+        "squares": [
+          "d7"
+        ]
+      },
+      "concept": "caro-kann",
+      "hints": {
+        "text": "Look along both of its diagonals and see how far it gets."
+      },
+      "reason": "One square, d7. The pawn on e6 has closed the road c8-d7-e6-f5, and b7 is Black’s own pawn. This is the mistake the move order is there to avoid."
+    },
+    {
+      "id": "3.10.3-c6",
+      "type": "name_the_pattern",
+      "fen": "rn1qkbnr/pp2pppp/2p5/3pPb2/3P4/8/PPP2PPP/RNBQKBNR w KQkq - 1 4",
+      "prompt": "White pushed the pawn to e5 instead of taking on d5. Black got the bishop out to f5 anyway. Why does that still matter?",
+      "options": [
+        "The bishop stops White from castling.",
+        "The bishop attacks the pawn on e5.",
+        "Black is about to play e6, and from c8 the bishop could not get past it."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "caro-kann",
+      "hints": {
+        "text": "Which squares does a bishop on f5 actually see?"
+      },
+      "reason": "The pawn on e6 is coming next and the bishop had to leave first. From f5 it looks along f5-e4-d3-c2 and f5-e6-d7-c8 - e5 is not a square it can see at all. White cannot castle yet either way: both knights and both bishops are still at home."
+    },
+    {
+      "id": "3.10.3-c7",
+      "type": "find_the_sequence",
+      "fen": "rnbqkbnr/pp2pppp/2p5/8/3PN3/8/PPP2PPP/R1BQKBNR b KQkq - 0 4",
+      "prompt": "Play Black’s plan three moves deep: bishop out, White chases it with the knight, bishop steps back along the same diagonal.",
+      "answer": {
+        "line": [
+          "Bf5",
+          "Ng3",
+          "Bg6"
+        ]
+      },
+      "concept": "caro-kann",
+      "hints": {
+        "piece": "c8",
+        "square": "f5"
+      },
+      "reason": "Bf5 Ng3 Bg6. The bishop keeps the long light diagonal and stays outside the pawn chain, which is the only thing Black was trying to arrange. Being chased about is the price, and it is a cheap one."
+    }
+  ],
+  "takeaway": "1...c6 buys one thing: a pawn behind d5. After that the whole plan is to get the light-squared bishop outside the chain before a pawn on e6 shuts the door."
+}

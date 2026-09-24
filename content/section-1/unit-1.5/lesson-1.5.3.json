@@ -119,13 +119,13 @@
       "move": "Rb7",
       "prompt": "White plays Rb7, taking the last square from the black king. Is that safe?",
       "reasons": [
-        "It leaves Black with no move and no check: stalemate, and the win is thrown away.",
         "The rook on b7 is attacked by the king and drops off.",
+        "It leaves Black with no move and no check: stalemate, and the win is thrown away.",
         "It is fine, and Rb8 is mate next move."
       ],
       "answer": {
         "safe": false,
-        "reason": 0
+        "reason": 1
       },
       "concept": "rook-mate",
       "reason": "Rh8 is mate right now. Taking the last square is only ever right when it comes with check.",

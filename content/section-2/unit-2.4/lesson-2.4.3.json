@@ -137,13 +137,13 @@
       "move": "Rh6#",
       "prompt": "White swings the rook to h6, right beside the black knight. Is the rook safe there?",
       "reasons": [
-        "Yes. The knight on g7 does not cover h6, and the rook on g8 cannot reach it.",
+        "No. The rook on g8 takes it.",
         "No. The knight on g7 takes it.",
-        "No. The rook on g8 takes it."
+        "Yes. The knight on g7 does not cover h6, and the rook on g8 cannot reach it."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "corridor-mate",
       "hints": {

@@ -1,0 +1,144 @@
+{
+  "id": "3.9.3",
+  "unit": "3.9",
+  "title": "Queen against a pawn on the seventh",
+  "xp": 16,
+  "card": {
+    "idea": "A queen stops a pawn without effort — except one square from promotion, with its own king beside it and your king far away. Then the file decides everything. Against a knight pawn or a centre pawn the queen wins. Against a rook pawn or a bishop pawn the defender is stalemated the moment you take, and it is a draw.",
+    "diagrams": [
+      "7K/8/8/8/4Q3/8/2p5/2k5 w - - 0 1",
+      "7K/8/8/8/2Q5/8/p7/k7 w - - 0 1"
+    ],
+    "habit": "Look at the file before you calculate. a, c, f and h are the drawing files."
+  },
+  "explain": [
+    {
+      "fen": "7K/8/8/8/4Q3/8/2p5/2k5 w - - 0 1",
+      "text": "A bishop pawn on c2 with its king beside it on c1, and your king in the far corner. Every single move you have scores the same here: nothing. Qxc2 is check, Kxc2 is the only answer, and two bare kings is a draw. The queen alone cannot break this.",
+      "arrows": [["e4", "c2"]],
+      "highlights": ["c2", "c1"]
+    },
+    {
+      "fen": "2Q4K/8/8/8/8/8/2p5/k7 w - - 0 1",
+      "text": "The other half of the same trap, and this one is worse. The black king is on a1 and the pawn on c2. Take it — Qxc2 — and Black has no legal move and is not in check. Stalemate, half a point, from a position where you are a queen up.",
+      "arrows": [["c8", "c2"]],
+      "highlights": ["c2", "a1"]
+    },
+    {
+      "fen": "7K/8/8/8/2Q5/8/p7/k7 w - - 0 1",
+      "text": "The exception worth knowing. A rook pawn usually draws, but here the black king is walled in by its own pawn on a2. Qc1 is mate: a1 along the rank, b1 along the rank, b2 on the diagonal, and nothing of Black's can touch c1.",
+      "arrows": [["c4", "c1"]],
+      "highlights": ["c1", "a1"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.9.3-c1",
+      "type": "find_the_move",
+      "fen": "7K/8/8/8/2Q5/8/p7/k7 w - - 0 1",
+      "prompt": "A rook pawn on the seventh usually saves the game. Not this time — his king has nowhere to breathe. Mate in one.",
+      "answer": { "moves": ["Qc1#"] },
+      "wrong": {
+        "Qxa2+": "Kxa2 is forced, and a king against a bare king is a draw. The pawn was the thing keeping his king trapped.",
+        "Qc3+": "Check, and Kb1 is his only answer — but you have made no progress and he is out of the corner."
+      },
+      "concept": "queen-vs-pawn",
+      "hints": {
+        "piece": "c4",
+        "square": "c1"
+      },
+      "reason": "Qc1 is mate. a2 is his own pawn, b1 and a1 are on the queen's rank and b2 is on her diagonal, so the king has nowhere at all to go."
+    },
+    {
+      "id": "3.9.3-c2",
+      "type": "is_it_safe",
+      "fen": "2Q4K/8/8/8/8/8/2p5/k7 w - - 0 1",
+      "move": "Qxc2",
+      "prompt": "You are a whole queen up and the pawn on c2 is undefended, so you take it: Qxc2. Does that win the game?",
+      "reasons": [
+        "Yes. The pawn was Black's last piece, so a king and queen against a bare king is a straightforward win.",
+        "No. After Qxc2 the black king on a1 has no legal move and is not in check. That is stalemate, and stalemate is a draw.",
+        "No. The black king recaptures on c2 and the queen is gone."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "queen-vs-pawn",
+      "hints": {
+        "text": "Before any capture in an endgame, count the other player's legal moves afterwards."
+      },
+      "reason": "Qxc2 leaves Black with a king on a1 and nothing else. a2, b1 and b2 are all covered by the queen on c2, so there is no move and no check. Half a point given away."
+    },
+    {
+      "id": "3.9.3-c3",
+      "type": "which_square",
+      "fen": "2Q4K/8/8/8/8/8/2p5/k7 w - - 0 1",
+      "prompt": "Tap the square where taking a free pawn would leave Black with no legal move at all.",
+      "answer": { "square": "c2" },
+      "concept": "queen-vs-pawn",
+      "hints": {
+        "text": "There is only one capture on the board. Look at what the queen would cover from there."
+      },
+      "reason": "A queen on c2 covers a2, b1 and b2, which are the black king's only three squares. Taking the pawn takes his last legal move with it."
+    },
+    {
+      "id": "3.9.3-c4",
+      "type": "name_the_pattern",
+      "fen": "7K/8/8/8/4Q3/8/2p5/2k5 w - - 0 1",
+      "prompt": "Queen and king against king and one pawn, and every move White has is worth exactly the same: a draw. What is going on?",
+      "options": [
+        "It is a bishop pawn with the king beside it and White's king too far away. Qxc2 is met by Kxc2, and the queen cannot make progress alone.",
+        "White has already repeated the position three times, so the game is drawn by repetition.",
+        "The pawn on c2 is defended, so the queen is not allowed to take it."
+      ],
+      "answer": { "option": 0 },
+      "concept": "queen-vs-pawn",
+      "hints": {
+        "text": "Play Qxc2 and count Black's replies."
+      },
+      "reason": "Qxc2 is check and Kxc2 is Black's only reply, which leaves two bare kings. Without her own king in range, the queen has no way to win a pawn on the c-file."
+    },
+    {
+      "id": "3.9.3-c5",
+      "type": "find_them_all",
+      "fen": "8/8/8/8/8/8/ppp1pp1p/8 w - - 0 1",
+      "prompt": "Each pawn is one square from queening with its own king beside it, and the white king is far away. Tap every pawn standing on a file that holds the draw.",
+      "answer": { "pieces": ["a2", "c2", "f2", "h2"] },
+      "concept": "queen-vs-pawn",
+      "hints": {
+        "text": "Two kinds of pawn save themselves: the ones on the edge, and the ones in front of where a bishop starts."
+      },
+      "reason": "Rook pawns and bishop pawns draw, because the defending king can be driven into a corner where taking the pawn is stalemate. Knight pawns and centre pawns — b2 and e2 here — lose."
+    },
+    {
+      "id": "3.9.3-c6",
+      "type": "find_the_move",
+      "fen": "8/8/2k5/4Q3/8/8/2p5/7K w - - 0 1",
+      "prompt": "His king has wandered away from the pawn on c2. Find the check that attacks the pawn in the same move.",
+      "answer": { "moves": ["Qe4+"] },
+      "wrong": {
+        "Qd5+": "Check, and a blunder: d5 is beside his king and nothing defends her. Kxd5 wins the queen.",
+        "Qe2": "This does not cover c1, so c1=Q arrives with check and Black holds the draw after the queens come off."
+      },
+      "concept": "queen-vs-pawn",
+      "hints": {
+        "piece": "e5",
+        "square": "e4"
+      },
+      "reason": "Qe4 gives check up the diagonal to c6 and attacks c2 down the other diagonal at the same time. His king has six answers and not one of them defends the pawn, so Qxc2 follows."
+    },
+    {
+      "id": "3.9.3-c7",
+      "type": "play_it_out",
+      "fen": "7K/8/8/8/4Q3/8/2p5/2k5 b - - 0 1",
+      "goal": { "kind": "hold", "moves": 10 },
+      "opponentDepth": 8,
+      "concept": "queen-vs-pawn",
+      "prompt": "You are Black, a queen down, and it is a draw. Prove it: hold for ten moves without letting your king be forced away from the pawn.",
+      "hints": {
+        "piece": "c1",
+        "square": "b1"
+      },
+      "reason": "All four of your king moves hold here: Kb1, Kb2, Kd1 and Kd2. Keep the king within reach of a1 and b1, because it is the corner that saves you — from a1, a queen taking on c2 leaves you stalemated."
+    }
+  ],
+  "takeaway": "A pawn on the seventh with its king beside it is saved by its file: rook pawns and bishop pawns draw against a lone queen, knight and centre pawns do not."
+}

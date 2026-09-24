@@ -65,12 +65,12 @@
       "fen": "4k3/pp2nppp/8/8/8/8/P3RPPP/4K3 w - - 0 1",
       "prompt": "Why may the knight on e7 not move?",
       "options": [
-        "Moving it would leave the black king in check from the rook on e2.",
+        "It would be taken by the rook on e2.",
         "It has nowhere to go.",
-        "It would be taken by the rook on e2."
+        "Moving it would leave the black king in check from the rook on e2."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "absolute-pin",
       "reason": "Rook, knight and king on one file, in that order. That is the whole of it."
@@ -82,13 +82,13 @@
       "move": "d4",
       "prompt": "White pushes the pawn to d4, where the knight on c6 attacks it. Is the pawn safe on d4?",
       "reasons": [
-        "Yes. Only the knight on c6 attacks d4, and the bishop on a4 pins it to the king.",
         "No. The knight on c6 takes it.",
-        "No. The black king walks over and collects it."
+        "No. The black king walks over and collects it.",
+        "Yes. Only the knight on c6 attacks d4, and the bishop on a4 pins it to the king."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "absolute-pin",
       "reason": "Nxd4 would leave the black king in check from the bishop on a4, so it is not a legal move. A pinned defender is not a defender."
@@ -110,12 +110,12 @@
       "fen": "4k3/pp4pp/2n5/1B1P4/8/8/PP4PP/4K3 w - - 0 1",
       "prompt": "White has just pushed the pawn to d5. What is Black's problem?",
       "options": [
-        "The knight is attacked and may not move, so Black must defend it or lose it.",
+        "Nothing. The bishop on b5 is hanging.",
         "The knight is attacked but can jump to a safe square.",
-        "Nothing. The bishop on b5 is hanging."
+        "The knight is attacked and may not move, so Black must defend it or lose it."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "absolute-pin",
       "reason": "Every knight move would open the b5-e8 road, so every one of them is illegal."
@@ -183,12 +183,12 @@
       "fen": "2r3k1/2n2ppp/8/8/8/8/PP3PPP/2R3K1 w - - 0 1",
       "prompt": "What happens if the knight on c7 moves away?",
       "options": [
-        "The rook on c1 takes the rook on c8.",
         "Nothing at all.",
+        "The rook on c1 takes the rook on c8.",
         "The black king is in check."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "relative-pin",
       "reason": "The knight is the only thing between the two rooks."
@@ -200,13 +200,13 @@
       "move": "Ne5",
       "prompt": "White plays the knight to e5, where the knight on d7 can reach it. Is the white knight safe there?",
       "reasons": [
-        "Yes, for all practical purposes. Nxe5 is legal, but then Rxd8 wins the queen.",
+        "No. The pawn on f7 takes it.",
         "No. The knight on d7 takes it and wins a piece.",
-        "No. The pawn on f7 takes it."
+        "Yes, for all practical purposes. Nxe5 is legal, but then Rxd8 wins the queen."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "relative-pin",
       "reason": "The capture is legal and far too expensive. That is exactly what makes this kind of pin different."
@@ -242,12 +242,12 @@
       "fen": "4k3/pp3ppp/2n5/1B6/1b6/2N5/P4PPP/4K3 w - - 0 1",
       "prompt": "Which side has a piece held in place here?",
       "options": [
-        "Both. Each player's knight is stuck in front of its own king.",
         "Only Black.",
+        "Both. Each player's knight is stuck in front of its own king.",
         "Only White."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "pin-both-sides",
       "reason": "A player who only looks at the enemy king gets this exactly half right."
@@ -349,12 +349,12 @@
       "fen": "1k5b/pp6/8/8/8/8/5PPP/3R2K1 w - - 0 1",
       "prompt": "White plays Rd8, check. Why is the bishop on h8 in trouble?",
       "options": [
-        "A bishop cannot capture along a rank, and the king must leave the eighth, so Rxh8 follows.",
         "The bishop simply takes the rook on d8.",
+        "A bishop cannot capture along a rank, and the king must leave the eighth, so Rxh8 follows.",
         "It is not in trouble. The king can stay on b8."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "skewer",
       "reason": "The bishop and the rook never share a diagonal, so the bishop can only watch."
@@ -391,13 +391,13 @@
       "move": "Rc1+",
       "prompt": "White checks the king on c4 with the rook on c1. Is the rook safe there?",
       "reasons": [
-        "Yes. The queen cannot see past its own king, and the king is three squares away.",
         "No. The queen on c8 takes it.",
+        "Yes. The queen cannot see past its own king, and the king is three squares away.",
         "No. The king walks down the file and takes it."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "concept": "skewer",
       "reason": "The king is the thing blocking its own queen, which is the whole point of the position."
@@ -437,12 +437,12 @@
       "fen": "3r2k1/3n1ppp/8/8/8/5N2/5PPP/3R2K1 w - - 0 1",
       "prompt": "Why should White not play Rxd7 here?",
       "options": [
-        "The rook on d8 takes back, so a rook has gone for a knight.",
+        "There is no reason. It wins a piece.",
         "The rook would be lost for nothing at all.",
-        "There is no reason. It wins a piece."
+        "The rook on d8 takes back, so a rook has gone for a knight."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "keep-the-pin",
       "reason": "Five points for three. The pin was worth more standing than it was worth spending."
@@ -464,12 +464,12 @@
       "fen": "3q2k1/pp4pp/3n4/8/2P5/8/PP4PP/3R2K1 w - - 0 1",
       "prompt": "The knight on d6 is going nowhere. What is the right way to win it?",
       "options": [
-        "Attack it again with the pawn, and take only when it is attacked more often than it is defended.",
         "Take it at once with the rook.",
+        "Attack it again with the pawn, and take only when it is attacked more often than it is defended.",
         "Nothing can be done about it."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "keep-the-pin",
       "reason": "Rxd6 now is a rook for a knight. One quiet pawn move makes it a knight for nothing."
@@ -481,13 +481,13 @@
       "move": "c5",
       "prompt": "White pushes the pawn to c5, right beside the black knight. Is the pawn safe there?",
       "reasons": [
-        "Yes. No black piece attacks c5 at all.",
+        "No. The pawn on b7 takes it.",
         "No. The knight on d6 takes it.",
-        "No. The pawn on b7 takes it."
+        "Yes. No black piece attacks c5 at all."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "keep-the-pin",
       "reason": "A knight never attacks the square diagonally beside it, and b7 attacks a6 and c6."

@@ -87,12 +87,12 @@
       "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq - 0 1",
       "prompt": "A written move ends with a + sign. What is it telling you?",
       "options": [
-        "The move gives check.",
         "The move captures something.",
+        "The move gives check.",
         "The move ends the game."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "notation",
       "reason": "A plus means check. Mate gets its own mark, the hash."
@@ -103,12 +103,12 @@
       "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq - 0 1",
       "prompt": "A written move ends with a # sign. What is it telling you?",
       "options": [
-        "It is mate, and the game is over there.",
         "It is check, and the game carries on.",
+        "It is mate, and the game is over there.",
         "A pawn promoted on that square."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "notation",
       "reason": "The hash is the last thing written in a game, because nothing follows mate."
@@ -135,12 +135,12 @@
       "fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
       "prompt": "Why does the written move e4 have no capital letter in front of it?",
       "options": [
-        "It is a pawn move, and pawns have no letter of their own.",
         "It is a king move, and the king is understood.",
+        "It is a pawn move, and pawns have no letter of their own.",
         "The letter is left off when the move is not a capture."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "notation",
       "reason": "Every other piece has a letter. A bare square is how a pawn move is written."
@@ -213,12 +213,12 @@
       "prompt": "The pawn on d5 looks free and the rook can take it. Is the rook safe there?",
       "reasons": [
         "Yes. Nothing black can reach d5.",
-        "No. The knight on c7 takes it back.",
-        "No. The king on g8 takes it back."
+        "No. The king on g8 takes it back.",
+        "No. The knight on c7 takes it back."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "concept": "the-clock",
       "reason": "Nc7 covers d5. The ten seconds it takes to notice save a whole rook."
@@ -230,13 +230,13 @@
       "move": "Rxd5",
       "prompt": "The same capture on a different board. The rook takes on d5. Is it safe there?",
       "reasons": [
-        "Yes. Nothing black defends d5.",
+        "No. The king on g8 takes it back.",
         "No. The pawn on e6 takes it back.",
-        "No. The king on g8 takes it back."
+        "Yes. Nothing black defends d5."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "the-clock",
       "reason": "There is no pawn on e6 and the king is three squares away. Sometimes the check says yes, and it costs the same either way."
@@ -267,12 +267,12 @@
       "prompt": "The rook takes the knight on d5. Is it safe there?",
       "reasons": [
         "Yes. Nothing black reaches d5.",
-        "No. The bishop on a2 takes it back.",
-        "No. The king on g8 takes it back."
+        "No. The king on g8 takes it back.",
+        "No. The bishop on a2 takes it back."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "concept": "the-clock",
       "reason": "The bishop on a2 looks along a2-b3-c4-d5. A defender from the far corner is worth a second look."
@@ -284,13 +284,13 @@
       "move": "Rxe5",
       "prompt": "The rook takes on e5, and there is a black rook on d7. Is the white rook safe on e5?",
       "reasons": [
+        "No. The rook on d7 takes it back.",
         "Yes. The rook on d7 is on the wrong file.",
-        "No. The pawn on f6 takes it back.",
-        "No. The rook on d7 takes it back."
+        "No. The pawn on f6 takes it back."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "concept": "the-clock",
       "reason": "The rook on d7 is the frightening piece and the pawn on f6 is the one that takes. Look at everything, not at the biggest thing."
@@ -302,13 +302,13 @@
       "move": "Rxe4",
       "prompt": "The rook takes the knight on e4. Is it safe there?",
       "reasons": [
-        "Yes. Nothing black defends e4.",
         "No. The pawn on f7 takes it back.",
+        "Yes. Nothing black defends e4.",
         "No. The king on g8 takes it back."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "concept": "the-clock",
       "reason": "A pawn on f7 captures to e6 or g6, and the king is far away. This knight really is free."
@@ -351,12 +351,12 @@
       "fen": "6k1/2n3pp/8/3p4/8/8/5PPP/3R2K1 w - - 0 1",
       "prompt": "You have twelve minutes left in a thirty-minute game and you see a capture straight away. What comes next?",
       "options": [
-        "Work out what your opponent plays in reply, then decide.",
         "Play it now, while you can still see it.",
+        "Work out what your opponent plays in reply, then decide.",
         "Play something safer instead, to save thinking time."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "the-clock",
       "reason": "The first move you see is a candidate. Checking the reply is the cheapest ten seconds in chess."
@@ -367,12 +367,12 @@
       "fen": "4k3/5ppp/8/8/8/2r5/2Q2PPP/4K3 w - - 0 1",
       "prompt": "Your opponent has just played a move that attacks your queen. What does a strong player do first?",
       "options": [
-        "Look at what that move stopped defending.",
         "Move the queen at once to the nearest safe square.",
+        "Look at what that move stopped defending.",
         "Offer a draw before anything worse happens."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "the-clock",
       "reason": "Every move that creates a threat also leaves something behind. Fear is what stops people looking."
@@ -383,12 +383,12 @@
       "fen": "6k1/5ppp/8/8/4n3/8/5PPP/4R1K1 w - - 0 1",
       "prompt": "You finish a slow game with eighteen of your thirty minutes unused. What does that tell you?",
       "options": [
-        "You did not use the time you were given to check your moves.",
+        "You should ask for a shorter time control next game.",
         "You played efficiently and should carry on doing it.",
-        "You should ask for a shorter time control next game."
+        "You did not use the time you were given to check your moves."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "the-clock",
       "reason": "Time left over at the end is worth nothing. Spend it on the moves that decide things, and keep enough back not to flag."
@@ -399,12 +399,12 @@
       "fen": "4k3/5ppp/8/8/8/2r5/2Q2PPP/4K3 w - - 0 1",
       "prompt": "Your game review lists an Inaccuracy on move 9 and a Blunder on move 31. Which do you study first?",
       "options": [
-        "Move 9. Everything after it was played in a position that was already worse.",
+        "Move 31, because it is the one you still remember.",
         "Move 31. The bigger the error, the bigger the lesson.",
-        "Move 31, because it is the one you still remember."
+        "Move 9. Everything after it was played in a position that was already worse."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "first-mistake",
       "reason": "The earliest error decided what kind of game the rest of it was. Fix that and the later one often never arises."
@@ -463,12 +463,12 @@
       "fen": "4k3/5ppp/2p5/3n4/8/8/5PPP/3R1K2 w - - 0 1",
       "prompt": "A review ends with a short drill built out of your own errors. What is it for?",
       "options": [
-        "Practising the exact things you got wrong in that game.",
+        "Replaying the moves you did not have time to play.",
         "Raising your puzzle rating as quickly as possible.",
-        "Replaying the moves you did not have time to play."
+        "Practising the exact things you got wrong in that game."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "first-mistake",
       "reason": "The drill comes from your error log, not from a general pile of puzzles. A clean game ends with no drill rather than a padded one."
@@ -513,12 +513,12 @@
       "prompt": "This is the move the review marked. The rook takes the knight on d5. Was it safe?",
       "reasons": [
         "Yes. Nothing defends the knight on d5.",
-        "No. The pawn on c6 takes it back.",
-        "No. The king on e8 takes it back."
+        "No. The king on e8 takes it back.",
+        "No. The pawn on c6 takes it back."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "concept": "first-mistake",
       "reason": "cxd5 wins a rook for a knight. The review will keep handing this back until you start looking at pawns."

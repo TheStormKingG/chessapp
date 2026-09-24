@@ -38,12 +38,12 @@
       "fen": "2r3k1/1b3ppp/8/8/8/8/2R2PPP/2R3K1 w - - 0 1",
       "prompt": "Rxc8 hands over a rook for a rook, and the bishop on b7 takes back. Why is that a good deal for White?",
       "options": [
-        "It clears c8 of both guards, and the second rook lands there with mate.",
         "It wins material, because the rook on c8 had nothing defending it.",
+        "It clears c8 of both guards, and the second rook lands there with mate.",
         "It opens the c-file so the white king can walk up the board."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "removing-the-defender",
       "reason": "You are buying a square, not counting wood. The rook on c8 was defended by the bishop on b7, so this is not a piece win; it is a mate."
@@ -204,12 +204,12 @@
       "fen": "1r4k1/5ppp/1n6/P7/8/8/5PPP/4R1K1 w - - 0 1",
       "prompt": "White plays axb6, a pawn taking a knight. Why is that worth more than a piece?",
       "options": [
-        "The rook on b8 was guarding e8 as well as the knight, and if it takes on b6 it leaves e8 for Re8 mate.",
         "It makes a passed pawn on b6 that Black cannot stop.",
+        "The rook on b8 was guarding e8 as well as the knight, and if it takes on b6 it leaves e8 for Re8 mate.",
         "It gives check, so Black has no time to defend the back rank."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "overloading",
       "reason": "axb6 is not check, and Rxb6 stops the pawn at once. The point is the rook's second job: after Rxb6 the eighth rank is bare, and if Black does not take back White is simply a piece up."
@@ -235,12 +235,12 @@
       "prompt": "White is tempted to check straight away with Rd8. Is the rook safe on that square?",
       "reasons": [
         "Yes. Nothing black reaches d8.",
-        "No. The rook on c8 takes it along the eighth rank.",
-        "No. The knight on c5 takes it."
+        "No. The knight on c5 takes it.",
+        "No. The rook on c8 takes it along the eighth rank."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "concept": "overloading",
       "reason": "The rook on c8 sees the whole eighth rank, so Rd8 is a rook thrown away. A knight on c5 reaches a4, a6, b3, b7, d3, d7, e4 and e6, and d8 is not one of them. Take the knight first."
@@ -439,13 +439,13 @@
       "move": "Ne7+",
       "prompt": "White gives check with the knight on e7. Is the knight safe on that square?",
       "reasons": [
+        "No. The king on g8 takes it.",
         "Yes. No black piece attacks e7.",
-        "No. The rook on f8 takes it.",
-        "No. The king on g8 takes it."
+        "No. The rook on f8 takes it."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "concept": "deflection",
       "reason": "The rook on f8 moves along the f-file and the eighth rank, and e7 is on neither. The king on g8 is two squares away from e7. Nothing can touch the knight."

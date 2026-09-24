@@ -168,13 +168,13 @@
       "move": "h3",
       "prompt": "White pushes the h-pawn to h3 to give the king a hole. Is the pawn safe there?",
       "reasons": [
-        "Yes. Nothing black attacks h3.",
+        "No. The rook on a2 takes it.",
         "No. The pawn on h4 takes it.",
-        "No. The rook on a2 takes it."
+        "Yes. Nothing black attacks h3."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "escape-square",
       "hints": {

@@ -1,0 +1,208 @@
+{
+  "id": "3.11.3",
+  "unit": "3.11",
+  "title": "Forcing lines to three ply",
+  "xp": 16,
+  "card": {
+    "idea": "A ply is one move by one side. Three ply is your move, their answer, your move again — and that is far enough to settle most of what you will meet at this level. It only works on forcing moves, because a forcing move leaves your opponent with one or two answers instead of thirty, and one answer is something you can actually hold in your head.",
+    "diagrams": [
+      "2r3k1/5ppp/1n6/8/8/8/2R2PPP/2R3K1 w - - 0 1",
+      "2r3k1/5ppp/1n6/3b4/8/8/5PBP/2R3K1 w - - 0 1"
+    ],
+    "habit": "Calculate to three ply, then stop and look at what you have."
+  },
+  "explain": [
+    {
+      "fen": "2r3k1/5ppp/1n6/8/8/8/2R2PPP/2R3K1 w - - 0 1",
+      "text": "Rxc8 is check, and Black has exactly one legal move: Nxc8. The king cannot step off the eighth rank, nothing can block, so the knight has to take. That is why forcing moves are cheap to calculate. Third ply: Rxc8 again, and it is mate.",
+      "arrows": [
+        [
+          "c2",
+          "c8"
+        ],
+        [
+          "b6",
+          "c8"
+        ],
+        [
+          "c1",
+          "c8"
+        ]
+      ],
+      "highlights": [
+        "c8"
+      ]
+    },
+    {
+      "fen": "2r3k1/5ppp/1n6/3b4/8/8/5PBP/2R3K1 w - - 0 1",
+      "text": "The same first two ply, and a different third. The knight on b6 is the only thing defending the rook on c8 and the only thing defending the bishop on d5. Rxc8 drags it to c8, and on the third ply Bxd5 collects the bishop it stopped guarding. The line ends without mate and you are a piece up.",
+      "arrows": [
+        [
+          "c1",
+          "c8"
+        ],
+        [
+          "g2",
+          "d5"
+        ]
+      ],
+      "highlights": [
+        "c8",
+        "d5",
+        "b6"
+      ]
+    },
+    {
+      "fen": "1r5k/6pp/2n5/8/8/8/4RPPP/4R1K1 w - - 0 1",
+      "text": "Re8 is check and Rxe8 is Black's only answer. The king is on h8 beside his own pawns, a king may not run along the line a rook checks him on, and the knight on c6 reaches d8 but not f8 or g8, the only squares a block could use. Third ply: Rxe8 is mate.",
+      "arrows": [
+        [
+          "e2",
+          "e8"
+        ],
+        [
+          "b8",
+          "e8"
+        ],
+        [
+          "e1",
+          "e8"
+        ]
+      ],
+      "highlights": [
+        "e8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.11.3-c1",
+      "type": "find_the_sequence",
+      "fen": "2r3k1/5ppp/1n6/8/8/8/2R2PPP/2R3K1 w - - 0 1",
+      "prompt": "Three ply. Give the rook, let the knight take back, then take with the second rook.",
+      "answer": {
+        "line": [
+          "Rxc8+",
+          "Nxc8",
+          "Rxc8#"
+        ]
+      },
+      "concept": "forcing-line",
+      "hints": {
+        "piece": "c2",
+        "square": "c8"
+      },
+      "reason": "Nxc8 is Black's only legal move, so there is nothing to choose between and nothing to remember. The line is three ply long and it ends in mate."
+    },
+    {
+      "id": "3.11.3-c2",
+      "type": "find_the_move",
+      "fen": "2r3k1/5ppp/1n6/8/8/8/2R2PPP/2R3K1 w - - 0 1",
+      "prompt": "You have calculated the line to its end and you know what is there. Now play the first move of it.",
+      "answer": {
+        "moves": [
+          "Rxc8+"
+        ]
+      },
+      "wrong": {
+        "Rc7": "It is not check, so Black has a free move and the eighth rank gets defended. The line only works because the first move gives him nothing to do with his turn."
+      },
+      "concept": "forcing-line",
+      "hints": {
+        "piece": "c2",
+        "square": "c8"
+      },
+      "reason": "Giving a rook for a rook looks like nothing until you have seen the third ply. That is the whole argument for calculating before you play rather than after."
+    },
+    {
+      "id": "3.11.3-c3",
+      "type": "find_the_sequence",
+      "fen": "1r5k/6pp/2n5/8/8/8/4RPPP/4R1K1 w - - 0 1",
+      "prompt": "Same shape, a different file and a king in the corner. Play the three ply out.",
+      "answer": {
+        "line": [
+          "Re8+",
+          "Rxe8",
+          "Rxe8#"
+        ]
+      },
+      "concept": "forcing-line",
+      "hints": {
+        "piece": "e2",
+        "square": "e8"
+      },
+      "reason": "Rxe8 is the only legal answer: the king cannot leave the eighth rank while a rook is checking him along it, and the knight on c6 reaches d8, which is on the wrong side of the check."
+    },
+    {
+      "id": "3.11.3-c4",
+      "type": "find_the_sequence",
+      "fen": "2r3k1/5ppp/1n6/3b4/8/8/5PBP/2R3K1 w - - 0 1",
+      "prompt": "Three ply again, and this one does not end in mate. Play it anyway and look at what you own at the end.",
+      "answer": {
+        "line": [
+          "Rxc8+",
+          "Nxc8",
+          "Bxd5"
+        ]
+      },
+      "concept": "forcing-line",
+      "hints": {
+        "piece": "c1",
+        "square": "c8"
+      },
+      "reason": "The knight on b6 was the only defender of c8 and the only defender of d5. Once it has been dragged to c8 the bishop drops off. Three ply, no mate, a piece to the good — that is a perfectly good place for a line to end."
+    },
+    {
+      "id": "3.11.3-c5",
+      "type": "which_square",
+      "fen": "2r3k1/5ppp/1n6/3b4/8/8/5PBP/2R3K1 w - - 0 1",
+      "prompt": "Before you play the first move, calculate to the end of the line. Tap the square your bishop takes on at the third ply.",
+      "answer": {
+        "square": "d5"
+      },
+      "concept": "forcing-line",
+      "hints": {
+        "piece": "g2",
+        "text": "Your bishop on g2 already looks at one black piece. Which one, and who is defending it?"
+      },
+      "reason": "The bishop on g2 has been staring at d5 the whole time. It could not take, because the knight on b6 defended d5. The line is a way of removing that knight, and d5 is the point of it."
+    },
+    {
+      "id": "3.11.3-c6",
+      "type": "play_it_out",
+      "fen": "3r2k1/5ppp/8/q7/8/8/3R1PPP/3R2K1 w - - 0 1",
+      "prompt": "You are a queen down and it does not matter. Two moves, and the opponent answers for himself. Mate him.",
+      "goal": {
+        "kind": "mate_in",
+        "moves": 2
+      },
+      "opponentDepth": 6,
+      "concept": "forcing-line",
+      "hints": {
+        "piece": "d2",
+        "square": "d8"
+      },
+      "reason": "Rxd8 is check and the queen on a5 is the only thing that can take back. She has to leave a5 to do it, and then the second rook takes on d8 with mate."
+    },
+    {
+      "id": "3.11.3-c7",
+      "type": "name_the_pattern",
+      "fen": "2r3k1/5ppp/1n6/3b4/8/8/5PBP/2R3K1 w - - 0 1",
+      "prompt": "Your line runs out after three ply and there is no mate at the end of it. What do you do?",
+      "options": [
+        "Stop and count. A line ends where the position goes quiet, and being a piece up is an answer.",
+        "Keep calculating until you find a mate, or the line was not worth playing.",
+        "Discard it. A line that does not end in mate has not proved anything."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "forcing-line",
+      "hints": {
+        "text": "Ask what you would be happy to have on the board when the forcing moves stop."
+      },
+      "reason": "Most calculation ends in a quiet position, not in mate. The job of the line is to tell you what you will have when the forcing moves run out, so that you know before you play whether you want it."
+    }
+  ],
+  "takeaway": "Three ply: your move, their answer, your move. Forcing moves keep their answer down to one, which is what makes the line cheap enough to do every time."
+}

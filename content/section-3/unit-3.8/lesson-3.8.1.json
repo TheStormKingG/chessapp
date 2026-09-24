@@ -1,0 +1,207 @@
+{
+  "id": "3.8.1",
+  "unit": "3.8",
+  "title": "The pawn shield and when not to castle",
+  "xp": 15,
+  "card": {
+    "idea": "Three pawns stand in front of a castled king, and each one you push is a door you cannot shut again. The corner does not keep him safe; the pawns do. So move one only for a reason, and before you castle, look at what is already pointing at that corner.",
+    "diagrams": [
+      "5rk1/3n1p1p/6pQ/8/8/2B5/5PPP/6K1 w - - 0 1",
+      "1n3rk1/5p1p/8/8/8/2BQ4/5PPP/6K1 w - - 0 1"
+    ],
+    "habit": "Do not weaken the pawns in front of your king without a reason."
+  },
+  "explain": [
+    {
+      "fen": "5rk1/3n1p1p/6pQ/8/8/2B5/5PPP/6K1 w - - 0 1",
+      "text": "Black played the g-pawn to g6, and g7 went quiet. The bishop on c3 and the queen on h6 both look at that square, and only the king answers for it. Qg7 is mate: the king may not take, f8 is blocked by his own rook, and the queen covers h8 herself.",
+      "arrows": [
+        [
+          "c3",
+          "g7"
+        ],
+        [
+          "h6",
+          "g7"
+        ]
+      ],
+      "highlights": [
+        "g7",
+        "g6"
+      ]
+    },
+    {
+      "fen": "1n3rk1/5p1p/8/8/8/2BQ4/5PPP/6K1 w - - 0 1",
+      "text": "Here the g-pawn has gone altogether. Nothing stands between g3 and the king, so Qg3 is mate down the file: the bishop on c3 covers g7 and h8, and Black's own rook fills f8. One missing pawn, and the queen finishes alone.",
+      "arrows": [
+        [
+          "d3",
+          "g3"
+        ],
+        [
+          "c3",
+          "h8"
+        ]
+      ],
+      "highlights": [
+        "g3",
+        "g8"
+      ]
+    },
+    {
+      "fen": "r1b2rk1/ppp2ppp/2nb4/3p4/7q/3P4/PPP1BPPP/RNBQK2R w KQ - 0 1",
+      "text": "Castling is a move, not a rule. Black's queen on h4 and bishop on d6 both hit h2, and after O-O the only piece answering for h2 is the king. So Qxh2 is mate. Break the diagonal or chase the queen first, then castle.",
+      "arrows": [
+        [
+          "h4",
+          "h2"
+        ],
+        [
+          "d6",
+          "h2"
+        ]
+      ],
+      "highlights": [
+        "h2",
+        "e1"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.8.1-c1",
+      "type": "which_square",
+      "fen": "5rk1/3n1p1p/6pQ/8/8/2B5/5PPP/6K1 w - - 0 1",
+      "prompt": "Black has just pushed the g-pawn to g6. Tap the dark square beside his king that the pawn used to cover and nothing but the king covers now.",
+      "answer": {
+        "square": "g7"
+      },
+      "concept": "king-safe",
+      "hints": {
+        "text": "Look at the square the g-pawn left behind."
+      },
+      "reason": "A pawn on g7 would have stood on that square. From g6 it does not watch it, so the king is the only black piece answering for g7 — and White has two pieces aimed at it."
+    },
+    {
+      "id": "3.8.1-c2",
+      "type": "find_the_move",
+      "fen": "5rk1/3n1p1p/6pQ/8/8/2B5/5PPP/6K1 w - - 0 1",
+      "prompt": "The bishop on c3 holds g7 for you, so the king may not take there. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qg7#"
+        ]
+      },
+      "wrong": {
+        "Qxh7+": "Kxh7 is the only answer, and it is enough: nothing of yours covers h7, so the king simply takes your queen.",
+        "Qxf8+": "Kxf8 or Nxf8 and you have paid a queen for a rook. The rook was never the thing holding Black together."
+      },
+      "concept": "king-safe",
+      "hints": {
+        "piece": "h6",
+        "square": "g7"
+      },
+      "reason": "Qg7 is mate. The bishop on c3 holds the queen there, f8 is Black's own rook, and the queen herself covers h8."
+    },
+    {
+      "id": "3.8.1-c3",
+      "type": "name_the_pattern",
+      "fen": "5rk1/3n1p1p/6pQ/8/8/2B5/5PPP/6K1 w - - 0 1",
+      "prompt": "One pawn move cost Black the game here. What did pushing the g-pawn to g6 actually give away?",
+      "options": [
+        "It blocked Black's own bishop, so the bishop could not come back to defend.",
+        "It left g7 with no pawn watching it, and White has two pieces aimed at that square.",
+        "It lost a pawn, and a pawn down in this position is enough to lose."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "king-safe",
+      "hints": {
+        "text": "Count what covers g7 now, and count what would have covered it before."
+      },
+      "reason": "Nothing was lost in material. What was lost is a square: g7, which a pawn on g7 covers for free and a pawn on g6 does not."
+    },
+    {
+      "id": "3.8.1-c4",
+      "type": "find_them_all",
+      "fen": "1n3rk1/5p1p/8/8/8/2BQ4/5PPP/6K1 w - - 0 1",
+      "prompt": "The black king is on g8. Tap every black pawn still standing on the three squares directly in front of him.",
+      "answer": {
+        "pieces": [
+          "f7",
+          "h7"
+        ]
+      },
+      "concept": "king-safe",
+      "hints": {
+        "text": "Three squares — f7, g7 and h7. How many of them hold a pawn?"
+      },
+      "reason": "Only f7 and h7. The g-pawn has gone, and that is the whole difference: the file it left is a straight road to the king."
+    },
+    {
+      "id": "3.8.1-c5",
+      "type": "find_the_move",
+      "fen": "1n3rk1/5p1p/8/8/8/2BQ4/5PPP/6K1 w - - 0 1",
+      "prompt": "The g-file is empty from the third rank up to the king. Take it, and mate in one.",
+      "answer": {
+        "moves": [
+          "Qg3#"
+        ]
+      },
+      "wrong": {
+        "Qg6+": "fxg6 or hxg6 — the queen has stepped inside the pawns' reach, and both of them can take her.",
+        "Qxh7+": "Kxh7. Nothing of yours holds h7, so this is a queen for a pawn."
+      },
+      "concept": "king-safe",
+      "hints": {
+        "piece": "d3",
+        "square": "g3"
+      },
+      "reason": "Qg3 is mate. The bishop on c3 covers g7 and h8, Black's own rook fills f8, and no black piece can reach the g-file to block."
+    },
+    {
+      "id": "3.8.1-c6",
+      "type": "is_it_safe",
+      "fen": "r1b2rk1/ppp2ppp/2nb4/3p4/7q/3P4/PPP1BPPP/RNBQK2R w KQ - 0 1",
+      "move": "O-O",
+      "prompt": "White has not castled yet and would like to. Is g1 a safe square for him?",
+      "reasons": [
+        "No. The queen on h4 and the bishop on d6 both hit h2, and Qxh2 is mate at once.",
+        "Yes. Three pawns stand in front of him and no black piece has crossed the fourth rank.",
+        "No. Black plays Bxh2 first, winning a pawn and the exchange."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "king-safe",
+      "hints": {
+        "text": "Count what attacks h2 and count what defends it once the king has arrived on g1."
+      },
+      "reason": "After O-O, h2 is attacked by the queen on h4 and the bishop on d6, and defended only by the king. Qxh2 is mate — White has no legal reply at all."
+    },
+    {
+      "id": "3.8.1-c7",
+      "type": "find_the_move",
+      "fen": "r1b2rk1/ppp2ppp/2n5/2bp4/7q/3P4/PPP1BPPP/RNBQK2R w KQ - 0 1",
+      "prompt": "Same idea, different bishop. Black's queen is on h4 again, but the bishop sits on c5. What is White's best move?",
+      "answer": {
+        "moves": [
+          "O-O"
+        ]
+      },
+      "wrong": {
+        "g3": "It meets the queen, but it is the move the whole unit warns against: you have broken the shelter you were about to hide behind.",
+        "Bf3": "A developing move that does nothing about the king in the middle. Castle while castling is still safe."
+      },
+      "concept": "king-safe",
+      "hints": {
+        "piece": "e1",
+        "square": "g1"
+      },
+      "reason": "With the bishop on c5 nothing supports the queen on h2, so Qxh2 is answered by Kxh2 and Black has given a queen for a pawn. Castling is right here — the same move that loses in the last position."
+    }
+  ],
+  "takeaway": "The shelter is the pawns, not the corner. Push one only for a reason, and before you castle, look at what already points at that corner."
+}

@@ -119,12 +119,12 @@
       "prompt": "White may castle on the short side but not on the long side. Why not?",
       "concept": "castling-restrictions",
       "options": [
-        "The rook on a1 has already moved",
+        "The king would land on an attacked square",
         "The squares b1, c1 and d1 are occupied",
-        "The king would land on an attacked square"
+        "The rook on a1 has already moved"
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "reason": "Each rook carries its own permission, and the one on a1 has already spent hers."
     },
@@ -135,12 +135,12 @@
       "prompt": "White would love to castle on the short side. Why can he not?",
       "concept": "castling-restrictions",
       "options": [
-        "The bishop is still sitting on f1",
+        "The rook on h1 is attacked",
         "The king has already moved",
-        "The rook on h1 is attacked"
+        "The bishop is still sitting on f1"
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "reason": "Every square between the king and the rook must be empty, and f1 is not."
     },
@@ -151,12 +151,12 @@
       "prompt": "Both pieces are at home and f1 and g1 are empty. Why can White still not castle?",
       "concept": "castling-restrictions",
       "options": [
-        "The king would cross f1, which the rook on f8 attacks",
         "Castling is only allowed in the first ten moves",
+        "The king would cross f1, which the rook on f8 attacks",
         "The white rook has nowhere to go"
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "reason": "The king may not start in check, cross an attacked square, or land on one. f1 is watched, so the door is shut."
     },

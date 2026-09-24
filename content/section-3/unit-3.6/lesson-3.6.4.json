@@ -50,11 +50,11 @@
       "prompt": "Walk the list. Which element decides this one?",
       "options": [
         "Piece activity. White’s rooks are better placed than Black’s.",
-        "King safety. Black’s king has fewer defenders nearby.",
-        "Material. White has two rooks against one and everything else matches."
+        "Material. White has two rooks against one and everything else matches.",
+        "King safety. Black’s king has fewer defenders nearby."
       ],
       "answer": {
-        "option": 2
+        "option": 1
       },
       "concept": "four-elements",
       "hints": {
@@ -69,13 +69,13 @@
       "move": "Rd7",
       "prompt": "Being a rook up is no reason to stop looking. White plays Rd7. Is the rook safe there?",
       "reasons": [
+        "No. The rook on a8 swings across and takes it.",
         "Yes. Nothing black can reach d7.",
-        "No. The knight on f6 takes it.",
-        "No. The rook on a8 swings across and takes it."
+        "No. The knight on f6 takes it."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "concept": "four-elements",
       "hints": {
@@ -89,12 +89,12 @@
       "fen": "rn1qkb1r/ppp2pp1/4p3/8/2B5/5N2/PPPQ1PPP/R3R1K1 w - - 0 1",
       "prompt": "Queen, two rooks, bishop, knight and six pawns each. Which element decides it?",
       "options": [
-        "King safety. Black’s king is stuck on e8 and White is castled and finished developing.",
+        "Pawn structure. Black’s pawn on e6 is a long-term weakness.",
         "Material. White has slightly more once you count the pawns properly.",
-        "Pawn structure. Black’s pawn on e6 is a long-term weakness."
+        "King safety. Black’s king is stuck on e8 and White is castled and finished developing."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "four-elements",
       "hints": {
@@ -123,11 +123,11 @@
       "prompt": "Four pawns each and only kings besides. Which element decides it?",
       "options": [
         "Nothing. Four pawns each with no pieces is always drawn.",
-        "Pawn structure. White has a passed pawn on the far wing and Black’s h-pawns are doubled.",
-        "King safety. The white king is the safer of the two."
+        "King safety. The white king is the safer of the two.",
+        "Pawn structure. White has a passed pawn on the far wing and Black’s h-pawns are doubled."
       ],
       "answer": {
-        "option": 1
+        "option": 2
       },
       "concept": "four-elements",
       "hints": {
@@ -141,12 +141,12 @@
       "fen": "r5k1/ppp2ppp/5n2/8/8/5N2/PPP2PPP/6K1 b - - 0 1",
       "prompt": "Black to move. Which element decides this one, and for whom?",
       "options": [
-        "White, on piece activity. His knight is better placed than Black’s.",
+        "Black, on material. He has a rook and White has none.",
         "Level. A rook is not much in a quiet position like this one.",
-        "Black, on material. He has a rook and White has none."
+        "White, on piece activity. His knight is better placed than Black’s."
       ],
       "answer": {
-        "option": 2
+        "option": 0
       },
       "concept": "four-elements",
       "hints": {
@@ -161,11 +161,11 @@
       "prompt": "A rook, a minor piece and six pawns each. Who is better, and why?",
       "options": [
         "Level. Both sides have a rook, a minor piece and the same number of pawns.",
-        "White. The bishop on c8 cannot move, and it is also the only thing defending d7.",
-        "Black. Two bishops beat a knight and a rook in an open position."
+        "Black. Two bishops beat a knight and a rook in an open position.",
+        "White. The bishop on c8 cannot move, and it is also the only thing defending d7."
       ],
       "answer": {
-        "option": 1
+        "option": 2
       },
       "concept": "four-elements",
       "hints": {

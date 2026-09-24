@@ -1,0 +1,194 @@
+{
+  "id": "3.12.1",
+  "unit": "3.12",
+  "title": "Morphy at the Opera",
+  "xp": 16,
+  "card": {
+    "idea": "Paris, 1858. Morphy is at the opera and two noblemen share the black pieces against him. He wins in seventeen moves, and there is nothing in it you have not already been taught: develop, pin, take the guard, bring the last piece up. The only new thing is the order they come in.",
+    "diagrams": [
+      "rn2kb1r/p3qppp/5n2/1B2p1B1/4P3/1Q6/PPP2PPP/R3K2R b KQkq - 0 11",
+      "4kb1r/p2B1ppp/4qn2/4p1B1/4P3/1Q6/PPP2PPP/2KR4 b k - 0 15"
+    ],
+    "habit": "Bring the last piece up before you finish the attack."
+  },
+  "explain": [
+    {
+      "fen": "rnbqkbnr/ppp2ppp/3p4/4p3/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 0 3",
+      "text": "Black has just played 2...d6, holding e5 with a pawn and shutting in the bishop on f8. Nothing is wrong with it. What follows is a lesson in what happens when a solid opening is played slowly against somebody who develops with a threat every single move.",
+      "highlights": [
+        "d6",
+        "e5"
+      ]
+    },
+    {
+      "fen": "rn2kb1r/p3qppp/5n2/1p2p1B1/2B1P3/1Q6/PPP2PPP/R3K2R w KQkq - 0 11",
+      "text": "Morphy has given a knight for a pawn, and this is what he bought. Bxb5 recaptures with check, so Black answers on squares White has chosen. Every white piece is in play. The rook on h8 and the bishop on f8 have not moved all game and never will.",
+      "highlights": [
+        "h8",
+        "f8"
+      ]
+    },
+    {
+      "fen": "1n1Rkb1r/p4ppp/4q3/4p1B1/4P3/8/PPP2PPP/2K5 b k - 1 17",
+      "text": "Seventeen moves. The rook mates on d8, the bishop on g5 holds it there through f6 and e7, and f8 is blocked by Black’s own bishop. Black still has a queen, a rook, a bishop and a knight on the board. Not one of them can reach d8.",
+      "highlights": [
+        "d8",
+        "g5",
+        "f8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.12.1-c1",
+      "type": "guess_the_move",
+      "fen": "rn1qkbnr/ppp2ppp/3p4/4p3/3PP1b1/5N2/PPP2PPP/RNBQKB1R w KQkq - 1 4",
+      "prompt": "Black has just pinned your knight with 3...Bg4. Moving that knight would drop the queen behind it. Play in the centre instead.",
+      "answer": {
+        "moves": [
+          "dxe5"
+        ]
+      },
+      "commentary": "The pin is answered in the centre rather than beside it. After 4...dxe5 the d-file opens at Black’s queen: 5.Qxd8+ Kxd8 6.Nxe5 wins a pawn, hits the bishop on g4 and takes the black king’s castling away. Black gave up the bishop instead — 4...Bxf3 5.Qxf3 dxe5 — and the pin is gone at the cost of letting White’s queen out to f3.",
+      "concept": "story-game",
+      "reason": "4.Nxe5 would lose the queen to 4...Bxd1, so White strikes in the centre instead.",
+      "hints": {
+        "text": "Your knight is not going anywhere useful. Your d-pawn is."
+      }
+    },
+    {
+      "id": "3.12.1-c2",
+      "type": "guess_the_move",
+      "fen": "rn1qkb1r/ppp2ppp/5n2/4p3/2B1P3/5Q2/PPP2PPP/RNB1K2R w KQkq - 2 7",
+      "prompt": "Develop with a threat. There is one black pawn on this board that nothing whatever defends.",
+      "answer": {
+        "moves": [
+          "Qb3"
+        ]
+      },
+      "commentary": "Qb3 attacks b7, which nothing defends, and it stands behind the bishop on c4 so that both point at f7. Black defended with 7...Qe7, which guards f7 and opens b4 for the queen — 8.Qxb7 would then be met by 8...Qb4+ and a trade of queens. Morphy was not playing for a pawn. He played 8.Nc3.",
+      "concept": "story-game",
+      "reason": "Qb3 attacks the undefended b7 pawn and lines the queen up behind the bishop on the diagonal to f7.",
+      "hints": {
+        "text": "Which black pawn has no defender at all?"
+      }
+    },
+    {
+      "id": "3.12.1-c3",
+      "type": "guess_the_move",
+      "fen": "rn2kb1r/pp2qppp/2p2n2/4p3/2B1P3/1QN5/PPP2PPP/R1B1K2R w KQkq - 0 9",
+      "prompt": "Black has just played 8...c6 to hold b7 and d5. You have one minor piece left at home. Bring it out with a job.",
+      "answer": {
+        "moves": [
+          "Bg5"
+        ]
+      },
+      "commentary": "Bg5 pins the knight on f6 to the queen on e7 behind it, and it is the last minor piece White has, so the whole army is now out. Black answered 9...b5, hitting the bishop on c4 and trying to buy back the time he has been losing all game.",
+      "concept": "relative-pin",
+      "reason": "Bg5 pins the knight on f6 against the queen on e7, and it is White’s last undeveloped minor piece.",
+      "hints": {
+        "text": "Look at the diagonal that ends on the black queen."
+      }
+    },
+    {
+      "id": "3.12.1-c4",
+      "type": "guess_the_move",
+      "fen": "rn2kb1r/p3qppp/2p2n2/1p2p1B1/2B1P3/1QN5/PPP2PPP/R3K2R w KQkq - 0 10",
+      "prompt": "Black has just played 9...b5, attacking your bishop. Do not move it. Find the capture that keeps every line open.",
+      "answer": {
+        "moves": [
+          "Nxb5"
+        ]
+      },
+      "commentary": "Nxb5 is a knight for a pawn, and what it buys is the b5 square with tempo: 10...cxb5 11.Bxb5+ recaptures with check, so Black has to answer on squares White picks. He blocked with 11...Nbd7, and that knight is the piece the rest of the game is about.",
+      "concept": "story-game",
+      "reason": "Nxb5 gives a knight for a pawn so that the recapture on b5 comes with check.",
+      "hints": {
+        "text": "A knight for a pawn, if what you buy is a check."
+      }
+    },
+    {
+      "id": "3.12.1-c5",
+      "type": "guess_the_move",
+      "fen": "r3kb1r/p2nqppp/5n2/1B2p1B1/4P3/1Q6/PPP2PPP/R3K2R w KQkq - 1 12",
+      "prompt": "Your king is still in the middle and so is a rook. One move deals with both.",
+      "answer": {
+        "moves": [
+          "O-O-O"
+        ]
+      },
+      "commentary": "Castling long here is a developing move. The king steps out of the centre and the rook arrives on d1, looking straight down an empty file at the knight on d7. Black answered 12...Rd8, adding a defender and contesting the file.",
+      "concept": "story-game",
+      "reason": "O-O-O gets the king off the centre and lands the rook on d1, aimed at the knight on d7.",
+      "hints": {
+        "text": "Which file does Black’s new knight stand on?"
+      }
+    },
+    {
+      "id": "3.12.1-c6",
+      "type": "guess_the_move",
+      "fen": "3rkb1r/p2nqppp/5n2/1B2p1B1/4P3/1Q6/PPP2PPP/2KR3R w k - 3 13",
+      "prompt": "The knight on d7 is defended three times over and you attack it twice. Take it anyway.",
+      "answer": {
+        "moves": [
+          "Rxd7"
+        ]
+      },
+      "commentary": "Rxd7 is a rook for a knight and the point is not material. That knight was the piece holding the file shut, and whatever recaptures has to stand on d7 where a second rook can come at it. Black played 13...Rxd7, and the eighth rank behind it is now empty.",
+      "concept": "removing-the-defender",
+      "reason": "Rxd7 gives the exchange to remove the piece holding the d-file, and whatever recaptures lands where the second rook can reach it.",
+      "hints": {
+        "text": "You are not buying the knight. You are buying the file."
+      }
+    },
+    {
+      "id": "3.12.1-c7",
+      "type": "guess_the_move",
+      "fen": "4kb1r/p2rqppp/5n2/1B2p1B1/4P3/1Q6/PPP2PPP/2K4R w k - 0 14",
+      "prompt": "Nothing is hanging and nothing is forced. You still have one piece that has never moved.",
+      "answer": {
+        "moves": [
+          "Rd1"
+        ]
+      },
+      "commentary": "Rd1 is the quiet move in the middle of the storm. Nothing is taken and nothing is threatened this instant — the last piece simply arrives, and d7 is attacked twice again. Black played 14...Qe6, offering a trade of queens, and in doing so took his queen off the defence of d7.",
+      "concept": "story-game",
+      "reason": "Rd1 brings White’s last piece into the game and gives d7 a second attacker.",
+      "hints": {
+        "text": "Count your own pieces. One of them is still at home."
+      }
+    },
+    {
+      "id": "3.12.1-c8",
+      "type": "guess_the_move",
+      "fen": "4kb1r/p2n1ppp/4q3/4p1B1/4P3/1Q6/PPP2PPP/2KR4 w k - 0 16",
+      "prompt": "The knight on d7 blocks your rook, and taking it there just loses the rook. So make it leave.",
+      "answer": {
+        "moves": [
+          "Qb8+"
+        ]
+      },
+      "commentary": "Qb8+ is the move this game is remembered for. The queen goes to a square where a knight can take her, and 16...Nxb8 is Black’s only legal reply — which is the entire point, because the knight is dragged off d7 and the file behind it empties. A queen for a mate in one is a fair price.",
+      "concept": "deflection",
+      "reason": "Qb8+ deflects the knight from d7. Nxb8 is Black’s only legal move, and the d-file is then empty.",
+      "hints": {
+        "text": "Offer something the knight is not allowed to refuse."
+      }
+    },
+    {
+      "id": "3.12.1-c9",
+      "type": "guess_the_move",
+      "fen": "1n2kb1r/p4ppp/4q3/4p1B1/4P3/8/PPP2PPP/2KR4 w k - 0 17",
+      "prompt": "Finish it.",
+      "answer": {
+        "moves": [
+          "Rd8#"
+        ]
+      },
+      "commentary": "Rd8 is mate. The bishop on g5 holds the rook there through f6 and e7, so the king may not take; d7 is covered by the rook itself; f8 is blocked by a bishop that has not moved all game. Black has a queen, a rook, a bishop and a knight, and none of them can touch d8.",
+      "concept": "opera-mate",
+      "reason": "Rd8 is mate: the bishop on g5 guards d8, the rook itself covers d7, and f8 is Black’s own bishop."
+    }
+  ],
+  "takeaway": "Every move brought a piece nearer the black king, and the last two gave away a rook and a queen to open one file. Count what a move buys, not what it costs."
+}

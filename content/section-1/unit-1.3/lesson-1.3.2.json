@@ -61,11 +61,11 @@
       "prompt": "Black to move. What is the position?",
       "options": [
         "Checkmate — the game is over.",
-        "Check, but the king has somewhere to go.",
-        "Not check at all."
+        "Not check at all.",
+        "Check, but the king has somewhere to go."
       ],
       "answer": {
-        "option": 1
+        "option": 2
       },
       "concept": "checkmate",
       "reason": "The queen on f3 checks the king on g2, but h1 is a free square and the king walks into it.",
@@ -79,12 +79,12 @@
       "fen": "8/8/8/2K5/8/6Q1/8/7k b - - 0 1",
       "prompt": "Black to move. What is the position?",
       "options": [
-        "Checkmate — the game is over.",
+        "Not check at all.",
         "Check, but the king has somewhere to go.",
-        "Not check at all."
+        "Checkmate — the game is over."
       ],
       "answer": {
-        "option": 2
+        "option": 0
       },
       "concept": "checkmate",
       "reason": "Nothing attacks h1. The king is not in check — he simply has no square left, which is a different thing, and the next lesson is about it.",

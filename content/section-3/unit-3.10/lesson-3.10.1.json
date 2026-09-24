@@ -1,0 +1,196 @@
+{
+  "id": "3.10.1",
+  "unit": "3.10",
+  "title": "What a repertoire is and why plans beat lines",
+  "xp": 14,
+  "card": {
+    "idea": "A repertoire is a short list: one opening you play as White, one answer to 1.e4, one answer to 1.d4. Play the same three every game and the positions start to look familiar. What you carry into them is not a move list. It is a plan - which squares your pieces want, where the king goes, and which pawn break you are heading for.",
+    "diagrams": [
+      "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R w KQkq - 1 5",
+      "rn1qkbnr/pp2pppp/2p5/5b2/3PN3/8/PPP2PPP/R1BQKBNR w KQkq - 1 5",
+      "rnbqk2r/ppp1bppp/4pn2/3p2B1/2PP4/2N5/PP2PPPP/R2QKBNR w KQkq - 4 5"
+    ],
+    "habit": "Develop to aggressive squares and castle early."
+  },
+  "explain": [
+    {
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R w KQkq - 1 5",
+      "text": "White has three men placed already: the pawn on e4, the knight on f3, and the bishop on c4 looking down an empty diagonal at f7. On this board f7 is defended by the black king and by nothing else. The pawn on c3 is the next part of the plan - it backs up d4.",
+      "arrows": [
+        [
+          "c4",
+          "f7"
+        ],
+        [
+          "c3",
+          "d4"
+        ]
+      ],
+      "highlights": [
+        "f7",
+        "d4"
+      ]
+    },
+    {
+      "fen": "rn1qkbnr/pp2pppp/2p5/5b2/3PN3/8/PPP2PPP/R1BQKBNR w KQkq - 1 5",
+      "text": "Black is doing the same thing against 1.e4. The bishop has stepped out to f5 before any pawn goes to e6, because the road out of c8 runs c8-d7-e6-f5. Put a pawn on e6 first and the bishop is behind its own men for the rest of the game.",
+      "arrows": [
+        [
+          "c8",
+          "f5"
+        ]
+      ],
+      "highlights": [
+        "e6",
+        "f5"
+      ]
+    },
+    {
+      "fen": "rnbqk2r/ppp1bppp/4pn2/3p2B1/2PP4/2N5/PP2PPPP/R2QKBNR w KQkq - 4 5",
+      "text": "And against 1.d4. The pawn on e6 holds d5, so a capture there is answered by a pawn. The knight on f6 guards d5 as well, the bishop on e7 clears the way to castle. The bill is the bishop on c8, which has exactly one square to go to: d7.",
+      "arrows": [
+        [
+          "e6",
+          "d5"
+        ]
+      ],
+      "highlights": [
+        "d5",
+        "c8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.10.1-c1",
+      "type": "name_the_pattern",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R w KQkq - 1 5",
+      "prompt": "White has put a pawn on c3. Which plan does that pawn belong to?",
+      "options": [
+        "It backs up d4, so White can put a second pawn in the middle.",
+        "It makes room for the knight on b1 to come out to c3.",
+        "It gives the bishop on c4 somewhere to retreat to."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "opening-plans",
+      "hints": {
+        "text": "Look at the square directly in front of it."
+      },
+      "reason": "The pawn on c3 covers d4, and so does the knight on f3. It does the opposite for the knight on b1, which can now only go to a3 or wait for d3 to be played. And a bishop on c4 moves on diagonals - c3 is not one of its squares."
+    },
+    {
+      "id": "3.10.1-c2",
+      "type": "which_square",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R w KQkq - 1 5",
+      "prompt": "The bishop on c4 looks down an empty diagonal at one black pawn. Tap that pawn.",
+      "answer": {
+        "square": "f7"
+      },
+      "concept": "opening-plans",
+      "hints": {
+        "text": "Follow the diagonal that runs c4, d5, e6."
+      },
+      "reason": "f7. The squares d5 and e6 are empty, so the bishop reaches all the way. On this board the king on e8 is the only black man defending f7."
+    },
+    {
+      "id": "3.10.1-c3",
+      "type": "name_the_pattern",
+      "fen": "rn1qkbnr/pp2pppp/2p5/5b2/3PN3/8/PPP2PPP/R1BQKBNR w KQkq - 1 5",
+      "prompt": "Black played the bishop to f5 before playing the pawn to e6. Why that order?",
+      "options": [
+        "It clears c8 so the rook on a8 can swing along the back rank.",
+        "The bishop attacks c2, and White cannot defend it.",
+        "Once a pawn sits on e6 the bishop cannot use that diagonal, so it leaves first."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "opening-plans",
+      "hints": {
+        "text": "Ask where the bishop would go if a pawn stood on e6."
+      },
+      "reason": "The road out of c8 is c8-d7-e6-f5. It is not hitting c2: the knight on e4 blocks the way, and the queen on d1 guards c2 in any case. And the rook on a8 has no moves at all - its own knight is on b8."
+    },
+    {
+      "id": "3.10.1-c4",
+      "type": "name_the_pattern",
+      "fen": "rnbqk2r/ppp1bppp/4pn2/3p2B1/2PP4/2N5/PP2PPPP/R2QKBNR w KQkq - 4 5",
+      "prompt": "Black has pawns on d5 and e6. What is that pair for?",
+      "options": [
+        "It stops White from ever playing the pawn to e4.",
+        "It opens a diagonal for the bishop on c8.",
+        "The e6 pawn holds d5, so Black keeps a pawn in the middle when White takes there."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "opening-plans",
+      "hints": {
+        "text": "Play cxd5 in your head and ask what takes back."
+      },
+      "reason": "cxd5 exd5 and the middle is still a pawn against a pawn. It does the opposite for the bishop on c8, which is now down to one square, d7. And e4 is available to White right now - it just runs into dxe4."
+    },
+    {
+      "id": "3.10.1-c5",
+      "type": "find_them_all",
+      "fen": "r1bq1rk1/ppp2ppp/2np1n2/2b1p3/2B1P3/2PP1N2/PP3PPP/RNBQ1RK1 w - - 2 7",
+      "prompt": "Ignore the pawns. Tap every white piece that is still standing on the square it began the game on.",
+      "answer": {
+        "pieces": [
+          "a1",
+          "b1",
+          "c1",
+          "d1"
+        ]
+      },
+      "concept": "opening-plans",
+      "hints": {
+        "text": "Castling moved two of them. Two more came out on moves two and three."
+      },
+      "reason": "The rook on a1, the knight on b1, the bishop on c1 and the queen on d1. Castling moved the king and the h1 rook; the other bishop and knight came out early. The whole queenside is still waiting for a plan."
+    },
+    {
+      "id": "3.10.1-c6",
+      "type": "is_it_safe",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R w KQkq - 1 5",
+      "move": "Bxf7+",
+      "prompt": "White is tempted to grab the pawn: Bxf7 is check. Is the bishop safe on f7?",
+      "reasons": [
+        "Yes. Nothing black can take it there.",
+        "No. The king on e8 takes it, and White has given a bishop for a pawn.",
+        "No. The knight on f6 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "opening-plans",
+      "hints": {
+        "text": "Taking the checking piece is one of the three ways out of check."
+      },
+      "reason": "Kxf7 is legal and it is Black’s only capture on f7. A raid is not a plan: White has spent a bishop on a pawn. A knight on f6 reaches d5, e4, g4, g8 and h5 - never f7."
+    },
+    {
+      "id": "3.10.1-c7",
+      "type": "name_the_pattern",
+      "fen": "r1bqk2r/1ppp1ppp/p1n2n2/2b1p3/2B1P3/2PP1N2/PP3PPP/RNBQK2R w KQkq - 0 6",
+      "prompt": "Black has just played a6, a move that is in none of your notes. What now?",
+      "options": [
+        "Stop and try to remember which line this is before moving.",
+        "Carry on with the plan: castle, and keep d4 in mind.",
+        "Copy it. Play a3 so the position stays level."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "opening-plans",
+      "hints": {
+        "text": "The move a6 did not touch the middle of the board. Did your plan change?"
+      },
+      "reason": "This is the whole reason for having a plan instead of a list. Castling and the d4 break were White’s next two jobs before a6 and they still are. Both moves are available here; a3 is legal too, and it does nothing."
+    }
+  ],
+  "takeaway": "A repertoire is three openings you keep playing. What you carry into them is a plan - squares, a break, a home for the king - because a plan answers a move you have never seen."
+}

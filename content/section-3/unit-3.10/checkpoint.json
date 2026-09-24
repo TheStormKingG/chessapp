@@ -1,0 +1,541 @@
+{
+  "unit": "3.10",
+  "title": "Building a repertoire skeleton",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "3.10-k01",
+      "type": "name_the_pattern",
+      "fen": "r2q1rk1/ppp2ppp/2np1n2/2b1p3/2B1P1b1/2PP1N2/PP1N1PPP/R1BQR1K1 b - - 5 8",
+      "prompt": "White has brought the queen’s knight out to d2 rather than c3. Why?",
+      "options": [
+        "It opens the a-file for the rook on a1.",
+        "It attacks the bishop on c5.",
+        "Its own pawn is on c3, so d2 is the only way in - f1 and g3 come after it."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "opening-plans",
+      "reason": "A knight on d2 covers b1, b3, e4 and f1. It does not touch c5, and the pawn on a2 is still sitting on the a-file. The route is d2, f1, g3, and the rook had to leave f1 first."
+    },
+    {
+      "id": "3.10-k02",
+      "type": "which_square",
+      "fen": "r2q1rk1/ppp2ppp/2np1n2/2b1p3/2B1P1b1/2PP1N2/PP1N1PPP/R1BQR1K1 b - - 5 8",
+      "prompt": "The knight has just arrived on d2. Tap the square it goes to next on its way across to the other side.",
+      "answer": {
+        "square": "f1"
+      },
+      "concept": "opening-plans",
+      "reason": "f1. The rook moved to e1 two moves ago, so the square is free, and from f1 the knight goes on to g3. Its other squares, b1 and b3, both point backwards."
+    },
+    {
+      "id": "3.10-k03",
+      "type": "name_the_pattern",
+      "fen": "r1b1k1nr/pppp1ppp/2n2q2/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R w KQkq - 1 5",
+      "prompt": "Black has brought the queen out to f6 on move four. What is wrong with that?",
+      "options": [
+        "It stands on the square the knight on g8 wanted, so that knight now has only e7 and h6.",
+        "It wins the knight on f3.",
+        "Nothing. Bringing the queen out early is the quickest way to develop."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "opening-plans",
+      "reason": "The queen is in her own knight’s way. She does attack f3, but the queen on d1 and the pawn on g2 both defend it, so Qxf3 gxf3 hands a queen over for a knight."
+    },
+    {
+      "id": "3.10-k04",
+      "type": "find_them_all",
+      "fen": "r1b1k1nr/pppp1ppp/2n2q2/2b1p3/2B1P3/2P2N2/PP1P1PPP/RNBQK2R w KQkq - 1 5",
+      "prompt": "Ignore the pawns. Tap every black man that is still standing on the square it began the game on.",
+      "answer": {
+        "pieces": [
+          "a8",
+          "c8",
+          "e8",
+          "g8",
+          "h8"
+        ]
+      },
+      "concept": "opening-plans",
+      "reason": "The rook on a8, the bishop on c8, the king on e8, the knight on g8 and the rook on h8. Only the knight on c6, the bishop on c5 and the queen have moved, and the queen went to a square she was not needed on."
+    },
+    {
+      "id": "3.10-k05",
+      "type": "name_the_pattern",
+      "fen": "rnbq1rk1/ppp1bpp1/4pn1p/3p2B1/2PP4/2N1PN2/PP3PPP/R2QKB1R w KQ - 0 7",
+      "prompt": "Black has pawns on d5 and e6, a knight on f6, the bishop on e7, and the king is away. What is the next job?",
+      "options": [
+        "March the h-pawn down the board at White’s king.",
+        "Swap everything off and head for the endgame.",
+        "Give the bishop on c8 something to do - it has one square and no future."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "opening-plans",
+      "reason": "That bishop can only reach d7. Black frees it later with dxc4 and b6, or by rerouting through d7 first. Nothing has been swapped yet and Black’s king is the one on the kingside, so the h-pawn is not a plan."
+    },
+    {
+      "id": "3.10-k06",
+      "type": "which_square",
+      "fen": "rnbqk2r/ppp1bppp/4pn2/3p4/2PP4/2N2N2/PP2PPPP/R1BQKB1R w KQkq - 4 5",
+      "prompt": "Black has pawns on d5 and e6, a knight on f6 and the bishop on e7. Tap the square the black king is going to next.",
+      "answer": {
+        "square": "g8"
+      },
+      "concept": "opening-plans",
+      "reason": "g8. Castling short is available right now: the knight and the bishop on that side have both moved. It is the same third step in every one of these openings - pawns, pieces, king."
+    },
+    {
+      "id": "3.10-k07",
+      "type": "is_it_safe",
+      "fen": "r1bqkbnr/pp2pppp/2n5/3p4/3P4/5N2/PPP2PPP/RNBQKB1R w KQkq - 1 5",
+      "move": "Bb5",
+      "prompt": "White brings the bishop out to b5, where it looks at the knight on c6. Is the bishop safe on b5?",
+      "reasons": [
+        "No. The knight on c6 takes it.",
+        "Yes. Nothing black reaches b5 this move - though a6 asks the question straight away.",
+        "No. The pawn on a7 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "opening-plans",
+      "reason": "Nothing of Black’s touches b5 yet. A knight on c6 reaches a5, a7, b4, b8, d4, d8, e5 and e7 - never b5 - and a black pawn on a7 captures towards b6. But a6 comes next, and the bishop has to decide then."
+    },
+    {
+      "id": "3.10-k08",
+      "type": "name_the_pattern",
+      "fen": "rn1qkbnr/pp2pppp/2p3b1/8/3P4/6N1/PPP2PPP/R1BQKBNR w KQkq - 3 6",
+      "prompt": "The bishop has been chased by the knight and gone back to g6 rather than taking anything. Why g6?",
+      "options": [
+        "It keeps the long light diagonal and stays outside Black’s own pawn chain.",
+        "It defends the pawn on h7 against the rook on h1.",
+        "It attacks the knight on g3."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "opening-plans",
+      "reason": "From g6 the bishop sees c2, d3, e4, f5 and h5 - the same diagonal it stepped out onto. It does not attack g3, and h7 is not under attack by anything. The bishop being outside the chain is the whole point of the opening."
+    },
+    {
+      "id": "3.10-k09",
+      "type": "find_the_sequence",
+      "fen": "rnbqk2r/ppp1bppp/4pn2/3p4/2PP4/2N2N2/PP2PPPP/R1BQKB1R w KQkq - 4 5",
+      "prompt": "Play the next four moves of the plan: White pins the knight, Black castles, White supports the centre, Black asks the bishop a question.",
+      "answer": {
+        "line": [
+          "Bg5",
+          "O-O",
+          "e3",
+          "h6"
+        ]
+      },
+      "concept": "opening-plans",
+      "reason": "Bg5 O-O e3 h6. Each move is a square the plan had already chosen: the pin, the king, the pawn that lets the light bishop out, and the question to the pinning bishop."
+    },
+    {
+      "id": "3.10-k10",
+      "type": "find_the_move",
+      "fen": "r1bqk1nr/pppp1ppp/2n5/4p3/2B1P3/2P2N2/PP1P1bPP/RNBQK2R w KQkq - 0 5",
+      "prompt": "Black has slammed a bishop into f2 with check. Answer it in the way that costs Black the most.",
+      "answer": {
+        "moves": [
+          "Kxf2"
+        ]
+      },
+      "concept": "italian",
+      "reason": "Kxf2. Taking the checking piece is one of the three ways out of check, and here it is simply a free bishop: Black has spent a piece on a pawn and moved the white king one square."
+    },
+    {
+      "id": "3.10-k11",
+      "type": "find_the_move",
+      "fen": "r1bq1rk1/pppp1ppp/2n5/2b1p3/2B1n3/2PP1N2/PP3PPP/RNBQ1RK1 w - - 0 7",
+      "prompt": "Black has just taken the pawn on e4 with the knight. Take the knight.",
+      "answer": {
+        "moves": [
+          "dxe4"
+        ]
+      },
+      "concept": "italian",
+      "reason": "dxe4 is the only capture on e4, and it wins a knight for the pawn Black took. Bxf7+ is answered by Rxf7 or Kxf7 now that Black has castled, and Nxe5 runs into Nxe5."
+    },
+    {
+      "id": "3.10-k12",
+      "type": "find_the_move",
+      "fen": "r1bq1b1r/ppp2kpp/2n5/3np3/2B5/8/PPPP1PPP/RNBQK2R w KQ - 0 7",
+      "prompt": "White has given a knight on f7 and the black king has taken it. Bring the queen out with check and hit a second piece at the same time.",
+      "answer": {
+        "moves": [
+          "Qf3+"
+        ]
+      },
+      "concept": "italian",
+      "reason": "Qf3 is check down the f-file and it attacks the knight on d5 along the other diagonal. Qh5 is also check, but it hits nothing else, and the knight on d5 is what makes the sacrifice work."
+    },
+    {
+      "id": "3.10-k13",
+      "type": "which_square",
+      "fen": "r1bq1rk1/ppp2ppp/2np1n2/2b1p3/2B1P3/2PP1N2/PP1N1PPP/R1BQ1RK1 b - - 3 7",
+      "prompt": "The knight on d2 is heading for f1 and then g3. Tap the piece that is standing in its way.",
+      "answer": {
+        "square": "f1"
+      },
+      "concept": "italian",
+      "reason": "The rook on f1. It went there when White castled and it has not moved since, so the knight has only b1 and b3. Playing the rook to e1 is what opens the route, and it is a square the rook wanted anyway."
+    },
+    {
+      "id": "3.10-k14",
+      "type": "is_it_safe",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2BPP3/2P2N2/PP3PPP/RNBQK2R b KQkq - 0 5",
+      "move": "Bb6",
+      "prompt": "White has pushed the pawn to d4, hitting the bishop on c5. Black steps it back to b6. Is the bishop safe there?",
+      "reasons": [
+        "No. The pawn on a2 takes it.",
+        "Yes. Nothing white reaches b6, and the bishop keeps the long dark diagonal.",
+        "No. The knight on f3 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "italian",
+      "reason": "Nothing of White’s touches b6. A pawn on a2 captures towards b3, and a knight on f3 reaches d2, d4, e5, g1, g5, h4 and e1. From b6 the bishop still looks at d4 and the squares beyond it."
+    },
+    {
+      "id": "3.10-k15",
+      "type": "name_the_pattern",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2BPP3/2P2N2/PP3PPP/RNBQK2R b KQkq - 0 5",
+      "prompt": "White has just played the pawn to d4, the break the whole setup was arranged for. What is Black’s problem here?",
+      "options": [
+        "Three black men can take on d4, and each capture is answered, so Black has to pick one.",
+        "The pawn on d4 cannot be taken at all.",
+        "Black must give up the bishop on c5 immediately."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "italian",
+      "reason": "exd4, Nxd4 and Bxd4 are all legal, and c3, the queen on d1 and the knight on f3 are all looking at the square. exd4 cxd4 is the usual answer, and the bishop on c5 simply steps back to b6."
+    },
+    {
+      "id": "3.10-k16",
+      "type": "find_them_all",
+      "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2BPP3/2P2N2/PP3PPP/RNBQK2R b KQkq - 0 5",
+      "prompt": "Tap every black man that can take the pawn on d4 right now.",
+      "answer": {
+        "pieces": [
+          "c5",
+          "c6",
+          "e5"
+        ]
+      },
+      "concept": "italian",
+      "reason": "The bishop on c5, the knight on c6 and the pawn on e5. Three attackers, and White has three defenders - the pawn on c3, the queen on d1 and the knight on f3 - which is why the break is playable at all."
+    },
+    {
+      "id": "3.10-k17",
+      "type": "name_the_pattern",
+      "fen": "r2qk2r/ppp2ppp/2np1n2/2b1p3/2B1P1b1/2PP1N2/PP3PPP/RNBQ1RK1 w kq - 2 7",
+      "prompt": "Black has played the bishop to g4, where it looks at the knight on f3. How much does that threaten?",
+      "options": [
+        "It wins the knight on f3 next move.",
+        "Not much on its own: the knight is defended twice, so it is a question rather than a threat.",
+        "It threatens mate on h2."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "italian",
+      "reason": "The queen on d1 and the pawn on g2 both defend f3, so Bxf3 is only a trade. White usually answers h3 and makes the bishop decide. The bishop does not touch h2 from g4."
+    },
+    {
+      "id": "3.10-k18",
+      "type": "find_the_sequence",
+      "fen": "r2qk2r/ppp2ppp/2np1n2/2b1p3/2B1P1b1/2PP1N2/PP3PPP/RNBQ1RK1 w kq - 2 7",
+      "prompt": "Ask the bishop a question with the h-pawn, let it drop back along the diagonal, then put the rook behind the e-pawn.",
+      "answer": {
+        "line": [
+          "h3",
+          "Bh5",
+          "Re1"
+        ]
+      },
+      "concept": "italian",
+      "reason": "h3 Bh5 Re1. The bishop keeps the pin-like look but it has spent two moves, and the rook has taken the square the king left. None of this is a line to remember - it is three squares the plan wanted."
+    },
+    {
+      "id": "3.10-k19",
+      "type": "find_the_move",
+      "fen": "rnb1kbnr/pp2pppp/2p5/8/3qN3/8/PPP2PPP/R1BQKBNR w KQkq - 0 5",
+      "prompt": "Black has grabbed the pawn on d4 with the queen. Take her.",
+      "answer": {
+        "moves": [
+          "Qxd4"
+        ]
+      },
+      "concept": "caro-kann",
+      "reason": "Qxd4 is White’s only capture on d4 and it wins the queen outright - nothing of Black’s is defending her there. Pawn-grabbing with the queen in the opening is how games end on move five."
+    },
+    {
+      "id": "3.10-k20",
+      "type": "find_them_all",
+      "fen": "r1bqkbnr/pp1npppp/2p5/8/3PN3/8/PPP2PPP/R1BQKBNR w KQkq - 1 5",
+      "prompt": "Black has played the knight to d7. Tap every black bishop that now has no move at all.",
+      "answer": {
+        "pieces": [
+          "c8",
+          "f8"
+        ]
+      },
+      "concept": "caro-kann",
+      "reason": "Both of them. The bishop on c8 is boxed in by its own pawn on b7 and its own knight on d7; the bishop on f8 by the pawns on e7 and g7. The light-squared one should have come out first."
+    },
+    {
+      "id": "3.10-k21",
+      "type": "name_the_pattern",
+      "fen": "r1bqkbnr/pp1npppp/2p5/8/3PN3/8/PPP2PPP/R1BQKBNR w KQkq - 1 5",
+      "prompt": "What has Black got wrong by putting the knight on d7 this early?",
+      "options": [
+        "It stops Black from ever castling.",
+        "It walks into a fork on c7.",
+        "It blocks the light-squared bishop in, and that bishop is the piece this whole setup exists to free."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "caro-kann",
+      "reason": "The bishop on c8 had d7, e6, f5, g4 and h3 a move ago and now has none of them. There is no fork on c7 on this board, and castling is unaffected - the bishop on f8 is the only thing in the way there."
+    },
+    {
+      "id": "3.10-k22",
+      "type": "which_square",
+      "fen": "r1bqkbnr/pp2pppp/2n5/3p4/3P4/3B4/PPP2PPP/RNBQK1NR w KQkq - 2 5",
+      "prompt": "Exactly one black man is defending the pawn on d5. Tap it.",
+      "answer": {
+        "square": "d8"
+      },
+      "concept": "caro-kann",
+      "reason": "The queen on d8, straight down the file. The c-pawn took on d5 last move, so the pawn that used to hold the square is now standing on it."
+    },
+    {
+      "id": "3.10-k23",
+      "type": "is_it_safe",
+      "fen": "rn1qkbnr/pp3ppp/2p1p3/3pPb2/3P4/5N2/PPP2PPP/RNBQKB1R w KQkq - 0 5",
+      "move": "Bb5",
+      "prompt": "White plays the bishop out to b5, aiming at the black king’s corner of the board. Is it safe on b5?",
+      "reasons": [
+        "Yes. Nothing black reaches b5.",
+        "No. The pawn on c6 takes it, and it is not even check.",
+        "No. The knight on b8 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "caro-kann",
+      "reason": "cxb5 is legal and it is a free bishop. The pawn Black played on move one is still sitting on c6 covering b5, and the same pawn is what stops Bb5 being check: the diagonal to e8 runs through it."
+    },
+    {
+      "id": "3.10-k24",
+      "type": "name_the_pattern",
+      "fen": "rn1qkbnr/pp3ppp/2p1p3/3pPb2/3P4/5N2/PPP2PPP/RNBQKB1R w KQkq - 0 5",
+      "prompt": "White pushed the pawn past on move three instead of taking. Black has the bishop on f5 and a pawn on e6. How did Black get both?",
+      "options": [
+        "The pawn on e6 does not block the bishop at all.",
+        "The bishop came out through d7 after the pawn reached e6.",
+        "The bishop went out first. Play e6 first and it would be locked behind its own pawns."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "caro-kann",
+      "reason": "From f5 the bishop reaches c2, d3, e4, g4, g6 and h3 - it is outside the chain. Its road from c8 was c8-d7-e6-f5, and the pawn on e6 is sitting on it now. Order, not moves."
+    },
+    {
+      "id": "3.10-k25",
+      "type": "find_the_sequence",
+      "fen": "rn1qkbnr/pp2ppp1/2p3bp/8/3P3P/6N1/PPP2PP1/R1BQKBNR w KQkq - 0 7",
+      "prompt": "White pushes the h-pawn at the bishop. Play it out: the pawn arrives, the bishop steps back to the corner, and White offers the trade.",
+      "answer": {
+        "line": [
+          "h5",
+          "Bh7",
+          "Bd3"
+        ]
+      },
+      "concept": "caro-kann",
+      "reason": "h5 Bh7 Bd3. The bishop has been pushed to the edge but it is still on the long light diagonal and still outside its own pawns. Trading it for White’s bishop is a fair deal after all that."
+    },
+    {
+      "id": "3.10-k26",
+      "type": "which_square",
+      "fen": "rn1qkbnr/pp2ppp1/2p3bp/8/3P3P/6N1/PPP2PP1/R1BQKBNR w KQkq - 0 7",
+      "prompt": "Tap the white pawn that is one step away from attacking the bishop on g6.",
+      "answer": {
+        "square": "h4"
+      },
+      "concept": "caro-kann",
+      "reason": "The pawn on h4. Its only move is h5, and from h5 it attacks g6. That is the point of pushing it, and it is why Black played h6 first - to give the bishop the h7 square afterwards."
+    },
+    {
+      "id": "3.10-k27",
+      "type": "name_the_pattern",
+      "fen": "rnbqkb1r/pp2pppp/2p2n2/8/3PN3/8/PPP2PPP/R1BQKBNR w KQkq - 1 5",
+      "prompt": "Black has put the knight on f6 where White can trade it off. What does Black have to accept?",
+      "options": [
+        "Losing the knight for nothing.",
+        "A doubled pawn: after Nxf6 only a pawn can take back, from e7 or from g7.",
+        "That White wins the pawn on f7."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "caro-kann",
+      "reason": "Nxf6+ is check, and exf6 or gxf6 are the only answers, so Black gets doubled f-pawns either way. Nothing is lost for nothing, and f7 is not under attack by anything."
+    },
+    {
+      "id": "3.10-k28",
+      "type": "find_the_move",
+      "fen": "r1bBkb1r/pppn1ppp/8/3n4/3P4/8/PP2PPPP/R2QKBNR b KQkq - 0 7",
+      "prompt": "White has just taken the queen on d8 and it looks like a disaster. Find the check that turns it round.",
+      "answer": {
+        "moves": [
+          "Bb4+"
+        ]
+      },
+      "concept": "queens-gambit-declined",
+      "reason": "Bb4 is check and Qd2 is White’s only legal answer - there is no knight on b1 and no pawn on c2. Bxd2+ then takes the queen back, and after Kxd2 Kxd8 Black is a piece up for a pawn."
+    },
+    {
+      "id": "3.10-k29",
+      "type": "name_the_pattern",
+      "fen": "r1bBkb1r/pppn1ppp/8/3n4/3P4/8/PP2PPPP/R2QKBNR b KQkq - 0 7",
+      "prompt": "Black is about to give the check on b4. Why does White have nothing better than blocking with the queen?",
+      "options": [
+        "White can simply take the knight on d5 again.",
+        "The bishop on d8 can come back to defend.",
+        "The king has no square and there is no other piece or pawn that can get to d2."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "queens-gambit-declined",
+      "reason": "After Bb4 the only legal move on the board is Qd2. The c-pawn went to c4 on move two so there is no c3, and the queen’s knight was traded off on d5, so nothing else covers the square."
+    },
+    {
+      "id": "3.10-k30",
+      "type": "find_them_all",
+      "fen": "rnbqkb1r/ppp2ppp/5n2/3p4/3P4/2N5/PP2PPPP/R1BQKBNR w KQkq - 0 5",
+      "prompt": "The pawns have come off in the middle. Tap every square the bishop on c8 can now reach.",
+      "answer": {
+        "squares": [
+          "d7",
+          "e6",
+          "f5",
+          "g4",
+          "h3"
+        ]
+      },
+      "concept": "queens-gambit-declined",
+      "reason": "Five squares: d7, e6, f5, g4 and h3. A move ago the pawn on e6 left it exactly one. This trade is the simplest way Black ever gets that bishop into the game."
+    },
+    {
+      "id": "3.10-k31",
+      "type": "which_square",
+      "fen": "rnbqkb1r/ppp2ppp/5n2/3p4/3P4/2N5/PP2PPPP/R1BQKBNR w KQkq - 0 5",
+      "prompt": "Two black men guard the pawn on d5. Tap the one that is doing it from the back rank.",
+      "answer": {
+        "square": "d8"
+      },
+      "concept": "queens-gambit-declined",
+      "reason": "The queen on d8, down the open file. The other is the knight on f6. With the e-pawn gone the queen has a clear road to d5, which she did not have while a pawn stood on d6 or d7."
+    },
+    {
+      "id": "3.10-k32",
+      "type": "is_it_safe",
+      "fen": "rnbqkb1r/ppp2pp1/4pn1p/3p2B1/2PP4/2N5/PP2PPPP/R2QKBNR w KQkq - 0 5",
+      "move": "Bh4",
+      "prompt": "Black has asked the question with h6 and White steps the bishop back to h4. Is it safe there?",
+      "reasons": [
+        "No. The knight on f6 takes it.",
+        "No. The pawn on h6 takes it.",
+        "Yes. Nothing black reaches h4 at the moment."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 2
+      },
+      "concept": "queens-gambit-declined",
+      "reason": "Nothing touches h4 this move. A black pawn on h6 captures towards g5, and a knight on f6 reaches d5, d7, e4, g4, g8, h5 and h7. But g5 is Black’s next question, and the bishop has fewer squares each time."
+    },
+    {
+      "id": "3.10-k33",
+      "type": "name_the_pattern",
+      "fen": "rnbqkb1r/ppp2pp1/4pn1p/3p2B1/2PP4/2N5/PP2PPPP/R2QKBNR w KQkq - 0 5",
+      "prompt": "Black has played h6, asking the bishop on g5 what it wants. What are the two honest answers?",
+      "options": [
+        "The bishop has to go all the way home to c1.",
+        "Step back to h4 and keep the pin, or take on f6 and give Black a choice of recaptures.",
+        "The bishop is trapped and simply lost."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "queens-gambit-declined",
+      "reason": "Bh4 and Bxf6 are both available. After Bxf6 Black can take with the queen or with the g-pawn, and the two lead to different games. The bishop is not trapped: nothing on the board attacks h4."
+    },
+    {
+      "id": "3.10-k34",
+      "type": "find_the_sequence",
+      "fen": "rnbq1rk1/ppp1bppp/4pn2/3p2B1/2PP4/2N2N2/PP2PPPP/R2QKB1R w KQ - 6 6",
+      "prompt": "Play four moves of the standard plan: White props the centre up, Black asks the bishop a question, the bishop steps back, and Black starts freeing the last piece.",
+      "answer": {
+        "line": [
+          "e3",
+          "h6",
+          "Bh4",
+          "b6"
+        ]
+      },
+      "concept": "queens-gambit-declined",
+      "reason": "e3 h6 Bh4 b6. The pawn on b6 is the start of the answer to Black’s only real problem: it opens b7 for the bishop that has been sitting on c8 all game."
+    },
+    {
+      "id": "3.10-k35",
+      "type": "find_them_all",
+      "fen": "r1bq1rk1/pppnbppp/4pn2/3p2B1/2PP4/2N1PN2/PP3PPP/R2QKB1R w KQ - 3 7",
+      "prompt": "Ignore the pawns and the king. Tap every black piece that has no legal move at all.",
+      "answer": {
+        "pieces": [
+          "c8"
+        ]
+      },
+      "concept": "queens-gambit-declined",
+      "reason": "Just the bishop on c8. Its own pawn is on b7 and its own knight is on d7, so it has nothing. Every other black piece has somewhere to go, which is why this one is the whole plan from here."
+    },
+    {
+      "id": "3.10-k36",
+      "type": "name_the_pattern",
+      "fen": "r1bq1rk1/pppnbppp/4pn2/3p2B1/2PP4/2N1PN2/PP3PPP/R2QKB1R w KQ - 3 7",
+      "prompt": "Black has knights on d7 and f6, the bishop on e7, and has castled. How does the bishop on c8 get out?",
+      "options": [
+        "Take on c4 first, then play b6 and put it on b7.",
+        "Play e5 and bring it out through e6.",
+        "It cannot get out, so Black should give it away."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "queens-gambit-declined",
+      "reason": "dxc4 and b6 are both legal right now, and b7 is the square that gives the bishop a diagonal. Its other road, through e6, is closed by Black’s own pawn standing there."
+    }
+  ]
+}

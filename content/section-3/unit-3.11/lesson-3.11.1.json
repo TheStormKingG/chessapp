@@ -1,0 +1,213 @@
+{
+  "id": "3.11.1",
+  "unit": "3.11",
+  "title": "Two or three candidate moves before calculating",
+  "xp": 14,
+  "card": {
+    "idea": "Strong players do not calculate one move deeply. They write a short list first, then calculate the list. The list is easy to build: every move that gives check, every move that takes something, and any move that makes a threat big enough to answer. Two or three is usually the whole list.",
+    "diagrams": [
+      "r2r2k1/1p3ppp/2b5/4N3/8/8/5PPP/3Q2K1 w - - 0 1",
+      "6k1/pR3ppp/8/2n5/8/8/5PPP/6K1 w - - 0 1"
+    ],
+    "habit": "List two or three moves, then calculate. Never calculate first."
+  },
+  "explain": [
+    {
+      "fen": "r2r2k1/1p3ppp/2b5/4N3/8/8/5PPP/3Q2K1 w - - 0 1",
+      "text": "Three white moves give check or take something: Nxc6, Nxf7 and Qxd8. That is the list. It took four seconds to build and it is complete, because a move that is neither a check nor a capture cannot be forcing. Now you have three lines to calculate instead of thirty-five.",
+      "arrows": [
+        [
+          "e5",
+          "c6"
+        ],
+        [
+          "e5",
+          "f7"
+        ],
+        [
+          "d1",
+          "d8"
+        ]
+      ],
+      "highlights": [
+        "c6",
+        "d8",
+        "f7"
+      ]
+    },
+    {
+      "fen": "6k1/pR3ppp/8/2n5/8/8/5PPP/6K1 w - - 0 1",
+      "text": "The knight on c5 attacks your rook, so you cannot drift. The rook has twelve squares, but only three of them give check or take something: a7, b8 and f7. Calculate those three and you will find that b8 is mate.",
+      "arrows": [
+        [
+          "b7",
+          "a7"
+        ],
+        [
+          "b7",
+          "b8"
+        ],
+        [
+          "b7",
+          "f7"
+        ]
+      ],
+      "highlights": [
+        "a7",
+        "b8",
+        "f7"
+      ]
+    },
+    {
+      "fen": "2r3k1/5ppp/8/3N4/8/8/5PPP/6K1 w - - 0 1",
+      "text": "Here the knight has two checks and nothing else forcing, so the list is two moves long. Nf6 is check and gxf6 answers it. Ne7 is check and hits the rook on c8 as well. Both belonged on the list. Only one of them survived being calculated.",
+      "arrows": [
+        [
+          "d5",
+          "e7"
+        ],
+        [
+          "d5",
+          "f6"
+        ]
+      ],
+      "highlights": [
+        "e7",
+        "f6"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.11.1-c1",
+      "type": "find_them_all",
+      "fen": "r2r2k1/1p3ppp/2b5/4N3/8/8/5PPP/3Q2K1 w - - 0 1",
+      "prompt": "Build the list before you calculate anything. Tap every square White can move to that either gives check or takes a black piece.",
+      "answer": {
+        "squares": [
+          "c6",
+          "d8",
+          "f7"
+        ]
+      },
+      "concept": "candidate-moves",
+      "hints": {
+        "text": "Look at the knight first, then at the queen. Nothing else of White's can reach a black piece."
+      },
+      "reason": "Nxc6, Nxf7 and Qxd8 are the whole list: those are every check and every capture White owns. Three lines to look at instead of thirty-five."
+    },
+    {
+      "id": "3.11.1-c2",
+      "type": "which_square",
+      "fen": "r2r2k1/1p3ppp/2b5/4N3/8/8/5PPP/3Q2K1 w - - 0 1",
+      "prompt": "Before you calculate your list, find out what Black is doing. Tap the square where Black's rook would land to give mate.",
+      "answer": {
+        "square": "d1"
+      },
+      "concept": "candidate-moves",
+      "hints": {
+        "piece": "d8",
+        "text": "Follow the d-file down. What is standing at the bottom of it, and what is behind that?"
+      },
+      "reason": "Rxd1 takes the queen and is mate: e1 and f1 are covered by the rook, h1 is on the same rank, and f2, g2 and h2 are White's own pawns."
+    },
+    {
+      "id": "3.11.1-c3",
+      "type": "name_the_pattern",
+      "fen": "r2r2k1/1p3ppp/2b5/4N3/8/8/5PPP/3Q2K1 w - - 0 1",
+      "prompt": "Your list is Nxc6, Nxf7 and Qxd8. What happens to the first two once you calculate them?",
+      "options": [
+        "Both lose at once to Rxd1 mate, because the queen was the only thing guarding the first rank.",
+        "Both win a piece, so either one is fine and the choice does not matter.",
+        "Both are answered by Bxg2, which wins a pawn and exposes the king."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "candidate-moves",
+      "hints": {
+        "text": "Play Nxc6 in your head and then give Black the move."
+      },
+      "reason": "This is what the list is for. Two of the three moves on it lose on the spot, and you only find that out by calculating them. A list you do not calculate is worth nothing."
+    },
+    {
+      "id": "3.11.1-c4",
+      "type": "find_them_all",
+      "fen": "6k1/pR3ppp/8/2n5/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "The knight on c5 attacks your rook, so you have to decide now. Tap every square that rook can go to that gives check or takes something.",
+      "answer": {
+        "squares": [
+          "a7",
+          "b8",
+          "f7"
+        ]
+      },
+      "concept": "candidate-moves",
+      "hints": {
+        "text": "The rook has twelve squares. Nine of them do nothing to Black at all."
+      },
+      "reason": "Rxa7, Rb8 and Rxf7. The other nine rook moves neither check nor capture, so none of them can be the answer to a piece that is attacking you."
+    },
+    {
+      "id": "3.11.1-c5",
+      "type": "find_the_move",
+      "fen": "6k1/pR3ppp/8/2n5/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "You have your three squares. Now calculate them. One of the three ends the game.",
+      "answer": {
+        "moves": [
+          "Rb8#"
+        ]
+      },
+      "wrong": {
+        "Rxa7": "A free pawn, and Black is still playing. Look at b8 again: the black king has three of his own pawns in front of him.",
+        "Rxf7": "Kxf7, and you have handed over a rook for a pawn. The king was the one piece defending f7."
+      },
+      "concept": "candidate-moves",
+      "hints": {
+        "piece": "b7",
+        "square": "b8"
+      },
+      "reason": "Rb8 is mate. The king has f7, g7 and h7 blocked by his own pawns, c8 to h8 belong to the rook, and nothing can take on b8."
+    },
+    {
+      "id": "3.11.1-c6",
+      "type": "find_the_move",
+      "fen": "2r3k1/5ppp/8/3N4/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Your knight has two checks and nothing else forcing. That is the whole list. Calculate both and play the one that survives.",
+      "answer": {
+        "moves": [
+          "Ne7+"
+        ]
+      },
+      "wrong": {
+        "Nf6+": "gxf6. It was right to put this on the list and right to take it off again — that is what calculating the list is for."
+      },
+      "concept": "candidate-moves",
+      "hints": {
+        "piece": "d5",
+        "text": "One of the two checks lands on a square no black pawn can reach."
+      },
+      "reason": "Ne7 is check and attacks the rook on c8 at the same time. The king must move and then the rook comes off. Nf6 is the same idea one square away and simply loses to the g-pawn."
+    },
+    {
+      "id": "3.11.1-c7",
+      "type": "name_the_pattern",
+      "fen": "2r3k1/5ppp/8/3N4/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Nf6 loses a knight for nothing. Should it have gone on the list at all?",
+      "options": [
+        "No. A knight move that can be met by a pawn is never worth a second look.",
+        "No. You should only list moves you already know are good, or you waste time.",
+        "Yes. It is a check, so it goes on the list, and calculating is what takes it off."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "candidate-moves",
+      "hints": {
+        "text": "If you only list moves you have already judged, you have done the judging without looking."
+      },
+      "reason": "Building the list and judging the list are two different jobs, and doing them at once is how you miss things. Put every check and every capture on it, then calculate."
+    }
+  ],
+  "takeaway": "Write the short list first: every check, every capture, anything that makes a real threat. Then calculate the list. Two or three moves is usually all there is."
+}

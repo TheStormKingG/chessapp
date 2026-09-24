@@ -1,0 +1,196 @@
+{
+  "id": "3.9.1",
+  "unit": "3.9",
+  "title": "Distant and diagonal opposition",
+  "xp": 15,
+  "card": {
+    "idea": "The opposition is not only for kings standing two squares apart. Any line will do — a file, a rank, a diagonal — and any odd number of squares between them. Count the squares between the two kings. If the number is odd and it is the other player's move, the standoff belongs to you, whether the gap is one square or five.",
+    "diagrams": [
+      "1k6/8/8/8/8/8/4P3/K7 w - - 0 1",
+      "8/8/5k2/8/8/8/3P4/K7 w - - 0 1"
+    ],
+    "habit": "Count the squares between the kings. Odd, with him to move, is yours."
+  },
+  "explain": [
+    {
+      "fen": "1k6/8/8/8/8/8/4P3/K7 w - - 0 1",
+      "text": "The pawn on e2 is a spectator here; the game is a king race. Kb2 is the only move that wins. It puts your king on his file with five squares between — b3, b4, b5, b6, b7 — and leaves him to move. Ka2, Kb1, e3 and e4 all throw the win away.",
+      "arrows": [
+        [
+          "a1",
+          "b2"
+        ]
+      ],
+      "highlights": [
+        "b2",
+        "b8"
+      ]
+    },
+    {
+      "fen": "8/8/5k2/8/8/8/3P4/K7 w - - 0 1",
+      "text": "A diagonal counts too. a1 and f6 already share the long diagonal, but with four squares between them, and an even number is no use to the player to move. Kb2 makes it three — c3, d4, e5 — and hands Black the move. Again it is the only winning move on the board.",
+      "arrows": [
+        [
+          "a1",
+          "b2"
+        ]
+      ],
+      "highlights": [
+        "b2",
+        "f6"
+      ]
+    },
+    {
+      "fen": "7k/8/8/8/8/8/3P4/6K1 b - - 0 1",
+      "text": "Now you are the one a pawn down. h8 and g1 share no line at all. Kg7 puts you on his file with five squares between and hands him the move, and it is the only one of your three moves that draws. Kg8 and Kh7 both lose.",
+      "arrows": [
+        [
+          "h8",
+          "g7"
+        ]
+      ],
+      "highlights": [
+        "g7",
+        "g1"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.9.1-c1",
+      "type": "which_square",
+      "fen": "1k6/8/8/8/8/8/4P3/K7 w - - 0 1",
+      "prompt": "Your king is on a1 and his is on b8. Tap the square that puts you on his file with an odd number of squares between you, and leaves him to move.",
+      "answer": {
+        "square": "b2"
+      },
+      "concept": "opposition",
+      "hints": {
+        "text": "His king is on the b-file. Get on it, and count what is left between you."
+      },
+      "reason": "b2 and b8 leave five squares between them — b3, b4, b5, b6, b7 — and it is Black's move. That is the distant opposition."
+    },
+    {
+      "id": "3.9.1-c2",
+      "type": "find_the_move",
+      "fen": "1k6/8/8/8/8/8/4P3/K7 w - - 0 1",
+      "prompt": "Five moves, one win. The pawn is not the point.",
+      "answer": {
+        "moves": [
+          "Kb2"
+        ]
+      },
+      "wrong": {
+        "e4": "Pushing settles nothing. After e4 all five of Black's king moves hold the draw, because the race is between the kings and the pawn cannot run it alone.",
+        "Ka2": "a2 is not on his file. After Ka2 Black has exactly one saving move, Kc7, and one is all he needs."
+      },
+      "concept": "opposition",
+      "hints": {
+        "piece": "a1",
+        "square": "b2"
+      },
+      "reason": "Kb2 is the only winning move. It takes his file with five squares between and leaves him to move; Ka2, Kb1, e3 and e4 all draw."
+    },
+    {
+      "id": "3.9.1-c3",
+      "type": "find_them_all",
+      "fen": "4k3/8/8/8/8/8/1P6/K7 w - - 0 1",
+      "prompt": "His king is on e8. Tap every square on the e-file from which a white king would face him down the file with an odd number of squares between them.",
+      "answer": {
+        "squares": [
+          "e6",
+          "e4",
+          "e2"
+        ]
+      },
+      "concept": "opposition",
+      "hints": {
+        "text": "Start at e8 and count back: one between, three between, five between."
+      },
+      "reason": "e6 leaves one square between, e4 leaves three and e2 leaves five. e7, e5, e3 and e1 all leave an even number, and an even number is the wrong side of the standoff."
+    },
+    {
+      "id": "3.9.1-c4",
+      "type": "find_the_move",
+      "fen": "8/8/5k2/8/8/8/3P4/K7 w - - 0 1",
+      "prompt": "The two kings already stand on the long diagonal, four squares apart. Fix the count.",
+      "answer": {
+        "moves": [
+          "Kb2"
+        ]
+      },
+      "wrong": {
+        "d4": "A free pawn move does not buy a tempo you can use. After d4 seven of Black's eight king moves still hold the draw.",
+        "Ka2": "a2 leaves the diagonal altogether, and Black is not obliged to help. After Ka2 either Ke5 or Ke6 draws."
+      },
+      "concept": "opposition",
+      "hints": {
+        "piece": "a1",
+        "square": "b2"
+      },
+      "reason": "Kb2 leaves c3, d4 and e5 between the kings — three squares, odd — with Black to move. It is the only winning move here."
+    },
+    {
+      "id": "3.9.1-c5",
+      "type": "find_the_move",
+      "fen": "7k/8/8/8/8/8/3P4/6K1 b - - 0 1",
+      "prompt": "You are Black, a pawn down, and you have three king moves. Only one of them saves the game.",
+      "answer": {
+        "moves": [
+          "Kg7"
+        ]
+      },
+      "wrong": {
+        "Kg8": "Now White takes the standoff instead: Kf2 or Kg2 both win from here.",
+        "Kh7": "The same mistake one square further over. Kf2 or Kf1 wins for White."
+      },
+      "concept": "opposition",
+      "hints": {
+        "piece": "h8",
+        "square": "g7"
+      },
+      "reason": "Kg7 puts the kings on the g-file with five squares between — g2 to g6 — and it is White's move. Kg8 and Kh7 both lose."
+    },
+    {
+      "id": "3.9.1-c6",
+      "type": "name_the_pattern",
+      "fen": "7k/8/8/8/8/8/4P3/K7 b - - 0 1",
+      "prompt": "The kings stand on the long diagonal with six squares between them and it is Black's move. Kg7 is the only move that draws. Why?",
+      "options": [
+        "It changes the gap from six squares to five, so White is the one who has to step first.",
+        "It threatens to win the pawn on e2 next move.",
+        "It steps onto a light square, and the white king can never reach those."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "opposition",
+      "hints": {
+        "text": "Six is even, five is odd. Which of those helps the player who is not to move?"
+      },
+      "reason": "Six squares between is the wrong number: it is White's standoff, not Black's. Kg7 leaves five — b2 to f6 — and puts the burden of moving back on White."
+    },
+    {
+      "id": "3.9.1-c7",
+      "type": "is_it_safe",
+      "fen": "1k6/8/8/8/8/8/4P3/K7 w - - 0 1",
+      "move": "e4",
+      "prompt": "You have a free pawn and a king race to win, so you push it two squares: e4. Does that get you anywhere?",
+      "reasons": [
+        "Yes. Two squares at once means the pawn queens a move before Black's king can arrive.",
+        "No. e4 hangs the pawn, and Black's king takes it next move.",
+        "No. The pawn was never the problem. After e4 every one of Black's five king moves draws, because the kings decide this and the pawn cannot."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "opposition",
+      "hints": {
+        "text": "Count Black's replies to e4 and ask how many of them lose."
+      },
+      "reason": "e4 turns a win into a draw. Kb2 wins and every other move on the board draws, so the one pawn move that looks like progress is the move that throws the game away."
+    }
+  ],
+  "takeaway": "Kings oppose each other down files, ranks and diagonals alike. Count the squares between them: odd, with the other player to move, is the side you want to be on."
+}

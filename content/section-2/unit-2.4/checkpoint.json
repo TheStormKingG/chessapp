@@ -146,12 +146,12 @@
       "fen": "6k1/5pp1/7p/8/8/8/r4PPP/6K1 w - - 0 1",
       "prompt": "Black has played h6. What has that changed?",
       "options": [
-        "The king now has h7, so a check on the eighth rank is only a check.",
+        "It loses, because g6 is now weak.",
         "Nothing at all.",
-        "It loses, because g6 is now weak."
+        "The king now has h7, so a check on the eighth rank is only a check."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "escape-square",
       "reason": "One pawn move gives the king a way out, and the whole pattern stops working."
@@ -213,13 +213,13 @@
       "move": "Qg8+",
       "prompt": "White plays the queen to g8, right in front of the black king. Is she safe there?",
       "reasons": [
+        "No. The rook on c2 takes her.",
         "Yes. The pawn on f6 defends g8.",
-        "No. The king on h8 simply takes her.",
-        "No. The rook on c2 takes her."
+        "No. The king on h8 simply takes her."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "concept": "support-mate",
       "reason": "A pawn on f6 covers g7 and e7, never g8. One square along, and the queen is lost."
@@ -230,12 +230,12 @@
       "fen": "r6k/7p/5p1B/8/6Q1/8/2q2PPP/6K1 w - - 0 1",
       "prompt": "Qg7 is mate here. Which white man makes it a mate rather than a blunder?",
       "options": [
-        "The bishop on h6, which guards g7.",
+        "The king on g1.",
         "The pawn on g2.",
-        "The king on g1."
+        "The bishop on h6, which guards g7."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "support-mate",
       "reason": "The bishop is the helper. Without something defending g7, a queen there is simply taken."
@@ -461,13 +461,13 @@
       "move": "Qh7#",
       "prompt": "White puts the queen on h7, right beside the black king. Is she safe there?",
       "reasons": [
-        "Yes. The pawn on g6 defends her.",
+        "No. The rook on f8 takes her.",
         "No. The king takes her.",
-        "No. The rook on f8 takes her."
+        "Yes. The pawn on g6 defends her."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "damiano",
       "reason": "The pawn on g6 defends h7, so the king is not allowed to capture."
@@ -478,12 +478,12 @@
       "fen": "5rk1/5p2/8/7Q/8/8/2r2PPP/6K1 w - - 0 1",
       "prompt": "There is no white pawn on g6 in this position. What happens if White plays the queen to h7?",
       "options": [
-        "The king simply takes her, and White has given away a queen.",
+        "It is stalemate.",
         "It is mate anyway, because of the rook on f8.",
-        "It is stalemate."
+        "The king simply takes her, and White has given away a queen."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "damiano",
       "reason": "Nothing defends h7 any more. The pawn was doing the whole of the work."

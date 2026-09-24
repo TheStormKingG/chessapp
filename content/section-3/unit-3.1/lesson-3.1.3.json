@@ -60,11 +60,11 @@
       "move": "Bxe6+",
       "prompt": "White wants to take the pinned knight at once with Bxe6. Is the bishop safe on e6?",
       "reasons": [
-        "Yes. The knight was pinned, so nothing is allowed to take back.",
         "No. The pawn on d7 takes it.",
+        "Yes. The knight was pinned, so nothing is allowed to take back.",
         "No. The king on g8 takes it."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 0 },
       "concept": "exploit-pin",
       "hints": {
         "text": "A pin stops one piece moving. Ask what else is looking at e6."
@@ -93,11 +93,11 @@
       "fen": "6k1/p2p2pp/4n3/8/5P2/1B6/P5PP/6K1 w - - 0 1",
       "prompt": "Why is pushing the pawn better than taking the knight with the bishop?",
       "options": [
-        "The pawn attacks the knight for nothing, and the knight still cannot run.",
         "A bishop is worth more than a knight, so the trade loses material.",
+        "The pawn attacks the knight for nothing, and the knight still cannot run.",
         "A bishop is not allowed to capture a pinned piece."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "concept": "exploit-pin",
       "hints": {
         "text": "What do a bishop and a knight cost? And what does pushing a pawn cost?"

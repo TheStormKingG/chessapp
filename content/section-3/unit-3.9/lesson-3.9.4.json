@@ -1,0 +1,149 @@
+{
+  "id": "3.9.4",
+  "unit": "3.9",
+  "title": "Rook against a pawn",
+  "xp": 16,
+  "card": {
+    "idea": "A rook beats a pawn, but only from the right side of it. In front of the pawn — on the rank it is about to reach — the rook either stops it outright or collects whatever it turns into. Behind it or beside it, the rook is a spectator, and a pawn with its own king alongside walks straight past.",
+    "diagrams": [
+      "8/8/8/8/7R/2k1K3/2p5/8 w - - 0 1",
+      "8/8/8/4K3/8/1p6/1k6/7R w - - 0 1"
+    ],
+    "habit": "Take the queening rank first. Then bring the king."
+  },
+  "explain": [
+    {
+      "fen": "8/8/8/8/7R/2k1K3/2p5/8 w - - 0 1",
+      "text": "The pawn on c2 is one square from a queen. Rh1 takes the whole first rank. Black may still promote, but c1=Q is met by Rxc1 and his king on c3 cannot reach c1 to take back. Rc4+ is a draw, and the other seventeen legal moves all lose.",
+      "arrows": [["h4", "h1"]],
+      "highlights": ["h1", "c1"]
+    },
+    {
+      "fen": "8/8/8/4K3/8/1p6/1k6/7R w - - 0 1",
+      "text": "Here the rook already sits on the first rank, so the pawn is going nowhere and the rook has no more work to do. Kd4 is the only winning move: the king has to come. Rb1 is even a loss, because his king on b2 simply takes it.",
+      "arrows": [["e5", "d4"]],
+      "highlights": ["d4", "b1"]
+    },
+    {
+      "fen": "6R1/8/8/8/8/1pk1K3/8/8 w - - 0 1",
+      "text": "A check can be the tempo you are short of. Rc8 is check, his king has only Kb4 and Kb2, and that is the whole difference here: Rc8 is the one winning move on the board, and all eighteen others are drawn.",
+      "arrows": [["g8", "c8"]],
+      "highlights": ["c8", "b3"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.9.4-c1",
+      "type": "which_square",
+      "fen": "8/8/8/8/7R/2k1K3/2p5/8 w - - 0 1",
+      "prompt": "The pawn on c2 queens next move. Tap the square your rook should take, so that whatever appears on c1 can be captured.",
+      "answer": { "square": "h1" },
+      "concept": "rook-vs-pawn",
+      "hints": {
+        "text": "You cannot stop the promotion. You can own the rank it happens on."
+      },
+      "reason": "Rh1 gives the rook the whole first rank. Black may still promote, but c1=Q is answered by Rxc1, and the black king on c3 is not close enough to recapture."
+    },
+    {
+      "id": "3.9.4-c2",
+      "type": "find_the_move",
+      "fen": "8/8/8/8/7R/2k1K3/2p5/8 w - - 0 1",
+      "prompt": "Nineteen legal moves. One of them wins, one of them draws, and the other seventeen lose.",
+      "answer": { "moves": ["Rh1"] },
+      "wrong": {
+        "Rh2": "Attacking the pawn from beside it does nothing: it is defended by his king, and c1=Q comes with check anyway. This move loses.",
+        "Rc4+": "A check, and after Kb2 you can even take on c2 — but only by giving the rook up for the pawn. Two bare kings is half a point, not a whole one."
+      },
+      "concept": "rook-vs-pawn",
+      "hints": {
+        "piece": "h4",
+        "square": "h1"
+      },
+      "reason": "Rh1 is the only winning move. Rc4+ is the only other move that survives at all, and it survives by surrendering the rook for the pawn."
+    },
+    {
+      "id": "3.9.4-c3",
+      "type": "find_the_move",
+      "fen": "6R1/8/8/8/8/1pk1K3/8/8 w - - 0 1",
+      "prompt": "The pawn on b3 is escorted by its king and you are one tempo short. Find the move that buys it.",
+      "answer": { "moves": ["Rc8+"] },
+      "wrong": {
+        "Rb8": "Straight behind the pawn, which looks right and is not. Black is not forced to do anything, and the game is drawn.",
+        "Ke2": "Bringing the king without asking a question first. Drawn."
+      },
+      "concept": "rook-vs-pawn",
+      "hints": {
+        "piece": "g8",
+        "square": "c8"
+      },
+      "reason": "Rc8 is check, and his king has only Kb4 and Kb2. It is the one winning move here; all eighteen others draw."
+    },
+    {
+      "id": "3.9.4-c4",
+      "type": "find_the_move",
+      "fen": "8/8/8/4K3/8/1p6/1k6/7R w - - 0 1",
+      "prompt": "Your rook on h1 already owns the first rank, so the pawn is not going anywhere. Twenty-two moves, one win.",
+      "answer": { "moves": ["Kd4"] },
+      "wrong": {
+        "Rh2+": "A check that achieves nothing. His king steps away and you have used your move; the game is drawn.",
+        "Rb1+": "Check, and a blunder: Kxb1 is perfectly legal, and a bare king cannot stop the pawn."
+      },
+      "concept": "rook-vs-pawn",
+      "hints": {
+        "piece": "e5",
+        "square": "d4"
+      },
+      "reason": "Kd4 is the only winning move. The rook has done its job from h1, so the only progress left is the king walking in. Every rook move draws or loses."
+    },
+    {
+      "id": "3.9.4-c5",
+      "type": "is_it_safe",
+      "fen": "8/8/8/8/4K3/2k5/2p5/7R w - - 0 1",
+      "move": "Rd1",
+      "prompt": "The pawn is on c2 and you slide the rook to d1, right beside the square it wants. Is the rook safe there?",
+      "reasons": [
+        "Yes. From d1 the rook covers c1 diagonally, so the pawn can never promote.",
+        "No. Rooks do not cover squares diagonally. cxd1=Q takes the rook and makes a queen in the same move.",
+        "No. The black king on c3 attacks d1 and simply takes the rook."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "rook-vs-pawn",
+      "hints": {
+        "text": "A pawn on c2 captures towards b1 and d1. Ask what it takes on the way."
+      },
+      "reason": "cxd1=Q is a capture and a promotion at once, and it is why the rook belongs on the pawn's own file or beyond it, never on the square next door."
+    },
+    {
+      "id": "3.9.4-c6",
+      "type": "name_the_pattern",
+      "fen": "8/8/8/8/4K3/2k5/2p5/7R w - - 0 1",
+      "prompt": "The rook on h1 already holds the first rank and the pawn cannot get through. Only Ke3 wins. Why is it a king move and not a rook move?",
+      "options": [
+        "The rook has finished its job by owning the rank, so the only way left to make progress is to walk the king in.",
+        "The rook must stay on h1 because it is the only square from which it defends itself.",
+        "Because a rook can never capture a piece that has just promoted."
+      ],
+      "answer": { "option": 0 },
+      "concept": "rook-vs-pawn",
+      "hints": {
+        "text": "Ask what any rook move would add that h1 does not already give you."
+      },
+      "reason": "Every rook move either draws or loses, and two of them - Rd1 and Rb1 - lose to cxd1=Q and cxb1=Q on the spot. The position is already held; what it needs is the second piece."
+    },
+    {
+      "id": "3.9.4-c7",
+      "type": "play_it_out",
+      "fen": "6R1/8/8/8/8/1pk1K3/8/8 w - - 0 1",
+      "goal": { "kind": "capture_all", "moves": 10 },
+      "opponentDepth": 6,
+      "concept": "rook-vs-pawn",
+      "prompt": "Rook and king against one escorted pawn. Win the pawn within ten moves.",
+      "hints": {
+        "piece": "g8",
+        "square": "c8"
+      },
+      "reason": "Start with the check on c8, which is the only move that wins here, and keep the rook in front of the pawn while the king comes across. The pawn falls once it has nowhere left to run and no second defender."
+    }
+  ],
+  "takeaway": "A rook stops a pawn from in front of it, never from beside it. Once the queening rank is yours, the rest of the win is the king walking over."
+}

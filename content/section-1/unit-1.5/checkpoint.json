@@ -34,12 +34,12 @@
       "fen": "R5k1/1R6/8/8/8/8/8/4K3 b - - 0 1",
       "prompt": "White has just played Ra8. What has happened?",
       "options": [
-        "Checkmate",
         "Stalemate",
+        "Checkmate",
         "Check, and the king steps to f7"
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "ladder-mate"
     },
@@ -248,13 +248,13 @@
       "move": "Qb6",
       "prompt": "White plays Qb6, taking every square around the black king. Is that safe?",
       "reasons": [
-        "It leaves Black with no move and no check: stalemate, and the game is drawn.",
         "The queen on b6 is hanging to the black king.",
-        "It is fine, because Qb7 is mate next move."
+        "It is fine, because Qb7 is mate next move.",
+        "It leaves Black with no move and no check: stalemate, and the game is drawn."
       ],
       "answer": {
         "safe": false,
-        "reason": 0
+        "reason": 2
       },
       "concept": "queen-mate",
       "reason": "Qb7 is mate straight away, because the king on c6 defends her.",
@@ -376,12 +376,12 @@
       "fen": "4R1k1/5ppp/8/n7/8/8/6P1/1K6 b - - 0 1",
       "prompt": "White has just played Re8. What has happened?",
       "options": [
-        "Checkmate",
         "Stalemate",
+        "Checkmate",
         "Check, and the king steps to h8"
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "back-rank"
     },
@@ -555,12 +555,12 @@
       "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
       "prompt": "Black to move. What is White going for?",
       "options": [
-        "Mate on f7",
         "Mate on h4",
+        "Mate on f7",
         "Nothing is threatened yet"
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "meeting-early-mates"
     },

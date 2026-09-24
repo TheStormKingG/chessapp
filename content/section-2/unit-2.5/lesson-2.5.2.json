@@ -96,12 +96,12 @@
       "fen": "rnb1kb1r/pppp1ppp/6q1/4N3/8/6P1/PPPP1PBP/R1BQR1K1 w kq - 0 1",
       "prompt": "After Nxg6, why is Black not allowed to play hxg6?",
       "options": [
-        "The king is in check, and hxg6 does nothing about the check.",
+        "The pawn on h7 is pinned by the bishop on g2.",
         "A pawn is not allowed to capture towards the h-file.",
-        "The pawn on h7 is pinned by the bishop on g2."
+        "The king is in check, and hxg6 does nothing about the check."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "discovered-check",
       "hints": {

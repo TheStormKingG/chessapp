@@ -71,11 +71,11 @@
       "fen": "8/4k3/8/P7/7p/8/7K/8 w - - 0 1",
       "prompt": "Why is Black's h-pawn harmless in this position?",
       "options": [
-        "The white king stands on h2, directly on the pawn's road, and will capture it.",
         "A pawn on the h-file may not promote to a queen.",
+        "The white king stands on h2, directly on the pawn's road, and will capture it.",
         "Black's king is too far away to escort it."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "concept": "promotion-race",
       "hints": { "text": "Look at what is sitting on the squares the pawn still has to cross." },
       "reason": "The king is in the way. The king is in the way. The h-pawn is still passed, but it is blockaded: the white king sits on the square in front of it and attacks h3, so it can never get through."
@@ -96,11 +96,11 @@
       "fen": "8/4k3/8/P7/7p/8/8/4K3 w - - 0 1",
       "prompt": "Both pawns need the same number of moves. What decides a tie like this?",
       "options": [
-        "The side to move gets there first, so count from whoever's turn it is.",
+        "A tie means both promote and the game is automatically drawn.",
         "The pawn nearer the edge of the board promotes first.",
-        "A tie means both promote and the game is automatically drawn."
+        "The side to move gets there first, so count from whoever's turn it is."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 2 },
       "concept": "counting",
       "hints": { "text": "Three moves each, but somebody has to go first." },
       "reason": "Whoever is to move. That is why a single quiet move is so expensive in a race: it does not lose you a pawn, it loses you the tie-break."

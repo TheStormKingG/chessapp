@@ -44,10 +44,10 @@
       "prompt": "White jumps to f7 straight away, attacking the queen. Is the knight safe there?",
       "reasons": [
         "Yes. Nothing covers f7.",
-        "No. The king on g8 takes the knight.",
-        "No. The queen on d8 takes the knight."
+        "No. The queen on d8 takes the knight.",
+        "No. The king on g8 takes the knight."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 2 },
       "concept": "fork-with-check",
       "hints": {
         "piece": "g8",

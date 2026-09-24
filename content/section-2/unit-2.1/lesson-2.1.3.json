@@ -51,11 +51,11 @@
       "fen": "4k3/6p1/2n4B/2bp4/3P4/2N5/8/4K3 w - - 0 1",
       "prompt": "Both sides have loose pieces here. Which side has more?",
       "options": [
-        "Black, three to White's two.",
         "White, two to Black's one.",
+        "Black, three to White's two.",
         "Neither. Everything on the board is defended."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "concept": "hanging-both-sides",
       "hints": {
         "text": "Count Black's first: c5, d5, g7. Then count yours."
@@ -111,11 +111,11 @@
       "move": "Nxd5",
       "prompt": "White takes the pawn on d5 with the knight. Is your knight safe there?",
       "reasons": [
-        "Yes. No black piece covers d5.",
         "No. The knight on c6 takes back.",
+        "Yes. No black piece covers d5.",
         "No. The bishop on c5 takes back."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "hanging-both-sides",
       "hints": {
         "piece": "c6",

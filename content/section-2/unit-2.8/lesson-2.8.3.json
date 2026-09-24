@@ -51,12 +51,12 @@
       "fen": "4k3/5ppp/p7/1N6/3b4/8/5PPP/R3K3 w - - 0 1",
       "prompt": "Your review lists a Mistake on move 12 and a Blunder on move 28. Which one do you study first?",
       "options": [
-        "Move 12. Everything after it was played in a position that was already worse.",
+        "Neither. Start at the last move and work backwards.",
         "Move 28. It is the bigger error, so it is the bigger lesson.",
-        "Neither. Start at the last move and work backwards."
+        "Move 12. Everything after it was played in a position that was already worse."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "first-mistake",
       "hints": {
@@ -108,13 +108,13 @@
       "move": "Nxd5",
       "prompt": "This is the move the review marked. The knight takes on d5. Was it safe?",
       "reasons": [
-        "Yes. Nothing defends the pawn on d5.",
         "No. The pawn on c6 takes it back.",
+        "Yes. Nothing defends the pawn on d5.",
         "No. The king on e8 takes it back."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "first-mistake",
       "hints": {
@@ -149,12 +149,12 @@
       "fen": "4k3/5ppp/8/3q4/8/8/5PPP/3RK3 w - - 0 1",
       "prompt": "The review marks one move Blunder and your very next move Best. What does that pair usually mean?",
       "options": [
-        "You gave something away, then found the best try in the worse position that followed.",
+        "The review has contradicted itself and both labels are wrong.",
         "Your best move is what caused the blunder before it.",
-        "The review has contradicted itself and both labels are wrong."
+        "You gave something away, then found the best try in the worse position that followed."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "first-mistake",
       "hints": {

@@ -67,9 +67,9 @@
       "type": "name_the_pattern",
       "fen": "8/7k/8/8/3B4/8/K7/8 w - - 0 1",
       "prompt": "This bishop stands on a dark square. Which squares can it never reach, no matter how many moves it gets?",
-      "options": ["Light squares", "Dark squares", "The edge of the board"],
+      "options": ["Dark squares", "Light squares", "The edge of the board"],
       "concept": "bishop-moves",
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "reason": "A diagonal stays on one colour, so the other colour is off limits forever.",
       "hints": {
         "piece": "d4",

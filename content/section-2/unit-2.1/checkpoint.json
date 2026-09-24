@@ -35,12 +35,12 @@
       "prompt": "Black has just played the queen to f3. How dangerous is she?",
       "concept": "opponent-threats",
       "options": [
-        "Nothing. She is hanging to your g-pawn.",
         "Checkmate on g2.",
+        "Nothing. She is hanging to your g-pawn.",
         "Checkmate on d1."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "reason": "The pawn on g2 attacks f3 and no black piece defends her there."
     },
@@ -52,13 +52,13 @@
       "concept": "opponent-threats",
       "move": "Nxe5",
       "reasons": [
-        "Yes. Nothing can reach e5.",
         "No. The knight on c6 takes back.",
+        "Yes. Nothing can reach e5.",
         "No. The pawn on d7 takes back."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       }
     },
     {
@@ -119,12 +119,12 @@
       "prompt": "White to move, and both rooks are loose on the c-file. What is true?",
       "concept": "threat-scan",
       "options": [
-        "White takes on c8 and it is checkmate.",
         "Black takes on c1 and it is checkmate.",
+        "White takes on c8 and it is checkmate.",
         "Neither rook can reach the other."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "reason": "Whoever moves first takes the rook, and the back rank has no escape square."
     },
@@ -160,13 +160,13 @@
       "concept": "threat-scan",
       "move": "gxf3",
       "reasons": [
+        "No. A pawn takes back.",
         "Yes. Nothing of Black's can take back on f3.",
-        "No. The king on g8 takes back.",
-        "No. A pawn takes back."
+        "No. The king on g8 takes back."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       }
     },
     {
@@ -290,12 +290,12 @@
       "prompt": "Two pawns attack d5 and the knight on c7 defends it. What is the count?",
       "concept": "counting",
       "options": [
-        "Two attackers, one defender. Take and win a pawn.",
         "Two attackers, two defenders. Leave it.",
+        "Two attackers, one defender. Take and win a pawn.",
         "One attacker, one defender. Even."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "reason": "You take, the knight takes back, you take again. Black runs out first."
     },
@@ -317,12 +317,12 @@
       "prompt": "Your pawns on d4 and f4 attack e5, and the pawn on d6 defends it. What is the count?",
       "concept": "counting",
       "options": [
-        "Two attackers, one defender. Take and win a pawn.",
+        "Black has more defenders than you have attackers.",
         "Even. Leave it alone.",
-        "Black has more defenders than you have attackers."
+        "Two attackers, one defender. Take and win a pawn."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "reason": "Two against one wins the square."
     },

@@ -79,12 +79,12 @@
       "fen": "8/8/4k3/8/8/2K5/5Q2/8 w - - 0 1",
       "prompt": "Same board, queen instead of bishop. How does this game end?",
       "options": [
-        "A draw: one piece is never enough.",
         "White wins: king and queen can force mate.",
+        "A draw: one piece is never enough.",
         "A draw, because the black king can keep running."
       ],
       "answer": {
-        "option": 1
+        "option": 0
       },
       "concept": "draws",
       "reason": "A queen covers squares of both colours, and with her own king helping she can take the last one away. This is the one to practise.",

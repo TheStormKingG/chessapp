@@ -60,11 +60,11 @@
       "move": "Nf3",
       "prompt": "White develops the knight to f3 and attacks the queen. Is that safe?",
       "reasons": [
-        "Yes. The knight hits the queen and she must run.",
         "No. Black plays Qxf2 and it is checkmate.",
+        "Yes. The knight hits the queen and she must run.",
         "No. The queen simply takes the knight."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 0 },
       "concept": "opponent-threats",
       "hints": {
         "square": "f2",

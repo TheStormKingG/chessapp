@@ -73,12 +73,12 @@
       "fen": "rrb1q1k1/ppp2ppp/3n4/4P3/8/8/PP3PPP/RNBQR1K1 w - - 0 1",
       "prompt": "White plays exd6 and Black recaptures cxd6. What has Black overlooked?",
       "options": [
-        "The rook on e1 now takes the queen on e8 for nothing.",
+        "The queen on e8 was already guarded twice.",
         "The pawn on c7 was pinned and was not allowed to capture.",
-        "The queen on e8 was already guarded twice."
+        "The rook on e1 now takes the queen on e8 for nothing."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "discovered-attack",
       "reason": "The knight on d6 was the queen's only guard. Once the pawn takes its place the queen is alone on an open file."
@@ -90,13 +90,13 @@
       "move": "Qxe6",
       "prompt": "White takes the knight with the queen instead of the pawn. Is she safe on e6?",
       "reasons": [
-        "Yes. Nothing black covers e6.",
         "No. The pawn on f7 takes her.",
+        "Yes. Nothing black covers e6.",
         "No. The rook on b8 takes her."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "discovered-attack",
       "reason": "The pawn on f7 guards e6, and so does the bishop on c8. dxe6 wins the same piece and keeps the queen."
@@ -154,12 +154,12 @@
       "fen": "rrbq3k/ppp2ppp/8/3N4/4Pn2/8/PPP1QPPP/R2R1BK1 w - - 0 1",
       "prompt": "Every move the knight on d5 makes opens the d-file. What decides which one to play?",
       "options": [
-        "Play the one that wins something as it goes.",
+        "Any of them is equally good, because the file opens either way.",
         "Play the one that takes the knight furthest from your own king.",
-        "Any of them is equally good, because the file opens either way."
+        "Play the one that wins something as it goes."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "discovered-attack",
       "reason": "The file opens whatever the knight does, so the knight's own move is free. Spend it on a capture."
@@ -220,12 +220,12 @@
       "fen": "rnb1kb1r/pppp1ppp/2q5/4N3/8/3B4/PPPP1PPP/R1BQR1K1 w kq - 0 1",
       "prompt": "After Nxc6, why can Black not reply bxc6?",
       "options": [
-        "The king on e8 is in check, and bxc6 does not answer the check.",
         "The pawn on b7 is pinned by the bishop on d3.",
+        "The king on e8 is in check, and bxc6 does not answer the check.",
         "bxc6 is not a legal pawn capture."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "discovered-check",
       "reason": "A move made while your king is in check has to deal with the check. Taking on c6 leaves the rook still attacking e8."
@@ -237,13 +237,13 @@
       "move": "Nxf7+",
       "prompt": "White takes the pawn on f7 with the same idea. Is the knight safe there?",
       "reasons": [
-        "Yes. Black is in check, so nothing may capture it.",
         "No. The king on e8 takes it and answers the check in the same move.",
+        "Yes. Black is in check, so nothing may capture it.",
         "No. The pawn on g7 takes it."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "discovered-check",
       "reason": "Kxf7 steps off the e-file and captures at once, so it is a legal answer to the check. g6 was the square, not f7."
@@ -265,12 +265,12 @@
       "fen": "rnb1kb1r/pppq1ppp/8/4N3/8/3B4/PPPP1PPP/R1BQR1K1 w kq - 0 1",
       "prompt": "The queen on d7 is guarded by a bishop, a knight and the king. Why is she still lost after Nxd7?",
       "options": [
-        "Only the king can capture and answer the check at once, and that is a queen for a knight.",
         "The bishop on c8 is pinned to the king.",
+        "Only the king can capture and answer the check at once, and that is a queen for a knight.",
         "The knight on b8 has no legal moves."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "discovered-check",
       "reason": "Guards are only guards if they are allowed to move. Two of these three are not, while the king is in check."
@@ -309,13 +309,13 @@
       "move": "Nxd7+",
       "prompt": "White takes the pawn on d7 instead of the queen. Is the knight safe there?",
       "reasons": [
-        "Yes. Black is in check, so nothing may capture it.",
         "No. The king on e8 takes it and answers the check at the same time.",
-        "No. The rook on h8 takes it."
+        "No. The rook on h8 takes it.",
+        "Yes. Black is in check, so nothing may capture it."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "discovered-check",
       "reason": "The king is next to d7, so Kxd7 captures and leaves the file in one move. A pawn was not worth the knight."
@@ -421,13 +421,13 @@
       "move": "Rxd5",
       "prompt": "White captures on d5. Is the rook safe there?",
       "reasons": [
-        "Yes. Nothing attacks d5 any more.",
         "No. The knight on f6 takes it, and the queen on d1 takes back.",
+        "Yes. Nothing attacks d5 any more.",
         "No. The rook on f8 takes it."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "battery",
       "reason": "It is not safe, and it does not need to be. The piece behind it recaptures and you come out a knight ahead."
@@ -449,12 +449,12 @@
       "fen": "1n3rk1/pppr1ppp/8/8/8/8/PPP2RPP/3R2K1 w - - 0 1",
       "prompt": "What does moving the rook from f2 to d2 achieve?",
       "options": [
-        "It adds a second attacker to the black rook on d7.",
         "It puts the black king on g8 in check.",
+        "It adds a second attacker to the black rook on d7.",
         "It stops the knight on b8 from moving."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "battery",
       "reason": "One attacker against one defender is nothing. Two against one wins the rook on d7."

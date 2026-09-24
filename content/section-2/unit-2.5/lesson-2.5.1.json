@@ -99,12 +99,12 @@
       "fen": "rrbq3k/ppp2ppp/1b6/3N4/4P3/8/PPP1QPPP/R1BR2K1 w - - 0 1",
       "prompt": "Black answers Nxb6 with axb6, winning the knight back. What has Black missed?",
       "options": [
-        "The rook on d1 comes to d8, and that is mate.",
+        "The knight on b6 was defended, so axb6 loses a pawn.",
         "The pawn on a7 is pinned and is not allowed to capture.",
-        "The knight on b6 was defended, so axb6 loses a pawn."
+        "The rook on d1 comes to d8, and that is mate."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "discovered-attack",
       "hints": {
@@ -156,13 +156,13 @@
       "move": "Qxd6",
       "prompt": "White sends the queen to d6 to take the knight instead. Is she safe there?",
       "reasons": [
-        "Yes. The knight has gone and nothing else covers d6.",
         "No. The pawn on c7 takes her.",
+        "Yes. The knight has gone and nothing else covers d6.",
         "No. The rook on b8 takes her."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "discovered-attack",
       "hints": {

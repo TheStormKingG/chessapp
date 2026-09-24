@@ -90,11 +90,11 @@
       "move": "Rxh7#",
       "prompt": "White plays Rxh7, right beside the black king. Is that rook safe there?",
       "reasons": [
-        "Yes. The other rook on b7 guards it along the seventh rank.",
+        "No. The rook on g8 defends h7 and takes it.",
         "No. The king takes it, because nothing defends h7.",
-        "No. The rook on g8 defends h7 and takes it."
+        "Yes. The other rook on b7 guards it along the seventh rank."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 2 },
       "concept": "blind-swine",
       "hints": {
         "text": "Run your finger from b7 to h7 and see what is in the way."
@@ -136,11 +136,11 @@
       "fen": "6rk/1R1R3p/8/8/8/8/8/2K5 w - - 0 1",
       "prompt": "Why does Rxh7 mate here when the very same two rooks were helpless a moment ago?",
       "options": [
-        "Because f7 and g7 are empty now, so the rook on b7 guards h7 along the rank.",
+        "Because the white king on c1 has joined in the attack.",
         "Because the black rook on g8 has stopped defending its king.",
-        "Because the white king on c1 has joined in the attack."
+        "Because f7 and g7 are empty now, so the rook on b7 guards h7 along the rank."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 2 },
       "concept": "blind-swine",
       "hints": {
         "text": "Nothing about the rooks changed. Something about the rank did."

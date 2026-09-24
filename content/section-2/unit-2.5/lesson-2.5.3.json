@@ -77,12 +77,12 @@
       "fen": "1n3rk1/pppr1ppp/8/8/8/8/PPP2RPP/3R2K1 w - - 0 1",
       "prompt": "Why is it worth spending a move to put a second rook on the d-file?",
       "options": [
-        "Two attackers beat the one knight that guards d7.",
+        "It stops the knight on b8 from moving.",
         "Rooks are always stronger on the second rank.",
-        "It stops the knight on b8 from moving."
+        "Two attackers beat the one knight that guards d7."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "battery",
       "hints": {
@@ -134,13 +134,13 @@
       "move": "Rd6",
       "prompt": "White pushes the front rook to d6 instead of capturing. Is it safe there?",
       "reasons": [
+        "No. The knight on b8 takes it.",
         "Yes. The second rook on d1 is defending it.",
-        "No. The pawn on c7 takes it.",
-        "No. The knight on b8 takes it."
+        "No. The pawn on c7 takes it."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "concept": "battery",
       "hints": {

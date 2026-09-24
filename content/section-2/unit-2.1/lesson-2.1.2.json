@@ -149,12 +149,12 @@
       "prompt": "White takes the pawn on e5 with the knight. Is that safe?",
       "reasons": [
         "Yes. Nothing can reach e5.",
-        "No. The knight on c6 takes back.",
-        "No. The queen on d8 takes back."
+        "No. The queen on d8 takes back.",
+        "No. The knight on c6 takes back."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "concept": "threat-scan",
       "hints": {

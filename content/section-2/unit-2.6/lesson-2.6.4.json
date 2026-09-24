@@ -139,12 +139,12 @@
       "fen": "rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1",
       "prompt": "White has played 1.e4. Why is 1...e5 a better reply than 1...h6?",
       "options": [
-        "e5 takes a share of the middle and opens lines for the bishop on f8 and the queen. h6 does neither.",
+        "e5 wins the pawn on e4.",
         "h6 is not a legal first move.",
-        "e5 wins the pawn on e4."
+        "e5 takes a share of the middle and opens lines for the bishop on f8 and the queen. h6 does neither."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "development",
       "hints": {
@@ -159,13 +159,13 @@
       "move": "e5",
       "prompt": "Black answers 1.e4 with the same pawn. Is the pawn safe on e5?",
       "reasons": [
-        "Yes. Nothing white attacks e5.",
         "No. The pawn on e4 takes it.",
+        "Yes. Nothing white attacks e5.",
         "No. The queen on d1 takes it."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "concept": "centre",
       "hints": {

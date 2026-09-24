@@ -65,11 +65,11 @@
       "fen": "7k/8/8/8/8/3B4/8/4K3 w - - 0 1",
       "prompt": "White has a king and a bishop. Black has a bare king. What is the result with best play?",
       "options": [
-        "A draw. A lone bishop can never force mate.",
+        "White mates only if the black king goes to a dark square.",
         "White mates, but it takes about thirty moves.",
-        "White mates only if the black king goes to a dark square."
+        "A draw. A lone bishop can never force mate."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 2 },
       "concept": "insufficient-material",
       "hints": { "text": "Count the colours the bishop can reach. It is one of the two." },
       "reason": "Drawn, and drawn immediately. The bishop touches one colour only, so half the board is permanently out of its reach and the king always has somewhere to stand."
@@ -80,11 +80,11 @@
       "fen": "7k/8/8/8/8/2N2N2/8/4K3 w - - 0 1",
       "prompt": "Two knights against a bare king. What is the honest verdict?",
       "options": [
-        "It cannot be forced. Closing the net gives stalemate instead of mate.",
+        "It is mate only if the knights stand on the same colour.",
         "It is a straightforward mate, easier than king and rook.",
-        "It is mate only if the knights stand on the same colour."
+        "It cannot be forced. Closing the net gives stalemate instead of mate."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 2 },
       "concept": "insufficient-material",
       "hints": { "text": "Think about what happens on the move the net finally closes." },
       "reason": "It cannot be forced. The last square always comes off at the wrong moment and the game ends in stalemate. Treat two knights against a bare king as a draw."
@@ -96,11 +96,11 @@
       "move": "Bh7",
       "prompt": "White swings the bishop to h7, right beside the black king. Is it safe there?",
       "reasons": [
-        "Yes. The black king cannot reach h7 from h8.",
         "No. The king on h8 simply takes it.",
-        "No. The white king on e1 is too far away to matter."
+        "No. The white king on e1 is too far away to matter.",
+        "Yes. The black king cannot reach h7 from h8."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 0 },
       "concept": "insufficient-material",
       "hints": { "text": "h7 is next door to h8, and nothing of White's defends it." },
       "reason": "Kxh7 and the board is bare. A lone bishop has no helper, so putting it beside the enemy king just loses it — one more reason this ending is a draw."

@@ -1,0 +1,173 @@
+{
+  "id": "3.11.5",
+  "unit": "3.11",
+  "title": "Time budgeting by phase",
+  "xp": 14,
+  "card": {
+    "idea": "The list, the scan and the blunder check all cost time, and you do not have time for them on every move. So spend by phase: little in the opening, where you are following a plan you already know; most in the early middlegame, where the position first stops being familiar; and enough in the endgame to count. A forced move costs nothing. Spend what it saves on the move that matters.",
+    "diagrams": [
+      "6k1/5ppp/8/8/8/8/5PP1/1r4K1 w - - 0 1",
+      "6k1/5pp1/5p2/4n3/4R3/8/5PPP/6K1 w - - 0 1"
+    ],
+    "habit": "Premove only when you are recapturing, or when you are under ten seconds."
+  },
+  "explain": [
+    {
+      "fen": "6k1/5ppp/8/8/8/8/5PP1/1r4K1 w - - 0 1",
+      "text": "You are in check and Kh2 is your only legal move. There is nothing to calculate, nothing to list and nothing to check, so play it at once. Positions like this are where a budget comes from: the seconds you do not spend here are the seconds you will have in the position that is actually hard.",
+      "arrows": [
+        [
+          "g1",
+          "h2"
+        ]
+      ],
+      "highlights": [
+        "h2"
+      ]
+    },
+    {
+      "fen": "6k1/5pp1/5p2/4n3/4R3/8/5PPP/6K1 w - - 0 1",
+      "text": "A premove is a move you make without looking. Recapturing is the one case where that is usually safe, because there is usually one way to take back and it is usually right. Usually. Here Black has just taken on e5 and the pawn on f6 is covering the square, so the premove hands over a rook for a knight.",
+      "arrows": [
+        [
+          "e4",
+          "e5"
+        ],
+        [
+          "f6",
+          "e5"
+        ]
+      ],
+      "highlights": [
+        "e5",
+        "f6"
+      ]
+    },
+    {
+      "fen": "r5k1/p4ppp/8/8/3b4/2P2N2/5PPP/3R2K1 w - - 0 1",
+      "text": "The other half of the premove rule. Three white pieces can take on d4: the pawn on c3, the knight on f3 and the rook on d1. A premove picks one of them for you, and the pawn and the rook are very different moves. More than one way to take back means do not premove.",
+      "highlights": [
+        "c3",
+        "d1",
+        "f3",
+        "d4"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.11.5-c1",
+      "type": "which_square",
+      "fen": "6k1/5ppp/8/8/8/8/5PP1/1r4K1 w - - 0 1",
+      "prompt": "You are in check and you have exactly one legal move. Tap the square your king goes to, and take none of the clock doing it.",
+      "answer": {
+        "square": "h2"
+      },
+      "concept": "the-clock",
+      "hints": {
+        "piece": "g1",
+        "text": "The first rank belongs to the rook, and f2 and g2 are your own pawns."
+      },
+      "reason": "Kh2 is the only legal move on the board. A position with one legal move deserves no thinking time at all, and knowing that instantly is a skill worth having."
+    },
+    {
+      "id": "3.11.5-c2",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/8/8/8/8/5PP1/1r4K1 w - - 0 1",
+      "prompt": "You have nineteen minutes left and this position on the board. How long should this move take?",
+      "options": [
+        "A minute or so. Being in check is always dangerous and deserves care.",
+        "No time at all. There is one legal move, so there is nothing to decide.",
+        "As long as the move before it. Giving every move the same time is the fairest way to use a clock."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "the-clock",
+      "hints": {
+        "text": "Count your legal moves before you count anything else."
+      },
+      "reason": "Counting legal moves is the cheapest thing you can do, and when the answer is one you are finished. Every second saved on a forced move is a second available for the move where you have twelve to choose from."
+    },
+    {
+      "id": "3.11.5-c3",
+      "type": "is_it_safe",
+      "fen": "6k1/5ppp/8/4n3/4R3/8/5PPP/6K1 w - - 0 1",
+      "move": "Rxe5",
+      "prompt": "Black has just taken your pawn on e5 with his knight and your premove takes back. Is the rook safe on e5?",
+      "reasons": [
+        "No. The pawn on f7 takes it back.",
+        "Yes. Nothing black can reach e5.",
+        "No. The king on g8 takes it back."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "the-clock",
+      "hints": {
+        "text": "A pawn on f7 captures onto e6 and g6, not onto e5."
+      },
+      "reason": "This is the premove the rule is written for: one recapture, nothing covering the square, and no reason to spend a second on it. The rule only holds because you looked at the square before you set the premove."
+    },
+    {
+      "id": "3.11.5-c4",
+      "type": "is_it_safe",
+      "fen": "6k1/5pp1/5p2/4n3/4R3/8/5PPP/6K1 w - - 0 1",
+      "move": "Rxe5",
+      "prompt": "The same recapture on a different board, and the same premove waiting. Is the rook safe on e5?",
+      "reasons": [
+        "Yes. Only the knight was covering e5 and you have just taken it.",
+        "No. The pawn on f7 takes it back.",
+        "No. The pawn on f6 takes it back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "the-clock",
+      "hints": {
+        "text": "One black pawn is a rank further forward here than it was on the last board."
+      },
+      "reason": "fxe5, and the premove has given a rook for a knight without you seeing it happen. The pawn on f6 is the whole difference between the two boards, and a premove is precisely the state in which you do not look for it."
+    },
+    {
+      "id": "3.11.5-c5",
+      "type": "find_them_all",
+      "fen": "r5k1/p4ppp/8/8/3b4/2P2N2/5PPP/3R2K1 w - - 0 1",
+      "prompt": "Before you set a premove to take on d4, find out how many ways you have of doing it. Tap every white piece that can capture there.",
+      "answer": {
+        "pieces": [
+          "c3",
+          "d1",
+          "f3"
+        ]
+      },
+      "concept": "the-clock",
+      "hints": {
+        "text": "A pawn, a knight and a rook all reach that square."
+      },
+      "reason": "cxd4, Nxd4 and Rxd4 are three different games. A premove chooses one of them for you and cannot tell you which, so the rule is: more than one way to take back means take back by hand."
+    },
+    {
+      "id": "3.11.5-c6",
+      "type": "name_the_pattern",
+      "fen": "r5k1/p4ppp/8/8/3b4/2P2N2/5PPP/3R2K1 w - - 0 1",
+      "prompt": "It is a thirty-minute game and you are eleven moves in with twenty-six minutes left. Where should most of the rest of it go?",
+      "options": [
+        "Into the opening you are still in, so that you never leave it with a worse position.",
+        "Into the next few moves, where the position first stops looking like anything you have seen.",
+        "Saved for the endgame, where the position is simplest and the moves matter most."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "the-clock",
+      "hints": {
+        "text": "Ask which part of the game you have already studied and which part you have not."
+      },
+      "reason": "The opening is the part you have prepared, so it is cheap. The endgame is the part with fewest pieces, so it is cheaper than it looks. The expensive part is the stretch just after your preparation runs out, and that is where the budget belongs."
+    }
+  ],
+  "takeaway": "A forced move costs nothing, the opening is prepared, and the expensive part is the stretch just after your preparation runs out. Premove only to recapture, and only when there is one way to do it."
+}

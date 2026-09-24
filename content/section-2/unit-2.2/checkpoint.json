@@ -295,13 +295,13 @@
       "prompt": "White forks the king and the rook with Ne7 check. Is the knight safe there?",
       "concept": "knight-fork",
       "reasons": [
-        "Yes. Neither the king nor the rook covers e7.",
         "No. The king on g8 takes the knight.",
+        "Yes. Neither the king nor the rook covers e7.",
         "No. The rook on c8 takes the knight."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "reason": "e7 is two squares from the king and off the rook's file and rank."
     },
@@ -313,13 +313,13 @@
       "prompt": "White jumps to f7, attacking the rook on d8. Is the knight safe there?",
       "concept": "knight-fork",
       "reasons": [
+        "No. The rook on d8 takes the knight.",
         "Yes. Nothing covers f7.",
-        "No. The king on g8 takes the knight.",
-        "No. The rook on d8 takes the knight."
+        "No. The king on g8 takes the knight."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "reason": "f7 is next door to g8. A fork square has to be a square the enemy does not cover."
     },
@@ -331,13 +331,13 @@
       "prompt": "White pushes to e6, check, attacking the rook on d7. Is the pawn safe there?",
       "concept": "pawn-fork",
       "reasons": [
-        "Yes. The king may not take a checking pawn.",
         "No. Nothing defends e6, so the king simply takes it.",
+        "Yes. The king may not take a checking pawn.",
         "No. The rook on d7 takes the pawn."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "reason": "Without a pawn on d5 to defend e6, Kxe6 wins the pawn and the fork never happens."
     },
@@ -367,13 +367,13 @@
       "prompt": "The knight lands on e6 with check, hitting king, queen and rook. Is it safe there?",
       "concept": "family-fork",
       "reasons": [
+        "No. The pawn on g7 takes the knight.",
         "Yes. Nothing attacks e6, so all three are hit for free.",
-        "No. The queen on d8 takes the knight.",
-        "No. The pawn on g7 takes the knight."
+        "No. The queen on d8 takes the knight."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "reason": "The queen covers e7, not e6, and the g7 pawn captures on f6 and h6."
     },
@@ -384,12 +384,12 @@
       "prompt": "The knight is about to jump to f7. What does it attack from there?",
       "concept": "knight-fork",
       "options": [
-        "The king on h8 and the queen on d8.",
         "The king on h8 only.",
+        "The king on h8 and the queen on d8.",
         "The queen on d8 only."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "reason": "Both at once, and the check has to be answered first, so the queen cannot run."
     },
@@ -416,12 +416,12 @@
       "prompt": "White plays Qb3, check. Why is that more than a check?",
       "concept": "queen-fork",
       "options": [
-        "It also attacks the rook on b8 down the open b-file.",
+        "It threatens checkmate on g8.",
         "It attacks nothing else.",
-        "It threatens checkmate on g8."
+        "It also attacks the rook on b8 down the open b-file."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "reason": "One diagonal to g8, one file to b8. The king moves first and the rook is left behind."
     },
@@ -432,12 +432,12 @@
       "prompt": "The knight goes to d6, check. How many black pieces does it attack from there?",
       "concept": "family-fork",
       "options": [
-        "Three: the king on e8, the rook on c8 and the queen on f5.",
         "Two: the king on e8 and the rook on c8.",
+        "Three: the king on e8, the rook on c8 and the queen on f5.",
         "One: only the king on e8."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "reason": "King, rook and queen in one jump. The check is answered first, so the queen falls."
     },
@@ -448,12 +448,12 @@
       "prompt": "White plays Rd8, check. Why give the rook up like that?",
       "concept": "fork-with-check",
       "options": [
-        "The queen is the only piece that can take it, and then Nf7 forks the king and the queen.",
         "It threatens checkmate on the back rank.",
+        "The queen is the only piece that can take it, and then Nf7 forks the king and the queen.",
         "It wins the queen straight away."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "reason": "The rook buys the d8 square. Nf7 then hits h8 and d8 together and wins the queen for a rook."
     },
@@ -475,12 +475,12 @@
       "prompt": "The black queen has been forced onto d8. What does the knight do from f7?",
       "concept": "fork-with-check",
       "options": [
-        "Check to the king on h8, and it attacks the queen on d8 as well.",
         "Check to the king on h8, and nothing else.",
+        "Check to the king on h8, and it attacks the queen on d8 as well.",
         "Nothing. The queen on d8 takes the knight."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "reason": "That is the whole point of the check that came first: the queen had to stand on d8."
     },

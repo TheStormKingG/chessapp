@@ -77,11 +77,11 @@
       "fen": "3rkr2/pp6/8/8/8/7Q/8/6K1 w - - 0 1",
       "prompt": "Qe6 is mate here. What is actually trapping the black king?",
       "options": [
-        "Black's own rooks on d8 and f8, which take away both sideways squares.",
         "The white king on g1, which covers the escape squares from a distance.",
+        "Black's own rooks on d8 and f8, which take away both sideways squares.",
         "The pawns on a7 and b7, which block the king's route out of the corner."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "concept": "epaulette-mate",
       "hints": {
         "text": "List the five squares the king could use, then say who owns each one."
@@ -139,11 +139,11 @@
       "move": "Rh7#",
       "prompt": "White swings the rook across to h7, right beside the king, and Black has a pawn on h6. Is the rook safe on h7?",
       "reasons": [
+        "No. The rook on g8 slides across and takes it.",
         "Yes. The knight on g5 guards h7, and a black pawn on h6 cannot capture backwards.",
-        "No. The pawn on h6 takes the rook.",
-        "No. The rook on g8 slides across and takes it."
+        "No. The pawn on h6 takes the rook."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "hook-mate",
       "hints": {
         "text": "Which way do black pawns capture?"

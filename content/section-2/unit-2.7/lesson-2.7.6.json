@@ -129,12 +129,12 @@
       "fen": "6k1/5ppp/8/8/8/8/P4PPP/4K3 w - - 0 1",
       "prompt": "Through the whole game the advice was to keep the king tucked away. Why does that change here?",
       "options": [
-        "The pieces that could punish an exposed king have all been traded, so the king becomes a fighting piece.",
+        "It does not change — the king should stay on the back rank until the very end.",
         "The rules allow the king to move further once most pieces are gone.",
-        "It does not change — the king should stay on the back rank until the very end."
+        "The pieces that could punish an exposed king have all been traded, so the king becomes a fighting piece."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "king-activity",
       "hints": {
@@ -148,12 +148,12 @@
       "fen": "6k1/5ppp/8/8/8/8/P4PPP/4K3 w - - 0 1",
       "prompt": "Both kings are on the back rank. Why does it matter so much who walks first?",
       "options": [
-        "The king that arrives first attacks the other side's pawns while its own are still defended.",
+        "It does not matter, because the kings will meet in the middle anyway.",
         "The first king to move gains an extra move later in the game.",
-        "It does not matter, because the kings will meet in the middle anyway."
+        "The king that arrives first attacks the other side's pawns while its own are still defended."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "king-activity",
       "hints": {

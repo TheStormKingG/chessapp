@@ -57,11 +57,11 @@
       "move": "Qa2",
       "prompt": "You bring the queen to a2, aiming down the long diagonal at g8 to shut the king in. Is that safe?",
       "reasons": [
-        "Yes. The queen covers g8 and the king has to come out into the open.",
         "No. It takes his last square away without giving check, so he has no legal move at all: stalemate, and the game is drawn.",
-        "No. The queen on a2 is attacked by the black king."
+        "No. The queen on a2 is attacked by the black king.",
+        "Yes. The queen covers g8 and the king has to come out into the open."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 0 },
       "concept": "stalemate",
       "hints": {
         "text": "Count Black's legal moves after Qa2."
@@ -100,11 +100,11 @@
       "move": "Rxh7+",
       "prompt": "The pawn on h7 is loose and taking it is even check. Is Rxh7 safe?",
       "reasons": [
-        "Yes. It is check, Black must answer it, and you go a pawn up as well as a rook up.",
         "No. Kxh7 is his only legal answer, and king against king is a draw by insufficient material. You have just given away a won game.",
+        "Yes. It is check, Black must answer it, and you go a pawn up as well as a rook up.",
         "No. The black king steps to g8 and your rook on h7 is trapped behind the king."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 0 },
       "concept": "stalemate",
       "hints": {
         "text": "Play the check and then count what is left on the board."

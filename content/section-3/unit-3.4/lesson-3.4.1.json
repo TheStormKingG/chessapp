@@ -77,11 +77,11 @@
       "fen": "7k/R7/5N2/p7/8/8/8/6K1 w - - 0 1",
       "prompt": "White is about to play Rh7, right next to the black king. Why can the king not simply take the rook?",
       "options": [
-        "The knight on f6 guards h7, and it covers g8 as well, so Rh7 is mate.",
+        "The pawn on a5 is Black's own and it takes g8 away from him.",
         "The white king on g1 defends h7 from a distance.",
-        "The pawn on a5 is Black's own and it takes g8 away from him."
+        "The knight on f6 guards h7, and it covers g8 as well, so Rh7 is mate."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 2 },
       "concept": "arabian-mate",
       "hints": {
         "text": "Count the squares a knight on f6 attacks."
@@ -139,11 +139,11 @@
       "move": "Rd8#",
       "prompt": "White wants to slam the rook down on d8, right beside the black king. Is the rook safe there?",
       "reasons": [
-        "Yes. The bishop on g5 guards d8 along the diagonal, so the king may not take it.",
         "No. The king simply takes it, because nothing defends d8.",
+        "Yes. The bishop on g5 guards d8 along the diagonal, so the king may not take it.",
         "No. The pawn on f7 covers d8."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "opera-mate",
       "hints": {
         "text": "Follow the diagonal from g5 back towards the corner."

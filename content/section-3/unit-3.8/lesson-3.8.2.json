@@ -1,0 +1,202 @@
+{
+  "id": "3.8.2",
+  "unit": "3.8",
+  "title": "Batteries against the king",
+  "xp": 15,
+  "card": {
+    "idea": "Two pieces on one line, one behind the other, are a battery. The front piece lands next to the king and the back piece holds it there, so the king may not take. Which piece goes in front is the whole question: the one you can afford to be captured is the one that leads.",
+    "diagrams": [
+      "5rk1/5ppp/8/8/8/3Q4/5PPP/1B4K1 w - - 0 1",
+      "5rk1/5pp1/7R/8/8/8/5PP1/6KQ w - - 0 1"
+    ],
+    "habit": "Line the second piece up behind the first before you land next to the king."
+  },
+  "explain": [
+    {
+      "fen": "5rk1/5ppp/8/8/8/3Q4/5PPP/1B4K1 w - - 0 1",
+      "text": "The bishop on b1 and the queen on d3 stand on one diagonal, and it ends on h7, right beside the king. The queen is in front, so she is the one who lands: Qxh7 is mate, because the bishop behind her covers h7 and the king may not take.",
+      "arrows": [
+        [
+          "b1",
+          "h7"
+        ],
+        [
+          "d3",
+          "h7"
+        ]
+      ],
+      "highlights": [
+        "h7",
+        "b1"
+      ]
+    },
+    {
+      "fen": "5rk1/5ppp/8/8/8/3B4/5PPP/1Q4K1 w - - 0 1",
+      "text": "The same diagonal with the pieces the wrong way round. Now only the bishop can go first. Bxh7 is check and it is safe — the queen on b1 holds him — but the king steps to h8 and it was a bishop for a pawn. The wrong piece led.",
+      "arrows": [
+        [
+          "b1",
+          "h7"
+        ],
+        [
+          "d3",
+          "h7"
+        ]
+      ],
+      "highlights": [
+        "h7",
+        "d3"
+      ]
+    },
+    {
+      "fen": "5rk1/5pp1/7R/8/8/8/5PP1/6KQ w - - 0 1",
+      "text": "On a file the same rule holds. The rook on h6 stands in front of the queen on h1, and h8 is the square. Rh8 is mate: the queen covers h8 the moment the rook leaves the file clear, Black's own rook fills f8, and the g-pawn blocks g7.",
+      "arrows": [
+        [
+          "h1",
+          "h8"
+        ],
+        [
+          "h6",
+          "h8"
+        ]
+      ],
+      "highlights": [
+        "h8",
+        "h1"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.8.2-c1",
+      "type": "which_square",
+      "fen": "5rk1/5ppp/8/8/8/8/5PPP/1B1Q2K1 w - - 0 1",
+      "prompt": "The bishop on b1 already looks all the way down its diagonal to a square right beside the black king. Tap that square.",
+      "answer": {
+        "square": "h7"
+      },
+      "concept": "battery",
+      "hints": {
+        "text": "Follow the light squares from b1 and do not stop until you run out of board."
+      },
+      "reason": "b1, c2, d3, e4, f5, g6, h7 — nothing stands in the way, so the bishop reaches h7. That is the square the queen wants to land on with the bishop behind her."
+    },
+    {
+      "id": "3.8.2-c2",
+      "type": "find_the_move",
+      "fen": "5rk1/5ppp/8/8/8/3Q4/5PPP/1B4K1 w - - 0 1",
+      "prompt": "Queen on d3, bishop on b1, one diagonal, and it ends beside the king. Mate in one.",
+      "answer": {
+        "moves": [
+          "Qxh7#"
+        ]
+      },
+      "wrong": {
+        "Qg6": "You are lining up for mate on h7 next move, but you have given Black a move: fxg6 or hxg6 takes the queen at once.",
+        "Qd8": "Rxd8 and the game is over. Never step onto a square the rook already covers."
+      },
+      "concept": "battery",
+      "hints": {
+        "piece": "d3",
+        "square": "h7"
+      },
+      "reason": "Qxh7 is mate. The bishop on b1 covers h7 once the queen has left d3, so the king may not take, and f8 is Black's own rook."
+    },
+    {
+      "id": "3.8.2-c3",
+      "type": "name_the_pattern",
+      "fen": "5rk1/5ppp/8/8/8/3Q4/5PPP/1B4K1 w - - 0 1",
+      "prompt": "Why is it the queen and not the bishop that lands on h7 here?",
+      "options": [
+        "Because the bishop is needed on b1 to guard White's own back rank.",
+        "Because the queen is in front on the diagonal, and the piece behind her is what stops the king taking.",
+        "Because a bishop can never give mate on its own."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "battery",
+      "hints": {
+        "text": "Whoever stands in front is the one who can move to the end of the line."
+      },
+      "reason": "The order decides who leads. With the queen in front the bishop holds her on h7 and it is mate; with the bishop in front it is only a check."
+    },
+    {
+      "id": "3.8.2-c4",
+      "type": "is_it_safe",
+      "fen": "5rk1/5ppp/8/8/8/3B4/5PPP/1Q4K1 w - - 0 1",
+      "move": "Bxh7+",
+      "prompt": "Here the bishop is the one in front. He takes the pawn beside the king. Is the bishop safe on h7?",
+      "reasons": [
+        "No. Kxh7 takes the bishop and White has nothing to show for it.",
+        "Yes. The queen on b1 covers h7 once the bishop has left d3, so the king may not take him.",
+        "No. The rook on f8 swings across and wins him."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "battery",
+      "hints": {
+        "text": "Ask what the queen sees down the diagonal after the bishop has stepped off it."
+      },
+      "reason": "The bishop is safe: Kh8 is Black's only legal move, because the queen on b1 now covers h7. Safe is not the same as good, though — it is still only a pawn."
+    },
+    {
+      "id": "3.8.2-c5",
+      "type": "name_the_pattern",
+      "fen": "5rk1/5ppp/8/8/8/3B4/5PPP/1Q4K1 w - - 0 1",
+      "prompt": "Bxh7 is safe here and it is still not worth much. What has gone wrong with this line-up?",
+      "options": [
+        "The cheap piece is behind and the expensive one is in front, so only the bishop can land and a bishop is not enough.",
+        "The king has an escape square on h8, so no line-up could ever mate here.",
+        "The diagonal is blocked, so neither piece really reaches h7."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "battery",
+      "hints": {
+        "text": "Compare this with the same two pieces swapped over."
+      },
+      "reason": "Swap them and Qxh7 is mate. As it stands the bishop leads, the king steps to h8, and White has spent a piece to win a pawn."
+    },
+    {
+      "id": "3.8.2-c6",
+      "type": "which_square",
+      "fen": "5rk1/5pp1/7R/8/8/8/5PP1/6KQ w - - 0 1",
+      "prompt": "The rook on h6 stands in front of the queen on h1. Tap the square where the rook lands beside the king with the queen holding it from behind.",
+      "answer": {
+        "square": "h8"
+      },
+      "concept": "battery",
+      "hints": {
+        "text": "Run the rook up the h-file until it is level with the king's rank."
+      },
+      "reason": "h8. The rook arrives there and the queen on h1 sees the square the moment h6 is vacated, so the king cannot take."
+    },
+    {
+      "id": "3.8.2-c7",
+      "type": "find_the_move",
+      "fen": "5rk1/5pp1/7R/8/8/8/5PP1/6KQ w - - 0 1",
+      "prompt": "Rook in front, queen behind, and the h-file is yours. Mate in one.",
+      "answer": {
+        "moves": [
+          "Rh8#"
+        ]
+      },
+      "wrong": {
+        "Rh7": "You are one square short, and Black is simply given a free move.",
+        "Qh5": "The queen is now in front of nothing. You needed the rook to go, not the queen."
+      },
+      "concept": "battery",
+      "hints": {
+        "piece": "h6",
+        "square": "h8"
+      },
+      "reason": "Rh8 is mate: the queen holds h8 through the empty file, Black's own rook fills f8, and his pawn fills g7."
+    }
+  ],
+  "takeaway": "Two pieces on one line, the cheap one behind. The front piece lands beside the king and the back piece is the reason he cannot take it."
+}

@@ -1,0 +1,157 @@
+{
+  "id": "3.12.4",
+  "unit": "3.12",
+  "title": "A third 1000-level game",
+  "xp": 16,
+  "card": {
+    "idea": "A third game at this level, and this one ends in a pattern worth owning outright. Black opens a file at his own king, White’s queen finds the long diagonal, and the finish is a knight, a double check and a queen given away for nothing: the smothered mate. It needs one thing to work, and Black provides it on move eight.",
+    "diagrams": [
+      "r1bq1rk1/1pp1n1pp/p1pb4/4pP2/8/2PP1N2/PP1N1PPP/R1BQ1RK1 b - - 0 9",
+      "r2q1rk1/1pp3pp/p1pb2nN/4pb2/8/1QPP4/PP1N1PPP/R1B2RK1 b - - 7 13"
+    ],
+    "habit": "Before you open a file, ask whose king is standing on it."
+  },
+  "explain": [
+    {
+      "fen": "r1bq1rk1/1pp1nppp/p1pb4/4p3/4P3/2PP1N2/PP1N1PPP/R1BQ1RK1 b - - 2 8",
+      "text": "Black is about to play 8...f5. It looks active — it hits the centre and opens a file for the rook. It also empties f7, which is the square a knight lands on in every smothered mate there has ever been, and it clears the diagonal that ends on g8.",
+      "highlights": [
+        "f7",
+        "g8"
+      ]
+    },
+    {
+      "fen": "r2q1r1k/1pp2Npp/p1pb2n1/4pb2/8/1QPP4/PP1N1PPP/R1B2RK1 b - - 5 12",
+      "text": "The knight has landed on f7 with check and the queen on b3 guards it down the diagonal. Black may take it with the rook and give up the exchange, or step to g8. Stepping to g8 loses at once, because the knight goes to h6 and two pieces give check together.",
+      "arrows": [
+        [
+          "b3",
+          "f7"
+        ]
+      ],
+      "highlights": [
+        "f7",
+        "g8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.12.4-c1",
+      "type": "guess_the_move",
+      "fen": "r1bq1rk1/1pp1n1pp/p1pb4/4pp2/4P3/2PP1N2/PP1N1PPP/R1BQ1RK1 w - - 0 9",
+      "prompt": "Black has just played 8...f5. Take.",
+      "answer": {
+        "moves": [
+          "exf5"
+        ]
+      },
+      "commentary": "exf5, and Black recaptured with the bishop: 9...Bxf5. Look at what the break has cost him. f7 is empty, the diagonal from c4 through to g8 is clear, and his king sits at the end of it with a rook on f8 that cannot get out of the way.",
+      "concept": "story-game",
+      "reason": "exf5 opens the position Black has weakened. After 9...Bxf5 the f7 square and the diagonal to g8 are both empty.",
+      "hints": {
+        "text": "Open the position he has just weakened."
+      }
+    },
+    {
+      "id": "3.12.4-c2",
+      "type": "guess_the_move",
+      "fen": "r2q1rk1/1pp1n1pp/p1pb4/4pb2/8/2PP1N2/PP1N1PPP/R1BQ1RK1 w - - 0 10",
+      "prompt": "One diagonal now runs all the way to the black king. Put your queen on it.",
+      "answer": {
+        "moves": [
+          "Qb3+"
+        ]
+      },
+      "commentary": "Qb3+ is check, from b3 through c4, d5, e6 and the empty f7. Black could block on f7, d5 or e6, or step aside; he stepped aside with 10...Kh8. Note the second job the queen has taken on: from b3 she guards f7, which is what makes the next few moves possible.",
+      "concept": "story-game",
+      "reason": "Qb3+ takes the diagonal Black has just opened, and it guards f7 for what is coming.",
+      "hints": {
+        "text": "A queen move that is check."
+      }
+    },
+    {
+      "id": "3.12.4-c3",
+      "type": "guess_the_move",
+      "fen": "r2q1r1k/1pp1n1pp/p1pb4/4pb2/8/1QPP1N2/PP1N1PPP/R1B2RK1 w - - 2 11",
+      "prompt": "Your queen already guards f7. Bring a knight to a square it can jump to f7 from.",
+      "answer": {
+        "moves": [
+          "Ng5"
+        ]
+      },
+      "commentary": "Ng5 heads for f7, and because the queen on b3 guards that square the knight will be able to stand there. Black replied 11...Ng6, a reasonable-looking regrouping that does nothing about the threat — and, as it turns out, removes the one piece that could have captured on g8.",
+      "concept": "story-game",
+      "reason": "Ng5 heads for f7, which the queen on b3 already guards.",
+      "hints": {
+        "text": "Not the square itself. The square before it."
+      }
+    },
+    {
+      "id": "3.12.4-c4",
+      "type": "guess_the_move",
+      "fen": "r2q1r1k/1pp3pp/p1pb2n1/4pbN1/8/1QPP4/PP1N1PPP/R1B2RK1 w - - 4 12",
+      "prompt": "Play the check. It is not a sacrifice: count who guards the square.",
+      "answer": {
+        "moves": [
+          "Nf7+"
+        ]
+      },
+      "commentary": "Nf7+ and the knight is guarded by the queen on b3, so 12...Rxf7 13.Qxf7 would cost Black the exchange. He kept the rook and played 12...Kg8 instead, which is the one thing worse than losing the exchange.",
+      "concept": "smothered-mate",
+      "reason": "Nf7+ is check, and the queen on b3 guards the knight, so taking it costs Black the exchange.",
+      "hints": {
+        "text": "The queen on b3 is looking at it."
+      }
+    },
+    {
+      "id": "3.12.4-c5",
+      "type": "guess_the_move",
+      "fen": "r2q1rk1/1pp2Npp/p1pb2n1/4pb2/8/1QPP4/PP1N1PPP/R1B2RK1 w - - 6 13",
+      "prompt": "Move the knight so that two pieces give check at once.",
+      "answer": {
+        "moves": [
+          "Nh6+"
+        ]
+      },
+      "commentary": "Nh6 is a double check: the knight attacks g8 from h6, and the queen on b3 now sees g8 down the diagonal the knight has just left. A double check can only be answered by moving the king — blocking one check leaves the other, and capturing one piece leaves the other. The pawn on g7 attacks h6 and is not allowed to take. 13...Kh8 is forced.",
+      "concept": "double-check",
+      "reason": "Nh6 is a double check. Only a king move answers it, and h8 is the only square.",
+      "hints": {
+        "text": "Move it off the diagonal your queen is on."
+      }
+    },
+    {
+      "id": "3.12.4-c6",
+      "type": "guess_the_move",
+      "fen": "r2q1r1k/1pp3pp/p1pb2nN/4pb2/8/1QPP4/PP1N1PPP/R1B2RK1 w - - 8 14",
+      "prompt": "Give your queen away.",
+      "answer": {
+        "moves": [
+          "Qg8+"
+        ]
+      },
+      "commentary": "Qg8+ is what everything was for. The knight on h6 guards the queen, so the king may not take her, and 14...Rxg8 is Black’s only legal reply — which drags his own rook onto g8 and closes the last hole beside his king.",
+      "concept": "deflection",
+      "reason": "Qg8+ forces Rxg8, which blocks the king’s last free square with his own rook.",
+      "hints": {
+        "text": "To the square beside the king, where a rook can take her."
+      }
+    },
+    {
+      "id": "3.12.4-c7",
+      "type": "guess_the_move",
+      "fen": "r2q2rk/1pp3pp/p1pb2nN/4pb2/8/2PP4/PP1N1PPP/R1B2RK1 w - - 0 15",
+      "prompt": "Mate in one.",
+      "answer": {
+        "moves": [
+          "Nf7#"
+        ]
+      },
+      "commentary": "Nf7 is mate, and the king is smothered by his own men: the rook on g8, the pawn on g7 and the pawn on h7 take every square he has. Black has a queen, two rooks, two bishops and a knight on the board. Not one of them can reach f7.",
+      "concept": "smothered-mate",
+      "reason": "Nf7 is mate. The rook on g8 and the pawns on g7 and h7 are Black’s own, and nothing he owns can reach f7."
+    }
+  ],
+  "takeaway": "Learn the finish as one unit: knight checks on f7, king steps to g8, double check drives him back, queen goes to g8, rook takes, knight mates."
+}

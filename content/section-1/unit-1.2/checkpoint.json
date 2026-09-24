@@ -38,13 +38,13 @@
       "move": "Rxd5",
       "prompt": "The rook takes the pawn on d5. Is that safe?",
       "reasons": [
-        "The rook on d1 takes a pawn that nothing defends.",
+        "The bishop on f1 is in the way.",
         "The king on e8 takes back.",
-        "The bishop on f1 is in the way."
+        "The rook on d1 takes a pawn that nothing defends."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "attack-defend"
     },
@@ -96,12 +96,12 @@
       "fen": "4k3/8/8/8/8/8/8/Q2R1BK1 w - - 0 1",
       "prompt": "Which of these is worth the most?",
       "options": [
-        "Queen",
+        "Bishop",
         "Rook",
-        "Bishop"
+        "Queen"
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "values"
     },
@@ -112,11 +112,11 @@
       "prompt": "How many pawns is a knight worth?",
       "options": [
         "One",
-        "Three",
-        "Five"
+        "Five",
+        "Three"
       ],
       "answer": {
-        "option": 1
+        "option": 2
       },
       "concept": "values"
     },
@@ -127,13 +127,13 @@
       "move": "Qxe5",
       "prompt": "The queen takes the knight on e5. Is that a good deal?",
       "reasons": [
-        "A knight is worth taking.",
         "The pawn on d6 takes back and you lose 9 for 3.",
+        "A knight is worth taking.",
         "The king on g8 takes back."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "values"
     },
@@ -145,12 +145,12 @@
       "prompt": "The bishop takes the pawn on c5. Is that a good deal?",
       "reasons": [
         "A free pawn.",
-        "The pawn on b6 takes back and you lose 3 for 1.",
-        "The king on e8 takes back."
+        "The king on e8 takes back.",
+        "The pawn on b6 takes back and you lose 3 for 1."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "concept": "values"
     },
@@ -317,13 +317,13 @@
       "move": "Rd5",
       "prompt": "You want to play the rook to d5. Is that safe?",
       "reasons": [
-        "Nothing reaches d5.",
         "The knight on f6 takes it.",
+        "Nothing reaches d5.",
         "The king on e8 takes it."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "dont-hang"
     },
@@ -334,13 +334,13 @@
       "move": "Rd4",
       "prompt": "You want to play the rook to d4. Is that safe?",
       "reasons": [
-        "The knight on f4 does not reach d4.",
+        "The king on e8 takes it.",
         "The knight on f4 takes it.",
-        "The king on e8 takes it."
+        "The knight on f4 does not reach d4."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "dont-hang"
     },
@@ -352,12 +352,12 @@
       "prompt": "The bishop takes on e7. Is that a fair deal?",
       "reasons": [
         "The bishop is simply lost.",
-        "The king on e8 takes back but bishop for bishop is even.",
-        "The king on e1 is too far away."
+        "The king on e1 is too far away.",
+        "The king on e8 takes back but bishop for bishop is even."
       ],
       "answer": {
         "safe": true,
-        "reason": 1
+        "reason": 2
       },
       "concept": "dont-hang"
     },
@@ -475,13 +475,13 @@
       "move": "cxd5",
       "prompt": "The pawn takes the knight on d5. Is that safe?",
       "reasons": [
-        "Nothing defends d5, so the pawn wins a knight.",
         "The pawn on c6 takes back.",
+        "Nothing defends d5, so the pawn wins a knight.",
         "The king on f8 takes back."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "concept": "counting"
     }

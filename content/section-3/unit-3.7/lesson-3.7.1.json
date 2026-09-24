@@ -1,0 +1,217 @@
+{
+  "id": "3.7.1",
+  "unit": "3.7",
+  "title": "Open files and doubling rooks",
+  "xp": 14,
+  "card": {
+    "idea": "A file with no pawn of either colour on it is open, and it belongs to whoever puts a rook there first. A file carrying only the enemy's pawns is half-open: nothing of yours is in the way, and the pawn at the end of it cannot step aside. Two rooks on one file beat one rook on it.",
+    "diagrams": [
+      "r4rk1/ppp1pppp/8/8/8/8/PPP1PPPP/R4RK1 w - - 0 1",
+      "3r2k1/pp2pppp/2p5/8/8/3P4/PP2PPPP/2R3K1 w - - 0 1",
+      "3r1rk1/ppp1ppp1/7p/8/8/8/PPPRPPPP/3R2K1 w - - 0 1"
+    ],
+    "habit": "Count the pawns on the file before you put a rook on it."
+  },
+  "explain": [
+    {
+      "fen": "r4rk1/ppp1pppp/8/8/8/8/PPP1PPPP/R4RK1 w - - 0 1",
+      "text": "Seven pawns each, standing on the same seven files. The d-file carries none of them, so the d-file is open. Both white rooks can reach d1 and it does not matter which one goes: what matters is that White gets there first, because the file only has room for one side.",
+      "arrows": [
+        [
+          "a1",
+          "d1"
+        ],
+        [
+          "f1",
+          "d1"
+        ]
+      ],
+      "highlights": [
+        "d1",
+        "d8"
+      ]
+    },
+    {
+      "fen": "3r2k1/pp2pppp/2p5/8/8/3P4/PP2PPPP/2R3K1 w - - 0 1",
+      "text": "Neither file here is fully open. White has no c-pawn, so the c-file is half-open for him and his rook already attacks c6. Black has no d-pawn, so the d-file is half-open for Black and his rook already attacks d3. Each of those pawns has exactly one defender: b7 holds c6, and e2 holds d3.",
+      "arrows": [
+        [
+          "c1",
+          "c6"
+        ],
+        [
+          "d8",
+          "d3"
+        ]
+      ],
+      "highlights": [
+        "c6",
+        "d3"
+      ]
+    },
+    {
+      "fen": "3r1rk1/ppp1ppp1/7p/8/8/8/PPPRPPPP/3R2K1 w - - 0 1",
+      "text": "The d-file is open and White has two rooks on it against one. The rook on f8 is the only thing defending d8. Two attackers against one defender: Rxd8 Rxd8 Rxd8 and Black has no rooks left at all.",
+      "arrows": [
+        [
+          "d2",
+          "d8"
+        ],
+        [
+          "f8",
+          "d8"
+        ]
+      ],
+      "highlights": [
+        "d8",
+        "f8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.7.1-c1",
+      "type": "which_square",
+      "fen": "r4rk1/ppp1pppp/8/8/8/8/PPP1PPPP/R4RK1 w - - 0 1",
+      "prompt": "Seven pawns each, and exactly one file has none of them standing on it. Tap the square on White's first rank where a rook belongs.",
+      "answer": {
+        "square": "d1"
+      },
+      "concept": "open-file",
+      "hints": {
+        "text": "Go file by file and look for the one with no pawn on it at all."
+      },
+      "reason": "d1. Every other file has a white pawn and a black pawn on it, so a rook there would be looking at the back of its own pawn. Either rook can go to d1; the point is to go first."
+    },
+    {
+      "id": "3.7.1-c2",
+      "type": "find_them_all",
+      "fen": "r4rk1/ppp1pppp/8/8/8/8/PPP1PPPP/R4RK1 w - - 0 1",
+      "prompt": "Tap both pawns that would have to come off the board before the c-file looked like the d-file.",
+      "answer": {
+        "pieces": [
+          "c2",
+          "c7"
+        ]
+      },
+      "concept": "open-file",
+      "hints": {
+        "text": "Open means no pawn of either colour. Count both sides."
+      },
+      "reason": "The white pawn on c2 and the black pawn on c7. A file is only open when neither side has a pawn on it, so one of them leaving is not enough."
+    },
+    {
+      "id": "3.7.1-c3",
+      "type": "which_square",
+      "fen": "3r2k1/pp2pppp/2p5/8/8/3P4/PP2PPPP/2R3K1 w - - 0 1",
+      "prompt": "White has no c-pawn, so his rook on c1 is already looking at something. Tap the black pawn it attacks.",
+      "answer": {
+        "square": "c6"
+      },
+      "concept": "open-file",
+      "hints": {
+        "text": "Run up the c-file from the rook until you meet a man."
+      },
+      "reason": "c6. c2, c3, c4 and c5 are all empty, so the rook runs up the file until it meets the pawn on c6 and stops there. That pawn has one defender, the pawn on b7."
+    },
+    {
+      "id": "3.7.1-c4",
+      "type": "name_the_pattern",
+      "fen": "3r2k1/pp2pppp/2p5/8/8/3P4/PP2PPPP/2R3K1 w - - 0 1",
+      "prompt": "Each rook is pressing a pawn on a file its own side has no pawn on. How is that different from a file that is empty of pawns altogether?",
+      "options": [
+        "It is worse than a closed file, because your own pawn is not there to support the rook.",
+        "There is no difference at all. A rook is exactly as strong on either kind of file.",
+        "The enemy pawn is still there, and that pawn is the target: it cannot step sideways out of the way."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "open-file",
+      "hints": {
+        "text": "Ask what is standing at the far end of the file, and whether it can move away."
+      },
+      "reason": "A file with only the enemy's pawn on it gives you a target rather than a road. Pawns only move forwards and only capture sideways, so a pawn on a file you are attacking cannot dodge; it has to be defended by something."
+    },
+    {
+      "id": "3.7.1-c5",
+      "type": "is_it_safe",
+      "fen": "3r2k1/pp2pppp/2p5/8/8/3P4/PP2PPPP/2R3K1 w - - 0 1",
+      "move": "Rc5",
+      "prompt": "White pushes the rook up to c5, so that it hits c6 from closer in. Is the rook safe on c5?",
+      "reasons": [
+        "Yes. Nothing black attacks c5 at this moment.",
+        "No. The rook on d8 takes it.",
+        "No. The pawn on b7 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "open-file",
+      "hints": {
+        "text": "Black pawns capture towards the two squares diagonally below them. Check where b7 really goes."
+      },
+      "reason": "Nothing of Black's covers c5. The pawn on b7 captures towards a6 and c6, not c5, and the rook on d8 cannot reach c5 without giving up its own file. Black can play b6 next move to ask the rook to move along, but that is a question, not a capture."
+    },
+    {
+      "id": "3.7.1-c6",
+      "type": "find_the_move",
+      "fen": "3r1rk1/ppp1ppp1/7p/8/8/8/PPPRPPPP/3R2K1 w - - 0 1",
+      "prompt": "Two rooks on the file against one, and the rook standing on d8 has a single defender. Collect.",
+      "answer": {
+        "moves": [
+          "Rxd8"
+        ]
+      },
+      "wrong": {
+        "Rd7": "Rxd7 Rxd7 and you have swapped one pair of rooks off. The rook on d8 had only one defender, so taking it there was worth a whole rook more than this."
+      },
+      "concept": "open-file",
+      "hints": {
+        "piece": "d2",
+        "square": "d8"
+      },
+      "reason": "Rxd8 first. Black recaptures with the rook on f8, and then the second white rook takes that one on d8 with check. Two attackers against one defender wins the last piece to arrive."
+    },
+    {
+      "id": "3.7.1-c7",
+      "type": "find_the_sequence",
+      "fen": "3r1rk1/ppp1ppp1/7p/8/8/8/PPPRPPPP/3R2K1 w - - 0 1",
+      "prompt": "Play it out: take on d8, let the other rook take back, then take again with the rook that was waiting behind.",
+      "answer": {
+        "line": [
+          "Rxd8",
+          "Rxd8",
+          "Rxd8+"
+        ]
+      },
+      "concept": "open-file",
+      "hints": {
+        "piece": "d1",
+        "square": "d8"
+      },
+      "reason": "Rxd8 Rxd8 Rxd8 is check, and Black has no rook left. The pawn on h6 gives the king h7, so it is not mate — it is simply a rook."
+    },
+    {
+      "id": "3.7.1-c8",
+      "type": "name_the_pattern",
+      "fen": "3r1rk1/ppp1ppp1/7p/8/8/8/PPPRPPPP/3R2K1 w - - 0 1",
+      "prompt": "Why is a second rook on the same file worth a whole move to bring up?",
+      "options": [
+        "Because two rooks side by side on the first rank cover the whole back rank.",
+        "Because two rooks on one file attack twice as many squares as one rook does.",
+        "Because the defender only gets to take back once. The rook standing behind takes last, and keeps the file."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "open-file",
+      "hints": {
+        "text": "Count attackers against defenders on d8, then count the captures."
+      },
+      "reason": "It is a counting job. Two attackers against one defender means three captures on the square, and the side with two pieces makes the first and the last. The rook behind is not attacking extra squares — the rook in front is in its way."
+    }
+  ],
+  "takeaway": "No pawns on the file means open; only the enemy's pawns means half-open. Get a rook there first, then bring the second one up behind it."
+}

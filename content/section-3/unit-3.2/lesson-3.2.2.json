@@ -85,11 +85,11 @@
       "move": "Ng6+",
       "prompt": "The pawn on h7 attacks g6. White puts the knight there anyway. Is the knight safe on g6?",
       "reasons": [
-        "Yes. hxg6 is not legal, because Black would still be in check from the bishop on b2.",
         "Yes. The pawn on h7 is pinned against its own king.",
+        "Yes. hxg6 is not legal, because Black would still be in check from the bishop on b2.",
         "No. hxg6 wins a knight."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "double-check",
       "hints": {
         "text": "Count the checkers before you count the attackers."
