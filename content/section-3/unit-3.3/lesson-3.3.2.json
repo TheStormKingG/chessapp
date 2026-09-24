@@ -1,0 +1,141 @@
+{
+  "id": "3.3.2",
+  "unit": "3.3",
+  "title": "Promotion tactics and under-promotion",
+  "xp": 15,
+  "card": {
+    "idea": "A pawn on the seventh rank is a piece you have not chosen yet. Nine times out of ten the answer is a queen. The other time the position asks for something else: a knight, because a queen cannot give check and attack a second piece from the same square; or a rook, because a queen would cover every square the enemy king has left.",
+    "diagrams": [
+      "8/1q1P1kpp/8/8/8/7P/5PP1/6K1 w - - 0 1",
+      "8/p1P5/pk6/p7/P7/8/8/7K w - - 0 1",
+      "8/5P1p/6kp/7p/7P/8/8/K7 w - - 0 1"
+    ],
+    "habit": "Ask what the new piece has to do before you name it."
+  },
+  "explain": [
+    {
+      "fen": "8/1q1P1kpp/8/8/8/7P/5PP1/6K1 w - - 0 1",
+      "text": "Black is a queen up, so a new queen of your own only makes it level. A knight does more. On d8 it gives check to the king on f7 and attacks the queen on b7 at the same time. The king has to answer the check, and then Nxb7 takes the queen and walks away clean.",
+      "arrows": [["d7", "d8"], ["d8", "f7"], ["d8", "b7"]],
+      "highlights": ["d8", "f7", "b7"]
+    },
+    {
+      "fen": "8/p1P5/pk6/p7/P7/8/8/7K w - - 0 1",
+      "text": "Here the queen is too strong. On c8 she covers c7, c6, c5 and b7, which are the king's last four squares. His pawns have been frozen all game, and he is not in check: that is stalemate, a whole point thrown away. A rook covers the file and leaves b7 alone.",
+      "arrows": [["c7", "c8"], ["c8", "b7"], ["c8", "c5"]],
+      "highlights": ["c8", "b7", "b6"]
+    },
+    {
+      "fen": "8/5P1p/6kp/7p/7P/8/8/K7 w - - 0 1",
+      "text": "The same picture on the other wing, and the same cure. A queen on f8 takes the f-file and g7, the pawn on h4 takes g5, the h-pawns cannot move, and Black is stalemated. A rook takes the f-file and nothing else, so g7 stays open and Black still has a game to lose.",
+      "arrows": [["f7", "f8"], ["f8", "g7"], ["h4", "g5"]],
+      "highlights": ["f8", "g7", "g6"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.3.2-c1",
+      "type": "which_square",
+      "fen": "8/1q1P1kpp/8/8/8/7P/5PP1/6K1 w - - 0 1",
+      "prompt": "A white knight landing on d8 would give check to the king on f7. Tap the other black piece it attacks from that square.",
+      "answer": { "square": "b7" },
+      "concept": "under-promotion",
+      "hints": { "text": "A knight on d8 reaches b7, c6, e6 and f7." },
+      "reason": "b7. A knight on d8 attacks b7 and f7 together, which is the queen and the king at the same time."
+    },
+    {
+      "id": "3.3.2-c2",
+      "type": "is_it_safe",
+      "fen": "8/1q1P1kpp/8/8/8/7P/5PP1/6K1 w - - 0 1",
+      "move": "d8=Q",
+      "prompt": "White can make a new queen on d8. Is she safe there?",
+      "reasons": [
+        "Yes. Nothing of Black's attacks d8, so she cannot be taken.",
+        "No. The queen on b7 takes her along the eighth rank.",
+        "No. The king on f7 takes her at once."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "under-promotion",
+      "hints": { "text": "Safe is not the same as useful." },
+      "reason": "She is perfectly safe and completely idle. The queen on b7 cannot reach d8 and f7 is not next to it, but from d8 she attacks nothing of Black's either, and Black still has a queen. A knight on the very same square attacks both king and queen."
+    },
+    {
+      "id": "3.3.2-c3",
+      "type": "find_the_move",
+      "fen": "8/1q1P1kpp/8/8/8/7P/5PP1/6K1 w - - 0 1",
+      "prompt": "Promote, but not to a queen. Black's king and queen sit a knight's move apart from the same square.",
+      "answer": { "moves": ["d8=N+"] },
+      "wrong": {
+        "d8=Q": "A new queen is safe on d8 and does nothing there: she attacks neither the king on f7 nor the queen on b7, and Black's queen is still on the board.",
+        "d8=R": "A rook on d8 is not check either, and it attacks nothing at all. Black's queen simply walks away."
+      },
+      "concept": "under-promotion",
+      "hints": { "piece": "d7", "square": "d8" },
+      "reason": "d8=N is check and attacks b7 in the same move. The king has six squares and none of them defends the queen, so Nxb7 follows and nothing can chase the knight."
+    },
+    {
+      "id": "3.3.2-c4",
+      "type": "find_the_sequence",
+      "fen": "8/1q1P1kpp/8/8/8/7P/5PP1/6K1 w - - 0 1",
+      "prompt": "Play it out: promote with check, let the king step to e8, and take the queen.",
+      "answer": { "line": ["d8=N+", "Ke8", "Nxb7"] },
+      "concept": "under-promotion",
+      "hints": { "text": "The knight leaves d8 with the prize. Nothing on the board can catch it on b7." },
+      "reason": "d8=N is check, Ke8 attacks the knight, and Nxb7 answers that by leaving with the queen. White is a knight and a pawn up with no black piece left."
+    },
+    {
+      "id": "3.3.2-c5",
+      "type": "find_them_all",
+      "fen": "8/p1P5/pk6/p7/P7/8/8/7K w - - 0 1",
+      "prompt": "Before you promote, look at what Black can actually do. Tap every black pawn that has no legal move at all.",
+      "answer": { "pieces": ["a7", "a6", "a5"] },
+      "concept": "under-promotion",
+      "hints": { "text": "Each is blocked by the pawn in front of it, and the last one by yours." },
+      "reason": "All three. a7 is blocked by a6, a6 by a5, and a5 by your pawn on a4, and none of them has anything to capture. Only the king can move, which is exactly why stalemate is a danger here."
+    },
+    {
+      "id": "3.3.2-c6",
+      "type": "find_the_move",
+      "fen": "8/p1P5/pk6/p7/P7/8/8/7K w - - 0 1",
+      "prompt": "Promote. Black's king has one square left, and the piece you choose decides whether he keeps it.",
+      "answer": { "moves": ["c8=R"] },
+      "wrong": {
+        "c8=Q": "A queen on c8 covers c7, c6, c5 and b7 as well. The king has no square, the pawns cannot move, and Black is not in check: that is stalemate and a draw.",
+        "Kg2": "Any quiet move and the pawn goes: Kxc7. Then it is your one pawn against three, and only Black can make progress."
+      },
+      "concept": "under-promotion",
+      "hints": { "piece": "c7", "square": "c8" },
+      "reason": "c8=R covers the c-file and the eighth rank and leaves b7 alone, so Kb7 is legal and the game goes on. A rook against a king whose three pawns cannot move is over in a few moves."
+    },
+    {
+      "id": "3.3.2-c7",
+      "type": "name_the_pattern",
+      "fen": "8/p1P5/pk6/p7/P7/8/8/7K w - - 0 1",
+      "prompt": "Why is the queen the wrong piece on c8, when she is the strongest piece on the board?",
+      "options": [
+        "She covers every square the black king has left and he is not in check, so the game is drawn by stalemate.",
+        "She can be taken by the king on b6.",
+        "She blocks her own rook on the c-file."
+      ],
+      "answer": { "option": 0 },
+      "concept": "under-promotion",
+      "hints": { "text": "Count the black king's squares after she lands." },
+      "reason": "Stalemate. b7, c7, c6 and c5 are the king's only squares and the queen covers all four, while the three pawns have been frozen all along. The king on b6 is not next to c8, and White has no rook."
+    },
+    {
+      "id": "3.3.2-c8",
+      "type": "find_the_move",
+      "fen": "8/5P1p/6kp/7p/7P/8/8/K7 w - - 0 1",
+      "prompt": "The same trap on the other wing. Black's king has one square left, g7, and only one promotion leaves it to him.",
+      "answer": { "moves": ["f8=R"] },
+      "wrong": {
+        "f8=Q": "A queen on f8 takes g7 and the whole f-file, the pawn on h4 has g5, and the h-pawns are frozen. Black is not in check and has no move: stalemate.",
+        "Ka2": "A quiet move loses the pawn: Kxf7, and three black pawns against one white pawn is not a game you win."
+      },
+      "concept": "under-promotion",
+      "hints": { "piece": "f7", "square": "f8" },
+      "reason": "f8=R covers the f-file and the eighth rank and nothing else, so g7 stays free. Kg7 is Black's only reply and it attacks the rook, so you simply move it away and win with rook and king."
+    }
+  ],
+  "takeaway": "Promote to the piece the position needs. A knight when it checks and forks; a rook when a queen would leave the enemy king no square at all."
+}

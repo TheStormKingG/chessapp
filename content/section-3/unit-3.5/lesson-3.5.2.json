@@ -1,0 +1,154 @@
+{
+  "id": "3.5.2",
+  "unit": "3.5",
+  "title": "Stalemate as a resource",
+  "xp": 15,
+  "card": {
+    "idea": "Stalemate is a draw, and a draw is a rescue when you are dead lost. The trick is to notice that your king already has no legal move, and that the only thing keeping the game alive is your last piece. Give that piece away with check, so the capture is forced, and you are left with nothing at all to move.",
+    "diagrams": [
+      "5rk1/5p1p/7R/8/8/5n1p/8/7K w - - 0 1",
+      "5rk1/5p1p/1b6/7R/8/8/r7/7K w - - 0 1"
+    ],
+    "habit": "No king moves left? Then your last piece is a liability."
+  },
+  "explain": [
+    {
+      "fen": "5rk1/5p1p/7R/8/8/5n1p/8/7K w - - 0 1",
+      "text": "Count your own legal moves: eleven, and every single one of them is a rook move. The knight on f3 covers g1 and h2, and the pawn on h3 covers g2, so your king cannot move at all. Lose the rook and you are not lost, you are stalemated.",
+      "arrows": [
+        ["f3", "g1"],
+        ["f3", "h2"],
+        ["h3", "g2"]
+      ],
+      "highlights": ["g1", "g2", "h2"]
+    },
+    {
+      "fen": "5r1k/5p1p/6R1/8/8/5n1p/8/7K w - - 1 2",
+      "text": "Rg6 was check, so the king stepped to h8. Now Rg8 is check again, and Black has exactly two answers: Rxg8 and Kxg8. Either one takes your last piece off the board, and a side with no piece and no king move is stalemated. Half a point.",
+      "arrows": [["g6", "g8"]],
+      "highlights": ["g8"]
+    },
+    {
+      "fen": "5rk1/5p1p/1b6/7R/8/8/r7/7K w - - 0 1",
+      "text": "The same trick with different jailers. The bishop on b6 covers g1 and the rook on a2 covers g2 and h2, so once again your king is frozen. Rg5 is check with Kh8 forced, and Rg8 next move hands over the rook that is keeping you alive.",
+      "arrows": [
+        ["b6", "g1"],
+        ["a2", "h2"],
+        ["h5", "g5"]
+      ],
+      "highlights": ["g1", "g5"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.5.2-c1",
+      "type": "find_them_all",
+      "fen": "5rk1/5p1p/7R/8/8/5n1p/8/7K w - - 0 1",
+      "prompt": "Your king on h1 has no legal move. Tap every black man that is taking one of his squares away.",
+      "answer": { "pieces": ["f3", "h3"] },
+      "concept": "stalemate-defence",
+      "hints": {
+        "text": "Your king would like g1, g2 and h2. Who is watching each one?"
+      },
+      "reason": "The knight on f3 covers g1 and h2 at the same time, and the pawn on h3 covers g2. Nothing else of Black's touches those three squares, so those two men are the whole cage."
+    },
+    {
+      "id": "3.5.2-c2",
+      "type": "is_it_safe",
+      "fen": "5rk1/5p1p/7R/8/8/5n1p/8/7K w - - 0 1",
+      "move": "Rxh7",
+      "prompt": "You are lost, so you grab a pawn: Rxh7. Does that help?",
+      "reasons": [
+        "Yes. Black has to take the rook with his king, and then you have nothing left to move.",
+        "No. Black is not obliged to take. Ng5 attacks the rook and takes the knight off f3, so your king is free again and the stalemate is gone.",
+        "No. The pawn on h7 is defended by the rook on f8, so the rook is simply lost."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "stalemate-defence",
+      "hints": {
+        "text": "A sacrifice only works if the other player has no choice. Give the check first."
+      },
+      "reason": "Rxh7 is not check, so Black picks his own reply, and Ng5 is the one that hurts: the knight leaves f3, g1 and h2 open up, and you are a knight and two pawns down with a king that can shuffle forever."
+    },
+    {
+      "id": "3.5.2-c3",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/7R/8/8/5n1p/8/7K w - - 0 1",
+      "prompt": "Your king cannot move and your rook is all you have. Get rid of it, and make sure Black has no choice about taking it.",
+      "answer": { "moves": ["Rg6+"] },
+      "wrong": {
+        "Rxh7": "Not check, so Black answers as he likes. Ng5 attacks the rook and unfreezes your king at the same time, and the draw has gone.",
+        "Rxh3": "You win the pawn that was covering g2, so your own king can walk there. A king with somewhere to go cannot be stalemated."
+      },
+      "concept": "stalemate-defence",
+      "hints": {
+        "piece": "h6",
+        "square": "g6"
+      },
+      "reason": "Rg6 is check and all three legal answers draw: fxg6 and hxg6 stalemate you at once, and Kh8 runs into Rg8+, when Rxg8 or Kxg8 stalemates you instead."
+    },
+    {
+      "id": "3.5.2-c4",
+      "type": "find_the_sequence",
+      "fen": "5rk1/5p1p/7R/8/8/5n1p/8/7K w - - 0 1",
+      "prompt": "Play it out with the king's reply: check on g6, let him step to h8, then offer the rook again where his rook must take it.",
+      "answer": { "line": ["Rg6+", "Kh8", "Rg8+", "Rxg8"] },
+      "concept": "stalemate-defence",
+      "hints": {
+        "piece": "h6",
+        "square": "g6"
+      },
+      "reason": "Rg6+ Kh8 Rg8+ Rxg8 and it is your move with a frozen king and an empty army. That is stalemate, and stalemate is half a point."
+    },
+    {
+      "id": "3.5.2-c5",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/1b5R/8/8/8/r7/7K w - - 0 1",
+      "prompt": "The bishop on b6 and the rook on a2 have your king sealed in. Use that instead of fighting it.",
+      "answer": { "moves": ["Rg6+"] },
+      "wrong": {
+        "Rxb6": "You win a bishop and unlock your own cage. With nothing covering g1 any more your king can move again, so there is no stalemate to fall back on and you are still two rooks down."
+      },
+      "concept": "stalemate-defence",
+      "hints": {
+        "piece": "h6",
+        "square": "g6"
+      },
+      "reason": "Rg6 is check. fxg6 and hxg6 stalemate you immediately, and after Kh8 the rook goes to g8 and gets taken there. Every road leads to the same half point."
+    },
+    {
+      "id": "3.5.2-c6",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/1b6/7R/8/8/r7/7K w - - 0 1",
+      "prompt": "Only one of your moves is a check. Find it, and notice that from here neither pawn can take the rook.",
+      "answer": { "moves": ["Rg5+"] },
+      "wrong": {
+        "Rh4": "A quiet move, so Black takes his turn: Ra1+ drives your king to g2 and the cage is broken. You needed a check, not a square."
+      },
+      "concept": "stalemate-defence",
+      "hints": {
+        "piece": "h5",
+        "square": "g5"
+      },
+      "reason": "Rg5 is check and Kh8 is the only legal answer, because a black pawn on f7 or h7 captures on g6, not g5. Rg8 follows, and the rook is taken there."
+    },
+    {
+      "id": "3.5.2-c7",
+      "type": "name_the_pattern",
+      "fen": "5r1k/5p1p/6R1/8/8/5n1p/8/7K w - - 1 2",
+      "prompt": "Rg8 is about to be played and Black will win a whole rook for nothing. Why is that good for White?",
+      "options": [
+        "Because the rook is White's last man. Once it is gone White has no piece to move and no king move either, which is stalemate.",
+        "Because Black's rook is dragged to g8, where the white king can capture it next move.",
+        "Because giving material away makes the material count equal."
+      ],
+      "answer": { "option": 0 },
+      "concept": "stalemate-defence",
+      "hints": {
+        "text": "Count what White would have left after Rxg8, and then count White's legal moves."
+      },
+      "reason": "After Rxg8 White has a king on h1 and nothing else. g1 and h2 are covered by the knight on f3, g2 by the pawn on h3, and h1 is not in check. No move, no check: stalemate."
+    }
+  ],
+  "takeaway": "When you are lost and your king has no moves, your last piece is not an asset. It is the only thing preventing a stalemate, so give it away with check."
+}

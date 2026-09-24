@@ -1,0 +1,152 @@
+{
+  "id": "3.4.4",
+  "unit": "3.4",
+  "title": "Blind swine on the seventh",
+  "xp": 14,
+  "card": {
+    "idea": "Two rooks doubled on the seventh rank look like the end of the game, and very often they are not. The old name for them is blind swine: enormous, and unable to see a thing. Whether they mate or shuffle about depends on one question only, which is whether anything is still standing on that rank between them and the king.",
+    "diagrams": [
+      "r5k1/1R1R1ppp/8/8/8/8/8/2K5 w - - 0 1",
+      "6rk/1R1R3p/8/8/8/8/8/2K5 w - - 0 1",
+      "5rk1/1R1R3p/8/8/8/8/8/2K5 w - - 0 1"
+    ],
+    "habit": "Rooks on the seventh are worth what the seventh rank is worth."
+  },
+  "explain": [
+    {
+      "fen": "r5k1/1R1R1ppp/8/8/8/8/8/2K5 w - - 0 1",
+      "text": "Here are the blind swine at their blindest. The pawn on f7 blocks the rank, so neither rook can reach g7 or h7. White has exactly two checks, Rb8 and Rd8, and Black answers both by taking with the rook on a8. Enormous rooks, and no mate anywhere.",
+      "arrows": [
+        ["d7", "f7"],
+        ["a8", "f8"]
+      ],
+      "highlights": ["f7", "a8"]
+    },
+    {
+      "fen": "6rk/1R1R3p/8/8/8/8/8/2K5 w - - 0 1",
+      "text": "Now f7 and g7 have gone. The rook on d7 runs down the empty rank and takes on h7. It is check, and the king may not take back, because the rook on b7 is looking straight along the seventh at it. g8 is Black's own rook. Mate.",
+      "arrows": [
+        ["d7", "h7"],
+        ["b7", "h7"]
+      ],
+      "highlights": ["h7", "b7"]
+    },
+    {
+      "fen": "5rk1/1R1R3p/8/8/8/8/8/2K5 w - - 0 1",
+      "text": "Here the king is on g8 and the rooks have to drive him first. Rg7 is check and he must go to h8, because f8 is his own rook and g7 is guarded from b7. Then Rxh7 is check again and pushes him back to g8, and the second rook comes to g7 with mate.",
+      "arrows": [
+        ["d7", "g7"],
+        ["b7", "g7"]
+      ],
+      "highlights": ["g7", "h7"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.4.4-c1",
+      "type": "name_the_pattern",
+      "fen": "r5k1/1R1R1ppp/8/8/8/8/8/2K5 w - - 0 1",
+      "prompt": "Two white rooks are doubled on the seventh and the black king sits behind three pawns. What is the honest verdict right now?",
+      "options": [
+        "No mate: the pawn on f7 blocks the rank, so neither rook can get to g7 or h7.",
+        "Mate next move: Rd8 is check and the king has no squares.",
+        "Mate next move: Rb8 is check and the rook on a8 cannot stop it."
+      ],
+      "answer": { "option": 0 },
+      "concept": "blind-swine",
+      "hints": {
+        "text": "Walk the d7 rook along the rank and see how far it gets."
+      },
+      "reason": "Rd8 and Rb8 are both check, and Black answers them with Rxd8 and Rxb8. Rooks on the seventh are called blind swine because of exactly this: they look unanswerable and they cannot get in."
+    },
+    {
+      "id": "3.4.4-c2",
+      "type": "find_them_all",
+      "fen": "r5k1/1R1R1ppp/8/8/8/8/8/2K5 w - - 0 1",
+      "prompt": "Tap every black pawn standing on the seventh rank, which is the wall the two rooks cannot walk through.",
+      "answer": { "pieces": ["f7", "g7", "h7"] },
+      "concept": "blind-swine",
+      "hints": {
+        "text": "Three of them, all in a row."
+      },
+      "reason": "Three pawns, and the first one is the one that counts: f7 stops the rank dead, so g7 and h7 are never even reached. The blind swine only wake up when that wall comes down."
+    },
+    {
+      "id": "3.4.4-c3",
+      "type": "which_square",
+      "fen": "6rk/1R1R3p/8/8/8/8/8/2K5 w - - 0 1",
+      "prompt": "f7 and g7 are gone and the seventh rank is open. Tap the square where a rook mates.",
+      "answer": { "square": "h7" },
+      "concept": "blind-swine",
+      "hints": {
+        "text": "There is a pawn there. Take it."
+      },
+      "reason": "Rxh7 is mate. The rook on b7 guards h7 along the empty rank, so Kxh7 is illegal, g7 belongs to the rook that has just landed, and g8 is Black's own rook."
+    },
+    {
+      "id": "3.4.4-c4",
+      "type": "is_it_safe",
+      "fen": "6rk/1R1R3p/8/8/8/8/8/2K5 w - - 0 1",
+      "move": "Rxh7#",
+      "prompt": "White plays Rxh7, right beside the black king. Is that rook safe there?",
+      "reasons": [
+        "Yes. The other rook on b7 guards it along the seventh rank.",
+        "No. The king takes it, because nothing defends h7.",
+        "No. The rook on g8 defends h7 and takes it."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "blind-swine",
+      "hints": {
+        "text": "Run your finger from b7 to h7 and see what is in the way."
+      },
+      "reason": "Once f7 and g7 have gone, b7 sees all the way to h7, so the rook that lands there is defended and Kxh7 is illegal. That is the whole trick of doubling: each rook guards the other."
+    },
+    {
+      "id": "3.4.4-c5",
+      "type": "find_the_move",
+      "fen": "6rk/1R1R3p/8/8/8/8/4q3/2K5 w - - 0 1",
+      "prompt": "Black's queen is loose on e2 near your king, so you get exactly one move. Find the mate on the open seventh rank.",
+      "answer": { "moves": ["Rxh7#"] },
+      "wrong": {
+        "Rd8": "Rxd8, and it was not even check, because the rook on g8 was in the way. The mate is on the seventh rank, not the eighth."
+      },
+      "concept": "blind-swine",
+      "hints": {
+        "piece": "d7",
+        "square": "h7"
+      },
+      "reason": "Rxh7 is mate. The rook on b7 covers h7 down the open rank, g7 belongs to the rook that just landed, and g8 is Black's own rook."
+    },
+    {
+      "id": "3.4.4-c6",
+      "type": "find_the_sequence",
+      "fen": "5rk1/1R1R3p/8/8/8/8/8/2K5 w - - 0 1",
+      "prompt": "The king is on g8, so you have to drive him. Check on g7, take on h7, then bring the second rook up.",
+      "answer": { "line": ["Rg7+", "Kh8", "Rxh7+", "Kg8", "Rbg7#"] },
+      "concept": "blind-swine",
+      "hints": {
+        "piece": "d7",
+        "square": "g7"
+      },
+      "reason": "Rg7 is check and Kh8 is the only legal answer, because f8 is his own rook and g7 is guarded from b7. Rxh7 is check again and the king must step back to g8. Then the rook on b7 comes to g7 and it is mate."
+    },
+    {
+      "id": "3.4.4-c7",
+      "type": "name_the_pattern",
+      "fen": "6rk/1R1R3p/8/8/8/8/8/2K5 w - - 0 1",
+      "prompt": "Why does Rxh7 mate here when the very same two rooks were helpless a moment ago?",
+      "options": [
+        "Because f7 and g7 are empty now, so the rook on b7 guards h7 along the rank.",
+        "Because the black rook on g8 has stopped defending its king.",
+        "Because the white king on c1 has joined in the attack."
+      ],
+      "answer": { "option": 0 },
+      "concept": "blind-swine",
+      "hints": {
+        "text": "Nothing about the rooks changed. Something about the rank did."
+      },
+      "reason": "Nothing changed about the rooks. What changed is the rank they are standing on: with f7 and g7 empty, b7 sees all the way to h7, and a defended rook beside the king is mate."
+    }
+  ],
+  "takeaway": "Two rooks on the seventh are worth exactly what that rank is worth. Clear the pawns in front of them and the same two rooks mate in three."
+}

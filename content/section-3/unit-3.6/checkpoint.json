@@ -1,0 +1,504 @@
+{
+  "unit": "3.6",
+  "title": "Judging a position: the four elements",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "3.6-k01",
+      "type": "name_the_pattern",
+      "fen": "3r2k1/pp3ppp/2n5/3p4/3P4/8/PP3PPP/3R2K1 b - - 0 1",
+      "prompt": "A rook and six pawns each, on the same files. Who stands better, and on which count?",
+      "options": [
+        "Black, on the piece count: he has a knight and White has no minor piece at all.",
+        "White, because his rook is the more active of the two.",
+        "Level, because both sides have a rook and the same number of pawns."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "four-elements",
+      "reason": "Black has an extra knight and nothing else differs — same pawn files, same rook, both kings behind three pawns."
+    },
+    {
+      "id": "3.6-k02",
+      "type": "which_square",
+      "fen": "3r2k1/pp3ppp/2n5/3p4/3P4/8/PP3PPP/3R2K1 b - - 0 1",
+      "prompt": "Tap the one piece on the board that has no opposite number.",
+      "answer": {
+        "square": "c6"
+      },
+      "concept": "four-elements",
+      "reason": "The knight on c6. White has no minor piece, so it is the whole difference between the two sides."
+    },
+    {
+      "id": "3.6-k03",
+      "type": "name_the_pattern",
+      "fen": "3q1rk1/pp3ppp/8/8/8/8/PPPPP3/3Q1RK1 b - - 0 1",
+      "prompt": "A queen, a rook and five pawns each, Black to move. Who stands better, and why?",
+      "options": [
+        "White, because his pawns control more of the centre.",
+        "Black, because White has no pawns left in front of his king and Black still has all three.",
+        "Level, because the material is exactly equal."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "four-elements",
+      "reason": "The count really is level. f2, g2 and h2 are bare while f7, g7 and h7 are intact, and the queens are still on."
+    },
+    {
+      "id": "3.6-k04",
+      "type": "find_them_all",
+      "fen": "3q1rk1/pp3ppp/8/8/8/8/PPPPP3/3Q1RK1 b - - 0 1",
+      "prompt": "Tap the three empty squares in front of White’s king where his pawns ought to be.",
+      "answer": {
+        "squares": [
+          "f2",
+          "g2",
+          "h2"
+        ]
+      },
+      "concept": "four-elements",
+      "reason": "f2, g2 and h2. Black’s king still has all three of its own, which is the entire difference here."
+    },
+    {
+      "id": "3.6-k05",
+      "type": "name_the_pattern",
+      "fen": "8/pp4pp/4k3/8/8/4KP2/P4P1P/8 b - - 0 1",
+      "prompt": "Four pawns each and nothing but kings. Who stands better, and why?",
+      "options": [
+        "Black, because his pawns sit in two touching pairs and every white pawn stands alone.",
+        "White, because his king is nearer the centre.",
+        "Level, because four pawns against four with no pieces is a draw."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "four-elements",
+      "reason": "White’s f-pawns are stacked and none of his four has a neighbour. Black’s a7 and b7 defend each other, as do g7 and h7."
+    },
+    {
+      "id": "3.6-k06",
+      "type": "find_them_all",
+      "fen": "8/pp4pp/4k3/8/8/4KP2/P4P1P/8 b - - 0 1",
+      "prompt": "Tap every white pawn that has no friendly pawn on a next-door file.",
+      "answer": {
+        "pieces": [
+          "a2",
+          "f2",
+          "f3",
+          "h2"
+        ]
+      },
+      "concept": "four-elements",
+      "reason": "All four. The b, e and g files are empty, so a2, h2 and both f-pawns stand alone — and the f-pawns are doubled as well."
+    },
+    {
+      "id": "3.6-k07",
+      "type": "name_the_pattern",
+      "fen": "3r2k1/pbp2pp1/7p/8/8/8/PP3PPP/R3R1K1 w - - 0 1",
+      "prompt": "Two rooks against a rook and a bishop, five pawns each. Who stands better?",
+      "options": [
+        "Level, because a rook and a bishop are worth about the same as two rooks.",
+        "Black, because the bishop is worth more than a rook in an open position.",
+        "White, by about two points: a rook is worth five and a bishop three."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "four-elements",
+      "reason": "Rook for bishop is the exchange, and it is worth roughly two pawns. Same pawn count on both sides, so nothing offsets it."
+    },
+    {
+      "id": "3.6-k08",
+      "type": "which_square",
+      "fen": "3r2k1/pbp2pp1/7p/8/8/8/PP3PPP/R3R1K1 w - - 0 1",
+      "prompt": "Tap the black piece that White’s extra rook is worth more than.",
+      "answer": {
+        "square": "b7"
+      },
+      "concept": "four-elements",
+      "reason": "The bishop on b7. Five against three is the gap, and that is what being up the exchange means."
+    },
+    {
+      "id": "3.6-k09",
+      "type": "name_the_pattern",
+      "fen": "r3kb1r/ppp1qpp1/4p3/8/2B5/8/PPP1QPPP/3RR1K1 w - - 0 1",
+      "prompt": "Queen, two rooks, a bishop and six pawns each. Who stands better, and why?",
+      "options": [
+        "White, because the black king is stuck on e8 and cannot castle.",
+        "Black, because his extra central pawn gives him more space.",
+        "Level, because every piece has an exact opposite number."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "four-elements",
+      "reason": "The material is identical. One king is castled and the other is sitting in the middle with its rooks unable to reach each other."
+    },
+    {
+      "id": "3.6-k10",
+      "type": "find_them_all",
+      "fen": "r3kb1r/ppp1qpp1/4p3/8/2B5/8/PPP1QPPP/3RR1K1 w - - 0 1",
+      "prompt": "Tap both black rooks — the two pieces that still cannot reach one another.",
+      "answer": {
+        "pieces": [
+          "a8",
+          "h8"
+        ]
+      },
+      "concept": "four-elements",
+      "reason": "a8 and h8, with the king and a bishop still stranded between them. Rooks only start working once the king is out of the way."
+    },
+    {
+      "id": "3.6-k11",
+      "type": "name_the_pattern",
+      "fen": "8/5p1p/5kp1/4p3/4PP2/P4KP1/8/8 w - - 0 1",
+      "prompt": "Four pawns each, kings in the middle. Who stands better, and why?",
+      "options": [
+        "Level, with four pawns each and no pieces on the board.",
+        "Black, because his three kingside pawns outnumber White’s two.",
+        "White, because his a-pawn is passed and it is far away from both kings."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "four-elements",
+      "reason": "No black pawn stands on the a or b file, so a3 has a clear run. A passer on the far wing pulls the enemy king away from everything else."
+    },
+    {
+      "id": "3.6-k12",
+      "type": "which_square",
+      "fen": "8/5p1p/5kp1/4p3/4PP2/P4KP1/8/8 w - - 0 1",
+      "prompt": "Tap the white pawn with no black pawn left in front of it or beside it.",
+      "answer": {
+        "square": "a3"
+      },
+      "concept": "four-elements",
+      "reason": "The a-pawn. Black has nothing on the a or b file, so nothing can stop it or challenge it on the way."
+    },
+    {
+      "id": "3.6-k13",
+      "type": "which_square",
+      "fen": "6k1/ppp2ppp/8/8/4n3/8/P1P1PPPP/5BK1 b - - 0 1",
+      "prompt": "Tap the white piece that cannot move to a single square.",
+      "answer": {
+        "square": "f1"
+      },
+      "concept": "piece-activity",
+      "reason": "The bishop on f1. Its only two squares are e2 and g2, and White has a pawn standing on each of them."
+    },
+    {
+      "id": "3.6-k14",
+      "type": "name_the_pattern",
+      "fen": "6k1/ppp2ppp/8/8/4n3/8/P1P1PPPP/5BK1 b - - 0 1",
+      "prompt": "A minor piece and six pawns each, Black to move. Who stands better, and why?",
+      "options": [
+        "Black, because his knight has squares everywhere and the white bishop has none.",
+        "White, because a bishop is worth more than a knight.",
+        "Level, because both are minor pieces worth three points each."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "piece-activity",
+      "reason": "Three points each on the chart. On the board one of them moves and the other cannot, and that decides it."
+    },
+    {
+      "id": "3.6-k15",
+      "type": "find_them_all",
+      "fen": "6k1/ppp2ppp/8/8/4n3/8/P1P1PPPP/5BK1 b - - 0 1",
+      "prompt": "Tap the two white pawns that are taking every square away from the bishop on f1.",
+      "answer": {
+        "pieces": [
+          "e2",
+          "g2"
+        ]
+      },
+      "concept": "piece-activity",
+      "reason": "e2 and g2. A bishop on f1 has nowhere else to go, so its own pawns have shut it in completely."
+    },
+    {
+      "id": "3.6-k16",
+      "type": "which_square",
+      "fen": "b3r1k1/1p3ppp/2p5/2Np4/3P4/8/PP3PPP/R5K1 w - - 0 1",
+      "prompt": "Tap the black piece that has no legal move at all.",
+      "answer": {
+        "square": "a8"
+      },
+      "concept": "piece-activity",
+      "reason": "The bishop on a8. Its own pawn on b7 is the only square it could use, so it is walled into the corner."
+    },
+    {
+      "id": "3.6-k17",
+      "type": "name_the_pattern",
+      "fen": "b3r1k1/1p3ppp/2p5/2Np4/3P4/8/PP3PPP/R5K1 w - - 0 1",
+      "prompt": "A rook, a minor piece and six pawns each. Who stands better, and why?",
+      "options": [
+        "Level, because the pieces match one for one.",
+        "Black, because a bishop is the better piece in an endgame.",
+        "White, because his knight sits on a strong square and the black bishop has none at all."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "piece-activity",
+      "reason": "No black pawn can ever attack the knight on c5, and the bishop on a8 cannot move. Both pieces are worth three and only one of them counts."
+    },
+    {
+      "id": "3.6-k18",
+      "type": "name_the_pattern",
+      "fen": "b3r1k1/1p3ppp/2p5/2Np4/3P4/8/PP3PPP/R5K1 w - - 0 1",
+      "prompt": "What would have to change before the bishop on a8 became a real piece again?",
+      "options": [
+        "The pawn on b7 would have to move out of its way.",
+        "It would need to be exchanged for the knight on c5.",
+        "Nothing. It already covers the long diagonal from the corner."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "piece-activity",
+      "reason": "b7 is the single square the bishop can use, so until that pawn moves the bishop is a spectator. It covers nothing from a8."
+    },
+    {
+      "id": "3.6-k19",
+      "type": "which_square",
+      "fen": "r5k1/ppp2ppp/5n2/8/8/6P1/PPP2P1P/R5KN b - - 0 1",
+      "prompt": "Tap the white piece that has no legal move at all.",
+      "answer": {
+        "square": "h1"
+      },
+      "concept": "piece-activity",
+      "reason": "The knight on h1. From the corner it can only reach f2 and g3, and White has a pawn on both."
+    },
+    {
+      "id": "3.6-k20",
+      "type": "find_them_all",
+      "fen": "r5k1/ppp2ppp/5n2/8/8/6P1/PPP2P1P/R5KN b - - 0 1",
+      "prompt": "Tap the two white pawns that are taking every square away from the knight in the corner.",
+      "answer": {
+        "pieces": [
+          "f2",
+          "g3"
+        ]
+      },
+      "concept": "piece-activity",
+      "reason": "f2 and g3, the only two squares a knight on h1 has. Until one of them moves the knight is stuck there."
+    },
+    {
+      "id": "3.6-k21",
+      "type": "which_square",
+      "fen": "6k1/pp2p1pp/8/8/8/8/PrP1P1PP/2R3K1 b - - 0 1",
+      "prompt": "Tap the rook that has already reached the rank where the enemy pawns are sitting.",
+      "answer": {
+        "square": "b2"
+      },
+      "concept": "piece-activity",
+      "reason": "The black rook on b2. White’s rook is still on the back rank with nothing in front of it to attack."
+    },
+    {
+      "id": "3.6-k22",
+      "type": "find_them_all",
+      "fen": "6k1/pp2p1pp/8/8/8/8/PrP1P1PP/2R3K1 b - - 0 1",
+      "prompt": "Tap every white pawn the rook on b2 actually attacks right now.",
+      "answer": {
+        "pieces": [
+          "a2",
+          "c2"
+        ]
+      },
+      "concept": "piece-activity",
+      "reason": "Only a2 and c2. A rook stops at the first man it meets on each side, so e2, g2 and h2 are out of reach for now."
+    },
+    {
+      "id": "3.6-k23",
+      "type": "find_them_all",
+      "fen": "2r3k1/pp2Rppp/8/8/8/8/PP3PPP/6K1 w - - 0 1",
+      "prompt": "Tap every black pawn the rook on e7 actually attacks right now.",
+      "answer": {
+        "pieces": [
+          "b7",
+          "f7"
+        ]
+      },
+      "concept": "piece-activity",
+      "reason": "b7 and f7 only. Going left the rook stops at b7 and going right it stops at f7, so a7, g7 and h7 are untouched."
+    },
+    {
+      "id": "3.6-k24",
+      "type": "which_square",
+      "fen": "2r3k1/pp2Rppp/8/8/8/8/PP3PPP/6K1 w - - 0 1",
+      "prompt": "Tap the white piece that has reached the rank Black’s pawns are standing on.",
+      "answer": {
+        "square": "e7"
+      },
+      "concept": "piece-activity",
+      "reason": "The rook on e7. Pawns on their starting rank cannot run away from a rook behind them, which is what makes the seventh worth having."
+    },
+    {
+      "id": "3.6-k25",
+      "type": "which_square",
+      "fen": "2b3k1/ppp2ppp/2n5/8/3B4/7N/PPP2PPP/6K1 b - - 0 1",
+      "prompt": "Black to move. Tap the white piece that is attacked and has nothing defending it.",
+      "answer": {
+        "square": "d4"
+      },
+      "concept": "trading",
+      "reason": "The bishop on d4. The knight on c6 attacks it and no white man covers the square, so it is simply hanging."
+    },
+    {
+      "id": "3.6-k26",
+      "type": "name_the_pattern",
+      "fen": "2b3k1/ppp2ppp/2n5/8/3B4/7N/PPP2PPP/6K1 b - - 0 1",
+      "prompt": "Black plays Nxd4. Why is that better than it first looks?",
+      "options": [
+        "It opens the c-file for Black’s pieces.",
+        "Nothing takes back, so it is a whole bishop rather than a swap.",
+        "It forces White to recapture with the knight and ruin his pawns."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "trading",
+      "reason": "Count the takers before you call it a swap. Nothing white covers d4, so Black keeps the bishop and gives nothing."
+    },
+    {
+      "id": "3.6-k27",
+      "type": "name_the_pattern",
+      "fen": "2b3k1/ppp2ppp/2n5/8/3B4/7N/PPP2PPP/6K1 b - - 0 1",
+      "prompt": "What is the first thing to check before calling any capture an even swap?",
+      "options": [
+        "Whether the two pieces are worth the same number of points.",
+        "Whether the capture comes with check.",
+        "Whether anything can actually take back, and how many times."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "trading",
+      "reason": "Points only matter once you know a recapture is coming. If nothing takes back it is not a swap at all, whatever the pieces are worth."
+    },
+    {
+      "id": "3.6-k28",
+      "type": "find_the_move",
+      "fen": "2r5/p2k1pp1/8/8/4K3/8/PP3PP1/2R5 w - - 0 1",
+      "prompt": "You are a pawn up with two queenside pawns against one. Simplify into the ending.",
+      "answer": {
+        "moves": [
+          "Rxc8"
+        ]
+      },
+      "concept": "trading",
+      "reason": "Rxc8 Kxc8 and the rooks are gone. Two pawns against one makes a passed pawn, and with no pieces left nothing blockades it."
+    },
+    {
+      "id": "3.6-k29",
+      "type": "name_the_pattern",
+      "fen": "2r5/p2k1pp1/8/8/4K3/8/PP3PP1/2R5 w - - 0 1",
+      "prompt": "You are a pawn up and nothing else is unbalanced. Which swaps suit you?",
+      "options": [
+        "Swap pieces and keep pawns on, so the extra pawn becomes a bigger share of what is left.",
+        "Swap pawns and keep the pieces on, so you still have something to attack with.",
+        "Avoid every swap: an extra pawn is too fragile to risk simplifying."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "trading",
+      "reason": "One pawn among many barely shows. One pawn in a king-and-pawn ending is usually the game, so the side ahead heads for the ending."
+    },
+    {
+      "id": "3.6-k30",
+      "type": "find_them_all",
+      "fen": "2r5/p2k1pp1/8/8/4K3/8/PP3PP1/2R5 w - - 0 1",
+      "prompt": "Tap the two white pawns that will outnumber Black on that side of the board once the rooks come off.",
+      "answer": {
+        "pieces": [
+          "a2",
+          "b2"
+        ]
+      },
+      "concept": "trading",
+      "reason": "a2 and b2 against a7 alone. Two against one makes a passed pawn by force, which is why the swap is worth making."
+    },
+    {
+      "id": "3.6-k31",
+      "type": "which_square",
+      "fen": "4r1k1/ppp2ppp/8/8/8/3nP3/1P1P1PPP/R1B3K1 b - - 0 1",
+      "prompt": "Black to move. Tap the white piece that cannot move to a single square.",
+      "answer": {
+        "square": "c1"
+      },
+      "concept": "trading",
+      "reason": "The bishop on c1. Its only squares are b2 and d2 and White has a pawn on each, so it has no legal move."
+    },
+    {
+      "id": "3.6-k32",
+      "type": "name_the_pattern",
+      "fen": "4r1k1/ppp2ppp/8/8/8/3nP3/1P1P1PPP/R1B3K1 b - - 0 1",
+      "prompt": "Black’s knight on d3 is his best piece. Why would Nxc1 be a mistake?",
+      "options": [
+        "It loses a piece, because nothing is defending the bishop on c1.",
+        "It gives up Black’s strongest piece for White’s most useless one.",
+        "It allows White to recapture and open the a-file for his rook."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "trading",
+      "reason": "The rook on a1 takes back, so nothing is won. Black hands over the knight that dominates the position for a bishop that could not move."
+    },
+    {
+      "id": "3.6-k33",
+      "type": "find_them_all",
+      "fen": "4r1k1/ppp2ppp/8/8/8/3nP3/1P1P1PPP/R1B3K1 b - - 0 1",
+      "prompt": "Tap the two white pawns that leave the bishop on c1 with nowhere to go.",
+      "answer": {
+        "pieces": [
+          "b2",
+          "d2"
+        ]
+      },
+      "concept": "trading",
+      "reason": "b2 and d2. Those are the only squares a bishop on c1 can reach, so White has shut his own piece in."
+    },
+    {
+      "id": "3.6-k34",
+      "type": "which_square",
+      "fen": "1r3bk1/pp2pppp/4N3/8/8/8/PPP2PPP/R5K1 w - - 0 1",
+      "prompt": "Tap the black piece that has no legal move at all.",
+      "answer": {
+        "square": "f8"
+      },
+      "concept": "trading",
+      "reason": "The bishop on f8. Its own pawns on e7 and g7 sit on the only two squares it could use."
+    },
+    {
+      "id": "3.6-k35",
+      "type": "find_them_all",
+      "fen": "1r3bk1/pp2pppp/4N3/8/8/8/PPP2PPP/R5K1 w - - 0 1",
+      "prompt": "Tap the two black pawns that are taking every square away from the bishop on f8.",
+      "answer": {
+        "pieces": [
+          "e7",
+          "g7"
+        ]
+      },
+      "concept": "trading",
+      "reason": "e7 and g7. Move either of them and the bishop is a piece again; leave them and it is furniture."
+    },
+    {
+      "id": "3.6-k36",
+      "type": "which_square",
+      "fen": "6k1/pp3ppp/1b6/4p3/3n4/2P1BN2/PP3PPP/6K1 b - - 0 1",
+      "prompt": "Black to move. Tap the black piece that has more white men attacking it than black men defending it.",
+      "answer": {
+        "square": "d4"
+      },
+      "concept": "trading",
+      "reason": "The knight on d4. Three white men hit it — c3, e3 and f3 — and only two hold it, b6 and e5. One attacker too many."
+    }
+  ]
+}

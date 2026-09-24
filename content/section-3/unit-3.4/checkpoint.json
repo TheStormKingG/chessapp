@@ -1,0 +1,438 @@
+{
+  "unit": "3.4",
+  "title": "Named mates, first wave",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "3.4-k01",
+      "type": "find_the_move",
+      "fen": "8/kppN4/8/4R3/8/7q/8/1K6 w - - 0 1",
+      "prompt": "The knight on d7 covers b6 and b8, and b7 is Black's own pawn. Black has a queen on h3, so you get one move.",
+      "answer": { "moves": ["Ra5#"] },
+      "concept": "anastasia-mate",
+      "reason": "Ra5 is mate. The rook takes a6 and a8 down the file, the knight on d7 holds b6 and b8, and b7 is Black's own pawn. Anastasia's mate, played on the a-file instead of the h-file."
+    },
+    {
+      "id": "3.4-k02",
+      "type": "name_the_pattern",
+      "fen": "8/kppN4/8/4R3/8/7q/8/1K6 w - - 0 1",
+      "prompt": "Ra5 is mate. Which piece is doing the part that is easy to miss?",
+      "options": [
+        "The knight on d7, which takes both b6 and b8 away from the king in one go.",
+        "The white king on b1, which covers a2 and b2 behind the rook.",
+        "The black queen on h3, which is too far away to defend her own king."
+      ],
+      "answer": { "option": 0 },
+      "concept": "anastasia-mate",
+      "reason": "A rook on a5 only covers the a-file. Every square the king could step sideways to, b6 and b8, belongs to the knight on d7, and b7 is blocked by Black's own pawn."
+    },
+    {
+      "id": "3.4-k03",
+      "type": "which_square",
+      "fen": "8/kppN4/8/4R3/8/8/8/1K6 w - - 0 1",
+      "prompt": "Knight on d7, black king on a7, and a rook on e5. Tap the square where the rook mates.",
+      "answer": { "square": "a5" },
+      "concept": "anastasia-mate",
+      "reason": "Ra5 is mate. Along the file the rook covers a6 and a8; the knight on d7 covers b6 and b8; b7 is Black's own pawn."
+    },
+    {
+      "id": "3.4-k04",
+      "type": "is_it_safe",
+      "fen": "8/kppN4/8/4R3/8/8/8/1K6 w - - 0 1",
+      "move": "Ra5#",
+      "prompt": "White plays Ra5, two squares from the black king. Is the rook safe there?",
+      "reasons": [
+        "Yes. Nothing black can reach a5, and the king is two squares away.",
+        "No. The pawn on b7 comes down and takes it.",
+        "No. The king walks to a6 and takes it next move."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "anastasia-mate",
+      "reason": "Black has a king and two pawns. The pawns on b7 and c7 capture towards a6 and c6 and d6, never as far as a5, and the king is mated on the spot, so he never gets to walk anywhere."
+    },
+    {
+      "id": "3.4-k05",
+      "type": "find_them_all",
+      "fen": "8/kppN4/8/4R3/8/8/8/1K6 w - - 0 1",
+      "prompt": "Tap the two white pieces that combine to mate the king on a7.",
+      "answer": { "pieces": ["d7", "e5"] },
+      "concept": "anastasia-mate",
+      "reason": "The knight on d7 and the rook on e5. The knight takes b6 and b8, the rook comes to a5 and takes the file. The white king on b1 has nothing to do with it."
+    },
+    {
+      "id": "3.4-k06",
+      "type": "find_the_move",
+      "fen": "k4q2/7R/2N5/8/8/8/8/1K6 w - - 0 1",
+      "prompt": "A rook on the seventh and a knight on c6 against a king in the corner. Black's queen on f8 is one move too late.",
+      "answer": { "moves": ["Ra7#"] },
+      "concept": "arabian-mate",
+      "reason": "Ra7 is mate. The knight on c6 guards a7, so Kxa7 is illegal, c6 also covers b8, and the rook itself covers b7. Rook and knight standing close: the Arabian mate."
+    },
+    {
+      "id": "3.4-k07",
+      "type": "name_the_pattern",
+      "fen": "k4q2/7R/2N5/8/8/8/8/1K6 w - - 0 1",
+      "prompt": "After Ra7 the black king cannot take the rook. Why not?",
+      "options": [
+        "The knight on c6 guards a7, and it covers b8 as well.",
+        "The black queen on f8 is pinned and cannot leave the back rank.",
+        "The white king on b1 defends a7 along the file."
+      ],
+      "answer": { "option": 0 },
+      "concept": "arabian-mate",
+      "reason": "A knight on c6 attacks a7 and b8. So the rook is protected where it lands, b8 is covered, and b7 is taken by the rook along the rank. Rook and knight and nothing else: the Arabian mate."
+    },
+    {
+      "id": "3.4-k08",
+      "type": "which_square",
+      "fen": "k7/7R/2N5/7p/8/8/8/1K6 w - - 0 1",
+      "prompt": "The rank in front of the black king is completely empty. Tap the square where the rook mates.",
+      "answer": { "square": "a7" },
+      "concept": "arabian-mate",
+      "reason": "Ra7 is mate. The knight on c6 guards a7 and covers b8, and the rook on a7 covers b7 along the rank. The king in the corner has nothing left."
+    },
+    {
+      "id": "3.4-k09",
+      "type": "is_it_safe",
+      "fen": "k7/7R/2N5/7p/8/8/8/1K6 w - - 0 1",
+      "move": "Ra7#",
+      "prompt": "The rook lands on a7, right beside the black king. Is it safe there?",
+      "reasons": [
+        "Yes. The knight on c6 guards a7, so the king may not take it.",
+        "No. The king takes it, because nothing of White's defends a7.",
+        "No. The pawn on h5 runs down and takes it."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "arabian-mate",
+      "reason": "A knight on c6 attacks a7. The king may not capture a defended piece, and a pawn on h5 is on the wrong side of the board entirely. Ra7 is mate."
+    },
+    {
+      "id": "3.4-k10",
+      "type": "find_them_all",
+      "fen": "k7/7R/2N5/7p/8/8/8/1K6 w - - 0 1",
+      "prompt": "Tap the two white pieces that mate the king on a8 between them.",
+      "answer": { "pieces": ["h7", "c6"] },
+      "concept": "arabian-mate",
+      "reason": "The rook on h7 and the knight on c6. The rook slides to a7 with check, the knight guards it there and covers b8, and the rook covers b7 itself."
+    },
+    {
+      "id": "3.4-k11",
+      "type": "find_the_move",
+      "fen": "3k4/2p5/8/1B6/8/8/7q/1K2R3 w - - 0 1",
+      "prompt": "Black has a queen on h2 and a king stuck on d8. The bishop on b5 is already pointing at the back rank.",
+      "answer": { "moves": ["Re8#"] },
+      "concept": "opera-mate",
+      "reason": "Re8 is mate. The bishop on b5 reaches e8 through c6 and d7, so Kxe8 is illegal and d7 is covered too. The rook holds c8 and e7, and c7 is Black's own pawn. The Opera mate."
+    },
+    {
+      "id": "3.4-k12",
+      "type": "name_the_pattern",
+      "fen": "3k4/2p5/8/1B6/8/8/7q/1K2R3 w - - 0 1",
+      "prompt": "Re8 is mate. What is the bishop on b5 doing that makes it work?",
+      "options": [
+        "It guards e8 so the king may not take, and it covers d7 at the same time.",
+        "It blocks the black queen's route back to the back rank.",
+        "It attacks the pawn on c7, which is why the pawn cannot move."
+      ],
+      "answer": { "option": 0 },
+      "concept": "opera-mate",
+      "reason": "The b5 bishop runs b5-c6-d7-e8. That single diagonal both protects the rook on e8 and takes d7 from the king. Without it, Kxe8 is simply legal."
+    },
+    {
+      "id": "3.4-k13",
+      "type": "which_square",
+      "fen": "3k4/2p5/8/1B6/8/8/8/1K2R3 w - - 0 1",
+      "prompt": "A rook on e1 and a bishop on b5 against a king on d8. Tap the square where the rook mates.",
+      "answer": { "square": "e8" },
+      "concept": "opera-mate",
+      "reason": "Re8 is mate. The bishop guards e8 and covers d7; the rook covers c8 along the rank and e7 down the file; c7 is Black's own pawn."
+    },
+    {
+      "id": "3.4-k14",
+      "type": "is_it_safe",
+      "fen": "3k4/2p5/8/1B6/8/8/8/1K2R3 w - - 0 1",
+      "move": "Re8#",
+      "prompt": "The rook drops onto e8, right beside the black king. Is it safe there?",
+      "reasons": [
+        "Yes. The bishop on b5 guards e8 through c6 and d7.",
+        "No. The king simply takes it.",
+        "No. The pawn on c7 covers e8."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "opera-mate",
+      "reason": "b5, c6, d7, e8 is one clear diagonal, so the rook is defended and Kxe8 is illegal. A pawn on c7 attacks b6 and d6, nowhere near e8."
+    },
+    {
+      "id": "3.4-k15",
+      "type": "find_them_all",
+      "fen": "3k4/2p5/8/1B6/8/8/8/1K2R3 w - - 0 1",
+      "prompt": "Tap the two white pieces that give the Opera mate here.",
+      "answer": { "pieces": ["e1", "b5"] },
+      "concept": "opera-mate",
+      "reason": "The rook on e1 goes to the back rank and the bishop on b5 stands behind it on the diagonal. That is the whole pattern: rook in front, bishop behind."
+    },
+    {
+      "id": "3.4-k16",
+      "type": "find_the_move",
+      "fen": "4rk2/4p3/8/8/q1B5/8/8/1KB5 w - - 0 1",
+      "prompt": "Two white bishops against a king on f8, and Black has a queen on a4. One bishop move ends it.",
+      "answer": { "moves": ["Bh6#"] },
+      "concept": "boden-mate",
+      "reason": "Bh6 is check through g7. The other bishop on c4 covers f7 and g8 from the crossing diagonal, and e7 and e8 are Black's own pawn and rook. Boden's mate."
+    },
+    {
+      "id": "3.4-k17",
+      "type": "name_the_pattern",
+      "fen": "4rk2/4p3/8/8/q1B5/8/8/1KB5 w - - 0 1",
+      "prompt": "Bh6 is mate. Why does the second bishop on c4 matter?",
+      "options": [
+        "It covers f7 and g8, which are the only squares Bh6 does not take.",
+        "It defends the bishop on h6, so the king cannot capture it.",
+        "It stops the black queen on a4 from coming back to defend."
+      ],
+      "answer": { "option": 0 },
+      "concept": "boden-mate",
+      "reason": "Bh6 only covers g7. The king would still have f7 and g8, and both of those sit on the c4 bishop's diagonal through d5, e6 and f7. Two bishops, two crossing diagonals."
+    },
+    {
+      "id": "3.4-k18",
+      "type": "which_square",
+      "fen": "4rk2/4p3/8/8/2B5/8/8/1KB5 w - - 0 1",
+      "prompt": "The bishop on c4 already covers f7 and g8. Tap the square where the other bishop delivers mate.",
+      "answer": { "square": "h6" },
+      "concept": "boden-mate",
+      "reason": "Bh6 is check through g7, and g7 was the last square. e7 and e8 are Black's own men, f7 and g8 belong to the bishop on c4. Two bishops on crossing diagonals: Boden's mate."
+    },
+    {
+      "id": "3.4-k19",
+      "type": "find_them_all",
+      "fen": "4rk2/4p3/8/8/2B5/8/8/1KB5 w - - 0 1",
+      "prompt": "Tap both white bishops, the pair that mates the king on f8 without any help.",
+      "answer": { "pieces": ["c1", "c4"] },
+      "concept": "boden-mate",
+      "reason": "The dark bishop travels c1-d2-e3-f4-g5-h6 and checks through g7. The light bishop on c4 already watches f7 and g8. Crossing diagonals, no rook needed."
+    },
+    {
+      "id": "3.4-k20",
+      "type": "is_it_safe",
+      "fen": "4rk2/4p3/8/8/2B5/8/8/1KB5 w - - 0 1",
+      "move": "Bh6#",
+      "prompt": "The bishop travels all the way to h6 to give check. Is it safe out there?",
+      "reasons": [
+        "Yes. Nothing black attacks h6, and the king is on f8 two squares away.",
+        "No. The rook on e8 slides across and takes it.",
+        "No. The pawn on e7 defends g7 so the check can be blocked."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "boden-mate",
+      "reason": "Black has a rook on e8 and a pawn on e7. The rook cannot leave the back rank without allowing the check anyway, and it does not reach h6 in any case. The pawn on e7 attacks d6 and f6, not g7."
+    },
+    {
+      "id": "3.4-k21",
+      "type": "find_the_move",
+      "fen": "kr6/4R3/p7/1N6/2P4q/8/8/1K6 w - - 0 1",
+      "prompt": "The pawn on c4 holds the knight on b5, and the black pawn on a6 is attacking that knight. Black also has a queen on h4.",
+      "answer": { "moves": ["Ra7#"] },
+      "concept": "hook-mate",
+      "reason": "Ra7 is mate. The knight on b5 guards a7 so the king cannot take, the pawn on c4 guards the knight, b8 is Black's own rook, and the rook covers b7 itself. Rook, knight and pawn hooked together."
+    },
+    {
+      "id": "3.4-k22",
+      "type": "name_the_pattern",
+      "fen": "kr6/4R3/p7/1N6/2P4q/8/8/1K6 w - - 0 1",
+      "prompt": "Three white men make this mate. What is the chain of protection?",
+      "options": [
+        "The pawn on c4 guards the knight on b5, and the knight guards the rook when it lands on a7.",
+        "The rook on e7 guards the knight, and the knight guards the pawn on c4.",
+        "The white king on b1 guards the pawn, which guards the rook."
+      ],
+      "answer": { "option": 0 },
+      "concept": "hook-mate",
+      "reason": "Pawn holds knight, knight holds rook, rook gives check. That chain is where the hook mate gets its name, and the black pawn on a6 attacking b5 is why the pawn on c4 has to be there."
+    },
+    {
+      "id": "3.4-k23",
+      "type": "which_square",
+      "fen": "kr6/4R3/p7/1N6/2P5/8/8/1K6 w - - 0 1",
+      "prompt": "The rank in front of the black king is empty and the knight on b5 is watching one square on it. Tap the square where the rook mates.",
+      "answer": { "square": "a7" },
+      "concept": "hook-mate",
+      "reason": "Ra7 is mate. The knight on b5 guards a7, the pawn on c4 guards the knight, b8 is Black's own rook and b7 belongs to the rook on a7."
+    },
+    {
+      "id": "3.4-k24",
+      "type": "is_it_safe",
+      "fen": "kr6/4R3/p7/1N6/2P5/8/8/1K6 w - - 0 1",
+      "move": "Ra7#",
+      "prompt": "The rook lands on a7 beside the king. Is it safe there?",
+      "reasons": [
+        "Yes. The knight on b5 guards a7.",
+        "No. The king takes it, because nothing defends a7.",
+        "No. The pawn on a6 takes it."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "hook-mate",
+      "reason": "A knight on b5 attacks a7 and c7. The king may not take a defended rook, and a black pawn on a6 captures towards b5, never backwards to a7."
+    },
+    {
+      "id": "3.4-k25",
+      "type": "find_them_all",
+      "fen": "kr6/4R3/p7/1N6/2P5/8/8/1K6 w - - 0 1",
+      "prompt": "Tap the three white men that hold each other up in this mate.",
+      "answer": { "pieces": ["e7", "b5", "c4"] },
+      "concept": "hook-mate",
+      "reason": "The rook on e7, the knight on b5 and the pawn on c4. The pawn guards the knight, the knight guards a7, and the rook slides along to a7 and gives the check."
+    },
+    {
+      "id": "3.4-k26",
+      "type": "find_the_move",
+      "fen": "kr6/p3R1R1/8/8/8/8/3q4/5K2 w - - 0 1",
+      "prompt": "Two rooks doubled on the seventh, and the rank between them and the king is empty. Black's queen on d2 means you get one move.",
+      "answer": { "moves": ["Rxa7#"] },
+      "concept": "blind-swine",
+      "reason": "Rxa7 is mate. The rook on g7 guards a7 along the empty rank, so Kxa7 is illegal, b8 is Black's own rook and b7 belongs to the rook on a7."
+    },
+    {
+      "id": "3.4-k27",
+      "type": "which_square",
+      "fen": "kr6/p3R1R1/8/8/8/8/8/5K2 w - - 0 1",
+      "prompt": "The two rooks are doubled on the seventh with nothing between them and the black king. Tap the square where one of them mates.",
+      "answer": { "square": "a7" },
+      "concept": "blind-swine",
+      "reason": "Rxa7 is mate. The other rook on g7 guards a7 down the open rank, b8 is Black's own rook, and b7 is covered by the rook that just landed."
+    },
+    {
+      "id": "3.4-k28",
+      "type": "find_the_sequence",
+      "fen": "1kr5/p3R1R1/8/8/8/8/8/5K2 w - - 0 1",
+      "prompt": "The king is on b8, so drive him. Check on b7, take on a7, then bring the second rook up.",
+      "answer": { "line": ["Rb7+", "Ka8", "Rxa7+", "Kb8", "Rgb7#"] },
+      "concept": "blind-swine",
+      "reason": "Rb7 is check and Ka8 is the only legal answer, since c8 is his own rook and b7 is guarded from g7. Rxa7 is check again and the king must go back to b8. Then the g7 rook comes to b7 and mates."
+    },
+    {
+      "id": "3.4-k29",
+      "type": "find_the_move",
+      "fen": "kr6/2p3pp/8/5r2/3Q4/4B3/K7/8 w - - 0 1",
+      "prompt": "The bishop on e3 is pointing at the corner through d4, c5 and b6. Black's rook on f5 can block any check along the fifth rank.",
+      "answer": { "moves": ["Qa7#"] },
+      "concept": "greco-mate",
+      "reason": "Qa7 is mate. The bishop on e3 guards a7 through the square the queen has just left, b8 is Black's own rook, and the queen covers b7 herself. Greco's mate on the queenside."
+    },
+    {
+      "id": "3.4-k30",
+      "type": "name_the_pattern",
+      "fen": "kr6/2p5/8/8/3Q4/4B3/K7/8 w - - 0 1",
+      "prompt": "White plays Qa7 and it is mate. What stops the king from taking the queen?",
+      "options": [
+        "The bishop on e3, which guards a7 along the diagonal the queen has just cleared.",
+        "The white king on a2, which defends a7 up the a-file.",
+        "The black rook on b8, which is pinned against its own king."
+      ],
+      "answer": { "option": 0 },
+      "concept": "greco-mate",
+      "reason": "The queen leaves d4 and the bishop's diagonal e3-d4-c5-b6-a7 is suddenly clear, so the queen is defended where she lands. Bishop on the diagonal, queen beside the king: Greco's mate."
+    },
+    {
+      "id": "3.4-k31",
+      "type": "find_the_move",
+      "fen": "kr6/8/2R5/8/7q/8/6B1/3K4 w - - 0 1",
+      "prompt": "The rook on c6 is standing on its own bishop's diagonal. Black has a queen on h4, so one move is all you get.",
+      "answer": { "moves": ["Ra6#"] },
+      "concept": "morphy-mate",
+      "reason": "Ra6 is a double check: the rook up the a-file and the bishop on g2 through the square the rook has just left. Only a king move answers a double check, and b8 is his own rook while b7 is the bishop's."
+    },
+    {
+      "id": "3.4-k32",
+      "type": "name_the_pattern",
+      "fen": "kr6/7p/2R5/8/8/8/6B1/3K4 w - - 0 1",
+      "prompt": "Why is Ra6 so much stronger than it looks?",
+      "options": [
+        "It is a double check: the rook checks up the file and the bishop on g2 checks along the long diagonal.",
+        "It attacks the pawn on h7 as well as checking the king.",
+        "It stops the rook on b8 from moving, so Black has no legal reply."
+      ],
+      "answer": { "option": 0 },
+      "concept": "morphy-mate",
+      "reason": "The rook was the only thing on the g2 bishop's diagonal. Moving it to a6 opens that line and checks up the a-file at the same time, and a double check can only be answered by moving the king."
+    },
+    {
+      "id": "3.4-k33",
+      "type": "find_the_move",
+      "fen": "1kr5/p1p5/8/8/8/8/K5B1/4R3 w - - 0 1",
+      "prompt": "The b-file is completely empty and the bishop on g2 already covers the corner square a8. Bring the rook.",
+      "answer": { "moves": ["Rb1#"] },
+      "concept": "pillsbury-mate",
+      "reason": "Rb1 is check all the way up the file. c8, a7 and c7 are Black's own men, b7 belongs to the rook, and a8 is covered by the bishop on g2. Pillsbury's mate."
+    },
+    {
+      "id": "3.4-k34",
+      "type": "which_square",
+      "fen": "1kr5/p1p4p/8/8/8/8/K5B1/4R3 w - - 0 1",
+      "prompt": "The bishop on g2 sees all the way to a8, and Black's own men fill c8, a7 and c7. Tap the square where the rook mates.",
+      "answer": { "square": "b1" },
+      "concept": "pillsbury-mate",
+      "reason": "Rb1 is check up the open b-file, and b7 is covered by the rook itself. With a8 taken by the bishop and the other three squares occupied by Black, that is mate."
+    },
+    {
+      "id": "3.4-k35",
+      "type": "find_the_move",
+      "fen": "1k4r1/p3Q3/1pP5/7q/8/8/8/1K6 w - - 0 1",
+      "prompt": "The white pawn on c6 guards one of the squares beside the black king. Black has a queen on h5, so take your one move.",
+      "answer": { "moves": ["Qb7#"] },
+      "concept": "lolli-mate",
+      "reason": "Qb7 is mate. The pawn on c6 holds the queen there, so Kxb7 is illegal. From b7 she covers a8, c7 and c8, and a7 is Black's own pawn. Lolli's mate."
+    },
+    {
+      "id": "3.4-k36",
+      "type": "which_square",
+      "fen": "1k4r1/p3Q3/1pP5/8/8/8/8/1K6 w - - 0 1",
+      "prompt": "The pawn on c6 is White's, and the rank in front of the king is clear. Tap the square where the queen mates.",
+      "answer": { "square": "b7" },
+      "concept": "lolli-mate",
+      "reason": "Qb7 is mate, held there by the pawn on c6. She covers a8, c8 and c7 from beside the king, and a7 is Black's own pawn. A pawn and a queen is all it takes."
+    },
+    {
+      "id": "3.4-k37",
+      "type": "find_the_move",
+      "fen": "2rkr3/pp4pp/8/8/8/Q7/8/1K6 w - - 0 1",
+      "prompt": "Black's rooks on c8 and e8 have taken both of his king's sideways squares. Find the one check that covers everything else.",
+      "answer": { "moves": ["Qd6#"] },
+      "concept": "epaulette-mate",
+      "reason": "Qd6 is check up the d-file and covers c7, d7 and e7 at the same time. c8 and e8 are Black's own rooks, so there is nothing left. The epaulette mate."
+    },
+    {
+      "id": "3.4-k38",
+      "type": "name_the_pattern",
+      "fen": "2rkr3/6pp/8/8/8/Q7/8/1K6 w - - 0 1",
+      "prompt": "Qd6 is mate. What has actually trapped the king on d8?",
+      "options": [
+        "His own rooks on c8 and e8, which take away both sideways squares.",
+        "The white king on b1, which covers c7 from a distance.",
+        "The pawns on g7 and h7, which stop him running to the corner."
+      ],
+      "answer": { "option": 0 },
+      "concept": "epaulette-mate",
+      "reason": "The king has five squares. c8 and e8 are his own rooks, sitting like epaulettes on his shoulders, and the queen on d6 takes c7, d7 and e7. The pawns on g7 and h7 are nowhere near him."
+    },
+    {
+      "id": "3.4-k39",
+      "type": "find_the_move",
+      "fen": "3r2k1/5p1p/7P/pp6/8/8/8/QK6 w - - 0 1",
+      "prompt": "Black's own pawns sit on f7 and h7, the two squares that touch his king corner to corner. The white pawn on h6 does the rest.",
+      "answer": { "moves": ["Qg7#"] },
+      "concept": "dovetail-mate",
+      "reason": "Qg7 is mate. The pawn on h6 guards g7, so Kxg7 is illegal, f8 and h8 belong to the queen, and f7 and h7 are Black's own pawns. The dovetail mate."
+    },
+    {
+      "id": "3.4-k40",
+      "type": "find_them_all",
+      "fen": "3r2k1/5p1p/7P/8/8/8/8/QK6 w - - 0 1",
+      "prompt": "Qg7 is mate here. Tap the two black pawns standing on the squares that touch the king corner to corner.",
+      "answer": { "pieces": ["f7", "h7"] },
+      "concept": "dovetail-mate",
+      "reason": "f7 and h7 are Black's own pawns, so the king cannot use either. The queen on g7 takes f8 and h8, and the white pawn on h6 guards her. That V-shape is the dovetail."
+    }
+  ]
+}

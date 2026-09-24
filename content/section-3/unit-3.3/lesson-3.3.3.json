@@ -1,0 +1,248 @@
+{
+  "id": "3.3.3",
+  "unit": "3.3",
+  "title": "Advanced pawns as weapons",
+  "xp": 14,
+  "card": {
+    "idea": "A pawn past the middle of the board stops behaving like a pawn. It attacks two squares that no piece can afford to stand on, it costs a whole piece to stop, and it is a move or two from being a queen. So push it at something. A pawn that only goes forward is a pawn; a pawn that arrives with a threat is a weapon.",
+    "diagrams": [
+      "8/ppp3k1/8/PPP5/8/8/8/7K w - - 0 1",
+      "6k1/ppr1n1pp/8/2PP4/8/8/5PPP/R5K1 w - - 0 1",
+      "8/p2q1kpp/8/3PP3/8/8/5PPP/6K1 w - - 0 1"
+    ],
+    "habit": "Push the pawn at a piece, not at a square."
+  },
+  "explain": [
+    {
+      "fen": "8/ppp3k1/8/PPP5/8/8/8/7K w - - 0 1",
+      "text": "Three pawns against three, and the black king is on the wrong side of the board. b6 is the break: axb6 is met by c6, cxb6 by a6, and the pawn on the far side of the capture has a clear road. Two pawns for one queen, and only the middle pawn can start it.",
+      "arrows": [
+        [
+          "b5",
+          "b6"
+        ],
+        [
+          "a5",
+          "a8"
+        ],
+        [
+          "c5",
+          "c8"
+        ]
+      ],
+      "highlights": [
+        "b6",
+        "a5",
+        "c5"
+      ]
+    },
+    {
+      "fen": "6k1/ppr1n1pp/8/2PP4/8/8/5PPP/R5K1 w - - 0 1",
+      "text": "A pawn attacks the two squares diagonally in front of it. The rook is on c7, the knight is on e7, and d6 is the square between them. The pawn on c5 holds d6, so neither piece can take there. Black saves one of them and you take the other.",
+      "arrows": [
+        [
+          "d5",
+          "d6"
+        ],
+        [
+          "d6",
+          "c7"
+        ],
+        [
+          "d6",
+          "e7"
+        ],
+        [
+          "c5",
+          "d6"
+        ]
+      ],
+      "highlights": [
+        "d6",
+        "c7",
+        "e7"
+      ]
+    },
+    {
+      "fen": "8/p2q1kpp/8/3PP3/8/8/5PPP/6K1 w - - 0 1",
+      "text": "Best of all is a push that is check. e6 hits the king on f7 and the queen on d7 at the same time, and the king may not take, because the pawn on d5 covers e6. Move the king and exd7 wins the queen; take with the queen and dxe6 is check all over again.",
+      "arrows": [
+        [
+          "e5",
+          "e6"
+        ],
+        [
+          "e6",
+          "f7"
+        ],
+        [
+          "e6",
+          "d7"
+        ],
+        [
+          "d5",
+          "e6"
+        ]
+      ],
+      "highlights": [
+        "e6",
+        "f7",
+        "d7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.3.3-c1",
+      "type": "which_square",
+      "fen": "8/ppp3k1/8/PPP5/8/8/8/7K w - - 0 1",
+      "prompt": "Three pawns against three, and one of yours has to go first. Tap the square that pawn must reach to open a road for the other two.",
+      "answer": {
+        "square": "b6"
+      },
+      "concept": "advanced-pawn",
+      "hints": {
+        "text": "It is the middle pawn, and it goes where both black pawns can take it."
+      },
+      "reason": "b6. Both a7 and c7 can capture it, and whichever one does, the white pawn on the far side of that capture is the one with a clear road."
+    },
+    {
+      "id": "3.3.3-c2",
+      "type": "find_the_move",
+      "fen": "8/ppp3k1/8/PPP5/8/8/8/7K w - - 0 1",
+      "prompt": "Break the wall. Two pawns are the price and the third one queens.",
+      "answer": {
+        "moves": [
+          "b6"
+        ]
+      },
+      "wrong": {
+        "a6": "a6 bxa6 and the break has been spent for nothing: b6 axb6 cxb6 cxb6 and it is Black who is left with the pawns.",
+        "Kg2": "A quiet move hands Black the tempo he needs: Kf6, and now the king is close enough to catch whichever pawn gets through."
+      },
+      "concept": "advanced-pawn",
+      "hints": {
+        "piece": "b5",
+        "square": "b6"
+      },
+      "reason": "b6. axb6 is answered by c6 and cxb6 by a6, and the surviving pawn runs while the black king is still stuck on g7."
+    },
+    {
+      "id": "3.3.3-c3",
+      "type": "find_the_sequence",
+      "fen": "8/ppp3k1/8/PPP5/8/8/8/7K w - - 0 1",
+      "prompt": "Play it out: break with the middle pawn, let the a-pawn take, and push the one on the far side of that capture.",
+      "answer": {
+        "line": [
+          "b6",
+          "axb6",
+          "c6"
+        ]
+      },
+      "concept": "advanced-pawn",
+      "hints": {
+        "text": "Push the pawn furthest from the capture, not the one next to it."
+      },
+      "reason": "b6 axb6 c6, and however Black takes on c6 the a-pawn goes a6, a7, a8 with the black king far too slow to catch it."
+    },
+    {
+      "id": "3.3.3-c4",
+      "type": "name_the_pattern",
+      "fen": "8/ppp3k1/8/PPP5/8/8/8/7K w - - 0 1",
+      "prompt": "Why is it worth giving two pawns away to push the third one through?",
+      "options": [
+        "Two pawns are nothing next to a queen, and the black king is too far away to catch the one that runs.",
+        "It opens a file for the rook to come down.",
+        "It forces Black to double his pawns, which loses in the long run."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "advanced-pawn",
+      "hints": {
+        "text": "Count moves, not pawns."
+      },
+      "reason": "You are buying a queen, not counting pawns. There is no rook on the board, and doubled pawns would not matter in the slightest if the black king could get back in time."
+    },
+    {
+      "id": "3.3.3-c5",
+      "type": "find_them_all",
+      "fen": "6k1/ppr1n1pp/8/2PP4/8/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "The pawn on d5 is one square from doing damage. Tap both black pieces it attacks the moment it lands on d6.",
+      "answer": {
+        "pieces": [
+          "c7",
+          "e7"
+        ]
+      },
+      "concept": "advanced-pawn",
+      "hints": {
+        "text": "A pawn attacks diagonally, one square to each side."
+      },
+      "reason": "The rook on c7 and the knight on e7. Neither can take on d6 because the pawn on c5 is holding it, so one of them has to step away and the other one goes."
+    },
+    {
+      "id": "3.3.3-c6",
+      "type": "find_the_move",
+      "fen": "6k1/ppr1n1pp/8/2PP4/8/8/5PPP/R5K1 w - - 0 1",
+      "prompt": "One pawn, two targets. Push it at them.",
+      "answer": {
+        "moves": [
+          "d6"
+        ]
+      },
+      "wrong": {
+        "c6": "c6 attacks b7, not the rook on c7, and it lets go of d5 on the way: Nxd5 wins the pawn back and the fork has gone.",
+        "Rxa7": "Rxa7 wins a pawn, and Black answers Nxd5. Your pawns are broken up and the fork you had is gone."
+      },
+      "concept": "advanced-pawn",
+      "hints": {
+        "piece": "d5",
+        "square": "d6"
+      },
+      "reason": "d6 attacks the rook on c7 and the knight on e7 at once, and the pawn on c5 holds d6 so neither can take it. Black saves one and you take the other."
+    },
+    {
+      "id": "3.3.3-c7",
+      "type": "is_it_safe",
+      "fen": "6k1/ppr1n1pp/8/2PP4/8/8/5PPP/R5K1 w - - 0 1",
+      "move": "d6",
+      "prompt": "White pushes the pawn to d6, right between a rook and a knight. Is the pawn safe there?",
+      "reasons": [
+        "Yes. Neither black piece attacks d6, and the pawn on c5 defends it in any case.",
+        "No. The rook on c7 takes it.",
+        "No. The knight on e7 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "advanced-pawn",
+      "hints": {
+        "text": "A rook on c7 moves along the c-file and the seventh rank. Where does a knight on e7 go?"
+      },
+      "reason": "Safe twice over. A rook on c7 never attacks d6, and a knight on e7 covers c6, c8, d5, f5, g6 and g8 but never d6. The pawn on c5 is behind it anyway, in case you had counted wrong."
+    },
+    {
+      "id": "3.3.3-c8",
+      "type": "find_the_move",
+      "fen": "8/p2q1kpp/8/3PP3/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "A pawn push that is also check. Find it, and work out what the king has to leave behind.",
+      "answer": {
+        "moves": [
+          "e6+"
+        ]
+      },
+      "wrong": {
+        "d6": "d6 pushes past the queen instead of at her. She is not attacked, it is not check, and Black simply gets a free move."
+      },
+      "concept": "advanced-pawn",
+      "hints": {
+        "piece": "e5",
+        "square": "e6"
+      },
+      "reason": "e6 is check and attacks the queen on d7. Kxe6 is illegal because d5 covers the square, so the king steps away and exd7 takes the queen. Qxe6 dxe6 is check again and costs Black the queen anyway."
+    }
+  ],
+  "takeaway": "An advanced pawn is worth more than a pawn. Push it where it attacks something, and make sure a second pawn is holding the square it lands on."
+}

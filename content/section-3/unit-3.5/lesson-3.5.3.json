@@ -1,0 +1,146 @@
+{
+  "id": "3.5.3",
+  "unit": "3.5",
+  "title": "Not stalemating him when you are winning",
+  "xp": 14,
+  "card": {
+    "idea": "The same trick works against you. When you are the one winning, a stalemate throws the whole game away, and it happens at the end, when you have stopped concentrating. Before every move in a won position, ask one question: after this move, does he still have a legal move? If the answer is no, it had better be check.",
+    "diagrams": [
+      "7k/8/6K1/8/8/8/8/1Q6 w - - 0 1",
+      "8/k1P5/2K5/8/8/8/8/8 w - - 0 1"
+    ],
+    "habit": "Before you move, count his moves. If he has none, make yours check."
+  },
+  "explain": [
+    {
+      "fen": "7k/8/6K1/8/8/8/8/1Q6 w - - 0 1",
+      "text": "Black has exactly one legal move: Kg8. Your king on g6 already covers g7 and h7, so g8 is the whole of Black's game. Take g8 away with a quiet move such as Qa2 and he has nothing to play and is not in check. That is stalemate, and your extra queen counts for nothing.",
+      "arrows": [
+        ["g6", "g7"],
+        ["g6", "h7"]
+      ],
+      "highlights": ["g8"]
+    },
+    {
+      "fen": "7k/5K1p/8/8/8/8/3Q4/8 w - - 0 1",
+      "text": "Here the king is already frozen and the pawn on h7 is the only black man with a move. So do not block it. Qh6 stops the pawn and gives no check, and the game is drawn on the spot. Qd4, Qd8, Qc3 and Qb2 are all mate, because mate is check and stalemate is not.",
+      "arrows": [["d2", "h6"]],
+      "highlights": ["h6", "h7"]
+    },
+    {
+      "fen": "8/k1P5/2K5/8/8/8/8/8 w - - 0 1",
+      "text": "A new queen on c8 would cover a8, b8 and a6 in one go, and Black is not in check, so c8=Q is stalemate. A rook on c8 covers a8 and b8 but not a6, so Ka6 is legal and the game continues. Promote to less, and win.",
+      "arrows": [
+        ["c7", "c8"],
+        ["c8", "a6"]
+      ],
+      "highlights": ["a6", "c8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.5.3-c1",
+      "type": "find_them_all",
+      "fen": "7k/8/6K1/8/8/8/8/1Q6 w - - 0 1",
+      "prompt": "The black king is the only man Black owns. Tap every square it can still move to.",
+      "answer": { "squares": ["g8"] },
+      "concept": "stalemate",
+      "hints": {
+        "text": "Your own king on g6 is standing next to two of the three squares."
+      },
+      "reason": "g7 and h7 both touch your king on g6, so the king on h8 has only g8. Whatever you play next has to leave him that square, or give check."
+    },
+    {
+      "id": "3.5.3-c2",
+      "type": "is_it_safe",
+      "fen": "7k/8/6K1/8/8/8/8/1Q6 w - - 0 1",
+      "move": "Qa2",
+      "prompt": "You bring the queen to a2, aiming down the long diagonal at g8 to shut the king in. Is that safe?",
+      "reasons": [
+        "Yes. The queen covers g8 and the king has to come out into the open.",
+        "No. It takes his last square away without giving check, so he has no legal move at all: stalemate, and the game is drawn.",
+        "No. The queen on a2 is attacked by the black king."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "stalemate",
+      "hints": {
+        "text": "Count Black's legal moves after Qa2."
+      },
+      "reason": "Qa2 covers g8 along the a2-g8 diagonal and does not touch h8, so Black is not in check and has nothing to move. Qb8 is mate in the same position, and it is mate because it is check."
+    },
+    {
+      "id": "3.5.3-c3",
+      "type": "which_square",
+      "fen": "7k/5K1p/8/8/8/8/3Q4/8 w - - 0 1",
+      "prompt": "Your queen has four different mates from here. Tap the one square that would instead leave Black with no legal move and no check.",
+      "answer": { "square": "h6" },
+      "concept": "stalemate",
+      "hints": {
+        "text": "The king cannot move already. What is the only black man that can?"
+      },
+      "reason": "The pawn on h7 is Black's only mobile man, and a queen on h6 stops it dead. It is not check, because the pawn on h7 blocks the h-file, so Black has nothing at all to play."
+    },
+    {
+      "id": "3.5.3-c4",
+      "type": "find_the_sequence",
+      "fen": "8/k1P5/2K5/8/8/8/8/8 w - - 0 1",
+      "prompt": "A new queen on c8 is stalemate. Promote to the piece that leaves him a square instead, and then finish the game.",
+      "answer": { "line": ["c8=R", "Ka6", "Ra8#"] },
+      "concept": "stalemate",
+      "hints": {
+        "piece": "c7",
+        "square": "c8"
+      },
+      "reason": "A rook on c8 covers a8 and b8 but not a6, so Ka6 is Black's only move and the game goes on. Ra8 is then mate: your king on c6 covers b6 and b7, and the rook holds the a-file."
+    },
+    {
+      "id": "3.5.3-c5",
+      "type": "is_it_safe",
+      "fen": "7k/5K1p/8/8/8/8/8/7R w - - 0 1",
+      "move": "Rxh7+",
+      "prompt": "The pawn on h7 is loose and taking it is even check. Is Rxh7 safe?",
+      "reasons": [
+        "Yes. It is check, Black must answer it, and you go a pawn up as well as a rook up.",
+        "No. Kxh7 is his only legal answer, and king against king is a draw by insufficient material. You have just given away a won game.",
+        "No. The black king steps to g8 and your rook on h7 is trapped behind the king."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "stalemate",
+      "hints": {
+        "text": "Play the check and then count what is left on the board."
+      },
+      "reason": "g8 and g7 belong to your king on f7, so Kxh7 is forced, and after it neither side has anything but a king. Rh6 is no better: it freezes the pawn without checking, and that is stalemate."
+    },
+    {
+      "id": "3.5.3-c6",
+      "type": "name_the_pattern",
+      "fen": "7k/8/6K1/8/8/8/8/1R6 w - - 0 1",
+      "prompt": "Same kings as before, but a rook instead of a queen. There is no stalemating move here at all. Why not?",
+      "options": [
+        "g8 is Black's only square, and a rook can only cover g8 from the g-file or the eighth rank. Your own king blocks the g-file, and the eighth rank is check.",
+        "A rook can never stalemate a lone king, whatever the position.",
+        "Because the black king is already in check, so stalemate is impossible."
+      ],
+      "answer": { "option": 0 },
+      "concept": "stalemate",
+      "hints": {
+        "text": "Try to name a square the rook could sit on that covers g8 quietly."
+      },
+      "reason": "A rook on g1 only reaches as far as g5, because your king on g6 is in the way. Anything on the eighth rank checks. Rb8 is mate, and it is the only mate there is."
+    },
+    {
+      "id": "3.5.3-c7",
+      "type": "play_it_out",
+      "fen": "k7/8/K7/8/8/8/8/7R w - - 0 1",
+      "prompt": "Black's king has one square left, b8. Mate him in one move, and steer clear of the move that only takes b8 away.",
+      "goal": { "kind": "mate_in", "moves": 1 },
+      "concept": "stalemate",
+      "hints": {
+        "piece": "h1",
+        "square": "h8"
+      },
+      "reason": "Rh8 is mate: your king on a6 holds a7 and b7, and the rook holds the whole eighth rank. Rb1 covers b8 just as well, but it is not check, so it is stalemate and half a point thrown away."
+    }
+  ],
+  "takeaway": "A won game is only won when it is over. Before each move, count his legal moves; if your move leaves him none, it has to be check, or the point becomes half a point."
+}

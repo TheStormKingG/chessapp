@@ -1,0 +1,171 @@
+{
+  "id": "3.4.1",
+  "unit": "3.4",
+  "title": "Anastasia's, Arabian, Greco's and Opera",
+  "xp": 15,
+  "card": {
+    "idea": "Some mates come up so often that they were given names. A named mate is not a calculation, it is a shape: a knight on one square, a rook on another, and the defender's own pieces filling the gaps. Once you know the shape you stop counting moves and start looking for the missing piece of the picture.",
+    "diagrams": [
+      "8/4Nppk/8/3R4/8/8/8/6K1 w - - 0 1",
+      "7k/R7/5N2/p7/8/8/8/6K1 w - - 0 1",
+      "4k3/5p2/8/6B1/8/8/8/3R2K1 w - - 0 1"
+    ],
+    "habit": "Name the shape before you count the moves."
+  },
+  "explain": [
+    {
+      "fen": "8/4Nppk/8/3R4/8/8/8/6K1 w - - 0 1",
+      "text": "Anastasia's mate is a knight and a rook. The knight on e7 takes g6 and g8 away from the king on h7, Black's own pawn sits on g7, and a rook arriving on h5 covers h6 and h8. Four squares gone at once, and the rook only had to turn up.",
+      "arrows": [
+        ["e7", "g8"],
+        ["e7", "g6"],
+        ["d5", "h5"]
+      ],
+      "highlights": ["h5", "e7"]
+    },
+    {
+      "fen": "6rk/5p2/8/8/4Q3/3B4/7K/8 w - - 0 1",
+      "text": "Greco's mate uses a bishop on the b1-h7 diagonal. The queen lands on h7 right beside the king, and the bishop on d3 looks straight through to h7, so Kxh7 is illegal. The queen herself covers g7, and g8 is blocked by Black's own rook.",
+      "arrows": [
+        ["d3", "h7"],
+        ["e4", "h7"]
+      ],
+      "highlights": ["h7", "d3"]
+    },
+    {
+      "fen": "4k3/5p2/8/6B1/8/8/8/3R2K1 w - - 0 1",
+      "text": "The Opera mate is a rook on the back rank with a bishop behind it. Rd8 is check; the bishop on g5 reaches d8 through f6 and e7, so the king may not take and e7 is covered too. The rook holds d7 and f8, and f7 is Black's own pawn.",
+      "arrows": [
+        ["d1", "d8"],
+        ["g5", "d8"]
+      ],
+      "highlights": ["d8", "e7"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.4.1-c1",
+      "type": "which_square",
+      "fen": "8/4Nppk/8/3R4/8/8/8/6K1 w - - 0 1",
+      "prompt": "The knight on e7 already covers g6 and g8, and Black's own pawn blocks g7. Tap the square where the rook on d5 finishes the job.",
+      "answer": { "square": "h5" },
+      "concept": "anastasia-mate",
+      "hints": {
+        "text": "Stay on the fifth rank and go all the way to the edge."
+      },
+      "reason": "Rh5 is mate. The rook covers h6 and h8 up the file, the knight holds g6 and g8, and g7 is Black's own pawn. Knight on e7, rook on the h-file, king on h7: that is Anastasia's mate."
+    },
+    {
+      "id": "3.4.1-c2",
+      "type": "find_the_move",
+      "fen": "8/4Nppk/8/3R4/8/q7/8/6K1 w - - 0 1",
+      "prompt": "The same shape, except Black has a queen on a3. You get one move.",
+      "answer": { "moves": ["Rh5#"] },
+      "wrong": {
+        "Ng6": "Kxg6 simply takes the knight, because nothing of yours guards g6. The knight was the reason the king had no squares; leave it where it stands."
+      },
+      "concept": "anastasia-mate",
+      "hints": {
+        "piece": "d5",
+        "square": "h5"
+      },
+      "reason": "Rh5 is mate. h6 and h8 belong to the rook, g6 and g8 to the knight on e7, and g7 is Black's own pawn. The queen on a3 never gets a turn."
+    },
+    {
+      "id": "3.4.1-c3",
+      "type": "name_the_pattern",
+      "fen": "7k/R7/5N2/p7/8/8/8/6K1 w - - 0 1",
+      "prompt": "White is about to play Rh7, right next to the black king. Why can the king not simply take the rook?",
+      "options": [
+        "The knight on f6 guards h7, and it covers g8 as well, so Rh7 is mate.",
+        "The white king on g1 defends h7 from a distance.",
+        "The pawn on a5 is Black's own and it takes g8 away from him."
+      ],
+      "answer": { "option": 0 },
+      "concept": "arabian-mate",
+      "hints": {
+        "text": "Count the squares a knight on f6 attacks."
+      },
+      "reason": "A knight on f6 hits h7 and g8. So Rh7 is check, the king may not take it, g8 is covered, and g7 belongs to the rook along the seventh. Rook plus knight, nothing else: the Arabian mate."
+    },
+    {
+      "id": "3.4.1-c4",
+      "type": "find_the_move",
+      "fen": "2q4k/R7/5N2/8/8/8/8/6K1 w - - 0 1",
+      "prompt": "A rook and a knight against a king in the corner. Black has a queen on c8 and she is one move too late.",
+      "answer": { "moves": ["Rh7#"] },
+      "wrong": {
+        "Ra8": "Qxa8, and you have swapped a rook for nothing. Black owns the back rank here; the mate is beside the king."
+      },
+      "concept": "arabian-mate",
+      "hints": {
+        "piece": "a7",
+        "square": "h7"
+      },
+      "reason": "Rh7 is mate. The knight on f6 guards h7 so the king cannot take, f6 also covers g8, and the rook itself covers g7. Rook and knight standing close together is the Arabian mate."
+    },
+    {
+      "id": "3.4.1-c5",
+      "type": "find_them_all",
+      "fen": "6rk/5p2/8/8/4Q3/3B4/7K/8 w - - 0 1",
+      "prompt": "Qh7 is mate here. Tap the two white pieces that make it work.",
+      "answer": { "pieces": ["e4", "d3"] },
+      "concept": "greco-mate",
+      "hints": {
+        "text": "One of them lands on h7. The other one is why the king may not take her there."
+      },
+      "reason": "The queen goes to h7, and the bishop on d3 looks down the b1-h7 diagonal and guards her there. Take the bishop off the board and Kxh7 is legal, so it is not mate at all."
+    },
+    {
+      "id": "3.4.1-c6",
+      "type": "find_the_move",
+      "fen": "6rk/pp3p2/8/2r5/4Q3/3B4/7K/8 w - - 0 1",
+      "prompt": "Black's rook on c5 can drop onto h5 and block any check from down the h-file. So do not check from a distance. Get in close.",
+      "answer": { "moves": ["Qh7#"] },
+      "wrong": {
+        "Qh4+": "Kg7 is legal and the king walks out of the corner. The queen has to arrive on h7 itself, where the bishop guards her."
+      },
+      "concept": "greco-mate",
+      "hints": {
+        "piece": "e4",
+        "square": "h7"
+      },
+      "reason": "Qh7 is mate. The bishop on d3 guards h7 through the square the queen has just left, g8 is Black's own rook, and the queen covers g7 herself. Greco's mate."
+    },
+    {
+      "id": "3.4.1-c7",
+      "type": "is_it_safe",
+      "fen": "4k3/5p2/8/6B1/8/8/8/3R2K1 w - - 0 1",
+      "move": "Rd8#",
+      "prompt": "White wants to slam the rook down on d8, right beside the black king. Is the rook safe there?",
+      "reasons": [
+        "Yes. The bishop on g5 guards d8 along the diagonal, so the king may not take it.",
+        "No. The king simply takes it, because nothing defends d8.",
+        "No. The pawn on f7 covers d8."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "opera-mate",
+      "hints": {
+        "text": "Follow the diagonal from g5 back towards the corner."
+      },
+      "reason": "Bg5 reaches d8 through f6 and e7. So Rd8 is check, Kxd8 is illegal, e7 is the bishop's, d7 and f8 are the rook's, and f7 is Black's own pawn. Mate."
+    },
+    {
+      "id": "3.4.1-c8",
+      "type": "find_the_move",
+      "fen": "4k3/5p2/8/6B1/8/8/q7/3R2K1 w - - 0 1",
+      "prompt": "Black has a queen loose on a2 and you do not. One move ends the argument.",
+      "answer": { "moves": ["Rd8#"] },
+      "wrong": {
+        "Bh6": "A quiet move in a position where Black is the one with a queen. The rook had mate in one on the back rank."
+      },
+      "concept": "opera-mate",
+      "hints": {
+        "piece": "d1",
+        "square": "d8"
+      },
+      "reason": "Rd8 is mate. The bishop on g5 guards d8 and covers e7, the rook holds d7 and f8, and f7 is Black's own pawn. A rook on the back rank with a bishop behind it is the Opera mate."
+    }
+  ],
+  "takeaway": "Four shapes, four names. Anastasia's is knight and rook, the Arabian is those two standing closer, Greco's adds a bishop on the diagonal, the Opera mate puts one behind a rook."
+}

@@ -1,0 +1,387 @@
+{
+  "unit": "3.5",
+  "title": "Saving lost positions: perpetual check, stalemate and the half point",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "3.5-k01",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/8/3Q4/8/1r6/pp3P1P/6K1 w - - 0 1",
+      "prompt": "Two black pawns are one square from queening. Start the checks.",
+      "answer": { "moves": ["Qg5+"] },
+      "concept": "perpetual-check",
+      "reason": "Qg5 is check down the g-file and Kh8 is the only legal answer. Qf6 checks again and Kg8 is forced, so Black never gets the free move a pawn needs to promote."
+    },
+    {
+      "id": "3.5-k02",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/8/3Q4/pp6/8/4r3/7K w - - 0 1",
+      "prompt": "Your queen is alone against two rooks and four pawns. Find the check that repeats the position.",
+      "answer": { "moves": ["Qg5+"] },
+      "concept": "perpetual-check",
+      "reason": "Qg5 forces Kh8 and Qf6 forces Kg8. Black's own rook on f8 and his own pawns on f7 and h7 leave the king one square, and the queen shuttles between g5 and f6."
+    },
+    {
+      "id": "3.5-k03",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/8/3Q4/pp6/8/2r5/6K1 w - - 0 1",
+      "prompt": "You cannot stop the queenside pawns, so do not try. Take the half point.",
+      "answer": { "moves": ["Qg5+"] },
+      "concept": "perpetual-check",
+      "reason": "Qg5 is check with Kh8 forced, Qf6 is check with Kg8 forced. Chasing pawns with a queen loses; checking with her draws."
+    },
+    {
+      "id": "3.5-k04",
+      "type": "which_square",
+      "fen": "5rk1/5p1p/8/3Q4/pp6/8/4r3/7K w - - 0 1",
+      "prompt": "Three of your moves are check. Tap the square the queen must check from: the one that leaves Black a single legal answer.",
+      "answer": { "square": "g5" },
+      "concept": "perpetual-check",
+      "reason": "Qg5 leaves Kh8 and nothing else. Qg2 is check but allows two answers, and Qxf7 allows three and loses the queen to the rook on f8."
+    },
+    {
+      "id": "3.5-k05",
+      "type": "find_the_sequence",
+      "fen": "5rk1/5p1p/8/3Q4/8/1r6/pp3P1P/6K1 w - - 0 1",
+      "prompt": "Play out the shuttle: check, king moves, check from the other side, king moves, check again.",
+      "answer": { "line": ["Qg5+", "Kh8", "Qf6+", "Kg8", "Qg5+"] },
+      "concept": "perpetual-check",
+      "reason": "Every check here has exactly one legal answer. That is the position standing for the second time; one more pair of checks makes it three, and a draw."
+    },
+    {
+      "id": "3.5-k06",
+      "type": "find_the_sequence",
+      "fen": "5rk1/5p1p/8/3Q4/pp6/8/2r5/6K1 w - - 0 1",
+      "prompt": "Show the whole repetition, both checking squares and both king moves.",
+      "answer": { "line": ["Qg5+", "Kh8", "Qf6+", "Kg8", "Qg5+"] },
+      "concept": "perpetual-check",
+      "reason": "g5 hits the king down the g-file, f6 hits him along the long diagonal through g7. Between them they cover both of the squares he is allowed to stand on."
+    },
+    {
+      "id": "3.5-k07",
+      "type": "find_them_all",
+      "fen": "5rk1/5p1p/8/3Q4/8/1r6/pp3P1P/6K1 w - - 0 1",
+      "prompt": "Black's king on g8 is hemmed in by his own men. Tap every square beside him that one of them is standing on.",
+      "answer": { "squares": ["f7", "f8", "h7"] },
+      "concept": "perpetual-check",
+      "reason": "His own pawns hold f7 and h7 and his own rook holds f8. Only g7 and h8 are free, and a check on the g-file takes g7 away, which is what makes the perpetual work."
+    },
+    {
+      "id": "3.5-k08",
+      "type": "is_it_safe",
+      "fen": "5rk1/5p1p/8/3Q4/pp6/8/4r3/7K w - - 0 1",
+      "move": "Qxf7+",
+      "prompt": "Qxf7 wins a pawn and it is check as well. Is it safe?",
+      "reasons": [
+        "Yes. It is check, so Black must answer it, and you are a pawn better off.",
+        "No. f7 is defended by the rook on f8, so Rxf7 or Kxf7 wins the queen, and with her goes every check you had.",
+        "No. The move is not legal, because the queen cannot reach f7 from d5."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "perpetual-check",
+      "reason": "Check is not the same as safe. Qg5 is the check that works, because g5 is a square no black man attacks."
+    },
+    {
+      "id": "3.5-k09",
+      "type": "name_the_pattern",
+      "fen": "5rk1/5p1p/8/3Q4/pp6/8/2r5/6K1 w - - 0 1",
+      "prompt": "The engine gives this position 0.00 for White, who is a rook and four pawns down. What does that mean?",
+      "options": [
+        "That the perpetual check holds. 0.00 is a draw, and a draw from a lost position is the best result on offer.",
+        "That the position is equal on material, so neither side has any advantage.",
+        "That White is winning, because 0.00 is better than a minus score."
+      ],
+      "answer": { "option": 0 },
+      "concept": "perpetual-check",
+      "reason": "A drawing move scores 0.00 no matter how far behind you are. Read it against the alternatives: every other move here loses, so 0.00 is a rescue, not a level game."
+    },
+    {
+      "id": "3.5-k10",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/7R/8/8/5n1p/7P/7K w - - 0 1",
+      "prompt": "Your king has no legal move and your rook is all you own. Get rid of it so Black has no choice about taking it.",
+      "answer": { "moves": ["Rg6+"] },
+      "concept": "stalemate-defence",
+      "reason": "Rg6 is check and every answer draws. fxg6 and hxg6 stalemate you at once, and after Kh8 the rook goes to g8, where Rxg8 or Kxg8 stalemates you instead."
+    },
+    {
+      "id": "3.5-k11",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/1b6/5R2/8/8/r7/7K w - - 0 1",
+      "prompt": "The bishop on b6 holds g1 and the rook on a2 holds g2 and h2. Only one of your moves is check.",
+      "answer": { "moves": ["Rg5+"] },
+      "concept": "stalemate-defence",
+      "reason": "Rg5 is check and Kh8 is the only legal answer, because a black pawn on f7 or h7 captures on g6, not g5. Rg8 next move offers the rook where it must be taken."
+    },
+    {
+      "id": "3.5-k12",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/1b6/8/7R/8/r7/7K w - - 0 1",
+      "prompt": "Same cage, rook further away. Find the check that starts giving it away.",
+      "answer": { "moves": ["Rg4+"] },
+      "concept": "stalemate-defence",
+      "reason": "Rg4 is check with Kh8 forced. Rg8 then follows and Rxg8 or Kxg8 leaves you a frozen king and nothing else on the board: stalemate."
+    },
+    {
+      "id": "3.5-k13",
+      "type": "find_the_move",
+      "fen": "5r1k/5p1p/6R1/8/8/5n1p/8/7K w - - 1 2",
+      "prompt": "The king has stepped to h8. Finish the job: put the rook where he has to take it.",
+      "answer": { "moves": ["Rg8+"] },
+      "concept": "stalemate-defence",
+      "reason": "Rg8 is check and the only two legal answers are Rxg8 and Kxg8. Either takes your last man, and a frozen king with no men left is stalemated."
+    },
+    {
+      "id": "3.5-k14",
+      "type": "find_the_move",
+      "fen": "5r1k/5p1p/1b4R1/8/8/8/r7/7K w - - 1 2",
+      "prompt": "Your king cannot move and the rook has done its work. Hand it over.",
+      "answer": { "moves": ["Rg8+"] },
+      "concept": "stalemate-defence",
+      "reason": "Rg8 forces Rxg8 or Kxg8. The bishop on b6 still covers g1 and the rook on a2 still covers g2 and h2, so you are left with a king that cannot legally move."
+    },
+    {
+      "id": "3.5-k15",
+      "type": "find_the_sequence",
+      "fen": "5rk1/5p1p/1b6/5R2/8/8/r7/7K w - - 0 1",
+      "prompt": "Play it out against the king's reply: check on g5, let him go to h8, then offer the rook where his rook takes it.",
+      "answer": { "line": ["Rg5+", "Kh8", "Rg8+", "Rxg8"] },
+      "concept": "stalemate-defence",
+      "reason": "Rg5+ Kh8 Rg8+ Rxg8, and now it is your move with a king on h1 that has nowhere legal to go and no other man to push. Stalemate."
+    },
+    {
+      "id": "3.5-k16",
+      "type": "find_them_all",
+      "fen": "5rk1/5p1p/7R/8/8/5n1p/7P/7K w - - 0 1",
+      "prompt": "Your king on h1 has no legal move. Tap every black man that is taking one of his squares away.",
+      "answer": { "pieces": ["f3", "h3"] },
+      "concept": "stalemate-defence",
+      "reason": "The knight on f3 covers g1 and h2 together, and the pawn on h3 covers g2. Your own pawn on h2 is blocked by that same h3 pawn, so the rook is the only thing you can still move."
+    },
+    {
+      "id": "3.5-k17",
+      "type": "name_the_pattern",
+      "fen": "5rk1/5p1p/1b6/8/7R/8/r7/7K w - - 0 1",
+      "prompt": "You are two rooks and a bishop down. Why is that almost good news here?",
+      "options": [
+        "Because those same pieces have taken every square from your king, so losing your last rook leaves you stalemated instead of lost.",
+        "Because two rooks and a bishop cannot deliver mate without pawns.",
+        "Because material does not count once one side has fewer than three pieces."
+      ],
+      "answer": { "option": 0 },
+      "concept": "stalemate-defence",
+      "reason": "The bishop on b6 covers g1 and the rook on a2 covers g2 and h2. Black's own winning force is what builds the cage, and the rook is the only thing keeping the game alive."
+    },
+    {
+      "id": "3.5-k18",
+      "type": "is_it_safe",
+      "fen": "5rk1/5p1p/7R/8/8/5n1p/7P/7K w - - 0 1",
+      "move": "Rxh7",
+      "prompt": "You take the h-pawn with Rxh7, hoping Black takes back. Is that a sound way to try for the draw?",
+      "reasons": [
+        "Yes. The king must take the rook, and then you have nothing left to move.",
+        "No. Rxh7 is not check, so Black chooses his reply. Ng5 attacks the rook and takes the knight off f3, which unfreezes your king.",
+        "No. The rook on h7 can be taken by the rook on f8."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "stalemate-defence",
+      "reason": "A sacrifice for stalemate has to be check, or the other player simply declines it. Rg6 is check; Rxh7 is only an offer, and Black is under no obligation to accept."
+    },
+    {
+      "id": "3.5-k19",
+      "type": "which_square",
+      "fen": "7k/5K1p/8/8/8/8/8/7R w - - 0 1",
+      "prompt": "The black king is already frozen and the pawn on h7 is his only man with a move. Tap the one square your rook must not go to.",
+      "answer": { "square": "h6" },
+      "concept": "stalemate",
+      "reason": "A rook on h6 blocks the pawn without giving check, so Black has no legal move at all and the game is drawn. Rxh7 is just as bad: Kxh7 leaves king against king."
+    },
+    {
+      "id": "3.5-k20",
+      "type": "is_it_safe",
+      "fen": "7k/8/6K1/8/8/8/8/1Q6 w - - 0 1",
+      "move": "Qb3",
+      "prompt": "You slide the queen to b3, eyeing g8 along the diagonal. Is that safe?",
+      "reasons": [
+        "Yes. It takes the king's last square away and he has to give himself up.",
+        "No. g8 is his only square, and covering it without check leaves him nothing to play: stalemate.",
+        "No. The queen on b3 is undefended and the black king wins it."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "stalemate",
+      "reason": "Your king on g6 already holds g7 and h7. Take g8 as well without checking and the game is drawn. Qb8 takes the same square and is check, so it is mate."
+    },
+    {
+      "id": "3.5-k21",
+      "type": "find_them_all",
+      "fen": "7k/5K1p/8/8/8/8/3Q4/8 w - - 0 1",
+      "prompt": "Tap every black man that still has a legal move.",
+      "answer": { "pieces": ["h7"] },
+      "concept": "stalemate",
+      "reason": "The king on h8 has nothing: g7 and g8 belong to your king on f7, and h7 is his own pawn. So the pawn is the whole of Black's game, and blocking it is stalemate."
+    },
+    {
+      "id": "3.5-k22",
+      "type": "name_the_pattern",
+      "fen": "6k1/6P1/6K1/8/8/8/8/8 b - - 0 1",
+      "prompt": "Black to move, a pawn down, king on g8. What is this position?",
+      "options": [
+        "Stalemate, and therefore a draw. Black is not in check and has no legal move.",
+        "Checkmate. The pawn on g7 is giving check and nothing can stop it.",
+        "A win for White. He only has to promote the pawn on the next move."
+      ],
+      "answer": { "option": 0 },
+      "concept": "stalemate",
+      "reason": "The pawn on g7 covers f8 and h8, your king on g6 covers f7 and h7, and Kxg7 is illegal because the pawn is defended. Nothing attacks g8, so it is not check: it is stalemate."
+    },
+    {
+      "id": "3.5-k23",
+      "type": "is_it_safe",
+      "fen": "8/k1P5/2K5/8/8/8/8/8 w - - 0 1",
+      "move": "c8=Q",
+      "prompt": "The pawn reaches the eighth rank and you take a new queen. Is that safe?",
+      "reasons": [
+        "Yes. A queen is the strongest piece, so promoting to one is always right.",
+        "No. The new queen covers a8, b8 and a6 all at once and gives no check, so Black has no legal move: stalemate.",
+        "No. The black king on a7 simply captures the new queen on c8."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "stalemate",
+      "reason": "Your king on c6 already holds b6 and b7. A queen on c8 covers the rest, and none of it is check. A rook on c8 covers a8 and b8 but not a6, so it leaves Black a move, and wins."
+    },
+    {
+      "id": "3.5-k24",
+      "type": "which_square",
+      "fen": "7k/8/6K1/8/8/8/8/1Q6 w - - 0 1",
+      "prompt": "Black's king has one square: g8. Tap the square your queen goes to for mate.",
+      "answer": { "square": "b8" },
+      "concept": "stalemate",
+      "reason": "Qb8 covers g8 along the eighth rank and checks the king on h8 at the same time. Qa2 and Qb3 cover g8 just as well but give no check, and that is stalemate."
+    },
+    {
+      "id": "3.5-k25",
+      "type": "name_the_pattern",
+      "fen": "7k/8/6K1/8/8/8/8/1R6 w - - 0 1",
+      "prompt": "A rook here instead of a queen, and there is no stalemating move at all. Why not?",
+      "options": [
+        "g8 is Black's only square, and a rook covers g8 only from the g-file or the eighth rank. Your own king blocks the g-file, and the eighth rank is check.",
+        "A rook can never stalemate a lone king in any position.",
+        "Because the black king is already in check, so stalemate cannot happen."
+      ],
+      "answer": { "option": 0 },
+      "concept": "stalemate",
+      "reason": "A rook on g1 reaches only as far as g5, because your king on g6 is in the way. Everything on the eighth rank checks. Rb8 is mate, and it is the only mate in the position."
+    },
+    {
+      "id": "3.5-k26",
+      "type": "play_it_out",
+      "fen": "7k/8/6K1/8/8/8/8/1R6 w - - 0 1",
+      "prompt": "King and rook against a bare king in the corner. Mate him in one.",
+      "goal": { "kind": "mate_in", "moves": 1 },
+      "concept": "stalemate",
+      "reason": "Rb8 is check along the eighth rank. g8 is covered by the rook, g7 and h7 by your king on g6, so there is nowhere to go. It is the only mate here."
+    },
+    {
+      "id": "3.5-k27",
+      "type": "find_them_all",
+      "fen": "8/k1P5/2K5/8/8/8/8/8 w - - 0 1",
+      "prompt": "Tap every square the black king on a7 can move to.",
+      "answer": { "squares": ["a6", "a8"] },
+      "concept": "stalemate",
+      "reason": "Your king on c6 covers b6, b7 and c7, so only a6 and a8 are left. Any promotion that covers both of them without check turns a win into a draw."
+    },
+    {
+      "id": "3.5-k28",
+      "type": "find_the_move",
+      "fen": "7k/3R4/8/PP6/4q3/8/5P1P/5RK1 b - - 0 1",
+      "prompt": "A queen against two rooks and four pawns, with two of them running. Play for the half point.",
+      "answer": { "moves": ["Qg4+"] },
+      "concept": "when-to-draw",
+      "reason": "Qg4 is check with Kh1 the only answer, and Qf3 then forces Kg1. White has two squares and no way off them, so his extra material never gets a move to use."
+    },
+    {
+      "id": "3.5-k29",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/3p4/3Q4/pp6/8/2r5/7K w - - 0 1",
+      "prompt": "The pawn on d6 is free, and taking it changes nothing. Play the move that draws.",
+      "answer": { "moves": ["Qg5+"] },
+      "concept": "when-to-draw",
+      "reason": "Qg5 forces Kh8 and Qf6 forces Kg8. Qxd6 wins a pawn and gives Black a free move, which is the one thing you cannot afford when you are two rooks down."
+    },
+    {
+      "id": "3.5-k30",
+      "type": "find_the_move",
+      "fen": "7k/2R5/1P6/P7/3q4/8/5P1P/5RK1 b - - 0 1",
+      "prompt": "White's pawn on b6 is loose and your queen attacks it. Ignore it and save the game instead.",
+      "answer": { "moves": ["Qg4+"] },
+      "concept": "when-to-draw",
+      "reason": "Qg4 forces Kh1, Qf3 forces Kg1, and the position repeats. Qxb6 wins a pawn and hands White the move he needs, and you are still a whole rook behind."
+    },
+    {
+      "id": "3.5-k31",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/8/1Q6/pp6/8/2r5/7K w - - 0 1",
+      "prompt": "Exactly one of your moves is check. Play it.",
+      "answer": { "moves": ["Qg5+"] },
+      "concept": "when-to-draw",
+      "reason": "Qg5 is the only check in the position, and Kh8 is the only reply to it. Qxb4 grabs a pawn instead and leaves Black free to bring a rook in and finish you off."
+    },
+    {
+      "id": "3.5-k32",
+      "type": "find_the_move",
+      "fen": "5rk1/5p1p/8/3Q4/pp1p4/8/2r5/7K w - - 0 1",
+      "prompt": "Three black pawns are on the fourth rank and your queen can take one of them. Do something better.",
+      "answer": { "moves": ["Qg5+"] },
+      "concept": "when-to-draw",
+      "reason": "Qg5 is check and Kh8 is forced, then Qf6 and Kg8. Qxd4 is a pawn and a free move for Black, and a pawn was never what this position was about."
+    },
+    {
+      "id": "3.5-k33",
+      "type": "is_it_safe",
+      "fen": "5rk1/5p1p/3p4/3Q4/pp6/8/2r5/7K w - - 0 1",
+      "move": "Qxd6",
+      "prompt": "Nothing defends the pawn on d6, so your queen takes it. Is that safe?",
+      "reasons": [
+        "Yes. The pawn really is free, and free material is always worth taking.",
+        "No. Qxd6 gives no check, so Black gets a move of his own, and one pawn does not change a position where you are two rooks and four pawns down.",
+        "No. The rook on f8 takes back on d6."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "when-to-draw",
+      "reason": "Nothing recaptures, so the pawn is genuinely free. It still loses, because the draw was never about material: it was about never letting Black have a move."
+    },
+    {
+      "id": "3.5-k34",
+      "type": "which_square",
+      "fen": "5rk1/5p1p/8/1Q6/pp6/8/2r5/7K w - - 0 1",
+      "prompt": "Tap the square your queen must check from to start the repetition.",
+      "answer": { "square": "g5" },
+      "concept": "when-to-draw",
+      "reason": "g5 is the only square in the whole position from which your queen gives check, and Kh8 is the only legal answer to it. From f6 she checks again next move."
+    },
+    {
+      "id": "3.5-k35",
+      "type": "find_the_sequence",
+      "fen": "7k/3R4/8/PP6/4q3/8/5P1P/5RK1 b - - 0 1",
+      "prompt": "Play out the draw: check, king moves, check from the other side, king moves back, check again.",
+      "answer": { "line": ["Qg4+", "Kh1", "Qf3+", "Kg1", "Qg4+"] },
+      "concept": "when-to-draw",
+      "reason": "White's own rook on f1 and his own pawns on f2 and h2 leave his king only g1 and h1, and g4 and f3 cover both. Each check has exactly one legal answer."
+    },
+    {
+      "id": "3.5-k36",
+      "type": "name_the_pattern",
+      "fen": "7k/2R5/1P6/P7/3q4/8/5P1P/5RK1 b - - 0 1",
+      "prompt": "Black has a queen, White has two rooks, four pawns and a passer on b6. What should Black be playing for?",
+      "options": [
+        "A draw by repetition. The material is hopeless, so the only plan worth having is a line of checks White cannot escape.",
+        "A win. The queen will pick off the pawns one by one while the rooks look on.",
+        "A blockade. Black should put the king in front of the b-pawn and hold everything."
+      ],
+      "answer": { "option": 0 },
+      "concept": "when-to-draw",
+      "reason": "Two rooks and four pawns beat a lone queen, and the passers decide it soon. Naming the right result early is what lets you find Qg4 instead of drifting into a loss."
+    }
+  ]
+}

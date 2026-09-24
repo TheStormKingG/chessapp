@@ -70,6 +70,41 @@ const SEARCH_TIMEOUT_MS = 30_000;
 const HANDSHAKE_TIMEOUT_MS = 30_000;
 const RESYNC_TIMEOUT_MS = 5_000;
 
+/**
+ * Stockfish REFUSED the position, rather than being slow on it.
+ *
+ * Distinguished from a timeout because the two demand opposite responses and
+ * the gate could not previously tell them apart. `top2` waited for `bestmove`
+ * and nothing else, so a refusal -- which never produces a `bestmove` --
+ * expired the same wait as a slow search and was reported as machine load.
+ * The comment at the call site then says, correctly, that a timeout is not a
+ * finding about the content and must not provoke re-authoring. Applied to a
+ * refusal that advice is exactly backwards: the engine is reporting a broken
+ * position and the gate translates it into "your machine is busy".
+ *
+ * The refusal this actually catches is `King can be captured`, which is
+ * Stockfish's answer to a position where the side not to move is in check --
+ * the same unreachable position `sideNotToMoveInCheck` now rejects up front.
+ * The two are deliberately redundant: the structural check is the one that
+ * reports well, and this one stops the engine lying about why it said nothing
+ * if that check is ever weakened or bypassed.
+ *
+ * Found by unit 3.4's author, who lost real time to a "timeout" that
+ * reproduced on an idle machine, which is the tell: a load fault does not
+ * reproduce on a specific position.
+ */
+class EngineRefusal extends Error {
+  constructor(fen, line) {
+    super(`engine refused the position: ${line}`);
+    this.name = 'EngineRefusal';
+    this.fen = fen;
+    this.line = line;
+  }
+}
+
+/** Lines on which Stockfish rejects the position outright instead of searching. */
+const ENGINE_REFUSAL = /king can be captured|CRITICAL ERROR/i;
+
 class EngineTimeout extends Error {
   constructor(ms, elapsed = ms) {
     super(`engine did not answer within ${String(ms)}ms`);
@@ -162,8 +197,22 @@ function startEngine() {
       send(`position fen ${fen}`);
       send(`go depth ${depth}`);
       try {
-        await until((x) => x.startsWith('bestmove'), timeoutMs);
+        // Watch for the refusal as well as the answer. Waiting only for
+        // `bestmove` is what made a rejected position indistinguishable from a
+        // slow one.
+        const settled = await until(
+          (x) => x.startsWith('bestmove') || ENGINE_REFUSAL.test(x),
+          timeoutMs,
+        );
+        if (ENGINE_REFUSAL.test(settled)) throw new EngineRefusal(fen, settled.trim());
       } catch (e) {
+        if (e instanceof EngineRefusal) {
+          // Resynchronise before rethrowing, so the positions after this one
+          // are analysed by an idle engine rather than inheriting this state.
+          send('isready');
+          await until((x) => x === 'readyok', RESYNC_TIMEOUT_MS).catch(() => {});
+          throw e;
+        }
         if (!(e instanceof EngineTimeout)) throw e;
         // Abandon this search and resynchronise, so the positions after it are
         // analysed by an idle engine rather than inheriting this one's state.
@@ -233,6 +282,35 @@ function fenProblem(fen, allowKingless) {
   return second.ok ? null : second.error;
 }
 
+/**
+ * Is the side that is NOT to move standing in check?
+ *
+ * `validateFen` says "well-formed", never "reachable", so it returns ok for a
+ * position no game could produce: one where the player who just moved left
+ * their own king attacked. Found by unit 3.6's author, who built two such
+ * boards by accident and caught them only with a check of their own -- the
+ * gate said nothing, and would have shipped a position the learner is asked to
+ * reason about as if it could occur.
+ *
+ * The test flips the side to move and asks chess.js whether that side is in
+ * check. Castling rights are irrelevant to the question and the en passant
+ * square is cleared, since it describes the move that has just been made and
+ * cannot survive the flip -- leaving it in makes chess.js reject the string
+ * and turns a real finding into a silent `false`.
+ */
+function sideNotToMoveInCheck(fen) {
+  const parts = fen.split(' ');
+  if (parts.length < 2) return false;
+  const flipped = [parts[0], parts[1] === 'w' ? 'b' : 'w', parts[2] ?? '-', '-', '0', '1'].join(' ');
+  try {
+    return new Chess(flipped).inCheck();
+  } catch {
+    // Not constructible flipped: this check has nothing to say, and the
+    // checks around it have already spoken about the position as given.
+    return false;
+  }
+}
+
 function tryMove(game, san) {
   try {
     return !!game.move(san);
@@ -253,6 +331,16 @@ async function checkChallenge(where, c) {
   } catch {
     chess = null; // accepted kingless teaching board: no playable position
   }
+  // Only for a real playable board. A kingless teaching position has no side
+  // to be in check, and `chess` is null for exactly those.
+  if (chess && sideNotToMoveInCheck(c.fen)) {
+    // Returns, like the `bad FEN` check above it: everything after this reasons
+    // about a position that cannot occur, so its findings would be noise. The
+    // engine would ALSO reject this one (see EngineRefusal) -- the redundancy
+    // is deliberate, but only one of the two should speak at a time, and the
+    // structural check is the one that names the problem in the author's terms.
+    return fail(where, 'bad FEN: the side not to move is in check, so the position is unreachable');
+  }
   const legal = chess ? chess.moves({ verbose: true }) : [];
   const ok = (san) => legal.some((m) => m.san === san);
   switch (c.type) {
@@ -264,6 +352,12 @@ async function checkChallenge(where, c) {
         try {
           [a, b] = await engine.top2(c.fen);
         } catch (e) {
+          if (e instanceof EngineRefusal) {
+            // A refusal IS a finding about the content, and the opposite of a
+            // timeout: the engine looked at the position and rejected it.
+            fail(where, `${e.message} (FEN ${c.fen})`);
+            break;
+          }
           if (!(e instanceof EngineTimeout)) throw e;
           // A timeout is NOT a finding about the content. The limit is
           // wall-clock, so a busy machine turns a green corpus red on a
@@ -283,6 +377,10 @@ async function checkChallenge(where, c) {
           try {
             [a, b] = await engine.top2(c.fen, 14, SEARCH_TIMEOUT_MS * 2);
           } catch (e2) {
+            if (e2 instanceof EngineRefusal) {
+              fail(where, `${e2.message} (FEN ${c.fen})`);
+              break;
+            }
             if (!(e2 instanceof EngineTimeout)) throw e2;
             instrumentFault(
               where,
