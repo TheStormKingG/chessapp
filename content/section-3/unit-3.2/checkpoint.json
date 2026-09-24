@@ -61,11 +61,11 @@
       "move": "Rxb5",
       "prompt": "White could take the knight at once with Rxb5. Is the rook safe on b5?",
       "reasons": [
-        "Yes. The knight was the only piece covering b5.",
         "No. The pawn on c6 takes it back, so you have paid a rook for a knight.",
+        "Yes. The knight was the only piece covering b5.",
         "No. The pawn on a7 takes it back."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 0 },
       "concept": "x-ray",
       "reason": "cxb5 answers, and the rook on b8 can take as well. Black has no pawn on a7. The knight is guarded twice, so add an attacker rather than buying it."
     },
@@ -93,11 +93,11 @@
       "fen": "3r2k1/4pppp/4p3/3n4/8/4PN2/5PPP/3R2K1 w - - 0 1",
       "prompt": "Why can the knight on d5 not simply run away once you play e4?",
       "options": [
-        "Because your rook on d1 would then attack the rook on d8, and nothing defends it.",
+        "Because the pawn on e6 would then be left undefended.",
         "Because the knight is pinned against the king on g8.",
-        "Because the pawn on e6 would then be left undefended."
+        "Because your rook on d1 would then attack the rook on d8, and nothing defends it."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 2 },
       "concept": "x-ray",
       "reason": "There is no pin: no white piece stands on the d5 to g8 diagonal, and the pawns on e6 and f7 block it anyway. The pawn on e6 is guarded by f7 in any case."
     },
@@ -116,11 +116,11 @@
       "fen": "6k1/5ppp/8/2p1b3/8/2B5/5PPP/5K2 w - - 0 1",
       "prompt": "The piece that was guarding e5 is now standing on e5. What is the lesson?",
       "options": [
-        "A guard that recaptures moves onto the square it was guarding, so aim a second piece at that square first.",
         "A guard that recaptures is always defended by whatever stood behind it.",
+        "A guard that recaptures moves onto the square it was guarding, so aim a second piece at that square first.",
         "A guard that recaptures can never be taken, because the exchange has finished."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "concept": "x-ray",
       "reason": "Nothing of Black's covers e5 now. Recapturing is a move like any other, and it puts the guard on a square you can already see."
     },
@@ -163,11 +163,11 @@
       "fen": "2rkr3/p1p4p/1n6/8/3N4/8/5PPP/3R2K1 w - - 0 1",
       "prompt": "Ne6 is also check from two pieces. Why is Nc6 mate and Ne6 not?",
       "options": [
-        "Nc6 covers e7 and Ne6 does not, so after Ne6 the king walks to e7.",
+        "Ne6 is not really a check, because the knight does not attack d8 from there.",
         "Ne6 can be taken by the pawn on c7.",
-        "Ne6 is not really a check, because the knight does not attack d8 from there."
+        "Nc6 covers e7 and Ne6 does not, so after Ne6 the king walks to e7."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 2 },
       "concept": "double-check",
       "reason": "A knight on e6 does attack d8, and the pawn on c7 captures on b6 and d6, not e6. The difference is only which flight square each knight covers."
     },
@@ -187,11 +187,11 @@
       "move": "Bf7#",
       "prompt": "Bf7 puts the bishop on a square right beside the black king. Is it safe there?",
       "reasons": [
-        "Yes. The rook on b8 defends f7.",
+        "Yes. The knight on g5 defends f7, so Kxf7 is not legal.",
         "No. The king simply takes it.",
-        "Yes. The knight on g5 defends f7, so Kxf7 is not legal."
+        "Yes. The rook on b8 defends f7."
       ],
-      "answer": { "safe": true, "reason": 2 },
+      "answer": { "safe": true, "reason": 0 },
       "concept": "double-check",
       "reason": "The rook on b8 covers the eighth rank and the b-file, not f7. The knight on g5 is what makes the bishop untouchable, and that is what turns the double check into mate."
     },
@@ -292,11 +292,11 @@
       "fen": "4k3/p4ppp/1p6/2q5/4N3/8/5PPP/4R1K1 w - - 0 1",
       "prompt": "Nxc5 hands the knight to a pawn. Why is it still right?",
       "options": [
-        "The rook on e1 checks the moment the knight leaves, so bxc5 is not a legal answer and the queen is gone before it becomes one.",
         "The knight on c5 is defended by the rook on e1.",
+        "The rook on e1 checks the moment the knight leaves, so bxc5 is not a legal answer and the queen is gone before it becomes one.",
         "The pawn on b6 is pinned against the king on e8."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "concept": "discovered-check",
       "reason": "The rook covers the e-file, not c5, and b6 is on no line with e8. Black does recapture, one move later, and by then it is a queen for a knight."
     },
@@ -316,11 +316,11 @@
       "move": "Nxb6+",
       "prompt": "The pawn on a7 guards b6. White takes the rook there anyway. Is the knight safe on b6?",
       "reasons": [
-        "Yes. axb6 does not answer the check, so it is illegal, and White's next move takes the knight out of reach.",
         "Yes. The pawn on a7 is pinned by the bishop on b3.",
+        "Yes. axb6 does not answer the check, so it is illegal, and White's next move takes the knight out of reach.",
         "No. axb6 wins a knight straight away."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "discovered-check",
       "reason": "a7 and b3 are on no common line, so nothing is pinned. Black's only legal moves are Kh8 and Kf8, and after either of them the knight retreats with the rook in the bag."
     },
@@ -330,11 +330,11 @@
       "fen": "6k1/p5pp/1r3p2/3N4/8/1B6/5PPP/6K1 w - - 0 1",
       "prompt": "Nxb6 takes a rook that a pawn is guarding. What pays for it?",
       "options": [
-        "The bishop on b3 checks the moment the knight steps aside, so Black must move the king and the knight escapes next move.",
+        "The rook on b6 was undefended anyway.",
         "The knight on b6 is defended by the bishop on b3.",
-        "The rook on b6 was undefended anyway."
+        "The bishop on b3 checks the moment the knight steps aside, so Black must move the king and the knight escapes next move."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 2 },
       "concept": "discovered-check",
       "reason": "The bishop covers c4, d5, e6 and f7, not b6, and the pawn on a7 does guard the rook. The check is the whole payment."
     },
@@ -380,11 +380,11 @@
       "fen": "4k3/p4ppp/1p6/2N5/8/8/5PPP/4R1K1 b - - 0 1",
       "prompt": "Why is bxc5 not available to Black here?",
       "options": [
-        "Black is in check from the rook on e1, and taking on c5 does nothing about it.",
+        "The knight on c5 is defended, so the capture would lose material.",
         "The pawn on b6 is pinned by the rook on e1.",
-        "The knight on c5 is defended, so the capture would lose material."
+        "Black is in check from the rook on e1, and taking on c5 does nothing about it."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 2 },
       "concept": "discovered-check",
       "reason": "Nothing defends the knight on c5 and nothing pins the pawn on b6. The capture is refused only because a check is outstanding, and Black loses the move he needed."
     },

@@ -57,11 +57,11 @@
       "move": "Qa2",
       "prompt": "You bring the queen to a2, aiming down the long diagonal at g8 to shut the king in. Is that safe?",
       "reasons": [
-        "Yes. The queen covers g8 and the king has to come out into the open.",
+        "No. It takes his last square away without giving check, so he has no legal move at all: stalemate, and the game is drawn.",
         "No. The queen on a2 is attacked by the black king.",
-        "No. It takes his last square away without giving check, so he has no legal move at all: stalemate, and the game is drawn."
+        "Yes. The queen covers g8 and the king has to come out into the open."
       ],
-      "answer": { "safe": false, "reason": 2 },
+      "answer": { "safe": false, "reason": 0 },
       "concept": "stalemate",
       "hints": {
         "text": "Count Black's legal moves after Qa2."

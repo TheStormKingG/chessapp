@@ -172,12 +172,12 @@
       "fen": "8/4k3/8/P7/8/8/8/7K w - - 0 1",
       "prompt": "Why does drawing a box replace counting the race move by move?",
       "options": [
-        "A king crosses a diagonal as fast as it crosses a file, so one box answers both distances at once.",
+        "Because a king is not allowed onto the last rank while a pawn is running.",
         "Because pawns may never move backwards.",
-        "Because a king is not allowed onto the last rank while a pawn is running."
+        "A king crosses a diagonal as fast as it crosses a file, so one box answers both distances at once."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "rule-of-the-square",
       "hints": {

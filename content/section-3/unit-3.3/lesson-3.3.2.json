@@ -113,11 +113,11 @@
       "fen": "8/p1P5/pk6/p7/P7/8/8/7K w - - 0 1",
       "prompt": "Why is the queen the wrong piece on c8, when she is the strongest piece on the board?",
       "options": [
-        "She covers every square the black king has left and he is not in check, so the game is drawn by stalemate.",
         "She can be taken by the king on b6.",
+        "She covers every square the black king has left and he is not in check, so the game is drawn by stalemate.",
         "She blocks her own rook on the c-file."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "concept": "under-promotion",
       "hints": { "text": "Count the black king's squares after she lands." },
       "reason": "Stalemate. b7, c7, c6 and c5 are the king's only squares and the queen covers all four, while the three pawns have been frozen all along. The king on b6 is not next to c8, and White has no rook."

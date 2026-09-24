@@ -35,11 +35,11 @@
       "fen": "3q4/5ppp/8/8/3k4/8/5PPP/R5K1 w - - 0 1",
       "prompt": "The black king is on d4 and the queen on d8. What happens if White gives check down the d-file?",
       "options": [
-        "The king must move off the file, and then the queen is taken.",
+        "Nothing. A king on d4 is not in danger from the d-file.",
         "The queen steps in front of the king and blocks the check.",
-        "Nothing. A king on d4 is not in danger from the d-file."
+        "The king must move off the file, and then the queen is taken."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 2 },
       "concept": "skewer",
       "hints": {
         "text": "Check the squares between d4 and d8. Is there anything for the queen to block on?"
@@ -110,11 +110,11 @@
       "move": "Bb2+",
       "prompt": "White gives the check with the bishop on b2. Is the bishop safe on that square?",
       "reasons": [
-        "Yes. No black piece can reach b2 at all.",
+        "No. The king walks over and takes it.",
         "No. The rook on g7 takes it along the diagonal.",
-        "No. The king walks over and takes it."
+        "Yes. No black piece can reach b2 at all."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 2 },
       "concept": "skewer",
       "hints": {
         "piece": "g7",

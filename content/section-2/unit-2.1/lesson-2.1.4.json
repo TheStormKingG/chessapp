@@ -83,11 +83,11 @@
       "fen": "4k3/8/4p3/3p4/2P1P3/8/8/4K3 w - - 0 1",
       "prompt": "Two attackers against one defender on d5. What happens if you take twice?",
       "options": [
-        "You come out a pawn ahead.",
+        "It is an even trade.",
         "You come out a pawn behind.",
-        "It is an even trade."
+        "You come out a pawn ahead."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 2 },
       "concept": "counting",
       "hints": {
         "square": "d5",
@@ -117,11 +117,11 @@
       "fen": "4k3/4n3/8/3b4/2P5/8/3R4/4K3 w - - 0 1",
       "prompt": "When two of your pieces attack the same square, which one takes first?",
       "options": [
-        "The cheapest one, so the least is at risk.",
         "The strongest one, so it hits hardest.",
+        "The cheapest one, so the least is at risk.",
         "It makes no difference which order you use."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "concept": "counting",
       "hints": {
         "text": "Whatever you put on the square first is what they take."

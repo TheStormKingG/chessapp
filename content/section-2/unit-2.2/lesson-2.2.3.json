@@ -87,11 +87,11 @@
       "fen": "3q1k2/ppr4p/8/6N1/8/8/5PPP/4R1K1 w - - 0 1",
       "prompt": "The knight lands on e6 with check. How many black pieces does it attack from there?",
       "options": [
-        "Three: the king on f8, the queen on d8 and the rook on c7.",
+        "One: only the king on f8.",
         "Two: the king on f8 and the rook on c7.",
-        "One: only the king on f8."
+        "Three: the king on f8, the queen on d8 and the rook on c7."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 2 },
       "concept": "family-fork",
       "hints": {
         "piece": "g5",

@@ -108,12 +108,12 @@
       "prompt": "Your opponent offers you a draw. What are you allowed to do?",
       "concept": "draw-offer",
       "options": [
-        "Accept it, or turn it down and play on",
+        "Ignore it, an offer is not part of the game",
         "Accept it, because an offer cannot be refused",
-        "Ignore it, an offer is not part of the game"
+        "Accept it, or turn it down and play on"
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "reason": "An offer is a question, not an order. Making your move is a polite no."
     },
@@ -124,12 +124,12 @@
       "prompt": "Your clock runs out while your opponent still has enough material to mate. What is the result?",
       "concept": "the-clock",
       "options": [
-        "You lose the game on time",
         "The game is a draw",
+        "You lose the game on time",
         "You keep playing without the clock"
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "reason": "Time is part of the game: your thinking has to fit inside it."
     },

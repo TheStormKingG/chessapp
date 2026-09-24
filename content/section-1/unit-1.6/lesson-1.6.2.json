@@ -85,12 +85,12 @@
       "fen": "2kr3r/ppp2ppp/2n1b3/4p1q1/2B1P3/2NP1N2/PPP2PPP/R1BQ1RK1 w - - 0 1",
       "prompt": "You have listed your own checks and captures. What goes on the list next?",
       "options": [
-        "Every check and capture your opponent has",
         "Every square your queen could reach in two moves",
+        "Every check and capture your opponent has",
         "How many pieces each side has left"
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "checks-and-captures"
     },

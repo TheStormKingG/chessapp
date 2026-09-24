@@ -188,10 +188,10 @@
       "concept": "king-moves",
       "reasons": [
         "A rook cannot take backwards.",
-        "It steps right in front of the rook, which takes it for nothing.",
-        "The pawn is defended by the king."
+        "The pawn is defended by the king.",
+        "It steps right in front of the rook, which takes it for nothing."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 2 },
       "hints": { "piece": "h2", "square": "h3" }
     },
     {

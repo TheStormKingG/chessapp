@@ -34,11 +34,11 @@
       "prompt": "White castles short. Is that a good idea here?",
       "move": "O-O",
       "reasons": [
-        "It puts the king in the corner behind the pawns on f2, g2 and h2, and brings the rook towards the middle.",
         "The bishop on c5 takes the pawn on f2 and wins it.",
+        "It puts the king in the corner behind the pawns on f2, g2 and h2, and brings the rook towards the middle.",
         "The rook on h1 has not moved yet, so castling is not allowed."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "habit-one"
     },
     {
@@ -63,10 +63,10 @@
       "move": "Nxc6",
       "reasons": [
         "The queen on d8 takes back and White loses three for nothing.",
-        "Nothing on c6 can be taken back, so it wins a free knight.",
-        "Knight for knight, and the pawn on d7 takes back. Three points each."
+        "Knight for knight, and the pawn on d7 takes back. Three points each.",
+        "Nothing on c6 can be taken back, so it wins a free knight."
       ],
-      "answer": { "safe": true, "reason": 2 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "habit-one"
     },
     {
@@ -85,11 +85,11 @@
       "fen": "r1bqk2r/pppp1ppp/2n2n2/2b1p3/2B1P3/5N2/PPPP1PPP/RNBQK2R w KQkq - 0 1",
       "prompt": "Your opponent offers you a free pawn early on. What does habit level one say?",
       "options": [
-        "Take it if nothing takes back, and carry on developing",
+        "Give a piece back straight away to keep things even",
         "Refuse it, because a free pawn is always a trap",
-        "Give a piece back straight away to keep things even"
+        "Take it if nothing takes back, and carry on developing"
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 2 },
       "concept": "habit-one"
     },
     {

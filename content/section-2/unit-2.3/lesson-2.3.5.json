@@ -69,11 +69,11 @@
       "fen": "3q2k1/3n1ppp/8/4N3/8/8/5PPP/3R2K1 w - - 0 1",
       "prompt": "The rook and the knight now both attack d7. What has Black got left?",
       "options": [
-        "Only the queen defends it, so the knight will be won next move.",
         "The knight is defended twice over and is perfectly safe.",
+        "Only the queen defends it, so the knight will be won next move.",
         "Black can simply move the knight away and lose nothing."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "concept": "keep-the-pin",
       "hints": {
         "text": "Count the attackers, then count the defenders, then ask whether the knight is allowed to run."
@@ -128,11 +128,11 @@
       "move": "c5",
       "prompt": "White pushes the pawn to c5, right beside the black knight. Is the pawn safe there?",
       "reasons": [
-        "No. The knight on d6 takes it.",
         "Yes. No black piece attacks c5 at all.",
+        "No. The knight on d6 takes it.",
         "No. The pawn on b7 takes it."
       ],
-      "answer": { "safe": true, "reason": 1 },
+      "answer": { "safe": true, "reason": 0 },
       "concept": "keep-the-pin",
       "hints": {
         "piece": "d6",

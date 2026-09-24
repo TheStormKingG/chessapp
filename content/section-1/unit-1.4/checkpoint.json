@@ -10,12 +10,12 @@
       "fen": "4k3/8/8/8/8/8/PPP2PPP/R3K3 w - - 0 1",
       "prompt": "The squares are clear and nothing is attacked, but White may not castle. Why?",
       "options": [
-        "The king has moved earlier in the game",
         "The rook has to jump over the king",
+        "The king has moved earlier in the game",
         "There are pawns on the second row"
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "castling-restrictions"
     },
@@ -25,12 +25,12 @@
       "fen": "4k3/8/8/8/8/8/5PPP/R3K2R w Q - 0 1",
       "prompt": "White may castle on the long side but not on the short side. Why?",
       "options": [
-        "The rook on h1 has already moved",
+        "The king is in check",
         "f1 and g1 are occupied",
-        "The king is in check"
+        "The rook on h1 has already moved"
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "castling-restrictions"
     },
@@ -55,12 +55,12 @@
       "fen": "6rk/8/8/8/8/8/5P1P/4K2R w K - 0 1",
       "prompt": "Both pieces are at home and f1 and g1 are empty. What stops White castling?",
       "options": [
-        "The king would land on g1, which the rook on g8 attacks",
+        "A king may not castle towards an enemy king",
         "The king has already moved",
-        "A king may not castle towards an enemy king"
+        "The king would land on g1, which the rook on g8 attacks"
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "castling-restrictions"
     },
@@ -460,12 +460,12 @@
       "fen": "4k3/8/8/8/8/8/5PPP/R3K2R w KQ - 0 1",
       "prompt": "Which of these is written O-O-O?",
       "options": [
-        "The king to c1 and the rook to d1",
+        "Three moves in a row by the king",
         "The king to g1 and the rook to f1",
-        "Three moves in a row by the king"
+        "The king to c1 and the rook to d1"
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "notation"
     },
@@ -475,12 +475,12 @@
       "fen": "4k3/8/8/8/8/8/6PP/6K1 w - - 0 1",
       "prompt": "You let go of your bishop on a square you now regret. What happens?",
       "options": [
-        "The bishop stays there, the move is made",
         "You may take it back once per game",
+        "The bishop stays there, the move is made",
         "Your opponent decides whether it stands"
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "touch-move"
     },
@@ -490,12 +490,12 @@
       "fen": "4k3/8/8/8/8/8/5PPP/6K1 w - - 0 1",
       "prompt": "You want to straighten a piece that is sitting half off its square. What do you say first?",
       "options": [
-        "\"I adjust\", before you touch it",
+        "\"Check\", to warn your opponent",
         "Nothing, adjusting is always allowed",
-        "\"Check\", to warn your opponent"
+        "\"I adjust\", before you touch it"
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "touch-move"
     },
@@ -505,12 +505,12 @@
       "fen": "4k3/8/8/8/8/8/4PPPP/6K1 w - - 0 1",
       "prompt": "Your opponent resigns. What does that mean?",
       "options": [
-        "They have given up and you have won",
         "They want a draw",
+        "They have given up and you have won",
         "The game is replayed from the start"
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "resigning"
     },
@@ -520,12 +520,12 @@
       "fen": "4k3/8/8/8/8/8/3PPPP1/6K1 w - - 0 1",
       "prompt": "You offer a draw and your opponent replies by making a move. What has happened?",
       "options": [
-        "They have turned the offer down",
         "They have accepted",
+        "They have turned the offer down",
         "You must offer again"
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "draw-offer"
     },

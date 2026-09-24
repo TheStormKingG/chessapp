@@ -19,11 +19,11 @@
       "fen": "8/kppN4/8/4R3/8/7q/8/1K6 w - - 0 1",
       "prompt": "Ra5 is mate. Which piece is doing the part that is easy to miss?",
       "options": [
-        "The knight on d7, which takes both b6 and b8 away from the king in one go.",
+        "The black queen on h3, which is too far away to defend her own king.",
         "The white king on b1, which covers a2 and b2 behind the rook.",
-        "The black queen on h3, which is too far away to defend her own king."
+        "The knight on d7, which takes both b6 and b8 away from the king in one go."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 2 },
       "concept": "anastasia-mate",
       "reason": "A rook on a5 only covers the a-file. Every square the king could step sideways to, b6 and b8, belongs to the knight on d7, and b7 is blocked by Black's own pawn."
     },
@@ -44,10 +44,10 @@
       "prompt": "White plays Ra5, two squares from the black king. Is the rook safe there?",
       "reasons": [
         "No. The king walks to a6 and takes it next move.",
-        "No. The pawn on b7 comes down and takes it.",
-        "Yes. Nothing black can reach a5, and the king is two squares away."
+        "Yes. Nothing black can reach a5, and the king is two squares away.",
+        "No. The pawn on b7 comes down and takes it."
       ],
-      "answer": { "safe": true, "reason": 2 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "anastasia-mate",
       "reason": "Black has a king and two pawns. The pawns on b7 and c7 capture towards a6 and c6 and d6, never as far as a5, and the king is mated on the spot, so he never gets to walk anywhere."
     },
@@ -75,11 +75,11 @@
       "fen": "k4q2/7R/2N5/8/8/8/8/1K6 w - - 0 1",
       "prompt": "After Ra7 the black king cannot take the rook. Why not?",
       "options": [
-        "The knight on c6 guards a7, and it covers b8 as well.",
         "The black queen on f8 is pinned and cannot leave the back rank.",
+        "The knight on c6 guards a7, and it covers b8 as well.",
         "The white king on b1 defends a7 along the file."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "concept": "arabian-mate",
       "reason": "A knight on c6 attacks a7 and b8. So the rook is protected where it lands, b8 is covered, and b7 is taken by the rook along the rank. Rook and knight and nothing else: the Arabian mate."
     },
@@ -99,11 +99,11 @@
       "move": "Ra7#",
       "prompt": "The rook lands on a7, right beside the black king. Is it safe there?",
       "reasons": [
-        "No. The king takes it, because nothing of White's defends a7.",
         "Yes. The knight on c6 guards a7, so the king may not take it.",
+        "No. The king takes it, because nothing of White's defends a7.",
         "No. The pawn on h5 runs down and takes it."
       ],
-      "answer": { "safe": true, "reason": 1 },
+      "answer": { "safe": true, "reason": 0 },
       "concept": "arabian-mate",
       "reason": "A knight on c6 attacks a7. The king may not capture a defended piece, and a pawn on h5 is on the wrong side of the board entirely. Ra7 is mate."
     },
@@ -131,11 +131,11 @@
       "fen": "3k4/2p5/8/1B6/8/8/7q/1K2R3 w - - 0 1",
       "prompt": "Re8 is mate. What is the bishop on b5 doing that makes it work?",
       "options": [
-        "It guards e8 so the king may not take, and it covers d7 at the same time.",
+        "It attacks the pawn on c7, which is why the pawn cannot move.",
         "It blocks the black queen's route back to the back rank.",
-        "It attacks the pawn on c7, which is why the pawn cannot move."
+        "It guards e8 so the king may not take, and it covers d7 at the same time."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 2 },
       "concept": "opera-mate",
       "reason": "The b5 bishop runs b5-c6-d7-e8. That single diagonal both protects the rook on e8 and takes d7 from the king. Without it, Kxe8 is simply legal."
     },
@@ -155,11 +155,11 @@
       "move": "Re8#",
       "prompt": "The rook drops onto e8, right beside the black king. Is it safe there?",
       "reasons": [
-        "No. The pawn on c7 covers e8.",
+        "Yes. The bishop on b5 guards e8 through c6 and d7.",
         "No. The king simply takes it.",
-        "Yes. The bishop on b5 guards e8 through c6 and d7."
+        "No. The pawn on c7 covers e8."
       ],
-      "answer": { "safe": true, "reason": 2 },
+      "answer": { "safe": true, "reason": 0 },
       "concept": "opera-mate",
       "reason": "b5, c6, d7, e8 is one clear diagonal, so the rook is defended and Kxe8 is illegal. A pawn on c7 attacks b6 and d6, nowhere near e8."
     },
@@ -268,10 +268,10 @@
       "prompt": "The rook lands on a7 beside the king. Is it safe there?",
       "reasons": [
         "No. The king takes it, because nothing defends a7.",
-        "Yes. The knight on b5 guards a7.",
-        "No. The pawn on a6 takes it."
+        "No. The pawn on a6 takes it.",
+        "Yes. The knight on b5 guards a7."
       ],
-      "answer": { "safe": true, "reason": 1 },
+      "answer": { "safe": true, "reason": 2 },
       "concept": "hook-mate",
       "reason": "A knight on b5 attacks a7 and c7. The king may not take a defended rook, and a black pawn on a6 captures towards b5, never backwards to a7."
     },
@@ -326,11 +326,11 @@
       "fen": "kr6/2p5/8/8/3Q4/4B3/K7/8 w - - 0 1",
       "prompt": "White plays Qa7 and it is mate. What stops the king from taking the queen?",
       "options": [
-        "The bishop on e3, which guards a7 along the diagonal the queen has just cleared.",
         "The white king on a2, which defends a7 up the a-file.",
+        "The bishop on e3, which guards a7 along the diagonal the queen has just cleared.",
         "The black rook on b8, which is pinned against its own king."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "concept": "greco-mate",
       "reason": "The queen leaves d4 and the bishop's diagonal e3-d4-c5-b6-a7 is suddenly clear, so the queen is defended where she lands. Bishop on the diagonal, queen beside the king: Greco's mate."
     },
@@ -408,11 +408,11 @@
       "fen": "2rkr3/6pp/8/8/8/Q7/8/1K6 w - - 0 1",
       "prompt": "Qd6 is mate. What has actually trapped the king on d8?",
       "options": [
-        "His own rooks on c8 and e8, which take away both sideways squares.",
         "The white king on b1, which covers c7 from a distance.",
+        "His own rooks on c8 and e8, which take away both sideways squares.",
         "The pawns on g7 and h7, which stop him running to the corner."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "concept": "epaulette-mate",
       "reason": "The king has five squares. c8 and e8 are his own rooks, sitting like epaulettes on his shoulders, and the queen on d6 takes c7, d7 and e7. The pawns on g7 and h7 are nowhere near him."
     },

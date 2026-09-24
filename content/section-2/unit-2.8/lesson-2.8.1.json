@@ -90,12 +90,12 @@
       "fen": "rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq d6 0 2",
       "prompt": "White writes exd5. What is the small e at the front telling you?",
       "options": [
-        "The capturing pawn came from the e-file.",
         "A piece called E is making the capture.",
+        "The capturing pawn came from the e-file.",
         "The pawn that gets taken came from the e-file."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "notation",
       "hints": {

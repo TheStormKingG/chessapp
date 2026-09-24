@@ -34,12 +34,12 @@
       "fen": "8/2Q5/k7/2K5/8/8/8/8 b - - 0 1",
       "prompt": "Black to move. What is the position?",
       "options": [
-        "Stalemate — the game is a draw.",
         "Checkmate — White wins.",
+        "Stalemate — the game is a draw.",
         "Check, and the king steps aside."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "stalemate",
       "reason": "Nothing attacks a6, so it is not check. But a5, b5, b6, a7 and b7 are all covered, so Black has no move.",
@@ -53,12 +53,12 @@
       "fen": "Q2k4/7R/8/2K5/8/8/8/8 b - - 0 1",
       "prompt": "Black to move. What is the position?",
       "options": [
-        "Stalemate — the game is a draw.",
         "Checkmate — White wins.",
+        "Stalemate — the game is a draw.",
         "Check, and the king steps aside."
       ],
       "answer": {
-        "option": 1
+        "option": 0
       },
       "concept": "stalemate",
       "reason": "The queen on a8 attacks d8 along the rank, so this one is check, and the rook on h7 takes the whole seventh rank away.",
@@ -90,12 +90,12 @@
       "prompt": "White brings the queen to g6. Is that safe?",
       "reasons": [
         "The black king escapes through h7 and runs to the middle.",
-        "It takes g8 and h7 away without giving check, so Black has no legal move: stalemate, and the win is gone.",
-        "The queen on g6 is undefended and the king takes her."
+        "The queen on g6 is undefended and the king takes her.",
+        "It takes g8 and h7 away without giving check, so Black has no legal move: stalemate, and the win is gone."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "concept": "stalemate",
       "hints": {
@@ -110,13 +110,13 @@
       "move": "Qg7#",
       "prompt": "White brings the queen to g7 instead. Is that safe?",
       "reasons": [
-        "It hangs the queen to the king on h8.",
+        "It gives check, the white king on f6 defends g7, and there is no square left: checkmate.",
         "It is stalemate, because the king has nowhere to go.",
-        "It gives check, the white king on f6 defends g7, and there is no square left: checkmate."
+        "It hangs the queen to the king on h8."
       ],
       "answer": {
         "safe": true,
-        "reason": 2
+        "reason": 0
       },
       "concept": "stalemate",
       "hints": {

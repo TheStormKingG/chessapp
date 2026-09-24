@@ -38,8 +38,8 @@
       "type": "name_the_pattern",
       "fen": "3qk3/8/8/8/8/8/8/R2RK3 w - - 0 1",
       "prompt": "Two rooks against a queen: who has more?",
-      "options": ["The queen", "The two rooks", "Exactly equal"],
-      "answer": { "option": 1 },
+      "options": ["The two rooks", "The queen", "Exactly equal"],
+      "answer": { "option": 0 },
       "concept": "values",
       "hints": {
         "text": "A rook is worth five and a queen nine.",
@@ -54,10 +54,10 @@
       "prompt": "The bishop takes the pawn on f7. Is that a good deal?",
       "reasons": [
         "A pawn is a pawn.",
-        "The knight on h6 takes back and you lose 3 for 1.",
-        "The king on a8 takes back."
+        "The king on a8 takes back.",
+        "The knight on h6 takes back and you lose 3 for 1."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 2 },
       "concept": "values",
       "hints": { "piece": "h6", "text": "The king on a8 is nowhere near f7, so it is not the piece that takes back." }
     },

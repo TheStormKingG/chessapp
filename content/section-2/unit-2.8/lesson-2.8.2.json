@@ -53,12 +53,12 @@
       "fen": "6k1/3n4/8/4p3/4R3/8/5PPP/6K1 w - - 0 1",
       "prompt": "You have eight minutes left and Rxe5 looks free. What do you do before you play it?",
       "options": [
-        "Check every black piece that can reach e5.",
+        "Move the rook somewhere safe instead and think later.",
         "Play it. A free pawn is a free pawn.",
-        "Move the rook somewhere safe instead and think later."
+        "Check every black piece that can reach e5."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "the-clock",
       "hints": {
@@ -74,12 +74,12 @@
       "prompt": "The rook takes the pawn on e5. Is it safe there?",
       "reasons": [
         "Yes. Nothing black can reach e5.",
-        "No. The king on g8 takes it back.",
-        "No. The knight on d7 takes it back."
+        "No. The knight on d7 takes it back.",
+        "No. The king on g8 takes it back."
       ],
       "answer": {
         "safe": false,
-        "reason": 2
+        "reason": 1
       },
       "concept": "the-clock",
       "hints": {
@@ -96,12 +96,12 @@
       "prompt": "Same capture, a different board. The rook takes on e5. Is it safe there?",
       "reasons": [
         "Yes. Nothing defends the pawn on e5.",
-        "No. The king on g8 takes it back.",
-        "No. The pawn on f6 takes it back."
+        "No. The pawn on f6 takes it back.",
+        "No. The king on g8 takes it back."
       ],
       "answer": {
         "safe": false,
-        "reason": 2
+        "reason": 1
       },
       "concept": "the-clock",
       "hints": {
@@ -117,13 +117,13 @@
       "move": "Rxd5",
       "prompt": "The rook takes the knight on d5. You have checked the reply. Is the rook safe there?",
       "reasons": [
-        "No. The king on g8 takes it back.",
         "Yes. No black piece can reach d5.",
+        "No. The king on g8 takes it back.",
         "No. The pawn on f7 takes it back."
       ],
       "answer": {
         "safe": true,
-        "reason": 1
+        "reason": 0
       },
       "concept": "the-clock",
       "hints": {
@@ -178,12 +178,12 @@
       "fen": "6k1/5ppp/8/3n4/8/8/5PPP/3R2K1 w - - 0 1",
       "prompt": "You are twenty minutes ahead of your opponent on the clock in a slow game. How should you spend that?",
       "options": [
-        "Give each move the time it needs. That is what the time is for.",
+        "Save it all for the endgame and move fast until then.",
         "Play quickly so you stay ahead of him on the clock.",
-        "Save it all for the endgame and move fast until then."
+        "Give each move the time it needs. That is what the time is for."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "the-clock",
       "hints": {

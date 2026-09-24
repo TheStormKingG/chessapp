@@ -436,13 +436,13 @@
       "move": "Rxd5",
       "prompt": "The rook takes the rook on d5. Is that safe?",
       "reasons": [
-        "The rook on d5 has no defender, so this is five points for nothing.",
+        "The rook on d3 is needed at home to guard the king on e1.",
         "The king on e8 takes back and the rooks come off level.",
-        "The rook on d3 is needed at home to guard the king on e1."
+        "The rook on d5 has no defender, so this is five points for nothing."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "take-free"
     },
@@ -470,13 +470,13 @@
       "move": "O-O",
       "prompt": "White castles short. Is that safe?",
       "reasons": [
-        "The knight on f6 takes the pawn on e4 first, so there is no time for it.",
+        "The king goes to the corner behind the pawns on f2, g2 and h2, and the rook on h1 comes to f1.",
         "The bishop on c5 attacks g1 along the diagonal, so the king walks into it.",
-        "The king goes to the corner behind the pawns on f2, g2 and h2, and the rook on h1 comes to f1."
+        "The knight on f6 takes the pawn on e4 first, so there is no time for it."
       ],
       "answer": {
         "safe": true,
-        "reason": 2
+        "reason": 0
       },
       "concept": "habit-one"
     },
@@ -552,12 +552,12 @@
       "fen": "4k3/8/8/2b5/8/2N5/1PP5/2KR4 w - - 0 1",
       "prompt": "Which order do the three questions go in?",
       "options": [
-        "Is my piece safe, can I take something, is my king safe",
+        "Is my king safe, is my piece safe, can I take something",
         "Can I take something, is my king safe, is my piece safe",
-        "Is my king safe, is my piece safe, can I take something"
+        "Is my piece safe, can I take something, is my king safe"
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "three-questions"
     },

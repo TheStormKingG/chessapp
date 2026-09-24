@@ -108,12 +108,12 @@
       "fen": "2r3k1/p1q3pp/5p2/3N4/8/1B6/5PPP/3R2K1 w - - 0 1",
       "prompt": "Nxc7 hands a knight to a guarded square. Why does it win anyway?",
       "options": [
-        "The check from b3 has to be answered first, so the guard is not allowed to recapture this move.",
         "The rook on c8 is pinned to the king on g8 and cannot capture at all.",
+        "The check from b3 has to be answered first, so the guard is not allowed to recapture this move.",
         "The knight on c7 is defended by the rook on d1."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "discovered-check",
       "hints": {
@@ -166,12 +166,12 @@
       "prompt": "The rook on g8 guards g7. White takes the queen there anyway. Is the bishop safe on g7 for now?",
       "reasons": [
         "Yes. The rook on d1 defends g7.",
-        "No. The rook on g8 takes it straight away.",
-        "Yes. Rxg7 does not answer the check, so Black has to move his king first."
+        "Yes. Rxg7 does not answer the check, so Black has to move his king first.",
+        "No. The rook on g8 takes it straight away."
       ],
       "answer": {
         "safe": true,
-        "reason": 2
+        "reason": 1
       },
       "concept": "discovered-check",
       "hints": {

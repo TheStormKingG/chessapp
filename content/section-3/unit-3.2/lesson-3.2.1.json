@@ -132,11 +132,11 @@
       "move": "Rxc5",
       "prompt": "White could simply take the knight with Rxc5. Is the rook safe on c5?",
       "reasons": [
-        "No. The pawn on b6 takes it back, so you have paid a rook for a knight.",
         "Yes. The knight was Black's only guard of c5.",
+        "No. The pawn on b6 takes it back, so you have paid a rook for a knight.",
         "No. The pawn on b7 takes it back."
       ],
-      "answer": { "safe": false, "reason": 0 },
+      "answer": { "safe": false, "reason": 1 },
       "concept": "x-ray",
       "hints": {
         "text": "Count the black pieces that cover c5 before you take."

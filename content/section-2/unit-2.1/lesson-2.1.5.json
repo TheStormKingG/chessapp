@@ -92,11 +92,11 @@
       "move": "Rd8+",
       "prompt": "White gives check with the rook on d8. Is that safe?",
       "reasons": [
-        "No. The king on e8 takes the rook.",
+        "No. The pawn on e7 takes the rook.",
         "Yes. Nothing can reach d8.",
-        "No. The pawn on e7 takes the rook."
+        "No. The king on e8 takes the rook."
       ],
-      "answer": { "safe": false, "reason": 0 },
+      "answer": { "safe": false, "reason": 2 },
       "concept": "sanity-check",
       "hints": {
         "piece": "e8",
@@ -122,11 +122,11 @@
       "fen": "6k1/5ppp/8/8/8/8/4qPPP/4R1K1 w - - 0 1",
       "prompt": "What do you check before you play a capture like this one?",
       "options": [
-        "Whether Black has a check or a capture on the board you leave behind.",
+        "Whether the queen is worth enough to bother taking.",
         "Whether the rook is your best piece.",
-        "Whether the queen is worth enough to bother taking."
+        "Whether Black has a check or a capture on the board you leave behind."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 2 },
       "concept": "sanity-check",
       "hints": {
         "text": "The board you are looking at is not the board they will answer on."

@@ -127,10 +127,10 @@
       "prompt": "The pawn on a7 is defended by nothing, so White can take it. Is the bishop safe on a7?",
       "reasons": [
         "Yes. Nothing attacks a7, so it is simply a free pawn.",
-        "No. The rook on e8 takes the bishop at once.",
-        "No. Black plays b6, and then a7 leads only to b8 and b6 — the knight on d7 covers both."
+        "No. Black plays b6, and then a7 leads only to b8 and b6 — the knight on d7 covers both.",
+        "No. The rook on e8 takes the bishop at once."
       ],
-      "answer": { "safe": false, "reason": 2 },
+      "answer": { "safe": false, "reason": 1 },
       "concept": "trapped-piece",
       "hints": { "text": "Count the bishop's squares after Black has had one move, not before." },
       "reason": "Safe for exactly one move. b6 closes the diagonal behind the bishop, and the knight on d7 watches b8 and b6, so Bxb6 cxb6 ends with a bishop given for two pawns. The rook on e8 never reaches a7 at all."

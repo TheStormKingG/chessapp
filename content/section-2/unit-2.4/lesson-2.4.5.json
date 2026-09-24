@@ -57,12 +57,12 @@
       "fen": "5rk1/5p2/6P1/7Q/8/8/2q2PPP/6K1 w - - 0 1",
       "prompt": "What is the white pawn on g6 doing in this position?",
       "options": [
-        "It guards h7, so a queen landing there cannot be taken.",
+        "It is attacking the rook on f8.",
         "It is one step from promoting.",
-        "It is attacking the rook on f8."
+        "It guards h7, so a queen landing there cannot be taken."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "damiano",
       "hints": {
@@ -129,12 +129,12 @@
       "prompt": "White plays the queen to h7, right next to the black king. Is the queen safe there?",
       "reasons": [
         "No. The king takes her.",
-        "Yes. The pawn on g6 defends h7.",
-        "No. The rook on f8 takes her."
+        "No. The rook on f8 takes her.",
+        "Yes. The pawn on g6 defends h7."
       ],
       "answer": {
         "safe": true,
-        "reason": 1
+        "reason": 2
       },
       "concept": "damiano",
       "hints": {

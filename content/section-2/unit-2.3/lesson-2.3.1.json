@@ -95,12 +95,12 @@
       "fen": "4k3/pp3ppp/2n5/1B2n3/8/8/P3RPPP/4K3 w - - 0 1",
       "prompt": "Why may the knight on e5 not move?",
       "options": [
-        "Moving it would leave the black king in check from the rook on e2.",
+        "It is defending the knight on c6.",
         "It has no squares to go to.",
-        "It is defending the knight on c6."
+        "Moving it would leave the black king in check from the rook on e2."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "absolute-pin",
       "hints": {

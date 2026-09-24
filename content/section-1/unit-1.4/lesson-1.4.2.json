@@ -89,12 +89,12 @@
       "prompt": "Black pushed this pawn two squares three moves ago. Can White take it en passant now?",
       "concept": "en-passant-timing",
       "options": [
-        "No — the offer lasts for one move only",
+        "Yes, but only once per game",
         "Yes, as long as the pawns still stand side by side",
-        "Yes, but only once per game"
+        "No — the offer lasts for one move only"
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "reason": "En passant is answered on the spot or not at all."
     },
@@ -105,12 +105,12 @@
       "prompt": "This black pawn walked to d5 one square at a time. Is en passant on offer?",
       "concept": "en-passant-timing",
       "options": [
-        "No — only a two-square jump can be answered this way",
         "Yes, any pawn beside yours can be taken this way",
+        "No — only a two-square jump can be answered this way",
         "Yes, because your pawn is on the fifth row"
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "reason": "The rule exists to stop a pawn sneaking past, so a pawn that walked has nothing to answer."
     },

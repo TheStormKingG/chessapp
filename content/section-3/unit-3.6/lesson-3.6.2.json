@@ -73,12 +73,12 @@
       "fen": "2b3k1/1p1p1ppp/4p3/4N3/8/8/PPP2PPP/6K1 w - - 0 1",
       "prompt": "A minor piece and six pawns each. Who is better, and why?",
       "options": [
-        "White, because his knight has eight squares and the black bishop has none.",
+        "Black, because bishops are stronger than knights in open positions.",
         "Level, because a bishop and a knight are both worth three points.",
-        "Black, because bishops are stronger than knights in open positions."
+        "White, because his knight has eight squares and the black bishop has none."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "piece-activity",
       "hints": {
@@ -106,12 +106,12 @@
       "fen": "n3r1k1/p1p2ppp/1p6/4N3/8/8/PPP2PPP/3R2K1 w - - 0 1",
       "prompt": "A rook, a knight and six pawns each. Who is better, and why?",
       "options": [
-        "Level. Both sides have exactly the same pieces and the same number of pawns.",
         "White, because Black’s knight has no move at all, so Black fights the rest of the board a piece short.",
+        "Level. Both sides have exactly the same pieces and the same number of pawns.",
         "Black, because his pawn on b6 controls more space than any white pawn."
       ],
       "answer": {
-        "option": 1
+        "option": 0
       },
       "concept": "piece-activity",
       "hints": {
@@ -164,11 +164,11 @@
       "prompt": "A rook and five pawns each, and Black to move. Who is better, and why?",
       "options": [
         "White, because his rook stands on an open file and Black’s does not.",
-        "Level, because each side has a rook and the same number of pawns.",
-        "Black, because his rook has reached the second rank and White’s is doing nothing."
+        "Black, because his rook has reached the second rank and White’s is doing nothing.",
+        "Level, because each side has a rook and the same number of pawns."
       ],
       "answer": {
-        "option": 2
+        "option": 1
       },
       "concept": "piece-activity",
       "hints": {

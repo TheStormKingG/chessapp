@@ -44,8 +44,8 @@
       "type": "name_the_pattern",
       "fen": "6k1/8/5p2/4r3/3P4/5N2/8/4RK2 w - - 0 1",
       "prompt": "Three attackers, one defender. Can you win the square?",
-      "options": ["Yes", "No", "Only with the queen"],
-      "answer": { "option": 0 },
+      "options": ["Only with the queen", "No", "Yes"],
+      "answer": { "option": 2 },
       "concept": "counting",
       "hints": {
         "text": "There is no queen anywhere on this board, so that answer cannot be the one.",
@@ -71,10 +71,10 @@
       "prompt": "The queen takes the pawn on e5. Is that safe?",
       "reasons": [
         "The pawn is free.",
-        "The king on g8 takes back.",
-        "The pawn on d6 takes back and you lose 9 for 1."
+        "The pawn on d6 takes back and you lose 9 for 1.",
+        "The king on g8 takes back."
       ],
-      "answer": { "safe": false, "reason": 2 },
+      "answer": { "safe": false, "reason": 1 },
       "concept": "counting",
       "hints": { "piece": "d6", "text": "The king on g8 does not stand next to e5, so it cannot take back there." }
     },

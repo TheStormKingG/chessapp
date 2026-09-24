@@ -66,11 +66,11 @@
       "move": "Ne5",
       "prompt": "White plays the knight to e5, where the knight on d7 can reach it. Is the white knight safe there?",
       "reasons": [
-        "No. The knight on d7 simply takes it and wins a piece.",
         "Yes, for all practical purposes. Nxe5 is legal, but then Qxd8 wins the black queen.",
+        "No. The knight on d7 simply takes it and wins a piece.",
         "No. The pawn on f7 takes it."
       ],
-      "answer": { "safe": true, "reason": 1 },
+      "answer": { "safe": true, "reason": 0 },
       "concept": "relative-pin",
       "hints": {
         "piece": "d7",

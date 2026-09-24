@@ -10,12 +10,12 @@
       "fen": "3r2k1/pp3ppp/2n5/3p4/3P4/8/PP3PPP/3R2K1 b - - 0 1",
       "prompt": "A rook and six pawns each, on the same files. Who stands better, and on which count?",
       "options": [
-        "Black, on the piece count: he has a knight and White has no minor piece at all.",
         "White, because his rook is the more active of the two.",
+        "Black, on the piece count: he has a knight and White has no minor piece at all.",
         "Level, because both sides have a rook and the same number of pawns."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "four-elements",
       "reason": "Black has an extra knight and nothing else differs — same pawn files, same rook, both kings behind three pawns."
@@ -37,12 +37,12 @@
       "fen": "3q1rk1/pp3ppp/8/8/8/8/PPPPP3/3Q1RK1 b - - 0 1",
       "prompt": "A queen, a rook and five pawns each, Black to move. Who stands better, and why?",
       "options": [
-        "White, because his pawns control more of the centre.",
         "Black, because White has no pawns left in front of his king and Black still has all three.",
+        "White, because his pawns control more of the centre.",
         "Level, because the material is exactly equal."
       ],
       "answer": {
-        "option": 1
+        "option": 0
       },
       "concept": "four-elements",
       "reason": "The count really is level. f2, g2 and h2 are bare while f7, g7 and h7 are intact, and the queens are still on."
@@ -68,12 +68,12 @@
       "fen": "8/pp4pp/4k3/8/8/4KP2/P4P1P/8 b - - 0 1",
       "prompt": "Four pawns each and nothing but kings. Who stands better, and why?",
       "options": [
-        "Black, because his pawns sit in two touching pairs and every white pawn stands alone.",
         "White, because his king is nearer the centre.",
+        "Black, because his pawns sit in two touching pairs and every white pawn stands alone.",
         "Level, because four pawns against four with no pieces is a draw."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "four-elements",
       "reason": "White’s f-pawns are stacked and none of his four has a neighbour. Black’s a7 and b7 defend each other, as do g7 and h7."
@@ -100,12 +100,12 @@
       "fen": "3r2k1/pbp2pp1/7p/8/8/8/PP3PPP/R3R1K1 w - - 0 1",
       "prompt": "Two rooks against a rook and a bishop, five pawns each. Who stands better?",
       "options": [
-        "Level, because a rook and a bishop are worth about the same as two rooks.",
+        "White, by about two points: a rook is worth five and a bishop three.",
         "Black, because the bishop is worth more than a rook in an open position.",
-        "White, by about two points: a rook is worth five and a bishop three."
+        "Level, because a rook and a bishop are worth about the same as two rooks."
       ],
       "answer": {
-        "option": 2
+        "option": 0
       },
       "concept": "four-elements",
       "reason": "Rook for bishop is the exchange, and it is worth roughly two pawns. Same pawn count on both sides, so nothing offsets it."
@@ -127,12 +127,12 @@
       "fen": "r3kb1r/ppp1qpp1/4p3/8/2B5/8/PPP1QPPP/3RR1K1 w - - 0 1",
       "prompt": "Queen, two rooks, a bishop and six pawns each. Who stands better, and why?",
       "options": [
-        "White, because the black king is stuck on e8 and cannot castle.",
+        "Level, because every piece has an exact opposite number.",
         "Black, because his extra central pawn gives him more space.",
-        "Level, because every piece has an exact opposite number."
+        "White, because the black king is stuck on e8 and cannot castle."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "four-elements",
       "reason": "The material is identical. One king is castled and the other is sitting in the middle with its rooks unable to reach each other."
@@ -157,12 +157,12 @@
       "fen": "8/5p1p/5kp1/4p3/4PP2/P4KP1/8/8 w - - 0 1",
       "prompt": "Four pawns each, kings in the middle. Who stands better, and why?",
       "options": [
-        "Level, with four pawns each and no pieces on the board.",
+        "White, because his a-pawn is passed and it is far away from both kings.",
         "Black, because his three kingside pawns outnumber White’s two.",
-        "White, because his a-pawn is passed and it is far away from both kings."
+        "Level, with four pawns each and no pieces on the board."
       ],
       "answer": {
-        "option": 2
+        "option": 0
       },
       "concept": "four-elements",
       "reason": "No black pawn stands on the a or b file, so a3 has a clear run. A passer on the far wing pulls the enemy king away from everything else."
@@ -195,12 +195,12 @@
       "fen": "6k1/ppp2ppp/8/8/4n3/8/P1P1PPPP/5BK1 b - - 0 1",
       "prompt": "A minor piece and six pawns each, Black to move. Who stands better, and why?",
       "options": [
-        "Black, because his knight has squares everywhere and the white bishop has none.",
         "White, because a bishop is worth more than a knight.",
+        "Black, because his knight has squares everywhere and the white bishop has none.",
         "Level, because both are minor pieces worth three points each."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "piece-activity",
       "reason": "Three points each on the chart. On the board one of them moves and the other cannot, and that decides it."
@@ -237,11 +237,11 @@
       "prompt": "A rook, a minor piece and six pawns each. Who stands better, and why?",
       "options": [
         "Level, because the pieces match one for one.",
-        "Black, because a bishop is the better piece in an endgame.",
-        "White, because his knight sits on a strong square and the black bishop has none at all."
+        "White, because his knight sits on a strong square and the black bishop has none at all.",
+        "Black, because a bishop is the better piece in an endgame."
       ],
       "answer": {
-        "option": 2
+        "option": 1
       },
       "concept": "piece-activity",
       "reason": "No black pawn can ever attack the knight on c5, and the bishop on a8 cannot move. Both pieces are worth three and only one of them counts."
@@ -252,12 +252,12 @@
       "fen": "b3r1k1/1p3ppp/2p5/2Np4/3P4/8/PP3PPP/R5K1 w - - 0 1",
       "prompt": "What would have to change before the bishop on a8 became a real piece again?",
       "options": [
-        "The pawn on b7 would have to move out of its way.",
         "It would need to be exchanged for the knight on c5.",
+        "The pawn on b7 would have to move out of its way.",
         "Nothing. It already covers the long diagonal from the corner."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "piece-activity",
       "reason": "b7 is the single square the bishop can use, so until that pawn moves the bishop is a spectator. It covers nothing from a8."
@@ -355,11 +355,11 @@
       "prompt": "Black plays Nxd4. Why is that better than it first looks?",
       "options": [
         "It opens the c-file for Black’s pieces.",
-        "Nothing takes back, so it is a whole bishop rather than a swap.",
-        "It forces White to recapture with the knight and ruin his pawns."
+        "It forces White to recapture with the knight and ruin his pawns.",
+        "Nothing takes back, so it is a whole bishop rather than a swap."
       ],
       "answer": {
-        "option": 1
+        "option": 2
       },
       "concept": "trading",
       "reason": "Count the takers before you call it a swap. Nothing white covers d4, so Black keeps the bishop and gives nothing."
@@ -371,11 +371,11 @@
       "prompt": "What is the first thing to check before calling any capture an even swap?",
       "options": [
         "Whether the two pieces are worth the same number of points.",
-        "Whether the capture comes with check.",
-        "Whether anything can actually take back, and how many times."
+        "Whether anything can actually take back, and how many times.",
+        "Whether the capture comes with check."
       ],
       "answer": {
-        "option": 2
+        "option": 1
       },
       "concept": "trading",
       "reason": "Points only matter once you know a recapture is coming. If nothing takes back it is not a swap at all, whatever the pieces are worth."
@@ -399,12 +399,12 @@
       "fen": "2r5/p2k1pp1/8/8/4K3/8/PP3PP1/2R5 w - - 0 1",
       "prompt": "You are a pawn up and nothing else is unbalanced. Which swaps suit you?",
       "options": [
-        "Swap pieces and keep pawns on, so the extra pawn becomes a bigger share of what is left.",
+        "Avoid every swap: an extra pawn is too fragile to risk simplifying.",
         "Swap pawns and keep the pieces on, so you still have something to attack with.",
-        "Avoid every swap: an extra pawn is too fragile to risk simplifying."
+        "Swap pieces and keep pawns on, so the extra pawn becomes a bigger share of what is left."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "trading",
       "reason": "One pawn among many barely shows. One pawn in a king-and-pawn ending is usually the game, so the side ahead heads for the ending."
@@ -440,12 +440,12 @@
       "fen": "4r1k1/ppp2ppp/8/8/8/3nP3/1P1P1PPP/R1B3K1 b - - 0 1",
       "prompt": "Black’s knight on d3 is his best piece. Why would Nxc1 be a mistake?",
       "options": [
-        "It loses a piece, because nothing is defending the bishop on c1.",
         "It gives up Black’s strongest piece for White’s most useless one.",
+        "It loses a piece, because nothing is defending the bishop on c1.",
         "It allows White to recapture and open the a-file for his rook."
       ],
       "answer": {
-        "option": 1
+        "option": 0
       },
       "concept": "trading",
       "reason": "The rook on a1 takes back, so nothing is won. Black hands over the knight that dominates the position for a bishop that could not move."

@@ -143,12 +143,12 @@
       "fen": "rnbqkb1r/pppp1ppp/5n2/4p3/4P3/1B6/PPPP1PPP/RNBQK1NR b KQkq - 3 3",
       "prompt": "White has played the bishop to c4 and then straight on to b3, while Black brought a knight out. What has White given away?",
       "options": [
-        "A move. Two bishop turns have developed one piece, and Black is a whole developing move ahead.",
         "A pawn, because the bishop on b3 no longer guards e4.",
+        "A move. Two bishop turns have developed one piece, and Black is a whole developing move ahead.",
         "The right to castle, because the bishop has left f1."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "piece-twice",
       "hints": {
@@ -180,13 +180,13 @@
       "move": "Qh5",
       "prompt": "White brings the queen out to h5 on move two. Is she safe on h5?",
       "reasons": [
-        "No. The knight on g8 takes her.",
+        "Yes, for now. Nothing black attacks h5 \u2014 but every move Black plays to chase her will develop a piece.",
         "No. The pawn on g7 takes her.",
-        "Yes, for now. Nothing black attacks h5 \u2014 but every move Black plays to chase her will develop a piece."
+        "No. The knight on g8 takes her."
       ],
       "answer": {
         "safe": true,
-        "reason": 2
+        "reason": 0
       },
       "concept": "early-queen",
       "hints": {

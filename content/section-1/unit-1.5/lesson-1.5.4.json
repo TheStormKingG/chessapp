@@ -94,8 +94,8 @@
       "type": "name_the_pattern",
       "fen": "1R4k1/5ppp/8/8/8/8/5PPP/6K1 b - - 0 1",
       "prompt": "White has just played Rb8. What has happened?",
-      "options": ["Checkmate on the back rank", "Stalemate", "Check, but the king steps to h8"],
-      "answer": { "option": 0 },
+      "options": ["Stalemate", "Checkmate on the back rank", "Check, but the king steps to h8"],
+      "answer": { "option": 1 },
       "concept": "back-rank",
       "hints": { "text": "Ask where the king could go. His own pawns are on f7, g7 and h7." }
     }

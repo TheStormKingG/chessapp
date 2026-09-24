@@ -254,12 +254,12 @@
       "fen": "r1bqkb1r/pppp1p1p/2n2np1/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR w KQkq - 2 5",
       "prompt": "White's queen has moved twice and Black has two knights out. Who has spent the opening better?",
       "options": [
-        "Black. Two knights are out; White has moved one piece twice and has a single bishop developed.",
+        "Neither. Both sides have made the same number of moves, so they must be equal.",
         "White. The queen on f3 is the most active piece on the board, so White is ahead.",
-        "Neither. Both sides have made the same number of moves, so they must be equal."
+        "Black. Two knights are out; White has moved one piece twice and has a single bishop developed."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "piece-twice",
       "reason": "Counting moves is not the point; counting pieces that are out is. Black has two, White has one."
@@ -295,13 +295,13 @@
       "move": "Qh5",
       "prompt": "White brings the queen out to h5 on move two. Is she safe on h5?",
       "reasons": [
-        "No. The knight on g8 takes her.",
+        "Yes, for the moment. Nothing black attacks h5 \u2014 but she will be chased by pieces worth far less.",
         "No. The pawn on g7 takes her.",
-        "Yes, for the moment. Nothing black attacks h5 \u2014 but she will be chased by pieces worth far less."
+        "No. The knight on g8 takes her."
       ],
       "answer": {
         "safe": true,
-        "reason": 2
+        "reason": 0
       },
       "concept": "early-queen",
       "reason": "The g7 pawn captures to f6 or h6, and the knight on g8 covers e7, f6 and h6. She is safe, and still misplaced."
@@ -312,12 +312,12 @@
       "fen": "rnbqkbnr/pppp1ppp/8/4p2Q/4P3/8/PPPP1PPP/RNB1KBNR b KQkq - 1 2",
       "prompt": "Why is the white queen on h5 a poor idea on move two, even though she attacks two things?",
       "options": [
-        "Every piece Black develops can chase her, so White must keep moving one piece while Black brings out new ones.",
         "It is against the rules to move the queen before a knight.",
+        "Every piece Black develops can chase her, so White must keep moving one piece while Black brings out new ones.",
         "She can never get back from h5 once she has gone there."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "early-queen",
       "reason": "She is the most valuable piece, so anything that attacks her wins time. Bring her out after the knights and bishops."
@@ -378,13 +378,13 @@
       "move": "Bc4",
       "prompt": "White plays the king's bishop out to c4 on move three. Is it safe there?",
       "reasons": [
-        "Yes. No black pawn or piece attacks c4.",
         "No. The knight on c6 takes it.",
+        "Yes. No black pawn or piece attacks c4.",
         "No. The pawn on d7 takes it."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "concept": "italian",
       "reason": "The knight on c6 covers a5, b4, d4, e7, b8 and d8. The pawn on d7 captures to c6 or e6. Neither touches c4."
@@ -395,12 +395,12 @@
       "fen": "r1bqkbnr/pppp1ppp/2n5/4p2Q/2B1P3/8/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
       "prompt": "The white queen on h5 and the bishop on c4 both hit f7, and mate is threatened. Which reply stops it and gains a move?",
       "options": [
-        "g6, which covers f7 with a pawn and attacks the queen at the same time.",
+        "Ke7, which guards f7 with the king a second time.",
         "Nf6, which brings a piece out and blocks the queen's view of f7.",
-        "Ke7, which guards f7 with the king a second time."
+        "g6, which covers f7 with a pawn and attacks the queen at the same time."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "italian",
       "reason": "g6 defends and attacks in one move. Nf6 does not defend f7 at all and loses on the spot."
@@ -447,12 +447,12 @@
       "fen": "r2q1rk1/pbpn1ppp/1p1bpn2/3p4/3P1B2/3BPN2/PPPNQPPP/R4RK1 w - - 2 9",
       "prompt": "White has finished the opening. Which list describes what White has actually achieved?",
       "options": [
-        "Pawns holding the middle, both knights and both bishops out, king castled, rooks with nothing between them.",
+        "Every pawn still at home and all the pieces lined up behind them.",
         "Both rooks doubled on one file, the queen in front of them, pawns advanced on the wing.",
-        "Every pawn still at home and all the pieces lined up behind them."
+        "Pawns holding the middle, both knights and both bishops out, king castled, rooks with nothing between them."
       ],
       "answer": {
-        "option": 0
+        "option": 2
       },
       "concept": "target-position",
       "reason": "Pawns on d4 and e3, knights on f3 and d2, bishops on f4 and d3, king on g1, rooks joined on a1 and f1."

@@ -74,11 +74,11 @@
       "move": "Qxf7+",
       "prompt": "Qxf7 wins a pawn and it is check as well. Is it safe?",
       "reasons": [
-        "Yes. It is check, so Black must answer it, and you are a pawn better off.",
         "No. f7 is defended by the rook on f8, so Rxf7 or Kxf7 wins the queen, and with her goes every check you had.",
+        "Yes. It is check, so Black must answer it, and you are a pawn better off.",
         "No. The move is not legal, because the queen cannot reach f7 from d5."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 0 },
       "concept": "perpetual-check",
       "reason": "Check is not the same as safe. Qg5 is the check that works, because g5 is a square no black man attacks."
     },
@@ -88,11 +88,11 @@
       "fen": "5rk1/5p1p/8/3Q4/pp6/8/2r5/6K1 w - - 0 1",
       "prompt": "The engine gives this position 0.00 for White, who is a rook and four pawns down. What does that mean?",
       "options": [
-        "That the perpetual check holds. 0.00 is a draw, and a draw from a lost position is the best result on offer.",
         "That the position is equal on material, so neither side has any advantage.",
+        "That the perpetual check holds. 0.00 is a draw, and a draw from a lost position is the best result on offer.",
         "That White is winning, because 0.00 is better than a minus score."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "concept": "perpetual-check",
       "reason": "A drawing move scores 0.00 no matter how far behind you are. Read it against the alternatives: every other move here loses, so 0.00 is a rescue, not a level game."
     },
@@ -165,11 +165,11 @@
       "fen": "5rk1/5p1p/1b6/8/7R/8/r7/7K w - - 0 1",
       "prompt": "You are two rooks and a bishop down. Why is that almost good news here?",
       "options": [
-        "Because those same pieces have taken every square from your king, so losing your last rook leaves you stalemated instead of lost.",
+        "Because material does not count once one side has fewer than three pieces.",
         "Because two rooks and a bishop cannot deliver mate without pawns.",
-        "Because material does not count once one side has fewer than three pieces."
+        "Because those same pieces have taken every square from your king, so losing your last rook leaves you stalemated instead of lost."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 2 },
       "concept": "stalemate-defence",
       "reason": "The bishop on b6 covers g1 and the rook on a2 covers g2 and h2. Black's own winning force is what builds the cage, and the rook is the only thing keeping the game alive."
     },
@@ -181,10 +181,10 @@
       "prompt": "You take the h-pawn with Rxh7, hoping Black takes back. Is that a sound way to try for the draw?",
       "reasons": [
         "Yes. The king must take the rook, and then you have nothing left to move.",
-        "No. The rook on h7 can be taken by the rook on f8.",
-        "No. Rxh7 is not check, so Black chooses his reply. Ng5 attacks the rook and takes the knight off f3, which unfreezes your king."
+        "No. Rxh7 is not check, so Black chooses his reply. Ng5 attacks the rook and takes the knight off f3, which unfreezes your king.",
+        "No. The rook on h7 can be taken by the rook on f8."
       ],
-      "answer": { "safe": false, "reason": 2 },
+      "answer": { "safe": false, "reason": 1 },
       "concept": "stalemate-defence",
       "reason": "A sacrifice for stalemate has to be check, or the other player simply declines it. Rg6 is check; Rxh7 is only an offer, and Black is under no obligation to accept."
     },
@@ -242,11 +242,11 @@
       "move": "c8=Q",
       "prompt": "The pawn reaches the eighth rank and you take a new queen. Is that safe?",
       "reasons": [
-        "Yes. A queen is the strongest piece, so promoting to one is always right.",
+        "No. The new queen covers a8, b8 and a6 all at once and gives no check, so Black has no legal move: stalemate.",
         "No. The black king on a7 simply captures the new queen on c8.",
-        "No. The new queen covers a8, b8 and a6 all at once and gives no check, so Black has no legal move: stalemate."
+        "Yes. A queen is the strongest piece, so promoting to one is always right."
       ],
-      "answer": { "safe": false, "reason": 2 },
+      "answer": { "safe": false, "reason": 0 },
       "concept": "stalemate",
       "reason": "Your king on c6 already holds b6 and b7. A queen on c8 covers the rest, and none of it is check. A rook on c8 covers a8 and b8 but not a6, so it leaves Black a move, and wins."
     },
@@ -265,11 +265,11 @@
       "fen": "7k/8/6K1/8/8/8/8/1R6 w - - 0 1",
       "prompt": "A rook here instead of a queen, and there is no stalemating move at all. Why not?",
       "options": [
-        "g8 is Black's only square, and a rook covers g8 only from the g-file or the eighth rank. Your own king blocks the g-file, and the eighth rank is check.",
         "A rook can never stalemate a lone king in any position.",
+        "g8 is Black's only square, and a rook covers g8 only from the g-file or the eighth rank. Your own king blocks the g-file, and the eighth rank is check.",
         "Because the black king is already in check, so stalemate cannot happen."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "concept": "stalemate",
       "reason": "A rook on g1 reaches only as far as g5, because your king on g6 is in the way. Everything on the eighth rank checks. Rb8 is mate, and it is the only mate in the position."
     },
@@ -375,11 +375,11 @@
       "fen": "7k/2R5/1P6/P7/3q4/8/5P1P/5RK1 b - - 0 1",
       "prompt": "Black has a queen, White has two rooks, four pawns and a passer on b6. What should Black be playing for?",
       "options": [
-        "A draw by repetition. The material is hopeless, so the only plan worth having is a line of checks White cannot escape.",
         "A win. The queen will pick off the pawns one by one while the rooks look on.",
+        "A draw by repetition. The material is hopeless, so the only plan worth having is a line of checks White cannot escape.",
         "A blockade. Black should put the king in front of the b-pawn and hold everything."
       ],
-      "answer": { "option": 0 },
+      "answer": { "option": 1 },
       "concept": "when-to-draw",
       "reason": "Two rooks and four pawns beat a lone queen, and the passers decide it soon. Naming the right result early is what lets you find Qg4 instead of drifting into a loss."
     }

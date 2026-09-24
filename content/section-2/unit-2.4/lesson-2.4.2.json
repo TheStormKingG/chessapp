@@ -122,12 +122,12 @@
       "fen": "7k/7p/5P2/8/6Q1/8/2r2PPP/6K1 w - - 0 1",
       "prompt": "Why is the queen mate on g7 but a blunder on g8?",
       "options": [
-        "The pawn on f6 guards g7 and does not guard g8.",
         "A king is not allowed to capture backwards.",
+        "The pawn on f6 guards g7 and does not guard g8.",
         "g7 is a dark square, and the queen is a dark-square piece."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "support-mate",
       "hints": {

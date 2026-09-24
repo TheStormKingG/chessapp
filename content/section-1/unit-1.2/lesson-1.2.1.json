@@ -45,11 +45,11 @@
       "move": "Rxe5",
       "prompt": "The rook takes the pawn on e5. Is that safe?",
       "reasons": [
-        "Nothing can reach e5.",
         "The knight on d7 would take back.",
+        "Nothing can reach e5.",
         "The king on g8 would take back."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 0 },
       "concept": "attack-defend",
       "hints": {
         "piece": "d7",

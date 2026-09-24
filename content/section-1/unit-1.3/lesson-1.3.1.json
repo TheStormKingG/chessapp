@@ -47,12 +47,12 @@
       "fen": "8/7Q/8/5k2/8/8/8/4K3 b - - 0 1",
       "prompt": "What is happening to the black king?",
       "options": [
-        "He is in check from the queen on h7.",
         "He is safe; the queen cannot reach him.",
+        "He is in check from the queen on h7.",
         "He is safe; the queen is on the wrong colour of square."
       ],
       "answer": {
-        "option": 0
+        "option": 1
       },
       "concept": "check",
       "reason": "The queen on h7 runs down the diagonal through g6 to f5, and that is where the king stands.",
