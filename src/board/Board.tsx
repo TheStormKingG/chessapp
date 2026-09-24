@@ -288,7 +288,11 @@ export function Board(props: BoardProps & { size?: number; decorative?: boolean;
     }
     // The SAN announcement is the accessible carrier and it fires on both
     // paths, at the moment the marked position is on screen.
-    ids.push(window.setTimeout(() => { setStatus(`Replay: ${san}. Your position is back — try again.`); }, arrival));
+    ids.push(
+      window.setTimeout(() => {
+        setStatus(`Replay: ${san}. ${replay?.note ?? 'Your position is back — try again.'}`);
+      }, arrival),
+    );
     ids.push(window.setTimeout(() => { setStep(null); }, arrival + (reduced ? REPLAY_HOLD_REDUCED_MS : REPLAY_HOLD_MS)));
     timers.current = ids;
     return () => {

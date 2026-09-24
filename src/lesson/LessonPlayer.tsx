@@ -349,6 +349,7 @@ export function LessonPlayer({
             key={`${c.id}#${s.results[c.id]?.misses ?? 0}`}
             c={c}
             answeredFen={s.answeredFen}
+            revealed={ph.kind === 'challenge' && ph.status === 'revealed'}
             highlights={s.highlights}
             refutation={s.refutation}
             busy={busy}

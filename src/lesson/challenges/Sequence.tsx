@@ -20,7 +20,7 @@ export function Sequence({
   disabled,
   textEntry,
   arrows,
-  replay,
+  replay: revealReplay,
 }: {
   c: SequenceChallenge;
   onDone: () => void;
@@ -44,6 +44,28 @@ export function Sequence({
     setI(0);
   }
 
+  /*
+   * A revealed line is played out by `replay`, which restores the board to
+   * this component's own `fen` when it finishes. If that is still the starting
+   * position the learner watches the combination and then sees it snap back --
+   * the same complaint that started this week. So the position advances to the
+   * end of the line, and the replay lands on it instead of undoing it.
+   *
+   * Adjusted during render rather than in an effect, the pattern this file
+   * already uses above.
+   */
+  const [revealedFor, setRevealedFor] = useState<string | null>(null);
+  if (revealReplay && revealedFor !== c.id) {
+    setRevealedFor(c.id);
+    let end = c.fen;
+    try {
+      for (const m of c.answer.line) end = applyMove(end, m).fen;
+      setFen(end);
+    } catch {
+      /* an authored line that does not fit is already guarded by the loader */
+    }
+  }
+
   return (
     <Board
       fen={fen}
@@ -59,7 +81,7 @@ export function Sequence({
       orientation={c.fen.split(' ')[1] === 'b' ? 'b' : 'w'}
       mode="play"
       arrows={arrows ?? []}
-      replay={replay ?? null}
+      replay={revealReplay ?? null}
       disabled={disabled}
       textEntry={textEntry}
       onMove={(m) => {

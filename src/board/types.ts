@@ -45,6 +45,16 @@ export interface Replay {
   moves: string[];
   /** SAN of the last move, for the live region. Reduced motion reads this. */
   san: string;
+  /**
+   * What is said after the SAN, when the default is wrong.
+   *
+   * The default closes "Your position is back — try again", which is true of a
+   * REFUTATION: the learner played a losing move, saw it punished, and gets
+   * another go. It is false of a revealed answer — the challenge is over and
+   * the board is disabled — so a reveal supplies its own sentence rather than
+   * telling a learner to retry something they cannot.
+   */
+  note?: string;
 }
 
 export interface BoardProps {
