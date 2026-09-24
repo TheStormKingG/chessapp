@@ -1,0 +1,147 @@
+{
+  "id": "3.1.2",
+  "unit": "3.1",
+  "title": "Overloading",
+  "xp": 15,
+  "card": {
+    "idea": "Some defenders are doing two jobs at once: holding a loose piece and watching a square you want. A piece can only do one job at a time. Take one of the two things it is guarding, and whichever one it saves, the other one falls.",
+    "diagrams": [
+      "3r2k1/5ppp/8/3r4/4B3/8/5PPP/2R3K1 w - - 0 1",
+      "r5k1/b4ppp/5n2/8/8/8/5PPP/R2R2K1 w - - 0 1"
+    ],
+    "habit": "Count the jobs, not just the pieces."
+  },
+  "explain": [
+    {
+      "fen": "3r2k1/5ppp/8/3r4/4B3/8/5PPP/2R3K1 w - - 0 1",
+      "text": "The rook on d8 has two jobs. It defends the rook on d5, and it watches c8, the square your own rook is aiming at. Make it do both at once with Bxd5. If it takes back, it has left c8 behind, and Rc8 arrives with check.",
+      "arrows": [
+        ["d8", "d5"],
+        ["d8", "c8"],
+        ["e4", "d5"],
+        ["c1", "c8"]
+      ],
+      "highlights": ["d8", "d5", "c8"]
+    },
+    {
+      "fen": "6k1/5ppp/8/3r4/8/8/5PPP/2R3K1 w - - 0 2",
+      "text": "It took back, and d8 is empty. Rc8 is check now, and Rd8 is the only block Black has; your rook takes it and that is mate. One move ago the same rook was guarding both squares. It could not go on guarding both.",
+      "arrows": [["c1", "c8"]],
+      "highlights": ["c8", "d8"]
+    },
+    {
+      "fen": "r5k1/b4ppp/5n2/8/8/8/5PPP/R2R2K1 w - - 0 1",
+      "text": "The same shape with different pieces. The rook on a8 defends the bishop on a7 below it and covers d8 along the rank. Rxa7 asks the question. If Rxa7 answers it, the rank is bare: Rd8 is check, the knight must block on e8, and your rook takes it. Mate.",
+      "arrows": [
+        ["a8", "a7"],
+        ["a8", "d8"],
+        ["a1", "a7"],
+        ["d1", "d8"]
+      ],
+      "highlights": ["a8", "a7", "d8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.1.2-c1",
+      "type": "which_square",
+      "fen": "3r2k1/5ppp/8/3r4/4B3/8/5PPP/2R3K1 w - - 0 1",
+      "prompt": "Tap the black piece that is doing two jobs at once.",
+      "answer": { "square": "d8" },
+      "concept": "overloading",
+      "hints": {
+        "text": "One of your pieces wants a square. Something of Black's is covering it — and doing something else as well."
+      },
+      "reason": "The rook on d8 defends the rook on d5 down the file and covers c8 along the rank. Two jobs, one rook."
+    },
+    {
+      "id": "3.1.2-c2",
+      "type": "find_them_all",
+      "fen": "3r2k1/5ppp/8/3r4/4B3/8/5PPP/2R3K1 w - - 0 1",
+      "prompt": "Tap the two squares that the rook on d8 is guarding and that White is already attacking.",
+      "answer": { "squares": ["c8", "d5"] },
+      "concept": "overloading",
+      "hints": {
+        "text": "One is where your rook on c1 wants to land. One has a black piece standing on it."
+      },
+      "reason": "c8, where the rook on c1 is aiming, and d5, where Black's other rook stands. Those two are the rook's whole workload."
+    },
+    {
+      "id": "3.1.2-c3",
+      "type": "find_the_move",
+      "fen": "3r2k1/5ppp/8/3r4/4B3/8/5PPP/2R3K1 w - - 0 1",
+      "prompt": "Make the rook on d8 choose. Take one of the two things it is guarding.",
+      "answer": { "moves": ["Bxd5"] },
+      "wrong": {
+        "Rc8": "That is not even check: Black's rook on d8 blocks the rank. And Black answers Rd1, mate on your own back rank.",
+        "Bxh7+": "Kxh7, and you have given a bishop for a pawn. The rook on d8 is still doing both of its jobs."
+      },
+      "concept": "overloading",
+      "hints": {
+        "piece": "e4",
+        "square": "d5"
+      },
+      "reason": "Bxd5 wins a rook for a bishop on its own, and if Black takes back the rook has left c8 and the back rank goes with it."
+    },
+    {
+      "id": "3.1.2-c4",
+      "type": "find_the_sequence",
+      "fen": "3r2k1/5ppp/8/3r4/4B3/8/5PPP/2R3K1 w - - 0 1",
+      "prompt": "Ask the question, let Black take back, then walk in on c8 and finish.",
+      "answer": { "line": ["Bxd5", "Rxd5", "Rc8+", "Rd8", "Rxd8#"] },
+      "concept": "overloading",
+      "hints": {
+        "piece": "e4",
+        "square": "d5"
+      },
+      "reason": "Bxd5 Rxd5 Rc8+ Rd8 Rxd8 is mate. The rook left c8 for one move, and one move was all it took."
+    },
+    {
+      "id": "3.1.2-c5",
+      "type": "which_square",
+      "fen": "r5k1/b4ppp/5n2/8/8/8/5PPP/R2R2K1 w - - 0 1",
+      "prompt": "Tap the black piece that is guarding the bishop on a7 and the square d8 at the same time.",
+      "answer": { "square": "a8" },
+      "concept": "overloading",
+      "hints": {
+        "text": "It is holding one piece below it and one empty square beside it."
+      },
+      "reason": "The rook on a8 defends a7 down the file and d8 along the rank. Nothing else of Black's covers either one."
+    },
+    {
+      "id": "3.1.2-c6",
+      "type": "is_it_safe",
+      "fen": "r5k1/b4ppp/5n2/8/8/8/5PPP/R2R2K1 w - - 0 1",
+      "move": "Rd8+",
+      "prompt": "White wants to check straight away with Rd8. Is the rook safe on that square?",
+      "reasons": [
+        "Yes. Nothing black can reach d8.",
+        "No. The rook on a8 takes it along the back rank.",
+        "No. The knight on f6 takes it."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "overloading",
+      "hints": {
+        "text": "Read along the eighth rank from a8. Then write out the knight's eight squares and see whether d8 is one of them."
+      },
+      "reason": "The rook on a8 sees the whole rank, so Rd8 now is a rook thrown away. The knight on f6 reaches e8, not d8. Take the bishop on a7 first, and the same check wins."
+    },
+    {
+      "id": "3.1.2-c7",
+      "type": "find_the_move",
+      "fen": "r5k1/b4ppp/5n2/8/8/8/5PPP/R2R2K1 w - - 0 1",
+      "prompt": "The rook on a8 is holding two things. Take the one it is standing right beside.",
+      "answer": { "moves": ["Rxa7"] },
+      "wrong": {
+        "Rd8+": "Rxd8. The rook on a8 was guarding that square too, and you have handed over a rook for nothing."
+      },
+      "concept": "overloading",
+      "hints": {
+        "piece": "a1",
+        "square": "a7"
+      },
+      "reason": "Rxa7 wins a bishop by itself. If Rxa7 takes back, the eighth rank is bare and Rd8 is check with mate close behind."
+    }
+  ],
+  "takeaway": "A defender with two jobs can only do one of them. Take one of the two, and whichever it saves, the other one is yours."
+}

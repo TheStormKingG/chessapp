@@ -222,7 +222,161 @@ export const SECTION_2: SectionDef = {
  * declaring a Section 3 is one array entry rather than a hunt for every place
  * `SECTION_1` was named.
  */
-export const SECTIONS: SectionDef[] = [SECTION_1, SECTION_2];
+/**
+ * PRD Appendix A, Section 3 (units 3.1 to 3.12). Declared ahead of its content,
+ * exactly as Section 2 was: every unit is `built: false` until its lessons,
+ * checkpoint and guidebook are authored and pass `verify:content`.
+ *
+ * Declaring it re-arms `coming` with REAL data. Since 2.8 shipped, the rule
+ * that unauthored content is visible and un-attemptable has been held by a
+ * synthetic fixture in `progress.test.ts` and `PathScreen.test.tsx`, because
+ * nothing on the path was unbuilt any more. This is the first thing that will
+ * break if that fixture was ever wrong, which is the point of having kept it.
+ *
+ * Unit 3.10's fourth lesson drops the PRD's "what players at your level do
+ * here": that needs opening statistics per rating band, and `openings.txt` is a
+ * name lookup fetched for game review, not a move-frequency database. Decided
+ * 2026-09-24 rather than left for whoever reached the lesson.
+ */
+export const SECTION_3: SectionDef = {
+  id: '3',
+  title: 'Fluency and planning',
+  band: '800 to 1200',
+  units: [
+    {
+      id: '3.1',
+      title: 'Removing the defender and exploiting pins',
+      built: false,
+      lessons: [
+        { id: '3.1.1', title: 'Capture the guard' },
+        { id: '3.1.2', title: 'Overloading' },
+        { id: '3.1.3', title: 'Winning a pinned piece by attacking it again' },
+        { id: '3.1.4', title: 'Deflection, first look' },
+      ],
+    },
+    {
+      id: '3.2',
+      title: 'X-ray, double check and discovered check in depth',
+      built: false,
+      lessons: [
+        { id: '3.2.1', title: 'X-ray attacks and defences' },
+        { id: '3.2.2', title: 'Double check' },
+        { id: '3.2.3', title: 'Discovered check with gain' },
+      ],
+    },
+    {
+      id: '3.3',
+      title: 'Trapped pieces and promotion',
+      built: false,
+      lessons: [
+        { id: '3.3.1', title: 'Trapping a piece' },
+        { id: '3.3.2', title: 'Promotion tactics and under-promotion' },
+        { id: '3.3.3', title: 'Advanced pawns as weapons' },
+      ],
+    },
+    {
+      id: '3.4',
+      title: 'Named mates, first wave',
+      built: false,
+      lessons: [
+        { id: '3.4.1', title: "Anastasia's, Arabian, Greco's and Opera mates" },
+        { id: '3.4.2', title: "Morphy's, Pillsbury's and Boden's mates" },
+        { id: '3.4.3', title: "Lolli's, Épaulette, Dovetail and Hook mates" },
+        { id: '3.4.4', title: 'Blind swine on the seventh' },
+      ],
+    },
+    {
+      id: '3.5',
+      title: 'Drawing weapons',
+      built: false,
+      lessons: [
+        { id: '3.5.1', title: 'Perpetual check' },
+        { id: '3.5.2', title: 'Stalemate tricks as a defence' },
+        { id: '3.5.3', title: 'When to take a draw' },
+      ],
+    },
+    {
+      id: '3.6',
+      title: 'The four elements',
+      built: false,
+      lessons: [
+        { id: '3.6.1', title: 'Force, time, space and pawn structure' },
+        { id: '3.6.2', title: 'Piece activity and improving the worst piece' },
+        { id: '3.6.3', title: 'Trading when ahead, avoiding trades when behind' },
+      ],
+    },
+    {
+      id: '3.7',
+      title: 'Files, ranks and pawns',
+      built: false,
+      lessons: [
+        { id: '3.7.1', title: 'Open files and doubling rooks' },
+        { id: '3.7.2', title: 'The seventh rank' },
+        { id: '3.7.3', title: 'Passed pawns' },
+        { id: '3.7.4', title: 'Isolated, doubled and backward pawns as targets' },
+      ],
+    },
+    {
+      id: '3.8',
+      title: 'King safety and attacking the king',
+      built: false,
+      lessons: [
+        { id: '3.8.1', title: 'The pawn shield and when not to castle' },
+        { id: '3.8.2', title: 'Batteries against the king' },
+        { id: '3.8.3', title: 'Opening lines with pawn advances' },
+        { id: '3.8.4', title: 'Recognising an attack coming' },
+      ],
+    },
+    {
+      id: '3.9',
+      title: 'Endgames continued',
+      built: false,
+      lessons: [
+        { id: '3.9.1', title: 'Distant and diagonal opposition' },
+        { id: '3.9.2', title: 'King and pawn against king, complete' },
+        { id: '3.9.3', title: 'Queen against a pawn on the seventh' },
+        { id: '3.9.4', title: 'Rook against a pawn' },
+        { id: '3.9.5', title: 'Passed pawns must be pushed and blockaded' },
+      ],
+    },
+    {
+      id: '3.10',
+      title: 'Building a repertoire skeleton',
+      built: false,
+      lessons: [
+        { id: '3.10.1', title: 'What a repertoire is and why plans beat lines' },
+        { id: '3.10.2', title: 'White: the Italian in depth' },
+        { id: '3.10.3', title: 'Black against 1.e4: the Caro-Kann' },
+        { id: '3.10.4', title: "Black against 1.d4: the Queen's Gambit Declined" },
+      ],
+    },
+    {
+      id: '3.11',
+      title: 'Candidate moves and the blunder check',
+      built: false,
+      lessons: [
+        { id: '3.11.1', title: 'Two or three candidate moves before calculating' },
+        { id: '3.11.2', title: "Checks, captures and threats for the opponent's replies" },
+        { id: '3.11.3', title: 'Forcing lines to three ply' },
+        { id: '3.11.4', title: 'The blunder check as the last step' },
+        { id: '3.11.5', title: 'Time budgeting by phase' },
+      ],
+    },
+    {
+      id: '3.12',
+      title: 'Story games',
+      built: false,
+      lessons: [
+        { id: '3.12.1', title: 'Morphy at the Opera' },
+        { id: '3.12.2', title: 'A 1000-level game, guess the move' },
+        { id: '3.12.3', title: 'A second 1000-level game' },
+        { id: '3.12.4', title: 'A third 1000-level game' },
+      ],
+    },
+  ],
+};
+
+export const SECTIONS: SectionDef[] = [SECTION_1, SECTION_2, SECTION_3];
 
 /** The unit with this id, from whichever section declares it. */
 export function unitById(id: string): UnitDef | undefined {

@@ -203,19 +203,21 @@ test('finishing everything built leaves no active lesson', () => {
 
 test('the path walks every declared section, in path order', () => {
   const nodes = pathNodes(emptyProgress());
-  // Section 1 first, then Section 2. The order IS the path.
-  expect([...new Set(nodes.map((n) => n.section))]).toEqual(['1', '2']);
-  expect(nodes.filter((n) => n.kind === 'lesson')).toHaveLength(29 + 36);
-  expect(nodes.filter((n) => n.kind === 'checkpoint')).toHaveLength(6 + 8);
-  // SCOPED rather than deleted as each unit shipped. This tracked the built
-  // boundary through every Section 2 authoring pass: eight unbuilt units, then
-  // five, and now none. Every Section 2 node is locked behind Section 1 rather
-  // than coming, and the count below is the control -- "none are coming" is
-  // satisfied vacuously by a filter that matched nothing. The `coming` rule
-  // itself stays armed by the synthetic unbuilt unit above.
+  // Section 1, then 2, then 3. The order IS the path.
+  expect([...new Set(nodes.map((n) => n.section))]).toEqual(['1', '2', '3']);
+  expect(nodes.filter((n) => n.kind === 'lesson')).toHaveLength(29 + 36 + 46);
+  expect(nodes.filter((n) => n.kind === 'checkpoint')).toHaveLength(6 + 8 + 12);
+  // SCOPED rather than deleted, for the fourth time. This has tracked the built
+  // boundary through every authoring pass: eight unbuilt Section 2 units, then
+  // five, then none -- and now a whole unbuilt Section 3. Both sides are
+  // asserted, so neither "none are coming" nor "all are coming" can pass by
+  // matching nothing.
   const s2 = nodes.filter((n) => n.section === '2');
   expect(s2).toHaveLength(36 + 8);
   expect(s2.filter((n) => n.state === 'coming')).toEqual([]);
+  const s3 = nodes.filter((n) => n.section === '3');
+  expect(s3).toHaveLength(46 + 12);
+  expect(s3.filter((n) => n.state !== 'coming')).toEqual([]);
   expect(nodes.filter((n) => n.state === 'active')).toHaveLength(1);
 });
 

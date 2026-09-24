@@ -26,7 +26,7 @@
 //   - the Lichess-derived difficulty estimate (PRD 9.2). Not implemented in
 //     Phase 0.
 import { spawn } from 'node:child_process';
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
+import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { createInterface } from 'node:readline';
 import { join } from 'node:path';
 import Ajv from 'ajv';
@@ -364,14 +364,36 @@ async function checkChallenge(where, c) {
   }
 }
 
-// Every authored section, not just the first. This walk was hardcoded to
-// `content/section-1`, which meant a new section's content was never examined
-// and the run still printed OK -- a silent pass, which certifies the opposite
-// of what the gate is for. Sections are listed explicitly rather than globbed
-// so that adding one is a deliberate edit, and a missing directory is skipped
-// rather than throwing.
-const SECTIONS = ['content/section-1', 'content/section-2'];
-const files = SECTIONS.filter((d) => existsSync(d)).flatMap((d) => walk(d));
+// Every authored section, DISCOVERED rather than listed.
+//
+// This was hardcoded to `content/section-1` once, so a new section was never
+// examined and the run still printed OK. The fix then was to list sections
+// explicitly, "so that adding one is a deliberate edit" -- and that is exactly
+// what failed the second time: unit 3.1 was authored, the gate reported
+// "79 files, 934 challenges OK", and it had not opened one of the new files.
+//
+// An explicit list silently NARROWS as content grows, and its failure mode is
+// a confident pass over content nobody checked. Discovery over-includes
+// instead, and over-inclusion is loud: a stray directory makes the gate fail
+// and somebody looks. Prefer the construction whose mistakes announce
+// themselves.
+//
+// The count guard below is the other half. A discovery that finds nothing
+// would sail through every loop after it and print a clean run, which is the
+// same silent pass by another route.
+const SECTIONS = readdirSync('content')
+  .filter((d) => /^section-\d+$/.test(d))
+  .sort()
+  .map((d) => `content/${d}`);
+if (SECTIONS.length === 0) {
+  console.error('verify-content: no content/section-* directories found -- the gate cannot run');
+  process.exit(1);
+}
+const files = SECTIONS.flatMap((d) => walk(d));
+if (files.length === 0) {
+  console.error(`verify-content: ${SECTIONS.join(', ')} contain no files -- the gate cannot run`);
+  process.exit(1);
+}
 const seenIds = new Set();
 try {
   for (const f of files) {

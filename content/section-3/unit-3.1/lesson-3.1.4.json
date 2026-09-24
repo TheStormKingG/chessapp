@@ -1,0 +1,149 @@
+{
+  "id": "3.1.4",
+  "unit": "3.1",
+  "title": "Deflection, first look",
+  "xp": 16,
+  "card": {
+    "idea": "Sometimes you cannot take the guard: it is too well defended, or it is the king. Then make it move instead. A check it has to answer, or an offer it has to take, and for one move it is standing somewhere else. One move is all you need.",
+    "diagrams": [
+      "5rk1/6pp/2n5/8/8/5B2/6PP/5RK1 w - - 0 1",
+      "6k1/5ppp/1q6/8/8/8/3R1PPP/3R2K1 w - - 0 1"
+    ],
+    "habit": "If you cannot take the guard, move it."
+  },
+  "explain": [
+    {
+      "fen": "5rk1/6pp/2n5/8/8/5B2/6PP/5RK1 w - - 0 1",
+      "text": "Only the king defends the rook on f8, and your own rook on f1 cannot see f8 yet, because your bishop is standing in the way. Bd5 fixes both things at once. It is check, and it clears the file behind it. Kh8 and Rxf8 is mate; Rf7 to block, and Rxf7 simply wins the rook.",
+      "arrows": [
+        ["f3", "d5"],
+        ["d5", "g8"],
+        ["f1", "f8"]
+      ],
+      "highlights": ["f8", "g8", "d5"]
+    },
+    {
+      "fen": "6k1/5ppp/1q6/8/8/8/3R1PPP/3R2K1 w - - 0 1",
+      "text": "Two rooks on the d-file, and one black queen on b6 guarding d8 from a long way off. Rd8 is check, and she has no say in it: Qxd8 is the only legal move Black has. She has been pulled onto the square she was watching, and the second rook takes her there.",
+      "arrows": [
+        ["b6", "d8"],
+        ["d2", "d8"],
+        ["d1", "d8"]
+      ],
+      "highlights": ["b6", "d8"]
+    },
+    {
+      "fen": "3q2k1/5ppp/8/8/8/8/5PPP/3R2K1 w - - 0 2",
+      "text": "There she is, standing where she was dragged. Rxd8 is mate, with f7, g7 and h7 boxing the king in. Notice what she was doing one move ago: guarding this exact square from b6. The guard was never captured on b6. It was simply made to stand in the wrong place.",
+      "arrows": [["d1", "d8"]],
+      "highlights": ["d8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.1.4-c1",
+      "type": "which_square",
+      "fen": "5rk1/6pp/2n5/8/8/5B2/6PP/5RK1 w - - 0 1",
+      "prompt": "Tap the black piece that is the only thing defending the rook on f8.",
+      "answer": { "square": "g8" },
+      "concept": "deflection",
+      "hints": {
+        "text": "Check the knight's eight squares, then check the pawns. Then look at what is standing right next door."
+      },
+      "reason": "The king. Nothing else of Black's looks at f8, so if the king can be made to move, the rook is loose."
+    },
+    {
+      "id": "3.1.4-c2",
+      "type": "is_it_safe",
+      "fen": "5rk1/6pp/2n5/8/8/5B2/6PP/5RK1 w - - 0 1",
+      "move": "Bd5+",
+      "prompt": "White wants to give check with the bishop on d5. Is the bishop safe there?",
+      "reasons": [
+        "Yes. No black piece attacks d5.",
+        "No. The knight on c6 takes it.",
+        "No. The rook on f8 takes it."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "deflection",
+      "hints": {
+        "text": "Write out the eight squares a knight on c6 reaches and look for d5 among them."
+      },
+      "reason": "A knight on c6 reaches a5, a7, b4, b8, d4, d8, e5 and e7. d5 is not one of them, and the rook on f8 is stuck on its own file and rank. The bishop is untouchable there."
+    },
+    {
+      "id": "3.1.4-c3",
+      "type": "find_the_move",
+      "fen": "5rk1/6pp/2n5/8/8/5B2/6PP/5RK1 w - - 0 1",
+      "prompt": "The rook on f8 is defended by the king and nothing else. Check the king away from it.",
+      "answer": { "moves": ["Bd5+"] },
+      "wrong": {
+        "Bxc6": "It does win a knight, but Black answers Rxf1+ and after Kxf1 the rooks are gone. Bd5 first wins the whole rook instead."
+      },
+      "concept": "deflection",
+      "hints": {
+        "piece": "f3",
+        "square": "d5"
+      },
+      "reason": "Bd5 is check and it clears the f-file in the same move. Kh8 and Rxf8 is mate; Rf7 to block, and Rxf7 wins the rook, because the bishop on d5 covers f7."
+    },
+    {
+      "id": "3.1.4-c4",
+      "type": "name_the_pattern",
+      "fen": "5rk1/6pp/2n5/8/8/5B2/6PP/5RK1 w - - 0 1",
+      "prompt": "What is the check on d5 actually for?",
+      "options": [
+        "It drives the king off g8, and the king was the only defender of the rook on f8.",
+        "It gives check, so Black has to take the bishop and lose material.",
+        "It stops the black knight from coming to e5."
+      ],
+      "answer": { "option": 0 },
+      "concept": "deflection",
+      "hints": {
+        "text": "Ask what job the king on g8 is doing, then ask what a check does to a king."
+      },
+      "reason": "Nothing black attacks d5, so Black cannot take the bishop at all. Black has to move the king, and the moment it leaves g8 the rook on f8 is defended by nobody."
+    },
+    {
+      "id": "3.1.4-c5",
+      "type": "which_square",
+      "fen": "6k1/5ppp/1q6/8/8/8/3R1PPP/3R2K1 w - - 0 1",
+      "prompt": "Your rooks want d8. Tap the black piece that is guarding it.",
+      "answer": { "square": "b6" },
+      "concept": "deflection",
+      "hints": {
+        "text": "A queen guards along diagonals too. Walk b6, c7, d8."
+      },
+      "reason": "The queen on b6 reaches d8 along b6, c7, d8. She is the only guard of that square on the whole board."
+    },
+    {
+      "id": "3.1.4-c6",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/1q6/8/8/8/3R1PPP/3R2K1 w - - 0 1",
+      "prompt": "The queen guards d8 from a long way off. Put something on d8 she is not allowed to refuse.",
+      "answer": { "moves": ["Rd8+"] },
+      "wrong": {
+        "Rd6": "Rd6 does attack the queen, and Qxd6 Rxd6 would win her for a rook. But she does not have to take, and you had mate."
+      },
+      "concept": "deflection",
+      "hints": {
+        "piece": "d2",
+        "square": "d8"
+      },
+      "reason": "Rd8 is check, and Qxd8 is the only legal move Black has. The second rook then takes on d8 and that is mate."
+    },
+    {
+      "id": "3.1.4-c7",
+      "type": "find_the_sequence",
+      "fen": "6k1/5ppp/1q6/8/8/8/3R1PPP/3R2K1 w - - 0 1",
+      "prompt": "Play it out: the check she has to take, then the rook standing behind it.",
+      "answer": { "line": ["Rd8+", "Qxd8", "Rxd8#"] },
+      "concept": "deflection",
+      "hints": {
+        "piece": "d2",
+        "square": "d8"
+      },
+      "reason": "Rd8+ Qxd8 Rxd8 is mate. She was guarding d8, and she finished the game standing on it."
+    }
+  ],
+  "takeaway": "If you cannot capture the guard, make it move. A check it must answer, or a gift it must take, and for one move the door stands open."
+}
