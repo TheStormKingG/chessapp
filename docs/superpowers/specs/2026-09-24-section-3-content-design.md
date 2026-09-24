@@ -62,14 +62,16 @@ its renderer exercised, a verifier case, and a keyboard path, before its four
 games are written. Scheduling it like the other eleven units is the mistake
 this section is most likely to make.
 
-### 2.3 The explorer at your band (3.10)
+### 2.3 The explorer at your band (3.10) — RESOLVED, dropped
 
 "What players at your level do here" implies opening statistics per rating
 band. `public/data/openings.txt` is a 300 KiB name lookup, fetched at runtime
 for game review — it is not a move-frequency database and cannot answer this.
-Either the lesson drops that line, or a data source is chosen and budgeted.
-**Decide before authoring 3.10**, because the lesson reads differently
-depending on the answer.
+**Decided 2026-09-24: the line is dropped.** 3.10 ships four lessons — what a
+repertoire is, the Italian in depth as White, the Caro-Kann against 1.e4, the
+Queen's Gambit Declined against 1.d4 — and says nothing about what players at a
+band actually play. Taken now rather than left for whoever reached the lesson,
+because it changes what gets written.
 
 ## 3. What Section 2 taught, applied here
 
@@ -113,6 +115,19 @@ on the path, so the rule that unauthored content is un-attemptable is held by a
 synthetic fixture. Declaring Section 3 is what re-arms it with real data, and is
 the first thing that will break if the fixture was wrong.
 
+## 3.4 Declaring the section re-arms `coming`
+
+Done 2026-09-24, ahead of any authoring, and it behaved as predicted: six tests
+moved, every one of them **scoped rather than deleted**, and the two that had
+been holding the rule with a **synthetic fixture since 2.8 shipped now run
+against real unbuilt units again**. That is the fixture paying for itself — the
+rule survived the period when no data exercised it.
+
+One lesson for the next section: `PathScreen.test.tsx` and
+`ProgressScreen.test.tsx` both carried **hardcoded totals** (`14` checkpoints,
+two meters) that a declaration turns into failures saying nothing useful. Both
+now derive from `SECTIONS`. Section 4 should cost fewer moved assertions.
+
 ## 4. Order
 
 Authoring order follows the PRD's own dependency order rather than unit number:
@@ -134,7 +149,7 @@ Authoring order follows the PRD's own dependency order rather than unit number:
 
 ## 5. Open decisions for the owner
 
-1. **3.10's explorer** — drop the line, or choose and budget a data source.
+1. ~~**3.10's explorer**~~ — **resolved 2026-09-24: dropped** (§2.3).
 2. **3.12's story games** — confirm `guess_the_move` gets its renderer/verifier
    /accessibility pass as a build task before its content is scheduled.
 3. **Habit levels.** PRD §2 puts level two "from unit 2.2 through Section 3" and

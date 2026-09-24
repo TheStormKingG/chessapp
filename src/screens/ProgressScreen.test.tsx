@@ -51,7 +51,13 @@ test('every count is stated in text, not only drawn as a bar', () => {
   expect(screen.getByText('70 XP so far')).toBeInTheDocument();
   // Stars are summed across completed lessons, not counted as lessons.
   expect(screen.getByText('Stars earned').closest('div')).toHaveTextContent('5');
-  expect(screen.getByText('Checkpoints passed').closest('div')).toHaveTextContent('1 of 14');
+  // Derived from SECTIONS, not hardcoded: it read '1 of 14' until Section 3 was
+  // declared and became '1 of 26' the same day. A hardcoded total turns every
+  // future section's declaration into a failure that says nothing useful.
+  const units = SECTIONS.reduce((n, sec) => n + sec.units.length, 0);
+  expect(screen.getByText('Checkpoints passed').closest('div')).toHaveTextContent(
+    `1 of ${String(units)}`,
+  );
 
   // Every bar is hidden from the accessibility tree, and there is at least one,
   // so this cannot pass by there being no bars at all.

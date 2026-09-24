@@ -64,42 +64,46 @@ test('no lesson id is declared twice across the curriculum', () => {
   expect(ids).toHaveLength(new Set(ids).size);
 });
 
-test('Section 2 is on the path, and nothing in it reads as coming', () => {
-  // This test has tracked the built boundary as it moved: first Section 2 was
-  // absent from the path, then eight unbuilt units read as coming, then five,
-  // and now none. The path still walks every section, each section heads and
-  // meters itself, and Section 2's 36 lessons count under their own heading.
+test('Section 2 is built, Section 3 is declared and reads as coming', () => {
+  // This test has tracked the built boundary through every move it has made:
+  // Section 2 absent from the path, then eight of its units coming, then five,
+  // then none -- and now Section 3 is declared and ALL of it is coming. The
+  // boundary moved forward a section; the rule did not change.
   const nodes = pathNodes(emptyProgress());
   const s2 = nodes.filter((n) => n.section === '2');
   expect(s2.filter((n) => n.kind === 'lesson')).toHaveLength(36);
   expect(s2.filter((n) => n.kind === 'checkpoint')).toHaveLength(8);
-  // Every unit is authored, so every Section 2 node is locked behind Section 1
-  // rather than coming. `coming` now has no real instance anywhere on the path,
-  // which is why the rule it guards stays armed by the synthetic fixture in
-  // progress.test.ts rather than being deleted with the last real instance.
   expect(s2.filter((n) => n.state === 'coming')).toEqual([]);
-  expect(s2).toHaveLength(44); // 36 lessons + 8 checkpoints: the line above is not vacuous
+  expect(s2).toHaveLength(44); // the line above is not vacuous
+
+  // Section 3 is the live instance of `coming` again. Since 2.8 shipped this
+  // rule was held only by a synthetic fixture, because nothing real was
+  // unbuilt; declaring Section 3 is what puts real data back under it.
+  const s3 = nodes.filter((n) => n.section === '3');
+  expect(s3.filter((n) => n.kind === 'lesson')).toHaveLength(46);
+  expect(s3.filter((n) => n.kind === 'checkpoint')).toHaveLength(12);
+  expect(s3.filter((n) => n.state !== 'coming')).toEqual([]);
+  expect(s3).toHaveLength(58); // and neither is this one
+
   // Section 1 is untouched.
   expect(nodes.filter((n) => n.section === '1' && n.kind === 'lesson')).toHaveLength(29);
   expect(nodes.filter((n) => n.section === '1' && n.kind === 'checkpoint')).toHaveLength(6);
 });
 
 test('SECTIONS is the path order, and every declared unit is reachable by id', () => {
-  expect(SECTIONS.map((s) => s.id)).toEqual(['1', '2']);
+  expect(SECTIONS.map((s) => s.id)).toEqual(['1', '2', '3']);
   expect(unitById('1.1')).toMatchObject({ id: '1.1', built: true });
-  // The lookup that matters: a unit declared outside Section 1. Before SECTIONS
-  // existed this returned undefined, and a caller that shrugged at undefined
-  // gave a Section 2 learner a screen that silently found nothing. Every unit
-  // resolves now, so the loop replaces the hand-listed cases that used to track
-  // the built boundary -- a unit added to SECTION_2 without being wired into
-  // `unitById` is caught here rather than by whichever id happened to be named.
+  // Every declared unit resolves, built or not. That second half is the point:
+  // a unit that is declared but unauthored must still be found by id, or the
+  // screen that renders its "content coming" placeholder has nothing to render.
+  // Section 3 restores that case, which Section 2 supplied until 2.8 shipped.
   for (const u of SECTIONS.flatMap((s) => s.units)) {
-    expect(unitById(u.id), `unit ${u.id} does not resolve by id`).toMatchObject({
-      id: u.id,
-      built: true,
-    });
+    expect(unitById(u.id), `unit ${u.id} does not resolve by id`).toMatchObject({ id: u.id });
   }
-  expect(SECTIONS.flatMap((s) => s.units)).toHaveLength(14); // the loop above is not vacuous
+  expect(SECTIONS.flatMap((s) => s.units)).toHaveLength(26); // the loop is not vacuous
+  // Both sides of the boundary, named, so neither can quietly become the other.
+  expect(unitById('2.8')).toMatchObject({ built: true });
+  expect(unitById('3.1')).toMatchObject({ built: false });
   expect(unitById('2.8')?.lessons).toHaveLength(3);
   expect(unitById('9.9')).toBeUndefined();
 });
