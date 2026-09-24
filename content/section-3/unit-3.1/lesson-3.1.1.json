@@ -1,0 +1,148 @@
+{
+  "id": "3.1.1",
+  "unit": "3.1",
+  "title": "Capture the guard",
+  "xp": 14,
+  "card": {
+    "idea": "A piece is safe because something guards it. A square is closed because something watches it. Take the guard and the door opens. So before you hunt for a winning move, find the piece that is holding everything together and ask what it would cost to take that.",
+    "diagrams": [
+      "r4b1k/ppp4p/2n4P/8/6Q1/8/6P1/5RK1 w - - 0 1",
+      "3r2k1/2b2ppp/8/8/8/8/3R1PPP/3R2K1 w - - 0 1"
+    ],
+    "habit": "Find the guard before you find the move."
+  },
+  "explain": [
+    {
+      "fen": "r4b1k/ppp4p/2n4P/8/6Q1/8/6P1/5RK1 w - - 0 1",
+      "text": "The queen wants g7, and the pawn on h6 would hold her there, so the king may not take her. One black piece says no: the bishop on f8. So take the bishop. Rxf8 is check, the rook on a8 is the only reply there is, and once it has played, g7 belongs to the queen.",
+      "arrows": [
+        ["g4", "g7"],
+        ["h6", "g7"],
+        ["f8", "g7"]
+      ],
+      "highlights": ["f8", "g7"]
+    },
+    {
+      "fen": "3r2k1/2b2ppp/8/8/8/8/3R1PPP/3R2K1 w - - 0 1",
+      "text": "Black's back rank has two guards: the rook standing on d8, and the bishop on c7 defending it. You have two rooks. Rxd8 takes the first, Bxd8 is Black's only legal answer, and the second rook takes the second. Two guards, two takers, in that order.",
+      "arrows": [
+        ["d2", "d8"],
+        ["c7", "d8"]
+      ],
+      "highlights": ["d8", "c7"]
+    },
+    {
+      "fen": "3b2k1/5ppp/8/8/8/8/5PPP/3R2K1 w - - 0 2",
+      "text": "The same board one move later. The bishop has recaptured, and it is now the last guard, standing on the square itself. Rxd8 is mate: f7, g7 and h7 are the king's own pawns, and Black has nothing left to take back with.",
+      "arrows": [["d1", "d8"]],
+      "highlights": ["d8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.1.1-c1",
+      "type": "which_square",
+      "fen": "r4b1k/ppp4p/2n4P/8/6Q1/8/6P1/5RK1 w - - 0 1",
+      "prompt": "The pawn on h6 guards g7, so the king is not allowed to take there. Tap the one black piece that could take a white queen on g7.",
+      "answer": { "square": "f8" },
+      "concept": "removing-the-defender",
+      "hints": {
+        "text": "Follow the diagonal that ends on g7."
+      },
+      "reason": "The bishop on f8 covers g7. The king cannot take, because the pawn on h6 covers g7 as well."
+    },
+    {
+      "id": "3.1.1-c2",
+      "type": "is_it_safe",
+      "fen": "r4b1k/ppp4p/2n4P/8/6Q1/8/6P1/5RK1 w - - 0 1",
+      "move": "Qg7+",
+      "prompt": "White wants to play the queen to g7, right beside the black king. Is she safe there?",
+      "reasons": [
+        "Yes. The pawn on h6 holds her, so nothing can take her.",
+        "No. The bishop on f8 takes her.",
+        "No. The pawn on h7 takes her."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "removing-the-defender",
+      "hints": {
+        "text": "The pawn on h6 keeps the king off g7. It does not keep anything else off."
+      },
+      "reason": "The pawn on h6 stops the king taking and that is all it does. Bxg7 is legal, and it is Black's only legal move, so the queen goes for a bishop."
+    },
+    {
+      "id": "3.1.1-c3",
+      "type": "find_the_move",
+      "fen": "r4b1k/ppp4p/2n4P/8/6Q1/8/6P1/5RK1 w - - 0 1",
+      "prompt": "Take the guard of g7. Your move is a check and Black has exactly one legal answer to it.",
+      "answer": { "moves": ["Rxf8+"] },
+      "wrong": {
+        "Qg7+": "Bxg7, and that is Black's only move. The bishop was still on the board, so the queen has gone for a bishop."
+      },
+      "concept": "removing-the-defender",
+      "hints": {
+        "piece": "f1",
+        "square": "f8"
+      },
+      "reason": "Rxf8 is check, Rxf8 is forced, and now only the king guards g7. Qg7 is then mate, held there by the pawn on h6."
+    },
+    {
+      "id": "3.1.1-c4",
+      "type": "find_them_all",
+      "fen": "3r2k1/2b2ppp/8/8/8/8/3R1PPP/3R2K1 w - - 0 1",
+      "prompt": "Tap every black piece that has to come off before a white rook can sit on d8.",
+      "answer": { "pieces": ["d8", "c7"] },
+      "concept": "removing-the-defender",
+      "hints": {
+        "text": "One of them is standing on the square. One of them is watching it from a diagonal."
+      },
+      "reason": "The rook is on d8 and the bishop on c7 defends d8. Nothing else of Black's looks at that square, so those two are the whole job."
+    },
+    {
+      "id": "3.1.1-c5",
+      "type": "find_the_move",
+      "fen": "3r2k1/2b2ppp/8/8/8/8/3R1PPP/3R2K1 w - - 0 1",
+      "prompt": "Black's back rank has two guards and you have two rooks. Start.",
+      "answer": { "moves": ["Rxd8+"] },
+      "wrong": {
+        "Rd7": "You attack the bishop, and Black simply trades: Rxd7. Take the guard standing on d8 instead."
+      },
+      "concept": "removing-the-defender",
+      "hints": {
+        "piece": "d2",
+        "square": "d8"
+      },
+      "reason": "Rxd8 is check, and Bxd8 is Black's only legal answer. The bishop is then the last guard, standing where your second rook can reach it."
+    },
+    {
+      "id": "3.1.1-c6",
+      "type": "find_the_sequence",
+      "fen": "3r2k1/2b2ppp/8/8/8/8/3R1PPP/3R2K1 w - - 0 1",
+      "prompt": "Play it out: take the first guard, let Black take back, then take the second.",
+      "answer": { "line": ["Rxd8+", "Bxd8", "Rxd8#"] },
+      "concept": "removing-the-defender",
+      "hints": {
+        "piece": "d2",
+        "square": "d8"
+      },
+      "reason": "Rxd8+ Bxd8 Rxd8 is mate. Two guards, two rooks, and the order is the only thing you had to get right."
+    },
+    {
+      "id": "3.1.1-c7",
+      "type": "name_the_pattern",
+      "fen": "r4b1k/ppp4p/2n4P/8/6Q1/8/6P1/5RK1 w - - 0 1",
+      "prompt": "Why is it worth giving a whole rook for that bishop on f8?",
+      "options": [
+        "It takes away the only piece that could capture a queen on g7, and Qg7 is then mate.",
+        "It opens the f-file so the rook can come back to f8 later.",
+        "It wins a piece, because the bishop on f8 was undefended."
+      ],
+      "answer": { "option": 0 },
+      "concept": "removing-the-defender",
+      "hints": {
+        "text": "Play Rxf8 Rxf8 in your head and then ask what is left guarding g7."
+      },
+      "reason": "You are not counting wood here, you are buying one square. The bishop was defended by the rook on a8, so this is not a piece win; it is a mate."
+    }
+  ],
+  "takeaway": "A guarded piece and a guarded square both come free the moment the guard is gone. Find the guard first, then work out what taking it costs."
+}
