@@ -17,6 +17,7 @@ import { PlayItOut } from './PlayItOut';
  */
 export function ChallengeView({
   c,
+  answeredFen,
   highlights,
   refutation,
   busy,
@@ -25,6 +26,12 @@ export function ChallengeView({
   onWrongMove,
 }: {
   c: Challenge;
+  /**
+   * The position after the answering move, when there was one. The board is a
+   * controlled component, so without this it re-renders the challenge's
+   * starting FEN and visually undoes the move it just accepted.
+   */
+  answeredFen: string | null;
   highlights: Highlights;
   refutation: LessonState['refutation'];
   busy: boolean;
@@ -41,7 +48,10 @@ export function ChallengeView({
     case 'which_square':
       return (
         <Board
-          fen={c.fen}
+          // Orientation stays derived from the CHALLENGE's fen: the side to
+          // move flips once the answer is played, and a board that spun round
+          // at the moment of success would be worse than one that did nothing.
+          fen={answeredFen ?? c.fen}
           orientation={c.fen.split(' ')[1] === 'b' ? 'b' : 'w'}
           mode={c.type === 'which_square' ? 'select' : 'play'}
           disabled={busy}

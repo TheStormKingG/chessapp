@@ -85,7 +85,7 @@ function exposedLiveRegions(root: HTMLElement) {
   );
 }
 
-test('application container is the only tab stop inside the board, before and after a move', () => {
+test('application container is the only tab stop inside the board, before and after a move', async () => {
   // jsdom gives every element a zero-size rect; react-chessboard throws
   // ("Square width not found") when it animates a position change.
   const realRect = Element.prototype.getBoundingClientRect;
@@ -101,7 +101,24 @@ test('application container is the only tab stop inside the board, before and af
 
   const afterE4 = 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1';
   rerender(<Board fen={afterE4} orientation="w" mode="play" />);
-  expect(tabStopsInside(app)).toBe(0);
+  /*
+   * Awaited, because the window it closes is REAL and this test is the only
+   * thing that documents it.
+   *
+   * The sweep runs in a layout effect, a passive effect AND a MutationObserver,
+   * and the observer's callback is a microtask. A piece node the library
+   * creates for the new position therefore carries dnd-kit's `tabindex="0"`
+   * for one microtask before it is stripped. That window is before paint and
+   * no keyboard can reach into it, which is why the invariant holds in
+   * practice -- but asserting synchronously claimed something slightly
+   * stronger than the code does, and it only ever passed because the library's
+   * ANIMATION happened to delay the node past the assertion. Turning animation
+   * off in jsdom (it cannot animate without layout) removed that accident and
+   * exposed the real ordering.
+   */
+  await waitFor(() => {
+    expect(tabStopsInside(app)).toBe(0);
+  });
   expect(describedByInside(app)).toBe(0);
   expect(exposedLiveRegions(container).length).toBe(1);
   } finally {

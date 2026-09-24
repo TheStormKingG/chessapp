@@ -143,6 +143,8 @@ export function SettingsScreen() {
   const setTextEntry = useSettings((s) => s.setTextEntry);
   const coachMuted = useSettings((s) => s.coachMuted);
   const setCoachMuted = useSettings((s) => s.setCoachMuted);
+  const soundMuted = useSettings((s) => s.soundMuted);
+  const setSoundMuted = useSettings((s) => s.setSoundMuted);
   const append = useProgress((s) => s.append);
 
   return (
@@ -171,6 +173,17 @@ export function SettingsScreen() {
           onChange={(v) => {
             setCoachMuted(v);
             void append({ type: 'settings_changed', key: 'coachMuted', value: v });
+          }}
+        />
+        {/* Separate from the coach on purpose: one is commentary, the other is
+            the board. Someone may want the move and not the talking. */}
+        <Toggle
+          label="Mute move sounds"
+          hint="Silence the click a piece makes when it lands."
+          checked={soundMuted}
+          onChange={(v) => {
+            setSoundMuted(v);
+            void append({ type: 'settings_changed', key: 'soundMuted', value: v });
           }}
         />
       </div>
