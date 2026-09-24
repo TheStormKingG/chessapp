@@ -246,7 +246,7 @@ export const SECTION_3: SectionDef = {
     {
       id: '3.1',
       title: 'Removing the defender and exploiting pins',
-      built: false,
+      built: true,
       lessons: [
         { id: '3.1.1', title: 'Capture the guard' },
         { id: '3.1.2', title: 'Overloading' },
