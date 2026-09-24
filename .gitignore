@@ -14,3 +14,4 @@ dist-e2e-run/
 dist-e2e-*/
 .cache/
 .puzzles-verified
+.claude/
