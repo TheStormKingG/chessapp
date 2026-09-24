@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { plural } from '../app/plural';
 import { Link } from 'react-router';
 import { RailIndex, RailMeter, railMeterLabel } from '@/board';
@@ -270,7 +271,14 @@ function isFinished(node: Node): boolean {
 /** A node the learner can act on, or is looking at. */
 function Row({ node, view }: { node: Node; view: NodeView }) {
   const inner = (
-    <div className={`tap flex items-center gap-3 rounded-control px-3 py-3 ${skinFor(node)}`}>
+    <div
+      // The scroll target. An attribute rather than a ref threaded down through
+      // Section: the screen has one active node out of 202, and a query for it
+      // is both simpler and closer to what it means -- "the row that says where
+      // you are" -- than a ref passed through a component that does not care.
+      data-path-active={node.state === 'active' ? '' : undefined}
+      className={`tap flex items-center gap-3 rounded-control px-3 py-3 ${skinFor(node)}`}
+    >
       <RailIndex tone={isFinished(node) ? 'accent' : 'inherit'}>{railNumber(node)}</RailIndex>
       <span className="min-w-0 flex-1 [overflow-wrap:anywhere]">
         <span className="t-heading block">{view.title}</span>
@@ -445,6 +453,49 @@ function Section({
   );
 }
 
+/**
+ * Open the Path where the learner actually is.
+ *
+ * The Path is one document, top to bottom, and it opened at the top every
+ * time. Measured on a 390px phone with the full v1 curriculum declared: the
+ * document is 11,218px, and a learner part-way through Section 3 sits 6,075px
+ * down -- SEVEN AND A HALF SCREENS of finished work to scroll past to find out
+ * where they are. Declaring Section 4 made the document 38% taller and turned
+ * a mild annoyance into the normal case, since every learner is above most of
+ * the path for most of the course.
+ *
+ * Three things it deliberately does NOT do:
+ *
+ *   - It does not scroll when the active row is already on screen. A learner in
+ *     unit 1.1 is looking straight at their position, and moving the page under
+ *     them would be a jump with no purpose. This is why the visibility test is
+ *     here and not just a bare `scrollIntoView`.
+ *   - It does not move focus. Scrolling is an accommodation for a long
+ *     document; taking the keyboard cursor away from where the learner put it
+ *     is a different act, and the row is reachable by tab like any other.
+ *   - It does not re-run when progress changes. Finishing a lesson while the
+ *     Path is open must not yank the page -- the effect is once per mount,
+ *     which is the moment the question "where am I?" is actually being asked.
+ *
+ * Reduced motion gets an instant jump rather than no jump: the preference asks
+ * for the travel to be removed, not for the learner to be left at the top.
+ */
+function useOpenAtActive(): void {
+  useEffect(() => {
+    const el = document.querySelector('[data-path-active]');
+    // jsdom has no layout and no scrollIntoView; there is nothing to place.
+    if (!(el instanceof HTMLElement) || typeof el.scrollIntoView !== 'function') return;
+    const box = el.getBoundingClientRect();
+    const inView = box.top >= 0 && box.bottom <= window.innerHeight;
+    if (inView) return;
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches ?? false;
+    el.scrollIntoView({ block: 'center', behavior: reduced ? 'auto' : 'smooth' });
+    // Once per mount. Progress changing while the Path is open must not move
+    // the page under the learner. The effect reads nothing reactive, so the
+    // empty dependency list is what the rule wants anyway -- no suppression.
+  }, []);
+}
+
 export function PathScreen() {
   const progress = useProgress((s) => s.progress);
   const nodes = pathNodes(progress);
@@ -461,6 +512,7 @@ export function PathScreen() {
   // Grouped by the section each node CARRIES, not by parsing its id: a node
   // knows which section declared it, so Section 10 cannot quietly land in
   // Section 1 the way a `startsWith('1.')` would put it.
+  useOpenAtActive();
   const sections = SECTIONS.map((section) => ({
     section,
     nodes: nodes.filter((n) => n.section === section.id),
