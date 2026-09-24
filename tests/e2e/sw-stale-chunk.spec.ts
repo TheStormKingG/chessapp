@@ -62,7 +62,7 @@ let server: SwapServer;
 
 test.beforeAll(async () => {
   test.setTimeout(240_000);
-  fixtures = await buildFixtures();
+  fixtures = await buildFixtures('sw-stale-chunk');
   server = await startSwapServer(fixtures.a);
 });
 

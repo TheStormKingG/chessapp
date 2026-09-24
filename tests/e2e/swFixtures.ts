@@ -47,12 +47,34 @@ function build(outDir: string, extraArgs: string[]): void {
 }
 
 /**
- * Build A and B into a directory of this suite's own, never into `dist-e2e`,
- * which the preview server and other runs share — a shared output directory
- * makes a failure unattributable to the run that produced it.
+ * Build A and B into a directory of this CALLER's own.
+ *
+ * The comment this replaces was right about the hazard and wrong about the
+ * scope: it said "a directory of this suite's own, never `dist-e2e`, which the
+ * preview server and other runs share — a shared output directory makes a
+ * failure unattributable to the run that produced it". True, and then it
+ * hardcoded ONE path for every caller and wiped it on entry.
+ *
+ * Three spec files call this. Playwright runs spec files in parallel workers,
+ * so one file's `rm` ran while another was mid-build, and the second read an
+ * `index.html` that had just been deleted:
+ *
+ *     ENOENT: no such file or directory, open '…/dist-e2e-sw/b/index.html'
+ *
+ * It failed the deploy. It is also unattributable in exactly the way the old
+ * comment warned about: the error surfaced in `review-offline`, which had
+ * nothing to do with the change that added the third caller.
+ *
+ * `key` is required rather than defaulted. A default is what produced the
+ * collision -- every caller accepting the same one -- so the type system now
+ * asks the question instead, and a fourth spec file cannot join the race by
+ * simply not thinking about it.
  */
-export async function buildFixtures(): Promise<Fixtures> {
-  const base = join(REPO_ROOT, 'dist-e2e-sw');
+export async function buildFixtures(key: string): Promise<Fixtures> {
+  if (!/^[a-z0-9-]+$/.test(key)) {
+    throw new Error(`buildFixtures key must be a plain slug, got ${JSON.stringify(key)}`);
+  }
+  const base = join(REPO_ROOT, 'dist-e2e-sw', key);
   await rm(base, { recursive: true, force: true });
   await mkdir(base, { recursive: true });
 
