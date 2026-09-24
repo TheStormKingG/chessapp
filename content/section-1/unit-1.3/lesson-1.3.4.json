@@ -89,13 +89,13 @@
       "move": "Qg6",
       "prompt": "White brings the queen to g6. Is that safe?",
       "reasons": [
-        "It takes g8 and h7 away without giving check, so Black has no legal move: stalemate, and the win is gone.",
         "The black king escapes through h7 and runs to the middle.",
+        "It takes g8 and h7 away without giving check, so Black has no legal move: stalemate, and the win is gone.",
         "The queen on g6 is undefended and the king takes her."
       ],
       "answer": {
         "safe": false,
-        "reason": 0
+        "reason": 1
       },
       "concept": "stalemate",
       "hints": {
@@ -110,13 +110,13 @@
       "move": "Qg7#",
       "prompt": "White brings the queen to g7 instead. Is that safe?",
       "reasons": [
-        "It gives check, the white king on f6 defends g7, and there is no square left: checkmate.",
+        "It hangs the queen to the king on h8.",
         "It is stalemate, because the king has nowhere to go.",
-        "It hangs the queen to the king on h8."
+        "It gives check, the white king on f6 defends g7, and there is no square left: checkmate."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "stalemate",
       "hints": {

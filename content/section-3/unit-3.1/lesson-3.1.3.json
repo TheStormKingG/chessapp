@@ -60,11 +60,11 @@
       "move": "Bxe6+",
       "prompt": "White wants to take the pinned knight at once with Bxe6. Is the bishop safe on e6?",
       "reasons": [
-        "Yes. The knight was pinned, so nothing is allowed to take back.",
         "No. The pawn on d7 takes it.",
+        "Yes. The knight was pinned, so nothing is allowed to take back.",
         "No. The king on g8 takes it."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 0 },
       "concept": "exploit-pin",
       "hints": {
         "text": "A pin stops one piece moving. Ask what else is looking at e6."

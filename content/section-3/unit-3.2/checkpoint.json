@@ -187,11 +187,11 @@
       "move": "Bf7#",
       "prompt": "Bf7 puts the bishop on a square right beside the black king. Is it safe there?",
       "reasons": [
-        "Yes. The knight on g5 defends f7, so Kxf7 is not legal.",
+        "Yes. The rook on b8 defends f7.",
         "No. The king simply takes it.",
-        "Yes. The rook on b8 defends f7."
+        "Yes. The knight on g5 defends f7, so Kxf7 is not legal."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 2 },
       "concept": "double-check",
       "reason": "The rook on b8 covers the eighth rank and the b-file, not f7. The knight on g5 is what makes the bishop untouchable, and that is what turns the double check into mate."
     },

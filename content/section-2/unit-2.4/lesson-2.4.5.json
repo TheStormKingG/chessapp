@@ -128,13 +128,13 @@
       "move": "Qh7#",
       "prompt": "White plays the queen to h7, right next to the black king. Is the queen safe there?",
       "reasons": [
-        "Yes. The pawn on g6 defends h7.",
         "No. The king takes her.",
+        "Yes. The pawn on g6 defends h7.",
         "No. The rook on f8 takes her."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "concept": "damiano",
       "hints": {

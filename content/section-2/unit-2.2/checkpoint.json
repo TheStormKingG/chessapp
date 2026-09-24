@@ -295,13 +295,13 @@
       "prompt": "White forks the king and the rook with Ne7 check. Is the knight safe there?",
       "concept": "knight-fork",
       "reasons": [
-        "Yes. Neither the king nor the rook covers e7.",
         "No. The king on g8 takes the knight.",
+        "Yes. Neither the king nor the rook covers e7.",
         "No. The rook on c8 takes the knight."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "reason": "e7 is two squares from the king and off the rook's file and rank."
     },
@@ -313,13 +313,13 @@
       "prompt": "White jumps to f7, attacking the rook on d8. Is the knight safe there?",
       "concept": "knight-fork",
       "reasons": [
-        "Yes. Nothing covers f7.",
         "No. The king on g8 takes the knight.",
+        "Yes. Nothing covers f7.",
         "No. The rook on d8 takes the knight."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "reason": "f7 is next door to g8. A fork square has to be a square the enemy does not cover."
     },
@@ -331,13 +331,13 @@
       "prompt": "White pushes to e6, check, attacking the rook on d7. Is the pawn safe there?",
       "concept": "pawn-fork",
       "reasons": [
-        "Yes. The king may not take a checking pawn.",
         "No. Nothing defends e6, so the king simply takes it.",
+        "Yes. The king may not take a checking pawn.",
         "No. The rook on d7 takes the pawn."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "reason": "Without a pawn on d5 to defend e6, Kxe6 wins the pawn and the fork never happens."
     },
@@ -349,13 +349,13 @@
       "prompt": "The queen forks the king and the rook from d5. Is she safe there?",
       "concept": "queen-fork",
       "reasons": [
-        "Yes. No black piece covers d5, so Black must answer the check.",
         "No. The rook on a8 takes her.",
+        "Yes. No black piece covers d5, so Black must answer the check.",
         "No. The king takes her."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "reason": "The queen is the most expensive forker, so the square must be one nothing attacks."
     },
@@ -367,13 +367,13 @@
       "prompt": "The knight lands on e6 with check, hitting king, queen and rook. Is it safe there?",
       "concept": "family-fork",
       "reasons": [
-        "Yes. Nothing attacks e6, so all three are hit for free.",
+        "No. The pawn on g7 takes the knight.",
         "No. The queen on d8 takes the knight.",
-        "No. The pawn on g7 takes the knight."
+        "Yes. Nothing attacks e6, so all three are hit for free."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "reason": "The queen covers e7, not e6, and the g7 pawn captures on f6 and h6."
     },

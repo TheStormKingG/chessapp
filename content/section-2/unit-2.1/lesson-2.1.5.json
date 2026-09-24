@@ -30,11 +30,11 @@
       "move": "Rxb2",
       "prompt": "White takes the free bishop on b2. Is that safe?",
       "reasons": [
-        "Yes. Nothing takes back on b2.",
         "No. Black plays Ra1 and mates on the back rank.",
+        "Yes. Nothing takes back on b2.",
         "No. The king on g8 walks over and takes the rook."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 0 },
       "concept": "sanity-check",
       "hints": {
         "piece": "a8",
@@ -92,11 +92,11 @@
       "move": "Rd8+",
       "prompt": "White gives check with the rook on d8. Is that safe?",
       "reasons": [
-        "Yes. Nothing can reach d8.",
         "No. The king on e8 takes the rook.",
+        "Yes. Nothing can reach d8.",
         "No. The pawn on e7 takes the rook."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 0 },
       "concept": "sanity-check",
       "hints": {
         "piece": "e8",

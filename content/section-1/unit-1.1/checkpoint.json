@@ -187,11 +187,11 @@
       "prompt": "Is h3 safe?",
       "concept": "king-moves",
       "reasons": [
-        "It steps right in front of the rook, which takes it for nothing.",
         "A rook cannot take backwards.",
+        "It steps right in front of the rook, which takes it for nothing.",
         "The pawn is defended by the king."
       ],
-      "answer": { "safe": false, "reason": 0 },
+      "answer": { "safe": false, "reason": 1 },
       "hints": { "piece": "h2", "square": "h3" }
     },
     {

@@ -52,13 +52,13 @@
       "concept": "opponent-threats",
       "move": "Nxe5",
       "reasons": [
-        "Yes. Nothing can reach e5.",
         "No. The knight on c6 takes back.",
+        "Yes. Nothing can reach e5.",
         "No. The pawn on d7 takes back."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       }
     },
     {
@@ -160,13 +160,13 @@
       "concept": "threat-scan",
       "move": "gxf3",
       "reasons": [
-        "Yes. Nothing of Black's can take back on f3.",
+        "No. A pawn takes back.",
         "No. The king on g8 takes back.",
-        "No. A pawn takes back."
+        "Yes. Nothing of Black's can take back on f3."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       }
     },
     {
@@ -360,13 +360,13 @@
       "concept": "sanity-check",
       "move": "Rxc8#",
       "reasons": [
-        "Yes. It is checkmate, so Black never gets a reply.",
+        "No. Black takes on c1 first.",
         "No. The king on g8 takes back.",
-        "No. Black takes on c1 first."
+        "Yes. It is checkmate, so Black never gets a reply."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       }
     },
     {
@@ -377,13 +377,13 @@
       "concept": "sanity-check",
       "move": "Rd8+",
       "reasons": [
-        "Yes. Nothing of Black's attacks d8.",
         "No. The queen on e5 takes it.",
+        "Yes. Nothing of Black's attacks d8.",
         "No. The king on g8 takes it."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       }
     },
     {
@@ -394,13 +394,13 @@
       "concept": "sanity-check",
       "move": "Nxe5",
       "reasons": [
-        "Yes. The pawn on e5 is free.",
         "No. The knight on c6 takes back.",
+        "Yes. The pawn on e5 is free.",
         "No. The bishop on c5 takes back."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       }
     },
     {

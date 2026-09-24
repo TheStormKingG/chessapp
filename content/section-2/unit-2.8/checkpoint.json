@@ -284,13 +284,13 @@
       "move": "Rxe5",
       "prompt": "The rook takes on e5, and there is a black rook on d7. Is the white rook safe on e5?",
       "reasons": [
-        "Yes. The rook on d7 is on the wrong file.",
         "No. The pawn on f6 takes it back.",
+        "Yes. The rook on d7 is on the wrong file.",
         "No. The rook on d7 takes it back."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "the-clock",
       "reason": "The rook on d7 is the frightening piece and the pawn on f6 is the one that takes. Look at everything, not at the biggest thing."
@@ -513,12 +513,12 @@
       "prompt": "This is the move the review marked. The rook takes the knight on d5. Was it safe?",
       "reasons": [
         "Yes. Nothing defends the knight on d5.",
-        "No. The pawn on c6 takes it back.",
-        "No. The king on e8 takes it back."
+        "No. The king on e8 takes it back.",
+        "No. The pawn on c6 takes it back."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "concept": "first-mistake",
       "reason": "cxd5 wins a rook for a knight. The review will keep handing this back until you start looking at pawns."

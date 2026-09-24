@@ -116,13 +116,13 @@
       "move": "Nxf7+",
       "prompt": "White tries the same idea with Nxf7 instead, taking a pawn. Is the knight safe on f7?",
       "reasons": [
-        "Yes. Black is in check, so nothing at all may capture it.",
         "No. The king on e8 takes it and steps out of check in the same move.",
+        "Yes. Black is in check, so nothing at all may capture it.",
         "No. The pawn on g7 takes it."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "discovered-check",
       "hints": {

@@ -71,10 +71,10 @@
       "prompt": "The queen takes the pawn on e5. Is that safe?",
       "reasons": [
         "The pawn is free.",
-        "The pawn on d6 takes back and you lose 9 for 1.",
-        "The king on g8 takes back."
+        "The king on g8 takes back.",
+        "The pawn on d6 takes back and you lose 9 for 1."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 2 },
       "concept": "counting",
       "hints": { "piece": "d6", "text": "The king on g8 does not stand next to e5, so it cannot take back there." }
     },

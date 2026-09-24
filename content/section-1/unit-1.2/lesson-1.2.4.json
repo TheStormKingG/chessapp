@@ -29,11 +29,11 @@
       "move": "Bc4",
       "prompt": "You want to play the bishop to c4. Is that safe?",
       "reasons": [
-        "No black piece can reach c4.",
         "The pawn on b5 takes it.",
+        "No black piece can reach c4.",
         "The king on e8 takes it."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 0 },
       "concept": "dont-hang",
       "hints": { "piece": "b5", "text": "The king on e8 is four squares from c4, so it cannot take anything there." }
     },
@@ -45,10 +45,10 @@
       "prompt": "The rook takes on d8. Is that a fair deal?",
       "reasons": [
         "The rook is simply lost.",
-        "The knight on b7 takes back but a rook for a rook is even.",
-        "The king on f7 takes back."
+        "The king on f7 takes back.",
+        "The knight on b7 takes back but a rook for a rook is even."
       ],
-      "answer": { "safe": true, "reason": 1 },
+      "answer": { "safe": true, "reason": 2 },
       "concept": "dont-hang",
       "hints": { "piece": "b7", "text": "The king on f7 does not stand next to d8, so it cannot take back there." }
     },

@@ -515,6 +515,14 @@ if (files.length === 0) {
   process.exit(1);
 }
 const seenIds = new Set();
+/**
+ * Where the correct answer sat, per `is_it_safe` item, across the whole corpus.
+ *
+ * Collected here and judged after the walk, because this is a defect that does
+ * not exist in any single item -- every one of the 176 was individually
+ * correct, and every per-item check passed on all of them.
+ */
+const safeReasonSlots = [];
 try {
   for (const f of files) {
     const doc = JSON.parse(readFileSync(f, 'utf8'));
@@ -528,6 +536,9 @@ try {
     for (const c of challenges) {
       if (seenIds.has(c.id)) fail(f, `duplicate challenge id ${c.id}`);
       seenIds.add(c.id);
+      if (c.type === 'is_it_safe' && Array.isArray(c.reasons)) {
+        safeReasonSlots.push({ slot: c.answer?.reason, of: c.reasons.length });
+      }
       await checkChallenge(`${f} ${c.id}`, c);
     }
     if (!isCp) {
@@ -541,6 +552,54 @@ try {
   // including the timeout path that aborted a search.
   engine.close();
 }
+/*
+ * ─── A corpus-level check, because the defect is corpus-level ───────────────
+ *
+ * Every `is_it_safe` item offers three reasons and names one as correct. Each
+ * was written on its own, each was right on its own, and every per-item check
+ * in this file passed on all 176 of them.
+ *
+ * And across the whole corpus the answer was NEVER the third option. The
+ * distribution was 97 / 79 / 0 -- in Section 1, in Section 2, in Section 3,
+ * in every unit. A learner who noticed could discard a third of every such
+ * question in the app without reading it, which is not a content error in any
+ * item but is a hole in 176 of them at once.
+ *
+ * Nothing per-item can see this, which is the point: the unit of analysis has
+ * to be the corpus, so the check lives after the walk rather than inside it.
+ *
+ * The bar is deliberately low. This is not asking for a uniform distribution
+ * -- real content clusters, and demanding balance would make authors shuffle
+ * answers to satisfy a number. It asks only that no slot is ABANDONED, which
+ * is the thing a learner can exploit. Below `MIN_SAMPLE` items it says
+ * nothing, since a small corpus can skew honestly.
+ */
+{
+  const MIN_SAMPLE = 30;
+  const MIN_SHARE = 0.1;
+  const byWidth = new Map();
+  for (const { slot, of } of safeReasonSlots) {
+    if (!Number.isInteger(slot) || !Number.isInteger(of) || of < 2) continue;
+    if (!byWidth.has(of)) byWidth.set(of, []);
+    byWidth.get(of).push(slot);
+  }
+  for (const [of, slots] of byWidth) {
+    if (slots.length < MIN_SAMPLE) continue;
+    const counts = Array.from({ length: of }, (_, i) => slots.filter((s) => s === i).length);
+    const floor = Math.max(1, Math.floor(slots.length * MIN_SHARE));
+    const starved = counts.flatMap((n, i) => (n < floor ? [`option ${i} (${n})`] : []));
+    if (starved.length) {
+      errors.push(
+        `is_it_safe answers are predictable across the corpus: of ${slots.length} items with ` +
+          `${of} reasons, the correct one lands at [${counts.join(', ')}]. ` +
+          `Starved: ${starved.join(', ')} -- under the ${floor}-item floor. ` +
+          `A learner who notices can discard those options unread. This is not a defect in ` +
+          `any single item; rotate which reason is correct across the corpus.`,
+      );
+    }
+  }
+}
+
 if (faults.length) {
   console.error('INSTRUMENT FAULTS — the apparatus, not the content:');
   console.error(faults.join('\n'));

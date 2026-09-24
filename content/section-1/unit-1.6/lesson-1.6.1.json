@@ -79,11 +79,11 @@
       "move": "Qxe5",
       "prompt": "The queen takes the knight on e5. Is that safe?",
       "reasons": [
-        "Nothing defends the knight on e5.",
         "The pawn on d6 takes back and a queen goes for a knight.",
+        "Nothing defends the knight on e5.",
         "The king on f8 takes back."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 0 },
       "concept": "piece-safe"
     },
     {

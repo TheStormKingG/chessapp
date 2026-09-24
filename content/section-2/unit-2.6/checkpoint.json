@@ -295,13 +295,13 @@
       "move": "Qh5",
       "prompt": "White brings the queen out to h5 on move two. Is she safe on h5?",
       "reasons": [
-        "Yes, for the moment. Nothing black attacks h5 \u2014 but she will be chased by pieces worth far less.",
+        "No. The knight on g8 takes her.",
         "No. The pawn on g7 takes her.",
-        "No. The knight on g8 takes her."
+        "Yes, for the moment. Nothing black attacks h5 \u2014 but she will be chased by pieces worth far less."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "early-queen",
       "reason": "The g7 pawn captures to f6 or h6, and the knight on g8 covers e7, f6 and h6. She is safe, and still misplaced."

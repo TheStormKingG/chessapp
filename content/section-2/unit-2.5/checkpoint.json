@@ -90,13 +90,13 @@
       "move": "Qxe6",
       "prompt": "White takes the knight with the queen instead of the pawn. Is she safe on e6?",
       "reasons": [
-        "Yes. Nothing black covers e6.",
         "No. The pawn on f7 takes her.",
+        "Yes. Nothing black covers e6.",
         "No. The rook on b8 takes her."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "discovered-attack",
       "reason": "The pawn on f7 guards e6, and so does the bishop on c8. dxe6 wins the same piece and keeps the queen."
@@ -310,12 +310,12 @@
       "prompt": "White takes the pawn on d7 instead of the queen. Is the knight safe there?",
       "reasons": [
         "Yes. Black is in check, so nothing may capture it.",
-        "No. The king on e8 takes it and answers the check at the same time.",
-        "No. The rook on h8 takes it."
+        "No. The rook on h8 takes it.",
+        "No. The king on e8 takes it and answers the check at the same time."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "concept": "discovered-check",
       "reason": "The king is next to d7, so Kxd7 captures and leaves the file in one move. A pawn was not worth the knight."

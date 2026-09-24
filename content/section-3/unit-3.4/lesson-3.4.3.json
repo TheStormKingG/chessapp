@@ -139,11 +139,11 @@
       "move": "Rh7#",
       "prompt": "White swings the rook across to h7, right beside the king, and Black has a pawn on h6. Is the rook safe on h7?",
       "reasons": [
-        "Yes. The knight on g5 guards h7, and a black pawn on h6 cannot capture backwards.",
+        "No. The rook on g8 slides across and takes it.",
         "No. The pawn on h6 takes the rook.",
-        "No. The rook on g8 slides across and takes it."
+        "Yes. The knight on g5 guards h7, and a black pawn on h6 cannot capture backwards."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 2 },
       "concept": "hook-mate",
       "hints": {
         "text": "Which way do black pawns capture?"

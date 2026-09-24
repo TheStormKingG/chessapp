@@ -162,13 +162,13 @@
       "move": "Nc4",
       "prompt": "White steps the knight to c4, deep in Black’s half. Is it safe there?",
       "reasons": [
-        "Yes. Nothing black covers c4 at all.",
+        "No. The pawn on d7 takes it.",
         "No. The bishop on c8 takes it.",
-        "No. The pawn on d7 takes it."
+        "Yes. Nothing black covers c4 at all."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "piece-activity",
       "hints": {

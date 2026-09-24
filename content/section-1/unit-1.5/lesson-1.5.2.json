@@ -83,13 +83,13 @@
       "move": "Qg6",
       "prompt": "White plays Qg6, taking every square around the king. Is that safe?",
       "reasons": [
-        "It takes the black king's last square without checking him: stalemate, and the game is drawn.",
+        "It is fine, and Black has to give up the king next move.",
         "The queen on g6 is attacked by the king and falls for nothing.",
-        "It is fine, and Black has to give up the king next move."
+        "It takes the black king's last square without checking him: stalemate, and the game is drawn."
       ],
       "answer": {
         "safe": false,
-        "reason": 0
+        "reason": 2
       },
       "concept": "queen-mate",
       "reason": "Taking the last square only wins when it comes with check. Kg6 wins instead: Black has to play Kg8, and the queen mates from c8 next move.",

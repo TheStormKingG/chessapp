@@ -143,13 +143,13 @@
       "move": "Bc4",
       "prompt": "White plays the bishop out to c4. Is it safe there?",
       "reasons": [
-        "Yes. No black pawn or piece attacks c4.",
         "No. The knight on c6 takes it.",
+        "Yes. No black pawn or piece attacks c4.",
         "No. The pawn on d7 takes it."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "concept": "italian",
       "hints": {

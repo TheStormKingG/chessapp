@@ -145,12 +145,12 @@
       "prompt": "The bishop takes the pawn on c5. Is that a good deal?",
       "reasons": [
         "A free pawn.",
-        "The pawn on b6 takes back and you lose 3 for 1.",
-        "The king on e8 takes back."
+        "The king on e8 takes back.",
+        "The pawn on b6 takes back and you lose 3 for 1."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "concept": "values"
     },
@@ -334,13 +334,13 @@
       "move": "Rd4",
       "prompt": "You want to play the rook to d4. Is that safe?",
       "reasons": [
-        "The knight on f4 does not reach d4.",
+        "The king on e8 takes it.",
         "The knight on f4 takes it.",
-        "The king on e8 takes it."
+        "The knight on f4 does not reach d4."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "dont-hang"
     },
@@ -352,12 +352,12 @@
       "prompt": "The bishop takes on e7. Is that a fair deal?",
       "reasons": [
         "The bishop is simply lost.",
-        "The king on e8 takes back but bishop for bishop is even.",
-        "The king on e1 is too far away."
+        "The king on e1 is too far away.",
+        "The king on e8 takes back but bishop for bishop is even."
       ],
       "answer": {
         "safe": true,
-        "reason": 1
+        "reason": 2
       },
       "concept": "dont-hang"
     },

@@ -109,10 +109,10 @@
       "prompt": "The pawn on d7 is undefended and your queen can just take it. Is Qxd7 safe?",
       "reasons": [
         "Yes. A free pawn is a free pawn, and it brings you closer to equal material.",
-        "No. Qxd7 is not check, so Black gets a free move, and one pawn does not change a position where you are two rooks and four pawns down.",
-        "No. The rook on f8 recaptures on d7."
+        "No. The rook on f8 recaptures on d7.",
+        "No. Qxd7 is not check, so Black gets a free move, and one pawn does not change a position where you are two rooks and four pawns down."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 2 },
       "concept": "when-to-draw",
       "hints": {
         "text": "Ask what taking the pawn is meant to achieve when the rest of the board is lost."

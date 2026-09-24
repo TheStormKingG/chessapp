@@ -55,11 +55,11 @@
       "prompt": "Is Kd5 allowed?",
       "concept": "king-moves",
       "reasons": [
-        "The rook attacks the third rank, and d5 is nowhere near it.",
+        "The black king is guarding d5.",
         "The rook attacks the whole board.",
-        "The black king is guarding d5."
+        "The rook attacks the third rank, and d5 is nowhere near it."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 2 },
       "hints": { "piece": "e4", "square": "d5" }
     },
     {

@@ -86,10 +86,10 @@
       "prompt": "White takes the stuck knight on c6 with the bishop, giving check. Is the bishop safe there?",
       "reasons": [
         "Yes. The knight was pinned, so nothing can take back.",
-        "No. The pawn on b7 takes it, and White has traded a bishop for a knight.",
-        "No. The king on e8 takes it."
+        "No. The king on e8 takes it.",
+        "No. The pawn on b7 takes it, and White has traded a bishop for a knight."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 2 },
       "concept": "pin-both-sides",
       "hints": {
         "piece": "b7",

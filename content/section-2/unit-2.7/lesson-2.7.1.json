@@ -97,10 +97,10 @@
       "prompt": "White swings the bishop to h7, right beside the black king. Is it safe there?",
       "reasons": [
         "Yes. The black king cannot reach h7 from h8.",
-        "No. The king on h8 simply takes it.",
-        "No. The white king on e1 is too far away to matter."
+        "No. The white king on e1 is too far away to matter.",
+        "No. The king on h8 simply takes it."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 2 },
       "concept": "insufficient-material",
       "hints": { "text": "h7 is next door to h8, and nothing of White's defends it." },
       "reason": "Kxh7 and the board is bare. A lone bishop has no helper, so putting it beside the enemy king just loses it — one more reason this ending is a draw."

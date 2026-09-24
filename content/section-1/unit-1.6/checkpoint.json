@@ -419,13 +419,13 @@
       "move": "Qxb5",
       "prompt": "The queen takes the pawn on b5. Is that safe?",
       "reasons": [
-        "The pawn on c6 takes back, and a queen has gone for a pawn.",
+        "The king on g8 takes back.",
         "Nothing defends the pawn on b5.",
-        "The king on g8 takes back."
+        "The pawn on c6 takes back, and a queen has gone for a pawn."
       ],
       "answer": {
         "safe": false,
-        "reason": 0
+        "reason": 2
       },
       "concept": "piece-safe"
     },
@@ -470,13 +470,13 @@
       "move": "O-O",
       "prompt": "White castles short. Is that safe?",
       "reasons": [
-        "The king goes to the corner behind the pawns on f2, g2 and h2, and the rook on h1 comes to f1.",
+        "The knight on f6 takes the pawn on e4 first, so there is no time for it.",
         "The bishop on c5 attacks g1 along the diagonal, so the king walks into it.",
-        "The knight on f6 takes the pawn on e4 first, so there is no time for it."
+        "The king goes to the corner behind the pawns on f2, g2 and h2, and the rook on h1 comes to f1."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "habit-one"
     },

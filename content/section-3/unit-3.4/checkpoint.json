@@ -43,11 +43,11 @@
       "move": "Ra5#",
       "prompt": "White plays Ra5, two squares from the black king. Is the rook safe there?",
       "reasons": [
-        "Yes. Nothing black can reach a5, and the king is two squares away.",
+        "No. The king walks to a6 and takes it next move.",
         "No. The pawn on b7 comes down and takes it.",
-        "No. The king walks to a6 and takes it next move."
+        "Yes. Nothing black can reach a5, and the king is two squares away."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 2 },
       "concept": "anastasia-mate",
       "reason": "Black has a king and two pawns. The pawns on b7 and c7 capture towards a6 and c6 and d6, never as far as a5, and the king is mated on the spot, so he never gets to walk anywhere."
     },
@@ -99,11 +99,11 @@
       "move": "Ra7#",
       "prompt": "The rook lands on a7, right beside the black king. Is it safe there?",
       "reasons": [
-        "Yes. The knight on c6 guards a7, so the king may not take it.",
         "No. The king takes it, because nothing of White's defends a7.",
+        "Yes. The knight on c6 guards a7, so the king may not take it.",
         "No. The pawn on h5 runs down and takes it."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "arabian-mate",
       "reason": "A knight on c6 attacks a7. The king may not capture a defended piece, and a pawn on h5 is on the wrong side of the board entirely. Ra7 is mate."
     },
@@ -155,11 +155,11 @@
       "move": "Re8#",
       "prompt": "The rook drops onto e8, right beside the black king. Is it safe there?",
       "reasons": [
-        "Yes. The bishop on b5 guards e8 through c6 and d7.",
+        "No. The pawn on c7 covers e8.",
         "No. The king simply takes it.",
-        "No. The pawn on c7 covers e8."
+        "Yes. The bishop on b5 guards e8 through c6 and d7."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 2 },
       "concept": "opera-mate",
       "reason": "b5, c6, d7, e8 is one clear diagonal, so the rook is defended and Kxe8 is illegal. A pawn on c7 attacks b6 and d6, nowhere near e8."
     },
@@ -267,11 +267,11 @@
       "move": "Ra7#",
       "prompt": "The rook lands on a7 beside the king. Is it safe there?",
       "reasons": [
-        "Yes. The knight on b5 guards a7.",
         "No. The king takes it, because nothing defends a7.",
+        "Yes. The knight on b5 guards a7.",
         "No. The pawn on a6 takes it."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "hook-mate",
       "reason": "A knight on b5 attacks a7 and c7. The king may not take a defended rook, and a black pawn on a6 captures towards b5, never backwards to a7."
     },

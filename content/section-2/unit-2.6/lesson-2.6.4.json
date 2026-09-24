@@ -159,13 +159,13 @@
       "move": "e5",
       "prompt": "Black answers 1.e4 with the same pawn. Is the pawn safe on e5?",
       "reasons": [
-        "Yes. Nothing white attacks e5.",
         "No. The pawn on e4 takes it.",
+        "Yes. Nothing white attacks e5.",
         "No. The queen on d1 takes it."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "concept": "centre",
       "hints": {

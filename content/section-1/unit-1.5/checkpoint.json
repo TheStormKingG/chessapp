@@ -129,13 +129,13 @@
       "move": "Rg7",
       "prompt": "White plays Rg7, taking the last square from the black king. Is that safe?",
       "reasons": [
-        "It leaves Black with no legal move and no check: stalemate, and the win is gone.",
         "The rook on g7 is next to the black king and just gets taken.",
+        "It leaves Black with no legal move and no check: stalemate, and the win is gone.",
         "It is fine, and Rg8 is mate next move."
       ],
       "answer": {
         "safe": false,
-        "reason": 0
+        "reason": 1
       },
       "concept": "rook-mate",
       "reason": "Ra8 is mate right now; taking the last square is only right when it comes with check.",
@@ -248,13 +248,13 @@
       "move": "Qb6",
       "prompt": "White plays Qb6, taking every square around the black king. Is that safe?",
       "reasons": [
-        "It leaves Black with no move and no check: stalemate, and the game is drawn.",
         "The queen on b6 is hanging to the black king.",
+        "It leaves Black with no move and no check: stalemate, and the game is drawn.",
         "It is fine, because Qb7 is mate next move."
       ],
       "answer": {
         "safe": false,
-        "reason": 0
+        "reason": 1
       },
       "concept": "queen-mate",
       "reason": "Qb7 is mate straight away, because the king on c6 defends her.",
@@ -501,13 +501,13 @@
       "move": "d6",
       "prompt": "Black plays d6, opening a line for the bishop. Is that safe?",
       "reasons": [
-        "Qxf7 is checkmate: the bishop on c4 defends the queen and the king cannot take her.",
         "The pawn on d6 is hanging to the bishop on c4.",
+        "Qxf7 is checkmate: the bishop on c4 defends the queen and the king cannot take her.",
         "It is safe, because the bishop on c8 now guards f5."
       ],
       "answer": {
         "safe": false,
-        "reason": 0
+        "reason": 1
       },
       "concept": "meeting-early-mates",
       "reason": "A useful-looking move is still a losing move while f7 has two attackers and one defender.",
@@ -523,13 +523,13 @@
       "move": "g4",
       "prompt": "White has played f4 and now wants g4. Is that safe?",
       "reasons": [
-        "It opens the road from h4 to the white king, and Qh4 is mate on the spot.",
         "The pawn on g4 is hanging and Black just takes it.",
+        "It opens the road from h4 to the white king, and Qh4 is mate on the spot.",
         "It is safe, because the two pawns keep Black's queen out."
       ],
       "answer": {
         "safe": false,
-        "reason": 0
+        "reason": 1
       },
       "concept": "meeting-early-mates",
       "reason": "Move both pawns in front of your own king this early and there is nothing left covering the diagonal.",

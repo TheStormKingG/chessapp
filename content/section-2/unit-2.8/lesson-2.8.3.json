@@ -108,13 +108,13 @@
       "move": "Nxd5",
       "prompt": "This is the move the review marked. The knight takes on d5. Was it safe?",
       "reasons": [
-        "Yes. Nothing defends the pawn on d5.",
         "No. The pawn on c6 takes it back.",
+        "Yes. Nothing defends the pawn on d5.",
         "No. The king on e8 takes it back."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "first-mistake",
       "hints": {

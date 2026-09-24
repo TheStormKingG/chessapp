@@ -134,13 +134,13 @@
       "move": "Rd6",
       "prompt": "White pushes the front rook to d6 instead of capturing. Is it safe there?",
       "reasons": [
-        "Yes. The second rook on d1 is defending it.",
         "No. The pawn on c7 takes it.",
+        "Yes. The second rook on d1 is defending it.",
         "No. The knight on b8 takes it."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "battery",
       "hints": {

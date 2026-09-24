@@ -69,13 +69,13 @@
       "move": "Rd7",
       "prompt": "Being a rook up is no reason to stop looking. White plays Rd7. Is the rook safe there?",
       "reasons": [
-        "Yes. Nothing black can reach d7.",
         "No. The knight on f6 takes it.",
+        "Yes. Nothing black can reach d7.",
         "No. The rook on a8 swings across and takes it."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "four-elements",
       "hints": {

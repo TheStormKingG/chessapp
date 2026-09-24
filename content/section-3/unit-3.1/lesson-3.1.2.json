@@ -116,10 +116,10 @@
       "prompt": "White wants to check straight away with Rd8. Is the rook safe on that square?",
       "reasons": [
         "Yes. Nothing black can reach d8.",
-        "No. The rook on a8 takes it along the back rank.",
-        "No. The knight on f6 takes it."
+        "No. The knight on f6 takes it.",
+        "No. The rook on a8 takes it along the back rank."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 2 },
       "concept": "overloading",
       "hints": {
         "text": "Read along the eighth rank from a8. Then write out the knight's eight squares and see whether d8 is one of them."

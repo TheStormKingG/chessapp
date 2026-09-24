@@ -213,13 +213,13 @@
       "move": "Qg8+",
       "prompt": "White plays the queen to g8, right in front of the black king. Is she safe there?",
       "reasons": [
-        "Yes. The pawn on f6 defends g8.",
         "No. The king on h8 simply takes her.",
+        "Yes. The pawn on f6 defends g8.",
         "No. The rook on c2 takes her."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "support-mate",
       "reason": "A pawn on f6 covers g7 and e7, never g8. One square along, and the queen is lost."
@@ -393,13 +393,13 @@
       "move": "Nf7#",
       "prompt": "White drops the knight on f7, a knight's leap from the black king. Is it safe there?",
       "reasons": [
-        "Yes. Nothing black attacks f7.",
         "No. The pawn on g7 takes it.",
+        "Yes. Nothing black attacks f7.",
         "No. The rook on g8 takes it."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "concept": "smothered-mate",
       "reason": "A black pawn on g7 captures to f6 and h6, and the rook on g8 covers the g-file and the eighth rank."

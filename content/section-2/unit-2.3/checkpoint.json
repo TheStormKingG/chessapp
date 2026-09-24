@@ -82,13 +82,13 @@
       "move": "d4",
       "prompt": "White pushes the pawn to d4, where the knight on c6 attacks it. Is the pawn safe on d4?",
       "reasons": [
-        "Yes. Only the knight on c6 attacks d4, and the bishop on a4 pins it to the king.",
         "No. The knight on c6 takes it.",
+        "Yes. Only the knight on c6 attacks d4, and the bishop on a4 pins it to the king.",
         "No. The black king walks over and collects it."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "concept": "absolute-pin",
       "reason": "Nxd4 would leave the black king in check from the bishop on a4, so it is not a legal move. A pinned defender is not a defender."
@@ -200,13 +200,13 @@
       "move": "Ne5",
       "prompt": "White plays the knight to e5, where the knight on d7 can reach it. Is the white knight safe there?",
       "reasons": [
-        "Yes, for all practical purposes. Nxe5 is legal, but then Rxd8 wins the queen.",
+        "No. The pawn on f7 takes it.",
         "No. The knight on d7 takes it and wins a piece.",
-        "No. The pawn on f7 takes it."
+        "Yes, for all practical purposes. Nxe5 is legal, but then Rxd8 wins the queen."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "relative-pin",
       "reason": "The capture is legal and far too expensive. That is exactly what makes this kind of pin different."
@@ -391,13 +391,13 @@
       "move": "Rc1+",
       "prompt": "White checks the king on c4 with the rook on c1. Is the rook safe there?",
       "reasons": [
-        "Yes. The queen cannot see past its own king, and the king is three squares away.",
         "No. The queen on c8 takes it.",
+        "Yes. The queen cannot see past its own king, and the king is three squares away.",
         "No. The king walks down the file and takes it."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "concept": "skewer",
       "reason": "The king is the thing blocking its own queen, which is the whole point of the position."
@@ -481,13 +481,13 @@
       "move": "c5",
       "prompt": "White pushes the pawn to c5, right beside the black knight. Is the pawn safe there?",
       "reasons": [
-        "Yes. No black piece attacks c5 at all.",
+        "No. The pawn on b7 takes it.",
         "No. The knight on d6 takes it.",
-        "No. The pawn on b7 takes it."
+        "Yes. No black piece attacks c5 at all."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "keep-the-pin",
       "reason": "A knight never attacks the square diagonally beside it, and b7 attacks a6 and c6."

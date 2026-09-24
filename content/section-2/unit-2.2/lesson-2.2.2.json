@@ -88,11 +88,11 @@
       "move": "e6+",
       "prompt": "White pushes the pawn to e6, check. Is the pawn safe on e6?",
       "reasons": [
-        "Yes. The pawn on d5 defends e6, so the king cannot take and has to step away.",
         "No. Nothing defends e6, so the king just takes the pawn.",
+        "Yes. The pawn on d5 defends e6, so the king cannot take and has to step away.",
         "No. The rook on d7 takes the pawn."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "pawn-fork",
       "hints": {
         "piece": "d5",

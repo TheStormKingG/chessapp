@@ -48,11 +48,11 @@
       "prompt": "The bishop takes on f7 with check. Is that safe?",
       "move": "Bxf7+",
       "reasons": [
-        "The king on e8 takes the bishop straight back, and White has given three points for one.",
         "The king on e8 cannot take, because the knight on f3 guards f7.",
+        "The king on e8 takes the bishop straight back, and White has given three points for one.",
         "Black has to move the king, so the bishop walks away next move."
       ],
-      "answer": { "safe": false, "reason": 0 },
+      "answer": { "safe": false, "reason": 1 },
       "concept": "habit-one"
     },
     {
@@ -62,11 +62,11 @@
       "prompt": "The knight takes the knight on c6. Is that a fair deal?",
       "move": "Nxc6",
       "reasons": [
-        "Knight for knight, and the pawn on d7 takes back. Three points each.",
+        "The queen on d8 takes back and White loses three for nothing.",
         "Nothing on c6 can be taken back, so it wins a free knight.",
-        "The queen on d8 takes back and White loses three for nothing."
+        "Knight for knight, and the pawn on d7 takes back. Three points each."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 2 },
       "concept": "habit-one"
     },
     {

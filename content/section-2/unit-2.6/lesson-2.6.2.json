@@ -180,13 +180,13 @@
       "move": "Qh5",
       "prompt": "White brings the queen out to h5 on move two. Is she safe on h5?",
       "reasons": [
-        "Yes, for now. Nothing black attacks h5 \u2014 but every move Black plays to chase her will develop a piece.",
+        "No. The knight on g8 takes her.",
         "No. The pawn on g7 takes her.",
-        "No. The knight on g8 takes her."
+        "Yes, for now. Nothing black attacks h5 \u2014 but every move Black plays to chase her will develop a piece."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "early-queen",
       "hints": {

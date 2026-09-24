@@ -416,13 +416,13 @@
       "move": "Qb6",
       "prompt": "White brings the queen to b6. Is that safe?",
       "reasons": [
-        "It covers a7, b7 and b8 without giving check, so Black has no legal move: a draw.",
+        "The queen on b6 is undefended and gets taken.",
         "The king slips out to a7 and runs for the middle.",
-        "The queen on b6 is undefended and gets taken."
+        "It covers a7, b7 and b8 without giving check, so Black has no legal move: a draw."
       ],
       "answer": {
         "safe": false,
-        "reason": 0
+        "reason": 2
       },
       "concept": "stalemate",
       "hints": {
@@ -437,13 +437,13 @@
       "move": "Rb7",
       "prompt": "White brings the rook to b7. Is that safe?",
       "reasons": [
-        "It takes a7 and b8 away without giving check, and the king defends b7, so Black has no move at all: a draw.",
         "The rook on b7 is hanging to the king.",
+        "It takes a7 and b8 away without giving check, and the king defends b7, so Black has no move at all: a draw.",
         "It gives check and Black has to find a square."
       ],
       "answer": {
         "safe": false,
-        "reason": 0
+        "reason": 1
       },
       "concept": "stalemate",
       "hints": {

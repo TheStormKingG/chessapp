@@ -29,11 +29,11 @@
       "move": "g4",
       "prompt": "White wants to play g4, right beside the knight. Is the pawn safe on g4?",
       "reasons": [
-        "Yes. A knight on h5 covers f4, f6, g3 and g7, and g4 is not one of them.",
         "No. The knight on h5 takes it.",
+        "Yes. A knight on h5 covers f4, f6, g3 and g7, and g4 is not one of them.",
         "No. The rook on a8 comes down to a4 and takes it."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "trapped-piece",
       "reason": "A knight never attacks the square beside it, and the rook on a8 is blocked by its own pawn on a7. g4 is safe, and from there it attacks h5."
     },
@@ -203,11 +203,11 @@
       "move": "g8=Q",
       "prompt": "White promotes to a queen on g8. No black piece is anywhere near her. Is she safe there?",
       "reasons": [
-        "Yes, completely, and that is exactly the problem: Black has no legal move at all.",
         "No. The king on h6 takes her.",
+        "Yes, completely, and that is exactly the problem: Black has no legal move at all.",
         "No. Black plays Kh7 and wins her next move."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "under-promotion",
       "reason": "She is safe and the game is over. g5, g6, g7 and h7 are all hers, h5 belongs to the pawn on g4, and Black is not in check: stalemate. The king on h6 is not next to g8, and Kh7 is not a legal move once she lands."
     },
@@ -341,11 +341,11 @@
       "move": "e6",
       "prompt": "White pushes the pawn to e6, right between a rook and a knight. Is it safe there?",
       "reasons": [
-        "Yes. Neither piece attacks e6, and the pawn on f5 defends it in any case.",
         "No. The rook on d7 takes it.",
+        "Yes. Neither piece attacks e6, and the pawn on f5 defends it in any case.",
         "No. The knight on f7 takes it."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "advanced-pawn",
       "reason": "A rook on d7 covers the d-file and the seventh rank, never e6. A knight on f7 reaches d6, d8, e5, g5, h6 and h8, never e6. And f5 is behind the pawn in any case."
     },

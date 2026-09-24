@@ -433,13 +433,13 @@
       "move": "Bh7",
       "prompt": "White swings the bishop to h7, right beside the black king. Is it safe?",
       "reasons": [
-        "Yes — the black king cannot reach h7 from h8.",
         "No. The king on h8 simply takes it.",
+        "Yes — the black king cannot reach h7 from h8.",
         "No. It would be pinned against the white king."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "insufficient-material",
       "reason": "Kxh7 and the board is bare. Nothing of White's defends h7, and a lone bishop has no helper to give it one."
@@ -469,13 +469,13 @@
       "move": "Ke2",
       "prompt": "White starts the walk with Ke2. Is the king safe on e2?",
       "reasons": [
-        "Yes. Black has a king on g8 and three pawns, and none of them reaches e2.",
+        "No. The black king can reach e2 in two moves.",
         "No. The pawn on f7 attacks e2 down the file.",
-        "No. The black king can reach e2 in two moves."
+        "Yes. Black has a king on g8 and three pawns, and none of them reaches e2."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "king-activity",
       "reason": "Safe, and the first step of the journey. Black's nearest man is five squares away."
@@ -487,13 +487,13 @@
       "move": "Kh3",
       "prompt": "White plays Kh3, attacking the pawn on h4. Is the king safe there?",
       "reasons": [
-        "Yes. A black pawn on h4 captures towards g3, not h3.",
         "No. The pawn on h4 takes it.",
+        "Yes. A black pawn on h4 captures towards g3, not h3.",
         "No. The black king on e7 defends h4."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "concept": "king-safe",
       "reason": "Safe. A pawn never captures straight down the file it stands on, so h4 cannot touch h3 — though pushing the a-pawn is still the stronger move."

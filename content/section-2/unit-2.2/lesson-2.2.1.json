@@ -128,11 +128,11 @@
       "move": "Ng6+",
       "prompt": "White forks the king and the rook with the knight to g6. Is the knight safe there?",
       "reasons": [
-        "Yes. Nothing covers g6, so Black must move the king and lose the rook.",
         "No. The pawn on g7 takes the knight.",
+        "Yes. Nothing covers g6, so Black must move the king and lose the rook.",
         "No. The rook on f8 takes the knight."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "knight-fork",
       "hints": {
         "square": "g6",

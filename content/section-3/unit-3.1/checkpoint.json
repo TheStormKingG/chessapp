@@ -327,13 +327,13 @@
       "move": "Rxc6+",
       "prompt": "White takes the pinned knight at once with Rxc6. Is the rook safe on c6?",
       "reasons": [
-        "Yes. The knight was pinned, so nothing is allowed to take back.",
         "No. The pawn on b7 takes it.",
+        "Yes. The knight was pinned, so nothing is allowed to take back.",
         "No. The king on c8 takes it."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "exploit-pin",
       "reason": "A pin stops the knight moving; it does not stop a pawn recapturing. Rxc6 bxc6 hands over a rook for a knight. The king on c8 is not next to c6 and cannot reach it."
@@ -439,13 +439,13 @@
       "move": "Ne7+",
       "prompt": "White gives check with the knight on e7. Is the knight safe on that square?",
       "reasons": [
-        "Yes. No black piece attacks e7.",
+        "No. The king on g8 takes it.",
         "No. The rook on f8 takes it.",
-        "No. The king on g8 takes it."
+        "Yes. No black piece attacks e7."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "deflection",
       "reason": "The rook on f8 moves along the f-file and the eighth rank, and e7 is on neither. The king on g8 is two squares away from e7. Nothing can touch the knight."

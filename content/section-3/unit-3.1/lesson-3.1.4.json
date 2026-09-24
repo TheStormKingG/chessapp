@@ -59,11 +59,11 @@
       "move": "Bd5+",
       "prompt": "White wants to give check with the bishop on d5. Is the bishop safe there?",
       "reasons": [
-        "Yes. No black piece attacks d5.",
+        "No. The rook on f8 takes it.",
         "No. The knight on c6 takes it.",
-        "No. The rook on f8 takes it."
+        "Yes. No black piece attacks d5."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 2 },
       "concept": "deflection",
       "hints": {
         "text": "Write out the eight squares a knight on c6 reaches and look for d5 among them."

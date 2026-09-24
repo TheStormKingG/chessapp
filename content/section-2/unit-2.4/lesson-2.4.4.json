@@ -130,13 +130,13 @@
       "move": "Nf7#",
       "prompt": "White drops the knight on f7, a knight's leap from the black king. Is the knight safe there?",
       "reasons": [
-        "Yes. Nothing black attacks f7. The pawns capture the other way.",
         "No. The pawn on g7 takes it.",
+        "Yes. Nothing black attacks f7. The pawns capture the other way.",
         "No. The rook on g8 takes it."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "concept": "smothered-mate",
       "hints": {

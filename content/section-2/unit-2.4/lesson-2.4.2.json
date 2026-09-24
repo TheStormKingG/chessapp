@@ -103,12 +103,12 @@
       "prompt": "White plays the queen to g8, right in front of the black king. Is she safe there?",
       "reasons": [
         "Yes. The pawn on f6 defends g8.",
-        "No. The king on h8 simply takes her.",
-        "No. The rook on c2 takes her."
+        "No. The rook on c2 takes her.",
+        "No. The king on h8 simply takes her."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "concept": "support-mate",
       "hints": {

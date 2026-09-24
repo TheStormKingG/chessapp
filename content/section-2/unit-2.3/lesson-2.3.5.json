@@ -128,11 +128,11 @@
       "move": "c5",
       "prompt": "White pushes the pawn to c5, right beside the black knight. Is the pawn safe there?",
       "reasons": [
-        "Yes. No black piece attacks c5 at all.",
         "No. The knight on d6 takes it.",
+        "Yes. No black piece attacks c5 at all.",
         "No. The pawn on b7 takes it."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "keep-the-pin",
       "hints": {
         "piece": "d6",

@@ -50,11 +50,11 @@
       "move": "d8=Q",
       "prompt": "White can make a new queen on d8. Is she safe there?",
       "reasons": [
-        "Yes. Nothing of Black's attacks d8, so she cannot be taken.",
         "No. The queen on b7 takes her along the eighth rank.",
+        "Yes. Nothing of Black's attacks d8, so she cannot be taken.",
         "No. The king on f7 takes her at once."
       ],
-      "answer": { "safe": true, "reason": 0 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "under-promotion",
       "hints": { "text": "Safe is not the same as useful." },
       "reason": "She is perfectly safe and completely idle. The queen on b7 cannot reach d8 and f7 is not next to it, but from d8 she attacks nothing of Black's either, and Black still has a queen. A knight on the very same square attacks both king and queen."

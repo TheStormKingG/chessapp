@@ -165,13 +165,13 @@
       "move": "Bxg7+",
       "prompt": "The rook on g8 guards g7. White takes the queen there anyway. Is the bishop safe on g7 for now?",
       "reasons": [
-        "Yes. Rxg7 does not answer the check, so Black has to move his king first.",
+        "Yes. The rook on d1 defends g7.",
         "No. The rook on g8 takes it straight away.",
-        "Yes. The rook on d1 defends g7."
+        "Yes. Rxg7 does not answer the check, so Black has to move his king first."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "discovered-check",
       "hints": {

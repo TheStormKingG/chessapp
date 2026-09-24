@@ -101,13 +101,13 @@
       "move": "Bh6+",
       "prompt": "The bishop checks on h6. Is that safe?",
       "reasons": [
-        "The rook on d5 defends h6.",
         "The knight on g8 takes the bishop on h6.",
+        "The rook on d5 defends h6.",
         "The king on f8 takes the bishop on h6."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 0
       },
       "concept": "checks-and-captures"
     },

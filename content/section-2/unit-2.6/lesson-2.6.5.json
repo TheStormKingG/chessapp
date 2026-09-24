@@ -149,13 +149,13 @@
       "move": "O-O",
       "prompt": "Black castles on the king's side. Is the king safe on g8?",
       "reasons": [
-        "Yes. Three pawns that have never moved stand in front of it and no white piece attacks it.",
+        "No. The knight on f3 jumps to g5 and checks the king.",
         "No. The bishop on d3 gives check as soon as the king arrives.",
-        "No. The knight on f3 jumps to g5 and checks the king."
+        "Yes. Three pawns that have never moved stand in front of it and no white piece attacks it."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 2
       },
       "concept": "castle-early",
       "hints": {

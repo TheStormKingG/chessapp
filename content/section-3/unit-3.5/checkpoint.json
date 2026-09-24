@@ -181,10 +181,10 @@
       "prompt": "You take the h-pawn with Rxh7, hoping Black takes back. Is that a sound way to try for the draw?",
       "reasons": [
         "Yes. The king must take the rook, and then you have nothing left to move.",
-        "No. Rxh7 is not check, so Black chooses his reply. Ng5 attacks the rook and takes the knight off f3, which unfreezes your king.",
-        "No. The rook on h7 can be taken by the rook on f8."
+        "No. The rook on h7 can be taken by the rook on f8.",
+        "No. Rxh7 is not check, so Black chooses his reply. Ng5 attacks the rook and takes the knight off f3, which unfreezes your king."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 2 },
       "concept": "stalemate-defence",
       "reason": "A sacrifice for stalemate has to be check, or the other player simply declines it. Rg6 is check; Rxh7 is only an offer, and Black is under no obligation to accept."
     },
@@ -243,10 +243,10 @@
       "prompt": "The pawn reaches the eighth rank and you take a new queen. Is that safe?",
       "reasons": [
         "Yes. A queen is the strongest piece, so promoting to one is always right.",
-        "No. The new queen covers a8, b8 and a6 all at once and gives no check, so Black has no legal move: stalemate.",
-        "No. The black king on a7 simply captures the new queen on c8."
+        "No. The black king on a7 simply captures the new queen on c8.",
+        "No. The new queen covers a8, b8 and a6 all at once and gives no check, so Black has no legal move: stalemate."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 2 },
       "concept": "stalemate",
       "reason": "Your king on c6 already holds b6 and b7. A queen on c8 covers the rest, and none of it is check. A rook on c8 covers a8 and b8 but not a6, so it leaves Black a move, and wins."
     },
@@ -343,11 +343,11 @@
       "move": "Qxd6",
       "prompt": "Nothing defends the pawn on d6, so your queen takes it. Is that safe?",
       "reasons": [
-        "Yes. The pawn really is free, and free material is always worth taking.",
         "No. Qxd6 gives no check, so Black gets a move of his own, and one pawn does not change a position where you are two rooks and four pawns down.",
+        "Yes. The pawn really is free, and free material is always worth taking.",
         "No. The rook on f8 takes back on d6."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": false, "reason": 0 },
       "concept": "when-to-draw",
       "reason": "Nothing recaptures, so the pawn is genuinely free. It still loses, because the draw was never about material: it was about never letting Black have a move."
     },

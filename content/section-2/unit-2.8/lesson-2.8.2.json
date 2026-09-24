@@ -74,12 +74,12 @@
       "prompt": "The rook takes the pawn on e5. Is it safe there?",
       "reasons": [
         "Yes. Nothing black can reach e5.",
-        "No. The knight on d7 takes it back.",
-        "No. The king on g8 takes it back."
+        "No. The king on g8 takes it back.",
+        "No. The knight on d7 takes it back."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "concept": "the-clock",
       "hints": {
@@ -96,12 +96,12 @@
       "prompt": "Same capture, a different board. The rook takes on e5. Is it safe there?",
       "reasons": [
         "Yes. Nothing defends the pawn on e5.",
-        "No. The pawn on f6 takes it back.",
-        "No. The king on g8 takes it back."
+        "No. The king on g8 takes it back.",
+        "No. The pawn on f6 takes it back."
       ],
       "answer": {
         "safe": false,
-        "reason": 1
+        "reason": 2
       },
       "concept": "the-clock",
       "hints": {
@@ -117,13 +117,13 @@
       "move": "Rxd5",
       "prompt": "The rook takes the knight on d5. You have checked the reply. Is the rook safe there?",
       "reasons": [
-        "Yes. No black piece can reach d5.",
         "No. The king on g8 takes it back.",
+        "Yes. No black piece can reach d5.",
         "No. The pawn on f7 takes it back."
       ],
       "answer": {
         "safe": true,
-        "reason": 0
+        "reason": 1
       },
       "concept": "the-clock",
       "hints": {
