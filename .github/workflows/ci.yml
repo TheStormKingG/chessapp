@@ -1,0 +1,57 @@
+# Checks on a pull request.
+#
+# WHY THIS EXISTS. `deploy.yml` runs the same gates, but only `on: push` to
+# `main` -- so until now a pull request was checked by nothing except the
+# secret scanner, and a branch's first real verdict arrived AFTER it was
+# merged. That is not a theoretical gap: PR #18 merged green (one passing
+# check, which was GitGuardian) and turned the deploy red on a lint warning
+# thirty seconds later, with `main` broken and the fix needing its own PR.
+#
+# The order below is deliberate and is not the deploy's order. Lint and
+# typecheck take seconds and catch the class of mistake that actually reaches a
+# pull request; `verify:content` runs Stockfish over every authored challenge
+# and takes minutes. Fast checks first means a lint failure reports in under a
+# minute instead of behind the engine.
+#
+# `verify:content` IS included despite the cost, because content is what this
+# repository mostly changes and a bad position is exactly what review cannot
+# see. `verify:puzzles` is NOT: it is 398s against a static corpus that no
+# pull request touches, the deploy caches it on the packs' own hash, and
+# duplicating it here would double the cost of every PR to re-prove 7,909
+# puzzles that did not change.
+name: CI
+
+on:
+  pull_request:
+  # So a branch can be checked before it has a pull request, and so this can be
+  # re-run by hand after a flake.
+  workflow_dispatch:
+
+# A force-push supersedes the run it replaces. Per-ref, so two branches never
+# cancel each other.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run lint
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run verify:content
+      # The build is the last gate a deploy runs and the one most likely to
+      # disagree with `npm test`: the production minifier rewrites values the
+      # dev server leaves alone, which has already cost this project a guard
+      # that passed in dev and failed in the shipped artefact.
+      - run: npm run build
