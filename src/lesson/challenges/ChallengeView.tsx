@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Board } from '@/board';
+import { Board, type Replay } from '@/board';
 import { btn } from '@/app/Button';
 import type { Action, Highlights, LessonState } from '../LessonMachine';
 import type { Challenge } from '../types';
@@ -18,6 +18,7 @@ import { PlayItOut } from './PlayItOut';
 export function ChallengeView({
   c,
   answeredFen,
+  revealed,
   highlights,
   refutation,
   busy,
@@ -32,6 +33,12 @@ export function ChallengeView({
    * starting FEN and visually undoes the move it just accepted.
    */
   answeredFen: string | null;
+  /**
+   * The learner asked to be shown the answer (or ran out of tries), as opposed
+   * to having found it. Only `find_the_sequence` needs to tell the two apart:
+   * a learner who played the line has already seen it.
+   */
+  revealed: boolean;
   highlights: Highlights;
   refutation: LessonState['refutation'];
   busy: boolean;
@@ -66,14 +73,43 @@ export function ChallengeView({
           onSelectSquare={(square) => dispatch({ type: 'attempt', attempt: { kind: 'square', square } })}
         />
       );
-    case 'find_the_sequence':
+    case 'find_the_sequence': {
+      /*
+       * "Show me" on a sequence used to show nothing.
+       *
+       * Every other type demonstrates its answer on reveal. This one left the
+       * board where the learner got stuck, while `revealText` named only the
+       * FIRST move of the line -- and a revealed challenge is `busy`, which
+       * disables the board, so the learner was handed one move out of three
+       * and then stopped from playing it.
+       *
+       * The board already knows how to play a line out: `replay` does it for
+       * engine refutations. Reusing it is better than a second way to animate
+       * a board, and it starts from `c.fen` so the line is shown whole rather
+       * than from wherever the learner happened to stop.
+       *
+       * A refutation still wins if both are present: a learner who has just
+       * played a losing move needs to see why before they see the answer.
+       */
+      const revealReplay: Replay | null =
+        revealed && c.answer.line.length > 0
+          ? {
+              fen: c.fen,
+              moves: c.answer.line,
+              san: c.answer.line[c.answer.line.length - 1] ?? '',
+              // Not "try again": the challenge is revealed and the board is
+              // disabled, so the default sentence would tell the learner to do
+              // something the interface has just stopped them doing.
+              note: 'That is the line.',
+            }
+          : null;
       return (
         <Sequence
           c={c}
           disabled={busy}
           textEntry={textEntry}
           arrows={refutation ? [{ from: refutation.from, to: refutation.to, color: 'danger' }] : []}
-          replay={refutation?.replay ?? null}
+          replay={refutation?.replay ?? revealReplay}
           onDone={() => {
             const first = c.answer.line[0];
             if (first !== undefined) dispatch({ type: 'attempt', attempt: { kind: 'move', uci: first } });
@@ -84,6 +120,7 @@ export function ChallengeView({
           }}
         />
       );
+    }
     case 'find_them_all':
       return (
         <FindThemAll

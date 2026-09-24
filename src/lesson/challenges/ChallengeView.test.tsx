@@ -11,7 +11,7 @@ const noop = () => undefined;
 
 function show(c: Challenge) {
   return render(
-    <ChallengeView c={c} answeredFen={null}
+    <ChallengeView c={c} answeredFen={null} revealed={false}
       highlights={{}} refutation={null} busy={false} dispatch={noop} onWrongMove={noop} />,
   );
 }
