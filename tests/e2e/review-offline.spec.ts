@@ -30,7 +30,7 @@ let server: SwapServer;
 
 test.beforeAll(async () => {
   test.setTimeout(300_000);
-  fixtures = await buildFixtures();
+  fixtures = await buildFixtures('review-offline');
   server = await startSwapServer(fixtures.a);
 });
 

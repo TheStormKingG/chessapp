@@ -46,7 +46,7 @@ let server: SwapServer;
 
 test.beforeAll(async () => {
   test.setTimeout(240_000);
-  fixtures = await buildFixtures();
+  fixtures = await buildFixtures('sw-upgrade');
   server = await startSwapServer(fixtures.a);
 });
 
