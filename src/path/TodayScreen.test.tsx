@@ -52,23 +52,18 @@ test('the terminal message appears only when everything built is finished', () =
 
   const finished = emptyProgress();
   const built = SECTIONS.flatMap((s) => s.units).filter((u) => u.built);
-  expect(built.map((u) => u.id)).toEqual([
-    '1.1',
-    '1.2',
-    '1.3',
-    '1.4',
-    '1.5',
-    '1.6',
-    '2.1',
-    '2.2',
-    '2.3',
-    '2.4',
-    '2.5',
-    '2.6',
-    '2.7',
-    '2.8',
-    '3.1',
-  ]);
+  // The built set was spelled out here so that flipping a unit on without
+  // revisiting this test failed rather than silently changing what "finished"
+  // means. Replaced by the same two properties `progress.test.ts` now asserts,
+  // for the same reason: a list rewritten once per unit authored gets
+  // transcribed from the failure, not read. Non-empty keeps the loop below
+  // from building a fixture that passes nothing, and a strict prefix of the
+  // declared path catches a gap -- a unit built behind an unbuilt one, which
+  // would make "everything built is finished" true of a path with a hole in
+  // it.
+  const declared = SECTIONS.flatMap((sec) => sec.units).map((u) => u.id);
+  expect(built.length).toBeGreaterThan(0);
+  expect(built.map((u) => u.id)).toEqual(declared.slice(0, built.length));
   for (const u of built) {
     finished.units[u.id] = { passed: true, attempts: 1, failedAttempts: 0, testedOut: false };
   }

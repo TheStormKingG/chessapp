@@ -273,6 +273,12 @@ export function Board(props: BoardProps & { size?: number; decorative?: boolean;
     setStep(openingStep(frames));
   }
 
+  // Read out of `replay` during render rather than inside the effect, so the
+  // exhaustive-deps rule has a primitive to track instead of an optional chain
+  // on an object the caller rebuilds every render. The default is the retry
+  // wording every replay had before the sequence reveal needed its own line.
+  const replayNote = replay?.note ?? 'Your position is back — try again.';
+
   // The effect owns only the clock. Every setState below happens in a timer
   // callback, which is an external system reporting back, not a cascade.
   useEffect(() => {
@@ -290,7 +296,7 @@ export function Board(props: BoardProps & { size?: number; decorative?: boolean;
     // paths, at the moment the marked position is on screen.
     ids.push(
       window.setTimeout(() => {
-        setStatus(`Replay: ${san}. ${replay?.note ?? 'Your position is back — try again.'}`);
+        setStatus(`Replay: ${san}. ${replayNote}`);
       }, arrival),
     );
     ids.push(window.setTimeout(() => { setStep(null); }, arrival + (reduced ? REPLAY_HOLD_REDUCED_MS : REPLAY_HOLD_MS)));
@@ -299,7 +305,7 @@ export function Board(props: BoardProps & { size?: number; decorative?: boolean;
       for (const id of ids) clearTimeout(id);
       timers.current = [];
     };
-  }, [frames, san]);
+  }, [frames, san, replayNote]);
 
   const replaying = step !== null;
   const shownFen = replaying && frames ? (frames.fens[step] ?? fen) : fen;

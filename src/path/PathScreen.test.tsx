@@ -2,6 +2,7 @@ import { render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { db, emptyProgress, saveResume, useProgress } from '@/data';
 import { PathScreen } from './PathScreen';
+import { SECTIONS } from './curriculum';
 
 beforeEach(async () => {
   await db.resume.clear();
@@ -70,36 +71,31 @@ test('a locked run states how long it is, and never says "Locked" per node', () 
   // it was a section heading printed twice; the counts differ, and the count is
   // the distance between the learner and the next thing that opens.
   //
-  // Fifteen units are built now, so a fresh path has FIFTEEN locked runs,
-  // one per unit, broken apart by the checkpoints between them (a built unit's
-  // checkpoint is attemptable, never locked).
-  // Asserting the whole sequence in path order pins both the counts and the
-  // boundaries -- `getByText('5 locked')` could no longer be unambiguous once
-  // three units run five lessons long.
+  // A fresh path has ONE locked run per built unit, broken apart by the
+  // checkpoints between them (a built unit's checkpoint is attemptable, never
+  // locked). The first unit's run is one shorter, because its first lesson is
+  // the active node rather than a locked one.
+  //
+  // The sequence used to be written out literally. It is DERIVED now: every
+  // unit authored appends a run, and a fifteen-line list rewritten on each
+  // flip is transcribed from the failure message rather than read. What is
+  // asserted instead is the shape the literal list was standing in for -- one
+  // run per built unit, in path order, each as long as that unit's lessons --
+  // which is a stronger statement than the numbers were, because it says WHY
+  // each number is what it is. The lengths are still pinned, since they come
+  // from the curriculum rather than from the screen.
   const runs = [...document.querySelectorAll('*')]
     .filter((el) => el.children.length === 0 && /^\d+ locked$/.test(el.textContent ?? ''))
     .map((el) => el.textContent);
-  expect(runs).toEqual([
-    '7 locked',
-    '5 locked',
-    '5 locked',
-    '3 locked',
-    '5 locked',
-    '3 locked',
-    '5 locked',
-    '4 locked',
-    '5 locked',
-    '5 locked',
-    '3 locked',
-    '5 locked',
-    '6 locked',
-    '3 locked',
-    '4 locked',
-  ]);
-  // 68 locked lessons = Section 1's 29, Section 2's 36 and unit 3.1's 4, minus
-  // the active one. Every authoring pass moves one run out of the `coming`
-  // list and into this one; 3.1 is the first of Section 3 to make that trip.
-  expect(runs.reduce((n, r) => n + Number(r!.split(' ')[0]), 0)).toBe(68);
+  const built = SECTIONS.flatMap((sec) => sec.units).filter((u) => u.built);
+  expect(built.length).toBeGreaterThan(0);
+  const expected = built.map((u, i) => `${String(u.lessons.length - (i === 0 ? 1 : 0))} locked`);
+  expect(runs).toEqual(expected);
+  // And the total, stated independently of the per-run split, so a run that
+  // spanned a unit boundary could not pass by cancelling out against a
+  // neighbour: every built lesson but the active one is locked.
+  const builtLessons = built.reduce((n, u) => n + u.lessons.length, 0);
+  expect(runs.reduce((n, r) => n + Number(r!.split(' ')[0]), 0)).toBe(builtLessons - 1);
   expect(screen.queryAllByText('Locked until you get there')).toHaveLength(0);
   // Line 67's original guarantee, unchanged: the word is still never printed
   // once per node, which is what chunk C2 bought.
@@ -268,17 +264,25 @@ test('every section on the path gets its own header, in path order', () => {
   // it is visible and un-attemptable, not hidden.
   expect(screen.getByText('Section 3 · 800 to 1200')).toBeInTheDocument();
   expect(screen.getByRole('heading', { name: 'Fluency and planning' })).toBeInTheDocument();
+  expect(screen.getByText('Section 4 · 1200 to 1600')).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'Club player' })).toBeInTheDocument();
   // Path order, not declaration luck.
   const headings = screen.getAllByRole('heading').map((h) => h.textContent);
-  expect(headings).toEqual(['Foundations', 'Safety and the first tactics', 'Fluency and planning']);
+  expect(headings).toEqual([
+    'Foundations',
+    'Safety and the first tactics',
+    'Fluency and planning',
+    'Club player',
+  ]);
   // One `h1` per screen: the sections rank equally, so the rest are `h2` at the
   // same `t-display` size. Level order stays valid for a screen reader.
   expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent('Foundations');
-  // getAllByRole, not getByRole: there are two h2s now, and the single-element
+  // getAllByRole, not getByRole: there are three h2s now, and the single-element
   // form throws on more than one match rather than checking the first.
   expect(screen.getAllByRole('heading', { level: 2 }).map((h) => h.textContent)).toEqual([
     'Safety and the first tactics',
     'Fluency and planning',
+    'Club player',
   ]);
 });
 
@@ -292,23 +296,30 @@ test('the meter counts the section it sits beside, not the whole path', () => {
   // An unauthored section still meters itself -- "0 of 46" is the honest
   // statement of a section nobody can start yet.
   expect(screen.getByText('0 of 46 done')).toBeInTheDocument();
+  expect(screen.getByText('0 of 53 done')).toBeInTheDocument();
   const meters = [...document.querySelectorAll('[data-rail="meter"]')];
-  expect(meters).toHaveLength(3);
+  expect(meters).toHaveLength(4);
   for (const m of meters) expect(m).toHaveAttribute('data-fill', '0');
 });
 
 test('Section 3 is what reads as coming now, and Section 2 does not', () => {
   renderPath();
-  // SCOPED through six passes. It counted 27 coming nodes across units 2.4 to
-  // 2.8, then fewer, then none once 2.8 shipped -- and now twelve, because
-  // Section 3 is declared and unauthored. The claim never changed: unauthored
-  // content is visible and un-attemptable. Only which units are unauthored did.
+  // SCOPED through seven passes. It counted 27 coming nodes across units 2.4 to
+  // 2.8, then fewer, then none once 2.8 shipped, then twelve for Section 3 --
+  // and now 23, because Section 4 is declared and unauthored too. The claim
+  // never changed: unauthored content is visible and un-attemptable. Only which
+  // units are unauthored did.
   const coming = [...document.querySelectorAll('*')]
     .filter((el) => el.children.length === 0 && /^\d+ coming$/.test(el.textContent ?? ''))
     .map((el) => el.textContent);
   // One groove per unit, never fused into one run for the rest of the
   // curriculum -- the defect that printed "44 coming" once.
-  expect(coming).toHaveLength(11); // 3.1 is built now; eleven units are not
+  // Derived, for the reason the locked-run test above gives: this number moves
+  // by one on every unit authored. One groove per UNBUILT unit -- which is the
+  // claim, and which the literal 23 only encoded.
+  const unbuilt = SECTIONS.flatMap((sec) => sec.units).filter((u) => !u.built);
+  expect(unbuilt.length).toBeGreaterThan(0);
+  expect(coming).toHaveLength(unbuilt.length);
   expect(coming.every((c) => Number(c?.split(' ')[0]) <= 11)).toBe(true);
   // Section 2 is authored, so none of it is coming...
   expect(screen.getByLabelText(/^2\.4\.1 The back-rank weakness/)).toBeInTheDocument();
@@ -317,8 +328,12 @@ test('Section 3 is what reads as coming now, and Section 2 does not', () => {
   // 3.1 is authored, so it is a real node with a real name...
   expect(screen.getByLabelText(/^3\.1\.1 Capture the guard/)).toBeInTheDocument();
   expect(screen.queryByLabelText(/^3\.1\.1 .*Content coming/)).toBeNull();
-  // ...and 3.2 onward is what is still coming.
-  expect(screen.getByLabelText(/^3\.2\.1 X-ray attacks and defences\. Content coming/)).toHaveAttribute(
+  // ...and the first unbuilt unit is what is still coming. Derived, so that
+  // flipping the unit this used to name does not break a test about the rule.
+  const firstUnbuilt = SECTIONS.flatMap((sec) => sec.units).find((u) => !u.built);
+  expect(firstUnbuilt).toBeDefined();
+  const l = firstUnbuilt!.lessons[0]!;
+  expect(screen.getByLabelText(`${l.id} ${l.title}. Content coming`)).toHaveAttribute(
     'aria-disabled',
     'true',
   );
@@ -335,31 +350,54 @@ test('an unbuilt run counts per unit, and nothing in it is a link', () => {
    *
    * The rule: a coming run breaks at the UNIT boundary. It printed "44 coming"
    * once, for eleven units at a time, which is the defect this exists to catch.
-   * When Section 3 ships, this needs the synthetic fixture back until Section 4
-   * is declared -- the same cycle, and worth knowing before it bites.
+   * Section 4 is now declared as well, so the real-data supply outlives Section
+   * 3 shipping and the synthetic fixture stays gone. It comes back only if the
+   * whole path is ever built, which is the end of v1.
    */
   renderPath();
   const coming = [...document.querySelectorAll('*')]
     .filter((el) => el.children.length === 0 && /^\d+ coming$/.test(el.textContent ?? ''))
     .map((el) => el.textContent);
 
-  // One groove per unit: eleven unbuilt units, eleven grooves, never one fused
-  // run. 3.1 was the twelfth until it was flipped on.
-  expect(coming).toHaveLength(11);
-  expect(coming).not.toEqual(['53 coming']);
-  // Each count is that unit's lessons plus its checkpoint, which stays INSIDE
-  // the groove rather than breaking it. 3.2 leads now, with three lessons.
-  expect(coming[0]).toBe('4 coming');
+  // One groove per unbuilt unit, never one fused run. Derived rather than
+  // counted: the number falls by one every time a unit is flipped on, and the
+  // claim is the per-unit split, not the total.
+  const unbuilt = SECTIONS.flatMap((sec) => sec.units).filter((u) => !u.built);
+  expect(unbuilt.length).toBeGreaterThan(0);
+  expect(coming).toHaveLength(unbuilt.length);
+  // Each groove is its own unit's lessons plus its checkpoint, in path order.
+  // This is what "never fused" MEANS, and it is what the old
+  // `not.toEqual(['118 coming'])` was gesturing at with a single example.
+  expect(coming).toEqual(unbuilt.map((u) => `${String(u.lessons.length + 1)} coming`));
   // No unit's groove may exceed the schema's ten-lesson cap plus its
   // checkpoint; a larger number means a run spanned a unit boundary again.
   for (const c of coming) expect(Number(c?.split(' ')[0])).toBeLessThanOrEqual(11);
-  // Every node in them is un-attemptable...
+
+  // Every node in them is un-attemptable. The example is taken from wherever
+  // the boundary currently is rather than named: naming it meant this test
+  // broke on the flip of the unit it happened to cite, which says nothing
+  // about the rule.
+  const first = unbuilt[0]!;
+  const firstLesson = first.lessons[0]!;
   expect(
-    screen.getByLabelText('3.2.1 X-ray attacks and defences. Content coming'),
+    screen.getByLabelText(`${firstLesson.id} ${firstLesson.title}. Content coming`),
   ).toHaveAttribute('aria-disabled', 'true');
-  // No link into an unbuilt unit. 3.1 is excluded because it IS built now.
-  expect(screen.queryByRole('link', { name: /^3\.(?!1\b)/ })).toBeNull();
-  // ...and the control: the built sections are still real links, so "no links"
-  // above is not the whole screen having failed to render.
-  expect(screen.getByLabelText(/^2\.4\.1 The back-rank weakness/)).toBeInTheDocument();
+
+  // No link into ANY unbuilt unit -- all of them, not one example. A label
+  // starts with the node's id, so an unbuilt unit's prefix must never appear
+  // as a link.
+  for (const u of unbuilt) {
+    expect(
+      screen.queryByRole('link', { name: new RegExp(`^${u.id.replace('.', '\\.')}\\.`) }),
+      `unbuilt unit ${u.id} is linked`,
+    ).toBeNull();
+  }
+  // ...and the control: every BUILT unit's first lesson is a real link, so
+  // "no links" above is not the whole screen having failed to render.
+  for (const u of SECTIONS.flatMap((sec) => sec.units).filter((b) => b.built)) {
+    expect(
+      screen.getByLabelText(new RegExp(`^${u.lessons[0]!.id.replace(/\./g, '\\.')}`)),
+      `built unit ${u.id} is missing from the path`,
+    ).toBeInTheDocument();
+  }
 });

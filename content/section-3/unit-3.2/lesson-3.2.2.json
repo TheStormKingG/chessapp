@@ -1,0 +1,155 @@
+{
+  "id": "3.2.2",
+  "unit": "3.2",
+  "title": "Two checks at once",
+  "xp": 16,
+  "card": {
+    "idea": "Against one check you have three answers: take the checker, block the line, or move the king. Against two checkers at once, taking one leaves the other, and no square blocks two lines. Only the king can move. That is why a double check is worth material you would never normally give.",
+    "diagrams": [
+      "7k/pp5p/8/4N3/7q/5P2/1B4PP/6K1 w - - 0 1",
+      "7k/pp5p/6N1/8/7q/5P2/1B4PP/6K1 b - - 1 1",
+      "rR2N1k1/pp3ppp/8/8/8/8/5PPP/6K1 w - - 0 1"
+    ],
+    "habit": "Two checkers means the king moves. Nothing else."
+  },
+  "explain": [
+    {
+      "fen": "7k/pp5p/8/4N3/7q/5P2/1B4PP/6K1 w - - 0 1",
+      "text": "The knight on e5 stands on the bishop's diagonal. Move it to g6 and two pieces check at once: the knight from g6, the bishop from b2. The pawn on h7 attacks g6 and may not take, because Black would still be in check. Kg8 is the only legal move, and then Nxh4 wins the queen.",
+      "arrows": [
+        ["e5", "g6"],
+        ["b2", "h8"],
+        ["g6", "h8"]
+      ],
+      "highlights": ["g6", "h8", "b2"]
+    },
+    {
+      "fen": "7k/pp5p/6N1/8/7q/5P2/1B4PP/6K1 b - - 1 1",
+      "text": "The same position one move on. Count Black's answers: the h-pawn cannot take the knight, the queen cannot block two lines at once, and g7 belongs to the bishop. Kg8 is the whole list. Black spends his move walking, and White spends his taking the queen.",
+      "arrows": [
+        ["b2", "h8"],
+        ["g6", "h8"]
+      ],
+      "highlights": ["g8", "h7"]
+    },
+    {
+      "fen": "rR2N1k1/pp3ppp/8/8/8/8/5PPP/6K1 w - - 0 1",
+      "text": "Here Black's rook on a8 attacks the rook on b8, and White's knight on e8 is the only thing between that rook and the king. Nf6 checks with the knight and with the rook at once. Rxb8 is illegal, because Black would still be in check from f6, and the king has no square. Mate.",
+      "arrows": [
+        ["e8", "f6"],
+        ["b8", "g8"],
+        ["f6", "g8"]
+      ],
+      "highlights": ["b8", "f6", "g8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "3.2.2-c1",
+      "type": "name_the_pattern",
+      "fen": "7k/pp5p/8/4N3/7q/5P2/1B4PP/6K1 w - - 0 1",
+      "prompt": "Ng6 puts the king in check from two pieces at once. What is Black allowed to do about it?",
+      "options": [
+        "Only move the king. A capture or a block answers one checker and leaves the other one checking.",
+        "Take the knight with the h-pawn, because it is the nearer of the two checkers.",
+        "Block on g7 with the queen and answer both checks in one move."
+      ],
+      "answer": { "option": 0 },
+      "concept": "double-check",
+      "hints": {
+        "text": "A block covers one line. Count the lines."
+      },
+      "reason": "hxg6 leaves the bishop checking from b2, so it is not legal. No block stops a knight check at all, and the queen on h4 cannot reach g7 in any case. Kg8 is Black's only legal move."
+    },
+    {
+      "id": "3.2.2-c2",
+      "type": "find_the_move",
+      "fen": "7k/pp5p/8/4N3/7q/5P2/1B4PP/6K1 w - - 0 1",
+      "prompt": "The knight is standing on the bishop's diagonal. Move it so that both pieces check at the same time, and so that it hits something.",
+      "answer": { "moves": ["Ng6+"] },
+      "wrong": {
+        "Nf7+": "Also a double check, and Kg8 is again forced. But the knight on f7 attacks nothing, so Black keeps the queen. Choose the square that also hits h4.",
+        "Nc6+": "Only the bishop checks here, so Black is allowed to block: Qf6 or Qd4+ keeps the queen, and the knight on c6 never touches her."
+      },
+      "concept": "double-check",
+      "hints": {
+        "piece": "e5",
+        "square": "g6"
+      },
+      "reason": "Ng6 is check from the knight and from the bishop on b2. hxg6 is illegal because the bishop still checks. Kg8 is forced, and Nxh4 takes the queen."
+    },
+    {
+      "id": "3.2.2-c3",
+      "type": "is_it_safe",
+      "fen": "7k/pp5p/8/4N3/7q/5P2/1B4PP/6K1 w - - 0 1",
+      "move": "Ng6+",
+      "prompt": "The pawn on h7 attacks g6. White puts the knight there anyway. Is the knight safe on g6?",
+      "reasons": [
+        "Yes. hxg6 is not legal, because Black would still be in check from the bishop on b2.",
+        "Yes. The pawn on h7 is pinned against its own king.",
+        "No. hxg6 wins a knight."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "double-check",
+      "hints": {
+        "text": "Count the checkers before you count the attackers."
+      },
+      "reason": "Kg8 is Black's only legal move. The pawn is not pinned, since no white piece stands on the h-file. It simply may not spend the move on a capture while a second piece is checking."
+    },
+    {
+      "id": "3.2.2-c4",
+      "type": "find_them_all",
+      "fen": "7k/pp5p/6N1/8/7q/5P2/1B4PP/6K1 b - - 1 1",
+      "prompt": "Black is in double check. Tap every square the black king is allowed to move to.",
+      "answer": { "squares": ["g8"] },
+      "concept": "double-check",
+      "hints": {
+        "text": "One of the three squares beside the king is his own pawn."
+      },
+      "reason": "g8 and nothing else. g7 is covered by the bishop on b2, h7 is Black's own pawn, and neither checker can be taken or blocked."
+    },
+    {
+      "id": "3.2.2-c5",
+      "type": "find_the_sequence",
+      "fen": "7k/pp5p/8/4N3/7q/5P2/1B4PP/6K1 w - - 0 1",
+      "prompt": "Play it out: the double check, the only king move, then collect.",
+      "answer": { "line": ["Ng6+", "Kg8", "Nxh4"] },
+      "concept": "double-check",
+      "hints": {
+        "piece": "e5",
+        "square": "g6"
+      },
+      "reason": "Ng6+ Kg8 Nxh4. The knight had to leave g6 anyway, because the h-pawn was waiting for it, so it leaves with the queen."
+    },
+    {
+      "id": "3.2.2-c6",
+      "type": "find_the_move",
+      "fen": "rR2N1k1/pp3ppp/8/8/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Black's rook on a8 is ready to take your rook on b8. Find the one knight move that makes that irrelevant.",
+      "answer": { "moves": ["Nf6#"] },
+      "wrong": {
+        "Nd6+": "Check from the rook only, and Rxb8 is Black's single legal answer. You have given a rook away for nothing.",
+        "Nc7+": "Same problem: only the rook checks, and Rxb8 is again the only reply and a perfectly good one."
+      },
+      "concept": "double-check",
+      "hints": {
+        "piece": "e8",
+        "square": "f6"
+      },
+      "reason": "Nf6 is check from the knight and from the rook on b8 together. Rxb8 is illegal while the knight checks, f7, g7 and h7 are the king's own pawns, and f8 and h8 belong to the rook. Mate."
+    },
+    {
+      "id": "3.2.2-c7",
+      "type": "which_square",
+      "fen": "rR2N1k1/pp3ppp/8/8/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Only one knight square turns the rook's check into a double check. Tap it.",
+      "answer": { "square": "f6" },
+      "concept": "double-check",
+      "hints": {
+        "text": "Which square lets the knight attack g8 as well?"
+      },
+      "reason": "From f6 the knight attacks g8, so the rook's check and the knight's check arrive together and Rxb8 stops being legal."
+    }
+  ],
+  "takeaway": "Two checkers at once leave only king moves: you cannot capture both, and no square blocks two lines. That is why the checking piece may stand anywhere, even where a pawn attacks it."
+}

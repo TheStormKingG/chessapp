@@ -128,7 +128,7 @@
         },
         "concept": {
           "description": "design spec 2026-09-19 section 5: the enumerated concept vocabulary. CheckpointMachine draws a failed checkpoint's retry set from these tags (PRD 6.4), so a near-duplicate spelling splits a bank. Add a tag here in the same commit that first uses it.",
-          "enum": ["absolute-pin", "attack-defend", "back-rank", "battery", "bishop-moves", "castle-early", "castling", "castling-restrictions", "centre", "check", "checkmate", "checks-and-captures", "corridor-mate", "counting", "damiano", "deflection", "development", "discovered-attack", "discovered-check", "dont-hang", "draw-offer", "draws", "early-queen", "en-passant", "en-passant-timing", "escape-check", "escape-square", "exploit-pin", "family-fork", "files", "first-mistake", "fork-with-check", "habit-one", "hanging-both-sides", "insufficient-material", "italian", "keep-the-pin", "king-activity", "king-moves", "king-safe", "knight-fork", "knight-moves", "ladder-mate", "mate-in-one", "meeting-early-mates", "notation", "opponent-threats", "opposition", "overloading", "pawn-capture", "pawn-fork", "pawn-moves", "piece-safe", "piece-twice", "pin-both-sides", "promotion", "promotion-race", "queen-fork", "queen-mate", "queen-moves", "ranks", "relative-pin", "removing-the-defender", "resigning", "rook-mate", "rook-moves", "rook-pawn-draw", "rule-of-the-square", "sanity-check", "setup", "skewer", "smothered-mate", "square-names", "stalemate", "support-mate", "take-free", "target-position", "the-clock", "threat-scan", "three-questions", "touch-move", "values"]
+          "enum": ["absolute-pin", "attack-defend", "back-rank", "battery", "bishop-moves", "castle-early", "castling", "castling-restrictions", "centre", "check", "checkmate", "checks-and-captures", "corridor-mate", "counting", "damiano", "deflection", "development", "discovered-attack", "discovered-check", "dont-hang", "double-check", "draw-offer", "draws", "early-queen", "en-passant", "en-passant-timing", "escape-check", "escape-square", "exploit-pin", "family-fork", "files", "first-mistake", "fork-with-check", "habit-one", "hanging-both-sides", "insufficient-material", "italian", "keep-the-pin", "king-activity", "king-moves", "king-safe", "knight-fork", "knight-moves", "ladder-mate", "mate-in-one", "meeting-early-mates", "notation", "opponent-threats", "opposition", "overloading", "pawn-capture", "pawn-fork", "pawn-moves", "piece-safe", "piece-twice", "pin-both-sides", "promotion", "promotion-race", "queen-fork", "queen-mate", "queen-moves", "ranks", "relative-pin", "removing-the-defender", "resigning", "rook-mate", "rook-moves", "rook-pawn-draw", "rule-of-the-square", "sanity-check", "setup", "skewer", "smothered-mate", "square-names", "stalemate", "support-mate", "take-free", "target-position", "the-clock", "threat-scan", "three-questions", "touch-move", "values", "x-ray"]
         },
         "hints": {
           "type": "object"
@@ -198,6 +198,29 @@
             "properties": {
               "answer": {
                 "$ref": "#/definitions/squaresOrPieces"
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "guess_the_move"
+              }
+            },
+            "required": [
+              "type"
+            ]
+          },
+          "then": {
+            "required": [
+              "commentary"
+            ],
+            "properties": {
+              "commentary": {
+                "type": "string",
+                "minLength": 1
               }
             }
           }

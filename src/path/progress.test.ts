@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import { emptyProgress } from '@/data';
-import { SECTION_1, SECTIONS } from './curriculum';
+import { SECTION_1, SECTION_3, SECTIONS } from './curriculum';
 import { pathNodes, activeLesson, activeNode, activeUnitProgress } from './progress';
 
 test('first lesson is active, the rest locked, checkpoint always attemptable', () => {
@@ -175,27 +175,27 @@ test('all of a unit\'s lessons done but not passed: the checkpoint is the curren
 });
 
 test('finishing everything built leaves no active lesson', () => {
-  // "Everything built" is now all six Section 1 units plus all eight of
-  // Section 2 -- 2.8's checkpoint is the last thing on the path. The list is
-  // spelled out so that a unit flipped on, or dropped, without this test being
-  // revisited fails here rather than silently changing what "everything" means.
-  expect(builtUnits().map((u) => u.id)).toEqual([
-    '1.1',
-    '1.2',
-    '1.3',
-    '1.4',
-    '1.5',
-    '1.6',
-    '2.1',
-    '2.2',
-    '2.3',
-    '2.4',
-    '2.5',
-    '2.6',
-    '2.7',
-    '2.8',
-    '3.1',
-  ]);
+  /*
+   * The built set used to be spelled out here, so that flipping a unit on
+   * without revisiting this test failed rather than silently changing what
+   * "everything" means. That guard was right and its implementation was not:
+   * it cost one edit per unit authored, and a list edited that often is
+   * transcribed from the failure message rather than read.
+   *
+   * What replaces it is a stronger claim than the literal list ever made --
+   * the built units form a PREFIX of the path, with no gap. A gap (3.3 built
+   * while 3.2 is not) is a real defect this never used to test for: the
+   * learner walks into "content coming" and finds more content behind it, so
+   * the path stops being a path. `builtFlag.test.ts` separately holds each
+   * flag honest against what is actually on disk, which is the half a
+   * hardcoded list could never check.
+   */
+  const ids = builtUnits().map((u) => u.id);
+  expect(ids.length).toBeGreaterThan(0);
+  const declared = SECTIONS.flatMap((sec) => sec.units).map((u) => u.id);
+  expect(ids).toEqual(declared.slice(0, ids.length));
+  expect(ids.length).toBeLessThan(declared.length); // not everything, or the split is vacuous
+
   expect(activeLesson(allUnitsPassed())).toBeNull();
   expect(activeNode(allUnitsPassed())).toBeNull();
 });
@@ -204,10 +204,10 @@ test('finishing everything built leaves no active lesson', () => {
 
 test('the path walks every declared section, in path order', () => {
   const nodes = pathNodes(emptyProgress());
-  // Section 1, then 2, then 3. The order IS the path.
-  expect([...new Set(nodes.map((n) => n.section))]).toEqual(['1', '2', '3']);
-  expect(nodes.filter((n) => n.kind === 'lesson')).toHaveLength(29 + 36 + 46);
-  expect(nodes.filter((n) => n.kind === 'checkpoint')).toHaveLength(6 + 8 + 12);
+  // Section 1, then 2, then 3, then 4. The order IS the path.
+  expect([...new Set(nodes.map((n) => n.section))]).toEqual(['1', '2', '3', '4']);
+  expect(nodes.filter((n) => n.kind === 'lesson')).toHaveLength(29 + 36 + 46 + 53);
+  expect(nodes.filter((n) => n.kind === 'checkpoint')).toHaveLength(6 + 8 + 12 + 12);
   // SCOPED rather than deleted, for the fourth time. This has tracked the built
   // boundary through every authoring pass: eight unbuilt Section 2 units, then
   // five, then none -- and now a whole unbuilt Section 3. Both sides are
@@ -216,16 +216,34 @@ test('the path walks every declared section, in path order', () => {
   const s2 = nodes.filter((n) => n.section === '2');
   expect(s2).toHaveLength(36 + 8);
   expect(s2.filter((n) => n.state === 'coming')).toEqual([]);
-  // Section 3's boundary has started moving: 3.1 is built, the other eleven
-  // units are not. Both sides asserted, so neither can pass by matching nothing.
+  /*
+   * Section 3's boundary moves once per unit authored, so it is DERIVED from
+   * the flag rather than named. Naming it meant editing this block on every
+   * flip, which is the road to a test that records what the code does instead
+   * of what it should do.
+   *
+   * The derivation is only safe because both partitions are asserted
+   * non-empty. A section entirely built, or entirely coming, would otherwise
+   * satisfy both filters by matching nothing -- and those are exactly the two
+   * moments this assertion is here for.
+   */
   const s3 = nodes.filter((n) => n.section === '3');
   expect(s3).toHaveLength(46 + 12);
-  const s3Built = s3.filter((n) => n.unit === '3.1');
-  expect(s3Built).toHaveLength(4 + 1);
+  const built3 = new Set(SECTION_3.units.filter((u) => u.built).map((u) => u.id));
+  const s3Built = s3.filter((n) => built3.has(n.unit));
+  const s3Coming = s3.filter((n) => !built3.has(n.unit));
+  expect(s3Built.length).toBeGreaterThan(0);
+  expect(s3Coming.length).toBeGreaterThan(0);
+  expect(s3Built).toHaveLength(s3.length - s3Coming.length); // the split is total
   expect(s3Built.filter((n) => n.state === 'coming')).toEqual([]);
-  const s3Coming = s3.filter((n) => n.unit !== '3.1');
-  expect(s3Coming).toHaveLength(42 + 11);
   expect(s3Coming.filter((n) => n.state !== 'coming')).toEqual([]);
+  // Section 4 is declared whole and authored nowhere, which is the state
+  // Section 3 was in this morning. One side of this is an empty set by
+  // construction, so the length is asserted too and the filter cannot pass by
+  // matching nothing.
+  const s4 = nodes.filter((n) => n.section === '4');
+  expect(s4).toHaveLength(53 + 12);
+  expect(s4.filter((n) => n.state !== 'coming')).toEqual([]);
   expect(nodes.filter((n) => n.state === 'active')).toHaveLength(1);
 });
 
