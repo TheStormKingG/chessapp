@@ -41,6 +41,13 @@ export function UpdateNotice() {
      * transient notice (`InstallPrompt` sits at the same `bottom-16`), so this
      * is the house pattern rather than a second one.
      *
+     * `inset-x-4`, not `inset-x-0`: at 375px a `max-w-md` card is wider than
+     * the screen, so `inset-x-0` made a ROUNDED card run edge to edge with its
+     * corners cut off by the viewport. And `bottom-20`, not `bottom-16`: the
+     * tab bar measures 61px, so 64px of offset left a 3px gap — measured on the
+     * deployed site, where it read as the notice resting on the tab bar rather
+     * than floating above it. 80px gives 19px of air.
+     *
      * It enters from below — the edge it is anchored to, and the edge it would
      * leave by. Animated because it appears UNANNOUNCED, after a reload the
      * learner did not ask for, and something arriving out of nowhere at the
@@ -49,7 +56,7 @@ export function UpdateNotice() {
      */
     <div
       role="status"
-      className="t-label n-panel n-lit fixed inset-x-0 bottom-16 z-20 mx-auto flex max-w-md items-center justify-between gap-3 rounded-card bg-accent px-4 py-3 text-accent-on md:bottom-4"
+      className="t-label n-panel n-lit fixed inset-x-4 bottom-20 z-20 mx-auto flex max-w-md items-center justify-between gap-3 rounded-card bg-accent px-4 py-3 text-accent-on md:bottom-4"
       style={{ animation: 'rise-in var(--motion-screen) var(--ease-out) both' }}
     >
       {justUpdated ? (
