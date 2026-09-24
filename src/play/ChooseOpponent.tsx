@@ -51,7 +51,7 @@ export function ChooseOpponent() {
         Start button below keep their `--edge-strong` edges, because those ARE
         controls and §3.3 is unconditional about them.
       */}
-      <div className="n-panel n-edge mt-4 flex gap-3 rounded-card bg-panel p-3">
+      <div className="n-panel n-lit n-edge mt-4 flex gap-3 rounded-card bg-panel p-3">
         {/*
           A monogram, not an avatar image: no persona art is shipped, and a root-relative
           path would miss under the production base anyway. Swap it for an <img> when the

@@ -99,7 +99,7 @@ function Entry({ to, title, detail }: { to: string; title: string; detail: strin
   return (
     <Link
       to={to}
-      className="tap n-panel n-edge block rounded-card bg-panel p-4 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-accent"
+      className="tap n-panel n-lit n-edge block rounded-card bg-panel p-4 focus-visible:outline-3 focus-visible:outline-offset-2 focus-visible:outline-accent"
     >
       <span className="t-title block">{title}</span>
       <span className="t-body mt-1 block text-content-dim">{detail}</span>

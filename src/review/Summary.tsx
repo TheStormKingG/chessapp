@@ -50,7 +50,7 @@ export function Summary({ review, onStart }: { review: Review; onStart: () => vo
           : `Analysed at depth ${String(review.depth)}.`}
       </p>
 
-      <section className="mt-4 n-panel n-edge rounded-card bg-panel p-4" aria-labelledby="rv-acc">
+      <section className="mt-4 n-panel n-lit n-edge rounded-card bg-panel p-4" aria-labelledby="rv-acc">
         <h2 id="rv-acc" className="t-heading">Accuracy</h2>
         <dl className="mt-2 flex flex-wrap gap-x-6 gap-y-2">
           <div>
@@ -87,7 +87,7 @@ export function Summary({ review, onStart }: { review: Review; onStart: () => vo
           What do these mean?
         </button>
         {showDefs && (
-          <dl className="mt-2 n-panel n-edge rounded-card bg-panel p-4">
+          <dl className="mt-2 n-panel n-lit n-edge rounded-card bg-panel p-4">
             {LABEL_ORDER.map((l) => (
               <div key={l} className="mt-2 first:mt-0">
                 <dt><LabelChip label={l} /></dt>

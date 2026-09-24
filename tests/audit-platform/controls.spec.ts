@@ -316,13 +316,44 @@ async function sweep(page: Page, route: string): Promise<Measured[]> {
         // the token layer, and it is finite: a control bounded ONLY by
         // decorative tokens still comes out as `null` and still fails.
         const rootCs = getComputedStyle(document.documentElement);
+        /*
+         * Compared as COLOURS, not as spellings.
+         *
+         * This read each token's raw text and matched it against a six-digit
+         * hex built here. The production minifier shortens `#ffffff` to `#fff`,
+         * so in the SHIPPING artefact -- and only there -- `--n-light` stopped
+         * matching, every white border side was measured as a boundary instead
+         * of skipped as decoration, and three correct controls were reported at
+         * 1.24:1. Dev runs passed throughout, because dev CSS is not minified.
+         *
+         * A colour is not its spelling: `#fff`, `#ffffff`, `white` and
+         * `rgb(255 255 255)` are one colour written four ways, and any of them
+         * can arrive depending on who last touched the build. Resolving each
+         * token through the browser's own parser and comparing the numbers is
+         * the only form of this check that cannot be broken by a rewrite.
+         */
+        const resolveColour = (v: string): string => {
+          const probe = document.createElement('div');
+          probe.style.color = '';
+          probe.style.color = v;
+          document.body.append(probe);
+          const out = getComputedStyle(probe).color; // always rgb()/rgba()
+          probe.remove();
+          return out;
+        };
+        /** rgb/rgba string -> "r,g,b", alpha dropped: opacity is not identity. */
+        const rgbKey = (v: string): string => {
+          const n = v.match(/[\d.]+/g);
+          return n ? n.slice(0, 3).map((x) => String(Math.round(Number(x)))).join(',') : '';
+        };
         const decorative = new Set(
-          ['--edge', '--n-dark', '--n-light', '--key-accent', '--track', '--surface-raised']
-            .map((t) => rootCs.getPropertyValue(t).trim().toLowerCase())
+          ['--edge', '--n-dark', '--n-light', '--key-accent', '--track', '--surface-raised', '--edge-lit']
+            .map((t) => rootCs.getPropertyValue(t).trim())
+            .filter(Boolean)
+            .map((v) => rgbKey(resolveColour(v)))
             .filter(Boolean),
         );
-        const hex = (c: RGBA): string =>
-          `#${c.slice(0, 3).map((v) => Math.round(v).toString(16).padStart(2, '0')).join('')}`;
+        const hex = (c: RGBA): string => c.slice(0, 3).map((v) => String(Math.round(v))).join(',');
 
         let borderRatio: number | null = null;
         for (const side of ['Top', 'Right', 'Bottom', 'Left'] as const) {

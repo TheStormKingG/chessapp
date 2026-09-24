@@ -92,7 +92,7 @@ function AccountSection() {
             onChange={(e) => {
               setEmail(e.target.value);
             }}
-            className="t-body n-inset-soft mt-1 min-h-11 w-full rounded-control border border-edge-strong bg-surface-raised px-3 py-2"
+            className="t-body n-inset-soft n-lit-sunken mt-1 min-h-11 w-full rounded-control border border-edge-strong bg-surface-raised px-3 py-2"
             placeholder="you@example.com"
           />
         </label>
