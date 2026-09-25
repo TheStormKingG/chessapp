@@ -131,23 +131,23 @@
     {
       "id": "2.6.1-c6",
       "type": "is_it_safe",
-      "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
-      "move": "Nf3",
-      "prompt": "White brings the knight out to f3, where it attacks the pawn on e5. Is the knight safe on f3?",
+      "fen": "rnbqkbnr/pp2pppp/2p5/3p4/4P3/5N2/PPPP1PPP/RNBQKB1R w KQkq - 0 3",
+      "move": "Bb5",
+      "prompt": "White develops the bishop to b5, off the back rank and out of the way. Is the bishop safe on b5?",
       "reasons": [
-        "No. The queen on d8 takes it.",
-        "No. The pawn on e5 takes it.",
-        "Yes. Nothing black attacks f3."
+        "No. The pawn on d5 takes it.",
+        "No. The pawn on c6 takes it.",
+        "Yes. Nothing black attacks b5."
       ],
       "answer": {
-        "safe": true,
-        "reason": 2
+        "safe": false,
+        "reason": 1
       },
       "concept": "development",
       "hints": {
-        "text": "Look for a black piece or pawn that could reach f3 in one move."
+        "text": "Look for a black pawn that could reach b5 in one move."
       },
-      "reason": "Nothing black reaches f3. The pawn on e5 captures to d4 or f4, and the queen on d8 has no line to f3."
+      "reason": "Developing is right and b5 is not. The pawn on c6 covers b5, and giving up a bishop for nothing costs more than the move it saves. Be2 and Bd3 bring the same piece out and nothing takes them."
     },
     {
       "id": "2.6.1-c7",

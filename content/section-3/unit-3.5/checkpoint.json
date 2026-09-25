@@ -70,17 +70,17 @@
     {
       "id": "3.5-k08",
       "type": "is_it_safe",
-      "fen": "5rk1/5p1p/8/3Q4/pp6/8/4r3/7K w - - 0 1",
-      "move": "Qxf7+",
-      "prompt": "Qxf7 wins a pawn and it is check as well. Is it safe?",
+      "fen": "6k1/p5pp/8/8/8/8/rr3PPP/3Q2K1 w - - 0 1",
+      "move": "Qd5+",
+      "prompt": "Two rooks on the seventh are winning for Black, so White checks with Qd5. Is the queen safe on d5?",
       "reasons": [
-        "No. f7 is defended by the rook on f8, so Rxf7 or Kxf7 wins the queen, and with her goes every check you had.",
-        "Yes. It is check, so Black must answer it, and you are a pawn better off.",
-        "No. The move is not legal, because the queen cannot reach f7 from d5."
+        "Yes. No black man covers d5, so only the king can answer the check.",
+        "No. The rook on a2 takes her.",
+        "No. Black answers with Kf7 and the king attacks the queen."
       ],
-      "answer": { "safe": false, "reason": 0 },
+      "answer": { "safe": true, "reason": 0 },
       "concept": "perpetual-check",
-      "reason": "Check is not the same as safe. Qg5 is the check that works, because g5 is a square no black man attacks."
+      "reason": "Count what covers the checking square before you check, not after. Nothing black covers d5, so the king has to move, and a forcing move is the only currency a lost position has."
     },
     {
       "id": "3.5-k09",
@@ -238,17 +238,17 @@
     {
       "id": "3.5-k23",
       "type": "is_it_safe",
-      "fen": "8/k1P5/2K5/8/8/8/8/8 w - - 0 1",
-      "move": "c8=Q",
-      "prompt": "The pawn reaches the eighth rank and you take a new queen. Is that safe?",
+      "fen": "8/5P1k/5K2/8/8/8/8/8 w - - 0 1",
+      "move": "f8=R",
+      "prompt": "The pawn reaches the eighth rank and White takes a rook instead of a queen. Is the rook safe on f8?",
       "reasons": [
-        "No. The new queen covers a8, b8 and a6 all at once and gives no check, so Black has no legal move: stalemate.",
-        "No. The black king on a7 simply captures the new queen on c8.",
-        "Yes. A queen is the strongest piece, so promoting to one is always right."
+        "No. The black king on h7 takes it.",
+        "Yes. The king on h7 cannot reach f8, and Black has nothing else.",
+        "Yes, and a new queen would have been better, because she covers more squares."
       ],
-      "answer": { "safe": false, "reason": 0 },
+      "answer": { "safe": true, "reason": 1 },
       "concept": "stalemate",
-      "reason": "Your king on c6 already holds b6 and b7. A queen on c8 covers the rest, and none of it is check. A rook on c8 covers a8 and b8 but not a6, so it leaves Black a move, and wins."
+      "reason": "Covering more squares is the whole problem: a queen on f8 takes h6 as well and Black has no legal move at all, which is a draw. The rook leaves him h6, and a rook is enough to win."
     },
     {
       "id": "3.5-k24",

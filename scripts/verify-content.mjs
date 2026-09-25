@@ -523,6 +523,30 @@ const seenIds = new Set();
  * correct, and every per-item check passed on all of them.
  */
 const answerSlots = [];
+/**
+ * The `is_it_safe` verdict, tallied per UNIT rather than per corpus.
+ *
+ * The corpus-level check below cannot see this one. It groups by
+ * `type:choices` and asks only that no choice INDEX is starved; the verdict is
+ * a boolean in a different field, and a corpus can sit at 93 "safe" against 101
+ * "not safe" while still containing a unit whose every item answers the same
+ * way. Four of them did.
+ *
+ * Per-unit, because the unit is what a learner is actually tested on.
+ * `sampleChallenges` in src/checkpoint/CheckpointMachine.ts shuffles ONE unit's
+ * bank and takes `sample` from it, against a 0.75 pass mark -- so the learner
+ * never meets the corpus, they meet one unit. In unit 3.5 all nine `is_it_safe`
+ * items answered "not safe", which is roughly a quarter of a sampled checkpoint
+ * handed to anyone who types "no" without looking at the board.
+ *
+ * The grouping is the unit and not the bank alone for two reasons: a bank
+ * carries only three to five items of this type, too few to threshold on at
+ * all, and the lesson items in the same unit teach the same habit to the same
+ * learner an hour earlier.
+ */
+const unitVerdicts = new Map();
+/** `content/section-2/unit-2.5/lesson-2.5.3.json` -> `unit-2.5`; null off-tree. */
+const unitOf = (file) => /[/\\](unit-[\d.]+)[/\\]/.exec(file)?.[1] ?? null;
 /** The two challenge types whose answer is an index into a list of choices. */
 const INDEXED_ANSWER = [
   { type: 'is_it_safe', list: 'reasons', index: 'reason' },
@@ -544,6 +568,15 @@ try {
       for (const k of INDEXED_ANSWER) {
         if (c.type !== k.type || !Array.isArray(c[k.list])) continue;
         answerSlots.push({ type: k.type, slot: c.answer?.[k.index], of: c[k.list].length });
+      }
+      if (c.type === 'is_it_safe' && typeof c.answer?.safe === 'boolean') {
+        const unit = unitOf(f);
+        if (unit !== null) {
+          const tally = unitVerdicts.get(unit) ?? { safe: 0, unsafe: 0 };
+          if (c.answer.safe) tally.safe += 1;
+          else tally.unsafe += 1;
+          unitVerdicts.set(unit, tally);
+        }
       }
       await checkChallenge(`${f} ${c.id}`, c);
     }
@@ -610,6 +643,51 @@ try {
           `any single item; rotate which choice is correct across the corpus.`,
       );
     }
+  }
+}
+
+/*
+ * ─── A per-UNIT check, because the unit is what gets sampled ───────────────
+ *
+ * Same shape of defect as the block above -- correct in every item, wrong as a
+ * set -- but a different grouping, and the grouping is the whole point. The
+ * corpus check asks "is any CHOICE abandoned across all items of a type". This
+ * one asks "is either VERDICT abandoned inside one unit", because a checkpoint
+ * draws from a single unit's bank and a learner who spots the pattern there
+ * scores those items without reading a position.
+ *
+ * It asks only that neither verdict is ABSENT. Real units cluster -- a unit on
+ * hanging pieces will lean "not safe" and that is teaching, not a defect -- so
+ * demanding balance would make authors shuffle verdicts to satisfy a number.
+ * A clean sweep is the part a learner can play.
+ *
+ * NOTE for anyone who trips this: the remedy is not to flip the boolean. The
+ * verdict is what makes the item TRUE, so an item that has to change verdict
+ * has to be re-authored against a new position where the opposite answer is
+ * genuinely correct, and verified with chess.js rather than reasoned about.
+ */
+{
+  // Six. Below it an honestly lopsided small unit trips: an author who is not
+  // steering the verdict lands on a clean sweep about 3% of the time at six
+  // items (2 x 0.5^6), 6% at five, 12.5% at four -- and a three-item unit has
+  // no business being called predictable at all. Above it the check stops
+  // firing where the defect lives: at ten it would cover five of the
+  // twenty-five units that carry this type and would have missed all four of
+  // the degenerate ones, which held eight, seven, eight and nine items. Six
+  // covers twenty-one of the twenty-five.
+  const MIN_UNIT_ITEMS = 6;
+  for (const [unit, { safe, unsafe }] of [...unitVerdicts.entries()].sort((a, b) => a[0].localeCompare(b[0]))) {
+    const n = safe + unsafe;
+    if (n < MIN_UNIT_ITEMS || (safe !== 0 && unsafe !== 0)) continue;
+    const verdict = safe === 0 ? 'not safe' : 'safe';
+    errors.push(
+      `is_it_safe verdicts are predictable within ${unit}: all ${String(n)} items answer ` +
+        `"${verdict}" (safe ${String(safe)} / not safe ${String(unsafe)}). A checkpoint samples from ` +
+        `one unit's bank, so a learner who answers "${verdict}" to every one of them without reading ` +
+        `the board scores them all. This is not a defect in any single item. Re-author about a third ` +
+        `of them on to positions where the opposite verdict is genuinely correct -- do not flip the ` +
+        `boolean, which only makes the items false.`,
+    );
   }
 }
 
