@@ -198,3 +198,57 @@ Authoring order follows the PRD's own dependency order rather than unit number:
    level three at Section 4. Section 3's habits are authored as level two; the
    transition is Section 4's problem, but the grader must not penalise a rule
    the current unit has not taught.
+
+---
+
+## 6. Answer-position defects, and the one still open
+
+Three defects of one shape were found on 2026-09-24, all by agents measuring
+the corpus for unrelated reasons. None is a defect in any single item; each is
+a property of the corpus that no per-item check can see, and each is something
+a learner can exploit without knowing any chess.
+
+| where | distribution found | status |
+|---|---|---|
+| `is_it_safe` reason index | 97 / 79 / **0** — never the third reason, 176 items | **fixed**, rotated to 66 / 63 / 58; gate checks it |
+| `name_the_pattern` option index | 284 / 25 / 17 — **87% the first option**, 326 items | **fixed**, rotated to 115 / 113 / 104; gate checks it |
+| `is_it_safe` verdict, PER UNIT | four units entirely one verdict | **OPEN** |
+
+### 6.1 Why the first two were mechanical and the third is not
+
+The index rotations are permutations. The choice set is unchanged, the correct
+text is unchanged, and only its position moves — which is why meaning
+preservation could be *asserted* over all 403 items rather than reviewed.
+
+The verdict is not a position. Flipping `safe` changes whether the item is
+true. There is no permutation that fixes it; each item has to be re-authored
+against a new position, which is content work with a judgement in it.
+
+### 6.2 The open one, precisely
+
+Corpus-wide the verdict is balanced — 93 safe against 101 not-safe. The defect
+is at UNIT level, and unit level is what matters, because `CheckpointMachine`
+samples a checkpoint from one unit's bank:
+
+  - `1.5` — 8 items, all "not safe"
+  - `2.5` — 7 items, all "not safe"
+  - `2.6` — 8 items, all "safe"
+  - `3.5` — 9 items, all "not safe"
+
+In 3.5's checkpoint a learner who answers "no" to every `is_it_safe` without
+reading scores every one of them. At 9 of 36 in the bank and 10 sampled, that
+is roughly a quarter of the checkpoint given away against a 75% pass mark. A
+real assist; well short of the 87% hole, and not a pass on its own.
+
+### 6.3 Why no gate check for it yet
+
+A gate that fails on content nobody can mechanically repair blocks CI without
+offering a path forward. The check goes in with the fix, not before it — and
+the fix is: author genuinely-safe items for 1.5, 2.5 and 3.5, and genuinely
+unsafe ones for 2.6, in each unit's own concept, then add a per-unit verdict
+check alongside the corpus-level index check already in
+`scripts/verify-content.mjs`.
+
+Section 4's briefs already tell authors to vary verdicts, so it stops getting
+worse while the existing four wait.
+
