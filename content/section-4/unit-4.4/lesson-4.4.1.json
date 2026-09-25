@@ -1,0 +1,155 @@
+{
+  "id": "4.4.1",
+  "unit": "4.4",
+  "title": "Zugzwang as a weapon",
+  "xp": 15,
+  "card": {
+    "idea": "Most of the time having the move is an advantage. Sometimes it is the whole problem. When every legal move your opponent has makes his position worse, you do not need a threat — you need to hand the turn back. That is zugzwang, and the move that does it is a waiting move.",
+    "diagrams": [
+      "8/8/3Kp3/4Pk2/8/8/8/8 b - - 0 1",
+      "8/4k3/8/4K3/4P3/8/8/8 b - - 0 1",
+      "7k/4n1Rp/4B2P/8/8/8/8/6K1 w - - 0 1"
+    ],
+    "habit": "Count his legal moves before you look for a check."
+  },
+  "explain": [
+    {
+      "fen": "8/8/3Kp3/4Pk2/8/8/8/8 b - - 0 1",
+      "text": "Two pawns face each other and neither can move. Each king attacks the enemy pawn and defends his own. Whoever has to move must step away from his own pawn and loses it. Nothing on the board has to change; only whose turn it is. That is zugzwang, and here it works for both sides at once.",
+      "arrows": [["d6", "e6"], ["f5", "e5"]],
+      "highlights": ["e5", "e6"]
+    },
+    {
+      "fen": "8/4k3/8/4K3/4P3/8/8/8 b - - 0 1",
+      "text": "Kings facing each other with one square between them, Black to move. Every king move gives ground, White's king reaches the sixth rank in front of his pawn, and that wins. With White to move the same board is a draw. The result is decided by the turn, not by the pieces.",
+      "arrows": [["e5", "d6"], ["e5", "f6"]],
+      "highlights": ["e7", "e5"]
+    },
+    {
+      "fen": "7k/4n1Rp/4B2P/8/8/8/8/6K1 w - - 0 1",
+      "text": "White to move has no mate: Rg8 is answered by Nxg8. But the black king has no square, the h-pawn is blocked, and the knight is the only piece Black can legally move. So White plays a quiet king move, the knight has to step off g8, and Rg8 mates.",
+      "arrows": [["e6", "g8"], ["g7", "g8"]],
+      "highlights": ["g8", "e7"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.4.1-c1",
+      "type": "name_the_pattern",
+      "fen": "8/8/3Kp3/4Pk2/8/8/8/8 b - - 0 1",
+      "prompt": "Black to move. Both pawns are stuck and both kings are doing the same two jobs. What does having the move cost Black here?",
+      "options": [
+        "The pawn on e6. His king has to step away from it, and White takes it next move.",
+        "Nothing. He keeps the kings facing each other and the position stays a draw.",
+        "The pawn on e5, because his king is already attacking it."
+      ],
+      "answer": { "option": 0 },
+      "concept": "zugzwang",
+      "hints": {
+        "text": "List his legal moves. There are five, and they are all king moves."
+      },
+      "reason": "Kg6, Kg5, Kg4, Kf4 and Ke4 are the whole list, and every one of them stops defending e6. Kxe5 is not on the list because the white king on d6 guards the pawn. White answers Kxe6 and his own pawn queens."
+    },
+    {
+      "id": "4.4.1-c2",
+      "type": "which_square",
+      "fen": "8/8/3Kp3/4Pk2/8/8/8/8 w - - 0 1",
+      "prompt": "Exactly the same board, but now it is White's turn. Tap the square where Black's king will be taking a pawn, whatever White does.",
+      "answer": { "square": "e5" },
+      "concept": "zugzwang",
+      "hints": {
+        "text": "Ask which pawn the white king is currently defending, and whether he can keep doing it."
+      },
+      "reason": "White has five king moves — Kc5, Kc6, Kc7, Kd7 and Ke7 — and every one of them lets go of e5. Kxe5 follows, and now it is Black's pawn that queens. The position is a draw for nobody: whoever moves loses it."
+    },
+    {
+      "id": "4.4.1-c3",
+      "type": "find_them_all",
+      "fen": "8/4k3/8/4K3/4P3/8/8/8 b - - 0 1",
+      "prompt": "Black to move, and that is the whole of his problem. Tap every square his king is allowed to go to.",
+      "answer": { "squares": ["d7", "d8", "e8", "f7", "f8"] },
+      "concept": "zugzwang",
+      "hints": {
+        "text": "He cannot come forward: e6, d6 and f6 all touch the white king."
+      },
+      "reason": "Five squares, five losses. Wherever the king steps, White's king goes round the other side and reaches the sixth rank in front of his pawn, and a king on the sixth in front of its pawn always wins. The same board with White to move is a draw."
+    },
+    {
+      "id": "4.4.1-c4",
+      "type": "name_the_pattern",
+      "fen": "8/4k3/8/4K3/4P3/8/8/8 w - - 0 1",
+      "prompt": "The same position, and the only difference is that White has to move. What has that changed?",
+      "options": [
+        "Nothing. White is a pawn up, so he wins whoever is to move.",
+        "White wins faster, because he gets to push the pawn a move earlier.",
+        "It is a draw now. Whoever has to move here gives ground, and this time it is White."
+      ],
+      "answer": { "option": 2 },
+      "concept": "waiting-move",
+      "hints": {
+        "text": "White's king must leave e5. Ask what Black does in reply."
+      },
+      "reason": "White's king has to step off e5 and Black simply faces him again on the next square. An extra pawn is not enough on its own; in this structure the side that must move is the side that gives way, and here that is White."
+    },
+    {
+      "id": "4.4.1-c5",
+      "type": "is_it_safe",
+      "fen": "7k/4n1Rp/4B2P/8/8/8/8/6K1 w - - 0 1",
+      "move": "Rg8+",
+      "prompt": "White would love to slam the rook down on g8 with check. Is the rook safe on that square?",
+      "reasons": [
+        "Yes. The bishop on e6 guards g8, so nothing at all can take the rook there.",
+        "No. The knight on e7 covers g8 and simply takes the rook.",
+        "No. The pawn on h7 takes the rook on g8."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "waiting-move",
+      "hints": {
+        "text": "Count everything that reaches g8, not just the king."
+      },
+      "reason": "Nxg8 is Black's only legal answer and it wins a rook. The bishop on e6 does guard g8, but a guard only stops the king; it does not stop a knight. Take the knight's job away first, then land on g8."
+    },
+    {
+      "id": "4.4.1-c6",
+      "type": "which_square",
+      "fen": "7k/4n1Rp/4B2P/8/8/8/8/6K1 w - - 0 1",
+      "prompt": "So White passes the move instead, and Black's knight is the only piece he is allowed to touch. Tap the square the knight is guarding.",
+      "answer": { "square": "g8" },
+      "concept": "waiting-move",
+      "hints": {
+        "piece": "e7"
+      },
+      "reason": "The knight on e7 covers c8, c6, d5, f5, g6 and g8, and only g8 matters. Move it to any of the other five and Rg8 is mate; move it to g8 itself and Rxg8 is mate. Six legal moves, six mates."
+    },
+    {
+      "id": "4.4.1-c7",
+      "type": "play_it_out",
+      "fen": "7k/4n1Rp/4B2P/8/8/8/8/7K w - - 0 1",
+      "goal": { "kind": "mate_in", "moves": 2 },
+      "opponentDepth": 6,
+      "prompt": "Mate in two. There is no check that works, so stop looking for one and play a move that changes nothing except whose turn it is.",
+      "concept": "waiting-move",
+      "hints": {
+        "text": "Leave the rook, the bishop and the pawn exactly where they are."
+      },
+      "reason": "Kg1, Kg2 or Kh2 all do the job: the rook stays on g7, the bishop keeps looking at g8, the pawn keeps h7 shut. Black's knight is his only legal piece, and wherever it goes Rg8 is mate."
+    },
+    {
+      "id": "4.4.1-c8",
+      "type": "find_the_move",
+      "fen": "2n4k/6Rp/4B2P/8/8/q7/8/6K1 w - - 0 1",
+      "prompt": "The knight has just gone to c8 and Black has a queen on a3, so you get exactly one move. Take it.",
+      "answer": { "moves": ["Rg8#"] },
+      "wrong": {
+        "Rxh7+": "Kxh7 is the only reply and it is legal, so you have swapped a rook for a pawn and the queen on a3 takes over. The knight had already left g8; that was the moment."
+      },
+      "concept": "zugzwang",
+      "hints": {
+        "piece": "g7",
+        "square": "g8"
+      },
+      "reason": "Rg8 is mate. The bishop on e6 guards g8 through f7, so the king may not take; the rook covers g7 down the file; and h7 is Black's own pawn, held there by the pawn on h6. The queen on a3 never gets a turn."
+    }
+  ],
+  "takeaway": "Count your opponent's legal moves. If every one of them loses something, the strongest move on the board is often the one that changes nothing and hands the turn back."
+}

@@ -1,0 +1,152 @@
+{
+  "id": "4.1.1",
+  "unit": "4.1",
+  "title": "Deflection in depth",
+  "xp": 16,
+  "card": {
+    "idea": "You already know the trick: if you cannot take the guard, make it move. The hard part is the price. Here the offer costs a whole rook or a whole queen, and it is only worth it because the guard has no way to refuse and no way to keep its job. Count both before you play.",
+    "diagrams": [
+      "6k1/5ppp/8/3b3q/8/8/5PPP/R2R2K1 w - - 0 1",
+      "6k1/2b2ppp/8/8/7n/1Q6/r4PPP/3R2K1 w - - 0 1",
+      "6k1/5ppp/8/8/4b2q/8/5PPP/R3R1K1 w - - 0 1"
+    ],
+    "habit": "Name the guard, then count what it costs to move it."
+  },
+  "explain": [
+    {
+      "fen": "6k1/5ppp/8/3b3q/8/8/5PPP/R2R2K1 w - - 0 1",
+      "text": "The bishop on d5 holds two jobs at once. It stands in the way of the rook on d1, and it is the only black piece that attacks a8. Ra8 is check, and Bxa8 is the only legal answer Black has. The bishop has now left d5, and the d-file is open.",
+      "arrows": [
+        ["a1", "a8"],
+        ["d5", "a8"],
+        ["d1", "d5"]
+      ],
+      "highlights": ["d5", "a8"]
+    },
+    {
+      "fen": "b5k1/5ppp/8/7q/8/8/5PPP/3R2K1 w - - 0 2",
+      "text": "There is the bishop, on a8, holding nothing. Rd8 is mate: the rook owns the eighth rank, so stepping along it to f8 or h8 is no escape, and f7, g7 and h7 are the king's own pawns. A rook was worth one open file, because the file led to mate.",
+      "arrows": [["d1", "d8"]],
+      "highlights": ["d8", "a8"]
+    },
+    {
+      "fen": "6k1/2b2ppp/8/8/7n/1Q6/r4PPP/3R2K1 w - - 0 1",
+      "text": "Same job, bigger price. The bishop on c7 is the only thing covering d8. Qb8 is check and Black has exactly two answers: Bxb8, or Bd8 in the way. Both take the bishop off c7, and both lose to a rook on d8. Check the second answer before you play the first.",
+      "arrows": [
+        ["b3", "b8"],
+        ["c7", "d8"],
+        ["d1", "d8"]
+      ],
+      "highlights": ["c7", "b8", "d8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.1.1-c1",
+      "type": "which_square",
+      "fen": "6k1/5ppp/8/3b3q/8/8/5PPP/R2R2K1 w - - 0 1",
+      "prompt": "Your rook on d1 would give mate on d8 if it could get there. Tap the black piece that is standing in its way.",
+      "answer": { "square": "d5" },
+      "concept": "deflection",
+      "hints": {
+        "text": "Look straight up the d-file from d1 and stop at the first man you meet."
+      },
+      "reason": "The bishop on d5 blocks the file. Nothing black covers d8 itself, so the bishop is the only thing between your rook and the back rank."
+    },
+    {
+      "id": "4.1.1-c2",
+      "type": "is_it_safe",
+      "fen": "6k1/5ppp/8/3b3q/8/8/5PPP/R2R2K1 w - - 0 1",
+      "move": "Ra8+",
+      "prompt": "White plays the rook all the way to a8 with check. Is the rook safe there?",
+      "reasons": [
+        "No. The queen on h5 takes it.",
+        "No. The bishop on d5 takes it, and that is exactly what you want.",
+        "Yes. Nothing black reaches a8."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "deflection",
+      "hints": {
+        "text": "One black piece attacks a8. Find it, and ask what it stops doing when it goes there."
+      },
+      "reason": "The bishop on d5 is the only black piece attacking a8, so it takes. That is the point: taking is the one thing it cannot do and stay on d5."
+    },
+    {
+      "id": "4.1.1-c3",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/3b3q/8/8/5PPP/R2R2K1 w - - 0 1",
+      "prompt": "The bishop on d5 blocks your rook. Give it something on the other side of the board that it is not allowed to refuse.",
+      "answer": { "moves": ["Ra8+"] },
+      "wrong": {
+        "Rxd5": "Qxd5 takes back. You have paid a rook for a bishop and the d-file is shut again.",
+        "Ra7": "A free move for Black. The bishop stays on d5 and your d1 rook still cannot move up the file."
+      },
+      "concept": "deflection",
+      "hints": {
+        "piece": "a1",
+        "square": "a8"
+      },
+      "reason": "Ra8 is check and Bxa8 is Black's only legal move. The bishop leaves d5, the d-file opens, and Rd8 is mate."
+    },
+    {
+      "id": "4.1.1-c4",
+      "type": "find_the_sequence",
+      "fen": "6k1/5ppp/8/3b3q/8/8/5PPP/R2R2K1 w - - 0 1",
+      "prompt": "Play it out: the offer the bishop cannot refuse, the capture, and the mate.",
+      "answer": { "line": ["Ra8+", "Bxa8", "Rd8#"] },
+      "concept": "deflection",
+      "hints": {
+        "piece": "a1",
+        "square": "a8"
+      },
+      "reason": "Ra8+ Bxa8 Rd8 is mate. The rook was never the price of a bishop; it was the price of one open file."
+    },
+    {
+      "id": "4.1.1-c5",
+      "type": "find_them_all",
+      "fen": "6k1/5ppp/8/8/4b2q/8/5PPP/R3R1K1 w - - 0 1",
+      "prompt": "A new board. White is about to play Ra8 with check. Tap every black piece that has a legal answer to that check.",
+      "answer": { "pieces": ["e4", "h4"] },
+      "concept": "deflection",
+      "hints": {
+        "text": "One of them can take on a8. One of them can step into the way. The king cannot move at all."
+      },
+      "reason": "Bxa8 takes, and Qd8 blocks. The king has nowhere to go: a rook on the eighth rank owns f8, and h8 stays on the same rank, while f7, g7 and h7 are its own pawns. Both answers lose."
+    },
+    {
+      "id": "4.1.1-c6",
+      "type": "find_the_move",
+      "fen": "6k1/2b2ppp/8/8/7n/1Q6/r4PPP/3R2K1 w - - 0 1",
+      "prompt": "The bishop on c7 is the only thing covering d8. Give your queen away to move it.",
+      "answer": { "moves": ["Qb8+"] },
+      "wrong": {
+        "Rd8+": "Bxd8 is Black's only answer, and that is a whole rook for nothing. The bishop has to be moved first.",
+        "Qxa2": "You win a rook and Black keeps the guard. The bishop still covers d8 and there is no mate left."
+      },
+      "concept": "deflection",
+      "hints": {
+        "piece": "b3",
+        "square": "b8"
+      },
+      "reason": "Qb8 is check with two answers, Bxb8 and Bd8. Both move the bishop off c7, and Rd8 is mate after the first, Rxd8 after the second."
+    },
+    {
+      "id": "4.1.1-c7",
+      "type": "name_the_pattern",
+      "fen": "6k1/2b2ppp/8/8/7n/1Q6/r4PPP/3R2K1 w - - 0 1",
+      "prompt": "Qb8 hands over a queen for a bishop. What are you actually buying?",
+      "options": [
+        "The rook on a2, which falls next move.",
+        "The b-file, so the rook on d1 can swing across.",
+        "The square d8, because the bishop on c7 is the only thing covering it."
+      ],
+      "answer": { "option": 2 },
+      "concept": "deflection",
+      "hints": {
+        "text": "Ask what changes on d8 the moment the bishop leaves c7."
+      },
+      "reason": "You are buying one square. The bishop is not worth a queen and the rook on a2 is not worth a queen; the back rank is, because it is mate."
+    }
+  ],
+  "takeaway": "A deflection is a purchase. Work out what the guard is holding, then check that every square it can go to gives the job up."
+}

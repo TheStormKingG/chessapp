@@ -1,0 +1,227 @@
+{
+  "id": "4.7.3",
+  "unit": "4.7",
+  "title": "Playing with and against the isolated queen's pawn",
+  "xp": 15,
+  "card": {
+    "idea": "An isolated queen's pawn is a trade: it buys space and open files for your pieces, and it pays with a pawn no pawn can ever defend and a square in front of it nobody can drive you off. So the owner attacks now, with pieces, and the other side trades pieces off and wins the pawn in an endgame.",
+    "diagrams": [
+      "r2q1rk1/pp2bppp/2n1pn2/8/3P4/2N2N2/PP3PPP/R1BQ1RK1 w - - 0 1",
+      "6k1/pp3ppp/2n1b3/8/3P4/8/PP3PPP/3R2K1 w - - 0 1"
+    ],
+    "habit": "Own the isolani, attack. Face it, trade a pair of pieces."
+  },
+  "explain": [
+    {
+      "fen": "r2q1rk1/pp2bppp/2n1pn2/8/3P4/2N2N2/PP3PPP/R1BQ1RK1 w - - 0 1",
+      "text": "White's pawns stand on a, b, d, f, g and h. Nothing on c or e, so d4 is isolated and no pawn will ever defend it. Read the same fact the other way and it is an asset: the c-file is fully open and the e-file is half-open, and White's rooks were always going to want those.",
+      "arrows": [
+        [
+          "d1",
+          "d4"
+        ]
+      ],
+      "highlights": [
+        "d4",
+        "c1",
+        "e1"
+      ]
+    },
+    {
+      "fen": "r2q1rk1/pp2bppp/2n1pn2/8/3P4/2N2N2/PP3PPP/R1BQ1RK1 w - - 0 1",
+      "text": "The square in front is the other half of the bill. Only a white c-pawn or e-pawn could ever attack d5, and White has neither, so a black piece on d5 can never be driven off by a pawn. Black has three men covering it already: the queen on d8, the pawn on e6 and the knight on f6.",
+      "arrows": [
+        [
+          "f6",
+          "d5"
+        ],
+        [
+          "d8",
+          "d5"
+        ],
+        [
+          "e6",
+          "d5"
+        ]
+      ],
+      "highlights": [
+        "d5"
+      ]
+    },
+    {
+      "fen": "6k1/pp3ppp/2n1b3/8/3P4/8/PP3PPP/3R2K1 w - - 0 1",
+      "text": "And this is the isolani's one moment. Left alone it is a target for the rest of the game, so it goes forward while it still can. d4 to d5 attacks the knight on c6 and the bishop on e6 in the same move, and only the bishop can take the pawn back.",
+      "arrows": [
+        [
+          "d4",
+          "d5"
+        ],
+        [
+          "d5",
+          "c6"
+        ],
+        [
+          "d5",
+          "e6"
+        ]
+      ],
+      "highlights": [
+        "d5",
+        "c6",
+        "e6"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.7.3-c1",
+      "type": "which_square",
+      "fen": "r2q1rk1/pp2bppp/2n1pn2/8/3P4/2N2N2/PP3PPP/R1BQ1RK1 w - - 0 1",
+      "prompt": "Tap the square Black wants a piece on. Once it lands there no white pawn will ever be able to ask it to move.",
+      "answer": {
+        "square": "d5"
+      },
+      "concept": "blockade",
+      "hints": {
+        "text": "A pawn on d4 is attacked by pawns on c5 and e5, and the square in front of it is covered by pawns on c4 and e4. Which of those four does White have?"
+      },
+      "reason": "d5, the square directly in front of the isolani. The only pawns that could cover it are a white c-pawn or e-pawn, and both of those were traded off to create the isolated pawn in the first place. The weakness and the hole arrive together."
+    },
+    {
+      "id": "4.7.3-c2",
+      "type": "find_them_all",
+      "fen": "r2q1rk1/pp2bppp/2n1pn2/8/3P4/2N2N2/PP3PPP/R1BQ1RK1 w - - 0 1",
+      "prompt": "Tap every black man that can move to d5 right now.",
+      "answer": {
+        "pieces": [
+          "d8",
+          "f6"
+        ]
+      },
+      "concept": "blockade",
+      "hints": {
+        "text": "Covering a square and being able to go there are different things. One of the three men watching d5 can only ever watch it."
+      },
+      "reason": "The queen on d8, down a clear d-file, and the knight on f6. The pawn on e6 covers d5 as well, but a pawn captures diagonally and moves straight, so it can never stand there. Of the two, the knight is the blockader you want: it costs least to leave parked."
+    },
+    {
+      "id": "4.7.3-c3",
+      "type": "name_the_pattern",
+      "fen": "r2q1rk1/pp2bppp/2n1pn2/8/3P4/2N2N2/PP3PPP/R1BQ1RK1 w - - 0 1",
+      "prompt": "White owns the isolated pawn on d4. What has he bought, and what is he paying for it?",
+      "options": [
+        "Nothing either way. One pawn in the centre against none is simply an extra pawn in the centre.",
+        "He has bought space and the open c-file and half-open e-file for his pieces. He pays with a pawn no pawn can defend and the hole on d5.",
+        "He has bought nothing at all. The isolani is a weakness and the position is already worse for White."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "isolated-queens-pawn",
+      "hints": {
+        "text": "Count White's pawn files, then say which files that leaves empty for his rooks."
+      },
+      "reason": "Both halves are true at once, which is why the structure is a fight rather than a verdict. White's clock runs while pieces are on: attack. Black's clock runs after they come off, because in an endgame the hole and the undefendable pawn are all that is left."
+    },
+    {
+      "id": "4.7.3-c4",
+      "type": "is_it_safe",
+      "fen": "r2q1rk1/pp2bppp/2n1pn2/8/3P4/2N2N2/PP3PPP/R1BQ1RK1 b - - 0 1",
+      "move": "Nxd4",
+      "prompt": "Black's turn. The isolani is attacked twice, by the knight on c6 and the queen on d8. Is Nxd4 safe?",
+      "reasons": [
+        "Yes. Two attackers against the defenders White has: the pawn just drops.",
+        "No. Nxd4 is answered by Nxd4, and the queen on d1 is holding the square as well.",
+        "No. The bishop on c1 takes the knight."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "isolated-queens-pawn",
+      "hints": {
+        "text": "Count both sides. Two attackers only win a pawn when there are fewer than two defenders."
+      },
+      "reason": "d4 is defended twice as well, by the knight on f3 and the queen on d1, so Nxd4 Nxd4 costs Black a knight for a pawn. The bishop on c1 reaches b2, d2, e3, f4, g5 and h6, not d4. An isolated pawn is only weak when your attackers outnumber his defenders."
+    },
+    {
+      "id": "4.7.3-c5",
+      "type": "is_it_safe",
+      "fen": "r2q1rk1/pp2bppp/2n1pn2/8/3P4/2N2N2/PP3PPP/R1BQ1RK1 b - - 0 1",
+      "move": "Nd5",
+      "prompt": "Black plants the knight on the hole instead. The knight on c3 is looking at d5. Is Nd5 safe?",
+      "reasons": [
+        "Yes. The pawn on e6 takes back, and a black pawn on d5 blockades the isolani even better than the knight did.",
+        "No. The knight on c3 takes it and nothing takes back.",
+        "No. The pawn on d4 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "blockade",
+      "hints": {
+        "text": "Work out what recaptures on d5, and then ask whether White actually wants to make that trade."
+      },
+      "reason": "Nxd5 exd5 is a straight trade and it hands Black exactly what he was playing for: a pawn sitting on d5 that nothing can shift. The pawn on d4 captures on c5 and e5, never on d5. White should be avoiding this trade, not making it."
+    },
+    {
+      "id": "4.7.3-c6",
+      "type": "find_the_move",
+      "fen": "6k1/pp3ppp/2n1b3/8/3P4/8/PP3PPP/3R2K1 w - - 0 1",
+      "prompt": "The isolani will be a target all endgame if it stays. Push it, and notice what it hits on the way.",
+      "answer": {
+        "moves": [
+          "d5"
+        ]
+      },
+      "wrong": {
+        "Rd3": "Rd3 defends d4 exactly as Rd1 already did, and gives Black a free move. Nb4 comes, and the siege of the pawn starts.",
+        "Rc1": "The open file is a good idea in general, but here it leaves the pawn to be attacked. d4 is defended once and Black has Nb4 next."
+      },
+      "concept": "isolated-queens-pawn",
+      "hints": {
+        "piece": "d4",
+        "square": "d5"
+      },
+      "reason": "d5 attacks the knight on c6 and the bishop on e6 at once, and the knight cannot capture on d5. If Bxd5 then Rxd5 and White is a bishop for a pawn up; if the knight moves, dxe6 takes the bishop. This is the whole point of an isolani: it is a weakness only until it moves."
+    },
+    {
+      "id": "4.7.3-c7",
+      "type": "find_the_sequence",
+      "fen": "6k1/pp3ppp/2n1b3/8/3P4/8/PP3PPP/3R2K1 w - - 0 1",
+      "prompt": "Push the pawn, let the bishop take it, and take back with the rook.",
+      "answer": {
+        "line": [
+          "d5",
+          "Bxd5",
+          "Rxd5"
+        ]
+      },
+      "concept": "isolated-queens-pawn",
+      "hints": {
+        "piece": "d4",
+        "square": "d5"
+      },
+      "reason": "d5 Bxd5 Rxd5. A bishop for a pawn, and the rook lands on the square the whole lesson has been about. Black's best was never to capture at all, but moving one attacked piece loses the other."
+    },
+    {
+      "id": "4.7.3-c8",
+      "type": "find_them_all",
+      "fen": "6k1/pp3ppp/2n1b3/8/3P4/8/PP3PPP/3R2K1 w - - 0 1",
+      "prompt": "Tap the two black pieces that one pawn move will attack at the same time.",
+      "answer": {
+        "pieces": [
+          "c6",
+          "e6"
+        ]
+      },
+      "concept": "isolated-queens-pawn",
+      "hints": {
+        "text": "A pawn on d5 captures on two squares. Name them, and see what is standing on them."
+      },
+      "reason": "The knight on c6 and the bishop on e6. A pawn arriving on d5 attacks both, and only one of them can take it. The forking square is always two files wide and one rank ahead, which is why a pawn push is worth checking before a piece move."
+    }
+  ],
+  "takeaway": "The isolani buys files and space and pays with a pawn and the hole in front of it. Its owner attacks or pushes it; the other side blockades d5 and trades into an endgame."
+}

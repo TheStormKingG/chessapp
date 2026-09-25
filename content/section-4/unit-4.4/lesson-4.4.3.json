@@ -1,0 +1,191 @@
+{
+  "id": "4.4.3",
+  "unit": "4.4",
+  "title": "Legal's, Blackburne's, Mayet's, Reti's and Anderssen's mates",
+  "xp": 15,
+  "card": {
+    "idea": "Five more shapes. Three of them are the same idea in different clothes — a bishop on a long diagonal doing the work from the far corner of the board — one is a queen given away on purpose, and one needs no defender at all because a pin does the defending.",
+    "diagrams": [
+      "rn1q1bnr/1pp1kBpp/p2p4/4N3/4P3/2N5/PPPP1PPP/R1BbK2R w KQ - 1 7",
+      "5rk1/5p2/8/6N1/8/3B4/1B6/6K1 w - - 0 1",
+      "4kb2/3bpp2/8/8/B7/8/8/2R3K1 w - - 0 1"
+    ],
+    "habit": "Name the piece that is guarding the checker before you play the check."
+  },
+  "explain": [
+    {
+      "fen": "rn1q1bnr/1pp1kBpp/p2p4/4N3/4P3/2N5/PPPP1PPP/R1BbK2R w KQ - 1 7",
+      "text": "Legal's mate. White gave the queen away on d1 two moves ago and mates with two knights and a bishop. The bishop on f7 covers e6 and e8, the knight on e5 covers d7, and the knight arriving on d5 gives check and takes f6. Black's own men sit on d6, d8 and f8.",
+      "arrows": [["e5", "d7"], ["f7", "e8"], ["c3", "d5"]],
+      "highlights": ["d5", "e7"]
+    },
+    {
+      "fen": "5rk1/5p2/8/6N1/8/3B4/1B6/6K1 w - - 0 1",
+      "text": "Blackburne's mate. Two bishops and a knight against a castled king. The bishop lands on h7 with check, the knight on g5 guards it so the king may not take, and the second bishop on b2 covers g7 and h8 from the far end of the board. f7 and f8 are Black's own.",
+      "arrows": [["d3", "h7"], ["g5", "h7"], ["b2", "h8"]],
+      "highlights": ["h7", "b2"]
+    },
+    {
+      "fen": "4kb2/3bpp2/8/8/B7/8/8/2R3K1 w - - 0 1",
+      "text": "Reti's mate. The rook comes to c8 and nothing at all defends it. It does not need to be defended: the king on e8 is walled in by his own men on d7, e7, f7 and f8, and the one piece that could take on c8, the bishop on d7, is pinned by the bishop on a4.",
+      "arrows": [["c1", "c8"], ["a4", "e8"]],
+      "highlights": ["c8", "d7"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.4.3-c1",
+      "type": "name_the_pattern",
+      "fen": "rn1qkbnr/1pp2ppp/p2p4/4N3/2B1P1b1/2N5/PPPP1PPP/R1BQK2R b KQkq - 0 5",
+      "prompt": "White has just played Nxe5 and it looks like a blunder: the bishop on g4 can take the queen on d1. What is wrong with taking her?",
+      "options": [
+        "Nothing. Bxd1 wins a whole queen for nothing and Black is simply better.",
+        "Bxf7 is check, the king has to walk to e7, and Nd5 is mate.",
+        "Nxg4 takes the bishop straight back and White comes out a piece up."
+      ],
+      "answer": { "option": 1 },
+      "concept": "legal-mate",
+      "hints": {
+        "text": "Count White's minor pieces and count the squares the black king would have."
+      },
+      "reason": "Bxd1 wins the queen and loses the game. Bxf7 is check and Ke7 is the only legal answer, because d7 and e6 belong to the knight on e5 and f7 itself is guarded by it. Then Nd5 is mate. Three minor pieces beat one queen when the king is stuck in the middle."
+    },
+    {
+      "id": "4.4.3-c2",
+      "type": "find_the_sequence",
+      "fen": "rn1qkbnr/1pp2ppp/p2p4/4N3/2B1P3/2N5/PPPP1PPP/R1BbK2R w KQkq - 0 6",
+      "prompt": "He took her. You are a queen down and you have three minor pieces out and a king in the middle to aim at. Mate in two.",
+      "answer": { "line": ["Bxf7+", "Ke7", "Nd5#"] },
+      "concept": "legal-mate",
+      "hints": {
+        "piece": "c4",
+        "square": "f7"
+      },
+      "reason": "Bxf7 is check and Ke7 is the only move on the board: Kxf7 is illegal because the knight on e5 guards f7, and d7 is covered by that same knight. Nd5 is then mate, with d6, d8 and f8 Black's own men, f6 the knight's and e6 and e8 the bishop's."
+    },
+    {
+      "id": "4.4.3-c3",
+      "type": "find_the_move",
+      "fen": "5rk1/5p2/8/6N1/8/q2B4/1B6/6K1 w - - 0 1",
+      "prompt": "Two bishops and a knight against a castled king, and Black has a queen on a3. One move.",
+      "answer": { "moves": ["Bh7#"] },
+      "wrong": {
+        "Nxf7": "Rxf7 takes the knight straight back and nothing has happened. The knight on g5 is not there to win a pawn, it is there so that the bishop can land on h7 and live."
+      },
+      "concept": "blackburne-mate",
+      "hints": {
+        "piece": "d3",
+        "square": "h7"
+      },
+      "reason": "Bh7 is check and Kxh7 is illegal, because the knight on g5 guards h7. g7 and h8 both belong to the bishop on b2, seven squares away, and f7 and f8 are Black's own. Two bishops and a knight: Blackburne's mate."
+    },
+    {
+      "id": "4.4.3-c4",
+      "type": "is_it_safe",
+      "fen": "5rk1/5p2/8/6N1/8/3B4/1B6/6K1 w - - 0 1",
+      "move": "Bh7#",
+      "prompt": "The bishop steps onto h7, right beside the black king, and nothing else of White's is anywhere near. Is it safe there?",
+      "reasons": [
+        "No. The king takes it, because a bishop landing beside a king is always lost.",
+        "No. The pawn on f7 covers h7 and takes the bishop.",
+        "Yes. The knight on g5 guards h7, so Kxh7 is illegal."
+      ],
+      "answer": { "safe": true, "reason": 2 },
+      "concept": "blackburne-mate",
+      "hints": {
+        "text": "List the squares a knight on g5 attacks."
+      },
+      "reason": "A knight on g5 hits e4, e6, f3, f7, h3 and h7. It is the only white piece that reaches h7 and it is enough. The pawn on f7 is Black's and it captures towards e6 and g6, never towards h7."
+    },
+    {
+      "id": "4.4.3-c5",
+      "type": "find_the_move",
+      "fen": "5rk1/5p2/8/8/8/q7/1B6/6KR w - - 0 1",
+      "prompt": "A rook on h1, a bishop on b2 and a castled king whose g-pawn has gone. Black has a queen. One move.",
+      "answer": { "moves": ["Rh8#"] },
+      "wrong": {
+        "Rh7": "Not even check, and Kxh7 is legal because nothing of yours guards h7. The bishop on b2 is looking at g7 and h8, so h8 is the square that is covered."
+      },
+      "concept": "mayet-mate",
+      "hints": {
+        "piece": "h1",
+        "square": "h8"
+      },
+      "reason": "Rh8 is check along the eighth rank, and the bishop on b2 guards h8 through the empty g7, so Kxh8 is illegal. The same bishop covers g7, the rook covers h7 behind it, and f7 and f8 are Black's own. Mayet's mate."
+    },
+    {
+      "id": "4.4.3-c6",
+      "type": "find_them_all",
+      "fen": "5rk1/5p2/8/8/8/8/1B6/6KR w - - 0 1",
+      "prompt": "Rh8 is mate here. Tap the two white pieces that make it work.",
+      "answer": { "pieces": ["b2", "h1"] },
+      "concept": "mayet-mate",
+      "hints": {
+        "text": "One of them lands next to the king. The other one is why it may stay there."
+      },
+      "reason": "The rook on h1, which arrives on h8 and covers h7 behind it, and the bishop on b2, which guards h8 so the king may not take and covers g7 at the same time. The white king on g1 takes no part."
+    },
+    {
+      "id": "4.4.3-c7",
+      "type": "find_the_move",
+      "fen": "4kb2/3bpp2/8/8/B6q/8/8/2R3K1 w - - 0 1",
+      "prompt": "The black king has never moved and every square around him is his own. Black has a queen on h4, so you get one move.",
+      "answer": { "moves": ["Rc8#"] },
+      "wrong": {
+        "Bxd7+": "It is check and it wins a bishop, and it is still wrong: Kxd7 is legal, the king is out of the box, and the pin you needed has gone with the bishop."
+      },
+      "concept": "reti-mate",
+      "hints": {
+        "piece": "c1",
+        "square": "c8"
+      },
+      "reason": "Rc8 is mate and nothing at all defends the rook. It does not need defending: the king is two squares away, d8 is covered by the rook itself, d7, e7, f7 and f8 are Black's own men, and the bishop on d7 that could take on c8 is pinned against the king by the bishop on a4."
+    },
+    {
+      "id": "4.4.3-c8",
+      "type": "name_the_pattern",
+      "fen": "4kb2/3bpp2/8/8/B7/8/8/2R3K1 w - - 0 1",
+      "prompt": "Rc8 is mate. The bishop on d7 stands on the right colour and covers c8, so why can it not take the rook?",
+      "options": [
+        "Because taking the rook would leave the bishop hanging to the white king on g1.",
+        "Because a bishop on d7 does not reach c8 at all.",
+        "Because it is pinned: the bishop on a4 looks straight through d7 at the king on e8."
+      ],
+      "answer": { "option": 2 },
+      "concept": "reti-mate",
+      "hints": {
+        "text": "Draw the line from a4 to e8 and see what is standing on it."
+      },
+      "reason": "Bxc8 would leave the king on e8 facing the bishop on a4 down the a4-b5-c6-d7-e8 diagonal, so it is illegal. The pin is doing the job a defender would normally do, which is why the rook can land on a square nothing of White's covers."
+    },
+    {
+      "id": "4.4.3-c9",
+      "type": "find_the_move",
+      "fen": "7k/7p/8/3B4/8/q7/8/1K4R1 w - - 0 1",
+      "prompt": "A rook on the g-file, a bishop on d5, and a black king in the corner with his own pawn beside him. Black has a queen. One move.",
+      "answer": { "moves": ["Rg8#"] },
+      "wrong": {
+        "Rg7": "Not check, and Kxg7 is legal because nothing of yours guards g7. The bishop on d5 is looking at g8 through e6 and f7, not at g7 — so g8 is the square."
+      },
+      "concept": "anderssen-mate",
+      "hints": {
+        "piece": "g1",
+        "square": "g8"
+      },
+      "reason": "Rg8 is check along the eighth rank, the bishop on d5 guards g8 through e6 and f7 so the king may not take, the rook covers g7 down its own file, and h7 is Black's own pawn. Anderssen's mate."
+    },
+    {
+      "id": "4.4.3-c10",
+      "type": "which_square",
+      "fen": "7k/7p/8/3B4/8/8/8/1K4R1 w - - 0 1",
+      "prompt": "Rook on g1, bishop on d5, black king on h8 with his own pawn on h7. Tap the square where the rook mates.",
+      "answer": { "square": "g8" },
+      "concept": "anderssen-mate",
+      "hints": {
+        "text": "Follow the bishop's diagonal forward from d5 and see where it ends."
+      },
+      "reason": "g8. The rook checks along the rank, the bishop on d5 reaches g8 through e6 and f7 so Kxg8 is illegal, the rook covers g7 behind it, and h7 is Black's own pawn. Every square accounted for."
+    }
+  ],
+  "takeaway": "Blackburne's, Mayet's and Anderssen's are all one bishop on a long diagonal plus one piece next to the king. Legal's is a queen given away. Reti's replaces the guard with a pin."
+}

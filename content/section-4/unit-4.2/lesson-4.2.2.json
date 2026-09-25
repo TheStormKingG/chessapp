@@ -1,0 +1,218 @@
+{
+  "id": "4.2.2",
+  "unit": "4.2",
+  "title": "Line and square clearance",
+  "xp": 16,
+  "card": {
+    "idea": "Sometimes the piece in the way is your own. A queen aimed at the enemy king is not aimed at anything if one of your pawns is sitting on the road. Move it, and the road opens. Two versions: clear a line so a piece can travel down it, or clear a square so a piece can land on it. Both usually have to be done with check, because a free move is a free move for your opponent too.",
+    "diagrams": [
+      "rnb4k/ppp3pp/7P/4P3/8/8/PQ4PP/6K1 w - - 0 1",
+      "B5k1/P5pp/1r3n2/2p5/8/8/5PPP/6K1 w - - 0 1"
+    ],
+    "habit": "If the piece in the way is yours, move it — and move it with a threat."
+  },
+  "explain": [
+    {
+      "fen": "rnb4k/ppp3pp/7P/4P3/8/8/PQ4PP/6K1 w - - 0 1",
+      "text": "The queen on b2 is pointing at g7, and the pawn on h6 already guards g7, so the king could never take her there. No other black piece can reach g7 either. The only thing standing between the queen and mate is White's own pawn on e5.",
+      "arrows": [
+        [
+          "b2",
+          "e5"
+        ],
+        [
+          "h6",
+          "g7"
+        ]
+      ],
+      "highlights": [
+        "e5",
+        "g7"
+      ]
+    },
+    {
+      "fen": "rnb4k/ppp3pp/4P2P/8/8/8/PQ4PP/6K1 b - - 0 1",
+      "text": "e6, and the road is open. Black has twelve legal moves and Qxg7 is mate against every single one of them, because nothing Black owns can reach g7, block b2 to g7, or give the king a square. The pawn did not need to do anything on e6. It only needed to leave e5.",
+      "arrows": [
+        [
+          "b2",
+          "g7"
+        ]
+      ],
+      "highlights": [
+        "g7"
+      ]
+    },
+    {
+      "fen": "B5k1/P5pp/1r3n2/2p5/8/8/5PPP/6K1 w - - 0 1",
+      "text": "Now a square instead of a line. The pawn on a7 wants a8, and White's own bishop is standing there. Any bishop move clears it, but a quiet one loses: Bb7, and Rb1 is mate on your own back rank. Bd5 is check. The king must answer it, and only then does the pawn get its square.",
+      "arrows": [
+        [
+          "a7",
+          "a8"
+        ],
+        [
+          "b6",
+          "b1"
+        ]
+      ],
+      "highlights": [
+        "a8",
+        "b1"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.2.2-c1",
+      "type": "which_square",
+      "fen": "rnb4k/ppp3pp/7P/4P3/8/8/PQ4PP/6K1 w - - 0 1",
+      "prompt": "The queen on b2 is aimed down the long diagonal at g7, which the pawn on h6 already guards. Tap the square where her own army is blocking her.",
+      "answer": {
+        "square": "e5"
+      },
+      "concept": "line-clearance",
+      "hints": {
+        "text": "Walk the diagonal from b2 towards g7 and stop at the first piece you meet."
+      },
+      "reason": "b2, c3, d4, e5. The pawn on e5 is White's own and it is the first thing on the road, so it is the only reason Qxg7 is not already available."
+    },
+    {
+      "id": "4.2.2-c2",
+      "type": "find_the_move",
+      "fen": "rnb4k/ppp3pp/7P/4P3/8/8/PQ4PP/6K1 w - - 0 1",
+      "prompt": "No black piece can take on g7 and the pawn on h6 holds it for you. Get your own pawn off the queen's diagonal.",
+      "answer": {
+        "moves": [
+          "e6"
+        ]
+      },
+      "wrong": {
+        "hxg7+": "Kxg7 or Kg8, and either way the king steps out and the pawn that was doing all the holding has gone.",
+        "Qxb7": "You win a pawn and Black is fine. The diagonal is still blocked by your own pawn on e5."
+      },
+      "concept": "line-clearance",
+      "hints": {
+        "piece": "e5",
+        "square": "e6"
+      },
+      "reason": "e6 opens b2 to g7 and Qxg7 is mate against every one of Black's twelve replies. The pawn on e6 does nothing there; leaving e5 was the whole move."
+    },
+    {
+      "id": "4.2.2-c3",
+      "type": "find_the_sequence",
+      "fen": "rnb4k/ppp3pp/7P/4P3/8/8/PQ4PP/6K1 w - - 0 1",
+      "prompt": "Play it out: step the pawn off the diagonal, let Black take it with the bishop, then take on g7.",
+      "answer": {
+        "line": [
+          "e6",
+          "Bxe6",
+          "Qxg7#"
+        ]
+      },
+      "concept": "line-clearance",
+      "hints": {
+        "piece": "e5",
+        "square": "g7"
+      },
+      "reason": "Taking the pawn does not help, because the pawn was never the point. The bishop on e6 covers nothing on the long diagonal, and Qxg7 is mate with the h6 pawn holding the queen."
+    },
+    {
+      "id": "4.2.2-c4",
+      "type": "find_the_move",
+      "fen": "r5k1/5ppp/1n5P/8/3R4/8/P5PP/Q5K1 w - - 0 1",
+      "prompt": "Same diagonal, same idea, but this time the piece in the way is a rook and Black has a move to spare unless you take it away.",
+      "answer": {
+        "moves": [
+          "Rd8+"
+        ]
+      },
+      "wrong": {
+        "Rd1": "The diagonal is open, but it was not check. Black answers Kf8, f6 or gxh6 and there is no mate any more.",
+        "hxg7": "Kxg7, and the pawn that was holding g7 for you has gone. Your rook is still sitting on the diagonal."
+      },
+      "concept": "line-clearance",
+      "hints": {
+        "piece": "d4",
+        "square": "d8"
+      },
+      "reason": "Rd8 leaves the diagonal with check, and Rxd8 is Black's only legal move. Qxg7 is then mate, held by the pawn on h6. The rook was worth exactly one tempo."
+    },
+    {
+      "id": "4.2.2-c5",
+      "type": "is_it_safe",
+      "fen": "3r2k1/5ppp/1n5P/8/8/8/P5PP/Q5K1 w - - 0 2",
+      "move": "Qxg7#",
+      "prompt": "The rook has been sacrificed and the diagonal is open. Take the pawn on g7, right next to the black king. Is the queen safe there?",
+      "reasons": [
+        "No. The king simply takes her, because nothing of White's covers g7.",
+        "Yes. The pawn on h6 covers g7, so the king may not take, and it is mate.",
+        "No. The rook on d8 slides across the eighth rank and takes her."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "line-clearance",
+      "hints": {
+        "text": "Count what is looking at g7 from White's side before you count Black's."
+      },
+      "reason": "The pawn on h6 attacks g7, so Kxg7 is illegal. A rook on d8 covers the eighth rank, not g7. The queen is safe and the game is over."
+    },
+    {
+      "id": "4.2.2-c6",
+      "type": "which_square",
+      "fen": "B5k1/P5pp/1r3n2/2p5/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "White's pawn is one step from becoming a queen and one of White's own pieces is standing in the doorway. Tap the square that has to be emptied.",
+      "answer": {
+        "square": "a8"
+      },
+      "concept": "square-clearance",
+      "hints": {
+        "text": "A pawn on the seventh rank promotes on the square straight in front of it."
+      },
+      "reason": "The pawn on a7 promotes on a8, and the white bishop is sitting there. Nothing black is stopping the promotion at all; only White is."
+    },
+    {
+      "id": "4.2.2-c7",
+      "type": "find_the_move",
+      "fen": "B5k1/P5pp/1r3n2/2p5/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Get the bishop off a8 so the pawn can queen. Your king has no air, so choose the bishop move that does not give Black a free turn.",
+      "answer": {
+        "moves": [
+          "Bd5+"
+        ]
+      },
+      "wrong": {
+        "Bb7": "The square is clear, but it was a quiet move. Rb1 is mate.",
+        "Bc6": "Also clear, also quiet, and also met by Rb1 mate. Your back rank is the reason you cannot take your time."
+      },
+      "concept": "square-clearance",
+      "hints": {
+        "piece": "a8",
+        "square": "d5"
+      },
+      "reason": "Bd5 is check along a8 to g8, so Black has to answer it: Kh8, Kf8, Re6 or Nxd5. After any of them a8 is empty and the pawn promotes with check."
+    },
+    {
+      "id": "4.2.2-c8",
+      "type": "name_the_pattern",
+      "fen": "B5k1/P5pp/5n2/8/1r2p3/8/5PPP/6K1 w - - 0 1",
+      "prompt": "The bishop on a8 is in its own pawn's way again. Why must the move that clears the square be a check?",
+      "options": [
+        "Because the black rook is guarding a8 from the b-file, and only a check breaks the guard.",
+        "Because the bishop is worth less than a queen, so it must be sacrificed to be worth giving up.",
+        "Because White's king has no escape square, so any quiet move lets the rook come to the back rank."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "square-clearance",
+      "hints": {
+        "text": "Look at White's own first rank and count the king's squares."
+      },
+      "reason": "Nothing of Black's attacks a8 at all. The pressure is the other way round: f2, g2 and h2 box White's king in, so a rook arriving on the first rank ends the game."
+    }
+  ],
+  "takeaway": "Your own pieces block your own lines. Clearing one is a move that does nothing where it lands, so it has to do its work on the way: with check, or with a capture."
+}

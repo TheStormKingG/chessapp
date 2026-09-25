@@ -1,0 +1,158 @@
+{
+  "id": "4.3.2",
+  "unit": "4.3",
+  "title": "Counter-attack instead of retreat",
+  "xp": 16,
+  "card": {
+    "idea": "When a piece of yours is attacked, retreating is the first move that comes to mind and it is usually the weakest one on your list. Ask what you can attack instead. If your threat is bigger than his, he has to answer yours first, and the piece he was going to win is still standing there when he is done.",
+    "diagrams": [
+      "3n2k1/5ppp/8/8/N7/2R5/q4PPP/2R3K1 w - - 0 1",
+      "6k1/5ppp/4q3/5R2/4b3/1n6/5PPP/1Q4K1 w - - 0 1"
+    ],
+    "habit": "Attacked? Ask what you can hit back before you ask where to run."
+  },
+  "explain": [
+    {
+      "fen": "3n2k1/5ppp/8/8/N7/2R5/q4PPP/2R3K1 w - - 0 1",
+      "text": "Your knight on a4 is hanging: the queen on a2 attacks it and nothing defends it. Nb6 and Nc5 both save it, and both leave the game level. Rc8 saves nothing and threatens Rxd8 mate. Take the knight and it is over: Qxa4 Rxd8+ Qe8 Rxe8 is mate.",
+      "arrows": [
+        ["a2", "a4"],
+        ["c3", "c8"],
+        ["c8", "d8"]
+      ],
+      "highlights": ["a4", "c8", "d8"]
+    },
+    {
+      "fen": "6k1/5ppp/4q3/5R2/4b3/1n6/5PPP/1Q4K1 w - - 0 1",
+      "text": "Two of your pieces at once here. His bishop on e4 hits your queen on b1, and his bishop and his queen both hit your rook on f5. The rook has to move; the queen does not. Rb5 attacks the knight on b3, and Bxb1 is answered by Rb8+ and mate on the eighth rank.",
+      "arrows": [
+        ["e4", "b1"],
+        ["f5", "b5"],
+        ["b5", "b3"]
+      ],
+      "highlights": ["b1", "f5", "b3"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.3.2-c1",
+      "type": "find_them_all",
+      "fen": "3n2k1/5ppp/8/8/N7/2R5/q4PPP/2R3K1 w - - 0 1",
+      "prompt": "Before you decide anything, find out what is actually under fire. Tap every white man Black attacks.",
+      "answer": { "pieces": ["a4", "f2"] },
+      "concept": "counter-attack",
+      "hints": {
+        "text": "One queen is doing all of it. Follow the file she stands on, then follow her rank."
+      },
+      "reason": "The queen on a2 hits the knight up the a-file and the pawn on f2 along the second rank. The pawn has your king behind it; the knight has nothing."
+    },
+    {
+      "id": "4.3.2-c2",
+      "type": "name_the_pattern",
+      "fen": "3n2k1/5ppp/8/8/N7/2R5/q4PPP/2R3K1 w - - 0 1",
+      "prompt": "Nb6 saves the knight and leaves the game level. What does Rc8 do instead?",
+      "options": [
+        "It defends the knight on a4 for a second time, so taking it costs him a queen.",
+        "It makes a bigger threat than his. Rxd8 is mate right now, so he has to answer that instead of collecting your knight.",
+        "It attacks the queen on a2 and drives her off the file."
+      ],
+      "answer": { "option": 1 },
+      "concept": "counter-attack",
+      "hints": {
+        "text": "Look at his back rank and count what is standing between your rook and his king."
+      },
+      "reason": "Rc8 does nothing for the knight at all. It threatens Rxd8 mate, which is worth more than a knight, so he has to spend his move on it. He can play h6 and give his king air, and then Rxd8 is only a piece."
+    },
+    {
+      "id": "4.3.2-c3",
+      "type": "find_the_move",
+      "fen": "3n2k1/5ppp/8/8/N7/2R5/q4PPP/2R3K1 w - - 0 1",
+      "prompt": "Your knight on a4 is hanging. Leave it there and find the move that gives him something worse to think about.",
+      "answer": { "moves": ["Rc8"] },
+      "wrong": {
+        "Nb6": "The knight is safe and the game is level. Rc8 leaves the knight and threatens mate, and mate is worth more than a knight.",
+        "Nc5": "Also safe, also level. You have spent your move tidying up when there was a mate threat available."
+      },
+      "concept": "counter-attack",
+      "hints": {
+        "piece": "c3",
+        "square": "c8"
+      },
+      "reason": "Rc8 threatens Rxd8 mate. Every knight move on the board is worth about nothing by comparison, and if he does grab on a4 he is mated in two."
+    },
+    {
+      "id": "4.3.2-c4",
+      "type": "find_the_sequence",
+      "fen": "3n2k1/5ppp/8/8/N7/2R5/q4PPP/2R3K1 w - - 0 1",
+      "prompt": "He takes the knight anyway. Show him what that costs: the rook, his only answer, and the finish.",
+      "answer": { "line": ["Rc8", "Qxa4", "Rxd8+", "Qe8", "Rxe8#"] },
+      "concept": "counter-attack",
+      "hints": {
+        "piece": "c3",
+        "square": "c8"
+      },
+      "reason": "After Rxd8+ the queen on e8 is his only legal move on the board, and Rxe8 is mate. He won a knight and lost the game for it."
+    },
+    {
+      "id": "4.3.2-c5",
+      "type": "find_them_all",
+      "fen": "6k1/5ppp/4q3/5R2/4b3/1n6/5PPP/1Q4K1 w - - 0 1",
+      "prompt": "Same question, busier board. Tap every white man Black attacks.",
+      "answer": { "pieces": ["b1", "f5", "g2"] },
+      "concept": "counter-attack",
+      "hints": {
+        "text": "The bishop on e4 is on two long diagonals at once. Follow both of them, then add what his queen sees."
+      },
+      "reason": "The bishop on e4 hits the queen on b1 and the pawn on g2, and it hits the rook on f5 as well, which his queen also attacks. Three men, one bishop doing most of the work."
+    },
+    {
+      "id": "4.3.2-c6",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/4q3/5R2/4b3/1n6/5PPP/1Q4K1 w - - 0 1",
+      "prompt": "The rook is attacked twice and the queen once, and you have one move. Move the rook somewhere that does some work.",
+      "answer": { "moves": ["Rb5"] },
+      "wrong": {
+        "Qd1": "The queen is safe and the rook on f5 is still hanging. You needed the move for the rook, and the queen was never really in danger.",
+        "Qxb3": "Qxb3 and his queen takes on b3 from e6. A queen for a knight."
+      },
+      "concept": "counter-attack",
+      "hints": {
+        "piece": "f5",
+        "square": "b5"
+      },
+      "reason": "Rb5 gets the rook out of trouble and puts a second attacker on the knight on b3. The queen stays on b1 because Bxb1 loses to Rb8+ and mate."
+    },
+    {
+      "id": "4.3.2-c7",
+      "type": "is_it_safe",
+      "fen": "6k1/5ppp/4q3/5R2/4b3/1n6/5PPP/1Q4K1 w - - 0 1",
+      "move": "Qxb3",
+      "prompt": "The knight on b3 looks free, so you think about taking it at once. Is your queen safe on b3?",
+      "reasons": [
+        "Yes. The knight was undefended, so she simply wins a piece.",
+        "Yes. Your rook on f5 covers b3 along the fifth rank.",
+        "No. His queen on e6 covers b3 down the diagonal and takes her."
+      ],
+      "answer": { "safe": false, "reason": 2 },
+      "concept": "counter-attack",
+      "hints": {
+        "text": "Draw the diagonal from e6 towards the queenside and see where it lands."
+      },
+      "reason": "e6, d5, c4, b3. The knight is defended once and attacked once, so taking it gives up a queen for a knight. Rb5 makes it attacked twice, which is a different question."
+    },
+    {
+      "id": "4.3.2-c8",
+      "type": "find_the_sequence",
+      "fen": "6k1/5ppp/4q3/5R2/4b3/1n6/5PPP/1Q4K1 w - - 0 1",
+      "prompt": "He takes the queen on b1. Play the answer out to the end.",
+      "answer": { "line": ["Rb5", "Bxb1", "Rb8+", "Qe8", "Rxe8#"] },
+      "concept": "counter-attack",
+      "hints": {
+        "piece": "f5",
+        "square": "b5"
+      },
+      "reason": "Rb8+ and he has two blocks, Qc8 and Qe8. Rxc8 and Rxe8 are both mate, so it does not matter which he picks. The bishop never had time to enjoy the queen."
+    }
+  ],
+  "takeaway": "Being attacked is a question, not an order. Look for something of his worth more than the piece he is aiming at before you look for a square to run to."
+}

@@ -7,6 +7,7 @@ import { CoachBubble, CoachService } from '@/coach';
 import type { Square } from '@/rules';
 import { useSettings } from '@/app/settings';
 import { initLesson, reduce, currentChallenge, type Highlights, type LessonState } from './LessonMachine';
+import { Aside } from '@/app/Aside';
 import { Annotation } from './Annotation';
 import { ChallengeView } from './challenges/ChallengeView';
 import type { WrongMove } from './challenges/Sequence';
@@ -218,8 +219,18 @@ export function LessonPlayer({
         <button type="button" className="tap icon-control shrink-0" aria-label={exitLabel} onClick={exit}>
           ✕
         </button>
+        {/* On the CARD phase the heading below says the lesson's name, so the
+            header saying it too is the same sentence twice, sixteen pixels
+            apart — and it is the longer of the two that wraps to a second line
+            and squeezes the ✕. The header keeps the id, which the heading does
+            not carry.
+
+            It is only a duplicate on that one phase. From the first challenge
+            on, the heading is replaced by the prompt and this becomes the only
+            place the lesson is named, which is why it is scoped rather than
+            removed. */}
         <h1 className="t-caption min-w-0 flex-1 text-center text-content-dim">
-          {title ?? `${lesson.id} · ${lesson.title}`}
+          {title ?? (ph.kind === 'card' ? lesson.id : `${lesson.id} · ${lesson.title}`)}
         </h1>
         {/* The counter is the announcement: giving the text already on screen a
             live region names the transition for a screen reader without adding a
@@ -268,17 +279,13 @@ export function LessonPlayer({
           <div className="mt-6 md:col-start-2 md:row-start-2">
             <h2 className="t-title">{lesson.title}</h2>
             <p className="t-body mt-3">{lesson.card.idea}</p>
-            {/* PREMIUM-DELTA.md §5: `--accent-soft` meant five different things,
-                which is the rule §3.1 built the palette around. It keeps one job —
-                the selected segment of a segmented control — so the prose chip
-                becomes plain prose with a 2px left rule in `--accent`. The rule is
-                a mark, not a text background: the prose carries `--content` on
-                `--surface-raised`, measured below. */}
-            {lesson.card.habit && (
-              <p className="t-body mt-3 border-l-2 border-accent bg-surface-raised py-2 pl-3">
-                Habit: {lesson.card.habit}
-              </p>
-            )}
+            {/* The habit was a 2px accent stripe down a tinted box. That came
+                from PREMIUM-DELTA §5 (`--accent-soft` meant five things, and the
+                chip was the worst of them) and it solved that problem by moving
+                it: the same treatment ended up on the habit, the puzzle
+                explanation and a "no puzzles found" empty state — three
+                different speech acts wearing one decoration. See `Aside.tsx`. */}
+            {lesson.card.habit && <Aside label="Habit">{lesson.card.habit}</Aside>}
           </div>
           {lesson.card.diagrams[0] && (
             <div className="mt-4 md:col-start-1 md:row-start-2 md:row-span-2 md:mt-6">

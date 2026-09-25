@@ -402,7 +402,7 @@ export const SECTION_4: SectionDef = {
     {
       id: '4.1',
       title: 'Deflection and decoy',
-      built: false,
+      built: true,
       lessons: [
         { id: '4.1.1', title: 'Deflection in depth' },
         { id: '4.1.2', title: 'Decoy and attraction' },
@@ -412,7 +412,7 @@ export const SECTION_4: SectionDef = {
     {
       id: '4.2',
       title: 'Interference, clearance and desperado',
-      built: false,
+      built: true,
       lessons: [
         { id: '4.2.1', title: 'Interference' },
         { id: '4.2.2', title: 'Line and square clearance' },
@@ -422,7 +422,7 @@ export const SECTION_4: SectionDef = {
     {
       id: '4.3',
       title: 'In-between moves and defence',
-      built: false,
+      built: true,
       lessons: [
         { id: '4.3.1', title: 'The zwischenzug' },
         { id: '4.3.2', title: 'Counter-attack instead of retreat' },
@@ -433,7 +433,7 @@ export const SECTION_4: SectionDef = {
     {
       id: '4.4',
       title: 'Zugzwang, the Greek gift and named mates, second wave',
-      built: false,
+      built: true,
       lessons: [
         { id: '4.4.1', title: 'Zugzwang as a weapon' },
         { id: '4.4.2', title: 'The Greek gift sacrifice' },
@@ -444,7 +444,7 @@ export const SECTION_4: SectionDef = {
     {
       id: '4.5',
       title: 'Combinations and calculation',
-      built: false,
+      built: true,
       lessons: [
         { id: '4.5.1', title: 'Combinations as chains of motifs' },
         { id: '4.5.2', title: 'Comparing candidates rather than analysing one to death' },
@@ -455,7 +455,7 @@ export const SECTION_4: SectionDef = {
     {
       id: '4.6',
       title: "Stean's six",
-      built: false,
+      built: true,
       lessons: [
         { id: '4.6.1', title: 'Outposts and holes' },
         { id: '4.6.2', title: 'Weak pawns' },
@@ -468,7 +468,7 @@ export const SECTION_4: SectionDef = {
     {
       id: '4.7',
       title: 'Bishops, knights and the isolated pawn',
-      built: false,
+      built: true,
       lessons: [
         { id: '4.7.1', title: 'The bishop pair in open positions' },
         { id: '4.7.2', title: 'Knight against bishop rules of thumb' },

@@ -1,0 +1,398 @@
+{
+  "unit": "4.1",
+  "title": "Deflection and decoy",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "4.1-k01",
+      "type": "find_the_move",
+      "fen": "6k1/2b2ppp/8/7q/8/1Q6/5PPP/3R2K1 w - - 0 1",
+      "prompt": "The bishop on c7 is the only black piece covering d8. Give your queen away to move it.",
+      "answer": { "moves": ["Qb8+"] },
+      "concept": "deflection",
+      "reason": "Qb8 is check with two answers, Bxb8 and Bd8. Both take the bishop off c7, and a rook on d8 finishes either one."
+    },
+    {
+      "id": "4.1-k02",
+      "type": "is_it_safe",
+      "fen": "6k1/2b2ppp/8/7q/8/1Q6/5PPP/3R2K1 w - - 0 1",
+      "move": "Qb8+",
+      "prompt": "White plays the queen to b8 with check. Is she safe there?",
+      "reasons": [
+        "No. The bishop on c7 takes her, which is the whole idea.",
+        "No. The queen on h5 takes her.",
+        "Yes. Nothing black reaches b8."
+      ],
+      "answer": { "safe": false, "reason": 0 },
+      "concept": "deflection",
+      "reason": "The bishop on c7 is the only black piece attacking b8, and taking is the one thing it cannot do while staying on c7."
+    },
+    {
+      "id": "4.1-k03",
+      "type": "find_the_sequence",
+      "fen": "6k1/2b2ppp/8/7q/8/1Q6/5PPP/3R2K1 w - - 0 1",
+      "prompt": "Play it out: the queen offer, the capture, and the mate.",
+      "answer": { "line": ["Qb8+", "Bxb8", "Rd8#"] },
+      "concept": "deflection",
+      "reason": "Qb8+ Bxb8 Rd8 is mate. f7, g7 and h7 are the king's own pawns and nothing covers d8 once the bishop has left c7."
+    },
+    {
+      "id": "4.1-k04",
+      "type": "find_the_move",
+      "fen": "6k1/2b2ppp/8/8/4b3/1Q6/r4PPP/3R2K1 w - - 0 1",
+      "prompt": "Two black bishops and a rook on a2, and only one of them is doing a job that matters. Find the move.",
+      "answer": { "moves": ["Qb8+"] },
+      "concept": "deflection",
+      "reason": "Qb8 is check and both Bxb8 and Bd8 empty c7, so Rd8 or Rxd8 is mate. The rook on a2 and the bishop on e4 never get a move."
+    },
+    {
+      "id": "4.1-k05",
+      "type": "is_it_safe",
+      "fen": "6k1/2b2ppp/8/8/4b3/1Q6/r4PPP/3R2K1 w - - 0 1",
+      "move": "Qxa2",
+      "prompt": "White takes the rook on a2 with the queen. Is the queen safe on a2?",
+      "reasons": [
+        "No. The bishop on e4 takes her.",
+        "Yes. Nothing black attacks a2, so she keeps the rook.",
+        "No. The bishop on c7 takes her."
+      ],
+      "answer": { "safe": true, "reason": 1 },
+      "concept": "deflection",
+      "reason": "Nothing black attacks a2, so the rook is a free rook. It is still the wrong move: the bishop stays on c7 and the mate is gone."
+    },
+    {
+      "id": "4.1-k06",
+      "type": "name_the_pattern",
+      "fen": "6k1/2b2ppp/8/8/4b3/1Q6/r4PPP/3R2K1 w - - 0 1",
+      "prompt": "Qb8 gives up a queen for a bishop, and Qxa2 wins a whole rook for nothing. Why is the queen offer better?",
+      "options": [
+        "Because the bishop on c7 is worth more than the rook on a2.",
+        "Because Qb8 buys d8, and d8 is mate, while the rook on a2 is only material.",
+        "Because Qxa2 would lose the queen to the bishop on e4."
+      ],
+      "answer": { "option": 1 },
+      "concept": "deflection",
+      "reason": "Mate ends the game, so anything that buys mate outranks anything that wins material. The rook on a2 is genuinely free and genuinely irrelevant."
+    },
+    {
+      "id": "4.1-k07",
+      "type": "find_the_move",
+      "fen": "6k1/p4ppp/6p1/4b3/7q/8/r4PPP/1R2R1K1 w - - 0 1",
+      "prompt": "The bishop on e5 is standing in front of your rook on e1. Offer it something on the far side of the board.",
+      "answer": { "moves": ["Rb8+"] },
+      "concept": "deflection",
+      "reason": "Rb8 is check, and the bishop on e5 is the only black piece attacking b8. Bxb8 opens the e-file and Re8 is mate; Qd8 blocks and Rxd8 is mate."
+    },
+    {
+      "id": "4.1-k08",
+      "type": "find_the_sequence",
+      "fen": "6k1/p4ppp/6p1/4b3/7q/8/r4PPP/1R2R1K1 w - - 0 1",
+      "prompt": "Play it out: pull the bishop off the e-file, then mate down it.",
+      "answer": { "line": ["Rb8+", "Bxb8", "Re8#"] },
+      "concept": "deflection",
+      "reason": "Rb8+ Bxb8 Re8 is mate. The bishop was guarding b8 and blocking the e-file at once, and one check stopped it doing both."
+    },
+    {
+      "id": "4.1-k09",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/3b4/8/7q/5PPP/R2R2K1 w - - 0 1",
+      "prompt": "Your rook on d1 would mate on d8 if the file were clear. Clear it without taking anything.",
+      "answer": { "moves": ["Ra8+"] },
+      "concept": "removing-the-defender",
+      "reason": "Ra8 is check and the bishop on d5 is the only black piece attacking a8. Bxa8 opens the d-file; Qc8 blocks and Rxc8 mates instead."
+    },
+    {
+      "id": "4.1-k10",
+      "type": "which_square",
+      "fen": "6k1/5ppp/8/3b4/8/7q/5PPP/R2R2K1 w - - 0 1",
+      "prompt": "Tap the black piece that is standing between your rook on d1 and the mate on d8.",
+      "answer": { "square": "d5" },
+      "concept": "removing-the-defender",
+      "reason": "The bishop on d5 blocks the file, and nothing black covers d8 itself. It is also the only thing attacking a8, which is what makes Ra8 work."
+    },
+    {
+      "id": "4.1-k11",
+      "type": "find_the_sequence",
+      "fen": "6k1/5ppp/8/3b4/8/7q/5PPP/R2R2K1 w - - 0 1",
+      "prompt": "Play it out: the offer on a8, the capture, and the mate on d8.",
+      "answer": { "line": ["Ra8+", "Bxa8", "Rd8#"] },
+      "concept": "removing-the-defender",
+      "reason": "Ra8+ Bxa8 Rd8 is mate. A rook was the price of one open file, and the file was worth it."
+    },
+    {
+      "id": "4.1-k12",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/8/3b4/8/7q/5PPP/R2R2K1 w - - 0 1",
+      "prompt": "Ra8 does not attack the bishop on d5 and does not defend anything. What does it do?",
+      "options": [
+        "It threatens mate on a8 next move.",
+        "It attacks the pawn on a7, which is undefended.",
+        "It puts a rook where the bishop on d5 must take it, which is the one move that empties the d-file."
+      ],
+      "answer": { "option": 2 },
+      "concept": "removing-the-defender",
+      "reason": "The bishop is the only black piece that attacks a8, so Ra8 with check forces it to leave d5. Nothing else on the board makes it move."
+    },
+    {
+      "id": "4.1-k13",
+      "type": "find_the_move",
+      "fen": "6k1/2n2ppp/8/7q/8/8/5PPP/R3R1K1 w - - 0 1",
+      "prompt": "The knight on c7 covers both a8 and e8. Make it choose, with check.",
+      "answer": { "moves": ["Ra8+"] },
+      "concept": "removing-the-defender",
+      "reason": "Ra8 is check and the knight has two answers, Nxa8 and Ne8. After Nxa8 the knight no longer covers e8 and Re8 is mate; after Ne8 either white rook takes on e8 with mate."
+    },
+    {
+      "id": "4.1-k14",
+      "type": "find_them_all",
+      "fen": "6k1/2n2ppp/8/7q/8/8/5PPP/R3R1K1 w - - 0 1",
+      "prompt": "White is about to play Ra8 with check. Tap every square the knight on c7 could legally go to in answer.",
+      "answer": { "squares": ["a8", "e8"] },
+      "concept": "removing-the-defender",
+      "reason": "Nxa8 and Ne8 are Black's only two legal moves. The king cannot move and the queen on h5 cannot reach the eighth rank, so both of those squares lose."
+    },
+    {
+      "id": "4.1-k15",
+      "type": "find_the_sequence",
+      "fen": "6k1/2n2ppp/8/7q/8/8/5PPP/R3R1K1 w - - 0 1",
+      "prompt": "Play it out: the check on a8, the knight capture, and the mate.",
+      "answer": { "line": ["Ra8+", "Nxa8", "Re8#"] },
+      "concept": "removing-the-defender",
+      "reason": "Ra8+ Nxa8 Re8 is mate. The knight was covering e8 from c7 and it cannot cover it from a8."
+    },
+    {
+      "id": "4.1-k16",
+      "type": "find_the_move",
+      "fen": "6k1/5pp1/8/4N1q1/8/8/5PP1/6KR w - - 0 1",
+      "prompt": "Nxf7 would hit the king and the queen at once, if the king were on h8 instead of g8. Put it there.",
+      "answer": { "moves": ["Rh8+"] },
+      "concept": "decoy",
+      "reason": "Rh8 is check and Kxh8 is the only legal answer. Nxf7 is then check and hits g5, so the queen goes next move."
+    },
+    {
+      "id": "4.1-k17",
+      "type": "is_it_safe",
+      "fen": "6k1/5pp1/8/4N1q1/8/8/5PP1/6KR w - - 0 1",
+      "move": "Rh8+",
+      "prompt": "White plays the rook to h8 beside the black king. Is the rook safe there?",
+      "reasons": [
+        "No. The queen on g5 takes it.",
+        "No. The king takes it, and that is what White wants.",
+        "Yes. The king is not allowed to capture on h8."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "decoy",
+      "reason": "Kxh8 is Black's only legal move. Losing the rook is the price, and the king standing on h8 is what you bought."
+    },
+    {
+      "id": "4.1-k18",
+      "type": "which_square",
+      "fen": "6k1/5pp1/8/4N1q1/8/8/5PP1/6KR w - - 0 1",
+      "prompt": "Tap the square your knight wants, from which it would give check and attack the queen at the same time.",
+      "answer": { "square": "f7" },
+      "concept": "decoy",
+      "reason": "From f7 a knight hits h8 and g5. It does not work yet, because from g8 the king defends f7; that is why the king has to be moved first."
+    },
+    {
+      "id": "4.1-k19",
+      "type": "find_the_move",
+      "fen": "3q2k1/5pp1/8/6N1/8/8/5PP1/6KR w - - 0 1",
+      "prompt": "The knight on g5 can reach f7, and f7 hits h8 and d8. Arrange for the king to be on h8.",
+      "answer": { "moves": ["Rh8+"] },
+      "concept": "decoy",
+      "reason": "Rh8 is check with Kxh8 the only legal answer. Nxf7 then forks the king on h8 and the queen on d8."
+    },
+    {
+      "id": "4.1-k20",
+      "type": "find_the_sequence",
+      "fen": "3q2k1/5pp1/8/6N1/8/8/5PP1/6KR w - - 0 1",
+      "prompt": "Play it out: the rook offer, the recapture, the fork, and the queen.",
+      "answer": { "line": ["Rh8+", "Kxh8", "Nxf7+", "Kg8", "Nxd8"] },
+      "concept": "decoy",
+      "reason": "Rh8+ Kxh8 Nxf7+ and the king goes to g8 or h7. Either way Nxd8 follows: a rook for a queen."
+    },
+    {
+      "id": "4.1-k21",
+      "type": "name_the_pattern",
+      "fen": "3q2k1/5pp1/8/6N1/8/8/5PP1/6KR w - - 0 1",
+      "prompt": "Rh8 gives up a rook and the king simply takes it. What has White gained?",
+      "options": [
+        "The king is now on h8, which is a square the knight on f7 gives check from while also hitting d8.",
+        "The h-file is now open for the white king to walk up.",
+        "Black's king has lost the right to castle."
+      ],
+      "answer": { "option": 0 },
+      "concept": "decoy",
+      "reason": "Nothing was removed from the board except White's own rook. The gain is the king's new square, chosen before the rook was given."
+    },
+    {
+      "id": "4.1-k22",
+      "type": "find_the_move",
+      "fen": "5rk1/6pp/1q6/4N3/8/7P/6P1/5R1K w - - 0 1",
+      "prompt": "Nd7 would hit f8 and b6, but f8 holds a rook, which would simply move away. Put the black king on f8 instead.",
+      "answer": { "moves": ["Rxf8+"] },
+      "concept": "decoy",
+      "reason": "Rxf8 is check and Kxf8 is the only answer. The rook that could have run is gone and the king now stands on f8, so Nd7 forks king and queen."
+    },
+    {
+      "id": "4.1-k23",
+      "type": "find_the_sequence",
+      "fen": "5rk1/6pp/1q6/4N3/8/7P/6P1/5R1K w - - 0 1",
+      "prompt": "Play it out: trade on f8, then fork, then take the queen.",
+      "answer": { "line": ["Rxf8+", "Kxf8", "Nd7+", "Ke8", "Nxb6"] },
+      "concept": "decoy",
+      "reason": "Rxf8+ Kxf8 Nd7+ and the king has four squares, none of which defends b6. Nxb6 wins the queen for a rook."
+    },
+    {
+      "id": "4.1-k24",
+      "type": "find_the_move",
+      "fen": "1r4k1/6pp/1n6/P7/1B6/8/6PP/5RK1 w - - 0 1",
+      "prompt": "The rook on b8 defends the knight on b6 and also covers f8. Make it pick one of the two.",
+      "answer": { "moves": ["axb6"] },
+      "concept": "overloading",
+      "reason": "axb6 takes the knight. Rxb6 wins it back and leaves f8, where the bishop on b4 holds a white rook, so Rf8 is mate. Anything else is a piece down."
+    },
+    {
+      "id": "4.1-k25",
+      "type": "is_it_safe",
+      "fen": "1r4k1/6pp/1n6/P7/1B6/8/6PP/5RK1 w - - 0 1",
+      "move": "Rf8+",
+      "prompt": "White plays the rook straight to f8, where the bishop on b4 defends it. Is the rook safe there?",
+      "reasons": [
+        "No. The rook on b8 takes it along the eighth rank.",
+        "No. The king takes it, because the bishop on b4 does not reach f8.",
+        "Yes. The bishop on b4 defends f8, so nothing can take."
+      ],
+      "answer": { "safe": false, "reason": 0 },
+      "concept": "overloading",
+      "reason": "The king may not take, because the bishop on b4 covers f8, but Rxf8 is legal and it is Black's only move. The rook has to be dealt with first."
+    },
+    {
+      "id": "4.1-k26",
+      "type": "find_the_sequence",
+      "fen": "1r4k1/6pp/1n6/P7/1B6/8/6PP/5RK1 w - - 0 1",
+      "prompt": "Play it out: take the knight, let the rook win it back, and mate on f8.",
+      "answer": { "line": ["axb6", "Rxb6", "Rf8#"] },
+      "concept": "overloading",
+      "reason": "axb6 Rxb6 Rf8 is mate. The bishop on b4 defends the rook on f8 and the king has nowhere else, so recapturing was the losing choice."
+    },
+    {
+      "id": "4.1-k27",
+      "type": "name_the_pattern",
+      "fen": "1r4k1/6pp/1n6/P7/1B6/8/6PP/5RK1 w - - 0 1",
+      "prompt": "Why does taking on b6 win, when axb6 Rxb6 is just a pawn for a knight?",
+      "options": [
+        "Because the pawn on b6 will promote.",
+        "Because the rook on b6 is then attacked by the bishop on b4.",
+        "Because the rook on b8 was the only thing covering f8, and on b6 it no longer covers it."
+      ],
+      "answer": { "option": 2 },
+      "concept": "overloading",
+      "reason": "One rook, two jobs. Black can keep the knight or keep f8, and f8 is mate, so the piece has to go."
+    },
+    {
+      "id": "4.1-k28",
+      "type": "find_the_move",
+      "fen": "1r4k1/6pp/1n2N3/P7/8/8/6PP/5RK1 w - - 0 1",
+      "prompt": "Same job, different helper: the knight on e6 covers f8. Give the rook on b8 two things to do at once.",
+      "answer": { "moves": ["axb6"] },
+      "concept": "overloading",
+      "reason": "axb6 attacks nothing new, it removes the knight. Rxb6 abandons f8, where the knight on e6 holds your rook, and Rf8 is mate."
+    },
+    {
+      "id": "4.1-k29",
+      "type": "which_square",
+      "fen": "1r4k1/6pp/1n2N3/P7/8/8/6PP/5RK1 w - - 0 1",
+      "prompt": "Tap the black piece that is doing two jobs at once.",
+      "answer": { "square": "b8" },
+      "concept": "overloading",
+      "reason": "The rook on b8 defends the knight on b6 down the file and covers f8 along the rank. It can keep one of them."
+    },
+    {
+      "id": "4.1-k30",
+      "type": "find_them_all",
+      "fen": "1r4k1/6pp/1n2N3/P7/8/8/6PP/5RK1 w - - 0 1",
+      "prompt": "Tap every white piece that attacks f8. That is why a rook can sit there and survive.",
+      "answer": { "pieces": ["e6", "f1"] },
+      "concept": "overloading",
+      "reason": "The rook on f1 down the file and the knight on e6. With f8 attacked twice and defended only by the king, a rook there cannot be taken."
+    },
+    {
+      "id": "4.1-k31",
+      "type": "find_the_move",
+      "fen": "4k2r/1p3p1p/2n3p1/pB6/3P4/8/PP3PPP/4K2R w - - 0 1",
+      "prompt": "The knight on c6 has no legal move at all. Do not trade for it. Hit it again.",
+      "answer": { "moves": ["d5"] },
+      "concept": "exploit-pin",
+      "reason": "The knight is on the line from the bishop on b5 to the king on e8, so it cannot step aside. d5 attacks it a second time and costs nothing."
+    },
+    {
+      "id": "4.1-k32",
+      "type": "is_it_safe",
+      "fen": "4k2r/1p3p1p/2n3p1/pB6/3P4/8/PP3PPP/4K2R w - - 0 1",
+      "move": "d5",
+      "prompt": "White pushes the pawn to d5, right next to the black knight. Is the pawn safe on d5?",
+      "reasons": [
+        "No. The knight on c6 takes it.",
+        "No. The pawn on b7 takes it.",
+        "Yes. Nothing black attacks d5, and the knight is not allowed to move at all."
+      ],
+      "answer": { "safe": true, "reason": 2 },
+      "concept": "exploit-pin",
+      "reason": "Nothing black attacks d5. The knight cannot take because moving it would leave the king on e8 in check from the bishop on b5."
+    },
+    {
+      "id": "4.1-k33",
+      "type": "name_the_pattern",
+      "fen": "4k2r/1p3p1p/2n3p1/pB6/3P4/8/PP3PPP/4K2R w - - 0 1",
+      "prompt": "Why is d5 better than taking the knight with the bishop straight away?",
+      "options": [
+        "Because Bxc6 lets bxc6 take back and gives up the very thing that froze the knight.",
+        "Because the pawn on d5 attacks the rook on h8 as well.",
+        "Because Bxc6 would be met by Kd7."
+      ],
+      "answer": { "option": 0 },
+      "concept": "exploit-pin",
+      "reason": "A frozen piece is not going anywhere, so you never have to trade for it on its terms. Add a cheap attacker and let it fall."
+    },
+    {
+      "id": "4.1-k34",
+      "type": "find_the_move",
+      "fen": "4k2r/1p2pppp/2n5/pB6/3P4/8/PP3PPP/4K2R w - - 0 1",
+      "prompt": "One black piece is frozen. Bring the cheapest possible second attacker to it.",
+      "answer": { "moves": ["d5"] },
+      "concept": "exploit-pin",
+      "reason": "d5 hits the knight on c6 a second time. It cannot run, because the bishop on b5 is aimed through it at the king on e8."
+    },
+    {
+      "id": "4.1-k35",
+      "type": "is_it_safe",
+      "fen": "4k2r/1p2pppp/2n5/pB6/3P4/8/PP3PPP/4K2R w - - 0 1",
+      "move": "d5",
+      "prompt": "Is the pawn safe on d5, standing beside a knight and in front of a king?",
+      "reasons": [
+        "No. The knight on c6 takes it.",
+        "No. The king walks up and takes it.",
+        "Yes. Nothing black attacks d5 at all."
+      ],
+      "answer": { "safe": true, "reason": 2 },
+      "concept": "exploit-pin",
+      "reason": "No black man attacks d5. The knight is frozen by the bishop on b5, and the king on e8 is two squares away from d5."
+    },
+    {
+      "id": "4.1-k36",
+      "type": "name_the_pattern",
+      "fen": "4k2r/1p2pppp/2n5/pB6/3P4/8/PP3PPP/4K2R w - - 0 1",
+      "prompt": "The knight on c6 is defended by the pawn on b7. Why does that not save it?",
+      "options": [
+        "Because the pawn on b7 is itself attacked.",
+        "Because a pawn taking a knight is a good trade whatever defends it, and the knight is not allowed to run away.",
+        "Because the knight is not really defended; b7 does not cover c6."
+      ],
+      "answer": { "option": 1 },
+      "concept": "exploit-pin",
+      "reason": "Defenders answer the question of whether a trade is good. Against a pawn attacking a knight, one defender is not an answer, and the pin removes the third option of moving."
+    }
+  ]
+}

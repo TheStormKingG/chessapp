@@ -1,0 +1,175 @@
+{
+  "id": "4.4.2",
+  "unit": "4.4",
+  "title": "The Greek gift sacrifice",
+  "xp": 15,
+  "card": {
+    "idea": "Bishop takes h7 with check, king takes bishop, knight to g5 with check, queen to h5. It is the oldest attacking sequence in chess and it is not a calculation, it is a checklist: a bishop on the b1-h7 diagonal, a knight that can reach g5, a queen with a clear road to h5, and nothing of Black's guarding h7 but the king.",
+    "diagrams": [
+      "r1b2rk1/pp3ppp/1q2p3/3pP3/3P4/3BRN2/PPP2PPP/R2Q2K1 w - - 0 1",
+      "r1b2rk1/pp3pp1/1q2p3/3pP1N1/3P4/4R3/PPP2PPP/R2Q2K1 w - - 2 3",
+      "r1b2rk1/pp3ppp/1q2pn2/3pP3/3P4/3BRN2/PPP2PPP/R2Q2K1 w - - 0 1"
+    ],
+    "habit": "Before you sacrifice, name the three pieces that follow it in."
+  },
+  "explain": [
+    {
+      "fen": "r1b2rk1/pp3ppp/1q2p3/3pP3/3P4/3BRN2/PPP2PPP/R2Q2K1 w - - 0 1",
+      "text": "Everything is in place. The bishop on d3 looks at h7, the knight on f3 can reach g5, and the queen on d1 has d1-e2-f3-g4-h5 waiting for her the moment the knight leaves f3. Black's king is the only thing guarding h7, and his queen is on b6, a long way from the fire.",
+      "arrows": [["d3", "h7"], ["f3", "g5"], ["d1", "h5"]],
+      "highlights": ["h7", "g5"]
+    },
+    {
+      "fen": "r1b2rk1/pp3pp1/1q2p3/3pP1N1/3P4/4R3/PPP2PPP/R2Q2K1 w - - 2 3",
+      "text": "Two moves later. The bishop has been given away, the king has been dragged out and pushed back, and the knight sits on g5 guarding h7. Now Qh5 arrives, and nothing black attacks h5 at all. The threat is Qh7, which is mate because the knight defends the queen there.",
+      "arrows": [["d1", "h5"], ["g5", "h7"]],
+      "highlights": ["h5", "h7"]
+    },
+    {
+      "fen": "r1b2rk1/pp3ppp/1q2pn2/3pP3/3P4/3BRN2/PPP2PPP/R2Q2K1 w - - 0 1",
+      "text": "One black piece has moved and the whole thing collapses. A knight on f6 guards h7 as well as the king does, so Bxh7 is answered by Nxh7 and White has given a bishop for a pawn. Check what guards h7 before you touch the bishop, every time.",
+      "arrows": [["f6", "h7"], ["g8", "h7"]],
+      "highlights": ["f6", "h7"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.4.2-c1",
+      "type": "find_the_move",
+      "fen": "r1b2rk1/pp3ppp/1q2p3/3pP3/3P4/3BRN2/PPP2PPP/R2Q2K1 w - - 0 1",
+      "prompt": "Bishop on d3, knight on f3, queen on d1, and nothing but the black king guarding h7. Start it.",
+      "answer": { "moves": ["Bxh7+"] },
+      "wrong": {
+        "Ng5": "The knight is safe on g5, but with a pawn still sitting on h7 every square it hits is defended: e6 by the c8 bishop, the f7 pawn and the queen, f7 by the rook and the king, h7 by the king. The bishop has to go first, and it has to go with check."
+      },
+      "concept": "greek-gift",
+      "hints": {
+        "piece": "d3",
+        "square": "h7"
+      },
+      "reason": "Bxh7 is check, so Black has no time to bring anything back. He may decline with Kh8, and even then you have won a pawn and opened the h-file; if he takes, the knight and the queen follow him in."
+    },
+    {
+      "id": "4.4.2-c2",
+      "type": "find_them_all",
+      "fen": "r1b2rk1/pp3ppp/1q2p3/3pP3/3P4/3BRN2/PPP2PPP/R2Q2K1 w - - 0 1",
+      "prompt": "Three white pieces make this sacrifice work and the rest are spectators. Tap the three.",
+      "answer": { "pieces": ["d1", "d3", "f3"] },
+      "concept": "greek-gift",
+      "hints": {
+        "text": "One of them lands on h7. One of them follows to g5. One of them needs the square the second one is standing on."
+      },
+      "reason": "Bishop d3, knight f3, queen d1. The queen's road to h5 runs through f3, which is exactly the square the knight vacates when it jumps to g5, so the two moves fit together. The rooks on a1 and e3 do nothing in this line."
+    },
+    {
+      "id": "4.4.2-c3",
+      "type": "find_the_move",
+      "fen": "r1b2r2/pp3ppk/1q2p3/3pP3/3P4/4RN2/PPP2PPP/R2Q2K1 w - - 0 2",
+      "prompt": "He took it. His king is on h7 and you are a bishop down. Second move.",
+      "answer": { "moves": ["Ng5+"] },
+      "wrong": {
+        "Qd3+": "Check, yes, but Black answers g6 and the diagonal is shut for good. A check on g5 cannot be blocked, because a knight check never can."
+      },
+      "concept": "greek-gift",
+      "hints": {
+        "piece": "f3",
+        "square": "g5"
+      },
+      "reason": "Ng5 is check, it cannot be blocked, and it clears f3 for the queen in the same move. Kg8 and Kh8 both walk into mate, Kh6 loses to Rh3, and only Kg6 keeps the king alive — and that is still a lost position."
+    },
+    {
+      "id": "4.4.2-c4",
+      "type": "find_the_move",
+      "fen": "r1b2rk1/pp3pp1/1q2p3/3pP1N1/3P4/4R3/PPP2PPP/R2Q2K1 w - - 2 3",
+      "prompt": "The king has retreated to g8. Bring the last piece.",
+      "answer": { "moves": ["Qh5"] },
+      "wrong": {
+        "Nxf7": "Rxf7 takes the knight back, and you have given a bishop and a knight for two pawns. The knight on g5 is not there to win material, it is there to guard h7."
+      },
+      "concept": "greek-gift",
+      "hints": {
+        "piece": "d1",
+        "square": "h5"
+      },
+      "reason": "Qh5, and nothing black attacks h5. The threat is Qh7 mate, guarded by the knight. If Black defends with Rd8, Qxf7 is check, Kh8 is forced, and the rook swings across to h3 with mate."
+    },
+    {
+      "id": "4.4.2-c5",
+      "type": "find_the_sequence",
+      "fen": "r1b2r1k/pp3pp1/1q2p3/3pP1N1/3P4/4R3/PPP2PPP/R2Q2K1 w - - 2 3",
+      "prompt": "He went to h8 instead. Mate in two, and his reply is forced.",
+      "answer": { "line": ["Qh5+", "Kg8", "Qh7#"] },
+      "concept": "greek-gift",
+      "hints": {
+        "text": "Check first, and look at the only square his king has."
+      },
+      "reason": "Qh5 is check along the h-file and Kg8 is the only legal answer. Qh7 is then mate: the knight on g5 guards the queen, g8 has nowhere left, and f8 is Black's own rook."
+    },
+    {
+      "id": "4.4.2-c6",
+      "type": "is_it_safe",
+      "fen": "r1b2rk1/pp3pp1/1q2p3/3pP1NQ/3P4/4R3/PPP2PPP/R5K1 w - - 4 4",
+      "move": "Qh7#",
+      "prompt": "The queen steps onto h7, right next to the king. Is she safe on that square?",
+      "reasons": [
+        "Yes. The knight on g5 guards h7, so the king may not take her.",
+        "No. The king simply takes her, because nothing white reaches h7.",
+        "Yes. The rook on e3 guards h7 along the third rank."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "greek-gift",
+      "hints": {
+        "text": "A knight on g5 attacks e4, e6, f3, f7, h3 and h7."
+      },
+      "reason": "The knight on g5 is the only white piece that reaches h7, and it is enough. Kxh7 is illegal, g8 is taken by the queen herself, and f8 is Black's own rook. This is the mate the whole sacrifice was aimed at."
+    },
+    {
+      "id": "4.4.2-c7",
+      "type": "is_it_safe",
+      "fen": "r4r2/pp2bppk/1q2p3/3pP3/3P4/4RN2/PPP2PPP/R2Q2K1 w - - 0 2",
+      "move": "Ng5+",
+      "prompt": "The same sacrifice, and the same second move. This time Black has a bishop on e7. Is the knight safe on g5?",
+      "reasons": [
+        "Yes. It is a check, so Black has to move his king and cannot take.",
+        "No. The pawn on f7 takes it.",
+        "No. The bishop on e7 covers g5 and takes the knight, which answers the check as well."
+      ],
+      "answer": { "safe": false, "reason": 2 },
+      "concept": "king-safe",
+      "hints": {
+        "text": "A check can be answered by taking the checking piece, not only by moving."
+      },
+      "reason": "Bxg5 is legal and it is the end of the attack: White has given a bishop for a pawn and has nothing. A bishop on e7 is the cheapest possible defence against the Greek gift, and it is the first thing to look for on the other side of the board."
+    },
+    {
+      "id": "4.4.2-c8",
+      "type": "name_the_pattern",
+      "fen": "r1b2rk1/pp3ppp/1q2pn2/3pP3/3P4/3BRN2/PPP2PPP/R2Q2K1 w - - 0 1",
+      "prompt": "Same white pieces, same black king, one extra black piece. Why does Bxh7 fail here?",
+      "options": [
+        "Because the pawn on e5 blocks the queen's route to h5.",
+        "Because the knight on f6 also guards h7, so Nxh7 takes the bishop and the king never moves.",
+        "Because the rook on f8 can come to h8 and chase the bishop away."
+      ],
+      "answer": { "option": 1 },
+      "concept": "king-safe",
+      "hints": {
+        "text": "Count the black pieces that reach h7, not just the king."
+      },
+      "reason": "Two black pieces cover h7, the king on g8 and the knight on f6, and only one of them has to be dragged out. Nxh7 recaptures and the king stays at home. Nothing else about the position has changed."
+    },
+    {
+      "id": "4.4.2-c9",
+      "type": "which_square",
+      "fen": "r1b2r2/pp3pp1/1q2p2k/3pP1N1/3P4/4R3/PPP2PPP/R2Q2K1 w - - 2 3",
+      "prompt": "The king has run to h6 instead of going back. He is standing on an open file. Tap the square your rook wants.",
+      "answer": { "square": "h3" },
+      "concept": "greek-gift",
+      "hints": {
+        "piece": "e3"
+      },
+      "reason": "Rh3 is check along the h-file, which only opened because the h-pawn came off. Kxg5 and Kg6 are the two answers, and after Kxg5 the queen checks on h5 and drives him onto the fourth rank, where Rh4 mates."
+    }
+  ],
+  "takeaway": "Bishop takes h7, knight to g5, queen to h5. Before you start, count what guards h7 and what covers g5 — one black knight on f6 or one bishop on e7 and the whole sequence is just a lost piece."
+}

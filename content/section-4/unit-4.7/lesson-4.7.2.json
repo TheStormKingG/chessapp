@@ -1,0 +1,211 @@
+{
+  "id": "4.7.2",
+  "unit": "4.7",
+  "title": "Knight against bishop rules of thumb",
+  "xp": 15,
+  "card": {
+    "idea": "A bishop is better when the position is open and there are pawns on both wings, because it crosses the board in one move and a knight needs four. A knight is better when it has an outpost: a square deep in the other half that no enemy pawn can ever attack. Find the square first, then judge the piece.",
+    "diagrams": [
+      "r2n1rk1/pp3pbp/6p1/2p1p3/2P5/2N3P1/PP2PPBP/R4RK1 w - - 0 1",
+      "r3k3/1p3ppp/4b3/3N4/4P3/8/5PPP/4R1K1 w - - 0 1"
+    ],
+    "habit": "Name the knight's square before you judge the knight."
+  },
+  "explain": [
+    {
+      "fen": "r2n1rk1/pp3pbp/6p1/2p1p3/2P5/2N3P1/PP2PPBP/R4RK1 w - - 0 1",
+      "text": "Black's c-pawn is on c5 and his e-pawn is on e5. Those are the only two pawns that could ever cover d5, and both have gone past it. So d5 is a hole, and it is a hole for the rest of the game. Meanwhile the bishop on g7 has three legal moves: f6, h6 and h8.",
+      "arrows": [
+        [
+          "c3",
+          "d5"
+        ],
+        [
+          "g7",
+          "e5"
+        ]
+      ],
+      "highlights": [
+        "d5",
+        "c5",
+        "e5",
+        "g7"
+      ]
+    },
+    {
+      "fen": "r1bq1rk1/pp3pbp/2npp1p1/8/2P5/2N3P1/PP2PPBP/R1BQ1RK1 w - - 0 1",
+      "text": "The same knight, one pawn different. Black's pawn is on e6 now, so d5 is not a hole at all. Nd5 is met by exd5, and it makes no difference that c4, g2 and d1 all defend the square: three defenders do not save a knight from a pawn. A defended square is not an outpost.",
+      "arrows": [
+        [
+          "e6",
+          "d5"
+        ]
+      ],
+      "highlights": [
+        "d5",
+        "e6"
+      ]
+    },
+    {
+      "fen": "r3k3/1p3ppp/4b3/3N4/4P3/8/5PPP/4R1K1 w - - 0 1",
+      "text": "And here is what an outposted knight is actually for. The bishop on e6 is about to take it, so the knight leaves with interest: Nc7 is check, and from c7 it also looks at a8. The king has four squares and none of them defends the rook.",
+      "arrows": [
+        [
+          "d5",
+          "c7"
+        ],
+        [
+          "c7",
+          "a8"
+        ],
+        [
+          "e6",
+          "d5"
+        ]
+      ],
+      "highlights": [
+        "c7",
+        "a8",
+        "e8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.7.2-c1",
+      "type": "which_square",
+      "fen": "r2n1rk1/pp3pbp/6p1/2p1p3/2P5/2N3P1/PP2PPBP/R4RK1 w - - 0 1",
+      "prompt": "Tap the square White's knight is heading for, the one no black pawn will ever be able to attack.",
+      "answer": {
+        "square": "d5"
+      },
+      "concept": "outpost",
+      "hints": {
+        "text": "Only two pawns can ever attack a square: the ones on the files either side. Find a square where both of them have already gone past."
+      },
+      "reason": "d5. The only pawns that could cover it are a black c-pawn on c6 and a black e-pawn on e6, and Black's are on c5 and e5. Pawns do not move backwards, so the square is White's permanently."
+    },
+    {
+      "id": "4.7.2-c2",
+      "type": "find_them_all",
+      "fen": "r2n1rk1/pp3pbp/6p1/2p1p3/2P5/2N3P1/PP2PPBP/R4RK1 w - - 0 1",
+      "prompt": "Tap every square the bishop on g7 can actually move to.",
+      "answer": {
+        "squares": [
+          "f6",
+          "h6",
+          "h8"
+        ]
+      },
+      "concept": "outpost",
+      "hints": {
+        "text": "Two of its four diagonals run straight into its own men. Say which men."
+      },
+      "reason": "f6, h6 and h8. Three squares. The long diagonal stops dead on its own pawn on e5, and f8 is its own rook. A bishop this shut in is worth less than the knight about to land on d5 — and the pawn on e5 is the reason for both."
+    },
+    {
+      "id": "4.7.2-c3",
+      "type": "is_it_safe",
+      "fen": "r2n1rk1/pp3pbp/6p1/2p1p3/2P5/2N3P1/PP2PPBP/R4RK1 w - - 0 1",
+      "move": "Nd5",
+      "prompt": "White jumps in with Nd5. Is the knight safe there?",
+      "reasons": [
+        "No. The pawn on e5 takes it.",
+        "Yes. Nothing of Black's touches d5, and the two pawns that could ever cover it have both gone past.",
+        "No. The knight on d8 covers d5."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "outpost",
+      "hints": {
+        "text": "List what attacks d5 for Black. Check the pawn's capture squares and the knight's list rather than trusting the picture."
+      },
+      "reason": "Nothing attacks d5. The pawn on e5 captures on d4 and f4, never on d5, and the knight on d8 reaches b7, c6, e6 and f7. The knight can sit there for the rest of the game."
+    },
+    {
+      "id": "4.7.2-c4",
+      "type": "name_the_pattern",
+      "fen": "r2n1rk1/pp3pbp/6p1/2p1p3/2P5/2N3P1/PP2PPBP/R4RK1 w - - 0 1",
+      "prompt": "Black's bishop on g7 against White's knight on c3. Which is the better piece here?",
+      "options": [
+        "The knight. It has d5, which no black pawn can ever attack, while the bishop has three squares and is staring at its own pawn on e5.",
+        "The bishop. It sits on the long diagonal, and a bishop on a long diagonal always beats a knight.",
+        "Neither. A bishop and a knight are both worth three points, so the position is balanced."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "outpost",
+      "hints": {
+        "text": "Count the bishop's legal moves before you call the diagonal long."
+      },
+      "reason": "The knight. The rule of thumb says bishops like open positions, but the rule of thumb is about mobility, and here the mobility is the other way round: three squares for the bishop, and a permanent home on d5 for the knight."
+    },
+    {
+      "id": "4.7.2-c5",
+      "type": "find_the_move",
+      "fen": "r3k3/1p3ppp/4b3/3N4/4P3/8/5PPP/4R1K1 w - - 0 1",
+      "prompt": "The bishop on e6 is about to take the knight. Jump first, and land somewhere that does two things at once.",
+      "answer": {
+        "moves": [
+          "Nc7+"
+        ]
+      },
+      "wrong": {
+        "Nf6+": "gxf6, and the outpost is a knight down. Check is not a reason on its own.",
+        "Nb6": "The rook steps aside -- Rb8, Rc8, Rd8 or straight up the a-file -- and Black has had a free move. Hitting the rook is not enough; hit the king as well."
+      },
+      "concept": "outpost",
+      "hints": {
+        "piece": "d5",
+        "square": "c7"
+      },
+      "reason": "Nc7 is check and it attacks a8 at the same time. The king has Kd7, Kd8, Ke7 and Kf8 and not one of them defends the rook, so the knight takes it next move. That is what the outpost was for: it is a launch pad, not a parking space."
+    },
+    {
+      "id": "4.7.2-c6",
+      "type": "find_the_sequence",
+      "fen": "r3k3/1p3ppp/4b3/3N4/4P3/8/5PPP/4R1K1 w - - 0 1",
+      "prompt": "Fork the king and the rook, let the king step aside, and collect. Then find the check that gets the knight out of the corner.",
+      "answer": {
+        "line": [
+          "Nc7+",
+          "Kd7",
+          "Nxa8",
+          "Kc8",
+          "Nb6+"
+        ]
+      },
+      "concept": "outpost",
+      "hints": {
+        "piece": "d5",
+        "square": "c7"
+      },
+      "reason": "Nc7+ Kd7 Nxa8 Kc8 Nb6+. The king walks over to trap the knight in the corner and the knight leaves with check. Always count the way out before you take the rook in the corner."
+    },
+    {
+      "id": "4.7.2-c7",
+      "type": "is_it_safe",
+      "fen": "r1bq1rk1/pp3pbp/2npp1p1/8/2P5/2N3P1/PP2PPBP/R1BQ1RK1 w - - 0 1",
+      "move": "Nd5",
+      "prompt": "Same jump, different pawn. d5 is held by c4, by the bishop on g2 and by the queen on d1. Is the knight safe on d5?",
+      "reasons": [
+        "Yes. Three defenders against one attacker: Black cannot take.",
+        "No. The knight on c6 takes it.",
+        "No. The pawn on e6 takes it, and a pawn does not care how many pieces are defending."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "outpost",
+      "hints": {
+        "text": "Counting defenders is the right habit against pieces. Work out what it is worth against a pawn."
+      },
+      "reason": "exd5 wins a knight for a pawn, and cxd5 takes it back for a second pawn — White has given three points for two. The knight on c6 reaches a5, a7, b4, b8, d4, d8, e5 and e7, not d5. An outpost is a square no pawn attacks, not a square you defend enough times."
+    }
+  ],
+  "takeaway": "A knight is only as good as its square: an outpost is one no enemy pawn can ever reach, because both pawns that could have covered it are past. Defending a square is not the same thing."
+}

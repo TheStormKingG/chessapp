@@ -1,0 +1,196 @@
+{
+  "id": "4.1.3",
+  "unit": "4.1",
+  "title": "The removal-of-the-guard family together",
+  "xp": 16,
+  "card": {
+    "idea": "Five tools, one question. A piece is holding something together: can you take it, push it away, pull it somewhere worse, give it a second job, or is it already stuck? The tool is chosen by the guard, not by taste. Look at the guard and the answer is usually the only one that works.",
+    "diagrams": [
+      "6k1/pp3ppp/2n5/8/7r/6Q1/5PPP/3R2K1 w - - 0 1",
+      "1r4k1/6pp/1n6/P7/8/B7/6PP/5RK1 w - - 0 1",
+      "4k2r/1p3ppp/2n5/pB6/3P4/8/PP3PPP/4K2R w - - 0 1"
+    ],
+    "habit": "Name the guard, then pick the tool the guard leaves you."
+  },
+  "explain": [
+    {
+      "fen": "6k1/pp3ppp/2n5/8/7r/6Q1/5PPP/3R2K1 w - - 0 1",
+      "text": "The knight on c6 covers d8 and nothing else of Black's does. Nothing of yours attacks the knight, so you cannot take it, and the only other thing it defends is the pawn on a7, which you cannot attack either. That leaves moving it. Qb8 is check, and both answers, Nxb8 and Nd8, empty c6.",
+      "arrows": [
+        ["g3", "b8"],
+        ["c6", "d8"],
+        ["d1", "d8"]
+      ],
+      "highlights": ["c6", "b8", "d8"]
+    },
+    {
+      "fen": "1r4k1/6pp/1n6/P7/8/B7/6PP/5RK1 w - - 0 1",
+      "text": "A different guard, a different tool. The rook on b8 covers f8 and also defends the knight on b6. Two jobs, one rook. axb6 makes it choose: Rxb6 saves the knight and lets Rf8 mate, because the bishop on a3 holds the rook there. Leave the knight and you are simply a piece up.",
+      "arrows": [
+        ["a5", "b6"],
+        ["b8", "b6"],
+        ["b8", "f8"],
+        ["a3", "f8"]
+      ],
+      "highlights": ["b8", "b6", "f8"]
+    },
+    {
+      "fen": "4k2r/1p3ppp/2n5/pB6/3P4/8/PP3PPP/4K2R w - - 0 1",
+      "text": "Here the guard has already been dealt with. The knight on c6 is pinned to the king by the bishop on b5, and it has no legal move at all. So you do not remove it, you attack it again: d5, and it still cannot step aside. A pinned piece is a target, not a defender.",
+      "arrows": [
+        ["b5", "e8"],
+        ["d4", "d5"],
+        ["d5", "c6"]
+      ],
+      "highlights": ["c6", "b5", "d5"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.1.3-c1",
+      "type": "name_the_pattern",
+      "fen": "6k1/pp3ppp/2n5/8/7r/6Q1/5PPP/3R2K1 w - - 0 1",
+      "prompt": "The knight on c6 is the only thing covering d8. Which tool does this position leave you?",
+      "options": [
+        "Take the guard: capture the knight on c6.",
+        "Move the guard: give check on b8, which the knight must answer, and it leaves c6 either way.",
+        "Give the guard a second job, so that it has to let one of them go."
+      ],
+      "answer": { "option": 1 },
+      "concept": "deflection",
+      "hints": {
+        "text": "Check what of yours can actually reach c6, and what second thing the knight is defending."
+      },
+      "reason": "Nothing of White's attacks c6, so taking is off the board. The knight's only other charge is the pawn on a7, which White cannot attack either, so there is no second job to hand it. Forcing it to move is what is left."
+    },
+    {
+      "id": "4.1.3-c2",
+      "type": "find_the_move",
+      "fen": "6k1/pp3ppp/2n5/8/7r/6Q1/5PPP/3R2K1 w - - 0 1",
+      "prompt": "Move the knight off c6 with a check it has to answer.",
+      "answer": { "moves": ["Qb8+"] },
+      "wrong": {
+        "Rd8+": "Nxd8 is the only answer and it is also enough. The knight was still on c6, so you have handed over a rook.",
+        "Qxh4": "You win a rook and the knight stays on c6. There is no mate left and Black is still playing."
+      },
+      "concept": "deflection",
+      "hints": {
+        "piece": "g3",
+        "square": "b8"
+      },
+      "reason": "Qb8 is check with exactly two answers: Nxb8 and Nd8. The first empties c6 and Rd8 is mate; the second blocks on d8 and Rxd8 is mate."
+    },
+    {
+      "id": "4.1.3-c3",
+      "type": "find_the_move",
+      "fen": "1r4k1/6pp/1n6/P7/8/B7/6PP/5RK1 w - - 0 1",
+      "prompt": "The rook on b8 is doing two jobs. Make it pick one.",
+      "answer": { "moves": ["axb6"] },
+      "wrong": {
+        "Rf8+": "Rxf8 is Black's only answer, and it is a good one. The rook was still covering f8, so you have given a rook away.",
+        "Rc1": "A quiet move, and Black has time to fix everything. The knight on b6 is not attacked any more."
+      },
+      "concept": "overloading",
+      "hints": {
+        "piece": "a5",
+        "square": "b6"
+      },
+      "reason": "axb6 attacks nothing new; it removes the knight. Rxb6 saves it and drops f8, where the bishop on a3 holds your rook, so Rf8 is mate. Anything else leaves Black a piece down."
+    },
+    {
+      "id": "4.1.3-c4",
+      "type": "name_the_pattern",
+      "fen": "1r4k1/6pp/1n6/P7/8/B7/6PP/5RK1 w - - 0 1",
+      "prompt": "After axb6, why is recapturing with Rxb6 the losing choice?",
+      "options": [
+        "Because the rook is then attacked by the bishop on a3.",
+        "Because the pawn on b6 would promote.",
+        "Because the rook was also the only thing covering f8, and the bishop on a3 makes a rook on f8 untouchable."
+      ],
+      "answer": { "option": 2 },
+      "concept": "overloading",
+      "hints": {
+        "text": "List what the rook on b8 is covering before it moves, then look at f8 again after it has gone to b6."
+      },
+      "reason": "One rook, two jobs. On b6 it still defends nothing that matters and f8 is empty of guards; the king cannot take on f8 because the bishop on a3 defends it."
+    },
+    {
+      "id": "4.1.3-c5",
+      "type": "which_square",
+      "fen": "4k2r/1p3ppp/2n5/pB6/3P4/8/PP3PPP/4K2R w - - 0 1",
+      "prompt": "One black piece on this board has no legal move at all. Tap it.",
+      "answer": { "square": "c6" },
+      "concept": "exploit-pin",
+      "hints": {
+        "text": "Draw the line from the white bishop to the black king and see what is standing on it."
+      },
+      "reason": "The knight on c6 is on the line from the bishop on b5 to the king on e8, so every knight move would leave the king in check. Count them: it has none."
+    },
+    {
+      "id": "4.1.3-c6",
+      "type": "find_the_move",
+      "fen": "4k2r/1p3ppp/2n5/pB6/3P4/8/PP3PPP/4K2R w - - 0 1",
+      "prompt": "The knight on c6 cannot move. Do not trade for it. Attack it a second time instead.",
+      "answer": { "moves": ["d5"] },
+      "wrong": {
+        "Bxc6+": "bxc6 takes back and the pin is gone. You have traded your bishop for the piece that was already frozen.",
+        "a4": "A free move. The knight is still pinned, but it is only attacked once, so nothing is coming."
+      },
+      "concept": "exploit-pin",
+      "hints": {
+        "piece": "d4",
+        "square": "d5"
+      },
+      "reason": "d5 attacks the knight a second time and costs nothing, because the knight is not allowed to step out of the way. Against a pinned piece the cheapest extra attacker is always a pawn."
+    },
+    {
+      "id": "4.1.3-c7",
+      "type": "find_the_move",
+      "fen": "6k1/5pp1/3q4/4N3/8/8/5PP1/6KR w - - 0 1",
+      "prompt": "Nf7 would hit the king and the queen at once, if only the king were on h8. Arrange it.",
+      "answer": { "moves": ["Rh8+"] },
+      "wrong": {
+        "Nxf7": "Kxf7 takes the knight. From g8 the king is defending f7, which is exactly why it has to be moved first.",
+        "Nd7": "Qxd7 takes it. The queen was never the piece that needed moving."
+      },
+      "concept": "decoy",
+      "hints": {
+        "piece": "h1",
+        "square": "h8"
+      },
+      "reason": "Rh8 is check and Kxh8 is the only legal answer. Now Nxf7 is check and hits d6 as well, so the queen goes next move."
+    },
+    {
+      "id": "4.1.3-c8",
+      "type": "is_it_safe",
+      "fen": "6k1/p4ppp/8/4b3/7q/8/5PPP/1R2R1K1 w - - 0 1",
+      "move": "Rb8+",
+      "prompt": "The bishop on e5 is blocking your rook on e1. White plays Rb8 with check. Is the rook safe on b8?",
+      "reasons": [
+        "No. The bishop on e5 takes it, and it has to leave e5 to do so.",
+        "No. The queen on h4 takes it.",
+        "Yes. Nothing black reaches b8."
+      ],
+      "answer": { "safe": false, "reason": 0 },
+      "concept": "removing-the-defender",
+      "hints": {
+        "text": "Only one black piece attacks b8. Look along the long diagonal from e5."
+      },
+      "reason": "The bishop on e5 is the only black piece attacking b8. Black may also block with Qd8, so check both, but either way the e-file opens or the queen walks into Rxd8."
+    },
+    {
+      "id": "4.1.3-c9",
+      "type": "find_the_sequence",
+      "fen": "6k1/p4ppp/8/4b3/7q/8/5PPP/1R2R1K1 w - - 0 1",
+      "prompt": "Play it out: pull the bishop off the e-file and mate down it.",
+      "answer": { "line": ["Rb8+", "Bxb8", "Re8#"] },
+      "concept": "removing-the-defender",
+      "hints": {
+        "piece": "b1",
+        "square": "b8"
+      },
+      "reason": "Rb8+ Bxb8 Re8 is mate. The bishop was guarding b8 and standing in the way of the e-file, and one check made it stop doing both."
+    }
+  ],
+  "takeaway": "Ask what the guard is holding and what you can reach. Take it, move it, pull it, overwork it, or pin it: the position picks, not you."
+}

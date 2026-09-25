@@ -104,20 +104,20 @@
     {
       "id": "3.5.4-c5",
       "type": "is_it_safe",
-      "fen": "5rk1/3p1p1p/8/3Q4/pp6/8/2r5/7K w - - 0 1",
-      "move": "Qxd7",
-      "prompt": "The pawn on d7 is undefended and your queen can just take it. Is Qxd7 safe?",
+      "fen": "5rk1/5p1p/8/p7/1p6/8/2r2P1P/3Q3K w - - 0 1",
+      "move": "Qg4+",
+      "prompt": "Two rooks against the queen and two pawns down, White starts checking with Qg4. Is the queen safe on g4?",
       "reasons": [
-        "Yes. A free pawn is a free pawn, and it brings you closer to equal material.",
-        "No. Qxd7 is not check, so Black gets a free move, and one pawn does not change a position where you are two rooks and four pawns down.",
-        "No. The rook on f8 recaptures on d7."
+        "No. The rook on c2 takes her.",
+        "No. The pawn on h7 takes her.",
+        "Yes. Nothing black covers g4, and the king has to move."
       ],
-      "answer": { "safe": false, "reason": 1 },
+      "answer": { "safe": true, "reason": 2 },
       "concept": "when-to-draw",
       "hints": {
-        "text": "Ask what taking the pawn is meant to achieve when the rest of the board is lost."
+        "text": "Before you check, ask what covers the square you are checking from."
       },
-      "reason": "Nothing takes back on d7, so the pawn really is free. It still loses, because the draw was never about material: it was about never letting Black have a move of his own."
+      "reason": "If the plan is the perpetual, start it: Kh8 is forced and Qd4+ afterwards is untouchable as well. It is still not a perpetual until you count his answers, because f6 blocks the second check."
     },
     {
       "id": "3.5.4-c6",

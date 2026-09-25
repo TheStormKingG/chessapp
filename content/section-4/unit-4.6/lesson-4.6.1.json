@@ -1,0 +1,223 @@
+{
+  "id": "4.6.1",
+  "unit": "4.6",
+  "title": "Outposts and holes",
+  "xp": 16,
+  "card": {
+    "idea": "A hole is a square the enemy pawns have walked past and can never come back to. It is permanent, which is what makes it worth playing for. But a hole is only half the job: put your own pawn behind the square and a piece on it, and now it is an outpost. Count the takers before you land there.",
+    "diagrams": [
+      "r2q1rk1/pp1nbpp1/3p4/2p1p3/4P3/2N2N2/PPP2PPP/R2Q1RK1 w - - 0 1",
+      "r2qr1k1/pp2bpp1/3p4/2p1p3/4P3/8/PPP2PPP/R2QRNK1 w - - 0 1",
+      "3r1rk1/pp3ppp/4b3/q1p1p3/4P3/2N5/PPP1QPPP/R4RK1 w - - 0 1"
+    ],
+    "habit": "Find the hole, then count the takers before you move in."
+  },
+  "explain": [
+    {
+      "fen": "r2q1rk1/pp1nbpp1/3p4/2p1p3/4P3/2N2N2/PPP2PPP/R2Q1RK1 w - - 0 1",
+      "text": "Black's pawns on c5 and e5 have walked past d5, and no other black pawn stands on either file. Neither can come back, so nothing of Black's will ever attack d5 with a pawn again. That makes d5 a hole. White's pawn on e4 already guards it, so a knight landing there is held by a pawn: an outpost.",
+      "arrows": [
+        [
+          "c3",
+          "d5"
+        ],
+        [
+          "e4",
+          "d5"
+        ]
+      ],
+      "highlights": [
+        "d5",
+        "c5",
+        "e5"
+      ]
+    },
+    {
+      "fen": "r2qr1k1/pp2bpp1/3p4/2p1p3/4P3/8/PPP2PPP/R2QRNK1 w - - 0 1",
+      "text": "A hole is worth nothing until a piece sits in it. From f1 the knight cannot reach d5 in one move, and of its three squares only e3 leads there. So the route is Ne3 and then Nd5. Spending two moves on a square nothing can ever take from you is a good trade.",
+      "arrows": [
+        [
+          "f1",
+          "e3"
+        ],
+        [
+          "e3",
+          "d5"
+        ]
+      ],
+      "highlights": [
+        "f1",
+        "e3",
+        "d5"
+      ]
+    },
+    {
+      "fen": "3r1rk1/pp3ppp/4b3/q1p1p3/4P3/2N5/PPP1QPPP/R4RK1 w - - 0 1",
+      "text": "Same hole, different count. The rook on d8 and the bishop on e6 both watch d5; only the e4 pawn answers. Nd5 runs into Bxd5 exd5 Rxd5, and Black is a pawn up with a rook on the square. A hole no pawn can attack is still a square their pieces can take.",
+      "arrows": [
+        [
+          "d8",
+          "d5"
+        ],
+        [
+          "e6",
+          "d5"
+        ],
+        [
+          "e4",
+          "d5"
+        ]
+      ],
+      "highlights": [
+        "d5",
+        "d8",
+        "e6"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.6.1-c1",
+      "type": "which_square",
+      "fen": "r2q1rk1/pp1nbpp1/3p4/2p1p3/4P3/2N2N2/PPP2PPP/R2Q1RK1 w - - 0 1",
+      "prompt": "One square on the fifth rank can never be attacked by a black pawn again, however Black plays. Tap it.",
+      "answer": {
+        "square": "d5"
+      },
+      "concept": "outpost",
+      "hints": {
+        "text": "A pawn only attacks forwards. Look for the square both its neighbours have already gone past."
+      },
+      "reason": "d5. Black's c5 and e5 pawns stand level with it, and pawns do not move backwards. Every other square on the rank still has a black pawn behind it on a next-door file."
+    },
+    {
+      "id": "4.6.1-c2",
+      "type": "find_them_all",
+      "fen": "r2q1rk1/pp1nbpp1/3p4/2p1p3/4P3/2N2N2/PPP2PPP/R2Q1RK1 w - - 0 1",
+      "prompt": "Tap every square on the fifth and sixth ranks that no black pawn will ever be able to attack.",
+      "answer": {
+        "squares": [
+          "d5",
+          "d6"
+        ]
+      },
+      "concept": "outpost",
+      "hints": {
+        "text": "Two squares, one above the other, on the same file."
+      },
+      "reason": "d5 and d6. Black's only c-pawn and only e-pawn are both on the fifth rank already, so the whole d-file above them is out of reach of a black pawn for the rest of the game."
+    },
+    {
+      "id": "4.6.1-c3",
+      "type": "is_it_safe",
+      "fen": "r2q1rk1/pp1nbpp1/3p4/2p1p3/4P3/2N2N2/PPP2PPP/R2Q1RK1 w - - 0 1",
+      "move": "Nd5",
+      "prompt": "White drops the knight straight in with Nd5. Is it safe there?",
+      "reasons": [
+        "No. The knight on d7 covers d5.",
+        "Yes. Not one black man attacks d5, and the pawn on e4 holds it.",
+        "No. Black plays c4 and the pawn takes it next move."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "outpost",
+      "hints": {
+        "text": "List every black man that looks at d5 before you decide."
+      },
+      "reason": "Nothing of Black's attacks d5 at all: the knight on d7 covers b6, b8, c5, e5, f6 and f8, and the bishop on e7 is a dark-squared bishop. The pawn on e4 holds the knight there for good."
+    },
+    {
+      "id": "4.6.1-c4",
+      "type": "which_square",
+      "fen": "r2qr1k1/pp2bpp1/3p4/2p1p3/4P3/8/PPP2PPP/R2QRNK1 w - - 0 1",
+      "prompt": "The knight on f1 is heading for d5 and it takes two moves. Tap the square it has to go to first.",
+      "answer": {
+        "square": "e3"
+      },
+      "concept": "outpost",
+      "hints": {
+        "text": "The knight has three squares. Try each one and ask which of them touches d5."
+      },
+      "reason": "e3. From f1 the knight can reach d2, e3 or g3, and only from e3 does d5 come into range. A knight on d2 goes to b1, b3, c4, f1 or f3; one on g3 goes to e2, f1, f5, h1 or h5."
+    },
+    {
+      "id": "4.6.1-c5",
+      "type": "find_the_sequence",
+      "fen": "r2qr1k1/pp2bpp1/3p4/2p1p3/4P3/8/PPP2PPP/R2QRNK1 w - - 0 1",
+      "prompt": "Play the whole trip out. Black brings a rook across while you travel; you carry on.",
+      "answer": {
+        "line": [
+          "Ne3",
+          "Rc8",
+          "Nd5"
+        ]
+      },
+      "concept": "outpost",
+      "hints": {
+        "piece": "f1",
+        "square": "d5"
+      },
+      "reason": "Ne3 and then Nd5. Black has nothing that hits d5, so there is no hurry to prevent the trip and no way to. The knight arrives attacking the bishop on e7 as a bonus."
+    },
+    {
+      "id": "4.6.1-c6",
+      "type": "find_them_all",
+      "fen": "3r1rk1/pp3ppp/4b3/q1p1p3/4P3/2N5/PPP1QPPP/R4RK1 w - - 0 1",
+      "prompt": "d5 is a hole here too, and the knight on c3 is attacked. Tap every black man that already watches d5.",
+      "answer": {
+        "pieces": [
+          "d8",
+          "e6"
+        ]
+      },
+      "concept": "outpost",
+      "hints": {
+        "text": "One is on the file, looking down it through two empty squares. One is on the diagonal."
+      },
+      "reason": "The rook on d8 sees d5 through the empty d7 and d6, and the bishop on e6 is a light-squared bishop standing next to it. Two takers against one defender is the whole answer to this position."
+    },
+    {
+      "id": "4.6.1-c7",
+      "type": "is_it_safe",
+      "fen": "3r1rk1/pp3ppp/4b3/q1p1p3/4P3/2N5/PPP1QPPP/R4RK1 w - - 0 1",
+      "move": "Nd5",
+      "prompt": "The knight is attacked, so White runs it into the hole with Nd5. Is it safe there?",
+      "reasons": [
+        "No. Bxd5 exd5 Rxd5 and Black has won a pawn and the square with it.",
+        "Yes. The pawn on e4 defends the knight, so anything that takes is taken back.",
+        "No. The queen on a5 takes the knight at once."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "outpost",
+      "hints": {
+        "text": "Two attackers and one defender. Play the captures out in order and count what is left."
+      },
+      "reason": "The e4 pawn does defend it, but once. Bxd5 exd5 Rxd5 costs White a knight and a pawn for a bishop, and Black's rook ends up on the square White wanted."
+    },
+    {
+      "id": "4.6.1-c8",
+      "type": "name_the_pattern",
+      "fen": "3r1rk1/pp3ppp/4b3/q1p1p3/4P3/2N5/PPP1QPPP/R4RK1 w - - 0 1",
+      "prompt": "All three boards in this lesson have the same hole on d5. What makes it worth occupying on the first board and not on this one?",
+      "options": [
+        "The pawn structure. Black's c5 and e5 pawns are further advanced here, so the hole is shallower.",
+        "The side to move. White is on move in both, so it can only be the material count that differs.",
+        "The piece count on the square. A hole stops pawns attacking it; it does nothing about rooks and bishops."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "outpost",
+      "hints": {
+        "text": "Black's c5 and e5 pawns stand on the same squares on both boards. Something else changed."
+      },
+      "reason": "A hole is a fact about pawns and nothing else. Both boards have the same pawns on c5 and e5; this one adds a rook on d8 and a bishop on e6, and those two decide whether the square is usable."
+    }
+  ],
+  "takeaway": "A hole is permanent because pawns cannot go back. It only becomes an outpost when your pawn holds it and their pieces cannot take it."
+}
