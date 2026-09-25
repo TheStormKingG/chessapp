@@ -1,0 +1,190 @@
+{
+  "id": "4.5.3",
+  "unit": "4.5",
+  "title": "Forcing lines to five ply",
+  "xp": 18,
+  "card": {
+    "idea": "Five ply is your move, their answer, your move, their answer, your move. The hard part is not the length — it is that the opponent now moves twice, so the word forced is a claim you have to make twice. Count their legal answers at both of their turns. If either count is more than one, you owe every branch a look.",
+    "diagrams": [
+      "5rk1/5Npp/8/8/8/1Q6/5PPP/6K1 w - - 0 1",
+      "5rk1/5ppp/2N5/R7/8/3Q4/5PPP/6K1 w - - 0 1"
+    ],
+    "habit": "At every opponent turn in the line, count their legal answers out loud."
+  },
+  "explain": [
+    {
+      "fen": "5rk1/5Npp/8/8/8/1Q6/5PPP/6K1 w - - 0 1",
+      "text": "Three ply was your move, their answer, your move. Five ply is two more: their answer again, and yours. The extra cost is not the length, it is that the opponent now moves twice, so forced has to be true twice. Nh6 is double check, so Kh8 is the only legal answer.",
+      "arrows": [
+        ["f7", "h6"],
+        ["b3", "g8"],
+        ["h6", "g8"]
+      ],
+      "highlights": ["h6", "g8"]
+    },
+    {
+      "fen": "5rk1/5ppp/2N5/R7/8/3Q4/5PPP/6K1 w - - 0 1",
+      "text": "Ne7 is check and Kh8 is the only legal answer. Qxh7 is check and Kxh7 is the only legal answer. Rh5 is mate. Two opponent moves, one legal reply each, so the whole five ply costs no more to hold in your head than three did.",
+      "arrows": [
+        ["c6", "e7"],
+        ["d3", "h7"],
+        ["a5", "h5"]
+      ],
+      "highlights": ["e7", "h7", "h5"]
+    },
+    {
+      "fen": "6k1/1r3ppp/4q3/8/8/8/5PPP/Q4NK1 w - - 0 1",
+      "text": "Here the branches are real. Qa8 is check and Black has three answers. Two of them, Qc8 and Qe8, are taken at once and it is mate. The third, Rb8, makes you play Qxb8 and then Black has two more. You do not get to stop at the first branch that works.",
+      "arrows": [
+        ["a1", "a8"]
+      ],
+      "highlights": ["a8", "b8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.5.3-c1",
+      "type": "find_them_all",
+      "fen": "5rk1/5Npp/8/8/8/1Q6/5PPP/6K1 w - - 0 1",
+      "prompt": "The knight on f7 stands on the queen's diagonal, so every move it makes is check. Tap every square it can check from.",
+      "answer": { "squares": ["d6", "d8", "e5", "g5", "h6", "h8"] },
+      "concept": "forcing-line",
+      "hints": {
+        "text": "Six knight moves, six checks. The queen on b3 does the checking in most of them."
+      },
+      "reason": "Nd6, Nd8, Ne5, Ng5, Nh6 and Nh8 all uncover the queen's line to g8. Six checks is a long list, and counting the replies to each one is what cuts it down."
+    },
+    {
+      "id": "4.5.3-c2",
+      "type": "name_the_pattern",
+      "fen": "5rk1/5Npp/8/8/8/1Q6/5PPP/6K1 w - - 0 1",
+      "prompt": "Five of those six checks let Black answer in two ways. Nh6 allows exactly one. What makes it different?",
+      "options": [
+        "Nh6 is double check. The knight hits g8 as well as the queen, and a double check can only be answered by moving the king.",
+        "Nh6 attacks the rook on f8, so Black has to save it first.",
+        "Nh6 is the only one of the six that is a safe square for the knight."
+      ],
+      "answer": { "option": 0 },
+      "concept": "forcing-line",
+      "hints": {
+        "text": "After Nd8, Ne5, Ng5, Nd6 and Nh8 the rook plays Rf7. Ask why it cannot do that against Nh6."
+      },
+      "reason": "Rf7 blocks the queen's diagonal and answers five of the six checks. It cannot answer two checks at once, so against Nh6 the king must move — and Kh8 is his only square."
+    },
+    {
+      "id": "4.5.3-c3",
+      "type": "find_the_sequence",
+      "fen": "5rk1/5Npp/8/8/8/1Q6/5PPP/6K1 w - - 0 1",
+      "prompt": "Five ply, and Black has exactly one legal answer at both of his turns. Play it out.",
+      "answer": { "line": ["Nh6+", "Kh8", "Qg8+", "Rxg8", "Nf7#"] },
+      "concept": "forcing-line",
+      "hints": {
+        "piece": "f7",
+        "square": "h6"
+      },
+      "reason": "Nh6 is double check so Kh8 is forced. Qg8 cannot be taken by the king because the knight guards it, so Rxg8 is forced. Nf7 is mate, and Black's own rook is the piece blocking g8."
+    },
+    {
+      "id": "4.5.3-c4",
+      "type": "find_the_sequence",
+      "fen": "5rk1/5ppp/2N5/R7/8/3Q4/5PPP/6K1 w - - 0 1",
+      "prompt": "Same length, a different shape. Two checks, a queen given away, and mate on the fifth ply. Play it.",
+      "answer": { "line": ["Ne7+", "Kh8", "Qxh7+", "Kxh7", "Rh5#"] },
+      "concept": "forcing-line",
+      "hints": {
+        "piece": "c6",
+        "square": "e7"
+      },
+      "reason": "Ne7 is check and Kh8 is the only answer, because f8 is the rook's and f7, g7 and h7 are pawns. Qxh7 then has only Kxh7, and Rh5 is mate with the knight covering g8."
+    },
+    {
+      "id": "4.5.3-c5",
+      "type": "is_it_safe",
+      "fen": "5rk1/5ppp/2N5/R7/8/3Q4/5PPP/6K1 w - - 0 1",
+      "move": "Qxh7+",
+      "prompt": "The same queen sacrifice, but played first, before the knight check. Is the queen safe on h7?",
+      "reasons": [
+        "No. The king takes it, and this time there is no mate behind it.",
+        "Yes. The knight on c6 covers h7.",
+        "No. The rook on f8 slides across and takes it."
+      ],
+      "answer": { "safe": false, "reason": 0 },
+      "concept": "forcing-line",
+      "hints": {
+        "text": "The order is the whole trick. Ask what the knight is doing on c6 and what it would be doing on e7."
+      },
+      "reason": "Kxh7 is Black's only legal answer and it wins a queen. The same sacrifice is winning one move later, once the knight stands on e7 and g8 has stopped being a flight square."
+    },
+    {
+      "id": "4.5.3-c6",
+      "type": "which_square",
+      "fen": "5rk1/5ppp/2N5/R7/8/3Q4/5PPP/6K1 w - - 0 1",
+      "prompt": "Calculate to the end of the line before you touch anything. Tap the square your rook delivers mate on.",
+      "answer": { "square": "h5" },
+      "concept": "forcing-line",
+      "hints": {
+        "text": "The king ends up on h7. Which file does the rook want, and which rank is it already on?"
+      },
+      "reason": "The rook is on a5 and the fifth rank is clear, so Rh5 arrives with check on the file the king has just been dragged onto. Seeing h5 at ply one is the whole reason the sacrifice is playable."
+    },
+    {
+      "id": "4.5.3-c7",
+      "type": "find_the_move",
+      "fen": "6k1/1r3ppp/4q3/8/8/8/5PPP/Q4NK1 w - - 0 1",
+      "prompt": "You have two checks. One of them ends the game in three moves. Calculate both and play it.",
+      "answer": { "moves": ["Qa8+"] },
+      "wrong": {
+        "Qxg7+": "The king takes and you have given a queen for a pawn. A check you have not calculated is not a candidate, it is a wish."
+      },
+      "concept": "forcing-line",
+      "hints": {
+        "piece": "a1",
+        "square": "a8"
+      },
+      "reason": "Qa8 is check on the back rank and Black has three legal answers. Two of them are taken at once for mate; the third holds out one move longer and loses the rook on the way."
+    },
+    {
+      "id": "4.5.3-c8",
+      "type": "find_them_all",
+      "fen": "Q5k1/1r3ppp/4q3/8/8/8/5PPP/5NK1 b - - 1 1",
+      "prompt": "You have played the back-rank check and it is Black's turn. Before you go any further, tap every square Black can legally answer on.",
+      "answer": { "squares": ["b8", "c8", "e8"] },
+      "concept": "forcing-line",
+      "hints": {
+        "text": "The king cannot move and nothing can take on a8, so every answer is a block on the back rank."
+      },
+      "reason": "Rb8, Qc8 and Qe8. Three answers, and counting them is the step that tells you whether this line costs you thirty seconds or three minutes."
+    },
+    {
+      "id": "4.5.3-c9",
+      "type": "find_the_sequence",
+      "fen": "6k1/1r3ppp/4q3/8/8/8/5PPP/Q4NK1 w - - 0 1",
+      "prompt": "Play the longest of the three branches: the one where Black blocks with the rook.",
+      "answer": { "line": ["Qa8+", "Rb8", "Qxb8+", "Qc8", "Qxc8#"] },
+      "concept": "forcing-line",
+      "hints": {
+        "piece": "a1",
+        "square": "a8"
+      },
+      "reason": "Rb8 is the only answer that does not lose at once, and it still loses. Qxb8 is check, Black has Qc8 and Qe8, and the queen takes either one with mate."
+    },
+    {
+      "id": "4.5.3-c10",
+      "type": "name_the_pattern",
+      "fen": "6k1/1r3ppp/4q3/8/8/8/5PPP/Q4NK1 w - - 0 1",
+      "prompt": "Three answers at Black's first turn and two more at his second. What does that actually oblige you to do?",
+      "options": [
+        "Calculate the first answer only. If that one is mate, the others will be too.",
+        "Check every one of them. Qc8 and Qe8 are mate at once; only Rb8 makes you go the full five ply.",
+        "Abandon the line. More than one answer means the move was not forcing."
+      ],
+      "answer": { "option": 1 },
+      "concept": "forcing-line",
+      "hints": {
+        "text": "A line is forced only if you have looked at the answers you did not want them to have."
+      },
+      "reason": "Branches are not a reason to stop, they are a reason to count. Two of these three end the game immediately, so the real work is one branch long — but you only know that after checking all three."
+    }
+  ],
+  "takeaway": "Five ply means the opponent moves twice, so count their legal answers twice. One answer each time and the line is cheap. Three answers and you owe all three a look."
+}

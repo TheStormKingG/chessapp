@@ -1,0 +1,371 @@
+{
+  "unit": "4.3",
+  "title": "In-between moves and defence",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "4.3-k01",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/2q5/4R3/8/5PPP/5RKn w - - 0 1",
+      "prompt": "You can take the knight on h1 with your king whenever you like. Play the move that has to come first.",
+      "answer": { "moves": ["Re8+"] },
+      "concept": "zwischenzug",
+      "reason": "Re8+ and Qf8 is his only legal move. Rxf8+ Kxf8 wins the queen for a rook, and Kxh1 is still waiting."
+    },
+    {
+      "id": "4.3-k02",
+      "type": "which_square",
+      "fen": "6k1/5ppp/8/2q5/4R3/8/5PPP/5RKn w - - 0 1",
+      "prompt": "After Re8+ Black has exactly one legal move on the board. Tap the square his queen must go to.",
+      "answer": { "square": "f8" },
+      "concept": "zwischenzug",
+      "reason": "Qf8 blocks. The king has no square, his own pawns cover f7, g7 and h7, and nothing black reaches e8."
+    },
+    {
+      "id": "4.3-k03",
+      "type": "find_the_sequence",
+      "fen": "6k1/5ppp/8/2q5/4R3/8/5PPP/5RKn w - - 0 1",
+      "prompt": "Play the whole idea: the check, his forced answer, the rook, and then the knight you came for.",
+      "answer": { "line": ["Re8+", "Qf8", "Rxf8+", "Kxf8", "Kxh1"] },
+      "concept": "zwischenzug",
+      "reason": "Five ply and Black never had a choice. A queen for a rook, and the knight on h1 as well."
+    },
+    {
+      "id": "4.3-k04",
+      "type": "find_the_move",
+      "fen": "1r1n2k1/pN3ppp/8/8/3R4/8/P4PPP/6K1 w - - 0 1",
+      "prompt": "Two of your pieces can take the knight on d8. Your first rank is bare. Take it with the right one.",
+      "answer": { "moves": ["Rxd8+"] },
+      "concept": "zwischenzug",
+      "reason": "Rxd8+ Rxd8 Nxd8 wins the piece. Nxd8 first loses to Rb1+ Rd1 Rxd1 mate, because it is not check."
+    },
+    {
+      "id": "4.3-k05",
+      "type": "is_it_safe",
+      "fen": "1r1n2k1/pN3ppp/8/8/3R4/8/P4PPP/6K1 w - - 0 1",
+      "prompt": "You play Rxd8, taking the knight with check. Is the rook safe on d8?",
+      "move": "Rxd8+",
+      "reasons": [
+        "Yes. The check means Black has to move his king and cannot take.",
+        "Yes. Nothing black is left that can reach d8.",
+        "No. Rxd8 is his only legal move, and then your knight takes the rook back."
+      ],
+      "answer": { "safe": false, "reason": 2 },
+      "concept": "zwischenzug",
+      "reason": "It can be taken, and being taken is the plan: Rxd8 is forced and Nxd8 leaves you a piece up with his first rank never used."
+    },
+    {
+      "id": "4.3-k06",
+      "type": "find_the_move",
+      "fen": "6k1/4qppp/R7/1b6/8/3n4/3Q1PPP/6K1 w - - 0 1",
+      "prompt": "His knight on d3 is hanging and your queen can take it. Look at your own first rank before you do.",
+      "answer": { "moves": ["Ra8+"] },
+      "concept": "zwischenzug",
+      "reason": "Qxd3 at once loses to Qe1+ Qf1 Qxf1 mate. Ra8+ has four answers and none of them is Qe1."
+    },
+    {
+      "id": "4.3-k07",
+      "type": "find_the_move",
+      "fen": "Bb4k1/R4ppp/8/2R5/1q6/8/5PPP/6K1 w - - 0 1",
+      "prompt": "The pawn on f7 is there for the taking. Check the order before you take anything.",
+      "answer": { "moves": ["Rc8+"] },
+      "concept": "zwischenzug",
+      "reason": "Rxf7 at once is met by Qe1 mate. Rc8+ comes first and Qf8 is his only legal answer to it."
+    },
+    {
+      "id": "4.3-k08",
+      "type": "find_the_move",
+      "fen": "3n2k1/5ppp/8/8/N7/2R5/q4PPP/2R3K1 w - - 0 1",
+      "prompt": "Your knight on a4 is hanging. Leave it there and give him something worse to think about.",
+      "answer": { "moves": ["Rc8"] },
+      "concept": "counter-attack",
+      "reason": "Rc8 threatens Rxd8 mate. Every knight move leaves the game level; Qxa4 loses to Rxd8+ Qe8 Rxe8 mate."
+    },
+    {
+      "id": "4.3-k09",
+      "type": "find_them_all",
+      "fen": "3n2k1/5ppp/8/8/N7/2R5/q4PPP/2R3K1 w - - 0 1",
+      "prompt": "Find out what is actually under fire before you decide anything. Tap every white man Black attacks.",
+      "answer": { "pieces": ["a4", "f2"] },
+      "concept": "counter-attack",
+      "reason": "The queen on a2 hits the knight up the a-file and the pawn on f2 along the second rank. The pawn has the king behind it; the knight has nothing."
+    },
+    {
+      "id": "4.3-k10",
+      "type": "find_the_sequence",
+      "fen": "3n2k1/5ppp/8/8/N7/2R5/q4PPP/2R3K1 w - - 0 1",
+      "prompt": "He takes the knight anyway. Show him the bill: the rook, his only answer, and the finish.",
+      "answer": { "line": ["Rc8", "Qxa4", "Rxd8+", "Qe8", "Rxe8#"] },
+      "concept": "counter-attack",
+      "reason": "After Rxd8+ the block on e8 is his only legal move, and Rxe8 is mate. A knight for the game."
+    },
+    {
+      "id": "4.3-k11",
+      "type": "name_the_pattern",
+      "fen": "3n2k1/5ppp/8/8/N7/2R5/q4PPP/2R3K1 w - - 0 1",
+      "prompt": "Nb6 saves the knight and leaves the game level. What does Rc8 do instead?",
+      "options": [
+        "It defends the knight on a4 a second time, so taking it costs him a queen.",
+        "It attacks the queen on a2 and drives her off the file.",
+        "It makes a threat worth more than a knight: Rxd8 is mate right now, so he has to answer that first."
+      ],
+      "answer": { "option": 2 },
+      "concept": "counter-attack",
+      "reason": "Rc8 does nothing at all for the knight. It threatens mate, which outranks a piece, so he spends his move on it."
+    },
+    {
+      "id": "4.3-k12",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/4q3/5R2/4b3/1n6/5PPP/1Q4K1 w - - 0 1",
+      "prompt": "The rook is attacked twice and the queen once, and you have one move. Move the rook somewhere useful.",
+      "answer": { "moves": ["Rb5"] },
+      "concept": "counter-attack",
+      "reason": "Rb5 saves the rook and adds a second attacker on the knight on b3. The queen stays on b1 because Bxb1 loses to Rb8+ and mate."
+    },
+    {
+      "id": "4.3-k13",
+      "type": "is_it_safe",
+      "fen": "6k1/5ppp/4q3/5R2/4b3/1n6/5PPP/1Q4K1 w - - 0 1",
+      "prompt": "You move the rook to b5. Run the check on it: is the rook safe there?",
+      "move": "Rb5",
+      "reasons": [
+        "Yes. Nothing black attacks b5 at all. His queen sees b3 down the diagonal, not b5.",
+        "No. The knight on b3 takes it.",
+        "No. His queen on e6 covers b5 from the diagonal."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "counter-attack",
+      "reason": "Safe, and it is doing two jobs: off the two attacks on f5, and on to the knight. The diagonal from e6 runs to b3, one square short."
+    },
+    {
+      "id": "4.3-k14",
+      "type": "find_the_sequence",
+      "fen": "6k1/5ppp/4q3/5R2/4b3/1n6/5PPP/1Q4K1 w - - 0 1",
+      "prompt": "He takes the queen on b1. Play the answer out to the end.",
+      "answer": { "line": ["Rb5", "Bxb1", "Rb8+", "Qe8", "Rxe8#"] },
+      "concept": "counter-attack",
+      "reason": "Rb8+ and he has two blocks, Qc8 and Qe8. Rxc8 and Rxe8 are both mate, so the choice was never his."
+    },
+    {
+      "id": "4.3-k15",
+      "type": "find_the_move",
+      "fen": "6k1/pp3ppp/8/4R3/8/2Q4r/PP3PPP/1q4K1 w - - 0 1",
+      "prompt": "In check on the first rank. Two pieces can get in the way, and one of them is being attacked already.",
+      "answer": { "moves": ["Qe1"] },
+      "concept": "interposition",
+      "reason": "Qe1 gets in the way and leaves the third rank at once. Re1 allows Rxc3 bxc3, a queen for a rook."
+    },
+    {
+      "id": "4.3-k16",
+      "type": "find_them_all",
+      "fen": "6k1/pp3ppp/8/4R3/8/2Q4r/PP3PPP/1q4K1 w - - 0 1",
+      "prompt": "Your king has no square, so you have to get something in the way. Tap every square you can do it on.",
+      "answer": { "squares": ["c1", "e1"] },
+      "concept": "interposition",
+      "reason": "c1 and e1. The queen reaches both, the rook only e1, and there are exactly three legal moves in the position."
+    },
+    {
+      "id": "4.3-k17",
+      "type": "find_the_move",
+      "fen": "6kb/p4ppp/6r1/8/4Q3/N7/P4PPP/r5K1 w - - 0 1",
+      "prompt": "Three legal moves and all three get in the way of the check. Play the one that is still there next move.",
+      "answer": { "moves": ["Nb1"] },
+      "concept": "interposition",
+      "reason": "Nb1 is the only one your queen on e4 defends. Rxb1 Qxb1 and the game goes on; Qe1 is met by Rxe1 mate."
+    },
+    {
+      "id": "4.3-k18",
+      "type": "find_them_all",
+      "fen": "6kb/p4ppp/6r1/8/4Q3/N7/P4PPP/r5K1 w - - 0 1",
+      "prompt": "In check along the first rank with no king move available. Tap every square you can put a piece on.",
+      "answer": { "squares": ["b1", "e1"] },
+      "concept": "interposition",
+      "reason": "b1 and e1. The knight reaches b1 and the queen reaches both, which is the whole of your legal move list."
+    },
+    {
+      "id": "4.3-k19",
+      "type": "find_the_move",
+      "fen": "r5k1/pp3ppp/8/R7/8/3NB3/PP3PPP/r5K1 w - - 0 1",
+      "prompt": "Check on the first rank, three ways to get in the way. One of your pieces is loose where it stands.",
+      "answer": { "moves": ["Nc1"] },
+      "concept": "interposition",
+      "reason": "The knight on d3 has nothing defending it. Nc1 gets in the way and takes it off that square, and the bishop on e3 defends c1. Bc1 instead allows Rd8 and the knight drops."
+    },
+    {
+      "id": "4.3-k20",
+      "type": "find_the_move",
+      "fen": "6kN/1p3ppp/8/b4r2/8/3QN3/1P3PPP/2r3K1 w - - 0 1",
+      "prompt": "Four legal moves and every one of them gets in the way. Pick the piece that can afford to stand there.",
+      "answer": { "moves": ["Nf1"] },
+      "concept": "interposition",
+      "reason": "Nf1 is the cheapest of the four and it is covered twice, by the queen on d3 and by the king. Blocking with the queen simply loses her to the rook."
+    },
+    {
+      "id": "4.3-k21",
+      "type": "name_the_pattern",
+      "fen": "6kN/1p3ppp/8/b4r2/8/3QN3/1P3PPP/2r3K1 w - - 0 1",
+      "prompt": "Four ways to answer this check and all four are the same kind of move. So how do you choose?",
+      "options": [
+        "By what stands on the square afterwards. His rook takes whatever you put there, so put the cheapest piece you have that something of yours defends.",
+        "By which square is furthest from his rook, since that gives you the most time.",
+        "By which one also gives check back, because a check always comes first."
+      ],
+      "answer": { "option": 0 },
+      "concept": "interposition",
+      "reason": "Getting in the way hands him a capture; you cannot avoid that. What you choose is the price. Nf1 costs a knight and gets a rook back."
+    },
+    {
+      "id": "4.3-k22",
+      "type": "find_the_move",
+      "fen": "6k1/pp3ppp/8/5r2/6qN/B2b4/PP3PPP/Q5K1 w - - 0 1",
+      "prompt": "The knight on h4 is attacked, undefended, and every square it can reach is covered. Stop trying to keep it.",
+      "answer": { "moves": ["Nxf5"] },
+      "concept": "desperado",
+      "reason": "Nxf5 and he takes back with the bishop or the queen. Ng6 hands the knight to a pawn; this is the move that gets a rook for it."
+    },
+    {
+      "id": "4.3-k23",
+      "type": "find_them_all",
+      "fen": "6k1/pp3ppp/8/5r2/6qN/B2b4/PP3PPP/Q5K1 w - - 0 1",
+      "prompt": "Your knight on h4 has three squares. Tap every black man that covers at least one of them.",
+      "answer": { "pieces": ["d3", "f5", "f7", "g4", "h7"] },
+      "concept": "desperado",
+      "reason": "The queen on g4 covers all three. The bishop on d3 and the rook on f5 add f5 and f3, and the pawns on f7 and h7 add g6. Five men, nowhere to go."
+    },
+    {
+      "id": "4.3-k24",
+      "type": "play_it_out",
+      "fen": "6k1/pp3ppp/8/5r2/6qN/B2b4/PP3PPP/Q5K1 w - - 0 1",
+      "prompt": "The knight is going. Get a rook for it and then hold the position together for eight moves.",
+      "goal": { "kind": "hold", "moves": 8 },
+      "concept": "desperado",
+      "reason": "Nxf5 first, and after the recapture the game is level. The knight was never the thing to save; the balance was."
+    },
+    {
+      "id": "4.3-k25",
+      "type": "find_the_move",
+      "fen": "3r2kB/pNq2ppp/8/4n3/8/4Q3/P4PPP/6K1 w - - 0 1",
+      "prompt": "You are worse whatever you play, and the knight on b7 has no square his queen does not cover. Get something for it.",
+      "answer": { "moves": ["Nxd8"] },
+      "concept": "desperado",
+      "reason": "Nxd8 Qxd8 is a rook better than any retreat. Nc5 and Na5 are both mated by Rd1+ Qe1 Rxe1."
+    },
+    {
+      "id": "4.3-k26",
+      "type": "is_it_safe",
+      "fen": "3r2kB/pNq2ppp/8/4n3/8/4Q3/P4PPP/6K1 w - - 0 1",
+      "prompt": "You try to bring the knight home with Nd6. Is it safe on d6?",
+      "move": "Nd6",
+      "reasons": [
+        "Yes. The bishop on h8 covers d6 along the long diagonal.",
+        "No. His queen on c7 takes it, and so does the rook on d8.",
+        "Yes. His queen has to stay where she is to hold the rook on d8."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "desperado",
+      "reason": "Two attackers and no defenders. Every square that knight can reach is covered by the queen alone, which is what makes a retreat the worst of the four moves."
+    },
+    {
+      "id": "4.3-k27",
+      "type": "which_square",
+      "fen": "3r2kB/pNq2ppp/8/4n3/8/4Q3/P4PPP/6K1 w - - 0 1",
+      "prompt": "One black piece covers your knight on b7 and every square it could move to. Tap the square that piece stands on.",
+      "answer": { "square": "c7" },
+      "concept": "desperado",
+      "reason": "The queen on c7. She holds b7 where it stands and d8, d6, c5 and a5 as well, so there is no escape to find and nothing to look for but the biggest capture."
+    },
+    {
+      "id": "4.3-k28",
+      "type": "name_the_pattern",
+      "fen": "3r2kB/pNq2ppp/8/4n3/8/4Q3/P4PPP/6K1 w - - 0 1",
+      "prompt": "You are losing this position however you play it. Why is Nxd8 still the move?",
+      "options": [
+        "Because it saves the knight: the rook on d8 was the only piece attacking it.",
+        "The knight goes in every line, so all that is left to choose is what goes with it. Nxd8 collects a rook; two of the retreats are mated in two.",
+        "Because it forces the queens off, and fewer pieces makes a bad position easier to hold."
+      ],
+      "answer": { "option": 1 },
+      "concept": "desperado",
+      "reason": "The piece attacking the knight is the queen, never the rook, and Nxd8 is answered by Qxd8 so the queens stay on. Being worse is not the same as being lost, and the difference is one rook."
+    },
+    {
+      "id": "4.3-k29",
+      "type": "find_the_move",
+      "fen": "6k1/3bqppp/8/8/8/2BR4/5PPP/5RK1 w - - 0 1",
+      "prompt": "Black has no check and no capture anywhere, and his bishop is one quiet move from your rook on d3, from either side.",
+      "answer": { "moves": ["Rfd1"] },
+      "concept": "opponent-threats",
+      "reason": "Rfd1 defends d3 from behind, so Bb5 Bxd3 is met by Rxd3. You cannot stop him reaching b5 or f5 and you do not need to."
+    },
+    {
+      "id": "4.3-k30",
+      "type": "find_them_all",
+      "fen": "6k1/3bqppp/8/8/8/2BR4/5PPP/5RK1 w - - 0 1",
+      "prompt": "His checks and his captures come back empty. Tap every square his bishop on d7 can reach that attacks your rook on d3.",
+      "answer": { "squares": ["b5", "f5"] },
+      "concept": "opponent-threats",
+      "reason": "b5 and f5, out of nine squares. Neither is a check and neither is a capture, so a scan of his forcing moves would never have shown them."
+    },
+    {
+      "id": "4.3-k31",
+      "type": "find_the_move",
+      "fen": "2n3k1/p4ppp/r7/b7/6R1/1R6/P4PPP/6K1 w - - 0 1",
+      "prompt": "No checks and no captures for him, and three squares on the sixth rank that all lead to mate. You get one move.",
+      "answer": { "moves": ["Rc4"] },
+      "concept": "opponent-threats",
+      "reason": "Rc4 sits on the file he wants most, so Rc6 is simply met by Rxc6. A quiet move answering a quiet move."
+    },
+    {
+      "id": "4.3-k32",
+      "type": "find_them_all",
+      "fen": "2n3k1/p4ppp/r7/b7/6R1/1R6/P4PPP/6K1 w - - 0 1",
+      "prompt": "Tap every square his rook on a6 can reach from which he would have mate on the move after.",
+      "answer": { "squares": ["c6", "d6", "e6"] },
+      "concept": "opponent-threats",
+      "reason": "c6, d6 and e6, with Rc1, Rd1 and Re1 all mate. b6 is blocked by your rook on b3, f6 by the pawn on f2, g6 by your rook on g4 and h6 by the pawn on h2."
+    },
+    {
+      "id": "4.3-k33",
+      "type": "find_the_move",
+      "fen": "6kq/1p3ppp/8/7b/7B/8/1P3PPP/1Q4K1 w - - 0 1",
+      "prompt": "Thirteen legal moves for Black and not one is a check or a capture. One quiet bishop move and your queen is gone.",
+      "answer": { "moves": ["Qf5"] },
+      "concept": "opponent-threats",
+      "reason": "Bg6 would put the bishop on the diagonal that ends on your queen. Qf5 attacks the bishop along the fifth rank first, and nothing defends it."
+    },
+    {
+      "id": "4.3-k34",
+      "type": "which_square",
+      "fen": "6kq/1p3ppp/8/7b/7B/8/1P3PPP/1Q4K1 w - - 0 1",
+      "prompt": "Nothing forcing is available to him at all. Tap the one square his bishop wants.",
+      "answer": { "square": "g6" },
+      "concept": "opponent-threats",
+      "reason": "g6, the only one of its five squares that joins the diagonal running down to your queen on b1, which nothing defends."
+    },
+    {
+      "id": "4.3-k35",
+      "type": "find_the_move",
+      "fen": "1r4k1/1p3ppp/8/b4n2/8/8/1PR2PPP/5RK1 w - - 0 1",
+      "prompt": "His knight has two squares that both hit your rook on c2, and nothing defends it. Move the rook somewhere useful.",
+      "answer": { "moves": ["Rc5"] },
+      "concept": "opponent-threats",
+      "reason": "Rc5 leaves the fork and attacks the bishop on a5, so he is the one answering a threat. Nothing black reaches c5."
+    },
+    {
+      "id": "4.3-k36",
+      "type": "is_it_safe",
+      "fen": "1r4k1/1p3ppp/8/b4n2/8/8/1PR2PPP/5RK1 w - - 0 1",
+      "prompt": "You move the rook to c5, hitting the bishop. Is the rook safe on c5?",
+      "move": "Rc5",
+      "reasons": [
+        "No. The knight on f5 covers c5.",
+        "No. His rook on b8 comes to b5 and takes it.",
+        "Yes. Nothing black attacks c5 at all, and the bishop on a5 does not cover it either."
+      ],
+      "answer": { "safe": true, "reason": 2 },
+      "concept": "opponent-threats",
+      "reason": "Safe. The knight reaches d6, e7, h6, h4, g3, e3 and d4, and c5 is on none of them. He has to answer the threat to the bishop instead of making one of his own."
+    }
+  ]
+}

@@ -1,0 +1,156 @@
+{
+  "id": "4.1.2",
+  "unit": "4.1",
+  "title": "Decoy and attraction",
+  "xp": 16,
+  "card": {
+    "idea": "Deflection pushes a piece away from a square. A decoy pulls it onto one. They look the same when you play them and they are opposites when you plan them: with a decoy you have already chosen the square you want the piece to stand on, and you are paying to put it there.",
+    "diagrams": [
+      "3q3k/6pp/8/4N3/8/6P1/5P1P/6K1 w - - 0 1",
+      "3q2k1/5pp1/8/4N3/8/8/5PP1/6KR w - - 0 1",
+      "5rk1/6pp/1q6/4N3/8/8/6PP/5R1K w - - 0 1"
+    ],
+    "habit": "Pick the square first, then work out what drags him there."
+  },
+  "explain": [
+    {
+      "fen": "3q3k/6pp/8/4N3/8/6P1/5P1P/6K1 w - - 0 1",
+      "text": "Start with the shape you want. A king on h8 and a queen on d8 are a knight's move apart from one square, f7, and a knight on e5 can reach it. Learn to see the picture first. The whole of a decoy is arranging for a king to be standing on h8 when you have that knight.",
+      "arrows": [
+        ["e5", "f7"],
+        ["f7", "h8"],
+        ["f7", "d8"]
+      ],
+      "highlights": ["f7", "h8", "d8"]
+    },
+    {
+      "fen": "3q2k1/5pp1/8/4N3/8/8/5PP1/6KR w - - 0 1",
+      "text": "The same knight and the same queen, but the king is on g8, and from g8 it guards f7. Rh8 is check and Kxh8 is Black's only legal answer. You have not removed anything: you have moved the king one square, onto the square the picture needs. Then Nxf7 forks.",
+      "arrows": [
+        ["h1", "h8"],
+        ["g8", "f7"],
+        ["e5", "f7"]
+      ],
+      "highlights": ["h8", "f7"]
+    },
+    {
+      "fen": "5rk1/6pp/1q6/4N3/8/8/6PP/5R1K w - - 0 1",
+      "text": "Another square, another fork. Here the knight wants d7, where it would hit f8 and b6 at once, and Black's king is not on f8 yet. Rxf8 is check and Kxf8 is forced. Notice White's own back rank: leave f1 and Rxf1 is mate, so this is not a combination you can start next move.",
+      "arrows": [
+        ["f1", "f8"],
+        ["e5", "d7"],
+        ["f8", "f1"]
+      ],
+      "highlights": ["f8", "d7", "f1"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.1.2-c1",
+      "type": "which_square",
+      "fen": "3q3k/6pp/8/4N3/8/6P1/5P1P/6K1 w - - 0 1",
+      "prompt": "The black king is on h8 and the queen on d8. Tap the one square your knight can reach that attacks both of them.",
+      "answer": { "square": "f7" },
+      "concept": "decoy",
+      "hints": {
+        "text": "Eight squares are a knight's move from e5. Only one of them is also a knight's move from both h8 and d8."
+      },
+      "reason": "f7 is the only square the knight can reach that hits h8 and d8 together, and nothing black covers it. Hold that picture: it is what a decoy is built to produce."
+    },
+    {
+      "id": "4.1.2-c2",
+      "type": "which_square",
+      "fen": "3q2k1/5pp1/8/4N3/8/8/5PP1/6KR w - - 0 1",
+      "prompt": "Nf7 would fork king and queen, but the king on g8 defends f7. Tap the square you need the king to be standing on instead.",
+      "answer": { "square": "h8" },
+      "concept": "decoy",
+      "hints": {
+        "text": "One square along, and it stops defending f7 while still being forked from it."
+      },
+      "reason": "From g8 the king covers f7; from h8 it does not, and a knight on f7 gives check to a king on h8. One square is the whole difference."
+    },
+    {
+      "id": "4.1.2-c3",
+      "type": "find_the_move",
+      "fen": "3q2k1/5pp1/8/4N3/8/8/5PP1/6KR w - - 0 1",
+      "prompt": "You want the black king on h8. Put something there it is not allowed to leave standing.",
+      "answer": { "moves": ["Rh8+"] },
+      "wrong": {
+        "Nxf7": "Kxf7 takes the knight. The king was guarding f7 the whole time, which is why it has to be moved first.",
+        "Rh7": "Kxh7 takes it, and the king is on h7, which is not a square your knight forks from."
+      },
+      "concept": "decoy",
+      "hints": {
+        "piece": "h1",
+        "square": "h8"
+      },
+      "reason": "Rh8 is check and Kxh8 is Black's only legal move. The king is now on the square the fork needs, and Nxf7 hits king and queen at once."
+    },
+    {
+      "id": "4.1.2-c4",
+      "type": "find_the_sequence",
+      "fen": "3q2k1/5pp1/8/4N3/8/8/5PP1/6KR w - - 0 1",
+      "prompt": "Play it out: drag the king to h8, fork, and collect the queen.",
+      "answer": { "line": ["Rh8+", "Kxh8", "Nxf7+", "Kg8", "Nxd8"] },
+      "concept": "decoy",
+      "hints": {
+        "piece": "h1",
+        "square": "h8"
+      },
+      "reason": "Rh8+ Kxh8 Nxf7+ and the king steps back to g8 or h7. Either way the knight takes the queen next move. A rook bought a queen."
+    },
+    {
+      "id": "4.1.2-c5",
+      "type": "find_the_move",
+      "fen": "5rk1/6pp/1q6/4N3/8/8/6PP/5R1K w - - 0 1",
+      "prompt": "Your knight wants d7, hitting f8 and b6. Buy that fork, and do not leave your own back rank while you do it.",
+      "answer": { "moves": ["Rxf8+"] },
+      "wrong": {
+        "Nd7": "Rxf1 is mate. Your rook was the only thing covering f1, so the knight may not move until the black rook is gone.",
+        "Nf7": "Rxf7 simply takes the knight, and f8 was never the square you wanted your knight on."
+      },
+      "concept": "decoy",
+      "hints": {
+        "piece": "f1",
+        "square": "f8"
+      },
+      "reason": "Rxf8 is check and Kxf8 is the only answer. It takes the black rook off f1's file and puts the king on f8, which is half the fork; Nd7 is the other half."
+    },
+    {
+      "id": "4.1.2-c6",
+      "type": "is_it_safe",
+      "fen": "5k2/6pp/1q6/4N3/8/8/6PP/7K w - - 0 2",
+      "move": "Nd7+",
+      "prompt": "The king has just taken on f8. White forks it with the knight. Is the knight safe on d7?",
+      "reasons": [
+        "No. The king takes it.",
+        "No. The queen on b6 takes it.",
+        "Yes. Nothing black attacks d7, so the check has to be answered and the queen falls."
+      ],
+      "answer": { "safe": true, "reason": 2 },
+      "concept": "decoy",
+      "hints": {
+        "text": "Count what actually reaches d7. The king is on f8, and f8 is two squares from d7."
+      },
+      "reason": "Nothing black attacks d7. The king on f8 is not next to it and the queen on b6 does not see it, so Black must move the king and the knight takes on b6."
+    },
+    {
+      "id": "4.1.2-c7",
+      "type": "name_the_pattern",
+      "fen": "5rk1/6pp/1q6/4N3/8/8/6PP/5R1K w - - 0 1",
+      "prompt": "Rxf8 trades a rook for a rook and lets the king recapture. What is the difference between this and a plain trade?",
+      "options": [
+        "The recapture puts the black king on f8, which is one half of a knight fork you have already picked out.",
+        "It clears the f-file so the white king can walk up it.",
+        "It wins material at once, because the rook on f8 was undefended."
+      ],
+      "answer": { "option": 0 },
+      "concept": "decoy",
+      "hints": {
+        "text": "You chose f8 before you played anything. Ask what stands there afterwards."
+      },
+      "reason": "The trade is even; the destination is the point. The rook on f8 was defended by the king, so nothing is won on f8, and everything is won on d7."
+    }
+  ],
+  "takeaway": "A decoy names the square first. Draw the fork or the mate you want, see whose king or queen is missing from it, and pay to put them there."
+}

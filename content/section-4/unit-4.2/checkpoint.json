@@ -1,0 +1,510 @@
+{
+  "unit": "4.2",
+  "title": "Interference, clearance and desperado",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "4.2-k01",
+      "type": "find_the_move",
+      "fen": "7k/r6p/7P/3Np3/p5Q1/bp6/2q3PP/5RK1 w - - 0 1",
+      "prompt": "Rf8 is met by the bishop and Qg7 is met by the rook. Find the one square where both of those defenders are looking.",
+      "answer": {
+        "moves": [
+          "Ne7"
+        ]
+      },
+      "concept": "interference",
+      "reason": "Ne7. Rxe7 shuts the bishop's diagonal and Rf8 is mate; Bxe7 shuts the seventh rank and Qg7 is mate. The knight also covers g8."
+    },
+    {
+      "id": "4.2-k02",
+      "type": "find_the_move",
+      "fen": "7k/r6p/p6P/3Np3/2p5/b2q4/5RQP/6K1 w - - 0 1",
+      "prompt": "Two guards on two different squares. Put your knight where their roads cross.",
+      "answer": {
+        "moves": [
+          "Ne7"
+        ]
+      },
+      "concept": "interference",
+      "reason": "Ne7. Whichever black piece takes it lands on e7 and blocks the other one's line, and one of Rf8 or Qg7 is then mate."
+    },
+    {
+      "id": "4.2-k03",
+      "type": "find_the_move",
+      "fen": "7k/r6p/7P/p2Np3/5R2/b1pq4/6QP/6K1 w - - 0 1",
+      "prompt": "The rook holds the seventh rank and the bishop holds f8. One knight move asks them both the same question.",
+      "answer": {
+        "moves": [
+          "Ne7"
+        ]
+      },
+      "concept": "interference",
+      "reason": "Ne7. The rook's road to g7 and the bishop's road to f8 share exactly one square, and a piece standing on it cuts both at once."
+    },
+    {
+      "id": "4.2-k04",
+      "type": "find_the_move",
+      "fen": "7k/r6p/7P/3Np3/p7/b1pq4/5RQP/6K1 w - - 0 1",
+      "prompt": "Black defends f8 with the bishop and g7 with the rook, and has one piece too few. Find the square.",
+      "answer": {
+        "moves": [
+          "Ne7"
+        ]
+      },
+      "concept": "interference",
+      "reason": "Ne7. Rxe7 Rf8 is mate, Bxe7 Qg7 is mate. Black can only repair one road by standing on it, and standing on it closes the other."
+    },
+    {
+      "id": "4.2-k05",
+      "type": "find_the_sequence",
+      "fen": "7k/r6p/7P/3Np3/p5Q1/b7/2q3PP/5RK1 w - - 0 1",
+      "prompt": "Play it out: plant the knight on the crossing square, let the bishop take it, then mate on the square the rook can no longer reach.",
+      "answer": {
+        "line": [
+          "Ne7",
+          "Bxe7",
+          "Qg7#"
+        ]
+      },
+      "concept": "interference",
+      "reason": "Ne7 Bxe7 Qg7 is mate. The bishop saved itself onto e7, which is the square its own rook was travelling through to reach g7."
+    },
+    {
+      "id": "4.2-k06",
+      "type": "which_square",
+      "fen": "7k/r6p/7P/p2Np3/8/b1p5/3q1RQP/6K1 w - - 0 1",
+      "prompt": "The rook on a7 watches g7 and the bishop on a3 watches f8. Tap the single square that lies on both of those roads.",
+      "answer": {
+        "square": "e7"
+      },
+      "concept": "interference",
+      "reason": "The rook passes b7, c7, d7, e7, f7. The bishop passes b4, c5, d6, e7. e7 is the only name on both lists."
+    },
+    {
+      "id": "4.2-k07",
+      "type": "which_square",
+      "fen": "7k/4r2p/7P/4p3/p5Q1/bp6/2q3PP/5RK1 w - - 0 2",
+      "prompt": "Black's rook has just taken on e7 and stopped there. Tap the mating square the bishop on a3 can no longer defend.",
+      "answer": {
+        "square": "f8"
+      },
+      "concept": "interference",
+      "reason": "The bishop's diagonal to f8 runs b4, c5, d6, e7, and Black's own rook is now standing on e7. Rf8 is mate."
+    },
+    {
+      "id": "4.2-k08",
+      "type": "is_it_safe",
+      "fen": "7k/r3b2p/7P/4p3/p5Q1/8/2q3PP/5RK1 w - - 0 2",
+      "move": "Qg7#",
+      "prompt": "Black's bishop has landed on e7 and the queen can now step to g7. Is she safe next to the king?",
+      "reasons": [
+        "Yes. The pawn on h6 covers g7 and the bishop on e7 now blocks the rook's road, so nothing can take her.",
+        "No. The rook on a7 slides along the seventh rank and takes her.",
+        "No. The king takes her, because White has nothing looking at g7."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "interference",
+      "reason": "The rook is on a7 and its road to g7 runs through e7, which Black's own bishop is now blocking. The pawn on h6 holds the queen, so Kxg7 is illegal."
+    },
+    {
+      "id": "4.2-k09",
+      "type": "name_the_pattern",
+      "fen": "7k/r3N2p/7P/p3p3/5R2/b1pq4/6QP/6K1 b - - 1 1",
+      "prompt": "White's knight has stepped onto e7 where two black pieces can take it. What has it achieved?",
+      "options": [
+        "It attacks the black queen on d3, so Black has to spend a move moving her.",
+        "It is defended by the rook on f4, so it cannot actually be taken.",
+        "It stands on the one square shared by both defenders' roads, so every capture repairs one and shuts the other."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "interference",
+      "reason": "A knight on e7 does not attack d3, and the rook on f4 does not defend e7. The knight is a gift, and both ways of accepting it cost Black a defensive line."
+    },
+    {
+      "id": "4.2-k10",
+      "type": "find_the_move",
+      "fen": "rn5k/ppp3pp/2p4P/4P3/8/8/PQ4PP/6K1 w - - 0 1",
+      "prompt": "No black piece can take on g7, and the pawn on h6 holds it for you. The only thing in the queen's way is white.",
+      "answer": {
+        "moves": [
+          "e6"
+        ]
+      },
+      "concept": "line-clearance",
+      "reason": "e6 steps the pawn off the long diagonal and Qxg7 is then mate against every reply Black has."
+    },
+    {
+      "id": "4.2-k11",
+      "type": "find_the_move",
+      "fen": "b6k/ppp3pp/n6P/4P2p/8/8/P5PP/Q5K1 w - - 0 1",
+      "prompt": "The queen on a1 is pointing at the black king's corner and one of her own pawns is standing on the road. Move it.",
+      "answer": {
+        "moves": [
+          "e6"
+        ]
+      },
+      "concept": "line-clearance",
+      "reason": "e6 opens a1 to g7. Black's bishop on a8 is a light-squared bishop and can never step onto the dark diagonal to block, so Qxg7 is mate."
+    },
+    {
+      "id": "4.2-k12",
+      "type": "find_the_move",
+      "fen": "r5k1/p4ppp/1n5P/8/3R4/8/P5PP/Q5K1 w - - 0 1",
+      "prompt": "Your rook is blocking your own queen. Get it off the diagonal in a way that does not hand Black a free move.",
+      "answer": {
+        "moves": [
+          "Rd8+"
+        ]
+      },
+      "concept": "line-clearance",
+      "reason": "Rd8 leaves the diagonal with check, Rxd8 is Black's only legal answer, and Qxg7 is mate with the h6 pawn holding the queen."
+    },
+    {
+      "id": "4.2-k13",
+      "type": "find_the_move",
+      "fen": "r5k1/1p3ppp/7P/n7/3R4/8/PQ4PP/6K1 w - - 0 1",
+      "prompt": "Same rook, same diagonal, same problem. A quiet move is not good enough here.",
+      "answer": {
+        "moves": [
+          "Rd8+"
+        ]
+      },
+      "concept": "line-clearance",
+      "reason": "Rd8 is check and Rxd8 is forced, so Black never gets the free move he needs. Qxg7 then finishes it."
+    },
+    {
+      "id": "4.2-k14",
+      "type": "find_the_sequence",
+      "fen": "rnb4k/ppp3pp/7P/4P3/8/2Q5/PP4PP/6K1 w - - 0 1",
+      "prompt": "Play it out: step the pawn off the queen's diagonal, let the bishop take it, then take on g7.",
+      "answer": {
+        "line": [
+          "e6",
+          "Bxe6",
+          "Qxg7#"
+        ]
+      },
+      "concept": "line-clearance",
+      "reason": "The pawn was never the point of e6 and taking it changes nothing. A bishop on e6 covers no square on the c3 to g7 diagonal."
+    },
+    {
+      "id": "4.2-k15",
+      "type": "which_square",
+      "fen": "rn5k/ppp3pp/2p4P/4P3/8/2Q5/P5PP/6K1 w - - 0 1",
+      "prompt": "The queen on c3 is aimed at g7, which the pawn on h6 already guards for her. Tap the square where her own army is in the way.",
+      "answer": {
+        "square": "e5"
+      },
+      "concept": "line-clearance",
+      "reason": "c3, d4, e5. The white pawn on e5 is the first thing on the road, and it is the only reason Qxg7 is not available right now."
+    },
+    {
+      "id": "4.2-k16",
+      "type": "is_it_safe",
+      "fen": "r5k1/5ppp/n6P/8/3R4/2Q5/PP4PP/6K1 w - - 0 1",
+      "move": "Rd8+",
+      "prompt": "White plays the rook to the eighth rank with check. Is the rook safe on d8?",
+      "reasons": [
+        "Yes. Black has nothing that reaches the eighth rank.",
+        "No. The knight on a6 jumps in and takes it.",
+        "No. The rook on a8 slides across the eighth rank and takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "line-clearance",
+      "reason": "Rxd8 is Black's only legal answer, and it is supposed to be. The rook is being given away to buy one move, not to survive on d8."
+    },
+    {
+      "id": "4.2-k17",
+      "type": "name_the_pattern",
+      "fen": "r5k1/p4ppp/1n5P/8/3R4/2Q5/P5PP/6K1 w - - 0 1",
+      "prompt": "Why is Rd8 better than simply moving the rook to d1 or d2, when all three get it off the diagonal?",
+      "options": [
+        "Because Rd8 is check, so Black never gets the free move he needs to step out of the mate.",
+        "Because a rook on the eighth rank is worth more than a rook on the first.",
+        "Because Rd1 and Rd2 leave the rook on the d-file, where it still blocks the queen."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "line-clearance",
+      "reason": "Rd1 and Rd2 clear the diagonal perfectly well; the d-file is not the problem. What they do not do is take Black's move away, and one move — Kf8, f6 or gxh6 — is all Black needs."
+    },
+    {
+      "id": "4.2-k18",
+      "type": "find_them_all",
+      "fen": "rn5k/ppp3pp/2p4P/4P3/8/2Q5/6PP/6K1 w - - 0 1",
+      "prompt": "Tap every square that lies between the queen on c3 and the pawn on g7.",
+      "answer": {
+        "squares": [
+          "d4",
+          "e5",
+          "f6"
+        ]
+      },
+      "concept": "line-clearance",
+      "reason": "d4, e5 and f6. Two of them are empty and one of them holds a white pawn, which is the whole of Black's defence."
+    },
+    {
+      "id": "4.2-k19",
+      "type": "find_the_move",
+      "fen": "B5k1/P5pp/1r3n2/8/4p3/8/5PPP/6K1 w - - 0 1",
+      "prompt": "The pawn wants a8 and your own bishop is standing on it. Your king has no air, so pick the move that buys you the tempo.",
+      "answer": {
+        "moves": [
+          "Bd5+"
+        ]
+      },
+      "concept": "square-clearance",
+      "reason": "Bd5 is check along a8 to g8, so Black must answer it instead of playing Rb1. After any answer the pawn promotes with check."
+    },
+    {
+      "id": "4.2-k20",
+      "type": "find_the_move",
+      "fen": "B5k1/P5pp/5n2/1rp5/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Empty the promotion square without giving Black a free turn.",
+      "answer": {
+        "moves": [
+          "Bd5+"
+        ]
+      },
+      "concept": "square-clearance",
+      "reason": "Bb7 and Bc6 also empty a8, and both are met by Rb1 mate. Only Bd5 comes with check, and a checked player has no time for a back rank."
+    },
+    {
+      "id": "4.2-k21",
+      "type": "find_the_move",
+      "fen": "B5k1/P5pp/8/2p4p/1r2p3/8/5PPP/6K1 w - - 0 1",
+      "prompt": "One square is all that stands between you and a new queen, and it is your own bishop sitting on it.",
+      "answer": {
+        "moves": [
+          "Bd5+"
+        ]
+      },
+      "concept": "square-clearance",
+      "reason": "Nothing black attacks a8 at all. The reason a quiet bishop move loses is at the other end of the board: f2, g2 and h2 leave White's king no square."
+    },
+    {
+      "id": "4.2-k22",
+      "type": "find_the_sequence",
+      "fen": "B5k1/P5pp/1r1p4/8/4p3/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Play it out: clear the promotion square with check, let the king step into the corner, then make the new queen.",
+      "answer": {
+        "line": [
+          "Bd5+",
+          "Kh8",
+          "a8=Q+"
+        ]
+      },
+      "concept": "square-clearance",
+      "reason": "Bd5 and Kh8 are forced in spirit, and a8=Q arrives with check along the eighth rank, so White keeps the move and the rook never reaches b1."
+    },
+    {
+      "id": "4.2-k23",
+      "type": "which_square",
+      "fen": "B5k1/P5pp/1r6/2p4p/4p3/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Tap the square that White has to empty before the pawn can become a queen.",
+      "answer": {
+        "square": "a8"
+      },
+      "concept": "square-clearance",
+      "reason": "A pawn on a7 promotes on a8, and White's own bishop is standing there. Black is not defending that square with anything."
+    },
+    {
+      "id": "4.2-k24",
+      "type": "is_it_safe",
+      "fen": "B5k1/P5pp/8/1rp5/4p3/8/5PPP/6K1 w - - 0 1",
+      "move": "Bd5+",
+      "prompt": "The bishop steps out to d5 with check. Is it safe standing there?",
+      "reasons": [
+        "No. The rook on b5 slides across the fifth rank and takes it.",
+        "Yes. Nothing black attacks d5, so the check simply has to be answered.",
+        "No. The pawn on e4 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "square-clearance",
+      "reason": "The rook's road along the fifth rank is blocked by Black's own pawn on c5, and a pawn on e4 captures towards d3 and f3, not backwards. Black's only replies are Kh8 and Kf8."
+    },
+    {
+      "id": "4.2-k25",
+      "type": "name_the_pattern",
+      "fen": "B5k1/P5pp/3p4/1r6/4p3/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Bd5 here is met by Rxd5, so the bishop is simply lost. Why play it anyway?",
+      "options": [
+        "Because the bishop was attacked and had to move somewhere in any case.",
+        "Because it is check, and the check is what empties a8 in time; a quiet move loses to Rb1 mate.",
+        "Because the rook on b5 is drawn away from the b-file and can no longer reach b1."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "square-clearance",
+      "reason": "A rook on d5 still reaches d1 and b1 later, so it is not drawn away, and nothing was attacking the bishop on a8. The check is the only thing being bought."
+    },
+    {
+      "id": "4.2-k26",
+      "type": "play_it_out",
+      "fen": "B5k1/P5pp/8/1rp4p/4p3/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Get a pawn to the eighth rank. Remember that your own back rank has no air, so every quiet move is a move Black can use.",
+      "goal": {
+        "kind": "promote",
+        "moves": 8
+      },
+      "opponentDepth": 8,
+      "concept": "square-clearance",
+      "reason": "Bd5 is check, and only a check empties a8 fast enough. After Kh8 or Kf8 the pawn goes to a8 with check as well, so Black never gets to b1."
+    },
+    {
+      "id": "4.2-k27",
+      "type": "play_it_out",
+      "fen": "B5k1/P5pp/5n2/8/1r2p3/7p/5PPP/6K1 w - - 0 1",
+      "prompt": "Make a queen. The bishop is standing on the square you need and the rook on b4 is waiting for you to take your time.",
+      "goal": {
+        "kind": "promote",
+        "moves": 8
+      },
+      "opponentDepth": 8,
+      "concept": "square-clearance",
+      "reason": "Bd5 comes with check. The knight can take it, and that is fine: the pawn queens on a8 either way and the bishop was only being spent for a tempo."
+    },
+    {
+      "id": "4.2-k28",
+      "type": "find_the_move",
+      "fen": "rr4k1/B1p2ppp/pp6/8/8/8/PP3PPP/R2R2K1 w - - 0 1",
+      "prompt": "The bishop on a7 has two squares and both of them are guarded. Take the more expensive one.",
+      "answer": {
+        "moves": [
+          "Bxb8"
+        ]
+      },
+      "concept": "desperado",
+      "reason": "Bxb8 Rxb8 is a bishop for a rook. Bxb6 is a bishop for a pawn. The bishop dies in both lines, so the moves are four points apart."
+    },
+    {
+      "id": "4.2-k29",
+      "type": "find_the_move",
+      "fen": "N5k1/2qp1ppp/1b6/p7/8/8/PP3PPP/R2R2K1 w - - 0 1",
+      "prompt": "Your knight is stuck in the corner with two squares, and both of them are covered. Choose.",
+      "answer": {
+        "moves": [
+          "Nxc7"
+        ]
+      },
+      "concept": "desperado",
+      "reason": "Nxc7 Bxc7 is a knight for a queen. Nxb6 Qxb6 is a knight for a bishop. Nothing was going to bring that knight home."
+    },
+    {
+      "id": "4.2-k30",
+      "type": "find_the_move",
+      "fen": "r5kN/5r1p/6p1/8/8/8/PP3PPP/R3R1K1 w - - 0 1",
+      "prompt": "Corner knight, two squares, both guarded. Which one pays best?",
+      "answer": {
+        "moves": [
+          "Nxf7"
+        ]
+      },
+      "concept": "desperado",
+      "reason": "Nxf7 Kxf7 wins a rook for the knight and drags the king out. Nxg6 hxg6 wins a pawn for it."
+    },
+    {
+      "id": "4.2-k31",
+      "type": "find_the_sequence",
+      "fen": "rr4k1/B1p2ppp/pp6/8/8/7P/PP3PPP/R2R2K1 w - - 0 1",
+      "prompt": "Play it out: spend the bishop on the more expensive of its two squares, let Black take back, then put a rook on the seventh.",
+      "answer": {
+        "line": [
+          "Bxb8",
+          "Rxb8",
+          "Rd7"
+        ]
+      },
+      "concept": "desperado",
+      "reason": "Bxb8 Rxb8 is a bishop for a rook, and Rd7 takes the seventh rank while Black's remaining rook is still sorting itself out on b8."
+    },
+    {
+      "id": "4.2-k32",
+      "type": "which_square",
+      "fen": "rr4k1/B1p2ppp/1p6/p7/8/8/PP3PPP/3R1RK1 w - - 0 1",
+      "prompt": "The bishop on a7 cannot be saved. Tap the square it should die on.",
+      "answer": {
+        "square": "b8"
+      },
+      "concept": "desperado",
+      "reason": "b8 holds a rook and b6 holds a pawn, and both captures are answered. The bishop is spent either way, so take the rook."
+    },
+    {
+      "id": "4.2-k33",
+      "type": "find_them_all",
+      "fen": "N5k1/2qp1ppp/pb6/8/8/7P/PP3PPP/R2R2K1 w - - 0 1",
+      "prompt": "Tap every square the white knight on a8 is able to move to.",
+      "answer": {
+        "squares": [
+          "c7",
+          "b6"
+        ]
+      },
+      "concept": "desperado",
+      "reason": "A knight in the corner has two squares, and here both of them hold a black piece and both captures are answered. That is what makes the choice a price list."
+    },
+    {
+      "id": "4.2-k34",
+      "type": "find_them_all",
+      "fen": "rr4k1/B1p2ppp/1p6/p7/8/8/PP3PPP/R3R1K1 w - - 0 1",
+      "prompt": "Tap every square the white bishop on a7 is able to move to.",
+      "answer": {
+        "squares": [
+          "b8",
+          "b6"
+        ]
+      },
+      "concept": "desperado",
+      "reason": "A bishop on the edge has one diagonal, and from a7 that is b8 and b6. Both are occupied and both are defended, so the bishop is not coming back."
+    },
+    {
+      "id": "4.2-k35",
+      "type": "is_it_safe",
+      "fen": "rr4k1/B1p2ppp/1p6/p7/8/7P/PP3PPP/R2R2K1 w - - 0 1",
+      "move": "Bxb6",
+      "prompt": "The bishop takes the pawn on b6. Is it safe there?",
+      "reasons": [
+        "Yes. The rook on b8 is tied to the back rank and the c7 pawn cannot move backwards.",
+        "No. The king walks over and takes it.",
+        "No. The rook on b8 comes down the b-file, and the pawn on c7 can take it as well."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "desperado",
+      "reason": "Rxb6 and cxb6 are both legal. The bishop was always going to be taken; the mistake is being taken for one point when a rook was on offer."
+    },
+    {
+      "id": "4.2-k36",
+      "type": "name_the_pattern",
+      "fen": "rq4k1/B1p2ppp/1p6/8/8/8/PP3PPP/3R1RK1 w - - 0 1",
+      "prompt": "The bishop on a7 is attacked by the rook and by the queen. What is the right way to think about it?",
+      "options": [
+        "It should retreat along the diagonal to a safe square and wait for a better moment.",
+        "It cannot be saved, so the only question is which of its two squares costs Black more.",
+        "It should stay where it is, because moving it would let the queen into White's position."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "desperado",
+      "reason": "From a7 the bishop's only squares are b8 and b6, and both are guarded, so there is no retreat to choose. Bxb8 takes a queen; Bxb6 takes a pawn."
+    }
+  ]
+}

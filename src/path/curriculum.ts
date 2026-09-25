@@ -402,7 +402,7 @@ export const SECTION_4: SectionDef = {
     {
       id: '4.1',
       title: 'Deflection and decoy',
-      built: false,
+      built: true,
       lessons: [
         { id: '4.1.1', title: 'Deflection in depth' },
         { id: '4.1.2', title: 'Decoy and attraction' },
@@ -412,7 +412,7 @@ export const SECTION_4: SectionDef = {
     {
       id: '4.2',
       title: 'Interference, clearance and desperado',
-      built: false,
+      built: true,
       lessons: [
         { id: '4.2.1', title: 'Interference' },
         { id: '4.2.2', title: 'Line and square clearance' },

@@ -1,0 +1,521 @@
+{
+  "unit": "4.7",
+  "title": "Bishops, knights and the isolated pawn",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "4.7-k01",
+      "type": "find_them_all",
+      "fen": "r4rk1/pp3ppp/2n2n2/8/8/3B4/PB3PPP/R4RK1 w - - 0 1",
+      "prompt": "Black's two knights have thirteen moves between them. Tap every square they can reach that one of White's bishops already covers.",
+      "answer": {
+        "squares": [
+          "d4",
+          "e4",
+          "e5"
+        ]
+      },
+      "concept": "bishop-pair",
+      "reason": "d4 and e5 from the knight on c6, both covered by the bishop on b2, and e4 from the knight on f6, covered by the bishop on d3. A knight on a light square lands only on dark ones and a knight on a dark square only on light, so between them the two bishops always get a vote."
+    },
+    {
+      "id": "4.7-k02",
+      "type": "name_the_pattern",
+      "fen": "r4rk1/pp3ppp/2n2n2/8/8/3B4/PB3PPP/R4RK1 w - - 0 1",
+      "prompt": "Two bishops against two knights, and nothing in the centre. What is White's plan?",
+      "options": [
+        "Trade one bishop for a knight quickly, before the knights find squares.",
+        "Keep both bishops and open the position further, so the knights have no square that neither bishop covers.",
+        "Close the position with pawns in the centre, which is where bishops are strongest."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "bishop-pair",
+      "reason": "Open the position and keep the pair. The advantage is the two of them together, so trading either one throws all of it away, and closing the centre is the one thing that would make the knights better than the bishops."
+    },
+    {
+      "id": "4.7-k03",
+      "type": "find_the_move",
+      "fen": "2br3r/6kp/6p1/5p2/8/3B4/P1P2PPP/2B2RK1 w - - 0 1",
+      "prompt": "The king on g7 and the rook on h8 are on one diagonal, and the f-pawn is past f6. Find the check.",
+      "answer": {
+        "moves": [
+          "Bb2+"
+        ]
+      },
+      "concept": "bishop-pair",
+      "reason": "Bb2 is check and the rook on h8 is behind the king. Rd4 is the only block and nothing defends d4, so the rook goes either way."
+    },
+    {
+      "id": "4.7-k04",
+      "type": "which_square",
+      "fen": "3r3r/2b3kp/6p1/5p2/8/3B4/P1P2PPP/2BR2K1 w - - 0 1",
+      "prompt": "The bishop on c1 has seven moves. Tap the one square that puts it on the diagonal the king and the rook are sharing.",
+      "answer": {
+        "square": "b2"
+      },
+      "concept": "bishop-pair",
+      "reason": "b2. The other six -- a3, d2, e3, f4, g5 and h6 -- are on the bishop's other two diagonals and none of them touches the line from a1 to h8."
+    },
+    {
+      "id": "4.7-k05",
+      "type": "find_the_sequence",
+      "fen": "3r3r/2b3kp/6p1/5p2/8/3B4/P1P2PPP/2BR2K1 w - - 0 1",
+      "prompt": "Check on the long diagonal, take the rook the king was covering, and let him take back.",
+      "answer": {
+        "line": [
+          "Bb2+",
+          "Kg8",
+          "Bxh8",
+          "Kxh8"
+        ]
+      },
+      "concept": "bishop-pair",
+      "reason": "Bb2+ Kg8 Bxh8 Kxh8 wins the exchange. Black can also block with Be5 or Rd4, and both of those simply hand over a piece instead."
+    },
+    {
+      "id": "4.7-k06",
+      "type": "is_it_safe",
+      "fen": "2br3r/6kp/6p1/5p2/8/3B4/P1P2PPP/2B2RK1 w - - 0 1",
+      "move": "Bh6+",
+      "prompt": "White checks with Bh6 instead. Is the bishop safe there?",
+      "reasons": [
+        "Yes. The king is not allowed to take a checking piece.",
+        "No. Kxh6, and no white piece covers h6.",
+        "No. The pawn on g6 captures it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "bishop-pair",
+      "reason": "Kxh6 is legal and it is what Black plays. h6 is covered by nothing of White's, and the pawn on g6 captures on f5 and h5 only. A king may always take a checking piece that is not defended."
+    },
+    {
+      "id": "4.7-k07",
+      "type": "which_square",
+      "fen": "rnbq1rk1/pp4pp/8/3p1p2/8/5NP1/PP2PPBP/R2Q1RK1 w - - 0 1",
+      "prompt": "Tap the square the knight on f3 wants, where no black pawn will ever be able to attack it.",
+      "answer": {
+        "square": "e5"
+      },
+      "concept": "outpost",
+      "reason": "e5. Only a black d-pawn on d6 or a black f-pawn on f6 could ever cover it, and Black's are on d5 and f5. They have both gone past, and pawns do not come back."
+    },
+    {
+      "id": "4.7-k08",
+      "type": "is_it_safe",
+      "fen": "rnbq1rk1/pp4pp/8/3p1p2/8/5NP1/PP2PPBP/R2Q1RK1 w - - 0 1",
+      "move": "Ne5",
+      "prompt": "White plays Ne5, and nothing of his defends the square. Is the knight safe there?",
+      "reasons": [
+        "Yes. Nothing of Black's attacks e5, and being undefended does not matter when nothing can take it.",
+        "No. An undefended knight in the middle of the board is always loose.",
+        "No. The pawn on d5 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "outpost",
+      "reason": "Not one black man attacks e5. The pawn on d5 captures on c4 and e4, the pawn on f5 on e4 and g4, the knight on b8 reaches a6, c6 and d7, and the bishop on c8 runs into its own pawn on f5. Defence is only needed where there is an attacker."
+    },
+    {
+      "id": "4.7-k09",
+      "type": "find_the_move",
+      "fen": "r3k3/1p3ppp/8/3N4/4P3/8/5PPP/6K1 w - - 0 1",
+      "prompt": "The knight sits where no pawn can ever chase it, but sitting still is not the point. Find the jump that does two things at once.",
+      "answer": {
+        "moves": [
+          "Nc7+"
+        ]
+      },
+      "concept": "outpost",
+      "reason": "Nc7 is check and hits a8 in the same move. The king has Kd7, Kd8, Ke7 and Kf8, and none of the four defends the rook."
+    },
+    {
+      "id": "4.7-k10",
+      "type": "find_them_all",
+      "fen": "rnbq1rk1/pp4pp/8/3p1p2/8/5NP1/PP2PPBP/R2Q1RK1 w - - 0 1",
+      "prompt": "Tap the two black pawns whose advance is the reason e5 is a hole.",
+      "answer": {
+        "pieces": [
+          "d5",
+          "f5"
+        ]
+      },
+      "concept": "outpost",
+      "reason": "d5 and f5. The only pawns that could ever have covered e5 were these two, from d6 and f6, and both are past it. Every pawn you push gives away the two squares behind it on the files either side."
+    },
+    {
+      "id": "4.7-k11",
+      "type": "name_the_pattern",
+      "fen": "r3k3/1p3ppp/8/3N4/4P3/8/5PPP/6K1 w - - 0 1",
+      "prompt": "The knight has sat on d5 for ten moves. Why is it leaving now?",
+      "options": [
+        "Because a knight on the fifth rank is always better on the sixth.",
+        "Because it was about to be driven off by a pawn.",
+        "Because from c7 it hits the king and the rook at once, and an outpost is worth keeping only until it pays."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "outpost",
+      "reason": "It cashes in. A square no pawn can attack is worth holding while nothing better exists, but the point of standing deep in his position was always to reach a square like c7 from it."
+    },
+    {
+      "id": "4.7-k12",
+      "type": "which_square",
+      "fen": "r3k3/1p3ppp/8/3N4/4P3/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Tap the square the knight jumps to. It must hit the king and the rook on a8 from the same square.",
+      "answer": {
+        "square": "c7"
+      },
+      "concept": "outpost",
+      "reason": "c7. From d5 the knight can reach b4, b6, c3, c7, e3, e7, f4 and f6, and c7 is the only one that touches e8 and a8 together."
+    },
+    {
+      "id": "4.7-k13",
+      "type": "find_the_move",
+      "fen": "7k/pp3ppp/2n1b3/8/3P4/8/PP3PPP/3R2K1 w - - 0 1",
+      "prompt": "The isolated pawn is a target for the whole endgame if it stays put. Push it, and see what it hits.",
+      "answer": {
+        "moves": [
+          "d5"
+        ]
+      },
+      "concept": "isolated-queens-pawn",
+      "reason": "d5 attacks the knight on c6 and the bishop on e6 at once. Only the bishop can capture, and Rxd5 wins a piece for a pawn."
+    },
+    {
+      "id": "4.7-k14",
+      "type": "find_them_all",
+      "fen": "7k/pp3ppp/2n1b3/8/3P4/8/PP3PPP/3R2K1 w - - 0 1",
+      "prompt": "Tap the two black pieces that a single pawn move will attack at the same time.",
+      "answer": {
+        "pieces": [
+          "c6",
+          "e6"
+        ]
+      },
+      "concept": "isolated-queens-pawn",
+      "reason": "The knight on c6 and the bishop on e6. A pawn arriving on d5 captures on exactly those two squares, and the knight cannot take it back because d5 is not a knight's move from c6."
+    },
+    {
+      "id": "4.7-k15",
+      "type": "name_the_pattern",
+      "fen": "r1bq1rk1/pp3ppp/2n2n2/3p4/8/2N2NP1/PP2PPBP/R2Q1RK1 w - - 0 1",
+      "prompt": "The isolated pawn here is Black's, on d5. What does that tell each side to do?",
+      "options": [
+        "Black attacks while the pieces are on, White trades a pair and wins the pawn in an endgame.",
+        "White attacks while the pieces are on, Black trades a pair and wins the pawn in an endgame.",
+        "Neither side should change plan. An isolated pawn is just one pawn among several."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "isolated-queens-pawn",
+      "reason": "The owner of the isolani attacks; the side facing it trades. Here the pawn is Black's, so it is Black who needs pieces on the board and White who wants them off. Naming whose pawn it is comes before naming the plan."
+    },
+    {
+      "id": "4.7-k16",
+      "type": "which_square",
+      "fen": "7k/pp3ppp/2n1b3/8/3P4/8/PP3PPP/3R2K1 w - - 0 1",
+      "prompt": "Tap the black piece that the pawn push will attack and that cannot capture the pawn back.",
+      "answer": {
+        "square": "c6"
+      },
+      "concept": "isolated-queens-pawn",
+      "reason": "The knight on c6. From c6 a knight reaches a5, a7, b4, b8, d4, d8, e5 and e7, and d5 is not on that list. The bishop on e6 can take the pawn; the knight simply has to move."
+    },
+    {
+      "id": "4.7-k17",
+      "type": "is_it_safe",
+      "fen": "7k/pp3ppp/2n1b3/8/3P4/8/PP3PPP/3R2K1 w - - 0 1",
+      "move": "d5",
+      "prompt": "The bishop on e6 can capture on d5. Is the pawn safe there?",
+      "reasons": [
+        "No. Bxd5 simply wins a pawn.",
+        "No. The knight on c6 takes it.",
+        "Yes. Bxd5 is answered by Rxd5, and White has given a pawn for a bishop."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 2
+      },
+      "concept": "isolated-queens-pawn",
+      "reason": "The rook on d1 has been looking down the file through its own pawn the whole time, and the moment the pawn steps to d5 the rook is defending it. Bxd5 Rxd5 is a bishop for a pawn, and the knight on c6 never reached d5 at all."
+    },
+    {
+      "id": "4.7-k18",
+      "type": "which_square",
+      "fen": "r1bq1rk1/pp3ppp/2n2n2/3p4/8/2N2NP1/PP2PPBP/R2Q1RK1 w - - 0 1",
+      "prompt": "Tap the square White wants a piece on, the one no black pawn will ever be able to attack.",
+      "answer": {
+        "square": "d4"
+      },
+      "concept": "blockade",
+      "reason": "d4, directly in front of Black's isolani. Only a black c-pawn on c5 or e-pawn on e5 could attack it, and Black has neither pawn left. A piece there stops the pawn and cannot be asked to move by a pawn."
+    },
+    {
+      "id": "4.7-k19",
+      "type": "find_them_all",
+      "fen": "r1bq1rk1/pp3ppp/2n2n2/3p4/8/2N2NP1/PP2PPBP/R2Q1RK1 w - - 0 1",
+      "prompt": "Tap every white man that can move to d4 right now, the square in front of the lone pawn.",
+      "answer": {
+        "pieces": [
+          "d1",
+          "f3"
+        ]
+      },
+      "concept": "blockade",
+      "reason": "The queen on d1, down a clear file, and the knight on f3. The knight on c3 cannot reach d4 -- from c3 it goes to a4, b5, d5, e4 and b1 -- and neither bishop is on the right colour and line."
+    },
+    {
+      "id": "4.7-k20",
+      "type": "name_the_pattern",
+      "fen": "r1bq1rk1/pp3ppp/2n2n2/3p4/8/2N2NP1/PP2PPBP/R2Q1RK1 w - - 0 1",
+      "prompt": "Two white men can reach d4. Which one should sit there, and why?",
+      "options": [
+        "The queen. It is the strongest piece, so it holds the square most firmly.",
+        "The knight. A blockader stops playing chess while it stands there, so it should be the cheapest piece that does the job -- and here the knight on c6 attacks d4, which a queen cannot sit under.",
+        "Neither. Blockading with a piece wastes it; White should attack the pawn instead."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "blockade",
+      "reason": "The knight. Nd4 is met by Nxd4 Qxd4, a straight trade, while Qd4 is met by Nxd4 and White has given a queen for a knight. A blockader has to be able to be attacked without embarrassment, and that is the cheapest piece, not the strongest."
+    },
+    {
+      "id": "4.7-k21",
+      "type": "is_it_safe",
+      "fen": "r1bq1rk1/pp3ppp/2n2n2/3p4/8/2N2NP1/PP2PPBP/R2Q1RK1 w - - 0 1",
+      "move": "Qd4",
+      "prompt": "White parks the queen in front of the lone pawn on d4. Is she safe there?",
+      "reasons": [
+        "No. The knight on c6 takes her, and a knight for a queen is a disaster whatever recaptures.",
+        "Yes. The knight on f3 defends d4, so anything that takes is taken back.",
+        "No. The pawn on d5 takes her."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "blockade",
+      "reason": "Nxd4 wins the queen. It is true that Nf3 recaptures, and that is exactly the trap: being defended saves a knight and does nothing at all for a queen. The pawn on d5 captures on c4 and e4, not d4."
+    },
+    {
+      "id": "4.7-k22",
+      "type": "name_the_pattern",
+      "fen": "7k/pp3ppp/2n1b3/8/3P4/8/PP3PPP/3R2K1 w - - 0 1",
+      "prompt": "Black's knight and bishop are about to be forked by one pawn move. Where did Black go wrong?",
+      "options": [
+        "He left the knight on c6, where it was always going to be hit.",
+        "He put the bishop on e6 instead of somewhere safer.",
+        "He never put a piece on d5. A blockader in front of the pawn stops the push before it starts."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "blockade",
+      "reason": "Neither piece is badly placed on its own; the problem is that the square in front of the isolani is empty. Occupy d5 and the pawn cannot move at all, and an isolated pawn that cannot move is only a weakness."
+    },
+    {
+      "id": "4.7-k23",
+      "type": "find_them_all",
+      "fen": "1k6/ppp2pp1/8/8/8/8/PP3PPP/1K6 w - - 0 1",
+      "prompt": "Tap every white pawn that belongs to White's majority.",
+      "answer": {
+        "squares": [
+          "f2",
+          "g2",
+          "h2"
+        ]
+      },
+      "concept": "pawn-majority",
+      "reason": "f2, g2 and h2 -- three against Black's two on f7 and g7. On the other wing it is the other way round: Black's a7, b7 and c7 outnumber White's a2 and b2."
+    },
+    {
+      "id": "4.7-k24",
+      "type": "name_the_pattern",
+      "fen": "1k6/ppp2pp1/8/8/8/8/PP3PPP/1K6 w - - 0 1",
+      "prompt": "Both kings are on the b-file. Both sides have a three against two. Whose majority is worth more?",
+      "options": [
+        "Black's. His majority is right beside both kings, so his king can escort the pawn in.",
+        "Neither. The two majorities are the same size, so they cancel.",
+        "White's. It is the outside majority: his passer appears on the h-file, and the black king has to leave the queenside to deal with it."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "pawn-majority",
+      "reason": "White's is the outside majority. A passed pawn far from the kings drags the enemy king away from everything else, and the moment it goes, White's king walks into the queenside. Distance from the kings is what decides between two majorities of the same size."
+    },
+    {
+      "id": "4.7-k25",
+      "type": "which_square",
+      "fen": "8/6pp/8/8/5PPP/8/8/k5K1 w - - 0 1",
+      "prompt": "Three against two. Tap the pawn that goes first.",
+      "answer": {
+        "square": "f4"
+      },
+      "concept": "pawn-majority",
+      "reason": "f4. It is the only one of the three with nothing on its file, so it is the only one that can become the passer. Push g4 or h4 first and Black answers on that file, and the majority never produces anything."
+    },
+    {
+      "id": "4.7-k26",
+      "type": "find_them_all",
+      "fen": "8/6pp/8/8/5PPP/8/8/k5K1 w - - 0 1",
+      "prompt": "Tap every pawn in White's majority.",
+      "answer": {
+        "squares": [
+          "f4",
+          "g4",
+          "h4"
+        ]
+      },
+      "concept": "pawn-majority",
+      "reason": "All three of them: f4, g4 and h4 against g7 and h7. A majority is counted by wing and not by file, and the extra pawn is the whole reason a passer can be made here without giving anything up."
+    },
+    {
+      "id": "4.7-k27",
+      "type": "which_square",
+      "fen": "1k6/ppp2pp1/8/8/8/8/PP3PPP/1K6 w - - 0 1",
+      "prompt": "White starts his kingside majority rolling. Tap the pawn he pushes first.",
+      "answer": {
+        "square": "h2"
+      },
+      "concept": "pawn-majority",
+      "reason": "h2. Black has pawns on f7 and g7 and nothing on the h-file, so the h-pawn is the candidate. Push f2 or g2 first and Black meets it on the same file; push the h-pawn and there is nothing at all to meet it."
+    },
+    {
+      "id": "4.7-k28",
+      "type": "find_the_move",
+      "fen": "8/ppp5/8/PPP4k/8/8/8/6K1 w - - 0 1",
+      "prompt": "Three against three, so no pawn has a clear file. Buy one: find the push that two of his pawns can capture.",
+      "answer": {
+        "moves": [
+          "b6"
+        ]
+      },
+      "concept": "pawn-breakthrough",
+      "reason": "b6, and only b6. Both a7 and c7 capture on it, so whichever takes, the other file opens and the pawn behind it queens. a6 or c6 first is met by bxa6 or bxc6 and there is nothing left."
+    },
+    {
+      "id": "4.7-k29",
+      "type": "find_them_all",
+      "fen": "8/ppp5/8/PPP4k/8/8/8/6K1 w - - 0 1",
+      "prompt": "Tap every black pawn that could capture on b6.",
+      "answer": {
+        "pieces": [
+          "a7",
+          "c7"
+        ]
+      },
+      "concept": "pawn-breakthrough",
+      "reason": "a7 and c7. Two of them, which is the whole test for a breakthrough square: one capturer means the pawn is simply lost, two means whichever one takes leaves its own file empty."
+    },
+    {
+      "id": "4.7-k30",
+      "type": "find_the_move",
+      "fen": "8/5ppp/8/5PPP/8/8/8/k5K1 w - - 0 1",
+      "prompt": "The same shape on the kingside, and the black king is in the far corner. Find the break.",
+      "answer": {
+        "moves": [
+          "g6"
+        ]
+      },
+      "concept": "pawn-breakthrough",
+      "reason": "g6, the middle pawn, because f7 and h7 both capture on it. hxg6 lets f6 through and fxg6 lets h6 through, and the king on a1 needs seven moves to reach either queening square."
+    },
+    {
+      "id": "4.7-k31",
+      "type": "which_square",
+      "fen": "8/5ppp/8/5PPP/8/8/8/k5K1 w - - 0 1",
+      "prompt": "Tap the square a white pawn must step on to break this structure open.",
+      "answer": {
+        "square": "g6"
+      },
+      "concept": "pawn-breakthrough",
+      "reason": "g6. Work backwards from each of f6, g6 and h6 and ask how many black pawns capture there: one on f6, one on h6, two on g6. The square two pawns cover is the square to give a pawn on."
+    },
+    {
+      "id": "4.7-k32",
+      "type": "name_the_pattern",
+      "fen": "8/ppp5/8/PPP4k/8/8/8/6K1 w - - 0 1",
+      "prompt": "Why does the breakthrough work here when the material is dead level, three pawns each?",
+      "options": [
+        "Because White is to move, and being to move is worth a pawn in any pawn ending.",
+        "Because two pawns can be given to open one file, and a pawn on an open file with the enemy king eight moves away costs more than two pawns.",
+        "Because Black's pawns are on their starting squares, and pawns on their starting squares are always weak."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "pawn-breakthrough",
+      "reason": "It is a trade, not a trick: two pawns for one queen. What decides it is the black king's distance. From h5 he needs seven moves to reach a8; the pawn on a5 needs three. Count that before you give anything up."
+    },
+    {
+      "id": "4.7-k33",
+      "type": "play_it_out",
+      "fen": "8/5ppp/8/5PPP/8/8/8/k5K1 w - - 0 1",
+      "goal": {
+        "kind": "promote",
+        "moves": 8
+      },
+      "prompt": "Make a queen. Two of your three pawns are the price.",
+      "opponentDepth": 6,
+      "concept": "passed-pawn",
+      "reason": "g6 first. After hxg6 push f6, and after fxg6 push h6; either way the surviving pawn has an empty file and the king on a1 cannot cross the board in time."
+    },
+    {
+      "id": "4.7-k34",
+      "type": "name_the_pattern",
+      "fen": "8/2p5/Ppp5/7k/8/8/8/6K1 b - - 0 3",
+      "prompt": "The breakthrough is finished and White is two pawns down. What has he actually got for them?",
+      "options": [
+        "A passed pawn on a6 with an empty file, and a black king on h5 that is seven moves from the queening square.",
+        "Nothing. He is two pawns down in a pawn ending, which is lost.",
+        "Two connected passed pawns on the queenside."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "passed-pawn",
+      "reason": "One passed pawn, and one is enough. It needs two moves to reach a8; the king on h5 needs seven to get there. Count the king's distance as the larger of the two gaps, not the sum -- seven files across and three ranks up is seven moves, not ten."
+    },
+    {
+      "id": "4.7-k35",
+      "type": "name_the_pattern",
+      "fen": "6k1/ppp5/8/8/8/1P6/PPP5/6K1 w - - 0 1",
+      "prompt": "White has four pawns on the queenside against Black's three. What can he force out of the extra pawn?",
+      "options": [
+        "Nothing. Four pawns on three files against three pawns on three files: the spare pawn adds no file, and a passer needs a file of its own.",
+        "A passed pawn, by force. Four against three always makes one if the order is right.",
+        "A passed pawn on the a-file, starting with a4 and a5."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "pawn-weakness",
+      "reason": "White's pawns stand on a, b and c, and so do Black's. The extra pawn is the second one on the b-file, and it can never do anything the pawn in front of it is not already doing. This is what doubled pawns really cost: a majority you cannot cash."
+    },
+    {
+      "id": "4.7-k36",
+      "type": "find_them_all",
+      "fen": "6k1/ppp5/8/8/8/1P6/PPP5/6K1 w - - 0 1",
+      "prompt": "Tap the two white pawns that share a file.",
+      "answer": {
+        "squares": [
+          "b2",
+          "b3"
+        ]
+      },
+      "concept": "pawn-weakness",
+      "reason": "b2 and b3. The back one can never get past the front one, so four pawns still only occupy three files. Count files before you count pawns when you are judging a majority."
+    }
+  ]
+}

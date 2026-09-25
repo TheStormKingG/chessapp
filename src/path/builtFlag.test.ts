@@ -28,6 +28,26 @@ import { hasCheckpoint, listLessons, loadLesson } from '@/lesson/loader';
 
 const units = SECTIONS.flatMap((s) => s.units);
 
+/*
+ * Guidebooks, by the unit that owns them.
+ *
+ * `curriculum.ts` states the rule in three places -- a unit stays
+ * `built: false` "until its lessons, checkpoint and guidebook are authored" --
+ * and this file originally checked only the first two. That gap showed up the
+ * moment twelve units were being authored in parallel: a unit with every lesson
+ * and a checkpoint on disk but no guidebook yet counted as finished, so the
+ * test demanded a flip for a unit whose author was still writing.
+ *
+ * Read through the same `import.meta.glob` the app uses for content, so this is
+ * the bundler's view of the tree rather than a second directory walk that could
+ * agree with the curriculum while disagreeing with the build.
+ */
+const guidebooks = new Set(
+  Object.keys(import.meta.glob('/content/section-*/unit-*/guidebook.md')).map(
+    (p) => /unit-([\d.]+)\//.exec(p)?.[1] ?? '',
+  ),
+);
+
 test('the corpus is non-empty, so neither direction below passes by matching nothing', () => {
   expect(units.length).toBe(38);
   expect(units.filter((u) => u.built).length).toBeGreaterThan(0);
@@ -43,6 +63,15 @@ test('every unit marked built has a lesson file for each declared lesson', () =>
   }
   // Named, not counted: the point of failing is to say which lesson to write.
   expect(missing).toEqual([]);
+});
+
+test('every unit marked built has a guidebook', () => {
+  // The third of the three things `curriculum.ts` says a built unit owes. It
+  // is not loaded by the app, which is exactly why nothing else would notice
+  // it missing.
+  const missing = units.filter((u) => u.built && !guidebooks.has(u.id)).map((u) => u.id);
+  expect(missing).toEqual([]);
+  expect(guidebooks.size).toBeGreaterThan(0); // the glob resolved at all
 });
 
 test('every unit marked built has a checkpoint', () => {
@@ -81,14 +110,38 @@ test('no finished unit is left switched off', () => {
    * red for the whole of every authoring pass -- which is how a test gets
    * disabled. It goes red only once the unit is actually finished, which is the
    * moment the flag is owed.
+   *
+   * ...EXCEPT when an earlier unit is not finished. `progress.test.ts` requires
+   * the built set to be a contiguous PREFIX of the path, so a unit whose
+   * predecessor is still being authored cannot be turned on without opening a
+   * gap -- the learner would walk into "content coming" and find more content
+   * behind it. Twelve units authored in parallel finish out of order routinely,
+   * so without this the two rules contradict each other and one of them has to
+   * be ignored.
+   *
+   * So the claim is "nothing that COULD be turned on is left off", which is
+   * what the rule always meant. A finished unit behind an unfinished one is not
+   * forgotten, it is waiting, and it becomes this test's business the moment
+   * its predecessor lands.
    */
+  const ids = units.map((u) => u.id);
+  const firstUnbuiltIdx = units.findIndex((u) => !u.built);
+  const blockedFrom = (id: string) => {
+    if (firstUnbuiltIdx === -1) return false;
+    const idx = ids.indexOf(id);
+    // Everything after the first unbuilt unit is blocked by it, unless that
+    // unit is itself the one we are asking about.
+    return idx > firstUnbuiltIdx;
+  };
   const finishedButOff = units
     .filter((u) => !u.built)
     .filter((u) => hasCheckpoint(u.id))
+    .filter((u) => guidebooks.has(u.id))
     .filter((u) => {
       const onDisk = new Set(listLessons(u.id));
       return u.lessons.length > 0 && u.lessons.every((l) => onDisk.has(l.id));
     })
+    .filter((u) => !blockedFrom(u.id))
     .map((u) => u.id);
   expect(finishedButOff, 'authored and still marked coming -- flip built to true').toEqual([]);
 });

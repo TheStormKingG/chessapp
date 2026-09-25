@@ -1,0 +1,154 @@
+{
+  "id": "4.5.1",
+  "unit": "4.5",
+  "title": "Combinations as chains of motifs",
+  "xp": 16,
+  "card": {
+    "idea": "A combination is never one trick. It is two or three of the motifs you already know, linked so that each move builds the position the next one needs. You do not find a combination by hunting for it. You find it by noticing the last link — the fork, the mate, the pin — and then asking what single move would make that link legal.",
+    "diagrams": [
+      "4Rrk1/5ppp/1q6/4N3/8/8/5PPP/6K1 w - - 0 1",
+      "6k1/3n1ppp/2r5/8/1B6/4R3/5PPP/6K1 w - - 0 1"
+    ],
+    "habit": "Find the last link first, then ask what move makes it possible."
+  },
+  "explain": [
+    {
+      "fen": "4Rrk1/5ppp/1q6/4N3/8/8/5PPP/6K1 w - - 0 1",
+      "text": "Black is six points up and threatens Qb1 mate, so a quiet move simply hands over the game. Rxf8 is check and Kxf8 is Black's only legal answer. The king now stands on f8, and Nd7 is check and hits the queen on b6 at the same time. Two motifs, and the first exists only to build the second.",
+      "arrows": [
+        ["e8", "f8"],
+        ["e5", "d7"],
+        ["d7", "b6"]
+      ],
+      "highlights": ["f8", "d7", "b6"]
+    },
+    {
+      "fen": "6k1/3n1ppp/2r5/8/1B6/4R3/5PPP/6K1 w - - 0 1",
+      "text": "Re8 is check, and Black has exactly one legal answer: Nf8, blocking. That is what the check was for. The knight now stands on f8, where the bishop on b4 has been looking all along, so Rxf8 is mate. Force the block, then take the blocker.",
+      "arrows": [
+        ["e3", "e8"],
+        ["d7", "f8"],
+        ["b4", "f8"]
+      ],
+      "highlights": ["e8", "f8"]
+    },
+    {
+      "fen": "6k1/5ppp/8/1R6/8/7N/1b1r1PPP/6K1 w - - 0 1",
+      "text": "Same shape, a different blocker. Rb8 is check and the rook on d2 has one answer, Rd8. Nothing black defends it there, and nothing guards the back rank either, so Rxd8 is mate. The chain is two links long every time: make them put something on the square, then take it.",
+      "arrows": [
+        ["b5", "b8"],
+        ["d2", "d8"]
+      ],
+      "highlights": ["b8", "d8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.5.1-c1",
+      "type": "which_square",
+      "fen": "4Rrk1/5ppp/1q6/4N3/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Your knight wants one square from which it would check the king and hit the queen at the same time. Tap it. The check is not available yet, and this lesson is about making it so.",
+      "answer": { "square": "d7" },
+      "concept": "combination-chain",
+      "hints": {
+        "text": "From d7 a knight reaches b6. What else does it reach from there?"
+      },
+      "reason": "A knight on d7 covers b6 and f8. The queen already stands on b6, so the whole combination is a way of putting the black king on f8."
+    },
+    {
+      "id": "4.5.1-c2",
+      "type": "find_the_move",
+      "fen": "4Rrk1/5ppp/1q6/4N3/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "You want the black king on f8 so your knight can check from d7. One move puts it there and Black gets no say in it.",
+      "answer": { "moves": ["Rxf8+"] },
+      "wrong": {
+        "Nd7": "The fork is real and it does not matter. Black plays Qb1, your only legal answer is Re1, and Qxe1 is mate. A threat is no use against someone holding a faster one.",
+        "Nxf7": "You won a pawn and handed Black the move. Qb1 is check, Re1 is your only answer, and Qxe1 is mate."
+      },
+      "concept": "combination-chain",
+      "hints": {
+        "piece": "e8",
+        "square": "f8"
+      },
+      "reason": "Rxf8 is check and Kxf8 is the only legal reply, so the king is forced onto the square the knight needs. Nd7 is then check and collects the queen next move."
+    },
+    {
+      "id": "4.5.1-c3",
+      "type": "name_the_pattern",
+      "fen": "4Rrk1/5ppp/1q6/4N3/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Nd7 already attacks the rook on f8 and the queen on b6. Why is playing it straight away not the answer?",
+      "options": [
+        "Black never has to answer it: Qb1 is check, Re1 is your only block, and Qxe1 is mate.",
+        "The knight on d7 can be captured, so the fork never happens.",
+        "The queen on b6 already guards d7, so a knight may not go there."
+      ],
+      "answer": { "option": 0 },
+      "concept": "combination-chain",
+      "hints": {
+        "text": "Before you count what your move wins, count what Black's answer wins."
+      },
+      "reason": "Nothing black can capture on d7, so the knight really is safe there. It makes no difference. A fork only forks when the opponent has to stand still, and here Black has a mate in two."
+    },
+    {
+      "id": "4.5.1-c4",
+      "type": "find_the_sequence",
+      "fen": "4Rrk1/5ppp/1q6/4N3/8/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Play the chain out: force the king onto f8, check it from d7, and collect.",
+      "answer": { "line": ["Rxf8+", "Kxf8", "Nd7+", "Kg8", "Nxb6"] },
+      "concept": "combination-chain",
+      "hints": {
+        "piece": "e8",
+        "square": "f8"
+      },
+      "reason": "Kxf8 is forced. At the second check the king has three squares, g8, e7 and e8, and Nxb6 answers all three, because none of them defends the queen."
+    },
+    {
+      "id": "4.5.1-c5",
+      "type": "find_the_move",
+      "fen": "6k1/3n1ppp/2r5/8/1B6/4R3/5PPP/6K1 w - - 0 1",
+      "prompt": "The bishop on b4 has been staring at f8 all game and nothing is standing there. Make Black put something on it.",
+      "answer": { "moves": ["Re8+"] },
+      "wrong": {
+        "Re7": "You attack the knight and Black counter-attacks. Rc1 is check, the only blocks are Be1 and Re1, and either one undoes the idea. The mate is gone and the game is level.",
+        "Rd3": "Black takes over: Rc1 is check, Rd1 blocks, and Rxd1, Be1, Rxe1 is mate on your own back rank."
+      },
+      "concept": "combination-chain",
+      "hints": {
+        "piece": "e3",
+        "square": "e8"
+      },
+      "reason": "Re8 is check and Nf8 is Black's only legal move. The knight blocks on the one square the bishop covers, so Rxf8 is mate instead of a giveaway."
+    },
+    {
+      "id": "4.5.1-c6",
+      "type": "find_them_all",
+      "fen": "6k1/3n1ppp/2r5/8/1B6/4R3/5PPP/6K1 w - - 0 1",
+      "prompt": "Tap every white piece the mate needs. One of them never moves at all.",
+      "answer": { "pieces": ["e3", "b4"] },
+      "concept": "combination-chain",
+      "hints": {
+        "text": "One piece plays both moves. The other decides whether the second move is mate or a giveaway."
+      },
+      "reason": "The rook on e3 plays both moves. The bishop on b4 covers f8 and never moves, and without it Rxf8 is simply answered by Kxf8."
+    },
+    {
+      "id": "4.5.1-c7",
+      "type": "is_it_safe",
+      "fen": "6k1/3n1ppp/2r5/8/1B6/4R3/5PPP/6K1 w - - 0 1",
+      "move": "Re8+",
+      "prompt": "The rook lands on e8, two squares from the black king and deep in Black's half. Before you play it, is it safe there?",
+      "reasons": [
+        "No. The knight on d7 covers e8.",
+        "No. The rook on c6 takes it.",
+        "Yes. Nothing black attacks e8, and the king on g8 is one square too far away to reach it."
+      ],
+      "answer": { "safe": true, "reason": 2 },
+      "concept": "combination-chain",
+      "hints": {
+        "text": "Go through Black's pieces one at a time and ask each whether it reaches e8."
+      },
+      "reason": "A knight on d7 covers b6, b8, c5, e5, f6 and f8, but not e8. The rook on c6 has the c-file and the sixth rank. The king reaches f8 and h8, not e8."
+    }
+  ],
+  "takeaway": "Find the last link first. The combination is then just the short list of moves that make that link legal, and they are almost always checks and captures."
+}

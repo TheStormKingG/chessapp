@@ -1,0 +1,225 @@
+{
+  "id": "4.2.3",
+  "unit": "4.2",
+  "title": "Desperado",
+  "xp": 16,
+  "card": {
+    "idea": "Some pieces are already gone. A bishop with two squares and both of them guarded is not a piece you have any more, it is a piece you get to spend. So stop asking how to save it and ask what it can take on the way out. The loss is the same in every line, so the only thing left to compare is the size of what it eats.",
+    "diagrams": [
+      "rq4k1/B1p2ppp/1p6/8/8/8/PP3PPP/R2R2K1 w - - 0 1",
+      "r5kN/5r1p/6p1/8/8/8/PP3PPP/R2R2K1 w - - 0 1"
+    ],
+    "habit": "If it cannot be saved, sell it for the most you can get."
+  },
+  "explain": [
+    {
+      "fen": "rq4k1/B1p2ppp/1p6/8/8/8/PP3PPP/R2R2K1 w - - 0 1",
+      "text": "Count the bishop's squares. From a7 a bishop reaches b8 and b6 and nothing else, because a7 is on the edge. The rook on a8 and the queen on b8 both attack it and White defends it with nothing. Wherever it goes and wherever it stays, it is lost.",
+      "arrows": [
+        [
+          "a7",
+          "b8"
+        ],
+        [
+          "a7",
+          "b6"
+        ],
+        [
+          "a8",
+          "a7"
+        ]
+      ],
+      "highlights": [
+        "a7",
+        "b8",
+        "b6"
+      ]
+    },
+    {
+      "fen": "rq4k1/B1p2ppp/1p6/8/8/8/PP3PPP/R2R2K1 w - - 0 1",
+      "text": "So compare the two sales, not the two escapes. Bxb6 takes a pawn and Black recaptures with the queen or the c7 pawn. Bxb8 takes the queen and Rxb8 is the only recapture. Same bishop gone in both, and one of them brings a queen back with it.",
+      "arrows": [
+        [
+          "a7",
+          "b8"
+        ]
+      ],
+      "highlights": [
+        "b8"
+      ]
+    },
+    {
+      "fen": "r5kN/5r1p/6p1/8/8/8/PP3PPP/R2R2K1 w - - 0 1",
+      "text": "The same arithmetic with a knight in the corner. From h8 it reaches f7 and g6, and both are covered. Nxg6 takes a pawn and hxg6 answers. Nxf7 takes a rook and Kxf7 answers. A knight for a pawn is a disaster; a knight for a rook is a good day.",
+      "arrows": [
+        [
+          "h8",
+          "f7"
+        ],
+        [
+          "h8",
+          "g6"
+        ]
+      ],
+      "highlights": [
+        "f7",
+        "g6"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.2.3-c1",
+      "type": "find_them_all",
+      "fen": "rq4k1/B1p2ppp/1p6/8/8/8/PP3PPP/R2R2K1 w - - 0 1",
+      "prompt": "Tap every square the white bishop on a7 is able to move to.",
+      "answer": {
+        "squares": [
+          "b8",
+          "b6"
+        ]
+      },
+      "concept": "desperado",
+      "hints": {
+        "text": "A bishop on the edge of the board only has one diagonal to work with."
+      },
+      "reason": "b8 and b6, and that is the whole list. Both are occupied by black men, so both of the bishop's moves are captures and both of them are answered."
+    },
+    {
+      "id": "4.2.3-c2",
+      "type": "is_it_safe",
+      "fen": "rq4k1/B1p2ppp/1p6/8/8/8/PP3PPP/R2R2K1 w - - 0 1",
+      "move": "Bxb6",
+      "prompt": "The bishop takes the pawn on b6. Is it safe there?",
+      "reasons": [
+        "No. The queen on b8 or the pawn on c7 takes it straight back.",
+        "Yes. Nothing black can reach b6 once the pawn has gone.",
+        "No. The rook on a8 comes down the a-file and takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "desperado",
+      "hints": {
+        "text": "Two different black men are looking at b6. Find both."
+      },
+      "reason": "Qxb6 and cxb6 are both legal, so the bishop dies on b6 for one pawn. A rook on a8 cannot reach b6 at all. Being taken is not the mistake here — being taken cheaply is."
+    },
+    {
+      "id": "4.2.3-c3",
+      "type": "find_the_move",
+      "fen": "rq4k1/B1p2ppp/1p6/8/8/8/PP3PPP/R2R2K1 w - - 0 1",
+      "prompt": "The bishop is attacked and has two squares, both guarded. Do not try to save it. Spend it.",
+      "answer": {
+        "moves": [
+          "Bxb8"
+        ]
+      },
+      "wrong": {
+        "Bxb6": "You lose the bishop for a pawn and Black still has the queen. Same bishop, four points less.",
+        "Rd8+": "A check that goes nowhere, and while you are checking, the bishop on a7 is hanging to two pieces."
+      },
+      "concept": "desperado",
+      "hints": {
+        "piece": "a7",
+        "square": "b8"
+      },
+      "reason": "Bxb8 Rxb8 is a bishop for a queen. The bishop was already lost, so the three points it cost were never yours to spend twice."
+    },
+    {
+      "id": "4.2.3-c4",
+      "type": "name_the_pattern",
+      "fen": "rr4k1/B1p2ppp/1p6/8/8/8/PP3PPP/3R1RK1 w - - 0 1",
+      "prompt": "Same corner, and now b8 holds a rook rather than a queen. Why is giving up the bishop still the right idea?",
+      "options": [
+        "Because a bishop and a rook are worth about the same, so the trade is even either way.",
+        "Because the bishop is lost whatever White plays, so the only question left is what it takes with it.",
+        "Because taking on b8 forces Rxb8 and leaves Black's back rank open to a mate."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "desperado",
+      "hints": {
+        "text": "Work out what the bishop is worth to White before the move, not after."
+      },
+      "reason": "After Bxb8 Rxb8 Black still has a rook on b8 and no back rank problem. The whole gain is arithmetic: a doomed bishop bought a rook instead of a pawn."
+    },
+    {
+      "id": "4.2.3-c5",
+      "type": "which_square",
+      "fen": "N5k1/2qp1ppp/pb6/8/8/8/PP3PPP/R2R2K1 w - - 0 1",
+      "prompt": "The knight on a8 has exactly two squares and both are covered. Tap the one that costs Black the most.",
+      "answer": {
+        "square": "c7"
+      },
+      "concept": "desperado",
+      "hints": {
+        "text": "List the knight's two squares and then read what is standing on each of them."
+      },
+      "reason": "b6 holds a bishop and c7 holds the queen. Both captures are answered, so the only difference between them is what Black loses."
+    },
+    {
+      "id": "4.2.3-c6",
+      "type": "find_the_move",
+      "fen": "N5k1/2qp1ppp/pb6/8/8/8/PP3PPP/R2R2K1 w - - 0 1",
+      "prompt": "Your knight went hunting and cannot get home. Take the biggest thing it can reach.",
+      "answer": {
+        "moves": [
+          "Nxc7"
+        ]
+      },
+      "wrong": {
+        "Nxb6": "Qxb6, and the knight has gone for a bishop. It could have gone for the queen.",
+        "Rxd7": "The pawn is not the problem. Qxd7 and now the knight on a8 is still stranded with nothing to take."
+      },
+      "concept": "desperado",
+      "hints": {
+        "piece": "a8",
+        "square": "c7"
+      },
+      "reason": "Nxc7 Bxc7 is a knight for a queen. Nothing was going to rescue that knight, so the three points were already spent before the move began."
+    },
+    {
+      "id": "4.2.3-c7",
+      "type": "find_the_move",
+      "fen": "r5kN/5r1p/6p1/8/8/8/PP3PPP/R2R2K1 w - - 0 1",
+      "prompt": "Corner knight, two squares, both guarded. Which one is worth taking?",
+      "answer": {
+        "moves": [
+          "Nxf7"
+        ]
+      },
+      "wrong": {
+        "Nxg6": "hxg6 and you have traded a knight for a pawn. The rook on f7 was standing right there."
+      },
+      "concept": "desperado",
+      "hints": {
+        "piece": "h8",
+        "square": "f7"
+      },
+      "reason": "Nxf7 Kxf7 is a knight for a rook. Nxg6 hxg6 is a knight for a pawn. The knight dies in both lines, so the two moves are four points apart and nothing else."
+    },
+    {
+      "id": "4.2.3-c8",
+      "type": "find_the_sequence",
+      "fen": "r5kN/5r1p/6p1/8/8/8/PP3PPP/R2R2K1 w - - 0 1",
+      "prompt": "Play it out: sell the knight for the rook, let the king take back, then come to the seventh with check.",
+      "answer": {
+        "line": [
+          "Nxf7",
+          "Kxf7",
+          "Rd7+"
+        ]
+      },
+      "concept": "desperado",
+      "hints": {
+        "piece": "h8",
+        "square": "f7"
+      },
+      "reason": "Kxf7 is Black's only way of taking back, and it drags the king out. Rd7 is then check, and the king has five squares and no shelter on any of them."
+    }
+  ],
+  "takeaway": "A piece that cannot be saved has already cost you what it costs. Stop counting the loss and start counting the meal: take the most expensive thing it can reach."
+}

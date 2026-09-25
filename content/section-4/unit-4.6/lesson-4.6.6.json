@@ -1,0 +1,158 @@
+{
+  "id": "4.6.6",
+  "unit": "4.6",
+  "title": "The minority attack",
+  "xp": 16,
+  "card": {
+    "idea": "Two pawns marching at three. It looks like the wrong end of the fight, and it is not a fight about pawns at all: the point is to force a trade that leaves one of their pawns where no pawn of theirs can ever defend it. You give up your own majority on that wing and buy a target that cannot move.",
+    "diagrams": [
+      "r4rk1/ppq1bppp/2p2n2/3p4/3P4/3BPN2/PPQ2PPP/RR4K1 w - - 0 1",
+      "1rr3k1/p1q1bppp/2p2n2/3p4/3P4/3BPN2/P1Q2PPP/RR4K1 w - - 0 4"
+    ],
+    "habit": "Ask what the break leaves behind, not what it wins."
+  },
+  "explain": [
+    {
+      "fen": "r4rk1/ppq1bppp/2p2n2/3p4/3P4/3BPN2/PPQ2PPP/RR4K1 w - - 0 1",
+      "text": "This is the Carlsbad structure. On the queenside White has two pawns, a2 and b2, against three: a7, b7 and c6. Two against three sounds like the wrong end of a fight, and that is the point. White is not trying to win a pawn there. He is trying to leave Black with a bad one.",
+      "arrows": [
+        ["b2", "b4"]
+      ],
+      "highlights": ["a2", "b2", "a7", "b7", "c6"]
+    },
+    {
+      "fen": "r4rk1/ppq1bppp/2p2n2/3p4/3P4/3BPN2/PPQ2PPP/RR4K1 w - - 0 1",
+      "text": "The march is b4 and then b5, hitting c6. Right now c6 is guarded by the pawn on b7, and a pawn defender costs Black nothing. After bxc6 bxc6 that defender is gone for good: no black pawn will ever reach b7 or d7 again.",
+      "arrows": [
+        ["b2", "b5"],
+        ["b7", "c6"]
+      ],
+      "highlights": ["b5", "c6", "b7"]
+    },
+    {
+      "fen": "1rr3k1/p1q1bppp/2p2n2/3p4/3P4/3BPN2/P1Q2PPP/RR4K1 w - - 0 4",
+      "text": "Here is the payment. Black's c6 pawn stands on a file White has no pawn on and no black pawn can ever defend it again. It is not helpless yet: c5 would trade it off. So White's next job is the one from the weak-pawn lesson, which is to stop the pawn moving before piling up on it.",
+      "arrows": [
+        ["c2", "c6"],
+        ["c6", "c5"]
+      ],
+      "highlights": ["c6", "c5"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.6.6-c1",
+      "type": "find_them_all",
+      "fen": "r4rk1/ppq1bppp/2p2n2/3p4/3P4/3BPN2/PPQ2PPP/RR4K1 w - - 0 1",
+      "prompt": "On the a, b and c files White has just two pawns. Tap Black's three.",
+      "answer": { "pieces": ["a7", "b7", "c6"] },
+      "concept": "minority-attack",
+      "hints": {
+        "text": "Two of them are still on the seventh rank. One has already come forward."
+      },
+      "reason": "a7, b7 and c6 against White's a2 and b2. White is the smaller side here, and the whole plan is built on being the smaller side: three pawns cannot all stay defended by each other once they are forced to capture."
+    },
+    {
+      "id": "4.6.6-c2",
+      "type": "which_square",
+      "fen": "r4rk1/ppq1bppp/2p2n2/3p4/3P4/3BPN2/PPQ2PPP/RR4K1 w - - 0 1",
+      "prompt": "White's b-pawn is going on a march. Tap the square it has to reach for the march to mean anything.",
+      "answer": { "square": "b5" },
+      "concept": "minority-attack",
+      "hints": {
+        "text": "It has to end up where it attacks the front pawn of Black's three."
+      },
+      "reason": "b5. From b5 the pawn attacks c6, so Black must either take it, let it take, or block. b4 alone attacks nothing: it is the square after it that does the work."
+    },
+    {
+      "id": "4.6.6-c3",
+      "type": "is_it_safe",
+      "fen": "r4rk1/ppq1bppp/2p2n2/3p4/3P4/3BPN2/PPQ2PPP/RR4K1 w - - 0 1",
+      "move": "b4",
+      "prompt": "White sets off with b4. Is the pawn safe there?",
+      "reasons": [
+        "No. The bishop on e7 takes it and White has nothing that can take back on b4.",
+        "No. The pawn on c6 covers b4.",
+        "Yes. Bxb4 is possible, but Rxb4 answers it and Black has paid a bishop for a pawn."
+      ],
+      "answer": { "safe": true, "reason": 2 },
+      "concept": "minority-attack",
+      "hints": {
+        "text": "Something can take on b4. Ask what happens next before you call it unsafe."
+      },
+      "reason": "The bishop on e7 does reach b4 along the diagonal, but the rook on b1 is behind the pawn. Bxb4 Rxb4 is three points for one, so the capture is not a threat, only a look."
+    },
+    {
+      "id": "4.6.6-c4",
+      "type": "find_the_sequence",
+      "fen": "r4rk1/ppq1bppp/2p2n2/3p4/3P4/3BPN2/PPQ2PPP/RR4K1 w - - 0 1",
+      "prompt": "Run the whole plan. Push twice, then take, and let Black take back. Black shuffles his rooks while you march.",
+      "answer": { "line": ["b4", "Rfc8", "b5", "Rab8", "bxc6", "bxc6"] },
+      "concept": "minority-attack",
+      "hints": {
+        "piece": "b2",
+        "square": "c6"
+      },
+      "reason": "b4, b5, bxc6 and Black recaptures with the b-pawn. White has given his b-pawn and Black has given his, and what is left is a black pawn on c6 that no black pawn can ever guard again."
+    },
+    {
+      "id": "4.6.6-c5",
+      "type": "which_square",
+      "fen": "1rr3k1/p1q1bppp/2p2n2/3p4/3P4/3BPN2/P1Q2PPP/RR4K1 w - - 0 4",
+      "prompt": "The break has been made. Tap the black pawn that no black pawn will ever be able to defend.",
+      "answer": { "square": "c6" },
+      "concept": "minority-attack",
+      "hints": {
+        "text": "A pawn is guarded from the two files beside it, one rank behind. Which black pawn has nobody who can ever get there?"
+      },
+      "reason": "c6. A black pawn would have to stand on b7 or d7 to guard it, and Black has no b-pawn left at all while his d-pawn is already past on d5. This is the pawn the whole march was for."
+    },
+    {
+      "id": "4.6.6-c6",
+      "type": "find_them_all",
+      "fen": "1rr3k1/p1q1bppp/2p2n2/3p4/3P4/3BPN2/P1Q2PPP/RR4K1 w - - 0 4",
+      "prompt": "Only pieces can hold c6 now. Tap both black men that are lined up on the file behind it, one in front of the other.",
+      "answer": { "pieces": ["c7", "c8"] },
+      "concept": "minority-attack",
+      "hints": {
+        "text": "Read up the c-file from the pawn."
+      },
+      "reason": "The queen on c7 and the rook on c8 behind her. The queen is the one that takes back first and the rook is the one that takes after her, so White needs three attackers on c6 to win it, not two."
+    },
+    {
+      "id": "4.6.6-c7",
+      "type": "name_the_pattern",
+      "fen": "r4rk1/ppq1bppp/2p2n2/3p4/3P4/3BPN2/PPQ2PPP/RR4K1 w - - 0 1",
+      "prompt": "White is about to send two pawns against three and end up with fewer pawns on that wing. What is he buying?",
+      "options": [
+        "A pawn on c6 that no black pawn will ever be able to defend, standing on a file he has no pawn on.",
+        "A passed pawn on the a-file, because after the trades his a-pawn will be the only one left there.",
+        "An open b-file for his rooks, which is worth more than the pawn he gives up to open it."
+      ],
+      "answer": { "option": 0 },
+      "concept": "minority-attack",
+      "hints": {
+        "text": "Look at what is still standing on the queenside after the dust settles, not at what came off."
+      },
+      "reason": "The target is the point. White ends up with one pawn there against two, which is worse arithmetic, and with a pawn to attack that cannot be defended by a pawn or sensibly pushed, which is worth more."
+    },
+    {
+      "id": "4.6.6-c8",
+      "type": "name_the_pattern",
+      "fen": "r4rk1/ppq1bppp/2p2n2/3p4/3P4/3BPN2/PPQ2PPP/RR4K1 w - - 0 1",
+      "prompt": "Black can see the march coming. What is the simplest way to take the break square away from White?",
+      "options": [
+        "Trade the queens, because the march only works while there is a queen to attack c6 with.",
+        "Answer b4 with b5 of his own. The break square is then occupied by a black pawn that c6 defends.",
+        "Put both rooks on the c-file at once, since a pawn defended twice can never be won."
+      ],
+      "answer": { "option": 1 },
+      "concept": "minority-attack",
+      "hints": {
+        "text": "White needs one particular square. Can Black stand on it first?"
+      },
+      "reason": "After b4 b5 the pawn on b5 is guarded by c6 and only the bishop on d3 even looks at it, so Bxb5 cxb5 is a bishop for a pawn. White has to switch to a4 and a slower job, which is exactly what Black wanted."
+    }
+  ],
+  "takeaway": "The minority attack spends pawns to buy a target. March the b-pawn to b5, trade, and leave a pawn on c6 that no pawn can ever guard."
+}
