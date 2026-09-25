@@ -455,7 +455,7 @@ export const SECTION_4: SectionDef = {
     {
       id: '4.6',
       title: "Stean's six",
-      built: false,
+      built: true,
       lessons: [
         { id: '4.6.1', title: 'Outposts and holes' },
         { id: '4.6.2', title: 'Weak pawns' },
@@ -468,7 +468,7 @@ export const SECTION_4: SectionDef = {
     {
       id: '4.7',
       title: 'Bishops, knights and the isolated pawn',
-      built: false,
+      built: true,
       lessons: [
         { id: '4.7.1', title: 'The bishop pair in open positions' },
         { id: '4.7.2', title: 'Knight against bishop rules of thumb' },
