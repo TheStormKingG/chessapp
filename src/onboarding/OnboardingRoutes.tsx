@@ -20,6 +20,13 @@ const PlacementRoute = lazy(() =>
   import('./PlacementRoute').then((m) => ({ default: m.PlacementRoute })),
 );
 
+/**
+ * F-IM-5's fourth route. Lazy for the same reason the placement test is: it pulls
+ * in the whole import feature and the analysis service, and only a learner who
+ * answers "I play online already" ever reaches it.
+ */
+const ImportRoute = lazy(() => import('./ImportRoute').then((m) => ({ default: m.ImportRoute })));
+
 export function OnboardingRoutes() {
   return (
     <Routes>
@@ -35,6 +42,18 @@ export function OnboardingRoutes() {
              honest one is two flashes. */
           <Suspense fallback={null}>
             <PlacementRoute />
+          </Suspense>
+        }
+      />
+      {/* F-IM-5: import during onboarding. `onboardingStart` in ./route.ts sends
+          a "plays online" learner here, and this screen calls `levelDestination`
+          with the real game count to decide between carrying on and the placement
+          test. */}
+      <Route
+        path="import"
+        element={
+          <Suspense fallback={null}>
+            <ImportRoute />
           </Suspense>
         }
       />

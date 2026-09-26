@@ -15,6 +15,9 @@ function renderFlow(at: string) {
         <Route path="/onboarding/level" element={<LevelScreen />} />
         <Route path="/onboarding/goal" element={<GoalScreen />} />
         <Route path="/onboarding/placement" element={<h1>Placement test</h1>} />
+        {/* F-IM-5's fourth route. Stubbed like the others: what this file tests is
+            where the questions SEND the learner, not what the destination does. */}
+        <Route path="/onboarding/import" element={<h1>Import your games</h1>} />
         <Route path="/" element={<h1>Today</h1>} />
       </Routes>
     </MemoryRouter>,
@@ -142,11 +145,26 @@ test('"I know the rules" also goes to the assessment route, which runs the rules
   expect(screen.getByRole('heading', { name: 'Placement test' })).toBeInTheDocument();
 });
 
-test('"I play online already" takes F-ON-2’s placement fallback, because import is not built', async () => {
+/*
+ * This test previously asserted that "I play online already" landed on the
+ * placement test "because import is not built". F-IM-5 is now built, so that
+ * premise is gone and the claim it made has genuinely changed rather than merely
+ * broken: the learner reaches import first.
+ *
+ * The placement fallback it used to guard has NOT been dropped — it moved to the
+ * far side of the import, where the game count exists, and is asserted in
+ * ./importHandoff.test.tsx ("fewer than ten games takes F-ON-2 placement-test
+ * fallback"). Both halves of F-ON-2 are therefore still pinned, one at each end.
+ */
+test('"I play online already" reaches F-IM-5’s import route, not the placement test', async () => {
   useOnboarding.getState().setLevel('plays_online');
   renderFlow('/onboarding/goal');
   await userEvent.click(screen.getByRole('button', { name: 'Start learning' }));
-  expect(screen.getByRole('heading', { name: 'Placement test' })).toBeInTheDocument();
+  expect(screen.getByRole('heading', { name: 'Import your games' })).toBeInTheDocument();
+  // The positive control for the absence: the placement heading IS found by this
+  // same query for a 'casual' learner (the test above), so its absence here is the
+  // routing decision and not a query that never matches.
+  expect(screen.queryByRole('heading', { name: 'Placement test' })).toBeNull();
 });
 
 /* ------------------------------------------------------------ the way out */

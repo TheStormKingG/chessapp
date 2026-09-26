@@ -99,6 +99,29 @@ export type EventPayload =
       source: 'rated' | 'themed' | 'daily' | 'fix';
       ms: number;
     }
+  /**
+   * One completed import (PRD 8.14 F-IM-1).
+   *
+   * The games themselves live in the `imported` Dexie table, not here: a payload
+   * carrying five hundred PGNs would make every projection rebuild read
+   * megabytes, and the event log is replayed on every load. What is recorded is
+   * that an import happened, from where, and how much it brought — which is what
+   * the profile's "how many games it rests on" (F-IM-3) and the honesty
+   * requirements of F-IM-7 need.
+   *
+   * `username` is null for a pasted PGN, which has no account behind it.
+   */
+  | {
+      type: 'games_imported';
+      source: 'chess.com' | 'lichess' | 'pgn';
+      username: string | null;
+      /** How many games were stored by this import. */
+      added: number;
+      /** How many the source returned that were already held. F-IM-7's re-import. */
+      alreadyHeld: number;
+      /** How many were refused, with the reason counts folded into `skipped`. */
+      skipped: number;
+    }
   | { type: 'settings_changed'; key: string; value: string | boolean | number };
 
 export interface LearnerEvent {

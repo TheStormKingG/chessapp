@@ -7,6 +7,7 @@ import { getEngine } from '@/engine';
 import { CoachService } from '@/coach';
 import { btn } from '@/app/Button';
 import { reportError } from '@/analytics';
+import { importedSource } from '@/import/reviewSource';
 import { bandForUnit } from './bands';
 import { drillFrom } from './fixIt';
 import { positionsOf, sourceFromEvents } from './gameSource';
@@ -51,7 +52,15 @@ export function ReviewScreen() {
     let live = true;
     (async () => {
       const events = await db.events.toArray();
-      const source = sourceFromEvents(events, gameId);
+      /*
+       * F-IM-6: an imported game gets the SAME review, at the same route. The
+       * event log is asked first because an in-app game is the common case; an
+       * imported game has no `game_started` event to join, so it is resolved from
+       * the `imported` table instead. Everything below this line is unchanged and
+       * cannot tell which kind it received — that is the seam `gameSource.ts`
+       * documents, used rather than widened.
+       */
+      const source = sourceFromEvents(events, gameId) ?? (await importedSource(gameId));
       if (!source) {
         if (live) setStage('missing');
         return;

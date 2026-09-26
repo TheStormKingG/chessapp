@@ -3,6 +3,7 @@ import type { LearnerEvent } from './events';
 import type { LessonResume } from './resume';
 import type { Review } from '@/review/types';
 import type { RatingBand } from '@/puzzles/types';
+import type { CachedArchive, ImportedGameRow } from '@/import/types';
 
 export interface GameRow {
   id: string;
@@ -40,6 +41,28 @@ export class ChessDb extends Dexie {
    * losing this table costs a network round trip, never progress.
    */
   puzzles!: EntityTable<PuzzlePackRow, 'band'>;
+  /**
+   * Games imported from chess.com, Lichess or a PGN file (PRD 8.14 F-IM-1).
+   *
+   * These are NOT derived data, which is what makes this table different from
+   * `reviews` and `puzzles`: an imported game cannot be rebuilt from the event
+   * log, because the log records that an import happened and not the moves it
+   * brought. Losing this table loses the games until the learner imports again,
+   * and for a pasted PGN there may be nothing left to import from.
+   *
+   * The event log stays the source of truth for PROGRESS — every imported game
+   * that gets reviewed appends the same `game_reviewed` event an in-app game
+   * does, so the projection needs no knowledge of import at all.
+   */
+  imported!: EntityTable<ImportedGameRow, 'gameId'>;
+  /**
+   * F-IM-7: "caches monthly archives so a re-import costs nothing."
+   *
+   * Derived data — losing it costs network round trips, never games. Only
+   * COMPLETE months are safe to keep indefinitely; see `isCompleteMonth` in
+   * src/import/chesscom.ts for why the current month must never be trusted.
+   */
+  archives!: EntityTable<CachedArchive, 'url'>;
   constructor() {
     super('chessapp');
     this.version(1).stores({ events: 'id, createdAt, synced', games: 'id, startedAt' });
@@ -56,6 +79,23 @@ export class ChessDb extends Dexie {
      * rather than asserting it here in a comment.
      */
     this.version(4).stores({ puzzles: 'band, fetchedAt' });
+    /**
+     * v5 adds game import (PRD 8.14 F-IM-1 … F-IM-7).
+     *
+     * `imported` is indexed on `playedAt` and on `analysis` because F-IM-3 asks
+     * for "the ten most recent" first and then "the rest in the background",
+     * which is one descending query and one query by state. `[analysis+playedAt]`
+     * is compound so resuming on a later visit is a single index walk rather
+     * than a full-table scan the learner waits for on every open.
+     *
+     * Additive, like v4: no existing table is touched, so the upgrade cannot lose
+     * a row. dbMigration.test.ts proves that against a populated earlier
+     * database rather than asserting it here in a comment.
+     */
+    this.version(5).stores({
+      imported: 'gameId, playedAt, analysis, source, [analysis+playedAt]',
+      archives: 'url, fetchedAt, complete',
+    });
   }
 }
 

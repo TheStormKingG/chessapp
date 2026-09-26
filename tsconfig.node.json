@@ -15,6 +15,12 @@
   },
   "include": [
     "vite.config.ts",
-    "playwright.config.ts"
+    "playwright.config.ts",
+    // `playwright.config.ts` imports the suite-wide onboarding seed from here,
+    // so this project has to list it. It is also inside the root project's
+    // `tests` glob, which is what lets the vitest suite hydrate the real store
+    // from the same value; neither project emits for it (`noEmit` above there,
+    // declarations only here), so being in both costs nothing.
+    "tests/onboarded.ts"
   ]
 }

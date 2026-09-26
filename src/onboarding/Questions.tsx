@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { useNavigate } from 'react-router';
 import { btn } from '@/app/Button';
 import { CoachBubble } from '@/coach';
-import { destinationPath, levelDestination } from './route';
+import { destinationPath, onboardingStart } from './route';
 import { useOnboarding } from './store';
 import {
   GOAL_OPTIONS,
@@ -249,10 +249,17 @@ export function GoalScreen() {
         ready
         onGo={() => {
           markAnswered();
-          // Where F-ON-2 sends this learner. `levelDestination` is called with no
-          // game count, so "I play online already" takes the placement-test
-          // fallback F-ON-2 specifies; see the import seam in `route.ts`.
-          void nav(destinationPath(levelDestination(level ?? 'new')), { replace: true });
+          /*
+           * Where F-ON-2 sends this learner. F-IM-5 is now built, so
+           * "I play online already" reaches the import screen rather than falling
+           * straight through to the placement test: `onboardingStart` sends them
+           * there to produce the game count, and the import screen then calls
+           * `levelDestination` with the real number, which is what decides between
+           * import and the placement-test fallback. See the import seam in
+           * `route.ts` — that one expression is still the only place the decision
+           * is made.
+           */
+          void nav(destinationPath(onboardingStart(level ?? 'new')), { replace: true });
         }}
       />
     </Frame>

@@ -58,6 +58,29 @@ export function levelDestination(level: LearnerLevel, importableGames: number | 
   }
 }
 
+/**
+ * ─── F-IM-5, THE OTHER HALF ──────────────────────────────────────────────────
+ *
+ * Where a learner goes when they finish the questions, BEFORE any import has been
+ * attempted.
+ *
+ * `levelDestination` needs a count of importable games, and that count cannot
+ * exist yet: nobody has been asked for a username. So a learner who says they play
+ * online is sent to import to produce the count, and `levelDestination` is then
+ * called with the real one on the far side — which is exactly the contract the
+ * seam above describes, just at the only moment the number is knowable.
+ *
+ * The `'plays_online'` case is the only one that differs from `levelDestination`,
+ * and it is written as a separate function rather than as a flag on that one so
+ * that the two questions stay distinct: "where do they start" and "did import
+ * cover the assessment". `needsAssessment` keeps asking the second one, and still
+ * answers `true` for a learner who has not imported yet.
+ */
+export function onboardingStart(level: LearnerLevel): Destination {
+  if (level === 'plays_online') return { kind: 'import' };
+  return levelDestination(level);
+}
+
 /** The route a destination is reached at. */
 export function destinationPath(d: Destination): string {
   switch (d.kind) {

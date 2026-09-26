@@ -39,6 +39,17 @@ const DailyRoute = lazy(() => import('@/puzzles/PuzzleRoutes').then((m) => ({ de
 const FixRoute = lazy(() => import('@/puzzles/PuzzleRoutes').then((m) => ({ default: m.FixRoute })));
 
 /**
+ * The import feature, split out for the same reason as the solving routes (PRD 11,
+ * the 300 KiB shell budget). Both routes name the SAME module so they are one
+ * chunk: a learner who opens the list is the learner who imports.
+ *
+ * It is a browsable section rather than a modal task -- a learner reads the list,
+ * leaves, comes back -- so both sit in `ShellRoutes` below, inside the tab shell.
+ */
+const ImportScreenRoute = lazy(() => import('@/import').then((m) => ({ default: m.ImportScreen })));
+const ReviewListRoute = lazy(() => import('@/import').then((m) => ({ default: m.ReviewListScreen })));
+
+/**
  * A solving route inside its modal frame.
  *
  * The `Suspense` boundary is INSIDE `ModalTask`, never around it. That is the
@@ -208,6 +219,27 @@ function ShellRoutes() {
         <Route path="/puzzles" element={<PuzzlesHomeRoute />} />
         <Route path="/play" element={<ChooseOpponent />} />
         <Route path="/progress" element={<ProgressScreen />} />
+        {/* F-IM-1's import screen, and F-IM-6's listing. `/play/review` is the
+            list and `/play/review/:gameId` (declared above, in the modal task) is
+            one review: the list is browsable, a review is a focused task. There is
+            no Review TAB to hang the list off -- see the note at the top of
+            src/import/ReviewListScreen.tsx. */}
+        <Route
+          path="/import"
+          element={
+            <Suspense fallback={null}>
+              <ImportScreenRoute />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/play/review"
+          element={
+            <Suspense fallback={null}>
+              <ReviewListRoute />
+            </Suspense>
+          }
+        />
         <Route path="/settings" element={<SettingsScreen />} />
         <Route path="/licences" element={<LicencesScreen />} />
         <Route path="*" element={<NotFoundScreen />} />

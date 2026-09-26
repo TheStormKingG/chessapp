@@ -8,6 +8,29 @@ import { PATH_UNITS } from './placement';
 import { PLACEMENT_LADDER, RUNG_SIZE, type PlacementRung } from './placementBank';
 import { useOnboarding } from './store';
 
+/*
+ * A per-FILE timeout, raised from vitest's 5s default.
+ *
+ * These tests drive the whole twelve-question placement run through the real
+ * UI -- four rounds of three, each answered with `userEvent`, each waiting on
+ * the next round to render. On an idle machine the slowest takes 841ms. Under
+ * the load this repository routinely runs under (several Stockfish processes
+ * authoring content), the same tests were measured at 2.0-3.8s, and two of
+ * five full-suite runs failed with "Test timed out in 5000ms" -- never an
+ * assertion.
+ *
+ * Raised here rather than globally, on purpose. A global bump would hide the
+ * same signal everywhere else, and the signal is worth keeping: a test that
+ * takes seconds because it does seconds of work is different from a test that
+ * hangs. This file does the work; the rest of the suite should still be held
+ * to 5s.
+ *
+ * Identified by the import feature's author, who measured the timings, noted
+ * that their own +24% test load was exposing pre-existing headroom rather than
+ * creating a fault, and deliberately did not raise the global limit.
+ */
+vi.setConfig({ testTimeout: 20_000 });
+
 const FEN = '4k3/8/8/8/8/8/8/4K3 w - - 0 1';
 const RIGHT = 'Pin';
 const WRONG = 'Fork';
