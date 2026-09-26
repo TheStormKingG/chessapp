@@ -16,7 +16,17 @@ export type EventPayload =
       hints: number;
       misses: number;
       mastery: boolean;
-      context: 'lesson' | 'checkpoint';
+      /**
+       * Where the attempt happened. `'placement'` is the onboarding placement
+       * test and the rules check (F-ON-5): that work is real and is recorded
+       * like any other, but it is neither a lesson nor a unit's checkpoint, and
+       * filing it under either would make a learner's first twelve questions
+       * indistinguishable from a checkpoint they never took.
+       *
+       * `reduceProgress` counts every attempt whatever its context and reads
+       * this field for nothing, so widening the union changes no projection.
+       */
+      context: 'lesson' | 'checkpoint' | 'placement';
     }
   | { type: 'lesson_completed'; lessonId: string; stars: 1 | 2 | 3; xp: number; replay: boolean }
   | {

@@ -1,6 +1,13 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
+import { emptyProgress, useProgress } from '@/data';
+import { useOnboarding } from '@/onboarding/store';
 import { AppRoutes } from './routes';
+
+beforeEach(() => {
+  useOnboarding.getState().reset();
+  useProgress.setState({ progress: emptyProgress() });
+});
 
 test('an unknown route renders a not-found message with a way back', () => {
   render(
@@ -116,4 +123,65 @@ test('the review is a modal task, not a shell section', () => {
   );
   expect(screen.queryByRole('navigation', { name: 'Main' })).not.toBeInTheDocument();
   expect(document.querySelector('main')).toBeInTheDocument();
+});
+
+/*
+ * Onboarding (PRD 8.1). Two claims, and neither implies the other: a new
+ * learner's first screen is the coach's question rather than Today (F-ON-1), and
+ * a learner who was already learning before onboarding existed is left alone.
+ */
+test("a new learner opening the app gets the coach's question, not Today", () => {
+  render(
+    <MemoryRouter initialEntries={['/']}>
+      <AppRoutes />
+    </MemoryRouter>,
+  );
+  expect(screen.getByRole('heading', { name: 'Why chess?' })).toBeInTheDocument();
+  expect(screen.queryByRole('heading', { name: 'Today' })).toBeNull();
+});
+
+test('a learner who has already done something is never sent back to onboarding', () => {
+  // No onboarding record, which is every learner who installed the app before
+  // this feature existed — but a log with something in it.
+  expect(useOnboarding.getState().answeredAt).toBeNull();
+  useProgress.setState({ progress: { ...emptyProgress(), lastEventAt: '2026-01-01T00:00:00.000Z' } });
+  render(
+    <MemoryRouter initialEntries={['/']}>
+      <AppRoutes />
+    </MemoryRouter>,
+  );
+  expect(screen.getByRole('heading', { name: 'Today' })).toBeInTheDocument();
+  expect(screen.queryByRole('heading', { name: 'Why chess?' })).toBeNull();
+});
+
+test('answering the questions is what stops the redirect, whatever the log says', () => {
+  useOnboarding.getState().markAnswered();
+  render(
+    <MemoryRouter initialEntries={['/']}>
+      <AppRoutes />
+    </MemoryRouter>,
+  );
+  expect(screen.getByRole('heading', { name: 'Today' })).toBeInTheDocument();
+});
+
+test('onboarding is presented without the tab bar, like every other focused task', () => {
+  render(
+    <MemoryRouter initialEntries={['/onboarding']}>
+      <AppRoutes />
+    </MemoryRouter>,
+  );
+  expect(screen.queryByRole('navigation', { name: 'Main' })).not.toBeInTheDocument();
+  expect(document.querySelector('main')).toBeInTheDocument();
+  // ...and it owns a way out, which is the invariant ModalTask asks every task
+  // in its frame to keep.
+  expect(screen.getByRole('button', { name: 'Skip setup' })).toBeInTheDocument();
+});
+
+test('an unknown onboarding route is the first question rather than a dead end', () => {
+  render(
+    <MemoryRouter initialEntries={['/onboarding/nope']}>
+      <AppRoutes />
+    </MemoryRouter>,
+  );
+  expect(screen.getByRole('heading', { name: 'Why chess?' })).toBeInTheDocument();
 });

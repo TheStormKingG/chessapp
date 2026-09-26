@@ -1,7 +1,10 @@
 import { lazy, Suspense, type ReactNode } from 'react';
-import { Routes, Route } from 'react-router';
+import { Routes, Route, Navigate } from 'react-router';
 import { Shell } from './Shell';
 import { ModalTask } from './ModalTask';
+import { useProgress } from '@/data';
+import { OnboardingRoutes } from '@/onboarding/OnboardingRoutes';
+import { onboardingAnswered, useOnboarding } from '@/onboarding/store';
 import { TodayScreen } from '@/screens/TodayScreen';
 import { ProgressScreen } from '@/screens/ProgressScreen';
 import { SettingsScreen } from '@/screens/SettingsScreen';
@@ -110,6 +113,21 @@ export function AppRoutes() {
         }
       />
       {/*
+        Onboarding is a modal task like the others: one focused task, one way out,
+        and no tab bar inviting a learner who has not started yet to browse five
+        sections of an app they have not seen (PRD 8.1, DESIGN-SYSTEM.md B1).
+        The splat is because onboarding owns three question screens and the
+        placement test and routes between them itself.
+      */}
+      <Route
+        path="/onboarding/*"
+        element={
+          <ModalTask>
+            <OnboardingRoutes />
+          </ModalTask>
+        }
+      />
+      {/*
         Solving is a modal task, exactly as a lesson is (design spec 5.2):
         one focused task, one way out, and no tab bar inviting the learner
         away mid-puzzle. The Puzzles TAB itself stays in the shell below --
@@ -158,11 +176,32 @@ export function AppRoutes() {
   );
 }
 
+/**
+ * F-ON-1: "The first screen introduces the coach and asks one question."
+ *
+ * So for a learner with no onboarding record AND no progress, `/` is the
+ * coach's question rather than Today. Both conditions, not just the first:
+ * anyone who was already learning before onboarding existed has events in the
+ * log and no `chessapp-onboarding` key, and sending them back to question one
+ * would interrupt a learner mid-path to ask how much chess they have played.
+ *
+ * The gate is `answeredAt`, not `placedUnit`: a learner who answered the three
+ * questions and then left the placement test has been through onboarding, and
+ * returning them to question one would be a loop they could not leave. What they
+ * are still owed is the test, which Today offers them.
+ */
+function TodayOrOnboarding() {
+  const answered = useOnboarding(onboardingAnswered);
+  const everActive = useProgress((s) => s.progress.lastEventAt) !== null;
+  if (!answered && !everActive) return <Navigate to="/onboarding" replace />;
+  return <TodayScreen />;
+}
+
 function ShellRoutes() {
   return (
     <Shell>
       <Routes>
-        <Route path="/" element={<TodayScreen />} />
+        <Route path="/" element={<TodayOrOnboarding />} />
         <Route path="/path" element={<PathScreen />} />
         {/* F-PZ-3 orders this screen by the number of mistakes waiting, so the
             route supplies the count the screen renders. */}

@@ -40,6 +40,7 @@ export function LessonPlayer({
   closeAction = 'Back to the path',
   showXp = true,
   resume = null,
+  skipCard = false,
   onProgress,
 }: {
   lesson: Lesson;
@@ -61,6 +62,16 @@ export function LessonPlayer({
   /** A place to come back to, loaded by the caller. Null means start at the card. */
   resume?: LessonResume | null;
   /**
+   * Open on the first challenge instead of the lesson card.
+   *
+   * For a run whose card would say nothing: the placement test (F-ON-5) is four
+   * consecutive rounds of three challenges, and a card before each of them would
+   * be three extra screens repeating what the test's own intro already said.
+   * `resume` takes precedence, because a saved place is a fact about this
+   * learner and this is a preference of the caller's.
+   */
+  skipCard?: boolean;
+  /**
    * Called with the current place each time the run reaches a challenge, and with
    * null once the lesson closes. The caller owns persistence: a graded assessment
    * simply does not pass this, and then nothing is saved.
@@ -75,7 +86,7 @@ export function LessonPlayer({
     c.muted = coachMuted;
     return c;
   }, [coachMuted]);
-  const [s, dispatch] = useReducer(reduce, lesson, (l) => seedLesson(l, hintsAllowed, resume));
+  const [s, dispatch] = useReducer(reduce, lesson, (l) => seedLesson(l, hintsAllowed, resume, skipCard));
   const [lastWrong, setLastWrong] = useState<WrongMove | null>(null);
   useEngineRefutation(s, lastWrong, dispatch, coach);
 
@@ -566,9 +577,23 @@ function ChallengeIndex({ count, at }: { count: number; at: number }) {
  * worth reviving, and a fresh attempt at that challenge is what the learner
  * expects on coming back.
  */
-function seedLesson(l: Lesson, hintsAllowed: boolean, r: LessonResume | null): LessonState {
+function seedLesson(
+  l: Lesson,
+  hintsAllowed: boolean,
+  r: LessonResume | null,
+  skipCard = false,
+): LessonState {
   const base = initLesson(l, hintsAllowed);
-  if (!r || r.lessonId !== l.id) return base;
+  if (!r || r.lessonId !== l.id) {
+    // `skipCard` only ever moves the run to the FIRST challenge, and only when
+    // there is one: a lesson with no challenges keeps its card, because the
+    // alternative is a phase pointing at nothing.
+    const first = l.challenges[0];
+    if (skipCard && first) {
+      return { ...base, phase: { kind: 'challenge', index: 0, status: 'attempting' } };
+    }
+    return base;
+  }
   if (r.challengeCount !== l.challenges.length) return base;
   if (!(r.index >= 0 && r.index < l.challenges.length)) return base;
   if (l.challenges[r.index]?.id !== r.challengeId) return base;

@@ -4,6 +4,8 @@ import { btn } from '@/app/Button';
 import { Board } from '@/board';
 import { localDay, useProgress } from '@/data';
 import { loadLesson } from '@/lesson/loader';
+import { needsAssessment } from '@/onboarding/route';
+import { useOnboarding } from '@/onboarding/store';
 import { activeNode, activeUnitProgress, recentlyFinished, upcomingNodes } from '@/path/progress';
 import { resumeLabel, useLessonResume } from '@/path/resumeLabel';
 
@@ -95,6 +97,21 @@ export function TodayScreen() {
   const [dismissedOn, setDismissedOn] = useState(readDismissed);
   // F-HM-6: two losses in a row, dismissible, and never more than once a day.
   const coolDown = progress.consecutiveLosses >= 2 && dismissedOn !== today;
+
+  /*
+   * F-ON-2 maps two of the four level answers to an assessment (F-ON-5). A
+   * learner who gave one of those answers and then left the test would
+   * otherwise have no way back to it — the answer would be recorded and the
+   * mapping quietly broken — so the offer lives here until it is taken.
+   *
+   * One quiet line, and it goes for good once a placement is committed. Nothing
+   * is fetched to render it: it reads two fields of the onboarding store, which
+   * is the same reason this screen does not fetch a pack to label the puzzle
+   * card.
+   */
+  const level = useOnboarding((s) => s.level);
+  const placedUnit = useOnboarding((s) => s.placedUnit);
+  const owedTest = placedUnit === null && needsAssessment(level);
 
   const hero = useHeroBoardSize();
   const unit = activeUnitProgress(progress);
@@ -341,6 +358,14 @@ export function TodayScreen() {
       )}
 
       <div className="xl:col-span-2 xl:row-start-3">
+        {owedTest && (
+          <Link
+            to="/onboarding/placement"
+            className="tap t-label mt-6 block text-content-dim underline xl:mt-0"
+          >
+            Take the placement test
+          </Link>
+        )}
         <Link to="/settings" className="tap t-label mt-6 inline-flex items-center text-content-dim underline xl:mt-0">
           Settings
         </Link>

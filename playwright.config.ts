@@ -1,4 +1,5 @@
 import { defineConfig, devices } from '@playwright/test';
+import { ONBOARDED_KEY, ONBOARDED_VALUE } from './tests/onboarded';
 
 const smoke = !!process.env['SMOKE_URL'];
 // PREVIEW=1 serves a production build from `dist-e2e` instead of the dev
@@ -13,6 +14,8 @@ const preview = !!process.env['PREVIEW'];
 const port = process.env['E2E_PORT'] ?? '5173';
 const outDir = process.env['E2E_OUT_DIR'] ?? 'dist-e2e';
 
+const baseURL = process.env['SMOKE_URL'] ?? `http://localhost:${port}/`;
+
 export default defineConfig({
   testDir: 'tests',
   timeout: 60_000,
@@ -20,9 +23,37 @@ export default defineConfig({
   reporter: [['list'], ['html', { open: 'never' }]],
   use: {
     trace: 'on-first-retry',
-    baseURL: process.env['SMOKE_URL'] ?? `http://localhost:${port}/`,
+    baseURL,
     ...devices['Pixel 5'],
     viewport: { width: 390, height: 844 },
+    /*
+     * Every spec in this suite drives a RETURNING learner: its subject is Today,
+     * the path, a lesson, a game, a puzzle or the settings screen. PRD 8.1
+     * F-ON-1 makes the coach's question the first screen for a learner with no
+     * onboarding record and no progress, so `/` redirects there — which would
+     * put twenty specs that navigate to `./` on the wrong screen.
+     *
+     * Seeded here, once, rather than in twenty `beforeEach` hooks: it is a
+     * property of the whole suite, and a per-spec opt-in is a gate that
+     * eventually gets left open on a spec added later. Onboarding's own coverage
+     * is `src/onboarding/*.test.{ts,tsx}`; a Playwright spec for it would clear
+     * this key for itself (`page.addInitScript` before the first navigation) and
+     * has deliberately not been written blind — this suite needs a build and a
+     * browser to run, and an unexercised spec is not coverage.
+     *
+     * `store.test.ts` hydrates the real store from this exact value, so a seed
+     * that stopped matching zustand's envelope fails there rather than as
+     * twenty unrelated failures here.
+     */
+    storageState: {
+      cookies: [],
+      origins: [
+        {
+          origin: new URL(baseURL).origin,
+          localStorage: [{ name: ONBOARDED_KEY, value: ONBOARDED_VALUE }],
+        },
+      ],
+    },
   },
   webServer: smoke
     ? undefined
