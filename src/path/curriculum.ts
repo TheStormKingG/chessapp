@@ -479,7 +479,7 @@ export const SECTION_4: SectionDef = {
     {
       id: '4.8',
       title: 'Reading the position and making a plan',
-      built: false,
+      built: true,
       lessons: [
         { id: '4.8.1', title: 'The imbalances' },
         { id: '4.8.2', title: 'Which side of the board to play on' },

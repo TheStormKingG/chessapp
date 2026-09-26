@@ -1,0 +1,237 @@
+{
+  "id": "4.8.5",
+  "unit": "4.8",
+  "title": "Exchanging to a plan",
+  "xp": 16,
+  "card": {
+    "idea": "In Section 3 you counted the takers to find out whether a swap was sound. This is the next question and a harder one: of the sound swaps, which one helps? A swap is the cheapest way to remove one particular man from one particular square. So name the square first, then name the man standing in the way, and swap that one.",
+    "diagrams": [
+      "1n2rrk1/pp2bppp/2p1p3/6B1/2P1P2P/2N5/PP3PP1/R2R2K1 w - - 0 1",
+      "3r2k1/pp4pp/3b4/4Np2/5P2/8/PP4PP/3R2K1 w - - 0 1"
+    ],
+    "habit": "Name the square, then swap off whatever is guarding it."
+  },
+  "explain": [
+    {
+      "fen": "1n2rrk1/pp2bppp/2p1p3/6B1/2P1P2P/2N5/PP3PP1/R2R2K1 w - - 0 1",
+      "text": "No black pawn can ever attack d6 again: that would need a pawn on c7 or e7, and the c-pawn has gone to c6 while the e-pawn has gone to e6. So d6 is White's for keeps, except that one black man still covers it. The bishop on e7. That names the swap for you.",
+      "arrows": [
+        [
+          "e7",
+          "d6"
+        ],
+        [
+          "g5",
+          "e7"
+        ]
+      ],
+      "highlights": [
+        "d6",
+        "e7"
+      ]
+    },
+    {
+      "fen": "1n3rk1/pp2rppp/2p1p3/8/2P1P2P/2N5/PP3PP1/R2R2K1 w - - 0 2",
+      "text": "Bxe7 Rxe7, and the board looks almost the same. It is not. Nothing black covers d6 now, so Rd6 simply walks in and nothing on the board can ask it a question. That is what the swap bought: not material, which is dead level, but one square that cannot be taken back.",
+      "arrows": [
+        [
+          "d1",
+          "d6"
+        ]
+      ],
+      "highlights": [
+        "d6"
+      ]
+    },
+    {
+      "fen": "3r2k1/pp4pp/3b4/4Np2/5P2/8/PP4PP/3R2K1 w - - 0 1",
+      "text": "Count before you call it a swap. One black man attacks the knight on e5, the bishop on d6, and one white man defends it, the pawn on f4. So Bxe5 fxe5 really is a swap and not a gift. That count is the first question; which of you it helps is the second.",
+      "arrows": [
+        [
+          "d6",
+          "e5"
+        ],
+        [
+          "f4",
+          "e5"
+        ]
+      ],
+      "highlights": [
+        "e5",
+        "d6",
+        "f4"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.8.5-c1",
+      "type": "find_them_all",
+      "fen": "1n2rrk1/pp2bppp/2p1p3/6B1/2P1P2P/2N5/PP3PP1/R2R2K1 w - - 0 1",
+      "prompt": "White wants a piece on d6 and no black pawn can ever attack it again. Tap every black man that still covers d6.",
+      "answer": {
+        "pieces": [
+          "e7"
+        ]
+      },
+      "concept": "trading",
+      "hints": {
+        "text": "The pawn on c6 attacks b5 and d5, not d6. Check each black man in turn."
+      },
+      "reason": "Only the bishop on e7. The rook on e8 sees down the e-file, the knight on b8 covers a6, c6 and d7, and the pawn on c6 captures on to b5 and d5. One man, so one swap."
+    },
+    {
+      "id": "4.8.5-c2",
+      "type": "name_the_pattern",
+      "fen": "1n2rrk1/pp2bppp/2p1p3/6B1/2P1P2P/2N5/PP3PP1/R2R2K1 w - - 0 1",
+      "prompt": "Material is dead level and nothing is loose. Which swap turns that permanent square into something White can use?",
+      "options": [
+        "Bxe7, because the bishop on e7 is the only black man covering d6.",
+        "Nd5, planting the knight in the middle of the board.",
+        "Bh6, to strip the pawn cover off his king."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "trading",
+      "hints": {
+        "text": "Two of these lose a piece to a pawn. Work out which."
+      },
+      "reason": "Nd5 is met by cxd5 or exd5, a pawn for a knight. Bh6 is met by gxh6 for nothing at all. Bxe7 is answered by Rxe7 and is a real swap, and it is the only one that touches d6."
+    },
+    {
+      "id": "4.8.5-c3",
+      "type": "find_the_sequence",
+      "fen": "1n2rrk1/pp2bppp/2p1p3/6B1/2P1P2P/2N5/PP3PP1/R2R2K1 w - - 0 1",
+      "prompt": "Make the swap, let him take back, then collect the square you paid for.",
+      "answer": {
+        "line": [
+          "Bxe7",
+          "Rxe7",
+          "Rd6"
+        ]
+      },
+      "concept": "trading",
+      "hints": {
+        "piece": "g5",
+        "square": "e7"
+      },
+      "reason": "Bxe7 Rxe7 Rd6. Once his rook has recaptured on e7 it cannot cover d6 from there, the knight on b8 never could, and no black pawn will ever be able to. That rook on d6 is permanent."
+    },
+    {
+      "id": "4.8.5-c4",
+      "type": "is_it_safe",
+      "fen": "1n3rk1/pp2rppp/2p1p3/8/2P1P2P/2N5/PP3PP1/R2R2K1 w - - 0 2",
+      "move": "Rd6",
+      "prompt": "The swap has happened. White walks the rook into d6. Is it safe there?",
+      "reasons": [
+        "Yes. No black man attacks d6, and no black pawn will ever be able to.",
+        "No. The rook on e7 takes it.",
+        "Yes, but only until Black brings the knight on b8 round to defend."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "trading",
+      "hints": {
+        "text": "The rook on e7 moves along the e-file and the seventh rank. Is d6 on either?"
+      },
+      "reason": "Nothing attacks d6. The rook on e7 cannot reach it, and a black pawn would need to stand on c7 or e7, which neither of Black's remaining pawns on that side can ever do again."
+    },
+    {
+      "id": "4.8.5-c5",
+      "type": "is_it_safe",
+      "fen": "1n2rrk1/pp2bppp/2p1p3/6B1/2P1P2P/2N5/PP3PP1/R2R2K1 w - - 0 1",
+      "move": "Bh6",
+      "prompt": "Back to the first board. White tries the other swap and plays Bh6, offering the bishop for the pawn cover. Is the bishop safe there?",
+      "reasons": [
+        "Yes. The pawn on g7 is pinned and cannot take.",
+        "No. The pawn on g7 takes it and nothing of White's defends h6.",
+        "No. The rook on f8 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "trading",
+      "hints": {
+        "text": "A black pawn on g7 captures on to f6 and h6."
+      },
+      "reason": "gxh6 is legal and free. A swap needs him to have a reason to take back with something of equal value; here he takes with a pawn and gives nothing. Sound first, useful second."
+    },
+    {
+      "id": "4.8.5-c6",
+      "type": "name_the_pattern",
+      "fen": "1n2rrk1/pp2bppp/2p1p3/6B1/2P1P2P/2N5/PP3PP1/R2R2K1 b - - 0 1",
+      "prompt": "Now it is Black's move and he takes first with Bxg5, met by hxg5. Same two bishops leave the board. What has he done to d6?",
+      "options": [
+        "Nothing: his bishop was never covering d6 in the first place.",
+        "He has defended it, because the pawn now on g5 controls the dark squares.",
+        "He has given it up as well. After that swap no black man covers d6 either."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "trading",
+      "hints": {
+        "text": "Work out which black man covered d6 before the swap, and where it is afterwards."
+      },
+      "reason": "The bishop on e7 was the only man covering d6, and taking on g5 is how it leaves e7. Whoever initiates this swap, d6 is the square that changes hands, so Black should decline it."
+    },
+    {
+      "id": "4.8.5-c7",
+      "type": "find_them_all",
+      "fen": "3r2k1/pp4pp/3b4/4Np2/5P2/8/PP4PP/3R2K1 w - - 0 1",
+      "prompt": "New board, and the first question is always the count. Tap every black man that attacks the knight on e5.",
+      "answer": {
+        "pieces": [
+          "d6"
+        ]
+      },
+      "concept": "trading",
+      "hints": {
+        "text": "One man, and the pawn on f5 is not it."
+      },
+      "reason": "Only the bishop on d6. The pawn on f5 captures on to e4 and g4, and the rook on d8 is looking down the d-file at a white rook, not at e5."
+    },
+    {
+      "id": "4.8.5-c8",
+      "type": "find_them_all",
+      "fen": "3r2k1/pp4pp/3b4/4Np2/5P2/8/PP4PP/3R2K1 w - - 0 1",
+      "prompt": "Now the other half of the count. Tap every white man that defends the knight on e5.",
+      "answer": {
+        "pieces": [
+          "f4"
+        ]
+      },
+      "concept": "trading",
+      "hints": {
+        "text": "A white pawn captures forwards and diagonally."
+      },
+      "reason": "The pawn on f4. One attacker against one defender is what makes Bxe5 fxe5 a swap rather than a free piece, and only then is it worth asking whether you want it."
+    },
+    {
+      "id": "4.8.5-c9",
+      "type": "is_it_safe",
+      "fen": "3r2k1/pp4pp/3b4/4Np2/5P2/8/PP4PP/3R2K1 w - - 0 1",
+      "move": "Nc6",
+      "prompt": "Rather than wait to be swapped off, White jumps the knight forward to c6. Is it safe there?",
+      "reasons": [
+        "Yes. The pawn on b7 is needed to hold a7 and cannot move.",
+        "No. The rook on d8 slides across and takes it.",
+        "No. The pawn on b7 takes it and no white man defends c6."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "trading",
+      "hints": {
+        "text": "A black pawn on b7 captures on to a6 and c6."
+      },
+      "reason": "bxc6 is free. A piece you do not want swapped is not saved by running it somewhere it can simply be taken; if you want to keep it, move it to a square he cannot reach."
+    }
+  ],
+  "takeaway": "Sound is the first question and useful is the second. Name the square you want, find the one man guarding it, and swap that man off."
+}

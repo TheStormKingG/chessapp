@@ -1,0 +1,241 @@
+{
+  "id": "4.8.3",
+  "unit": "4.8",
+  "title": "The initiative",
+  "xp": 16,
+  "card": {
+    "idea": "The initiative is simply this: whose move has to be answered. The side answering is not making a plan, he is filling in a form. So count his legal answers after your move — a forcing move can cut them from twenty-three to two. Then count what the move cost, because forcing and good are not the same word.",
+    "diagrams": [
+      "r5k1/p4ppp/2b5/2B5/8/8/P4PPP/3R2K1 w - - 0 1",
+      "6k1/pp3pp1/4pn1p/1b1R4/8/5P1P/PP4P1/6K1 w - - 0 1"
+    ],
+    "habit": "Count his answers, then count what the move cost you."
+  },
+  "explain": [
+    {
+      "fen": "r5k1/p4ppp/2b5/2B5/8/8/P4PPP/3R2K1 w - - 0 1",
+      "text": "Black has twenty-three legal moves and seven men that can make one. He is free. Rd8 is the only check White owns, and it cuts him to two answers from two men. That is the whole mechanism of the initiative: your move decides how much choice he has left.",
+      "arrows": [
+        [
+          "d1",
+          "d8"
+        ]
+      ],
+      "highlights": [
+        "d8"
+      ]
+    },
+    {
+      "fen": "r2R2k1/p4ppp/2b5/2B5/8/8/P4PPP/6K1 b - - 1 1",
+      "text": "And here is the bill. His two answers are Rxd8 and Be8, and the first of them takes the rook, because nothing of White's defends d8. The king cannot run: h8 is still on the rook's rank. Two answers out of twenty-three, for a rook. Forcing is not the same as good.",
+      "arrows": [
+        [
+          "a8",
+          "d8"
+        ]
+      ],
+      "highlights": [
+        "d8"
+      ]
+    },
+    {
+      "fen": "6k1/pp3pp1/4pn1p/1b1R4/8/5P1P/PP4P1/6K1 w - - 0 1",
+      "text": "Now the other way round. The pawn on e6 and the knight on f6 both hit the rook on d5 and nothing defends it, so White is the one being asked. Stepping aside is safe and answers nothing. Rxb5 answers and asks: it moves the rook and takes a bishop that no black man defends.",
+      "arrows": [
+        [
+          "e6",
+          "d5"
+        ],
+        [
+          "f6",
+          "d5"
+        ],
+        [
+          "d5",
+          "b5"
+        ]
+      ],
+      "highlights": [
+        "d5",
+        "b5"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.8.3-c1",
+      "type": "find_them_all",
+      "fen": "r5k1/p4ppp/2b5/2B5/8/8/P4PPP/3R2K1 w - - 0 1",
+      "prompt": "Before you move, measure how free he is. Tap every black man that has a legal move in this position.",
+      "answer": {
+        "pieces": [
+          "a7",
+          "a8",
+          "c6",
+          "f7",
+          "g7",
+          "g8",
+          "h7"
+        ]
+      },
+      "concept": "attack-defend",
+      "hints": {
+        "text": "Every black man on the board has at least one move here. That is what the count is for."
+      },
+      "reason": "Seven men and twenty-three moves between them: every single black man can move. That is what a free position looks like. Run the same count after a forcing move and it collapses."
+    },
+    {
+      "id": "4.8.3-c2",
+      "type": "which_square",
+      "fen": "r5k1/p4ppp/2b5/2B5/8/8/P4PPP/3R2K1 w - - 0 1",
+      "prompt": "One white move cuts Black from twenty-three legal answers to two. Tap the square the rook goes to.",
+      "answer": {
+        "square": "d8"
+      },
+      "concept": "attack-defend",
+      "hints": {
+        "piece": "d1",
+        "text": "It is the only check White has."
+      },
+      "reason": "Rd8 is check, so Black may only answer the check. Every other white move leaves him at least twenty answers; the next best is twenty."
+    },
+    {
+      "id": "4.8.3-c3",
+      "type": "find_them_all",
+      "fen": "r2R2k1/p4ppp/2b5/2B5/8/8/P4PPP/6K1 b - - 1 1",
+      "prompt": "This is the board straight after that check. Tap every black man that has a legal move now.",
+      "answer": {
+        "pieces": [
+          "a8",
+          "c6"
+        ]
+      },
+      "concept": "attack-defend",
+      "hints": {
+        "text": "The king is not one of them. Ask why."
+      },
+      "reason": "The rook on a8 can take, the bishop on c6 can block on e8, and that is the whole list. The king has nowhere: f7, g7 and h7 are his own pawns, and f8 and h8 are both on the checking rook's rank."
+    },
+    {
+      "id": "4.8.3-c4",
+      "type": "name_the_pattern",
+      "fen": "r2R2k1/p4ppp/2b5/2B5/8/8/P4PPP/6K1 b - - 1 1",
+      "prompt": "That check took Black from twenty-three answers down to two. Why is it still a bad move?",
+      "options": [
+        "One of the two answers is Rxd8, and no white man defends d8, so the check has cost a whole rook.",
+        "Because a check is never worth playing while the opponent still has a bishop on the board.",
+        "Because the black king can step to h8 and walk out of it."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "attack-defend",
+      "hints": {
+        "text": "Look at what defends d8."
+      },
+      "reason": "Nothing white attacks d8 except the rook standing on it, so Rxd8 is free. And h8 is not an escape: the king would still be on the rook's rank, so that move is not legal at all."
+    },
+    {
+      "id": "4.8.3-c5",
+      "type": "is_it_safe",
+      "fen": "r5k1/p4ppp/2b5/2B5/8/8/P4PPP/3R2K1 w - - 0 1",
+      "move": "Bxa7",
+      "prompt": "Instead of the check, White just grabs a pawn with Bxa7. Is the bishop safe there?",
+      "reasons": [
+        "No. The rook on a8 takes it back and nothing of White's can answer.",
+        "Yes. The pawn on a7 had nothing defending it.",
+        "No. The bishop on c6 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "attack-defend",
+      "hints": {
+        "text": "The pawn on a7 is not loose. Something is sitting right behind it."
+      },
+      "reason": "The rook on a8 defends a7, so Rxa7 wins a bishop for a pawn. A grab that loses a piece does not take the initiative, it hands it over."
+    },
+    {
+      "id": "4.8.3-c6",
+      "type": "name_the_pattern",
+      "fen": "6k1/pp3pp1/4pn1p/1b1R4/8/5P1P/PP4P1/6K1 w - - 0 1",
+      "prompt": "New board. Who here is making the moves that have to be answered, and what follows from that?",
+      "options": [
+        "White is, because it is White's turn to move.",
+        "Nobody is: the rook on d5 is defended, so there is nothing to answer.",
+        "Black is. The pawn on e6 and the knight on f6 both hit d5 and nothing defends it, so White must move the rook — and the move to pick is one that takes something."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "attack-defend",
+      "hints": {
+        "text": "Count the white men defending d5."
+      },
+      "reason": "No white man defends d5, so the rook is genuinely under fire twice. Having the move is not the same as having the initiative; here White has one and Black has the other."
+    },
+    {
+      "id": "4.8.3-c7",
+      "type": "find_the_move",
+      "fen": "6k1/pp3pp1/4pn1p/1b1R4/8/5P1P/PP4P1/6K1 w - - 0 1",
+      "prompt": "Your rook has to move. Take the initiative back on the way out: play the move that answers him and asks something of its own.",
+      "answer": {
+        "moves": [
+          "Rxb5"
+        ]
+      },
+      "wrong": {
+        "Rd2": "Safe, and that is all it is. You answered his question and asked none, so he moves next with a free hand.",
+        "Rd8+": "Forcing and losing. He answers the check and your rook is still the only thing in trouble."
+      },
+      "concept": "attack-defend",
+      "hints": {
+        "piece": "d5",
+        "square": "b5"
+      },
+      "reason": "Rxb5 gets the rook out of the fork and takes a bishop that no black man defends. One move, both jobs, and now he is the one answering."
+    },
+    {
+      "id": "4.8.3-c8",
+      "type": "is_it_safe",
+      "fen": "6k1/pp3pp1/4pn1p/1b1R4/8/5P1P/PP4P1/6K1 w - - 0 1",
+      "move": "Rd2",
+      "prompt": "The same board. White simply steps the rook back to d2 out of trouble. Is the rook safe there?",
+      "reasons": [
+        "No. The bishop on b5 takes it.",
+        "Yes, nothing of Black's reaches d2 — but you have answered his question and asked none of your own.",
+        "Yes, because the king on g1 defends it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "attack-defend",
+      "hints": {
+        "text": "The bishop's diagonal from b5 runs c4, d3, e2, f1. Check whether d2 is on it."
+      },
+      "reason": "Nothing attacks d2, so the move is perfectly safe, and the king on g1 has nothing to do with it. Safe is the low bar. This move leaves Black with a free move and a bishop he was about to lose."
+    },
+    {
+      "id": "4.8.3-c9",
+      "type": "find_the_sequence",
+      "fen": "2r3k1/pp2bppp/8/3N4/8/8/PP3PPP/3R2K1 w - - 0 1",
+      "prompt": "Third board. Two moves in a row that he has to answer, and you collect on both. Take with check, let the king step aside, then take again.",
+      "answer": {
+        "line": [
+          "Nxe7+",
+          "Kh8",
+          "Nxc8"
+        ]
+      },
+      "concept": "attack-defend",
+      "hints": {
+        "piece": "d5",
+        "square": "e7"
+      },
+      "reason": "Nothing defends e7, so Nxe7 is check and a free bishop. Black's only two answers are Kh8 and Kf8, and after either the knight takes the rook on c8. He never had a move of his own."
+    }
+  ],
+  "takeaway": "The initiative is whose move has to be answered. Count his answers after your move, and then count what the move cost you: forcing is not the same as good."
+}
