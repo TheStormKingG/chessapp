@@ -491,7 +491,7 @@ export const SECTION_4: SectionDef = {
     {
       id: '4.9',
       title: 'Rook endings',
-      built: false,
+      built: true,
       lessons: [
         { id: '4.9.1', title: 'The Lucena bridge' },
         { id: '4.9.2', title: 'The Philidor defence' },

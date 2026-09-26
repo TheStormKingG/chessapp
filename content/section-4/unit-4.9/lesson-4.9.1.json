@@ -1,0 +1,202 @@
+{
+  "id": "4.9.1",
+  "unit": "4.9",
+  "title": "The Lucena bridge",
+  "xp": 15,
+  "card": {
+    "idea": "A pawn on the seventh with your own king in front of it is not won yet. The king has to step aside to let the pawn through, and the moment it does the enemy rook starts checking and never has to stop. The cure is a shelter. Put your rook on the fourth rank, walk the king out, and block the first check with the rook. That block is the bridge.",
+    "diagrams": [
+      "8/4P3/7k/5K2/3R4/8/8/5r2 w - - 0 1",
+      "8/2k2P2/8/4K3/6R1/8/8/4r3 w - - 0 1"
+    ],
+    "habit": "Rook to the fourth rank first. Then walk the king out."
+  },
+  "explain": [
+    {
+      "fen": "8/4P3/7k/5K2/3R4/8/8/5r2 w - - 0 1",
+      "text": "The rook on f1 is checking and the pawn is one square from home. You have five moves. Four of them are king steps, and every one leaves Black two fresh checks. Rf4 blocks, and after it Black has exactly one check left: Rxf4+, which hands over the rook. Kxf4 and the pawn walks in.",
+      "arrows": [
+        [
+          "d4",
+          "f4"
+        ]
+      ],
+      "highlights": [
+        "f4",
+        "f1"
+      ]
+    },
+    {
+      "fen": "8/4P3/7k/5K2/3R4/8/1r6/8 w - - 0 1",
+      "text": "Here there is no check yet, and this is the moment that decides the game. Count what the rook on d4 can do: seven squares along the fourth rank, one on every file but its own. Whichever file Black chooses to check from, the rook can already step in front of it. That is why the fourth rank comes first.",
+      "arrows": [
+        [
+          "d4",
+          "a4"
+        ],
+        [
+          "d4",
+          "h4"
+        ]
+      ],
+      "highlights": [
+        "d4"
+      ]
+    },
+    {
+      "fen": "8/2k2P2/8/4K3/6R1/8/8/4r3 w - - 0 1",
+      "text": "The same idea on another file. Black checks up the e-file, and Re4 is the block. Note where the rook came from: the fourth rank, again. Five king moves are available and each one is met by two more checks, so the rook is not merely the quickest answer here, it is the only one that ends the checking.",
+      "arrows": [
+        [
+          "g4",
+          "e4"
+        ]
+      ],
+      "highlights": [
+        "e4",
+        "e1"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.9.1-c1",
+      "type": "find_the_move",
+      "fen": "8/4P3/7k/5K2/3R4/8/8/5r2 w - - 0 1",
+      "prompt": "The rook on f1 is checking. Each of your four king moves walks into another check. One move does not.",
+      "answer": {
+        "moves": [
+          "Rf4"
+        ]
+      },
+      "wrong": {
+        "Ke5": "Still winning, but you have solved nothing: Black checks again with Rf5+ or Re1+ and you are back where you started.",
+        "Ke6": "The same problem one square up. Rf6+ and Re1+ are both there, and the checking can go on as long as Black likes."
+      },
+      "concept": "promotion",
+      "hints": {
+        "piece": "d4",
+        "square": "f4"
+      },
+      "reason": "Rf4 blocks the check and leaves Black one check in the whole position: Rxf4+. That gives up the rook for a pawn that then queens, and after Kxf4 nothing stands in front of the e-pawn."
+    },
+    {
+      "id": "4.9.1-c2",
+      "type": "find_the_move",
+      "fen": "8/2k2P2/8/4K3/6R1/8/8/4r3 w - - 0 1",
+      "prompt": "Checked up the e-file, with the pawn one square from home. Five king moves, and none of them stops the checking. Find the sixth move.",
+      "answer": {
+        "moves": [
+          "Re4"
+        ]
+      },
+      "wrong": {
+        "Kd5": "Re5+ or Rd1+ follows, and you are being checked again with nothing gained.",
+        "Kf6": "Re6+ or Rf1+, and the king is still being chased around in front of its own pawn."
+      },
+      "concept": "promotion",
+      "hints": {
+        "piece": "g4",
+        "square": "e4"
+      },
+      "reason": "Re4 is the bridge. It answers the check and takes the e-file away, so Black's only remaining check is Rxe4+ — a rook for a pawn, and after Kxe4 the f-pawn goes in."
+    },
+    {
+      "id": "4.9.1-c3",
+      "type": "which_square",
+      "fen": "3k4/6P1/8/7K/5R2/8/7r/8 w - - 0 1",
+      "prompt": "The rook on h2 is checking up the h-file. Tap the square where your rook answers the check and takes the file away from him at the same time.",
+      "answer": {
+        "square": "h4"
+      },
+      "concept": "promotion",
+      "hints": {
+        "text": "Your rook is already on the right rank. It only has to slide along it."
+      },
+      "reason": "Rh4 blocks. After it Black has one check left in the position, Rxh4+, and Kxh4 leaves the g-pawn a square from home. Kg4, Kg5 and Kg6 each hand Black two more checks."
+    },
+    {
+      "id": "4.9.1-c4",
+      "type": "find_them_all",
+      "fen": "8/4P3/7k/5K2/3R4/8/1r6/8 w - - 0 1",
+      "prompt": "No check yet, so this is the moment to prepare. Tap every square on the fourth rank this rook can reach in one move.",
+      "answer": {
+        "squares": [
+          "a4",
+          "b4",
+          "c4",
+          "e4",
+          "f4",
+          "g4",
+          "h4"
+        ]
+      },
+      "concept": "promotion",
+      "hints": {
+        "text": "Nothing stands on the fourth rank but your own rook. Count the squares either side of it."
+      },
+      "reason": "Seven squares, one on every file except d itself. That is the whole point of the fourth rank: whichever file Black checks from, the rook is already able to step in front of the check."
+    },
+    {
+      "id": "4.9.1-c5",
+      "type": "name_the_pattern",
+      "fen": "8/5P2/2k5/6K1/4R3/8/6r1/8 w - - 0 1",
+      "prompt": "Rg4 answers the check by blocking instead of running. Why is blocking the better answer?",
+      "options": [
+        "Because the rook on g4 attacks the black king from there as well.",
+        "Because after Rg4 the only check Black has left is Rxg4+, which gives up a rook for a pawn that then queens. Every king move leaves him two more checks.",
+        "Because the black king can no longer cross the fourth rank once the rook is standing on it."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "promotion",
+      "hints": {
+        "text": "Count Black's checks after each of the seven moves, not the material."
+      },
+      "reason": "Blocking is what ends the checking. Kf4, Kf5, Kf6, Kh4, Kh5 and Kh6 all leave two checks on the board; Rg4 leaves one, and that one costs Black his rook."
+    },
+    {
+      "id": "4.9.1-c6",
+      "type": "is_it_safe",
+      "fen": "8/k2P4/8/2K5/4R3/2r5/8/8 w - - 0 1",
+      "move": "Rc4",
+      "prompt": "You answer the check with Rc4, putting your rook on a square the black rook can take. Is the rook safe there?",
+      "reasons": [
+        "No. The rook on c3 takes it and wins a clean rook.",
+        "Yes. The black rook cannot reach c4 at all from where it stands.",
+        "Yes. Rxc4+ is the only check Black has after this, and once Kxc4 answers it the d-pawn has an empty file in front of it. A rook for a pawn that queens is not a bargain."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 2
+      },
+      "concept": "promotion",
+      "hints": {
+        "text": "A piece is not unsafe just because it can be captured. Ask what the capture buys."
+      },
+      "reason": "The rook can be taken and should not be. Kd4, Kd5, Kd6, Kb4 and Kb5 all leave Black two more checks; Rc4 leaves him one, and taking it lets the pawn through."
+    },
+    {
+      "id": "4.9.1-c7",
+      "type": "find_the_sequence",
+      "fen": "2k5/5P2/8/4K3/6R1/8/4r3/8 w - - 0 1",
+      "prompt": "Play it out. Block the check on the fourth rank, let him take the rook, take back, and push the pawn home.",
+      "answer": {
+        "line": [
+          "Re4",
+          "Rxe4+",
+          "Kxe4",
+          "Kd7",
+          "f8=Q"
+        ]
+      },
+      "concept": "promotion",
+      "hints": {
+        "text": "The block comes first. Everything after it is forced or hopeless."
+      },
+      "reason": "Re4 blocks, Rxe4+ is Black's only check, and after Kxe4 the f-pawn cannot be stopped: the king on c8 is three files away and arrives one move late."
+    }
+  ],
+  "takeaway": "A pawn on the seventh needs a shelter, not a shove. Rook to the fourth rank, king out, and block the first check with the rook — the checks stop and the pawn goes in."
+}

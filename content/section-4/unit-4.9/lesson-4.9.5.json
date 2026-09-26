@@ -1,0 +1,211 @@
+{
+  "id": "4.9.5",
+  "unit": "4.9",
+  "title": "Cutting the king off",
+  "xp": 15,
+  "card": {
+    "idea": "A rook does its best work in an ending as a wall rather than as an attacker. Put it on the file or rank between the enemy king and everything the king wants to reach, and count how many files he has left. One file is a cage. A check, by contrast, only moves him — often towards the very place he was trying to get to.",
+    "diagrams": [
+      "2R5/8/7k/8/2P5/2K5/8/8 w - - 0 1",
+      "8/8/k7/5K2/5P2/8/7R/8 w - - 0 1"
+    ],
+    "habit": "Build the wall, then count his files. Do not check him."
+  },
+  "explain": [
+    {
+      "fen": "2R5/8/7k/8/2P5/2K5/8/8 w - - 0 1",
+      "text": "Rg8 is the move, and the reason is arithmetic. After it his king stands on h6 with two squares in the world, h5 and h7, both on the h-file. He can never cross the g-file again, so the pawn and king can walk up at their own pace with nobody to meet them.",
+      "arrows": [
+        [
+          "c8",
+          "g8"
+        ]
+      ],
+      "highlights": [
+        "g8",
+        "h6"
+      ]
+    },
+    {
+      "fen": "2R5/8/7k/8/2P5/2K5/8/8 w - - 0 1",
+      "text": "Compare the check. Rh8+ looks active and achieves the opposite: he answers it with g5, g6 or g7, all three of them closer to your pawn than where he started. A check hands the enemy king a free move, and in an ending a free move for his king is usually the whole game.",
+      "arrows": [
+        [
+          "c8",
+          "h8"
+        ]
+      ],
+      "highlights": [
+        "g5",
+        "g6",
+        "g7"
+      ]
+    },
+    {
+      "fen": "8/8/8/3PK3/8/7k/6R1/8 w - - 0 1",
+      "text": "One caution. The wall has to stand where the king cannot reach it: here the rook on g2 is already touching him. Rg1 and Rg5 both keep the g-file and stay out of range, while Rg3 and Rg4 are simply taken. Keep the file, change the square.",
+      "arrows": [
+        [
+          "g2",
+          "g1"
+        ]
+      ],
+      "highlights": [
+        "g3",
+        "g4"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.9.5-c1",
+      "type": "find_the_move",
+      "fen": "2R5/8/7k/8/2P5/2K5/8/8 w - - 0 1",
+      "prompt": "His king is the only thing that can stop this pawn. Shut it out of the pawn's half of the board.",
+      "answer": {
+        "moves": [
+          "Rg8"
+        ]
+      },
+      "wrong": {
+        "Rh8+": "A check, and he answers it by walking towards your pawn: g5, g6 and g7 all open up. Cutting off is a wall, not a shove.",
+        "c5": "The pawn is not the problem. After c5 his king still has five squares across two files and comes running."
+      },
+      "concept": "king-activity",
+      "hints": {
+        "piece": "c8",
+        "square": "g8"
+      },
+      "reason": "Rg8 leaves him h5 and h7 and nothing else — one file, two squares. The g-file is a wall he cannot cross, and behind it the pawn walks up escorted by its king."
+    },
+    {
+      "id": "4.9.5-c2",
+      "type": "find_the_move",
+      "fen": "8/8/k7/5K2/5P2/8/7R/8 w - - 0 1",
+      "prompt": "Your pawn and king are on the kingside and his king is on a6. Build the wall on the right file.",
+      "answer": {
+        "moves": [
+          "Rb2"
+        ]
+      },
+      "wrong": {
+        "Rh6+": "A check that costs you the wall. He replies a5, a7, b5 or b7 — four squares across two files, and two of them head your way.",
+        "Ra2+": "This drives him the wrong way. After Ra2+ he has b5, b6 and b7, every one of them nearer your pawn than a6 was."
+      },
+      "concept": "king-activity",
+      "hints": {
+        "piece": "h2",
+        "square": "b2"
+      },
+      "reason": "Rb2 pins him to the a-file: a5 and a7 are his only squares. Checking looks busier and does the opposite, because a check is a free move for his king."
+    },
+    {
+      "id": "4.9.5-c3",
+      "type": "which_square",
+      "fen": "8/8/3KP3/7k/8/8/5R2/8 w - - 0 1",
+      "prompt": "Tap the square where your rook shuts his king onto the h-file and leaves it there.",
+      "answer": {
+        "square": "g2"
+      },
+      "concept": "king-activity",
+      "hints": {
+        "text": "One file away from him, not on his file. A rook on his own file only checks him."
+      },
+      "reason": "Rg2 leaves his king h4 and h6 and nothing more. Rh2 would be a check, and after it he steps off the h-file and towards the pawn instead of away from it."
+    },
+    {
+      "id": "4.9.5-c4",
+      "type": "find_them_all",
+      "fen": "8/6R1/4PK2/8/8/7k/8/8 b - - 1 1",
+      "prompt": "White's rook has just taken the g-file. Tap every square his king is still able to move to.",
+      "answer": {
+        "squares": [
+          "h2",
+          "h4"
+        ]
+      },
+      "concept": "king-activity",
+      "hints": {
+        "text": "Every g-file square is covered by the rook. What is left on the edge?"
+      },
+      "reason": "Two squares, h2 and h4, both on the h-file. That is what a cut-off king looks like: it can still move, it simply cannot go anywhere that matters."
+    },
+    {
+      "id": "4.9.5-c5",
+      "type": "name_the_pattern",
+      "fen": "8/8/2KP4/8/k7/8/8/4R3 w - - 0 1",
+      "prompt": "Rb1 and Ra1+ both put the rook on the first rank near his king. Why is Rb1 the one to play?",
+      "options": [
+        "Rb1 leaves him only a3 and a5, both on the a-file. Ra1+ is a check, and he answers it by stepping onto the b-file, closer to the pawn.",
+        "Rb1 attacks the black king from the side, and Ra1+ does not attack anything.",
+        "Rb1 defends the pawn on d6, which Ra1+ leaves undefended."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "king-activity",
+      "hints": {
+        "text": "Count his squares after each move, and notice which direction he travels."
+      },
+      "reason": "The wall goes beside him, never on top of him. Rb1 takes the b-file away and the king is stuck on the edge; the check merely invites him off it."
+    },
+    {
+      "id": "4.9.5-c6",
+      "type": "is_it_safe",
+      "fen": "8/8/8/3PK3/8/7k/6R1/8 w - - 0 1",
+      "move": "Rg3+",
+      "prompt": "Your rook on g2 is standing right next to his king, so you check him with Rg3+ and keep the file. Is the rook safe there?",
+      "reasons": [
+        "Yes. The rook is checking, so he has to answer the check and cannot take it.",
+        "No. Kxg3 is one of his three legal answers, and a king in check is perfectly entitled to capture the piece giving it. Nothing on the board defends g3.",
+        "No. Rg3 abandons the g-file and lets his king through to f4."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "king-activity",
+      "hints": {
+        "text": "List his legal replies to the check and look for a capture among them."
+      },
+      "reason": "Rg4 loses the rook the same way. Rg1 and Rg5 keep the file and stand out of the king's reach, which is the whole trick: right file, wrong square is still a lost rook."
+    },
+    {
+      "id": "4.9.5-c7",
+      "type": "find_the_sequence",
+      "fen": "8/4R3/4PK2/8/8/7k/8/8 w - - 0 1",
+      "prompt": "Build the wall first, then push. Four moves and the pawn is a queen.",
+      "answer": {
+        "line": [
+          "Rg7",
+          "Kh4",
+          "e7",
+          "Kh5",
+          "e8=Q+"
+        ]
+      },
+      "concept": "king-activity",
+      "hints": {
+        "text": "The rook moves before the pawn does, and it goes beside his king rather than at it."
+      },
+      "reason": "Rg7 shuts him onto the h-file with h2 and h4 to choose from, and from there the pawn walks in untroubled. Pushing first would let the king cross the g-file and catch it."
+    },
+    {
+      "id": "4.9.5-c8",
+      "type": "play_it_out",
+      "fen": "8/8/8/8/KP6/7k/6R1/8 w - - 0 1",
+      "prompt": "Against a live opponent now. Cut his king off from the pawn and make a queen. You have twelve moves.",
+      "goal": {
+        "kind": "promote",
+        "moves": 12
+      },
+      "opponentDepth": 6,
+      "concept": "king-activity",
+      "hints": {
+        "text": "Rg5 first. Then bring the king and the pawn up together while he sits on the h-file."
+      },
+      "reason": "The wall comes first and the pawn second. Once the rook holds the g-file his king has two squares on the edge, and everything after that is a matter of walking."
+    }
+  ],
+  "takeaway": "A rook cuts a king off; it does not chase one. Put the wall beside his king, out of its reach, and count the files he has left — one file is a cage."
+}

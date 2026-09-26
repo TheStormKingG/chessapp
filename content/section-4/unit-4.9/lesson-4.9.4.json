@@ -1,0 +1,192 @@
+{
+  "id": "4.9.4",
+  "unit": "4.9",
+  "title": "Rooks behind passed pawns",
+  "xp": 15,
+  "card": {
+    "idea": "Unit 3.7 taught you to spot a pawn that has got through. This is where it goes. A rook belongs behind a passed pawn — yours or his. Behind it, the rook keeps attacking the pawn however far it runs, and its reach grows with every step the pawn takes. In front of it the rook is a doorstop, and its reach shrinks instead.",
+    "diagrams": [
+      "1r3k2/3R1ppp/p7/8/8/6K1/5PPP/8 w - - 0 1",
+      "3r2k1/1R3ppp/p7/8/8/7K/5PPP/8 w - - 0 1"
+    ],
+    "habit": "Passed pawn on the board? Get the rook behind it."
+  },
+  "explain": [
+    {
+      "fen": "1r3k2/3R1ppp/p7/8/8/6K1/5PPP/8 w - - 0 1",
+      "text": "You are a pawn down and his a-pawn has a clear road: no white pawn stands on the a-file or the b-file. Ra7 is the move and it holds the game. From a7 the rook watches a6, and if the pawn runs to a5 the rook watches that too — Rxa5 is still there. The pawn cannot shake it off.",
+      "arrows": [
+        [
+          "d7",
+          "a7"
+        ]
+      ],
+      "highlights": [
+        "a7",
+        "a6"
+      ]
+    },
+    {
+      "fen": "1r3k2/5ppp/p7/8/8/6K1/5PPP/R7 w - - 0 1",
+      "text": "The same pawn with the rook in front of it instead. From a1 the rook covers a2 to a6: four empty squares between them. Every step the pawn takes removes one of those squares, so the rook's share of the file gets smaller as the pawn's job gets easier. Behind the pawn the count runs the other way.",
+      "arrows": [
+        [
+          "a1",
+          "a6"
+        ]
+      ],
+      "highlights": [
+        "a1",
+        "a6"
+      ]
+    },
+    {
+      "fen": "4rk2/2R2ppp/p7/8/8/6K1/5PPP/8 w - - 0 1",
+      "text": "Two squares on the a-file sit behind his pawn, a7 and a8, and only those two. The rook on c7 can reach a7 along the seventh rank in one move, which is the whole plan: not a grab, not a check, just the right square before the pawn starts running.",
+      "arrows": [
+        [
+          "c7",
+          "a7"
+        ]
+      ],
+      "highlights": [
+        "a7",
+        "a8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.9.4-c1",
+      "type": "find_the_move",
+      "fen": "1r3k2/3R1ppp/p7/8/8/6K1/5PPP/8 w - - 0 1",
+      "prompt": "You are a pawn down and his a-pawn has a clear road. One rook move makes this a half point.",
+      "answer": {
+        "moves": [
+          "Ra7"
+        ]
+      },
+      "wrong": {
+        "Rxf7+": "Counting the wrong thing. f7 is guarded by his king, so Kxf7 answers it and you have given a rook for a pawn.",
+        "Rd6": "Attacking the pawn from the side does nothing lasting. It walks past on a5 and your rook has to keep chasing it sideways."
+      },
+      "concept": "passed-pawn",
+      "hints": {
+        "piece": "d7",
+        "square": "a7"
+      },
+      "reason": "Ra7 gets behind the pawn, and behind is the square that keeps working. a5 changes nothing, because from a7 the rook still attacks the pawn and Rxa5 is available whenever it is wanted."
+    },
+    {
+      "id": "4.9.4-c2",
+      "type": "find_the_move",
+      "fen": "3r2k1/1R3ppp/p7/8/8/7K/5PPP/8 w - - 0 1",
+      "prompt": "Same material, same job. Put the rook on the one square that keeps his passed pawn under control for the rest of the game.",
+      "answer": {
+        "moves": [
+          "Ra7"
+        ]
+      },
+      "wrong": {
+        "Rxf7": "His king on g8 covers f7, so Kxf7 leaves you a rook down for one pawn.",
+        "Rb6": "Side-on and temporary. The pawn is not obliged to stay where your rook happens to be looking."
+      },
+      "concept": "passed-pawn",
+      "hints": {
+        "piece": "b7",
+        "square": "a7"
+      },
+      "reason": "Ra7 again. The rook travels along the seventh rank to the file it wants, and once it is behind the pawn the pawn has stopped being a threat and started being a target."
+    },
+    {
+      "id": "4.9.4-c3",
+      "type": "which_square",
+      "fen": "2r2k2/3R1ppp/p7/8/8/7K/5PPP/8 w - - 0 1",
+      "prompt": "Tap the square your rook should take, behind his passed pawn rather than beside it.",
+      "answer": {
+        "square": "a7"
+      },
+      "concept": "passed-pawn",
+      "hints": {
+        "text": "Behind a black pawn means above it. Your rook can slide along the seventh rank to get there."
+      },
+      "reason": "a7. Behind a black pawn is the side it came from, and from a7 the rook keeps the pawn in front of it wherever the pawn goes."
+    },
+    {
+      "id": "4.9.4-c4",
+      "type": "find_them_all",
+      "fen": "4rk2/2R2ppp/p7/8/8/6K1/5PPP/8 w - - 0 1",
+      "prompt": "Tap every square on the a-file that lies behind his passed pawn.",
+      "answer": {
+        "squares": [
+          "a7",
+          "a8"
+        ]
+      },
+      "concept": "passed-pawn",
+      "hints": {
+        "text": "A black pawn travels down the board, so behind it means the squares it has already left."
+      },
+      "reason": "Two squares, a7 and a8. Everything below a6 is in front of the pawn, which is the side you do not want: in front the rook blocks, behind it attacks."
+    },
+    {
+      "id": "4.9.4-c5",
+      "type": "name_the_pattern",
+      "fen": "3r1k2/1R3ppp/p7/8/8/6K1/5PPP/8 w - - 0 1",
+      "prompt": "Ra7 puts the rook behind his passed pawn. The other choice players make is a rook down on a1, in front of it. Why is behind better?",
+      "options": [
+        "Because a rook on the seventh rank is always worth more than a rook on the first.",
+        "Because from behind the rook attacks the pawn wherever it runs, and the further the pawn goes the more of the file the rook sees. In front the rook only blocks, and its share of the file shrinks with every step the pawn takes.",
+        "Because from a7 the rook also attacks his pawns on f7, g7 and h7."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "passed-pawn",
+      "hints": {
+        "text": "Follow the pawn down the file one square at a time and count what each rook can see."
+      },
+      "reason": "Behind the pawn the rook's job gets easier as the pawn advances; in front it gets harder. That asymmetry is the whole rule, and it holds for your own passed pawns just as much as for his."
+    },
+    {
+      "id": "4.9.4-c6",
+      "type": "is_it_safe",
+      "fen": "1r3k2/2R2ppp/p7/8/8/7K/5PPP/8 w - - 0 1",
+      "move": "Ra7",
+      "prompt": "Ra7 lands right next to his pawn, with his rook on b8 looking along the eighth rank. Is the rook safe on a7?",
+      "reasons": [
+        "Yes. Nothing of Black's attacks a7: the pawn on a6 captures towards b5, not backwards, and the rook on b8 would have to reach a7 to touch it, which is not a move it has.",
+        "No. The pawn on a6 takes it.",
+        "No. Rb7 attacks it, and Black wins a rook."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "passed-pawn",
+      "hints": {
+        "text": "Work out which squares a black pawn on a6 actually attacks, and what a rook on b8 can reach in one move."
+      },
+      "reason": "A pawn captures forwards and diagonally, which for a black pawn on a6 means b5 — never a7. The rook behind the pawn is not in danger; it is in the right place."
+    },
+    {
+      "id": "4.9.4-c7",
+      "type": "find_the_sequence",
+      "fen": "1r3k2/3R1ppp/p7/8/8/6K1/5PPP/8 w - - 0 1",
+      "prompt": "Play it out. Get behind the pawn, let him push it, and take it.",
+      "answer": {
+        "line": [
+          "Ra7",
+          "a5",
+          "Rxa5"
+        ]
+      },
+      "concept": "passed-pawn",
+      "hints": {
+        "text": "The pawn running does not escape a rook that is already behind it."
+      },
+      "reason": "Ra7 a5 Rxa5 and the passed pawn is gone, with the rooks and three pawns each left over. Pushing a pawn past a rook that stands behind it only brings the pawn closer to the rook."
+    }
+  ],
+  "takeaway": "A rook belongs behind a passed pawn, his or yours. Behind it the rook's reach grows as the pawn advances; in front of it the rook is only a doorstop."
+}

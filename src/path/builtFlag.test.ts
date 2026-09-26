@@ -82,22 +82,43 @@ test('every unit marked built has a checkpoint', () => {
   expect(missing).toEqual([]);
 });
 
-test('a built lesson actually parses, not merely exists', async () => {
-  // `listLessons` reads the glob's KEYS, which are paths. A file that is
-  // present and malformed satisfies every check above and fails in front of a
-  // learner. One real load per built unit is enough to catch a corpus-wide
-  // fault (a bad schema migration, a truncated write) without loading 164
-  // files, and the challenge count is asserted because an empty `challenges`
-  // array parses perfectly well.
-  for (const u of units) {
-    if (!u.built) continue;
-    const first = u.lessons[0];
-    expect(first, `unit ${u.id} declares no lessons`).toBeDefined();
-    const lesson = await loadLesson(first!.id);
-    expect(lesson.id, `unit ${u.id}`).toBe(first!.id);
-    expect(lesson.challenges.length, `lesson ${first!.id} has no challenges`).toBeGreaterThan(0);
-  }
-});
+test(
+  'a built lesson actually parses, not merely exists',
+  async () => {
+    // `listLessons` reads the glob's KEYS, which are paths. A file that is
+    // present and malformed satisfies every check above and fails in front of a
+    // learner. One real load per built unit is enough to catch a corpus-wide
+    // fault (a bad schema migration, a truncated write) without loading 164
+    // files, and the challenge count is asserted because an empty `challenges`
+    // array parses perfectly well.
+    for (const u of units) {
+      if (!u.built) continue;
+      const first = u.lessons[0];
+      expect(first, `unit ${u.id} declares no lessons`).toBeDefined();
+      const lesson = await loadLesson(first!.id);
+      expect(lesson.id, `unit ${u.id}`).toBe(first!.id);
+      expect(lesson.challenges.length, `lesson ${first!.id} has no challenges`).toBeGreaterThan(0);
+    }
+  },
+  /*
+   * A raised timeout, not a flake tolerated.
+   *
+   * This test performs one REAL dynamic import per built unit. That was six
+   * when it was written and is thirty-five now, and it grows by one every time
+   * a unit ships. Against vitest's 5s default it failed three times in one
+   * afternoon while agents were saturating the machine, and passed every time
+   * it was re-run alone -- which is the signature of a budget, not a defect.
+   *
+   * The work is real and worth doing, so the budget moves rather than the
+   * scope. Re-scoping to "load one lesson" would make it fast and would stop
+   * catching the corpus-wide fault it exists for.
+   *
+   * If this starts failing at 30s on an idle machine, that is a genuine
+   * finding: it means module resolution has become slow enough for a learner
+   * to notice, since the app loads these the same way.
+   */
+  30_000,
+);
 
 test('no finished unit is left switched off', () => {
   /*

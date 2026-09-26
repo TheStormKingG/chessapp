@@ -1,0 +1,199 @@
+{
+  "id": "4.9.3",
+  "unit": "4.9",
+  "title": "The rook on the seventh",
+  "xp": 15,
+  "card": {
+    "idea": "In unit 3.7 the seventh rank was a place to attack pawns from. In an ending it is more than that, because the enemy rook wants the same rank and only one of you can have it. Whoever arrives there with a check wins the argument: the king has to answer the check, and while it does, your rook takes his.",
+    "diagrams": [
+      "8/r2k4/8/5P2/4K3/8/6R1/8 w - - 0 1",
+      "r5k1/3R1ppp/8/8/8/6K1/5PPP/8 b - - 0 1"
+    ],
+    "habit": "Both rooks want the seventh. Get there with a check."
+  },
+  "explain": [
+    {
+      "fen": "8/r2k4/8/5P2/4K3/8/6R1/8 w - - 0 1",
+      "text": "His rook is already on the seventh and his king is standing on it too, which is the flaw. Rg7+ arrives on the same rank with a check. He has five legal answers — Kc8, Kd8, Ke8, Kd6, Kc6 — and after every single one of them Rxa7 takes the rook. The check is what makes it work.",
+      "arrows": [
+        [
+          "g2",
+          "g7"
+        ],
+        [
+          "g7",
+          "a7"
+        ]
+      ],
+      "highlights": [
+        "g7",
+        "a7"
+      ]
+    },
+    {
+      "fen": "r5k1/3R1ppp/8/8/8/6K1/5PPP/8 b - - 0 1",
+      "text": "The other half of the seventh rank's value. The rook on d7 leaves Black's king exactly two squares, f8 and h8, both on the back row. Note what the rook actually attacks along the rank, though: e7 and f7, and then it stops. The pawns on g7 and h7 are shielded by the one on f7.",
+      "arrows": [
+        [
+          "d7",
+          "f7"
+        ]
+      ],
+      "highlights": [
+        "f8",
+        "h8"
+      ]
+    },
+    {
+      "fen": "3r2k1/R4ppp/8/8/8/6K1/5PPP/8 b - - 0 1",
+      "text": "Black would like the seventh rank as well. He has exactly one move onto it, Rd7, and White answers Rxd7 — the rank already belongs to somebody. This is why the seventh is worth a tempo: arriving second on a rank the other rook controls is not arriving at all.",
+      "arrows": [
+        [
+          "d8",
+          "d7"
+        ]
+      ],
+      "highlights": [
+        "d7",
+        "a7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.9.3-c1",
+      "type": "find_the_move",
+      "fen": "8/r2k4/8/5P2/4K3/8/6R1/8 w - - 0 1",
+      "prompt": "His king and his rook are both sitting on the seventh rank. Join them there.",
+      "answer": {
+        "moves": [
+          "Rg7+"
+        ]
+      },
+      "wrong": {
+        "Rd2+": "A check on the wrong line. He steps aside and his rook is still perfectly safe on a7.",
+        "f6": "Pushing the pawn ignores the gift. His king and rook will not be sharing a rank for long."
+      },
+      "concept": "rook-on-seventh",
+      "hints": {
+        "piece": "g2",
+        "square": "g7"
+      },
+      "reason": "Rg7+ is a check and a rook attack at the same time. All five of his replies leave the rook on a7, and Rxa7 wins it in every one of them."
+    },
+    {
+      "id": "4.9.3-c2",
+      "type": "find_the_move",
+      "fen": "8/4k2r/8/6P1/6K1/8/8/2R5 w - - 0 1",
+      "prompt": "Same shape, other wing. His king shares the seventh rank with his rook, so find the move that punishes it.",
+      "answer": {
+        "moves": [
+          "Rc7+"
+        ]
+      },
+      "wrong": {
+        "Re1+": "A check that wins nothing. His king steps off the e-file and the rook on h7 is untouched.",
+        "g6": "The pawn can wait. A rook is worth more than a tempo."
+      },
+      "concept": "rook-on-seventh",
+      "hints": {
+        "piece": "c1",
+        "square": "c7"
+      },
+      "reason": "Rc7+ forces the king to move, and Kd8, Ke8, Kf8, Ke6 and Kd6 all allow Rxh7. The rook on the seventh attacks along the rank while the check buys the time to collect."
+    },
+    {
+      "id": "4.9.3-c3",
+      "type": "find_them_all",
+      "fen": "r5k1/3R1ppp/8/8/8/6K1/5PPP/8 b - - 0 1",
+      "prompt": "Tap every square on the seventh rank that White's rook on d7 controls.",
+      "answer": {
+        "squares": [
+          "a7",
+          "b7",
+          "c7",
+          "e7",
+          "f7"
+        ]
+      },
+      "concept": "rook-on-seventh",
+      "hints": {
+        "text": "Count outwards in both directions, and stop where something is in the way."
+      },
+      "reason": "Five squares. To the right it reaches e7 and f7 and stops at the pawn, so g7 and h7 are not on the list — a rook's reach ends at the first man in its path, not at the edge of the board."
+    },
+    {
+      "id": "4.9.3-c4",
+      "type": "which_square",
+      "fen": "1r5k/4Rppp/8/8/8/6K1/5PPP/8 b - - 0 1",
+      "prompt": "The rook on e7 has the seventh rank. Tap the only square Black's king is allowed to move to.",
+      "answer": {
+        "square": "g8"
+      },
+      "concept": "rook-on-seventh",
+      "hints": {
+        "text": "The seventh rank is closed to him, and h7 is his own pawn."
+      },
+      "reason": "g8, and nothing else. h7 is occupied by his own pawn and every other square around the king is on the seventh rank, which the rook owns. A king with one square is a king that can be mated."
+    },
+    {
+      "id": "4.9.3-c5",
+      "type": "is_it_safe",
+      "fen": "3r2k1/R4ppp/8/8/8/6K1/5PPP/8 b - - 0 1",
+      "move": "Rd7",
+      "prompt": "You are Black, and you would like the seventh rank too. You play Rd7 to claim your share of it. Is the rook safe there?",
+      "reasons": [
+        "Yes. The rooks are of equal value, so a trade on d7 costs nothing.",
+        "Yes. White's rook on a7 is pinned to the back rank and cannot leave it.",
+        "No. The rook on a7 already controls the whole rank as far as f7, so Rxd7 simply takes it and Black has given up a rook for nothing."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "rook-on-seventh",
+      "hints": {
+        "text": "Before you land on a rank, check who already controls it."
+      },
+      "reason": "Rd7 is the only move Black has onto the seventh, and it loses a rook. Rxd7 is not a trade: nothing of Black's can recapture on d7."
+    },
+    {
+      "id": "4.9.3-c6",
+      "type": "name_the_pattern",
+      "fen": "8/r3k3/2P5/2K5/8/8/7R/8 w - - 0 1",
+      "prompt": "Rh7+ wins a rook here. What is the mechanism?",
+      "options": [
+        "Rh7+ forces his king off the seventh rank, and because his rook is standing on that same rank, Rxa7 follows whichever square the king chooses.",
+        "The rook on h7 is defended by the pawn on c6, so Black cannot take it.",
+        "Rh7+ threatens mate on h8, and saving the rook allows the mate."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "rook-on-seventh",
+      "hints": {
+        "text": "Two things are on the seventh rank, and only one of them is obliged to move."
+      },
+      "reason": "After Rh7+ a king in check must deal with the check and can do nothing else. Kd8, Ke8, Kf8, Kf6 and Ke6 are his five answers, and Rxa7 meets all of them."
+    },
+    {
+      "id": "4.9.3-c7",
+      "type": "find_the_sequence",
+      "fen": "8/r3k3/2P5/2K5/8/8/7R/8 w - - 0 1",
+      "prompt": "Play it out. Take the seventh rank with a check, let him step away, then collect.",
+      "answer": {
+        "line": [
+          "Rh7+",
+          "Kd8",
+          "Rxa7"
+        ]
+      },
+      "concept": "rook-on-seventh",
+      "hints": {
+        "text": "Check first. The rook is not going anywhere while the king is busy."
+      },
+      "reason": "Rh7+ Kd8 Rxa7 and White is a whole rook up with a pawn on c6 besides. Any of his other four king moves loses the rook in exactly the same way."
+    }
+  ],
+  "takeaway": "Both rooks want the seventh rank, and a check settles who gets it. Arrive with a check when his king is on that rank too, and his rook is the payment."
+}
