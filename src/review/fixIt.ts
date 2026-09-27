@@ -55,7 +55,18 @@ export function drillFrom(errors: ErrorEntry[]): Drill | null {
     concept: e.theme,
     // Both notations, because the player accepts either and the learner may be
     // in text-entry mode.
-    answer: { moves: [e.bestUci, e.bestSan] },
+    //
+    // SAN FIRST, and the order is load-bearing rather than cosmetic.
+    // `revealText` prints `answer.moves[0]` verbatim (LessonMachine), so with
+    // UCI first a learner who tapped "Show me" was told "The answer is f2f3"
+    // -- coordinate notation, which this curriculum never teaches and which
+    // unit 1.1.3 explicitly replaces with piece letters. Both are still
+    // accepted, because `checkAnswer` runs each through `sanOf`.
+    //
+    // Found by the tailored-sessions author while building its own challenges:
+    // it hit the same trap, fixed its side, and reported this one rather than
+    // reaching into a module it had no business editing.
+    answer: { moves: [e.bestSan, e.bestUci] },
   }));
 
   return {

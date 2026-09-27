@@ -66,6 +66,33 @@ test('each challenge is find_the_move on the position before the mistake', () =>
   }
 });
 
+test('the answer READS as SAN, because the reveal prints the first entry', () => {
+  /*
+   * The two assertions above use `toContain`, so they pass whichever order the
+   * notations are in -- which is why they never caught this. `revealText` in
+   * `LessonMachine` prints `answer.moves[0]` verbatim, so a learner who tapped
+   * "Show me" on a fix-it drill was told "The answer is g1f3": coordinate
+   * notation, which this curriculum never teaches and which unit 1.1.3
+   * explicitly replaces with piece letters.
+   *
+   * So the ORDER is the behaviour, and it gets its own assertion. Both
+   * notations remain accepted -- the second half of this test is the control
+   * proving the fix did not just drop one.
+   */
+  // Three errors, matching the tests above: `drillFrom` returns null below its
+  // minimum, and a null here would fail for a reason that has nothing to do
+  // with notation.
+  const d = drillFrom([err({ ply: 10 }), err({ ply: 12 }), err({ ply: 14 })])!;
+  expect(d).not.toBeNull();
+  const c = d.challenges[0];
+  expect(c).toBeDefined();
+  if (c?.type === 'find_the_move') {
+    expect(c.answer.moves[0]).toBe('Nf3');
+    expect(c.answer.moves[0]).not.toMatch(/^[a-h][1-8][a-h][1-8]/);
+    expect(c.answer.moves).toContain('g1f3');
+  }
+});
+
 test('challenge ids are unique, so the player can key on them', () => {
   const d = drillFrom([err({ ply: 10 }), err({ ply: 12 }), err({ ply: 14 })])!;
   expect(new Set(d.challenges.map((c) => c.id)).size).toBe(3);
