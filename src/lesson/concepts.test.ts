@@ -4,20 +4,22 @@
 // silently. Design spec 2026-09-19 section 5 enumerates the vocabulary in the
 // schema so an unknown or misspelled tag fails verification rather than
 // shipping. These tests are the executable half of that.
-import { readFileSync, readdirSync, statSync } from 'node:fs';
-import { join } from 'node:path';
+import { readFileSync, readdirSync, statSync } from "node:fs";
+import { join } from "node:path";
 
 interface SchemaLike {
-  definitions?: { challenge?: { properties?: { concept?: { enum?: string[] } } } };
+  definitions?: {
+    challenge?: { properties?: { concept?: { enum?: string[] } } };
+  };
 }
 
 function vocabularyOf(schemaPath: string): string[] {
-  const schema = JSON.parse(readFileSync(schemaPath, 'utf8')) as SchemaLike;
+  const schema = JSON.parse(readFileSync(schemaPath, "utf8")) as SchemaLike;
   return schema.definitions?.challenge?.properties?.concept?.enum ?? [];
 }
 
-const LESSON_SCHEMA = 'content/schema/lesson.schema.json';
-const CHECKPOINT_SCHEMA = 'content/schema/checkpoint.schema.json';
+const LESSON_SCHEMA = "content/schema/lesson.schema.json";
+const CHECKPOINT_SCHEMA = "content/schema/checkpoint.schema.json";
 const CONCEPTS = vocabularyOf(LESSON_SCHEMA);
 
 interface TaggedEntry {
@@ -28,50 +30,84 @@ interface TaggedEntry {
 
 // Walks all of content/, not one section, so a later section is swept the day
 // it lands rather than the day somebody remembers to widen the glob.
-function contentFiles(dir = 'content', out: string[] = []): string[] {
+function contentFiles(dir = "content", out: string[] = []): string[] {
   for (const name of readdirSync(dir)) {
-    if (name === 'schema') continue;
+    if (name === "schema") continue;
     const p = join(dir, name);
     if (statSync(p).isDirectory()) contentFiles(p, out);
-    else if (p.endsWith('.json')) out.push(p);
+    else if (p.endsWith(".json")) out.push(p);
   }
   return out;
 }
 
-function taggedEntries(): { entries: TaggedEntry[]; fileCount: number } {
+/*
+ * The tree is read ONCE per file, not once per assertion.
+ *
+ * `contentFiles()` walks all of content/ and `taggedEntries()` parses every JSON
+ * file in it. Between them they were called five times in this file: twice by
+ * the vocabulary tests, twice by `checkpointFiles()` in the leak test, and once
+ * more inside it. That was affordable while the corpus was small and it stopped
+ * being affordable at 204 files and 2,630 challenges -- both vocabulary tests
+ * began timing out at vitest's 5,000ms default, but ONLY in a run with other
+ * files competing for the machine. Run on its own the file stayed green, which
+ * is the worst shape for this failure to have: it looks like flake and it is a
+ * size threshold that will not go back under the line.
+ *
+ * Memoised rather than given a longer timeout, because the sweeps are pure and
+ * the second read cannot disagree with the first. Nothing about what is asserted
+ * changes; the non-empty controls below still prove each sweep read something.
+ */
+let filesCache: string[] | null = null;
+function contentFilesCached(): string[] {
+  filesCache ??= contentFiles();
+  return filesCache;
+}
+let entriesCache: { entries: TaggedEntry[]; fileCount: number } | null = null;
+
+function taggedEntriesUncached(): {
+  entries: TaggedEntry[];
+  fileCount: number;
+} {
   const entries: TaggedEntry[] = [];
-  const files = contentFiles();
+  const files = contentFilesCached();
   for (const file of files) {
-    const parsed = JSON.parse(readFileSync(file, 'utf8')) as {
+    const parsed = JSON.parse(readFileSync(file, "utf8")) as {
       challenges?: { id?: string; concept?: string }[];
       bank?: { id?: string; concept?: string }[];
     };
     for (const c of [...(parsed.challenges ?? []), ...(parsed.bank ?? [])]) {
-      if (typeof c.concept === 'string') {
-        entries.push({ file, id: c.id ?? '(no id)', concept: c.concept });
+      if (typeof c.concept === "string") {
+        entries.push({ file, id: c.id ?? "(no id)", concept: c.concept });
       }
     }
   }
   return { entries, fileCount: files.length };
 }
 
-describe('the concept vocabulary', () => {
-  test('is declared in the lesson schema', () => {
+function taggedEntries(): { entries: TaggedEntry[]; fileCount: number } {
+  entriesCache ??= taggedEntriesUncached();
+  return entriesCache;
+}
+
+describe("the concept vocabulary", () => {
+  test("is declared in the lesson schema", () => {
     expect(CONCEPTS.length).toBeGreaterThan(0);
   });
 
-  test('is identical in the checkpoint schema', () => {
+  test("is identical in the checkpoint schema", () => {
     expect(vocabularyOf(CHECKPOINT_SCHEMA)).toEqual(CONCEPTS);
   });
 
-  test('has no near-duplicates', () => {
+  test("has no near-duplicates", () => {
     // Two tags differing only by a hyphen are the drift this vocabulary exists
     // to stop: `check-mate` and `checkmate` are one concept in two halves.
-    const normalise = (s: string): string => s.replace(/-/g, '');
+    const normalise = (s: string): string => s.replace(/-/g, "");
     const seen = new Map<string, string>();
     for (const c of CONCEPTS) {
       const k = normalise(c);
-      expect(seen.has(k), `${c} collides with ${seen.get(k) ?? ''}`).toBe(false);
+      expect(seen.has(k), `${c} collides with ${seen.get(k) ?? ""}`).toBe(
+        false,
+      );
       seen.set(k, c);
     }
     // Without this the loop above passes over an empty vocabulary.
@@ -80,8 +116,8 @@ describe('the concept vocabulary', () => {
   });
 });
 
-describe('content concept tags', () => {
-  test('are all in the vocabulary', () => {
+describe("content concept tags", () => {
+  test("are all in the vocabulary", () => {
     const { entries, fileCount } = taggedEntries();
     // A sweep that finds nothing reports an empty list of problems, which is
     // the same shape as a clean sweep. Prove it looked at something first.
@@ -92,9 +128,22 @@ describe('content concept tags', () => {
       .filter((e) => !CONCEPTS.includes(e.concept))
       .map((e) => `${e.file} ${e.id}: ${e.concept}`);
     expect(unknown).toEqual([]);
-  });
+  }, /*
+   * A raised timeout, not a flake tolerated, and the same reason
+   * builtFlag.test.ts raises one: this test's work is a whole-tree read, and the
+   * tree is now 204 files and 2,630 challenges. One walk plus one JSON.parse per
+   * file takes under a second on an idle machine and crossed vitest's 5,000ms
+   * default in a full run, where fourteen jsdom environments are being built at
+   * the same time. Memoising the sweep (above) took five walks down to one; the
+   * remaining one is irreducible, because reading every file is the assertion.
+   *
+   * The failure this replaces was the worst possible shape: green when the file
+   * ran alone, red in the suite, and reported as a timeout that reads like flake
+   * rather than as the size threshold it is.
+   */
+  30_000);
 
-  test('every vocabulary entry is actually used', () => {
+  test("every vocabulary entry is actually used", () => {
     // An unused tag is either a typo nobody caught or a concept that was
     // renamed and left behind. Either way it is drift with a schema blessing.
     const used = new Set(taggedEntries().entries.map((e) => e.concept));
@@ -104,10 +153,10 @@ describe('content concept tags', () => {
 
 /** Every `checkpoint.json` in the corpus, so the sweep cannot miss a section. */
 function checkpointFiles(): string[] {
-  return contentFiles().filter((f) => f.endsWith('checkpoint.json'));
+  return contentFilesCached().filter((f) => f.endsWith("checkpoint.json"));
 }
 
-test('no checkpoint question names the concept it tests (PRD 6.4)', () => {
+test("no checkpoint question names the concept it tests (PRD 6.4)", () => {
   // The Playwright suite checks this, but only over the 10 questions a run
   // happens to sample from a bank of 30+, so it fails about 40% of the time
   // and passes by luck the rest. A static sweep over every bank entry makes
@@ -120,13 +169,28 @@ test('no checkpoint question names the concept it tests (PRD 6.4)', () => {
   // checked a renamed tag against its own prompt text.
   const leaks: string[] = [];
   for (const file of checkpointFiles()) {
-    for (const entry of JSON.parse(readFileSync(file, 'utf8')).bank) {
+    for (const entry of JSON.parse(readFileSync(file, "utf8")).bank) {
       if (entry.prompt.toLowerCase().includes(entry.concept.toLowerCase())) {
-        leaks.push(`${entry.id}: concept "${entry.concept}" appears in "${entry.prompt}"`);
+        leaks.push(
+          `${entry.id}: concept "${entry.concept}" appears in "${entry.prompt}"`,
+        );
       }
     }
   }
   expect(leaks).toEqual([]);
   // Non-empty control: the sweep must actually have read banks.
   expect(checkpointFiles().length).toBeGreaterThanOrEqual(7);
-});
+}, /*
+ * A raised timeout, not a flake tolerated, and the same reason
+ * builtFlag.test.ts raises one: this test's work is a whole-tree read, and the
+ * tree is now 204 files and 2,630 challenges. One walk plus one JSON.parse per
+ * file takes under a second on an idle machine and crossed vitest's 5,000ms
+ * default in a full run, where fourteen jsdom environments are being built at
+ * the same time. Memoising the sweep (above) took five walks down to one; the
+ * remaining one is irreducible, because reading every file is the assertion.
+ *
+ * The failure this replaces was the worst possible shape: green when the file
+ * ran alone, red in the suite, and reported as a timeout that reads like flake
+ * rather than as the size threshold it is.
+ */
+30_000);

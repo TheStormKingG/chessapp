@@ -194,7 +194,14 @@ test('finishing everything built leaves no active lesson', () => {
   expect(ids.length).toBeGreaterThan(0);
   const declared = SECTIONS.flatMap((sec) => sec.units).map((u) => u.id);
   expect(ids).toEqual(declared.slice(0, ids.length));
-  expect(ids.length).toBeLessThan(declared.length); // not everything, or the split is vacuous
+  /*
+   * The prefix is now the WHOLE path: 4.11 and 4.12 were the last two units and
+   * both are built. The line here used to be `ids.length < declared.length`
+   * ("not everything, or the split is vacuous"), which was a claim about the
+   * path being unfinished rather than about this check. Asserting equality is
+   * strictly stronger than the prefix check above and cannot go vacuous.
+   */
+  expect(ids).toEqual(declared);
 
   expect(activeLesson(allUnitsPassed())).toBeNull();
   expect(activeNode(allUnitsPassed())).toBeNull();
@@ -234,13 +241,21 @@ test('the path walks every declared section, in path order', () => {
    */
   const s4 = nodes.filter((n) => n.section === '4');
   expect(s4).toHaveLength(53 + 12);
+  /*
+   * Section 4 is wholly authored now -- 4.11 and 4.12 landed together -- so it
+   * owes what Sections 2 and 3 owe and the derived built/coming split has
+   * nothing left to divide. The comment above predicted this ("it will fail the
+   * same way when Section 4 completes, which is the end of v1"), and it did.
+   * The `s4Coming.length > 0` control went with it for the same reason the
+   * Section 3 block lost its own: there is no boundary left to track.
+   *
+   * `built4` stays, asserted to be total rather than partial, so a flag flipped
+   * back to false fails here instead of silently shrinking the sweep.
+   */
   const built4 = new Set(SECTION_4.units.filter((u) => u.built).map((u) => u.id));
-  const s4Built = s4.filter((n) => built4.has(n.unit));
-  const s4Coming = s4.filter((n) => !built4.has(n.unit));
-  expect(s4Coming.length).toBeGreaterThan(0);
-  expect(s4Built).toHaveLength(s4.length - s4Coming.length); // the split is total
-  expect(s4Built.filter((n) => n.state === 'coming')).toEqual([]);
-  expect(s4Coming.filter((n) => n.state !== 'coming')).toEqual([]);
+  expect(built4.size).toBe(SECTION_4.units.length);
+  expect(s4.filter((n) => !built4.has(n.unit))).toEqual([]);
+  expect(s4.filter((n) => n.state === 'coming')).toEqual([]);
   expect(nodes.filter((n) => n.state === 'active')).toHaveLength(1);
 });
 

@@ -516,7 +516,7 @@ export const SECTION_4: SectionDef = {
     {
       id: '4.11',
       title: 'Opening plans through model games',
-      built: false,
+      built: true,
       lessons: [
         { id: '4.11.1', title: 'The slow Italian plan' },
         { id: '4.11.2', title: 'The Carlsbad minority attack' },
@@ -528,7 +528,7 @@ export const SECTION_4: SectionDef = {
     {
       id: '4.12',
       title: 'Practical skills',
-      built: false,
+      built: true,
       lessons: [
         { id: '4.12.1', title: 'Critical moments and where the time goes' },
         { id: '4.12.2', title: 'Time trouble rules' },

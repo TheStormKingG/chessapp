@@ -1,0 +1,186 @@
+{
+  "id": "4.11.4",
+  "unit": "4.11",
+  "title": "The Caro-Kann c5 break",
+  "xp": 16,
+  "card": {
+    "idea": "White has a pawn chain from d4 to e5 and it is held up by one pawn: the one on d4. Black plays c5 at it, and then spends five moves bringing a second and a third attacker to the same square. The break is one move. Making it mean something takes the rest of the opening.",
+    "diagrams": [
+      "rn1qkbnr/pp3ppp/4p3/2ppPb2/3P4/5N2/PPP1BPPP/RNBQK2R w KQkq - 0 6",
+      "r2q1rk1/pp3ppp/2n1p1b1/3pP1N1/3n4/2N5/PP1QBPPP/2R2RK1 w - - 0 15"
+    ],
+    "habit": "Hit the base of a pawn chain, then bring a piece to the square the pawn was defending."
+  },
+  "explain": [
+    {
+      "fen": "rn1qkbnr/pp3ppp/4p3/2ppPb2/3P4/5N2/PPP1BPPP/RNBQK2R w KQkq - 0 6",
+      "text": "The pawn on e5 cannot be attacked by anything for a long time and does not need to be. It is standing on a pawn on d4, and d4 can be hit by a pawn at once. c5 is the whole plan in one move: take away the support and the front pawn is holding itself up.",
+      "highlights": [
+        "c5",
+        "d4",
+        "e5"
+      ]
+    },
+    {
+      "fen": "r2qkb1r/pp3ppp/2n1p1b1/3pPn2/3P4/2N1BN2/PP2BPPP/R2Q1RK1 w kq - 5 11",
+      "text": "Ten moves and Black has three men bearing on the base of the chain, counting the knight that came e7-f5 once the bishop stepped aside to g6. White holds d4 three times as well, with a bishop on e3, a knight on f3 and a queen on d2. The position is level and every trade on that square matters.",
+      "highlights": [
+        "d4",
+        "c6",
+        "f5"
+      ]
+    },
+    {
+      "fen": "r2q1rk1/pp3ppp/2n1p1b1/3pP1N1/3n4/2N5/PP1QBPPP/2R2RK1 w - - 0 15",
+      "text": "White offered to trade the bishop on e3 and Black accepted at once. That bishop was one of three defenders of d4; without it the square is held by a queen alone against two knights, and the pawn falls. A good bishop that is holding a pawn is not available for trades.",
+      "highlights": [
+        "d4",
+        "d2"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.11.4-c1",
+      "type": "guess_the_move",
+      "fen": "rn1qkbnr/pp3ppp/2p1p3/3pPb2/3P4/5N2/PPP1BPPP/RNBQK2R b KQkq - 1 5",
+      "prompt": "You are Black. White has a pawn chain d4 and e5. Play the pawn move that attacks the pawn holding the other one up.",
+      "answer": {
+        "moves": [
+          "c5"
+        ]
+      },
+      "commentary": "c5 is the move this whole variation is about. The pawn on e5 is out of reach and the pawn on d4 is not, so Black attacks the one he can reach and lets the other one worry about itself. Note the order: the bishop came out to f5 first, because after c5 and e6 it would have been locked in behind its own pawns for the rest of the game.",
+      "concept": "caro-kann",
+      "reason": "c5 hits d4, the base of White’s pawn chain, which is the only part of it a pawn can reach.",
+      "hints": {
+        "piece": "c6",
+        "square": "c5"
+      }
+    },
+    {
+      "id": "4.11.4-c2",
+      "type": "guess_the_move",
+      "fen": "rn1qkbnr/pp3ppp/4p3/2ppPb2/3P4/4BN2/PPP1BPPP/RN1QK2R b KQkq - 1 6",
+      "prompt": "White has propped the base up with a pawn on c3. One pawn attacking it is not enough. Develop a piece to the same square.",
+      "answer": {
+        "moves": [
+          "Nc6"
+        ]
+      },
+      "commentary": "The knight comes to c6 where it is developed and attacking d4 at the same time, which is how every piece in this plan is going to be placed. A break that is answered by a support pawn has not failed; it has told you where the rest of your pieces belong. Black is now two attackers to White’s two defenders.",
+      "concept": "caro-kann",
+      "reason": "Nc6 develops and adds a second attacker to d4.",
+      "hints": {
+        "text": "Which black piece can be developed and hit d4 in one move?"
+      }
+    },
+    {
+      "id": "4.11.4-c3",
+      "type": "guess_the_move",
+      "fen": "r2qkbnr/pp3ppp/2n1p3/2ppPb2/3P4/2P1BN2/PP2BPPP/RN1QK2R b KQkq - 0 7",
+      "prompt": "Now take on d4. Think about which white man will have to come back to that square afterwards.",
+      "answer": {
+        "moves": [
+          "cxd4"
+        ]
+      },
+      "commentary": "Taking now makes White recapture with the c-pawn, so the pawn that was propping d4 up ends up on d4 itself and there is no pawn behind it any more. From here on every defender of that square has to be a piece, and pieces can be traded off. Black delays nothing: the longer he waits the more likely White is to resolve the centre himself.",
+      "concept": "caro-kann",
+      "reason": "cxd4 forces cxd4, so the base of the chain is now a pawn no other pawn can defend.",
+      "hints": {
+        "piece": "c5",
+        "square": "d4"
+      }
+    },
+    {
+      "id": "4.11.4-c4",
+      "type": "guess_the_move",
+      "fen": "r2qkbnr/pp3ppp/2n1p3/3pPb2/3P4/4BN2/PP2BPPP/RN1QK2R b KQkq - 0 8",
+      "prompt": "Develop the knight that is still at home, and pick the square that keeps f5 free for it later.",
+      "answer": {
+        "moves": [
+          "Nge7"
+        ]
+      },
+      "commentary": "The knight goes to e7 rather than f6, where the pawn on e5 would meet it, and from e7 it is heading for f5 to become the third attacker on d4. It costs a move and blocks the bishop on f8 for one turn. Everything in this plan is aimed at a single square and the shortest route to that square is not always the shortest route.",
+      "concept": "caro-kann",
+      "reason": "Nge7 develops towards f5, the square from which the knight will also attack d4.",
+      "hints": {
+        "text": "f6 is not available. Which other square lets this knight reach f5?"
+      }
+    },
+    {
+      "id": "4.11.4-c5",
+      "type": "guess_the_move",
+      "fen": "r2qkb1r/pp2nppp/2n1p3/3pPb2/3P4/4BN2/PP2BPPP/RN1Q1RK1 b kq - 2 9",
+      "prompt": "Your knight on e7 wants f5 and there is something in the way. Move it, and keep the same diagonal.",
+      "answer": {
+        "moves": [
+          "Bg6"
+        ]
+      },
+      "commentary": "The bishop steps from f5 to g6, giving the square to the knight and keeping the diagonal that runs to b1. This is the tidy-up move that plans need and that nobody remembers to look for: the piece in the way is your own, and the reason to move it has nothing to do with where it is going.",
+      "concept": "opening-plans",
+      "reason": "The bishop vacates f5 for the knight and stays on the b1-h7 diagonal from g6.",
+      "hints": {
+        "piece": "f5",
+        "square": "g6"
+      }
+    },
+    {
+      "id": "4.11.4-c6",
+      "type": "guess_the_move",
+      "fen": "r2qkb1r/pp2nppp/2n1p1b1/3pP3/3P4/2N1BN2/PP2BPPP/R2Q1RK1 b kq - 4 10",
+      "prompt": "The square is free. Bring the third attacker to the base of the chain.",
+      "answer": {
+        "moves": [
+          "Nf5"
+        ]
+      },
+      "commentary": "On f5 the knight hits d4 and the bishop on e3 that is defending it, which is two jobs from one square. Black now matches White three attackers to three defenders, and in that state the position is not won by anybody. It is won by whoever trades wrongly.",
+      "concept": "caro-kann",
+      "reason": "Nf5 is the third attacker on d4 and it also hits the bishop on e3 that defends the square.",
+      "hints": {
+        "piece": "e7",
+        "square": "f5"
+      }
+    },
+    {
+      "id": "4.11.4-c7",
+      "type": "guess_the_move",
+      "fen": "r2qk2r/pp2bppp/2n1p1b1/3pPn2/3P4/2N1BN2/PP1QBPPP/2R2RK1 b kq - 8 12",
+      "prompt": "Your bishop came to e7 last move. Nothing is hanging and nothing is forced. Finish the job you have been putting off.",
+      "answer": {
+        "moves": [
+          "O-O"
+        ]
+      },
+      "commentary": "The king goes into the corner before anything opens. There is a temptation in a position like this to keep piling up and leave the king where it is, and in a position where the centre can be broken at any moment that is how a good plan loses to a check. White replied with the bishop to g5, offering a trade.",
+      "concept": "castle-early",
+      "reason": "Castling gets the king off the e-file before any exchange on d4 opens lines towards it.",
+      "hints": {
+        "text": "Count how many of your pieces have moved, then look at the king."
+      }
+    },
+    {
+      "id": "4.11.4-c8",
+      "type": "guess_the_move",
+      "fen": "r2q1rk1/pp3ppp/2n1p1b1/3pPnN1/3P4/2N5/PP1QBPPP/2R2RK1 b - - 0 14",
+      "prompt": "White traded the bishop that was defending d4 and recaptured on g5 with the knight. Count the defenders of d4 now, then take.",
+      "answer": {
+        "moves": [
+          "Nfxd4"
+        ]
+      },
+      "commentary": "Before the trade d4 was held by a bishop on e3, a knight on f3 and a queen on d2. The bishop went off the board and the knight went to g5, so the square is held by the queen alone against two knights, and the f5 knight takes it. Six moves of quiet preparation and the pawn fell to an exchange White chose himself.",
+      "concept": "counting",
+      "reason": "Only the queen on d2 still defends d4, and two black knights attack it, so Nfxd4 wins the pawn.",
+      "hints": {
+        "piece": "f5",
+        "square": "d4"
+      }
+    }
+  ],
+  "takeaway": "A pawn chain is attacked at its base. Hit d4 with a pawn, then bring two pieces to the same square, and do not let the defenders be traded off for nothing."
+}

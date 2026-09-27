@@ -3,6 +3,7 @@ import { MemoryRouter } from 'react-router';
 import { db, emptyProgress, saveResume, useProgress, type Progress } from '@/data';
 import { useOnboarding } from '@/onboarding/store';
 import { SECTIONS } from '@/path/curriculum';
+import { useProfileSeen } from '@/profile';
 import { TodayScreen } from '@/screens/TodayScreen';
 
 const FINISHED = 'You have finished everything that is built so far. More lessons are coming.';
@@ -237,4 +238,48 @@ test('Today does not offer it to a learner who never answered the level question
   useOnboarding.getState().reset();
   renderWith(emptyProgress());
   expect(screen.queryByRole('link', { name: PLACEMENT_LINK })).toBeNull();
+});
+
+// ── F-SW-1: "also reachable from Today when it has changed" ──────────────────
+
+test('Today does not offer the profile to a learner with no reviewed games', () => {
+  useProfileSeen.setState({ lastSeen: null, lastSeenReviews: null });
+  renderWith(emptyProgress());
+  expect(screen.queryByRole('link', { name: /Your chess has changed/ })).toBeNull();
+});
+
+test('Today offers the profile once a game has been reviewed and not yet looked at', () => {
+  useProfileSeen.setState({ lastSeen: null, lastSeenReviews: null });
+  const p = emptyProgress();
+  p.reviews = 3;
+  renderWith(p);
+  const link = screen.getByRole('link', { name: /Your chess has changed/ });
+  expect(link).toHaveAttribute('href', '/progress');
+  expect(link).toHaveTextContent('3 reviewed games in your profile');
+});
+
+test('the offer goes away once the learner has seen that many reviewed games', () => {
+  useProfileSeen.setState({ lastSeen: 'whatever', lastSeenReviews: 3 });
+  const p = emptyProgress();
+  p.reviews = 3;
+  renderWith(p);
+  expect(screen.queryByRole('link', { name: /Your chess has changed/ })).toBeNull();
+});
+
+test('a further reviewed game brings the offer back', () => {
+  useProfileSeen.setState({ lastSeen: 'whatever', lastSeenReviews: 3 });
+  const p = emptyProgress();
+  p.reviews = 4;
+  renderWith(p);
+  expect(screen.getByRole('link', { name: /Your chess has changed/ })).toBeInTheDocument();
+});
+
+test('one reviewed game agrees in number', () => {
+  useProfileSeen.setState({ lastSeen: null, lastSeenReviews: null });
+  const p = emptyProgress();
+  p.reviews = 1;
+  renderWith(p);
+  expect(screen.getByRole('link', { name: /Your chess has changed/ })).toHaveTextContent(
+    '1 reviewed game in your profile',
+  );
 });

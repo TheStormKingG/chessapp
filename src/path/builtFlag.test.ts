@@ -51,7 +51,27 @@ const guidebooks = new Set(
 test('the corpus is non-empty, so neither direction below passes by matching nothing', () => {
   expect(units.length).toBe(38);
   expect(units.filter((u) => u.built).length).toBeGreaterThan(0);
-  expect(units.filter((u) => !u.built).length).toBeGreaterThan(0);
+  /*
+   * There is no longer an UNBUILT unit to assert, because 4.11 and 4.12 were the
+   * last two and the path is complete. The old control here was
+   * `!u.built > 0`, and it was a true statement about an unfinished path rather
+   * than about this file's checks -- so completing the path made it fail while
+   * both directions below were working exactly as designed.
+   *
+   * What the control was actually for is that neither sweep passes by reading
+   * nothing, so that is what it asserts now, and it asserts it about the
+   * instruments rather than about the state of the content: the bundler glob
+   * must have found guidebooks, and `listLessons` must return files for the
+   * first unit. Both go empty if the glob path or the loader breaks, which is
+   * the failure the original line was standing in the way of.
+   *
+   * The "forgotten flip" direction below is now vacuous, and that is the
+   * correct reading rather than a hole: there is nothing left to forget. It
+   * stops being vacuous the moment a thirty-ninth unit is declared.
+   */
+  expect(units.filter((u) => !u.built).length).toBe(0);
+  expect(guidebooks.size).toBeGreaterThan(0);
+  expect(listLessons(units[0]?.id ?? '').length).toBeGreaterThan(0);
 });
 
 test('every unit marked built has a lesson file for each declared lesson', () => {

@@ -1,0 +1,148 @@
+{
+  "id": "4.12.3",
+  "unit": "4.12",
+  "title": "Playing the board, not the rating",
+  "xp": 16,
+  "card": {
+    "idea": "A rating is a prediction about a hundred games, not a statement about this position. Stronger players sacrifice unsoundly and leave pieces on squares nothing defends; weaker players make real threats. Both errors come from the same place: answering the name instead of counting the board.",
+    "diagrams": [
+      "3q1rk1/pp1n1ppp/4p3/8/6b1/3BPN1P/PP1Q1PP1/5RK1 w - - 0 1",
+      "5rk1/pb3ppp/1n2p3/7Q/8/3B3R/P4PPP/6K1 b - - 0 1"
+    ],
+    "habit": "Count the attackers and defenders. The rating is not on the board."
+  },
+  "explain": [
+    {
+      "fen": "3q1rk1/1b3ppp/2p1pn2/8/3P4/2NB4/PP3PPP/3Q1RK1 w - - 0 1",
+      "text": "A bishop takes on h7 and the rating next to it says 1900. Count anyway: the king takes, and White needs a knight on g5 to follow up. There is no knight that can reach g5 and there never was. The sacrifice is a bishop for a pawn whoever plays it.",
+      "highlights": [
+        "h7",
+        "g5"
+      ]
+    },
+    {
+      "fen": "5rk1/pb3ppp/1n2p3/7Q/8/3B3R/P4PPP/6K1 b - - 0 1",
+      "text": "The other error, and the more expensive one. This opponent is rated 300 below you and the threat is mate in one on h7, because the rook behind the queen means the king cannot take. Four black men can stop it. Not counting because of who is playing loses the game here.",
+      "highlights": [
+        "h7",
+        "h3"
+      ]
+    },
+    {
+      "fen": "3q1rk1/pp1n1ppp/4p3/8/6b1/3BPN1P/PP1Q1PP1/5RK1 w - - 0 1",
+      "text": "And this is what a stronger opponent actually looks like when they slip: a bishop on g4 that nothing defends, with a pawn on h3 able to take it. Nothing about it is a trap. Take the piece, and check the recapture rather than the rating.",
+      "highlights": [
+        "g4",
+        "h3"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.12.3-c1",
+      "type": "is_it_safe",
+      "fen": "3q1rk1/1b3ppp/2p1pn2/8/3P4/2NB4/PP3PPP/3Q1RK1 w - - 0 1",
+      "move": "Bxh7+",
+      "prompt": "Your opponent is rated 400 above you and this looks like their kind of sacrifice. Is the bishop safe on h7?",
+      "reasons": [
+        "The king or the knight takes it, and there is no white knight that can reach g5 to follow up.",
+        "The check means Black has no time to take it.",
+        "Nothing black can capture on h7."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "play-the-board"
+    },
+    {
+      "id": "4.12.3-c2",
+      "type": "which_square",
+      "fen": "3q1rk1/1b3ppp/2p1pn2/8/3P4/2NB4/PP3PPP/3Q1RK1 w - - 0 1",
+      "prompt": "For the sacrifice on h7 to work, a white knight has to arrive with check next move. Tap the empty square it would need.",
+      "answer": {
+        "square": "g5"
+      },
+      "concept": "play-the-board",
+      "reason": "g5 is the only empty square from which a knight checks h7 — f6 and f8 are taken by black men. No white knight can reach g5 in one move, so the sacrifice has nothing behind it."
+    },
+    {
+      "id": "4.12.3-c3",
+      "type": "find_them_all",
+      "fen": "5rk1/pb3ppp/1n2p3/7Q/8/3B3R/P4PPP/6K1 b - - 0 1",
+      "prompt": "Your lower-rated opponent threatens mate on h7. Tap every black man that can move and stop it.",
+      "answer": {
+        "pieces": [
+          "b7",
+          "f7",
+          "f8",
+          "h7"
+        ]
+      },
+      "concept": "opponent-threats",
+      "reason": "Four men: the bishop on b7 can take on g2, the rook on f8 and the pawn on f7 can free a flight square, and the pawn on h7 can step to h6. Everything else on the board loses to Qxh7."
+    },
+    {
+      "id": "4.12.3-c4",
+      "type": "find_the_move",
+      "fen": "3q1rk1/pp1n1ppp/4p3/8/6b1/3BPN1P/PP1Q1PP1/5RK1 w - - 0 1",
+      "prompt": "Your 1900-rated opponent has just put a bishop on g4. Count the defenders, then take it.",
+      "answer": {
+        "moves": [
+          "hxg4"
+        ]
+      },
+      "concept": "play-the-board",
+      "reason": "Nothing defends the bishop on g4 — the knight went to d7 and no black pawn covers the square. hxg4 wins a piece and opens the h-file as well.",
+      "hints": {
+        "piece": "h3",
+        "square": "g4"
+      }
+    },
+    {
+      "id": "4.12.3-c5",
+      "type": "find_the_move",
+      "fen": "5rk1/pp3ppp/4p3/8/6nq/3BPN2/PP1Q1PPP/5RK1 w - - 0 1",
+      "prompt": "A queen on h4 and a knight on g4 look frightening. Count what defends them.",
+      "answer": {
+        "moves": [
+          "Nxh4"
+        ]
+      },
+      "concept": "play-the-board",
+      "reason": "Nothing defends the queen on h4, and the knight on f3 takes her. The attack was two pieces on adjacent squares with no third piece behind them, which is a picture rather than a threat.",
+      "hints": {
+        "piece": "f3",
+        "square": "h4"
+      }
+    },
+    {
+      "id": "4.12.3-c6",
+      "type": "which_square",
+      "fen": "5rk1/pp3ppp/4p3/8/6nq/3BPN2/PP1Q1PPP/5RK1 w - - 0 1",
+      "prompt": "Tap the black piece that is not attacking a single white man.",
+      "answer": {
+        "square": "f8"
+      },
+      "concept": "play-the-board",
+      "reason": "The rook on f8 attacks nothing at all. The queen and the knight both bear on h2 and the rook is behind a pawn, so the whole attack is two men and a spectator."
+    },
+    {
+      "id": "4.12.3-c7",
+      "type": "name_the_pattern",
+      "fen": "3r2k1/pp3ppp/5n2/3p4/3P4/8/PP3PPP/3R2K1 w - - 0 1",
+      "prompt": "You have just left a knight on a square nothing defended and it is gone. Pawns are level and the centre is blocked. What now?",
+      "options": [
+        "Resign: a piece is a piece.",
+        "Start an attack immediately to make up for it.",
+        "Play the position in front of you: the pawns are symmetrical and every file is contested, so make him prove it."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "play-the-board",
+      "reason": "The blunder is in the past and the position is not. A blocked centre with symmetrical pawns is the hardest kind of position to convert a piece in, and the player who is tilting will not convert it."
+    }
+  ],
+  "takeaway": "Count attackers and defenders whoever is sitting opposite. A stronger player’s sacrifice is still a sacrifice, and a weaker player’s mate threat is still mate."
+}

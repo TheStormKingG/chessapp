@@ -4,6 +4,7 @@ import { emptyProgress, useProgress } from '@/data';
 import { useOnboarding } from '@/onboarding/store';
 import { AppRoutes } from './routes';
 
+
 beforeEach(() => {
   useOnboarding.getState().reset();
   useProgress.setState({ progress: emptyProgress() });
@@ -104,9 +105,28 @@ test.each(['/puzzles/rated', '/puzzles/themed', '/puzzles/daily', '/puzzles/fix'
     // The re-render is real product behaviour, not a test artefact — a learner
     // with a slow database sees that same swap — so the test waits for the
     // settled state rather than asserting on the first paint.
-    await waitFor(() => {
-      expect(screen.getByRole('button', { name: /back to puzzles|close/i })).toBeInTheDocument();
-    });
+    //
+    // THE SECOND FAILURE MODE, and it is not the one above. The note above is
+    // about a node that ARRIVES and then detaches; raising a timeout cannot
+    // help there, and the note says so. This is the case the docblock names as
+    // unproven -- the chunk not arriving at all -- and it presents differently:
+    // an empty `<main>`, and a failure at about 1.1s.
+    //
+    // 1.1s is `waitFor`'s OWN default of 1000ms, not the 5s test timeout, which
+    // is why raising `testTimeout` changed nothing when I tried it. The budget
+    // that matters is this one, and a real dynamic import on a loaded machine
+    // does not finish inside a second: these four pass alone and fail once the
+    // file shares a worker with most of a 122-file suite.
+    //
+    // Fifteen seconds is for the import, not for the assertion. If the chunk
+    // genuinely never resolves the test still fails, just later -- which is the
+    // invariant this block exists to hold.
+    await waitFor(
+      () => {
+        expect(screen.getByRole('button', { name: /back to puzzles|close/i })).toBeInTheDocument();
+      },
+      { timeout: 15_000 },
+    );
     expect(screen.queryByRole('navigation', { name: 'Main' })).not.toBeInTheDocument();
     expect(document.querySelector('main')).toBeInTheDocument();
   },

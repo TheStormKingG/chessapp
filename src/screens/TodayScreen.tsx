@@ -1,6 +1,7 @@
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { Link } from 'react-router';
 import { btn } from '@/app/Button';
+import { plural } from '@/app/plural';
 import { Board } from '@/board';
 import { localDay, useProgress } from '@/data';
 import { loadLesson } from '@/lesson/loader';
@@ -8,6 +9,7 @@ import { needsAssessment } from '@/onboarding/route';
 import { useOnboarding } from '@/onboarding/store';
 import { activeNode, activeUnitProgress, recentlyFinished, upcomingNodes } from '@/path/progress';
 import { resumeLabel, useLessonResume } from '@/path/resumeLabel';
+import { reviewedGamesChanged, useProfileSeen } from '@/profile';
 
 const COOL_DOWN_KEY = 'chessapp.coolDownDismissed';
 
@@ -112,6 +114,14 @@ export function TodayScreen() {
   const level = useOnboarding((s) => s.level);
   const placedUnit = useOnboarding((s) => s.placedUnit);
   const owedTest = placedUnit === null && needsAssessment(level);
+
+  /*
+   * F-SW-1's second clause. One store read and one comparison — no Dexie, no
+   * profile built here. See src/profile/seen.ts for why the count and not the
+   * profile itself.
+   */
+  const lastSeenReviews = useProfileSeen((s) => s.lastSeenReviews);
+  const profileChanged = reviewedGamesChanged(progress.reviews, lastSeenReviews);
 
   const hero = useHeroBoardSize();
   const unit = activeUnitProgress(progress);
@@ -279,6 +289,31 @@ export function TodayScreen() {
           two tiles in it would be narrow, and the desktop band heights are
           asserted in `desktop.spec.ts`.
         */}
+        {/*
+          F-SW-1: the strengths-and-weaknesses profile "is also reachable from Today
+          when it has changed".
+
+          The condition is read from `Progress.reviews`, which this screen already
+          has in memory — Today does not build a profile. `seen.ts` states exactly
+          what that proxy gets right and the two cases where it disagrees with the
+          profile's own count.
+
+          It sits above "Or, instead" rather than inside it: reading what your games
+          say about you is not an alternative to the next lesson, it is the thing
+          that decides which lesson should be next (F-TS-1).
+        */}
+        {profileChanged && (
+          <Link
+            to="/progress"
+            className="tap n-panel n-lit n-edge mt-5 flex flex-col rounded-card bg-panel p-4"
+          >
+            <span className="t-heading">Your chess has changed</span>
+            <span className="t-label mt-1 text-content-dim">
+              {plural(progress.reviews, 'reviewed game')} in your profile
+            </span>
+          </Link>
+        )}
+
         <h2 className="t-caption mt-10 uppercase tracking-wide text-content-dim xl:mt-8">
           Or, instead
         </h2>

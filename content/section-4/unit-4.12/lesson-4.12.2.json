@@ -1,0 +1,183 @@
+{
+  "id": "4.12.2",
+  "unit": "4.12",
+  "title": "Time trouble rules",
+  "xp": 15,
+  "card": {
+    "idea": "Under ten seconds, do not move unless the move is forced. Forced means: one legal move, one legal recapture, or a mate you have already seen. Everything else — a pawn grab, a second recapture, a move you would like to check — costs more games than the clock does.",
+    "diagrams": [
+      "6k1/pb3ppp/8/8/8/8/P4RPP/4q2K w - - 0 1",
+      "5rk1/pp1n1ppp/4p3/4P3/3P4/8/PP1Q1PPP/3R1RK1 b - - 0 1"
+    ],
+    "habit": "Under ten seconds: forced moves only. Count the recaptures before you premove."
+  },
+  "explain": [
+    {
+      "fen": "6k1/pb3ppp/8/8/8/8/P4RPP/4q2K w - - 0 1",
+      "text": "Forced, in the strongest sense: one legal move. You can play this with two seconds left and lose nothing. The first thing to do in a scramble is check whether the position is this, because it often is and it is free.",
+      "highlights": [
+        "e1",
+        "h1"
+      ]
+    },
+    {
+      "fen": "5rk1/pp1n1ppp/4p3/4R3/8/8/PP1Q1PPP/3R2K1 b - - 0 1",
+      "text": "Forced in the useful sense. Black has one capture that wins a rook and nothing recaptures on e5, so the premove is safe. That is the test for a premove, and it is not \"does this look like a recapture\" but \"how many men can take, and what happens after\".",
+      "highlights": [
+        "e5",
+        "d7"
+      ]
+    },
+    {
+      "fen": "5rk1/pp1n1ppp/4p3/4P3/3P4/8/PP1Q1PPP/3R1RK1 b - - 0 1",
+      "text": "The same premove on a board one pawn different. Here a pawn on d4 recaptures on e5, so the knight goes for a pawn. Nothing about the shape of the position tells you which board you are on. Only counting does.",
+      "highlights": [
+        "e5",
+        "d4"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.12.2-c1",
+      "type": "which_square",
+      "fen": "6k1/pb3ppp/8/8/8/8/P4RPP/4q2K w - - 0 1",
+      "prompt": "Two seconds on the clock and you are in check. Tap the square your rook has to go to.",
+      "answer": {
+        "square": "f1"
+      },
+      "concept": "time-trouble",
+      "reason": "Rf1 is the only legal move on the board. The king has no square and nothing else reaches the first rank, so there is nothing to decide and nothing to lose by playing at once.",
+      "hints": {
+        "piece": "f2"
+      }
+    },
+    {
+      "id": "4.12.2-c2",
+      "type": "which_square",
+      "fen": "5rk1/pp3ppp/4p3/8/3n4/5N2/PP2QPPP/5RK1 w - - 0 1",
+      "prompt": "A knight has landed on d4. Tap the only white man that can take it.",
+      "answer": {
+        "square": "f3"
+      },
+      "concept": "time-trouble",
+      "reason": "Only the knight on f3 reaches d4. One legal recapture is a forced move, and forced moves are the ones you may play with eight seconds left."
+    },
+    {
+      "id": "4.12.2-c3",
+      "type": "is_it_safe",
+      "fen": "5rk1/pp1n1ppp/4p3/4R3/8/8/PP1Q1PPP/3R2K1 b - - 0 1",
+      "move": "Nxe5",
+      "prompt": "You premoved the knight to take the rook on e5. Is the knight safe on e5?",
+      "reasons": [
+        "The pawn on d4 takes it.",
+        "Nothing white can capture on e5, so the premove wins a rook for nothing.",
+        "The queen on d2 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "time-trouble"
+    },
+    {
+      "id": "4.12.2-c4",
+      "type": "is_it_safe",
+      "fen": "5rk1/pp1n1ppp/4p3/4P3/3P4/8/PP1Q1PPP/3R1RK1 b - - 0 1",
+      "move": "Nxe5",
+      "prompt": "The same premove, one pawn different. Is the knight safe on e5 here?",
+      "reasons": [
+        "Nothing white can capture on e5.",
+        "The rook on d1 takes it.",
+        "The pawn on d4 takes it, and the knight has gone for a pawn."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "time-trouble"
+    },
+    {
+      "id": "4.12.2-c5",
+      "type": "find_the_move",
+      "fen": "6k1/p4ppp/7r/7n/8/8/P4PPP/1R4K1 w - - 0 1",
+      "prompt": "Six seconds left. Mate in one.",
+      "answer": {
+        "moves": [
+          "Rb8#"
+        ]
+      },
+      "concept": "mate-in-one",
+      "reason": "Rb8 is mate: the b-file is clear, the king has no square on the eighth rank and the pawns on f7, g7 and h7 block the rest. The rook on h6 and the knight on h5 cannot reach the eighth rank between the rook and the king.",
+      "hints": {
+        "piece": "b1",
+        "square": "b8"
+      }
+    },
+    {
+      "id": "4.12.2-c6",
+      "type": "is_it_safe",
+      "fen": "5rk1/pb3ppp/2n1p3/1p6/2B5/5N2/PP3PPP/5RK1 w - - 0 1",
+      "move": "Bxb5",
+      "prompt": "Nine seconds. White takes the pawn on b5 with the bishop. Is the bishop safe on b5?",
+      "reasons": [
+        "The knight on c6 takes it.",
+        "Nothing black can capture on b5, so the pawn is simply free.",
+        "The bishop on b7 covers b5."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "time-trouble"
+    },
+    {
+      "id": "4.12.2-c7",
+      "type": "is_it_safe",
+      "fen": "5rk1/pb3ppp/2n1p3/1p6/2B5/5N2/PP3PPP/5RK1 w - - 0 1",
+      "move": "Bxe6",
+      "prompt": "Same board, the other pawn grab. White takes on e6 instead. Is the bishop safe on e6?",
+      "reasons": [
+        "The pawn on f7 takes it, and a bishop for a pawn loses the game whatever the clock says.",
+        "Nothing black can reach e6.",
+        "The knight on f3 defends it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "time-trouble"
+    },
+    {
+      "id": "4.12.2-c8",
+      "type": "find_them_all",
+      "fen": "2rr2k1/pp2qppp/4pn2/8/8/4PN2/PP2QPPP/2RR2K1 w - - 0 1",
+      "prompt": "Eight seconds and nothing is forced. Before you touch anything, tap every white man that nothing white is defending.",
+      "answer": {
+        "pieces": [
+          "a2",
+          "e2"
+        ]
+      },
+      "concept": "blunder-check",
+      "reason": "The pawn on a2 and the queen on e2. In a scramble the queen is the one that matters: an undefended queen is what turns a lost tempo into a lost game."
+    },
+    {
+      "id": "4.12.2-c9",
+      "type": "name_the_pattern",
+      "fen": "2rr2k1/pp2qppp/4pn2/8/8/4PN2/PP2QPPP/2RR2K1 w - - 0 1",
+      "prompt": "Eight seconds left, nothing is forced and nothing is hanging. What do you do?",
+      "options": [
+        "Grab the nearest pawn — material is material.",
+        "Play a safe move that changes nothing, and do not start a calculation you cannot finish.",
+        "Offer a draw."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "the-clock",
+      "reason": "The rule is not \"move fast\", it is \"move forced\". With nothing forced, the cheapest safe move that keeps every piece defended is the whole of the plan."
+    }
+  ],
+  "takeaway": "Under ten seconds play only forced moves: one legal move, one legal recapture, or a mate you have seen. Count the recaptures before a premove, and never grab a pawn."
+}
