@@ -1,0 +1,246 @@
+{
+  "id": "4.10.3",
+  "unit": "4.10",
+  "title": "The breakthrough",
+  "xp": 15,
+  "card": {
+    "idea": "Three pawns against three, nothing passed, and a king too far away to help. The win is not a plan, it is a single move: give one pawn away so that the two behind it cannot both be stopped. The hard part is never seeing the sacrifice, it is choosing which pawn and in what order, because normally exactly one order works and the other two throw the game away.",
+    "diagrams": [
+      "8/ppp5/8/PPP5/5k2/8/5K2/8 w - - 0 1",
+      "8/4pp2/8/5PP1/3k4/8/K7/8 w - - 0 1",
+      "1k6/5ppp/8/5PPP/8/2K5/8/8 w - - 0 1"
+    ],
+    "habit": "Count the offers, then count what happens after each one is taken."
+  },
+  "explain": [
+    {
+      "fen": "8/ppp5/8/PPP5/5k2/8/5K2/8 w - - 0 1",
+      "text": "Three against three, every pawn on its starting file. All three of your pawns can step on to a square a black pawn may take, so there are three offers among eight legal moves. Only b6 wins: about six and a half pawns, against level for the next best. The middle pawn goes, the outside pawns run.",
+      "arrows": [
+        [
+          "b5",
+          "b6"
+        ]
+      ],
+      "highlights": [
+        "b6",
+        "a7",
+        "c7"
+      ]
+    },
+    {
+      "fen": "8/4pp2/8/5PP1/3k4/8/K7/8 w - - 0 1",
+      "text": "Two against two, and worth measuring. g6 wins by about five pawns. The runner-up, Kb3, is not a slower win: it is five pawns the other way, so the gap between best and second is over ten. When the break is there and you decline it, you are not being careful.",
+      "arrows": [
+        [
+          "g5",
+          "g6"
+        ]
+      ],
+      "highlights": [
+        "g6",
+        "f7"
+      ]
+    },
+    {
+      "fen": "1k6/5ppp/8/5PPP/8/2K5/8/8 w - - 0 1",
+      "text": "Sometimes one pawn is not enough. Here the whole thing is g6 hxg6 f6 gxf6 h6, giving two away so the third cannot be touched, and h7 and h8 follow. Eleven legal moves and g6 is the only one that wins. The order matters: pushing the f-pawn first lets the g-pawn take, and the h-file stays shut.",
+      "arrows": [
+        [
+          "g5",
+          "g6"
+        ],
+        [
+          "h5",
+          "h6"
+        ]
+      ],
+      "highlights": [
+        "g6",
+        "h6"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.10.3-c1",
+      "type": "find_the_move",
+      "fen": "8/ppp5/8/PPP5/5k2/8/5K2/8 w - - 0 1",
+      "prompt": "Three against three and both kings out of the picture. Three of your eight moves offer a pawn. One of the three wins.",
+      "answer": {
+        "moves": [
+          "b6"
+        ]
+      },
+      "wrong": {
+        "a6": "The offer on the edge. Black answers bxa6 and there is no second pawn behind it to profit.",
+        "c6": "The mirror image of a6 and the same objection: after bxc6 nothing of yours gets through."
+      },
+      "concept": "pawn-breakthrough",
+      "hints": {
+        "text": "Give away the pawn that has a friend on each side, not one that has a friend on only one side."
+      },
+      "reason": "b6 wins by about 670 centipawns; every other move in the position, both other offers included, is level or worse. After axb6 comes c6, and after cxb6 comes a6 — whichever way Black takes, the pawn on the other wing walks in."
+    },
+    {
+      "id": "4.10.3-c2",
+      "type": "find_the_move",
+      "fen": "8/1ppp4/8/1kPPP3/8/8/8/4K3 w - - 0 1",
+      "prompt": "His king is right next to your pawns this time. Three offers again, and only one of them survives contact.",
+      "answer": {
+        "moves": [
+          "c6"
+        ]
+      },
+      "wrong": {
+        "e6": "Measured at about level against roughly seven pawns for the right move. The break has to come on the side his king is not standing on.",
+        "d6": "The middle pawn is the usual candidate and here it loses outright, about minus seven pawns: his king on b5 collects what is left."
+      },
+      "concept": "pawn-breakthrough",
+      "hints": {
+        "piece": "c5",
+        "text": "His king is on b5. Break where it is, not where it is not — the pawn it takes is the pawn it stops guarding."
+      },
+      "reason": "c6 measures about plus seven pawns. The other two offers are e6 at level and d6 at about minus seven. The rule of thumb about breaking in the middle is a rule about structures, not about positions with a king standing in them."
+    },
+    {
+      "id": "4.10.3-c3",
+      "type": "find_the_move",
+      "fen": "8/pp6/8/1PP5/k7/8/8/4K3 w - - 0 1",
+      "prompt": "Two against two on the a- and b-files. Seven moves, and the difference between the best and the second best is over eleven pawns.",
+      "answer": {
+        "moves": [
+          "c6"
+        ]
+      },
+      "wrong": {
+        "b6": "This is the loss. It scores about minus five pawns — offering the wrong one of the two hands the passed pawn to him instead.",
+        "Kd2": "Neither winning nor losing. The break is available now and will not be later."
+      },
+      "concept": "pawn-breakthrough",
+      "hints": {
+        "text": "One of the two offers wins by six pawns and the other loses by five. Work out which pawn is left behind in each case."
+      },
+      "reason": "c6 scores about plus six pawns, b6 about minus five, a gap of over eleven. After c6 bxc6 comes bxc6 and the pawn runs; after b6 it is Black who gets the passed pawn. Two offers, opposite results, and nothing in the shape of the position tells you which without counting."
+    },
+    {
+      "id": "4.10.3-c4",
+      "type": "find_the_move",
+      "fen": "8/4pp2/8/5PP1/3k4/8/K7/8 w - - 0 1",
+      "prompt": "Two against two on the f- and g-files, his king coming across. Seven moves. Find the one that is not a draw and not a loss.",
+      "answer": {
+        "moves": [
+          "g6"
+        ]
+      },
+      "wrong": {
+        "f6": "The wrong one of the two. Black takes with the e-pawn and your remaining pawn has a black pawn beside it.",
+        "Kb3": "Doing nothing loses. It measures about minus five pawns: his king arrives and the pawns fall."
+      },
+      "concept": "pawn-breakthrough",
+      "hints": {
+        "piece": "g5",
+        "text": "After the capture, count how many black pawns are left beside your surviving pawn. You want none."
+      },
+      "reason": "g6 is worth about plus five pawns and Kb3 about minus five, a gap of over ten. After g6 fxg6 comes fxg6 and the g-pawn runs unescorted; f6 instead lets exf6 keep a black pawn on the g-file."
+    },
+    {
+      "id": "4.10.3-c5",
+      "type": "which_square",
+      "fen": "8/3pp3/1k6/4PP2/8/8/8/1K6 w - - 0 1",
+      "prompt": "Two offers are available and only one wins. Tap the square the winning pawn goes to.",
+      "answer": {
+        "square": "f6"
+      },
+      "concept": "pawn-breakthrough",
+      "hints": {
+        "text": "Both of your pawns can be offered. The one to give up is the one whose neighbour survives with nothing beside it."
+      },
+      "reason": "f6. After exf6 the reply exf6 leaves a pawn on f6 with no black pawn on e, f or g, and it walks to f8. Offering on e6 instead lets Black keep a pawn beside your survivor, and the whole thing is held."
+    },
+    {
+      "id": "4.10.3-c6",
+      "type": "find_them_all",
+      "fen": "1k6/2ppp3/8/3PPP2/8/8/8/3K4 w - - 0 1",
+      "prompt": "Tap every one of your pawns that can step forward on to a square a black pawn is able to capture.",
+      "answer": {
+        "pieces": [
+          "d5",
+          "e5",
+          "f5"
+        ]
+      },
+      "concept": "pawn-breakthrough",
+      "hints": {
+        "text": "Look at where each black pawn captures, not where it moves."
+      },
+      "reason": "All three. d6 can be met by cxd6 or exd6, e6 by dxe6 or fxe6, and f6 by exf6. Three offers is the normal count in a three-against-three, and it is why the position has to be counted rather than recognised."
+    },
+    {
+      "id": "4.10.3-c7",
+      "type": "name_the_pattern",
+      "fen": "8/ppp5/8/1PPP4/7k/8/8/2K5 w - - 0 1",
+      "prompt": "Your pawns are on b5, c5 and d5 against a7, b7 and c7, so the files do not line up. Which offer wins?",
+      "options": [
+        "d6, because the pawn that has no black pawn opposite it is the one to give away.",
+        "b6, because the middle pawn of a phalanx is always the one that breaks through.",
+        "c6, because the offer must always be made on the file where the enemy king is standing."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "pawn-breakthrough",
+      "hints": {
+        "text": "Line the two groups up. One of your pawns is opposed by nothing, and that changes which one is expendable."
+      },
+      "reason": "d6 measures about plus eight pawns, b6 about a pawn less and c6 less again, so all three offers are playable and only one is right. Your group sits one file to the right of his, so d5 is the pawn with nothing in front of it, and the break that works uses that asymmetry."
+    },
+    {
+      "id": "4.10.3-c8",
+      "type": "find_the_sequence",
+      "fen": "1k6/5ppp/8/5PPP/8/2K5/8/8 w - - 0 1",
+      "prompt": "Three against three on the wing, and one pawn is not enough. Give away two.",
+      "answer": {
+        "line": [
+          "g6",
+          "hxg6",
+          "f6",
+          "gxf6",
+          "h6",
+          "Kb7",
+          "h7",
+          "Kc6",
+          "h8=Q"
+        ]
+      },
+      "concept": "pawn-breakthrough",
+      "hints": {
+        "piece": "g5",
+        "text": "Middle pawn first. The second offer only works because the first one dragged a pawn off the h-file."
+      },
+      "reason": "g6 is the only winning move of the eleven here. Each capture is forced in the sense that declining leaves the pawn on g6 free to go on, and after h6 there is nothing left to take it: his king starts on b8 and is still on c6 when the queen appears on h8."
+    },
+    {
+      "id": "4.10.3-c9",
+      "type": "is_it_safe",
+      "fen": "8/1p6/3P4/8/5k2/8/8/3K4 w - - 0 1",
+      "move": "d7",
+      "prompt": "This is what the break leaves behind: one pawn, two files from home, and his pawn still on b7. You push it to d7. Is it safe?",
+      "reasons": [
+        "No. The pawn on b7 covers the queening square from a distance.",
+        "No. His king on f4 is within reach of d7 in two moves and will take it there.",
+        "Yes. Nothing black attacks d7 and nothing can be made to: the pawn on b7 captures on a6 and c6 only, and the king is three files away."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 2
+      },
+      "concept": "pawn-breakthrough",
+      "hints": {
+        "text": "A pawn captures diagonally forward. Work out which two squares the pawn on b7 actually covers."
+      },
+      "reason": "Nothing attacks d7 and nothing is going to. That is the whole point of the break: what survives it is a pawn nobody can reach, and the two pawns it cost are the price of the file being empty."
+    }
+  ],
+  "takeaway": "The breakthrough is one move, and usually only one of the offers works. Count what is left beside your surviving pawn after each capture, not how many pawns you gave away."
+}

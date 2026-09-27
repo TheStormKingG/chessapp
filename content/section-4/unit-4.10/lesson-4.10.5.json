@@ -1,0 +1,235 @@
+{
+  "id": "4.10.5",
+  "unit": "4.10",
+  "title": "Opposite-coloured bishops and the drawing tendency",
+  "xp": 15,
+  "card": {
+    "idea": "Bishops on opposite colours can never attack each other, ever, for the whole game. So a defender with one has a piece that cannot be driven off, only blocked — and a pawn or two extra often means nothing. The count that matters is not material. It is whether the defending bishop can see a square in the path of each pawn.",
+    "diagrams": [
+      "1k6/8/2PK1b2/8/2B5/8/8/8 b - - 0 1",
+      "2k5/8/2PK4/8/3b4/1B6/8/8 b - - 0 1",
+      "1k6/3K4/2P5/8/7b/8/B7/8 b - - 0 1"
+    ],
+    "habit": "Count diagonals in front of the pawns, not pawns."
+  },
+  "explain": [
+    {
+      "fen": "1k6/8/2PK1b2/8/2B5/8/8/8 b - - 0 1",
+      "text": "Fourteen legal moves and only Bd8 holds; the next best loses by about eight and a half pawns. Bd8 sits squarely in front of the pawn, and the white bishop on c4 is light-squared while d8 is dark, so it can never be attacked there. It can only be blocked, and a pawn cannot block a diagonal it stands on.",
+      "arrows": [
+        [
+          "f6",
+          "d8"
+        ]
+      ],
+      "highlights": [
+        "d8",
+        "c7"
+      ]
+    },
+    {
+      "fen": "2k5/8/2PK4/8/3b4/1B6/8/8 b - - 0 1",
+      "text": "Same idea one square along. Fifteen moves, Bb6 holds and everything else loses by about nine pawns. The bishop covers c7, the square the pawn has to cross, from a square White's light-squared bishop can never reach. Note what it is not doing: it is not attacking anything and it is not defended.",
+      "arrows": [
+        [
+          "d4",
+          "b6"
+        ]
+      ],
+      "highlights": [
+        "b6",
+        "c7"
+      ]
+    },
+    {
+      "fen": "1k6/3K4/2P5/8/7b/8/B7/8 b - - 0 1",
+      "text": "From further away the same job is done from further away. Bg3 holds, nine moves, and the runner-up is about nine pawns worse. The bishop takes the long diagonal g3 to b8 and covers c7 from the other end of the board — being far away costs nothing, because there is no white man that can ever approach it.",
+      "arrows": [
+        [
+          "h4",
+          "g3"
+        ]
+      ],
+      "highlights": [
+        "g3",
+        "c7",
+        "b8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.10.5-c1",
+      "type": "find_the_move",
+      "fen": "1k6/8/2PK1b2/8/2B5/8/8/8 b - - 0 1",
+      "prompt": "You are Black, a pawn down, with fourteen legal moves. One of them draws.",
+      "answer": {
+        "moves": [
+          "Bd8"
+        ]
+      },
+      "wrong": {
+        "Be5+": "A check, and about eight and a half pawns worse. Checking with the bishop achieves nothing here; standing in the pawn's way does.",
+        "Ka7": "Walking about while the pawn advances. The king is not what stops this pawn."
+      },
+      "concept": "colour-complex",
+      "hints": {
+        "text": "The pawn has to cross c7 and reach c8. Which of those squares is your bishop's colour?"
+      },
+      "reason": "Bd8 measures level and the best alternative about minus eight and a half. d8 is a dark square and White's bishop on c4 is light-squared, so it cannot be attacked there for the rest of the game. An exhaustive search after Bd8 finds no White win within six plies over 3,866 positions."
+    },
+    {
+      "id": "4.10.5-c2",
+      "type": "find_the_move",
+      "fen": "2k5/8/2PK4/8/3b4/1B6/8/8 b - - 0 1",
+      "prompt": "Fifteen legal moves this time, one draw, and the move does not attack anything at all.",
+      "answer": {
+        "moves": [
+          "Bb6"
+        ]
+      },
+      "wrong": {
+        "Be5+": "About nine pawns worse. A check that does not stop the pawn is a wasted move.",
+        "Bf6": "The right diagonal is the one that crosses c7, not the one that looks longest."
+      },
+      "concept": "colour-complex",
+      "hints": {
+        "piece": "d4",
+        "text": "Find the square the pawn must cross, and then the square your bishop can sit on to cover it."
+      },
+      "reason": "Bb6 measures level and the runner-up about minus nine. It covers c7, which is dark, from b6, which is also dark; White's light-squared bishop on b3 can never reach either. No White win inside six plies over 2,627 positions."
+    },
+    {
+      "id": "4.10.5-c3",
+      "type": "find_the_move",
+      "fen": "1k6/3K4/2P5/8/7b/8/B7/8 b - - 0 1",
+      "prompt": "Nine moves and your bishop is on the far side of the board. It does not need to come any closer.",
+      "answer": {
+        "moves": [
+          "Bg3"
+        ]
+      },
+      "wrong": {
+        "Bd8": "Blocking with the bishop right in front of the pawn loses here — about nine pawns — because on d8 it is his king that takes it away from you.",
+        "Bf2": "Almost the right idea and the wrong diagonal. f2 does not see c7."
+      },
+      "concept": "colour-complex",
+      "hints": {
+        "text": "Trace the diagonal that runs through c7 and find the far end of it."
+      },
+      "reason": "Bg3 measures level and Bd8 about nine pawns worse. The diagonal g3-f4-e5-d6-c7-b8 covers both the square the pawn must cross and the corner behind it, and distance costs nothing: the white bishop on a2 is light-squared and can never touch a dark diagonal."
+    },
+    {
+      "id": "4.10.5-c4",
+      "type": "find_the_move",
+      "fen": "3k3b/1K6/2P5/3B4/8/8/8/8 b - - 0 1",
+      "prompt": "Your bishop is in the corner and the pawn is two squares from home. Nine moves, one draw.",
+      "answer": {
+        "moves": [
+          "Be5"
+        ]
+      },
+      "wrong": {
+        "Ke7": "About six and a half pawns worse. The king cannot catch this pawn and the bishop can.",
+        "Bg7": "One square short of the diagonal that matters."
+      },
+      "concept": "colour-complex",
+      "hints": {
+        "piece": "h8",
+        "text": "Which squares does the pawn still have to touch? Put the bishop where it sees one of them."
+      },
+      "reason": "Be5 measures level and the runner-up about minus six and a half. From e5 the bishop watches c7, and White's bishop on d5 is light-squared so it will never contest a dark diagonal. Six plies of exhaustive search after Be5 find no White win in 3,280 positions."
+    },
+    {
+      "id": "4.10.5-c5",
+      "type": "which_square",
+      "fen": "b7/2k5/8/1KP5/3P4/8/7B/8 b - - 0 1",
+      "prompt": "Two pawns down with four legal moves. Tap the square your king must go to.",
+      "answer": {
+        "square": "d7"
+      },
+      "concept": "colour-complex",
+      "hints": {
+        "text": "One of the two pawns will be stopped by your bishop. Put the king in front of the other one."
+      },
+      "reason": "d7. It measures level while Kd8, which looks almost the same, is about nine pawns worse. The bishop on a8 is light-squared and already watches the light squares in front of the c-pawn, so the king's job is the d-pawn, and d7 is where it blocks it."
+    },
+    {
+      "id": "4.10.5-c6",
+      "type": "find_them_all",
+      "fen": "8/8/1K1k4/2P1B3/b2P4/8/8/8 b - - 0 1",
+      "prompt": "Your bishop is on a4. Tap every square ahead of White's two pawns, on the c- and d-files, that it could ever reach.",
+      "answer": {
+        "squares": [
+          "c6",
+          "c8",
+          "d5",
+          "d7"
+        ]
+      },
+      "concept": "colour-complex",
+      "hints": {
+        "text": "a4 is a light square, and a bishop never changes colour. Check each of c6, c7, c8, d5, d6, d7 and d8."
+      },
+      "reason": "Four of the seven: c6, c8, d5 and d7 are light and a4 is light. c7, d6 and d8 are dark and permanently beyond it. That is the count that decides an opposite-bishop ending — not how many pawns there are, but how many of the squares they must cross your bishop is able to see."
+    },
+    {
+      "id": "4.10.5-c7",
+      "type": "name_the_pattern",
+      "fen": "8/8/1K1k4/2P2Bb1/3P4/8/8/8 b - - 0 1",
+      "prompt": "Two legal moves. Kd5 holds and Ke7 loses by about six and a half pawns. Why is a two-pawn deficit holdable at all?",
+      "options": [
+        "Because White's bishop on f5 and Black's on g5 stand next to each other, so the two of them cancel out.",
+        "Because a blockading king cannot be forced off a square by pawns alone, and Black's bishop covers the light squares while White's, being light-squared itself, cannot dispute the dark ones the pawns must cross.",
+        "Because two connected pawns can never be advanced without one of them becoming weak."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "colour-complex",
+      "hints": {
+        "text": "Sort the squares the pawns must cross by colour, and then look at which bishop can reach each colour."
+      },
+      "reason": "Kd5 measures level and Ke7 about minus six and a half. The bishops are on opposite colours, so neither can ever attack the other, and White's light-squared bishop cannot help either pawn on to a dark square. The first option is nonsense about a coincidence of position; the third is a generality that says nothing about this board."
+    },
+    {
+      "id": "4.10.5-c8",
+      "type": "is_it_safe",
+      "fen": "2k5/8/8/1KP1b3/3P4/8/6B1/8 b - - 0 1",
+      "move": "Bxd4",
+      "prompt": "You take the d-pawn with your bishop, landing on a square his bishop appears to be pointing at. Is the bishop safe on d4?",
+      "reasons": [
+        "No. The bishop on g2 takes it next move, and you are a bishop down for a pawn.",
+        "No. The white king on b5 comes to c4 and attacks it.",
+        "Yes. d4 is a dark square and the bishop on g2 is a light-squared one, so it can never attack d4 — nor can anything else white here."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 2
+      },
+      "concept": "colour-complex",
+      "hints": {
+        "text": "Work out the colour of g2 and the colour of d4 before you look at the diagonal."
+      },
+      "reason": "d4 is dark and g2 is light, so the two bishops are on opposite complexes and neither can ever attack the other. Nothing else white reaches d4 either: the pawn on c5 captures on b6 and d6, and the king on b5 is two squares away. Taking the pawn is safe and it is also how this ending is drawn."
+    },
+    {
+      "id": "4.10.5-c9",
+      "type": "play_it_out",
+      "fen": "1k6/b2K4/2P5/8/8/8/2B5/8 b - - 0 1",
+      "goal": {
+        "kind": "hold",
+        "moves": 10
+      },
+      "opponentDepth": 8,
+      "prompt": "You are Black. Hold this for ten moves against a live opponent. Put the bishop where it covers the square the pawn must cross.",
+      "concept": "colour-complex",
+      "hints": {
+        "piece": "a7",
+        "text": "Bb6 first. After that keep the bishop on that diagonal and let his bishop go wherever it likes."
+      },
+      "reason": "Bb6 is the only move of the seven that holds, and the second best is mate. Once the bishop stands on a dark square in the pawn's path, White's light-squared bishop on c2 has no way to remove it."
+    }
+  ],
+  "takeaway": "Bishops of opposite colours never touch each other, so the defender's bishop cannot be driven off a diagonal. Count the squares in front of the pawns and sort them by colour, not by material."
+}

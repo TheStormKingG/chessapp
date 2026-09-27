@@ -1,0 +1,195 @@
+{
+  "id": "4.10.1",
+  "unit": "4.10",
+  "title": "Key squares",
+  "xp": 15,
+  "card": {
+    "idea": "Unit 3.9 gave you the rule: the three squares two ranks in front of the pawn, and your king on one of them queens it whoever is to move. This lesson is the technique that goes with it. On the fifth rank the set doubles from three squares to six. A rook pawn has one key square, or none at all. And a key square only wins if the pawn is still there when you arrive.",
+    "diagrams": [
+      "3k4/8/8/1K6/3P4/8/8/8 w - - 0 1",
+      "8/1K6/8/3Pk3/8/8/8/8 w - - 0 1",
+      "8/8/8/P7/8/8/1K4k1/8 w - - 0 1"
+    ],
+    "habit": "Count your king's steps to each key square before you touch the pawn."
+  },
+  "explain": [
+    {
+      "fen": "3k4/8/8/1K6/3P4/8/8/8 w - - 0 1",
+      "text": "The pawn on d4 has three key squares: c6, d6 and e6. Your king on b5 has nine legal moves and exactly one lands on a key square. Kc6 wins; the other eight, the push d5 among them, are drawn. The rule is not a description, it is an instruction about where to walk.",
+      "arrows": [
+        [
+          "b5",
+          "c6"
+        ]
+      ],
+      "highlights": [
+        "c6",
+        "d6",
+        "e6"
+      ]
+    },
+    {
+      "fen": "8/1K6/8/3Pk3/8/8/8/8 w - - 0 1",
+      "text": "Push to the fifth and the set doubles: d5 has six key squares, c6, c7, d6, d7, e6 and e7. Two are one step away. Kc7 is a key square and still a draw, because c7 does not touch d5 and Kxd5 follows. Kc6 touches it, and is the only win of the nine.",
+      "arrows": [
+        [
+          "b7",
+          "c6"
+        ]
+      ],
+      "highlights": [
+        "c6",
+        "c7",
+        "d5"
+      ]
+    },
+    {
+      "fen": "8/8/8/P7/8/8/1K4k1/8 w - - 0 1",
+      "text": "A rook pawn is a different animal. The pawn on a5 has exactly one key square, b7. A pawn on a2 has none whatsoever, because the squares two ranks in front of it run off the edge. So with a rook pawn there is one square worth walking to, and no second plan behind it.",
+      "highlights": [
+        "b7",
+        "a5"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.10.1-c1",
+      "type": "find_the_move",
+      "fen": "8/8/3k4/8/8/5K2/3P4/8 w - - 0 1",
+      "prompt": "Ten legal moves. The pawn on d2 has three key squares, and your king can step on to exactly one of them.",
+      "answer": {
+        "moves": [
+          "Ke4"
+        ]
+      },
+      "wrong": {
+        "Ke3": "One rank short. e3 is not a key square, and Black holds the draw from here.",
+        "d4": "The pawn cannot reach a key square; only the king can. Both pawn pushes are drawn."
+      },
+      "concept": "key-squares",
+      "hints": {
+        "piece": "f3",
+        "text": "Two ranks in front of d2 is the fourth rank. Which of c4, d4 and e4 can your king actually touch?"
+      },
+      "reason": "c4, d4 and e4 are the key squares and e4 is the only one within a king's step of f3. Ke4 is the single winning move among the ten; the other nine, including d3 and d4, are all drawn."
+    },
+    {
+      "id": "4.10.1-c2",
+      "type": "find_the_move",
+      "fen": "8/1K6/8/3Pk3/8/8/8/8 w - - 0 1",
+      "prompt": "The pawn is on the fifth, so it has six key squares. Two of them are one step away. Only one of the two keeps the pawn.",
+      "answer": {
+        "moves": [
+          "Kc6"
+        ]
+      },
+      "wrong": {
+        "Kc7": "A key square, and still a draw: c7 does not touch d5, so Kxd5 simply takes the pawn.",
+        "d6": "Nine moves, and this is one of the eight that draw. The pawn cannot walk to a key square on its own."
+      },
+      "concept": "key-squares",
+      "hints": {
+        "piece": "b7",
+        "text": "Both squares are key squares. Ask which one of them defends the pawn."
+      },
+      "reason": "c6 and c7 are both key squares for a pawn on d5, but only c6 stands next to it. After Kc7 Black plays Kxd5 and the game is level. Kc6 is the only winning move of the nine available."
+    },
+    {
+      "id": "4.10.1-c3",
+      "type": "find_the_move",
+      "fen": "8/8/3k4/8/8/2K5/3P4/8 b - - 0 1",
+      "prompt": "You are Black and a pawn down. Seven of your eight moves lose. Find the one that holds.",
+      "answer": {
+        "moves": [
+          "Kc5"
+        ]
+      },
+      "wrong": {
+        "Kd5": "The natural move and a loss. White answers Kd3, and with one square between the kings and Black to move it is you who has to give ground.",
+        "Ke5": "Off the file and out of the standoff. White walks to a key square and the pawn goes through."
+      },
+      "concept": "key-squares",
+      "hints": {
+        "text": "The key squares are c4, d4 and e4. Stopping his king reaching them is not the same as standing in front of the pawn."
+      },
+      "reason": "Kc5 is the only drawing move of the eight. Kings on c3 and c5 with one square between them and White to move: he must give ground. Standing in front on d5 loses instead, because Kd3 is then his only winning move and he has it."
+    },
+    {
+      "id": "4.10.1-c4",
+      "type": "which_square",
+      "fen": "3k4/8/8/2K5/4P3/8/8/8 w - - 0 1",
+      "prompt": "The pawn on e4 has three key squares. Tap the one your king can reach in a single move.",
+      "answer": {
+        "square": "d6"
+      },
+      "concept": "key-squares",
+      "hints": {
+        "text": "Two ranks in front of e4, then check which of the three is a king's step from c5."
+      },
+      "reason": "d6, e6 and f6 are the key squares, and d6 is the only one adjacent to c5. Kd6 is also the only winning move in the position; the other eight are drawn."
+    },
+    {
+      "id": "4.10.1-c5",
+      "type": "find_them_all",
+      "fen": "8/8/8/3P4/8/8/2K2k2/8 w - - 0 1",
+      "prompt": "The pawn is on the fifth rank. Tap every square where your king would win the game whoever is to move.",
+      "answer": {
+        "squares": [
+          "c6",
+          "c7",
+          "d6",
+          "d7",
+          "e6",
+          "e7"
+        ]
+      },
+      "concept": "key-squares",
+      "hints": {
+        "text": "Three squares two ranks in front, and three more on the rank above them."
+      },
+      "reason": "Six squares: c6, c7, d6, d7, e6 and e7. A pawn on the fifth gets the rank two in front and the rank above that as well, which is why pushing to the fifth before the king arrives is not always the mistake it looks like."
+    },
+    {
+      "id": "4.10.1-c6",
+      "type": "name_the_pattern",
+      "fen": "8/8/2k5/P7/8/8/2K5/8 w - - 0 1",
+      "prompt": "The pawn on a5 has exactly one key square, b7. Why is there only one?",
+      "options": [
+        "Because the black king on c6 is close enough to the pawn to cancel the other two.",
+        "Because a pawn can only be escorted from behind, so the king has to stay on the file below it.",
+        "Because a rook pawn's winning square is the one that takes the corner away. b7 touches a8; a7 blocks the pawn and c7 leaves a8 free, so the black king reaches the corner and draws."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "key-squares",
+      "hints": {
+        "text": "Two ranks in front of a5 is a7, b7 and c7. Ask what each of the three does about a8."
+      },
+      "reason": "a7 stands in front of the pawn and c7 does not cover a8, so in both cases the defending king gets to the corner. Only b7 takes it away. A pawn on a2 has no key square at all: the squares two ranks in front are off the board."
+    },
+    {
+      "id": "4.10.1-c7",
+      "type": "is_it_safe",
+      "fen": "8/8/2k5/8/1KP5/8/8/8 w - - 0 1",
+      "move": "c5",
+      "prompt": "You push the pawn to c5, a square his king is already touching. Is the pawn safe there?",
+      "reasons": [
+        "Yes. His king on c6 touches c5, but yours on b4 touches it too, so Kxc5 is not a legal move at all.",
+        "No. Kxc5 takes the pawn for nothing and the game is dead level.",
+        "Yes. A king can never capture a pawn that has reached the fifth rank."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "key-squares",
+      "hints": {
+        "text": "Count the defenders of c5 before you count the attackers."
+      },
+      "reason": "b4 and c6 both touch c5, so the capture is illegal and the pawn stands. It is still only a draw — the king on b4 is not on a key square and c5 does not put it on one — but the pawn is not what is wrong with it."
+    }
+  ],
+  "takeaway": "Three key squares two ranks in front, six once the pawn reaches the fifth, one for a rook pawn on the fifth and none for a rook pawn at home. Walk the king, not the pawn."
+}

@@ -504,7 +504,7 @@ export const SECTION_4: SectionDef = {
     {
       id: '4.10',
       title: 'Pawn endings and the wrong bishop',
-      built: false,
+      built: true,
       lessons: [
         { id: '4.10.1', title: 'Key squares' },
         { id: '4.10.2', title: 'Triangulation and outflanking' },

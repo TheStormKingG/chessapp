@@ -1,0 +1,226 @@
+{
+  "id": "4.10.4",
+  "unit": "4.10",
+  "title": "The wrong-coloured bishop",
+  "xp": 15,
+  "card": {
+    "idea": "A bishop can never change the colour of the square it stands on. So a bishop and a rook pawn are a draw whenever the bishop cannot reach the corner the pawn is running to, however the rest of the board looks. h8 is a dark square, so for an h-pawn the wrong bishop is the light one. The whole game becomes a race for one square.",
+    "diagrams": [
+      "7k/7P/6K1/8/8/8/B7/8 b - - 0 1",
+      "6k1/8/6KP/8/8/8/B7/8 b - - 0 1",
+      "5k2/8/8/7P/2B1K3/8/8/8 b - - 0 1"
+    ],
+    "habit": "Name the queening square, name its colour, and look at your bishop."
+  },
+  "explain": [
+    {
+      "fen": "7k/7P/6K1/8/8/8/B7/8 b - - 0 1",
+      "text": "The ending it all reduces to, and Black has no legal move: stalemate, drawn. g7 and h7 belong to the white king, g8 is covered by the pawn, and nothing else exists. An extra bishop and an extra pawn, and the game is over. The bishop on a2 is light and h8 is dark, which is the whole story.",
+      "highlights": [
+        "h8",
+        "g8",
+        "h7"
+      ]
+    },
+    {
+      "fen": "6k1/8/6KP/8/8/8/B7/8 b - - 0 1",
+      "text": "Two legal moves. Kh8 draws and Kf8 loses by about eight pawns. Going into the corner looks like surrender and is the only move: once the king stands on h8 there is nothing White can do about it, because his pawn covers g8 and his bishop only ever sees light squares.",
+      "arrows": [
+        [
+          "g8",
+          "h8"
+        ]
+      ],
+      "highlights": [
+        "h8"
+      ]
+    },
+    {
+      "fen": "5k2/8/8/7P/2B1K3/8/8/8 b - - 0 1",
+      "text": "Earlier, with the corner still three moves away. Kg7 holds and the other two moves lose by nine pawns. The race is not for the pawn or for a diagonal, it is for h8, and the defender has to set off immediately. An exhaustive search after Kg7 finds no White win within seven plies over 27,404 positions.",
+      "arrows": [
+        [
+          "f8",
+          "g7"
+        ]
+      ],
+      "highlights": [
+        "g7",
+        "h8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.10.4-c1",
+      "type": "find_the_move",
+      "fen": "6k1/8/6KP/8/8/8/B7/8 b - - 0 1",
+      "prompt": "You are Black, a bishop and a pawn down, with two legal moves. One of them is a draw.",
+      "answer": {
+        "moves": [
+          "Kh8"
+        ]
+      },
+      "wrong": {
+        "Kf8": "Away from the corner, and lost by about eight pawns. There is no second drawing plan behind this one."
+      },
+      "concept": "rook-pawn-draw",
+      "hints": {
+        "text": "Which square is the pawn trying to reach, and what colour is it? Then look at the bishop."
+      },
+      "reason": "Kh8 measures level and Kf8 about minus eight. h8 is a dark square and the bishop on a2 is a light-squared bishop, so it can never cover h8 — over all 64 starting squares a bishop has 553 moves and not one of them changes square colour. The pawn cannot cover h8 either: a pawn on h7 covers g8 and nothing else."
+    },
+    {
+      "id": "4.10.4-c2",
+      "type": "find_the_move",
+      "fen": "5k2/8/8/7P/2B1K3/8/8/8 b - - 0 1",
+      "prompt": "Three legal moves and the corner is three squares away. Set off now or not at all.",
+      "answer": {
+        "moves": [
+          "Kg7"
+        ]
+      },
+      "wrong": {
+        "Ke7": "Towards the centre, and towards a loss: about nine pawns worse than the right move.",
+        "Ke8": "The same objection. Every square except g7 is a square the white king reaches first."
+      },
+      "concept": "rook-pawn-draw",
+      "hints": {
+        "text": "Count the steps from each of your three squares to h8, and count White's steps to the squares that cut you off."
+      },
+      "reason": "Kg7 measures level; the two alternatives are about nine pawns worse. After Kg7 an exhaustive search over every move for both sides finds no White win within seven plies, across 27,404 positions — a bound, not a proof of the whole ending, but the ending itself is settled by the colour of h8."
+    },
+    {
+      "id": "4.10.4-c3",
+      "type": "find_the_move",
+      "fen": "8/8/4k3/7P/4B2K/8/8/8 b - - 0 1",
+      "prompt": "Six legal moves, the pawn on the fifth and his king beside it. Find the one that gets you to the corner in time.",
+      "answer": {
+        "moves": [
+          "Kf7"
+        ]
+      },
+      "wrong": {
+        "Ke5": "Towards the pawn instead of towards the corner. Seven pawns worse, because the pawn is not the target — the square in front of it is.",
+        "Kd6": "Further away still. There is nothing on that side of the board worth reaching."
+      },
+      "concept": "rook-pawn-draw",
+      "hints": {
+        "piece": "e6",
+        "text": "You are not trying to catch the pawn. You are trying to stand on the square it wants."
+      },
+      "reason": "Kf7 measures level and the runner-up about seven pawns worse. Chasing the pawn is the standard mistake here: the bishop on e4 is a light-squared bishop and can never touch h8, so a king on h8 cannot be dislodged, while a king one square short of it can be shut out for ever."
+    },
+    {
+      "id": "4.10.4-c4",
+      "type": "find_the_move",
+      "fen": "8/8/4k2P/8/B5K1/8/8/8 b - - 0 1",
+      "prompt": "The pawn is on the sixth now and his king is between you and it. Six moves, one draw.",
+      "answer": {
+        "moves": [
+          "Kf7"
+        ]
+      },
+      "wrong": {
+        "Ke7": "One file too far from the corner, and about seven pawns worse. This ending is decided in single moves.",
+        "Kd6": "The wrong direction entirely."
+      },
+      "concept": "rook-pawn-draw",
+      "hints": {
+        "text": "There is one route to h8 and his king is standing next to it. Take the step that keeps the route open."
+      },
+      "reason": "Kf7 measures level and Ke7 about minus seven. The bishop on a4 is light-squared and h8 is dark, so the corner is a permanent refuge; the only question in the position is whether you can still get to it, and after this move you can."
+    },
+    {
+      "id": "4.10.4-c5",
+      "type": "which_square",
+      "fen": "8/4K3/7P/5k2/8/1B6/8/8 b - - 0 1",
+      "prompt": "You are Black, and only one of your six moves holds the draw. Tap the square your king goes to.",
+      "answer": {
+        "square": "g6"
+      },
+      "concept": "rook-pawn-draw",
+      "hints": {
+        "text": "The corner is h8. Take the shortest route that his king is not already covering."
+      },
+      "reason": "g6. It measures level while the next best move is about eight and a half pawns worse. From g6 the king reaches h7 and then h8, and once it is there the light-squared bishop on b3 and the pawn between them cannot cover a dark corner."
+    },
+    {
+      "id": "4.10.4-c6",
+      "type": "find_them_all",
+      "fen": "7k/8/5K1P/8/8/8/8/3B4 b - - 0 1",
+      "prompt": "White's bishop stands on d1. Tap every square on the eighth rank it could ever control, from any square it might ever reach.",
+      "answer": {
+        "squares": [
+          "a8",
+          "c8",
+          "e8",
+          "g8"
+        ]
+      },
+      "concept": "rook-pawn-draw",
+      "hints": {
+        "text": "A bishop never changes the colour of the square it stands on. Which eighth-rank squares are the same colour as d1?"
+      },
+      "reason": "Four of the eight: a8, c8, e8 and g8. d1 is a light square, and taking every square on the board in turn and generating every bishop move from each gives 553 moves, none of which lands on a different colour. b8, d8, f8 and h8 are dark and permanently out of reach — which is why an h-pawn and this bishop cannot win."
+    },
+    {
+      "id": "4.10.4-c7",
+      "type": "name_the_pattern",
+      "fen": "8/5k2/7P/6K1/B7/8/8/8 b - - 0 1",
+      "prompt": "Kg8 holds the draw here and everything else loses. What makes the draw permanent once the king arrives?",
+      "options": [
+        "Because a lone bishop and a lone pawn are never enough material to force mate against a king.",
+        "Because h8 is a dark square and the bishop on a4 is a light-squared bishop, so no white man except the king can ever cover h8 — and a king cannot capture the square its opponent stands on.",
+        "Because the defending king attacks the pawn from h8 and White has to spend every move defending it."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "rook-pawn-draw",
+      "hints": {
+        "text": "Work out which white men are able to control h8, now or at any point in the future."
+      },
+      "reason": "Kg8 measures level and Ke6, the runner-up, about eight pawns worse. Asking which white men can ever cover h8 gives the answer directly: the pawn covers g8 only, and the light bishop has 32 squares available to it and h8 is not one of them. The first option is simply false — bishop and pawn do force mate, when the bishop is the other colour."
+    },
+    {
+      "id": "4.10.4-c8",
+      "type": "is_it_safe",
+      "fen": "7k/8/7P/5K2/8/8/8/3B4 w - - 0 1",
+      "move": "h7",
+      "prompt": "You are White this time. You push the pawn to h7, right next to his king. Is it safe there?",
+      "reasons": [
+        "Yes. A pawn on the seventh rank cannot be captured by a king.",
+        "No. Kxh7 takes it and your king on f5 is two files too far away to stop him.",
+        "Yes. The bishop on d1 covers h7 along the diagonal."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "rook-pawn-draw",
+      "hints": {
+        "text": "Check the diagonal from d1 before you trust it, and count your king's distance from h7."
+      },
+      "reason": "Kxh7 is legal and wins the pawn outright. The bishop on d1 runs d1-e2-f3-g4-h5 and the other way to a4; h7 is a dark square and the bishop is light-squared, so it is not on any diagonal the bishop has. The pawn needed the king beside it before it went."
+    },
+    {
+      "id": "4.10.4-c9",
+      "type": "play_it_out",
+      "fen": "8/8/5k1P/8/6K1/1B6/8/8 b - - 0 1",
+      "goal": {
+        "kind": "hold",
+        "moves": 10
+      },
+      "opponentDepth": 8,
+      "prompt": "You are Black. Hold the draw for ten moves. Only one of your three moves keeps it, and it is the one that heads for h8.",
+      "concept": "rook-pawn-draw",
+      "hints": {
+        "piece": "f6",
+        "text": "Kg6 first. After that keep walking to h7 and h8 and do not be tempted by the pawn."
+      },
+      "reason": "Kg6 measures level and the other two moves about seven and a half pawns worse. Once the king reaches h8 the position is drawn no matter what White does, because the bishop on b3 is light-squared and h8 is dark."
+    }
+  ],
+  "takeaway": "Name the queening square and its colour. If your bishop cannot reach that colour, a rook pawn draws the moment his king gets to the corner — so the whole game is the race for one square."
+}

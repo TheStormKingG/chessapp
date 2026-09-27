@@ -1,0 +1,238 @@
+{
+  "id": "4.10.2",
+  "unit": "4.10",
+  "title": "Triangulation and outflanking",
+  "xp": 15,
+  "card": {
+    "idea": "Unit 3.9 taught you to tell who has the standoff: a shared file, rank or diagonal, an odd number of squares between the kings, and the other player to move. This lesson is the other half. When the count says he has it, buy a move. When it says you have it, spend it by walking round him rather than at him.",
+    "diagrams": [
+      "8/8/8/3k4/8/8/3KP3/8 w - - 0 1",
+      "8/8/8/2k5/8/5P2/3K4/8 w - - 0 1",
+      "8/8/8/5k2/8/6K1/5P2/8 w - - 0 1"
+    ],
+    "habit": "When you cannot go through him, go round him. When you cannot go round him, hand him the move."
+  },
+  "explain": [
+    {
+      "fen": "8/8/8/3k4/8/8/3KP3/8 w - - 0 1",
+      "text": "The whole idea in one position. Kd3 wins; the other eight moves draw. What Kd3 produces is a placement lost to whoever must move: kings on d3 and d5 with Black to move is a win, and the identical picture with White to move is a draw. The move is a delivery, not an attack.",
+      "arrows": [
+        [
+          "d2",
+          "d3"
+        ]
+      ],
+      "highlights": [
+        "d3",
+        "d5"
+      ]
+    },
+    {
+      "fen": "8/8/8/2k5/8/5P2/3K4/8 w - - 0 1",
+      "text": "His king on c5 already covers the left-hand key square. For a pawn on f3 the key squares are e5, f5 and g5, and Ke3 is the only win of the nine: it heads for the two he cannot cover. Kc3, the move that walks at him, is one of the eight draws.",
+      "arrows": [
+        [
+          "d2",
+          "e3"
+        ]
+      ],
+      "highlights": [
+        "e5",
+        "f5",
+        "g5"
+      ]
+    },
+    {
+      "fen": "8/8/8/5k2/8/6K1/5P2/8 w - - 0 1",
+      "text": "Kf3 is the only win of the seven, and the pattern to memorise follows: Kf3 Ke5 Kg4 Kf6 Kf4 Ke6 Kg5. The king never charges. It steps on to the file to hand over the move, steps aside to gain a rank, then back on to the file. The pawn has not moved once.",
+      "arrows": [
+        [
+          "g3",
+          "f3"
+        ]
+      ],
+      "highlights": [
+        "f3",
+        "f5"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.10.2-c1",
+      "type": "find_the_move",
+      "fen": "8/8/8/2k5/8/8/2K1P3/8 w - - 0 1",
+      "prompt": "Ten legal moves and one of them wins. It is not a pawn move and it is not a step towards him.",
+      "answer": {
+        "moves": [
+          "Kc3"
+        ]
+      },
+      "wrong": {
+        "Kd3": "One file too far. He answers Kd5 and it is you who has to give ground.",
+        "e4": "The pawn cannot win this on its own, and moving it here throws the standoff away."
+      },
+      "concept": "opposition",
+      "hints": {
+        "piece": "c2",
+        "text": "Put your king on his file with one square between, and make sure it is his turn when you get there."
+      },
+      "reason": "Kc3 is the only winning move of the ten. Kings on c3 and c5 with Black to move is lost for him; the same picture with White to move is a draw. That is the whole trick — arrive with the move already spent."
+    },
+    {
+      "id": "4.10.2-c2",
+      "type": "find_the_move",
+      "fen": "8/8/8/3k4/8/4K3/1P6/8 w - - 0 1",
+      "prompt": "Your king is ahead of the pawn but on the wrong side of the board. Eight moves, one win.",
+      "answer": {
+        "moves": [
+          "Kd3"
+        ]
+      },
+      "wrong": {
+        "Kd2": "Right file, wrong rank: d2 and d5 leave two squares between them, which is even, so there is no standoff at all and Black has four ways to hold.",
+        "b4": "The pawn push looks like progress and is a draw. The king move comes first, the pawn afterwards."
+      },
+      "concept": "opposition",
+      "hints": {
+        "text": "Count the squares between your king and his after each candidate, and ask whose move it is when you land."
+      },
+      "reason": "Kd3 is the only win of the eight. It puts the kings on d3 and d5 with one square between and Black to move; that placement is a loss for him and a draw for you, which is exactly why the move has to be made now."
+    },
+    {
+      "id": "4.10.2-c3",
+      "type": "find_the_move",
+      "fen": "8/8/3k4/8/8/8/1P6/1K6 w - - 0 1",
+      "prompt": "Six moves. The winning one walks away from his king rather than towards it.",
+      "answer": {
+        "moves": [
+          "Ka2"
+        ]
+      },
+      "wrong": {
+        "Kc2": "Towards him, and drawn. His king is coming down the middle, so the middle is the one place your king is not needed.",
+        "b4": "Pushing before the king is out is the standard way to draw this. Five of the six moves are draws and this is one of them."
+      },
+      "concept": "opposition",
+      "hints": {
+        "piece": "b1",
+        "text": "The key squares are a4, b4 and c4. Which of them is furthest from his king?"
+      },
+      "reason": "Ka2 is the only win of the six. The key squares for a pawn on b2 are a4, b4 and c4, and his king on d6 is coming for c4; walking to the a-file takes your king to the side of the board he cannot reach in time."
+    },
+    {
+      "id": "4.10.2-c4",
+      "type": "which_square",
+      "fen": "8/8/7k/8/8/4P2K/8/8 w - - 0 1",
+      "prompt": "Six moves and one of them wins. Tap the square your king must go to.",
+      "answer": {
+        "square": "h4"
+      },
+      "concept": "opposition",
+      "hints": {
+        "text": "His king is on h6 and yours on h3. Count the squares between them and then count again after each candidate."
+      },
+      "reason": "h4. Kings on h4 and h6 with h5 between them and Black to move: he has to step aside and your king walks past. Kg4, the natural-looking advance, is one of the five draws."
+    },
+    {
+      "id": "4.10.2-c5",
+      "type": "find_them_all",
+      "fen": "8/8/8/5k2/8/8/1P2K3/8 b - - 0 1",
+      "prompt": "You are Black. Eight king moves, and six of them lose. Tap the two squares that hold the draw.",
+      "answer": {
+        "squares": [
+          "e4",
+          "e6"
+        ]
+      },
+      "concept": "opposition",
+      "hints": {
+        "text": "Both answers are on the same file as the white king. One is close and one is far."
+      },
+      "reason": "e4 and e6. Both put your king on the white king's file with an odd number of squares between — one square for e4, three for e6 — and White to move, so he is the one who must give ground. The other six all lose."
+    },
+    {
+      "id": "4.10.2-c6",
+      "type": "name_the_pattern",
+      "fen": "8/8/3k4/8/8/2K1P3/8/8 w - - 0 1",
+      "prompt": "Kd4 wins and Kd3 draws, and the two squares are one rank apart. What is the difference between them?",
+      "options": [
+        "Kd4 attacks the black king from closer range, and Kd3 is too far away to threaten anything.",
+        "Kd4 stands on a key square for the pawn on e3, and Kd3 does not.",
+        "Kd4 leaves the kings on d4 and d6 with Black to move, and that picture is lost for whoever has to move. Kd3 leaves the same kind of picture but with the move in your hands instead of his."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "opposition",
+      "hints": {
+        "text": "Both squares are on his file. The difference is how many squares lie between, and therefore who runs out of moves first."
+      },
+      "reason": "Kd4 is the only win of the nine. d4 is not a key square for a pawn on e3 — those are d5, e5 and f5 — so the first two answers are both false about this board. What Kd4 does is hand him the move at the moment when having it is a liability."
+    },
+    {
+      "id": "4.10.2-c7",
+      "type": "find_the_sequence",
+      "fen": "8/3K4/8/8/1P1k4/8/8/8 w - - 0 1",
+      "prompt": "Play it through to the queen. The king goes first, and it goes to the square that takes the standoff.",
+      "answer": {
+        "line": [
+          "Kc6",
+          "Kc3",
+          "b5",
+          "Kb2",
+          "b6",
+          "Ka1",
+          "b7",
+          "Ka2",
+          "b8=Q"
+        ]
+      },
+      "concept": "opposition",
+      "hints": {
+        "piece": "d7",
+        "text": "Kc6 before any pawn move. After that his king is running for the corner and it is a race he loses."
+      },
+      "reason": "Kc6 is the only winning move of the nine here, and b5 first is one of the eight draws. Once the king is on c6 the pawn escorts itself; Black's most stubborn defence is the one shown and it arrives one move late."
+    },
+    {
+      "id": "4.10.2-c8",
+      "type": "play_it_out",
+      "fen": "3k4/8/8/4K3/2P5/8/8/8 w - - 0 1",
+      "goal": {
+        "kind": "promote",
+        "moves": 8
+      },
+      "opponentDepth": 8,
+      "prompt": "Against a live opponent. Make a queen inside eight moves. Kd6 first, and do not touch the pawn until his king has been pushed sideways.",
+      "concept": "opposition",
+      "hints": {
+        "piece": "e5",
+        "text": "Kd6 is the only winning move in the starting position. After that, step round him rather than at him."
+      },
+      "reason": "Kd6 wins and the other eight moves draw, c5 included. Best play promotes on move six: Kd6 Kc8, c5 Kb7, Kd7 Ka6, c6 Ka5, c7 Ka4, c8=Q. Eight moves leaves slack for a defence that is not the toughest one."
+    },
+    {
+      "id": "4.10.2-c9",
+      "type": "is_it_safe",
+      "fen": "8/8/8/2k5/8/2P5/4K3/8 w - - 0 1",
+      "move": "c4",
+      "prompt": "You push the pawn to c4 while your king is still three files away. Is the pawn safe there?",
+      "reasons": [
+        "Yes. His king is on c5 and a king may not capture a pawn on the file in front of it.",
+        "No. Kxc4 takes it, because c5 touches c4 and your king on e2 is nowhere near enough to answer.",
+        "Yes. The pawn is defended by the king on e2 along the second rank."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "opposition",
+      "hints": {
+        "text": "List everything that touches c4, on both sides, before you push."
+      },
+      "reason": "Kxc4 is legal and wins the pawn. Nothing in this position wins for White anyway — all nine moves are drawn — but a free pawn is a worse draw than the others, and it is the king that should have moved."
+    }
+  ],
+  "takeaway": "When the count says he has the standoff, buy a move. When it says you have it, spend it going round him. The pawn waits until the king has finished arguing."
+}
