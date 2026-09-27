@@ -1,0 +1,686 @@
+{
+  "unit": "4.9",
+  "title": "Rook endings",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "4.9-k01",
+      "type": "find_the_move",
+      "fen": "8/3P4/k7/2K5/4R3/8/2r5/8 w - - 0 1",
+      "prompt": "Checked up the c-file, with the pawn one square from the eighth. Answer the check without moving the king.",
+      "answer": {
+        "moves": [
+          "Rc4"
+        ]
+      },
+      "concept": "promotion",
+      "reason": "Rc4 blocks and ends the checking. Black has one check left, Rxc4+, and after Kxc4 nothing stands in front of the d-pawn."
+    },
+    {
+      "id": "4.9-k02",
+      "type": "find_the_move",
+      "fen": "8/k2P4/8/2K5/4R3/8/2r5/8 w - - 0 1",
+      "prompt": "The same check one rank further up. Block it on the fourth rank rather than stepping aside.",
+      "answer": {
+        "moves": [
+          "Rc4"
+        ]
+      },
+      "concept": "promotion",
+      "reason": "Rc4 is the shelter. Every king move leaves Black two more checks; the block leaves him only Rxc4+, which trades a rook for a pawn that then queens."
+    },
+    {
+      "id": "4.9-k03",
+      "type": "which_square",
+      "fen": "8/3P1k2/8/3K4/1R6/8/8/7r w - - 0 1",
+      "prompt": "His rook on h1 is about to check up the h-file. Tap the square on the fourth rank where your rook would step in front of that check.",
+      "answer": {
+        "square": "h4"
+      },
+      "concept": "promotion",
+      "reason": "h4. The rook on b4 already has the whole fourth rank, so whichever file the check comes up, the block is available — that is why the rank is taken first."
+    },
+    {
+      "id": "4.9-k04",
+      "type": "which_square",
+      "fen": "8/4P3/6k1/4K3/2R5/8/r7/8 w - - 0 1",
+      "prompt": "His rook sits on a2 and will check up the a-file. Tap the fourth-rank square that answers it.",
+      "answer": {
+        "square": "a4"
+      },
+      "concept": "promotion",
+      "reason": "a4. From c4 the rook reaches every other square on the rank, so the shelter is ready before the check arrives rather than after it."
+    },
+    {
+      "id": "4.9-k05",
+      "type": "find_them_all",
+      "fen": "8/2P5/k7/2K5/5R2/8/7r/8 w - - 0 1",
+      "prompt": "Tap every square on the fourth rank this rook can reach in one move.",
+      "answer": {
+        "squares": [
+          "a4",
+          "b4",
+          "c4",
+          "d4",
+          "e4",
+          "g4",
+          "h4"
+        ]
+      },
+      "concept": "promotion",
+      "reason": "Seven squares, one on every file except f itself. A rook with the whole rank can block a check coming up any file, which is the entire point of putting it there first."
+    },
+    {
+      "id": "4.9-k06",
+      "type": "name_the_pattern",
+      "fen": "8/5P2/7k/5K2/3R4/8/8/1r6 w - - 0 1",
+      "prompt": "There is no check yet. Why do experienced players put the rook on the fourth rank at this moment rather than moving the king?",
+      "options": [
+        "Because from the fourth rank the rook can step in front of a check on any file, so the checks that follow the king out have an answer ready.",
+        "Because the fourth rank is where the rook attacks the most squares in total.",
+        "Because a rook on the fourth rank stops the enemy king crossing to the pawn."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "promotion",
+      "reason": "The king cannot leave until the checks have an answer. Preparing the shelter costs one move and saves the game; walking out first costs the game."
+    },
+    {
+      "id": "4.9-k07",
+      "type": "name_the_pattern",
+      "fen": "8/2P5/k7/2K5/5R2/8/7r/8 w - - 0 1",
+      "prompt": "Your king is beside its pawn and his rook is waiting on h2 to start checking. What is the plan?",
+      "options": [
+        "Chase his rook with your own until he runs out of safe squares.",
+        "Push the pawn at once and let him check as much as he likes.",
+        "Keep the rook on the fourth rank, walk the king out, and block the first check with the rook."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "promotion",
+      "reason": "Blocking is what ends the checking, and only a rook on the fourth rank can block on every file. Pushing first invites an endless series of checks."
+    },
+    {
+      "id": "4.9-k08",
+      "type": "is_it_safe",
+      "fen": "8/k2P4/8/2K5/4R3/8/2r5/8 w - - 0 1",
+      "move": "Rc4",
+      "prompt": "You answer the check by blocking on c4, where his rook can capture yours. Is the rook safe there?",
+      "reasons": [
+        "Yes. Rxc4+ is the only check he has afterwards, and once Kxc4 answers it the d-pawn has a clear file. A rook for a pawn that queens is not a trade worth making.",
+        "No. Rxc4+ wins a rook for nothing.",
+        "No. The rook on c4 is pinned against your king on c5."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "promotion",
+      "reason": "A piece that can be captured is not automatically unsafe. Ask what the capture buys, and here it buys a pawn on the eighth rank for a whole rook."
+    },
+    {
+      "id": "4.9-k09",
+      "type": "find_the_move",
+      "fen": "2r1k3/8/8/5PK1/8/1R6/8/8 b - - 0 1",
+      "prompt": "You are Black, a pawn down, and the position is held if you find the right rank for the rook.",
+      "answer": {
+        "moves": [
+          "Rc6"
+        ]
+      },
+      "concept": "draws",
+      "reason": "Rc6 is the only move that holds. It denies the sixth rank to White's king, and a king that cannot get in front of its own pawn makes no progress at all."
+    },
+    {
+      "id": "4.9-k10",
+      "type": "find_the_move",
+      "fen": "3k3r/8/8/1KP5/8/5R2/8/8 b - - 0 1",
+      "prompt": "A rook and pawn against your rook. Put the rook on your own third rank and keep his king out.",
+      "answer": {
+        "moves": [
+          "Rh6"
+        ]
+      },
+      "concept": "draws",
+      "reason": "Rh6 holds and everything else loses. From h6 the rook covers the whole sixth rank, so White's king has nowhere forward to go while the pawn sits on c5."
+    },
+    {
+      "id": "4.9-k11",
+      "type": "find_the_move",
+      "fen": "1r2k3/8/8/5PK1/8/R7/8/8 b - - 0 1",
+      "prompt": "His king is already beside the pawn on the fifth. One rook move stops it going any further.",
+      "answer": {
+        "moves": [
+          "Rb6"
+        ]
+      },
+      "concept": "draws",
+      "reason": "Rb6 takes the sixth rank. The rook goes behind the pawn later, when the pawn has advanced and the rank has stopped being the thing that matters."
+    },
+    {
+      "id": "4.9-k12",
+      "type": "which_square",
+      "fen": "3k1r2/8/8/1KP5/8/8/6R1/8 b - - 0 1",
+      "prompt": "Tap the square on your own third rank where the rook shuts White's king out of the rank in front of its pawn.",
+      "answer": {
+        "square": "f6"
+      },
+      "concept": "draws",
+      "reason": "f6. Your third rank is the board's sixth, and a rook standing on it covers every square White's king would want next."
+    },
+    {
+      "id": "4.9-k13",
+      "type": "which_square",
+      "fen": "1r2k3/8/8/5PK1/8/2R5/8/8 b - - 0 1",
+      "prompt": "Same job, other wing. Tap the square that keeps his king off the rank in front of its pawn.",
+      "answer": {
+        "square": "b6"
+      },
+      "concept": "draws",
+      "reason": "b6. Keep the rook on the sixth rank while the pawn is on the fifth: that single rule is most of this ending from the defending side."
+    },
+    {
+      "id": "4.9-k14",
+      "type": "find_them_all",
+      "fen": "3k4/8/5r2/1KP5/8/8/8/6R1 w - - 1 2",
+      "prompt": "Black's rook has just reached the sixth rank. Tap every square White's king can move to.",
+      "answer": {
+        "squares": [
+          "a4",
+          "a5",
+          "b4",
+          "c4"
+        ]
+      },
+      "concept": "draws",
+      "reason": "Four squares, all of them level with the king or behind it. The rook on the sixth turns the attacking king into a piece that can move but cannot advance."
+    },
+    {
+      "id": "4.9-k15",
+      "type": "name_the_pattern",
+      "fen": "r3k3/8/8/3PK3/8/8/8/7R b - - 0 1",
+      "prompt": "Ra6 holds this and Ra1 loses it. Why is the sixth rank the square while the pawn is still on the fifth?",
+      "options": [
+        "Because from a6 the rook attacks the pawn on d5.",
+        "Because a rook on a1 would be captured by the rook on h1.",
+        "Because a rook on the sixth rank stops White's king stepping in front of its own pawn, and a pawn on the fifth cannot advance safely without its king in front of it."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "draws",
+      "reason": "The defence is about the king, not the pawn. Hold the rank while the pawn is on the fifth; go behind the pawn once it reaches the sixth and takes the rank away."
+    },
+    {
+      "id": "4.9-k16",
+      "type": "find_the_move",
+      "fen": "3k1r2/8/8/1KP5/8/8/8/6R1 b - - 0 1",
+      "prompt": "Rook and pawn against rook, and you are the one defending. Find the move that saves it.",
+      "answer": {
+        "moves": [
+          "Rf6"
+        ]
+      },
+      "concept": "draws",
+      "reason": "Rf6 and nothing else. Every other move lets Kb6 and Kc7 through, and once the attacking king stands in front of its pawn the ending is over."
+    },
+    {
+      "id": "4.9-k17",
+      "type": "find_the_move",
+      "fen": "8/3k2r1/8/5P2/4K3/8/8/R7 w - - 0 1",
+      "prompt": "His king and his rook are sharing a rank. Punish it.",
+      "answer": {
+        "moves": [
+          "Ra7+"
+        ]
+      },
+      "concept": "rook-on-seventh",
+      "reason": "Ra7+ is a check and an attack on the rook at the same time. The king must answer the check, and whichever square it picks, Rxg7 follows."
+    },
+    {
+      "id": "4.9-k18",
+      "type": "find_the_move",
+      "fen": "8/r4k2/2P5/3K4/8/8/7R/8 w - - 0 1",
+      "prompt": "Take the rank they are both standing on, and do it with a check.",
+      "answer": {
+        "moves": [
+          "Rh7+"
+        ]
+      },
+      "concept": "rook-on-seventh",
+      "reason": "Rh7+ arrives with a check, so Black has no time to move the rook on a7. Every legal answer to the check leaves it there for Rxa7."
+    },
+    {
+      "id": "4.9-k19",
+      "type": "find_the_move",
+      "fen": "8/1r2k3/8/1P6/1K6/8/6R1/8 w - - 0 1",
+      "prompt": "Rook and pawn each. His king is on the same rank as his rook, which is the flaw in his position.",
+      "answer": {
+        "moves": [
+          "Rg7+"
+        ]
+      },
+      "concept": "rook-on-seventh",
+      "reason": "Rg7+ gives check along the seventh and attacks the rook on b7 down the same rank. Six king moves are available to him and all six lose the rook."
+    },
+    {
+      "id": "4.9-k20",
+      "type": "find_the_move",
+      "fen": "3r4/pp4k1/8/8/8/1R5K/6PP/8 w - - 0 1",
+      "prompt": "Two of his pawns are still on their starting squares and neither is defended. Take one with a check.",
+      "answer": {
+        "moves": [
+          "Rxb7+"
+        ]
+      },
+      "concept": "rook-on-seventh",
+      "reason": "Rxb7+ wins a pawn and keeps the rank. All seven of his replies leave a7 undefended, so the second pawn comes next move."
+    },
+    {
+      "id": "4.9-k21",
+      "type": "which_square",
+      "fen": "1r5k/5ppp/8/8/8/6K1/5PPP/2R5 w - - 0 1",
+      "prompt": "The c-file is clear from top to bottom. Tap the square on the seventh rank your rook can reach in one move.",
+      "answer": {
+        "square": "c7"
+      },
+      "concept": "rook-on-seventh",
+      "reason": "c7. From there the rook attacks along the rank and pins his king to the back row at the same time, which is worth more in an ending than a pawn would be."
+    },
+    {
+      "id": "4.9-k22",
+      "type": "find_them_all",
+      "fen": "1r5k/2R2ppp/8/8/8/6K1/5PPP/8 b - - 1 1",
+      "prompt": "Tap every square on the seventh rank that White's rook on c7 controls.",
+      "answer": {
+        "squares": [
+          "a7",
+          "b7",
+          "d7",
+          "e7",
+          "f7"
+        ]
+      },
+      "concept": "rook-on-seventh",
+      "reason": "Five squares. Going right it reaches d7, e7 and f7 and stops at the pawn there, so g7 and h7 are not on the list: a rook's reach ends at the first man in its way."
+    },
+    {
+      "id": "4.9-k23",
+      "type": "name_the_pattern",
+      "fen": "3r4/pp4k1/8/8/8/1R5K/6PP/8 w - - 0 1",
+      "prompt": "Rxb7+ takes a pawn and wins a second one shortly afterwards. What makes the second pawn free?",
+      "options": [
+        "The rook on b7 is defended by the pawn on g2.",
+        "Rxb7+ threatens mate on b8, and stopping the mate loses the pawn on a7.",
+        "The check means his reply has to deal with the check, so nothing he does can also defend a7 — and from b7 the rook already attacks it."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "rook-on-seventh",
+      "reason": "A check buys a move. On the seventh rank that move is usually worth a pawn, because the rook attacks along the rank while the king is busy elsewhere."
+    },
+    {
+      "id": "4.9-k24",
+      "type": "is_it_safe",
+      "fen": "1r5k/5ppp/8/8/8/6K1/5PPP/2R5 w - - 0 1",
+      "move": "Rc7",
+      "prompt": "You put the rook on c7, deep in his half with his rook on b8 nearby. Is it safe there?",
+      "reasons": [
+        "No. Rb7 attacks it and wins a rook.",
+        "Yes. Nothing of Black's reaches c7: the rook on b8 cannot get there in one move, his pawns capture downwards, and his king has only g8 to go to.",
+        "Yes. The rook is defended by the pawn on f2."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "rook-on-seventh",
+      "reason": "A rook on the seventh looks exposed and usually is not, because the men that would attack it are pawns facing the wrong way and a king pinned to its back row."
+    },
+    {
+      "id": "4.9-k25",
+      "type": "which_square",
+      "fen": "2r3k1/2R2ppp/8/p7/8/7K/5PPP/8 w - - 0 1",
+      "prompt": "His a-pawn has a clear road. Tap the square where your rook gets behind it rather than beside it.",
+      "answer": {
+        "square": "a7"
+      },
+      "concept": "passed-pawn",
+      "reason": "a7, the only square behind the pawn your rook can reach in one move. Behind a black pawn means the side it came from, which is above it on the board."
+    },
+    {
+      "id": "4.9-k26",
+      "type": "which_square",
+      "fen": "1r5k/2R2ppp/8/8/6K1/p7/5PPP/8 w - - 0 1",
+      "prompt": "His pawn is already on the third rank. Tap the square behind it that your rook can reach this move.",
+      "answer": {
+        "square": "a7"
+      },
+      "concept": "passed-pawn",
+      "reason": "a7. It looks a long way from the pawn and it is exactly right: from behind, the rook keeps the pawn in front of it however far the pawn runs."
+    },
+    {
+      "id": "4.9-k27",
+      "type": "which_square",
+      "fen": "1r4k1/5ppp/4R3/8/6K1/p7/5PPP/8 w - - 0 1",
+      "prompt": "Tap the square on the a-file behind his pawn that your rook can reach in one move.",
+      "answer": {
+        "square": "a6"
+      },
+      "concept": "passed-pawn",
+      "reason": "a6. The rook travels along the sixth rank to the file it wants; once it is behind the pawn, the pawn has become a target instead of a threat."
+    },
+    {
+      "id": "4.9-k28",
+      "type": "find_them_all",
+      "fen": "3r1k2/5ppp/2R5/p7/8/7K/5PPP/8 w - - 0 1",
+      "prompt": "Tap every square on the a-file that lies behind his pawn.",
+      "answer": {
+        "squares": [
+          "a6",
+          "a7",
+          "a8"
+        ]
+      },
+      "concept": "passed-pawn",
+      "reason": "Three squares. Everything below a5 is in front of the pawn, which is the half of the file where a rook only blocks instead of attacking."
+    },
+    {
+      "id": "4.9-k29",
+      "type": "is_it_safe",
+      "fen": "r4k2/5ppp/8/2R5/8/p5K1/5PPP/8 w - - 0 1",
+      "move": "Ra5",
+      "prompt": "Ra5 gets your rook behind his pawn on the only square available. Is the rook safe there?",
+      "reasons": [
+        "Yes. His rook on a8 is too far away to do anything about it.",
+        "Yes. The pawn on a3 cannot capture backwards.",
+        "No. His rook on a8 has the whole a-file in front of it, so Rxa5 simply takes yours."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "passed-pawn",
+      "reason": "Behind the pawn is the right idea and this is the wrong moment: his rook already owns the file. Check who controls a square before you occupy it."
+    },
+    {
+      "id": "4.9-k30",
+      "type": "is_it_safe",
+      "fen": "1r3k2/3R1ppp/8/8/6K1/p7/5PPP/8 w - - 0 1",
+      "move": "Ra7",
+      "prompt": "Ra7 puts the rook behind his pawn, with his own rook sitting on b8. Is the rook safe on a7?",
+      "reasons": [
+        "No. Rb7 attacks it and wins it.",
+        "No. The pawn on a3 is one step from queening and cannot be stopped anyway.",
+        "Yes. Nothing attacks a7: his rook on b8 cannot reach it in one move, and a black pawn on a3 captures towards b2, never backwards."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 2
+      },
+      "concept": "passed-pawn",
+      "reason": "The square is safe and it is the right square. From a7 the rook attacks the pawn wherever it goes, and that is what holds the ending together."
+    },
+    {
+      "id": "4.9-k31",
+      "type": "is_it_safe",
+      "fen": "r4k2/1R3ppp/8/8/p7/7K/5PPP/8 w - - 0 1",
+      "move": "Ra7",
+      "prompt": "Ra7 looks like the same good move as ever. Is the rook safe there this time?",
+      "reasons": [
+        "No. His rook on a8 is directly above a7, so Rxa7 takes it for nothing.",
+        "Yes. Nothing of Black's can reach a7.",
+        "Yes. After Rxa7 you recapture with the pawn on b2."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "passed-pawn",
+      "reason": "The rule says get behind the pawn; it does not say ignore what is already standing there. His rook occupies the file first, so the square is not available yet."
+    },
+    {
+      "id": "4.9-k32",
+      "type": "name_the_pattern",
+      "fen": "2r4k/5ppp/8/3R4/p7/7K/5PPP/8 w - - 0 1",
+      "prompt": "A rook behind his a-pawn is better than a rook in front of it. What is the reason?",
+      "options": [
+        "A rook behind the pawn also defends your own pawns on the second rank.",
+        "From behind, the rook attacks the pawn wherever it runs and sees more of the file with every step the pawn takes. In front it only blocks, and sees less.",
+        "A rook in front of the pawn can be attacked by the enemy king, and a rook behind it cannot."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "passed-pawn",
+      "reason": "The asymmetry is the whole rule. Behind the pawn your job gets easier as the pawn advances; in front of it your job gets harder."
+    },
+    {
+      "id": "4.9-k33",
+      "type": "find_the_move",
+      "fen": "8/RK6/1P3k2/8/8/8/8/8 w - - 0 1",
+      "prompt": "His king is the only thing that can stop this pawn. Build a wall it cannot cross.",
+      "answer": {
+        "moves": [
+          "Ra5"
+        ]
+      },
+      "concept": "king-activity",
+      "reason": "Ra5 cuts the king off along the fifth rank. It can still shuffle about on the sixth and seventh, but it can never come down to meet the pawn."
+    },
+    {
+      "id": "4.9-k34",
+      "type": "find_the_move",
+      "fen": "2R5/8/2P5/2K5/8/7k/8/8 w - - 0 1",
+      "prompt": "Shut his king out of the pawn's half of the board. Do not check it.",
+      "answer": {
+        "moves": [
+          "Rg8"
+        ]
+      },
+      "concept": "king-activity",
+      "reason": "Rg8 leaves him h2 and h4 and nothing else: one file, two squares. A check on the h-file would only send him towards the pawn instead of away from it."
+    },
+    {
+      "id": "4.9-k35",
+      "type": "find_the_move",
+      "fen": "8/8/k7/4K3/4P3/8/8/2R5 w - - 0 1",
+      "prompt": "Put the rook where his king can never get past it.",
+      "answer": {
+        "moves": [
+          "Rc5"
+        ]
+      },
+      "concept": "king-activity",
+      "reason": "Rc5 takes the c-file and the fifth rank away at once. His king is left with a7, b6 and b7, none of which leads anywhere near the pawn."
+    },
+    {
+      "id": "4.9-k36",
+      "type": "find_the_move",
+      "fen": "8/5R2/3PK3/k7/8/8/8/8 w - - 0 1",
+      "prompt": "His king stands on a5 beside your pawn's path. Wall it off.",
+      "answer": {
+        "moves": [
+          "Rb7"
+        ]
+      },
+      "concept": "king-activity",
+      "reason": "Rb7 cuts the b-file. He is reduced to a4 and a6, two squares on the edge, and the pawn and king walk up without ever meeting him."
+    },
+    {
+      "id": "4.9-k37",
+      "type": "find_them_all",
+      "fen": "8/1R6/3PK3/k7/8/8/8/8 b - - 1 1",
+      "prompt": "White's rook has just taken the b-file. Tap every square his king can move to.",
+      "answer": {
+        "squares": [
+          "a4",
+          "a6"
+        ]
+      },
+      "concept": "king-activity",
+      "reason": "Two squares, both on the a-file. A cut-off king is not trapped, it is irrelevant: it can move as much as it likes and never reach the pawn."
+    },
+    {
+      "id": "4.9-k38",
+      "type": "find_them_all",
+      "fen": "8/8/8/8/5PK1/k1R5/8/8 b - - 1 1",
+      "prompt": "The rook has just come to c3 with a check. Tap every square his king can move to.",
+      "answer": {
+        "squares": [
+          "a2",
+          "a4",
+          "b2",
+          "b4"
+        ]
+      },
+      "concept": "king-activity",
+      "reason": "Four squares across two files. Compare it with a wall one file further over, which would leave him two squares on one file — the tighter the cage, the less he matters."
+    },
+    {
+      "id": "4.9-k39",
+      "type": "which_square",
+      "fen": "4R3/2K5/2P3k1/8/8/8/8/8 w - - 0 1",
+      "prompt": "Tap the square where the rook shuts his king out of the pawn's half of the board.",
+      "answer": {
+        "square": "e5"
+      },
+      "concept": "king-activity",
+      "reason": "e5 draws the line. His king keeps f6, f7, g7, h6 and h7, all of them on the far side of the wall, while the pawn and its king come up unopposed."
+    },
+    {
+      "id": "4.9-k40",
+      "type": "name_the_pattern",
+      "fen": "2R5/8/2P5/2K5/8/7k/8/8 w - - 0 1",
+      "prompt": "Rg8 wins comfortably and Rh8 is a check that does not. What is the difference between them?",
+      "options": [
+        "Rg8 attacks his king from the side, and Rh8 does not attack anything.",
+        "Rh8 loses the rook, because his king captures it next move.",
+        "Rg8 is a wall he cannot cross, so he stays on the h-file. Rh8 is a check, and a check is a free move for his king — he answers it by stepping towards the pawn."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "king-activity",
+      "reason": "In an ending a rook is a wall first and an attacker second. Checking an enemy king usually helps it, because it has to move and it chooses where."
+    },
+    {
+      "id": "4.9-k41",
+      "type": "find_the_move",
+      "fen": "5r2/5kpp/1p6/8/8/6K1/P5PP/R7 w - - 0 1",
+      "prompt": "Your rook is sitting at home doing nothing. Send it somewhere with a check.",
+      "answer": {
+        "moves": [
+          "Rf1+"
+        ]
+      },
+      "concept": "piece-activity",
+      "reason": "Rf1+ takes the file his king stands on and forces it to move. A rook guarding the a-pawn from a1 would spend the rest of the game as a spectator."
+    },
+    {
+      "id": "4.9-k42",
+      "type": "find_the_move",
+      "fen": "5k2/1r3ppp/p7/8/8/6K1/3R1PPP/8 w - - 0 1",
+      "prompt": "A pawn down, and the choice is between guarding something and going somewhere. Go somewhere.",
+      "answer": {
+        "moves": [
+          "Rd8+"
+        ]
+      },
+      "concept": "piece-activity",
+      "reason": "Rd8+ leaves him exactly one legal move, Ke7. The rook behind his king keeps making threats, which is worth more here than the pawn you are missing."
+    },
+    {
+      "id": "4.9-k43",
+      "type": "find_the_move",
+      "fen": "5r2/5kpp/1p6/8/8/R5K1/P5PP/8 w - - 0 1",
+      "prompt": "The rook on a3 has nothing to do. Give it a job with a check.",
+      "answer": {
+        "moves": [
+          "Rf3+"
+        ]
+      },
+      "concept": "piece-activity",
+      "reason": "Rf3+ takes his king's file with a check. The alternative, shuffling on the a-file to nurse the pawn, is how a level rook ending turns into a lost one."
+    },
+    {
+      "id": "4.9-k44",
+      "type": "find_the_move",
+      "fen": "7k/pp6/8/8/8/1R5K/6PP/3r4 w - - 0 1",
+      "prompt": "Both of his queenside pawns are still at home and undefended. Help yourself.",
+      "answer": {
+        "moves": [
+          "Rxb7"
+        ]
+      },
+      "concept": "piece-activity",
+      "reason": "Rxb7 wins a pawn and puts the rook on the seventh, where it attacks the second pawn as well. An active rook eats; a passive one watches."
+    },
+    {
+      "id": "4.9-k45",
+      "type": "find_them_all",
+      "fen": "3R1k2/1r3ppp/p7/8/8/6K1/5PPP/8 b - - 1 1",
+      "prompt": "The rook has just arrived behind his king with a check. Tap every square his king can move to.",
+      "answer": {
+        "squares": [
+          "e7"
+        ]
+      },
+      "concept": "piece-activity",
+      "reason": "One square, e7. His own pawns take away f7, g7 and h7 and the rook takes away the eighth rank, so a single check reduces a king to one legal move."
+    },
+    {
+      "id": "4.9-k46",
+      "type": "is_it_safe",
+      "fen": "7k/pp6/8/8/8/1R5K/6PP/3r4 w - - 0 1",
+      "move": "Rxb7",
+      "prompt": "Rxb7 takes a pawn and leaves the rook deep in his half. Is it safe there?",
+      "reasons": [
+        "No. The pawn on a7 takes it.",
+        "Yes. Nothing attacks b7: the a7 pawn captures towards b6, his king on h8 has only g8 to go to, and his rook on d1 cannot reach the square in one move.",
+        "Yes. The rook is defended by the pawn on g2."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "piece-activity",
+      "reason": "A pawn captures forwards, which for a black pawn on a7 means b6. The rook on the seventh is not in danger and is attacking the a-pawn into the bargain."
+    },
+    {
+      "id": "4.9-k47",
+      "type": "name_the_pattern",
+      "fen": "5r2/5kpp/1p6/8/8/6K1/P5PP/R7 w - - 0 1",
+      "prompt": "Rf1+ is better than sitting on a1 guarding the pawn, even though the pawn then needs watching. Why?",
+      "options": [
+        "Because an active rook is worth about a pawn in these endings: it forces his replies, while a rook tied to one pawn has no other function for the rest of the game.",
+        "Because Rf1+ wins the rook on f8 by force.",
+        "Because the pawn on a2 cannot be taken anyway."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "piece-activity",
+      "reason": "Material decides fewer rook endings than activity does. Give up a pawn to get the rook working and you are usually making a good trade."
+    },
+    {
+      "id": "4.9-k48",
+      "type": "find_the_sequence",
+      "fen": "8/1r2k3/8/1P6/1K6/8/6R1/8 w - - 0 1",
+      "prompt": "Play it out. Check him along the rank they share, let him step away, and take the rook.",
+      "answer": {
+        "line": [
+          "Rg7+",
+          "Kd8",
+          "Rxb7"
+        ]
+      },
+      "concept": "piece-activity",
+      "reason": "Rg7+ Kd8 Rxb7 and White has won a rook. Any of his other five king moves loses it in exactly the same way, because the check leaves no time to save it."
+    }
+  ]
+}

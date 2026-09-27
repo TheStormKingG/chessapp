@@ -1,0 +1,201 @@
+{
+  "id": "4.5.2",
+  "unit": "4.5",
+  "title": "Comparing candidates rather than analysing one to death",
+  "xp": 16,
+  "card": {
+    "idea": "You already know how to build the short list. The mistake now is not building it — it is spending your whole think on the first move you liked. Calculate each candidate to a point where you can say what it is worth, write the number down, and only then choose. Two shallow lines you can compare beat one deep line you cannot.",
+    "diagrams": [
+      "6k1/5ppp/1r2R3/8/1b6/8/3N1PPP/6K1 w - - 0 1",
+      "7k/5ppp/8/4r3/2N1R3/8/5PPP/1b4K1 w - - 0 1"
+    ],
+    "habit": "Price every candidate before you pick one. Cheapest line first, deepest line last."
+  },
+  "explain": [
+    {
+      "fen": "6k1/5ppp/1r2R3/8/1b6/8/3N1PPP/6K1 w - - 0 1",
+      "text": "Two moves do anything at all here: Re8 is check and Rxb6 takes a rook. The check feels like the move. Calculate it and it ends at once, because Bf8 is Black's only legal answer and then your rook has to come back. Calculate the other and it wins a rook. Compare, then choose.",
+      "arrows": [
+        ["e6", "e8"],
+        ["e6", "b6"]
+      ],
+      "highlights": ["e8", "b6"]
+    },
+    {
+      "fen": "7k/5ppp/8/4r3/2N1R3/8/5PPP/1b4K1 w - - 0 1",
+      "text": "Both candidates take the same rook on e5, which is exactly why you have to calculate both. Nxe5 leaves your rook on e4, and the bishop on b1 has been looking at e4 the whole time: Bxe4, and you have made a trade. Rxe5 takes the rook and keeps everything.",
+      "arrows": [
+        ["e4", "e5"],
+        ["c4", "e5"],
+        ["b1", "e4"]
+      ],
+      "highlights": ["e5", "e4"]
+    },
+    {
+      "fen": "3r2k1/5ppp/4N3/8/8/4b3/5PPP/R5K1 w - - 0 1",
+      "text": "Three captures: Nxd8, Nxg7 and fxe3. Write down what each is worth before you pick. Nxd8 is a rook. Nxg7 is a pawn, and Black answers Bd4, hitting your rook on a1 and the knight at once. fxe3 is a bishop, and fxe6 takes your knight straight back. The rook wins.",
+      "arrows": [
+        ["e6", "d8"],
+        ["f2", "e3"],
+        ["e6", "g7"]
+      ],
+      "highlights": ["d8", "e3", "g7"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.5.2-c1",
+      "type": "find_them_all",
+      "fen": "6k1/5ppp/1r2R3/8/1b6/8/3N1PPP/6K1 w - - 0 1",
+      "prompt": "Exactly two white moves give check or take something. Tap both squares they land on. That pair is the list, and the rest of this lesson is choosing between them.",
+      "answer": { "squares": ["b6", "e8"] },
+      "concept": "candidate-moves",
+      "hints": {
+        "text": "One rook move is check. One rook move is a capture. There is nothing else."
+      },
+      "reason": "Re8 is the only check on the board and Rxb6 is the only capture. A two-item list is the good case: you can afford to calculate both properly."
+    },
+    {
+      "id": "4.5.2-c2",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/1r2R3/8/1b6/8/3N1PPP/6K1 w - - 0 1",
+      "prompt": "You have both candidates. Calculate them both to the point where you can say what each is worth, then play the one that is worth more.",
+      "answer": { "moves": ["Rxb6"] },
+      "wrong": {
+        "Re8+": "Black has exactly one legal answer, Bf8, and then your rook has to come home. A check that forces a move Black was happy to make has bought you nothing."
+      },
+      "concept": "candidate-moves",
+      "hints": {
+        "piece": "e6",
+        "square": "b6"
+      },
+      "reason": "Re8 is check and stops after one move. Rxb6 is a whole rook. Loud and good are different things, and the only way to tell them apart is to price both."
+    },
+    {
+      "id": "4.5.2-c3",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/1r2R3/8/1b6/8/3N1PPP/6K1 w - - 0 1",
+      "prompt": "Most players look at Re8 first and some never look further. What is the actual argument against it?",
+      "options": [
+        "A check is always worth more than a capture, so Re8 is right after all.",
+        "Re8 forces Bf8, which is Black's only legal move, and then the rook must retreat with nothing gained.",
+        "Re8 loses the rook, because the bishop on b4 takes it on e8."
+      ],
+      "answer": { "option": 1 },
+      "concept": "candidate-moves",
+      "hints": {
+        "text": "Play Re8 in your head. Count how many legal answers Black has, then ask what you do on your next move."
+      },
+      "reason": "The bishop cannot reach e8; it blocks on f8. Re8 is a perfectly safe check that achieves nothing, which is the most expensive kind of move at this level."
+    },
+    {
+      "id": "4.5.2-c4",
+      "type": "find_the_move",
+      "fen": "7k/5ppp/8/4r3/2N1R3/8/5PPP/1b4K1 w - - 0 1",
+      "prompt": "Two of your pieces can take the rook on e5. Both look free. One of them is. Take with the right piece.",
+      "answer": { "moves": ["Rxe5"] },
+      "wrong": {
+        "Nxe5": "The knight is perfectly safe on e5. Your rook on e4 is not: Bxe4, and a free rook has turned into an even trade."
+      },
+      "concept": "candidate-moves",
+      "hints": {
+        "text": "After each capture, ask what the piece you did not move is standing on, and who is looking at that square."
+      },
+      "reason": "Rxe5 wins a rook outright. Nxe5 wins the same rook and hands one back, because the knight was the piece blocking the bishop's diagonal at e4."
+    },
+    {
+      "id": "4.5.2-c5",
+      "type": "is_it_safe",
+      "fen": "7k/5ppp/8/4r3/2N1R3/8/5PPP/1b4K1 w - - 0 1",
+      "move": "Nxe5",
+      "prompt": "You have decided on Nxe5, taking the rook with the knight. The knight lands right in front of Black's king. Is the knight safe on e5?",
+      "reasons": [
+        "No. The bishop on b1 takes it.",
+        "Yes. Nothing black attacks e5.",
+        "No. The pawn on f7 takes it."
+      ],
+      "answer": { "safe": true, "reason": 1 },
+      "concept": "candidate-moves",
+      "hints": {
+        "text": "The bishop runs b1, c2, d3, e4. Read the diagonal to the end and see where it stops."
+      },
+      "reason": "The knight is completely safe and the move is still the wrong one. The bishop's diagonal ends on e4, not e5, and e4 is where your rook is standing."
+    },
+    {
+      "id": "4.5.2-c6",
+      "type": "find_them_all",
+      "fen": "3r2k1/5ppp/4N3/8/8/4b3/5PPP/R5K1 w - - 0 1",
+      "prompt": "Before you pick anything, collect. Tap every square White can capture on.",
+      "answer": { "squares": ["d8", "e3", "g7"] },
+      "concept": "values",
+      "hints": {
+        "text": "The knight has two of them and a pawn has the third."
+      },
+      "reason": "Nxd8, Nxg7 and fxe3. Three captures is still a short list, and the whole job now is putting a number beside each one."
+    },
+    {
+      "id": "4.5.2-c7",
+      "type": "find_the_move",
+      "fen": "3r2k1/5ppp/4N3/8/8/4b3/5PPP/R5K1 w - - 0 1",
+      "prompt": "Three captures on your list. Put a number beside each and take the biggest one.",
+      "answer": { "moves": ["Nxd8"] },
+      "wrong": {
+        "fxe3": "A bishop, three points, and then fxe6 takes your knight straight back. Net gain: nothing.",
+        "Nxg7": "A pawn, and it is worse than that. Black replies Bd4, hitting the rook on a1 and your knight on g7 at the same time."
+      },
+      "concept": "values",
+      "hints": {
+        "piece": "e6",
+        "square": "d8"
+      },
+      "reason": "A rook is five, a bishop is three, a pawn is one — and two of the three captures hand material straight back. Pricing the list takes ten seconds and settles it."
+    },
+    {
+      "id": "4.5.2-c8",
+      "type": "which_square",
+      "fen": "2N3k1/5ppp/2r5/8/8/7b/5PPP/5RK1 w - - 0 1",
+      "prompt": "Your knight on c8 has one square from which it gives check and attacks the rook on c6 at the same time. Tap that square.",
+      "answer": { "square": "e7" },
+      "concept": "values",
+      "hints": {
+        "text": "You need a square that touches both g8 and c6."
+      },
+      "reason": "A knight on e7 reaches g8 and c6. The king has to move, and the rook comes off next."
+    },
+    {
+      "id": "4.5.2-c9",
+      "type": "find_the_move",
+      "fen": "2N3k1/5ppp/2r5/8/8/7b/5PPP/5RK1 w - - 0 1",
+      "prompt": "Two candidates: take the bishop, or check from e7. Price them both, then play one.",
+      "answer": { "moves": ["Ne7+"] },
+      "wrong": {
+        "gxh3": "You won a bishop and left the knight on c8 where the rook can see it. Rxc8, and you have traded three points for three.",
+        "Rd1": "A tidy move that changes nothing. Black has a free move and uses it on the knight."
+      },
+      "concept": "values",
+      "hints": {
+        "piece": "c8",
+        "square": "e7"
+      },
+      "reason": "Ne7 is check and Black has only Kh8 and Kf8. Nxc6 follows in both cases, so the knight comes home with a rook. Taking the bishop wins three and loses three."
+    },
+    {
+      "id": "4.5.2-c10",
+      "type": "name_the_pattern",
+      "fen": "6k1/2r2ppp/8/8/8/6b1/3N1PPP/6KR w - - 0 1",
+      "prompt": "Two pawns can take the bishop on g3 and both win the same three points. Which one, and why?",
+      "options": [
+        "Take with the f-pawn, so that the h-pawn still shelters the king.",
+        "It makes no difference at all. Both captures win a bishop.",
+        "Take with the h-pawn. The pawn on f2 stays in front of your king, and the rook on h1 is left on an open file."
+      ],
+      "answer": { "option": 2 },
+      "concept": "candidate-moves",
+      "hints": {
+        "text": "Both captures win the same material. Look at what each one does to the two white pieces that did not move."
+      },
+      "reason": "When two candidates win the same amount, the tie-breaker is what they leave behind. hxg3 keeps the shelter and opens a file for the rook; fxg3 gives up the shelter and leaves the rook staring at its own pawn."
+    }
+  ],
+  "takeaway": "Calculate each candidate far enough to price it, then compare the prices. The first line that works is not the argument for playing it."
+}

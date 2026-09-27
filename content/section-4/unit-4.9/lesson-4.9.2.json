@@ -1,0 +1,210 @@
+{
+  "id": "4.9.2",
+  "unit": "4.9",
+  "title": "The Philidor defence",
+  "xp": 15,
+  "card": {
+    "idea": "A rook and a pawn against a rook is usually held, and this is how you hold it. Put your rook on your own third rank and his king can never cross it. When the pawn comes up to chase the rook away, drop the rook right back and check the king from behind instead. Two ideas, one ending, and the second only starts when the first runs out.",
+    "diagrams": [
+      "3k1r2/8/8/1KP5/8/8/8/7R b - - 0 1",
+      "3k4/8/2P2r2/1K6/8/8/8/7R b - - 0 2"
+    ],
+    "habit": "Third rank until the pawn arrives. Then behind it."
+  },
+  "explain": [
+    {
+      "fen": "3k1r2/8/8/1KP5/8/8/8/7R b - - 0 1",
+      "text": "White's king has to reach the sixth rank to make progress. Rf6 takes the whole rank away: from f6 the rook covers a6, b6, c6, d6, e6, g6 and h6. Count White's king moves afterwards — a4, a5, b4 and c4, four in all, and not one of them is on the sixth.",
+      "arrows": [
+        [
+          "f8",
+          "f6"
+        ]
+      ],
+      "highlights": [
+        "f6",
+        "b5"
+      ]
+    },
+    {
+      "fen": "3k4/8/2P2r2/1K6/8/8/8/7R b - - 0 2",
+      "text": "The pawn has come to the sixth, so the rook cannot stay on that rank. Now it goes behind and checks from long range. Rf2, not Rf1: the white rook on h1 covers the whole first rank, so Rf1 is met by Rxf1. One rank higher is out of reach and checks as well.",
+      "arrows": [
+        [
+          "f6",
+          "f2"
+        ]
+      ],
+      "highlights": [
+        "f2",
+        "f1"
+      ]
+    },
+    {
+      "fen": "2r1k3/8/8/5PK1/8/8/1R6/8 b - - 0 1",
+      "text": "The same defence on the other wing, with the pawn on f5 and White's king already beside it. Rc6 is the move, and it is the only one that holds: everything else lets the king through to the sixth and the position is lost. Being one rank out is not being nearly right here.",
+      "arrows": [
+        [
+          "c8",
+          "c6"
+        ]
+      ],
+      "highlights": [
+        "c6",
+        "g5"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.9.2-c1",
+      "type": "find_the_move",
+      "fen": "3k1r2/8/8/1KP5/8/8/8/7R b - - 0 1",
+      "prompt": "You are a pawn down and this is held if you find the right rank. Put the rook where White's king can never get past it.",
+      "answer": {
+        "moves": [
+          "Rf6"
+        ]
+      },
+      "wrong": {
+        "Rf3": "Three ranks too deep. Now Kb6 comes, the king walks round in front of its own pawn, and the ending is lost.",
+        "Kc7": "The king is already doing its job on d8. Moving it lets White take the sixth rank with the king instead."
+      },
+      "concept": "draws",
+      "hints": {
+        "piece": "f8",
+        "square": "f6"
+      },
+      "reason": "Rf6 holds and every other move loses. From f6 the rook covers the whole sixth rank, so White's king has four moves — a4, a5, b4, c4 — and none of them makes progress."
+    },
+    {
+      "id": "4.9.2-c2",
+      "type": "find_the_move",
+      "fen": "2r1k3/8/8/5PK1/8/8/1R6/8 b - - 0 1",
+      "prompt": "White's king is already beside its pawn on the fifth. One rook move keeps it there for good.",
+      "answer": {
+        "moves": [
+          "Rc6"
+        ]
+      },
+      "wrong": {
+        "Rc1": "Too far back too early. While the pawn is still on the fifth the rook belongs on the sixth rank, and from c1 it cannot stop Kg6.",
+        "Kd7": "This walks into the pawn's path but abandons the rank, and Kg6 followed by the king's march decides it."
+      },
+      "concept": "draws",
+      "hints": {
+        "piece": "c8",
+        "square": "c6"
+      },
+      "reason": "Rc6 is the only move that holds. It denies the sixth rank to White's king, which is the one thing that has to be denied while the pawn sits on the fifth."
+    },
+    {
+      "id": "4.9.2-c3",
+      "type": "which_square",
+      "fen": "3k3r/8/8/1KP5/8/8/6R1/8 b - - 0 1",
+      "prompt": "Tap the square on your own third rank where the rook shuts White's king out of the rank in front of it.",
+      "answer": {
+        "square": "h6"
+      },
+      "concept": "draws",
+      "hints": {
+        "text": "Count three ranks up from your own back row, and keep the rook on the file it already occupies."
+      },
+      "reason": "Your third rank is the sixth rank of the board. Rh6 covers all of it, and a king that cannot reach the sixth can never shepherd the pawn home."
+    },
+    {
+      "id": "4.9.2-c4",
+      "type": "find_them_all",
+      "fen": "3k4/8/5r2/1KP5/8/8/8/7R w - - 1 2",
+      "prompt": "Black's rook has just landed on the sixth rank. Tap every square White's king is able to move to now.",
+      "answer": {
+        "squares": [
+          "a4",
+          "a5",
+          "b4",
+          "c4"
+        ]
+      },
+      "concept": "draws",
+      "hints": {
+        "text": "The rook covers the rank above the king. Everything left is level with it or below."
+      },
+      "reason": "Four squares, all of them on the fourth and fifth ranks. The king is being sent backwards or sideways, never forwards, and that is the whole defence in one picture."
+    },
+    {
+      "id": "4.9.2-c5",
+      "type": "name_the_pattern",
+      "fen": "1r1k4/8/8/4PK2/8/8/7R/8 b - - 0 1",
+      "prompt": "Rb6 holds this and Rb1 loses it, though both look like sensible rook moves. What is the difference?",
+      "options": [
+        "Rb6 attacks the pawn on e5, and Rb1 does not.",
+        "Rb6 keeps the rook safe from the white rook on h2, and Rb1 would be captured.",
+        "Rb6 covers the whole sixth rank, so White's king cannot step in front of its pawn. From b1 the rook covers nothing that matters yet and Kf6 follows."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "draws",
+      "hints": {
+        "text": "Ask what White's king wants to do next, and which of the two moves stops it."
+      },
+      "reason": "The pawn is still on the fifth, so the job is to keep the king off the sixth. The rook goes behind the pawn later, once the pawn has advanced and the rank is no longer the point."
+    },
+    {
+      "id": "4.9.2-c6",
+      "type": "is_it_safe",
+      "fen": "3k4/8/2P2r2/1K6/8/8/8/7R b - - 0 2",
+      "move": "Rf1",
+      "prompt": "The pawn has reached the sixth, so the rook must go behind it and check from there. You play Rf1, as far back as it will go. Is that safe?",
+      "reasons": [
+        "No. The white rook on h1 has the whole first rank, and Rxf1 answers it. A rook down, nothing stops the pawn.",
+        "No. Rf1 leaves the eighth rank, and White replies Rh8 mate.",
+        "Yes. The first rank is the furthest from the pawn, which is exactly where a checking rook belongs."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "draws",
+      "hints": {
+        "text": "Look along the first rank before you land on it, and see who is already there."
+      },
+      "reason": "Right idea, wrong square. Rf2 does the same job and cannot be taken, because the white rook covers the first rank and nothing else below the sixth."
+    },
+    {
+      "id": "4.9.2-c7",
+      "type": "find_the_sequence",
+      "fen": "3k2r1/8/8/1KP5/8/8/8/7R b - - 0 1",
+      "prompt": "Play the whole defence. Take the sixth rank, let White push the pawn up to it, then drop the rook back to a safe square behind the pawn.",
+      "answer": {
+        "line": [
+          "Rg6",
+          "c6",
+          "Rg2"
+        ]
+      },
+      "concept": "draws",
+      "hints": {
+        "text": "The last move is not the first rank. Check which squares the white rook already covers."
+      },
+      "reason": "Rg6 shuts the king out. Once c6 arrives the rook has to leave the rank, and Rg2 is the square: Rg1 would be taken by the rook on h1, and g2 checks from just as far away."
+    },
+    {
+      "id": "4.9.2-c8",
+      "type": "play_it_out",
+      "fen": "3k3r/8/8/2PK4/8/8/6R1/8 b - - 0 1",
+      "prompt": "You are a pawn down against a live opponent and the position is held. Prove it: survive ten moves with the rook still on the board.",
+      "goal": {
+        "kind": "hold",
+        "moves": 10
+      },
+      "opponentDepth": 8,
+      "concept": "draws",
+      "hints": {
+        "text": "Sixth rank while the pawn is on the fifth. Behind it once the pawn moves up."
+      },
+      "reason": "The two rules carry the whole defence. Keep the king off the sixth rank first, and when the pawn takes that rank away from you, go behind it and check from a square the enemy rook does not cover."
+    }
+  ],
+  "takeaway": "Rook and pawn against rook is held, not hoped for. Third rank first, so his king cannot cross it; when the pawn arrives there, drop back and check from behind."
+}

@@ -1,0 +1,205 @@
+{
+  "id": "4.3.4",
+  "unit": "4.3",
+  "title": "Recognising the opponent's threats two moves deep",
+  "xp": 18,
+  "card": {
+    "idea": "In Section 3 you ran his checks and his captures on the board your move would leave. In every position here that list comes back empty, and he is still winning something. The threat is one quiet move away: a bishop steps on to a diagonal, a rook on to a file, a knight on to a fork. Look for the square he wants, not for the move.",
+    "diagrams": [
+      "6k1/3bqppp/8/8/8/2BR4/5PPP/5RK1 w - - 0 1",
+      "2n3k1/p4ppp/r7/b7/6R1/1R6/P4PPP/6K1 w - - 0 1"
+    ],
+    "habit": "When his checks and captures come back empty, ask where his pieces want to stand."
+  },
+  "explain": [
+    {
+      "fen": "6k1/3bqppp/8/8/8/2BR4/5PPP/5RK1 w - - 0 1",
+      "text": "Run his list first. Black has thirty-three legal moves and not one of them is a check or a capture, so the old scan says nothing at all. Now ask where his bishop on d7 wants to stand. From b5 or from f5 it attacks your rook on d3, and nothing defends it. Rfd1 answers both squares in one move.",
+      "arrows": [
+        ["d7", "b5"],
+        ["d7", "f5"],
+        ["f1", "d1"]
+      ],
+      "highlights": ["d3", "b5", "f5"]
+    },
+    {
+      "fen": "2n3k1/p4ppp/r7/b7/6R1/1R6/P4PPP/6K1 w - - 0 1",
+      "text": "Same scan, same empty answer: no checks and no captures. His rook on a6 wants c6, d6 or e6, because from any of the three the next move is mate on the first rank. Rc4 takes one of those files away and Rc6 is then met by Rxc6.",
+      "arrows": [
+        ["a6", "c6"],
+        ["c6", "c1"],
+        ["g4", "c4"]
+      ],
+      "highlights": ["c6", "d6", "e6"]
+    },
+    {
+      "fen": "1r4k1/1p3ppp/8/b4n2/8/8/1PR2PPP/5RK1 w - - 0 1",
+      "text": "A knight version, and the same empty list. His knight on f5 has seven squares and two of them, e3 and d4, attack your rook on c2, which nothing defends. Rc5 moves the rook off the fork and hits his bishop on a5 on the way there.",
+      "arrows": [
+        ["f5", "e3"],
+        ["f5", "d4"],
+        ["c2", "c5"]
+      ],
+      "highlights": ["c2", "e3", "d4"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.3.4-c1",
+      "type": "find_them_all",
+      "fen": "6k1/3bqppp/8/8/8/2BR4/5PPP/5RK1 w - - 0 1",
+      "prompt": "Black has no check and no capture anywhere. Tap every square his bishop on d7 can reach from which it attacks your rook on d3.",
+      "answer": { "squares": ["b5", "f5"] },
+      "concept": "opponent-threats",
+      "hints": {
+        "text": "The rook stands on d3. Which two diagonals run through d3, and where does his bishop join them?"
+      },
+      "reason": "b5 and f5. The bishop has nine squares in all and only those two see d3. Neither of them is a check and neither is a capture, so nothing in the old scan would ever have shown them to you."
+    },
+    {
+      "id": "4.3.4-c2",
+      "type": "find_the_move",
+      "fen": "6k1/3bqppp/8/8/8/2BR4/5PPP/5RK1 w - - 0 1",
+      "prompt": "His bishop is one quiet move from your rook on d3, and it can come from either side. Answer both squares at once.",
+      "answer": { "moves": ["Rfd1"] },
+      "wrong": {
+        "h3": "A useful little move, and then Bb5 or Bf5 wins the rook on d3 for nothing."
+      },
+      "concept": "opponent-threats",
+      "hints": {
+        "piece": "f1",
+        "square": "d1"
+      },
+      "reason": "Rfd1 defends d3 from behind, so Bb5 Bxd3 is answered by Rxd3. You cannot stop him reaching b5 or f5, and you do not need to."
+    },
+    {
+      "id": "4.3.4-c3",
+      "type": "is_it_safe",
+      "fen": "6k1/3bqppp/8/8/8/2BR4/5PPP/5RK1 w - - 0 1",
+      "move": "Rfd1",
+      "prompt": "You play the rook to d1. Run the check on it: is the rook safe on d1?",
+      "reasons": [
+        "No. His bishop on d7 covers d1 down the diagonal.",
+        "No. His knight takes it.",
+        "Yes. Nothing black attacks d1 at this moment, and the rook there is defending the one on d3."
+      ],
+      "answer": { "safe": true, "reason": 2 },
+      "concept": "opponent-threats",
+      "hints": {
+        "text": "List what Black actually has on the board, then check each one against d1."
+      },
+      "reason": "Safe, and doing a job. His bishop on d7 sees c8, e8, e6, f5, g4, h3, c6, b5 and a4, and d1 is on none of those. He has no knight in this position at all."
+    },
+    {
+      "id": "4.3.4-c4",
+      "type": "find_them_all",
+      "fen": "2n3k1/p4ppp/r7/b7/6R1/1R6/P4PPP/6K1 w - - 0 1",
+      "prompt": "No checks and no captures for Black again. Tap every square his rook on a6 can reach from which it would have mate next move.",
+      "answer": { "squares": ["c6", "d6", "e6"] },
+      "concept": "opponent-threats",
+      "hints": {
+        "text": "A rook needs a clear file down to your first rank. Walk the rook along the sixth rank and test each file."
+      },
+      "reason": "c6, d6 and e6, and Rc1, Rd1 and Re1 are all mate. b6 is blocked by your own rook on b3, f6 by the pawn on f2, g6 by your rook on g4 and h6 by the pawn on h2."
+    },
+    {
+      "id": "4.3.4-c5",
+      "type": "find_the_move",
+      "fen": "2n3k1/p4ppp/r7/b7/6R1/1R6/P4PPP/6K1 w - - 0 1",
+      "prompt": "He has three squares on the sixth rank that all lead to mate. You cannot cover three files. Find the move that does.",
+      "answer": { "moves": ["Rc4"] },
+      "wrong": {
+        "Ra4": "Now Rc6 and you are answering a mate threat with your one move, instead of having spent it usefully.",
+        "h3": "Air for the king, and it does not deal with the file. He plays Rc6 and Rc1 is check, not mate, but you are defending for the rest of the game."
+      },
+      "concept": "opponent-threats",
+      "hints": {
+        "piece": "g4",
+        "square": "c4"
+      },
+      "reason": "Rc4 puts a rook on the file he wants most, so Rc6 is simply met by Rxc6. It is a quiet move answering a quiet move, which is what this whole lesson is."
+    },
+    {
+      "id": "4.3.4-c6",
+      "type": "is_it_safe",
+      "fen": "2n3k1/p4ppp/r7/b7/6R1/1R6/P4PPP/6K1 w - - 0 1",
+      "move": "Rgb4",
+      "prompt": "You fancy Rgb4 instead, doubling on the b-file and hitting the bishop. Is the rook safe on b4?",
+      "reasons": [
+        "Yes. Your other rook on b3 defends it.",
+        "No. The bishop on a5 takes it, and a bishop for a rook is a bad trade.",
+        "No. The knight on c8 covers b4."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "opponent-threats",
+      "hints": {
+        "text": "The bishop you are attacking is on a5. What squares does a bishop on a5 attack?"
+      },
+      "reason": "Bxb4 and the bishop was the piece you were attacking. A rook on b3 does not defend b4, it stands in front of it. The knight on c8 reaches b6, d6 and e7, nowhere near b4."
+    },
+    {
+      "id": "4.3.4-c7",
+      "type": "which_square",
+      "fen": "6kq/1p3ppp/8/7b/7B/8/1P3PPP/1Q4K1 w - - 0 1",
+      "prompt": "Black has thirteen legal moves and none of them is a check or a capture. Tap the one square his bishop wants.",
+      "answer": { "square": "g6" },
+      "concept": "opponent-threats",
+      "hints": {
+        "text": "Your queen is on b1. Which long diagonal ends there, and where does his bishop get on to it?"
+      },
+      "reason": "g6. The bishop has five squares and g6 is the only one that puts it on the diagonal running down to your queen on b1, which nothing defends."
+    },
+    {
+      "id": "4.3.4-c8",
+      "type": "find_the_move",
+      "fen": "6kq/1p3ppp/8/7b/7B/8/1P3PPP/1Q4K1 w - - 0 1",
+      "prompt": "One quiet bishop move and your queen is gone. Deal with it by asking what the bishop itself is worth right now.",
+      "answer": { "moves": ["Qf5"] },
+      "wrong": {
+        "b3": "Now Bg6 and the bishop is on the diagonal. Your queen has to run and the game has turned around.",
+        "Qe4": "The queen leaves the diagonal, and that is something, but the bishop on h5 is loose and Qf5 takes it on."
+      },
+      "concept": "opponent-threats",
+      "hints": {
+        "piece": "b1",
+        "square": "f5"
+      },
+      "reason": "Qf5 attacks the bishop along the fifth rank and nothing defends it. The piece that was about to make the threat is the piece you go after."
+    },
+    {
+      "id": "4.3.4-c9",
+      "type": "find_the_move",
+      "fen": "1r4k1/1p3ppp/8/b4n2/8/8/1PR2PPP/5RK1 w - - 0 1",
+      "prompt": "His knight on f5 has two squares that both hit your rook on c2, and nothing defends it. Move the rook somewhere useful.",
+      "answer": { "moves": ["Rc5"] },
+      "wrong": {
+        "Rd1": "That is your other rook. The one on c2 is still sitting on the fork, and Ne3 or Nd4 collects it.",
+        "Re2": "The rook is off c2 and on to a square his knight also reaches from d4 and g3. You have moved the problem, not solved it."
+      },
+      "concept": "opponent-threats",
+      "hints": {
+        "piece": "c2",
+        "square": "c5"
+      },
+      "reason": "Rc5 leaves the fork and attacks the bishop on a5, so he is the one answering a threat. Nothing black reaches c5."
+    },
+    {
+      "id": "4.3.4-c10",
+      "type": "name_the_pattern",
+      "fen": "1r4k1/1p3ppp/8/b4n2/8/8/1PR2PPP/5RK1 w - - 0 1",
+      "prompt": "Black has twenty-eight legal moves and not one is a check or a capture. So what were you supposed to look at?",
+      "options": [
+        "Nothing. With no checks and no captures for him, it is your move to use as you like.",
+        "The squares his pieces can reach, not the moves they can make. Two knight squares, e3 and d4, both take your rook on c2.",
+        "His king, because with no forcing moves available the position is quiet enough to start an attack."
+      ],
+      "answer": { "option": 1 },
+      "concept": "opponent-threats",
+      "hints": {
+        "text": "A threat is a move he has not made yet. What does a piece have to do first before it can make one?"
+      },
+      "reason": "A checks-and-captures scan asks what he can do to you this move. Two moves deep the question changes: where does a piece of his have to stand before it can do something, and can he get there in one."
+    }
+  ],
+  "takeaway": "An empty list of his checks and captures is not an all-clear. Ask which square each of his pieces would like, and whether one move gets it there."
+}

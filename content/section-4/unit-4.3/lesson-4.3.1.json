@@ -1,0 +1,184 @@
+{
+  "id": "4.3.1",
+  "unit": "4.3",
+  "title": "The zwischenzug",
+  "xp": 16,
+  "card": {
+    "idea": "An in-between move is a forcing move you slip in before the move everyone is expecting. He takes, you are supposed to take back, and instead you check. He has to answer the check, and only then do you take back. The capture never went away. What changed is that he did not get a free move in between.",
+    "diagrams": [
+      "6k1/5ppp/8/2q5/4R3/8/5PPP/5RKn w - - 0 1",
+      "1r1n2k1/pN3ppp/8/8/3R4/8/P4PPP/6K1 w - - 0 1"
+    ],
+    "habit": "Before you take back, ask what check you have."
+  },
+  "explain": [
+    {
+      "fen": "6k1/5ppp/8/2q5/4R3/8/5PPP/5RKn w - - 0 1",
+      "text": "His knight has landed on h1 and you can take it whenever you like. Kxh1 does take it, and the game is level. Re8+ first: Qf8 is his only legal move. Rxf8+ Kxf8, and the knight is still sitting on h1 waiting for you. Same capture, one check earlier, a whole queen better.",
+      "arrows": [
+        ["e4", "e8"],
+        ["g1", "h1"]
+      ],
+      "highlights": ["e8", "h1"]
+    },
+    {
+      "fen": "1r1n2k1/pN3ppp/8/8/3R4/8/P4PPP/6K1 w - - 0 1",
+      "text": "Your knight on b7 attacks his knight on d8, and so does your rook. Nxd8 first loses: Rb1+ Rd1 Rxd1 is mate. Rxd8+ is the same capture in the other order. Rxd8 is forced, Nxd8 follows, and the back rank never gets a turn.",
+      "arrows": [
+        ["d4", "d8"],
+        ["b7", "d8"],
+        ["b8", "b1"]
+      ],
+      "highlights": ["d8", "b1"]
+    },
+    {
+      "fen": "6k1/4qppp/R7/1b6/8/3n4/3Q1PPP/6K1 w - - 0 1",
+      "text": "The same question on a quieter board. His knight on d3 is hanging and Qxd3 takes it, and then Qe1+ Qf1 Qxf1 is mate. Ra8+ is the in-between move. He has four answers to it and not one of them is Qe1.",
+      "arrows": [
+        ["a6", "a8"],
+        ["e7", "e1"]
+      ],
+      "highlights": ["a8", "e1"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.3.1-c1",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/8/2q5/4R3/8/5PPP/5RKn w - - 0 1",
+      "prompt": "Kxh1 wins the knight and leaves the game level. What does Re8+ get you that Kxh1 does not?",
+      "options": [
+        "It attacks the knight on h1 a second time, so Black cannot save it.",
+        "It defends your first rank before your king walks over to h1.",
+        "It is check. Black never gets the free move that Kxh1 hands him, and the knight is still on h1 afterwards."
+      ],
+      "answer": { "option": 2 },
+      "concept": "zwischenzug",
+      "hints": {
+        "text": "Count what each move is worth by the time the dust settles, not on the move you play it."
+      },
+      "reason": "Kxh1 wins a knight and then it is Black's turn, with nothing wrong in his position. Re8+ forces Qf8, and Rxf8+ Kxf8 has won his queen for a rook. The knight on h1 is still there to be taken."
+    },
+    {
+      "id": "4.3.1-c2",
+      "type": "find_the_move",
+      "fen": "6k1/5ppp/8/2q5/4R3/8/5PPP/5RKn w - - 0 1",
+      "prompt": "His knight has hopped to h1 and you can take it with your king. Play the move that has to come before that.",
+      "answer": { "moves": ["Re8+"] },
+      "wrong": {
+        "Kxh1": "You win a knight and the game is level. Re8+ first wins his queen for a rook, and the knight is still on h1 when you are done."
+      },
+      "concept": "zwischenzug",
+      "hints": {
+        "piece": "e4",
+        "square": "e8"
+      },
+      "reason": "Re8+ is check and Qf8 is his only legal answer. Rxf8+ Kxf8, and now Kxh1. The capture you wanted never went anywhere."
+    },
+    {
+      "id": "4.3.1-c3",
+      "type": "which_square",
+      "fen": "6k1/5ppp/8/2q5/4R3/8/5PPP/5RKn w - - 0 1",
+      "prompt": "Re8+ leaves Black exactly one legal move on the whole board. Tap the square his queen has to go to.",
+      "answer": { "square": "f8" },
+      "concept": "zwischenzug",
+      "hints": {
+        "text": "Check the king's squares first, then look for what can block."
+      },
+      "reason": "Qf8 is the only move there is. The king has nowhere to step, his own pawns cover f7, g7 and h7, and nothing black can take on e8."
+    },
+    {
+      "id": "4.3.1-c4",
+      "type": "is_it_safe",
+      "fen": "6k1/5ppp/8/2q5/4R3/8/5PPP/5RKn w - - 0 1",
+      "move": "Re8+",
+      "prompt": "Before you play Re8+, run the last check. Is the rook safe on e8?",
+      "reasons": [
+        "Yes. Nothing black attacks e8 at all. The king cannot reach it and the queen on c5 does not cover it.",
+        "No. His king steps across and takes it.",
+        "No. The queen comes over from c5 and takes it."
+      ],
+      "answer": { "safe": true, "reason": 0 },
+      "concept": "zwischenzug",
+      "hints": {
+        "text": "The king is on g8, not f8. Count the squares between them."
+      },
+      "reason": "Black's only answer is Qf8, and that blocks rather than takes. The rook is safe on e8 and you hand it over next move anyway, for his queen."
+    },
+    {
+      "id": "4.3.1-c5",
+      "type": "find_the_sequence",
+      "fen": "6k1/5ppp/8/2q5/4R3/8/5PPP/5RKn w - - 0 1",
+      "prompt": "Play the whole idea out: the check, his only answer, the rook, and then the knight you came for.",
+      "answer": { "line": ["Re8+", "Qf8", "Rxf8+", "Kxf8", "Kxh1"] },
+      "concept": "zwischenzug",
+      "hints": {
+        "piece": "e4",
+        "square": "e8"
+      },
+      "reason": "Five ply, and Black never had a choice in any of them. You finish a queen for a rook up, with the knight on h1 as well."
+    },
+    {
+      "id": "4.3.1-c6",
+      "type": "find_them_all",
+      "fen": "1r1n2k1/pN3ppp/8/8/3R4/8/P4PPP/6K1 w - - 0 1",
+      "prompt": "Two white pieces can take the knight on d8, and which one goes first decides the game. Tap them both.",
+      "answer": { "pieces": ["b7", "d4"] },
+      "concept": "zwischenzug",
+      "hints": {
+        "text": "One of them is on the same file as d8. The other is a knight's jump away."
+      },
+      "reason": "The knight on b7 and the rook on d4. Only one of the two takes with check, and that is the one that has to go first."
+    },
+    {
+      "id": "4.3.1-c7",
+      "type": "name_the_pattern",
+      "fen": "1r1n2k1/pN3ppp/8/8/3R4/8/P4PPP/6K1 w - - 0 1",
+      "prompt": "Nxd8 and Rxd8+ take the same knight. Why does the order decide the game?",
+      "options": [
+        "After Nxd8 it is Black's move, and Rb1+ Rd1 Rxd1 is mate. Rxd8+ is check, so that move never arrives.",
+        "After Nxd8 the knight is trapped on d8 and has no way out.",
+        "Rxd8+ wins a rook as well as the knight."
+      ],
+      "answer": { "option": 0 },
+      "concept": "zwischenzug",
+      "hints": {
+        "text": "Ask what Black plays after each capture, not what you have won by it."
+      },
+      "reason": "Your king sits behind three pawns that have never moved. Nxd8 hands Black the one free move he needs; Rxd8+ takes it away from him, and the knight follows next move anyway."
+    },
+    {
+      "id": "4.3.1-c8",
+      "type": "find_the_move",
+      "fen": "1r1n2k1/pN3ppp/8/8/3R4/8/P4PPP/6K1 w - - 0 1",
+      "prompt": "Your knight is attacked and so is his. Take the knight on d8 with the piece that takes it with check.",
+      "answer": { "moves": ["Rxd8+"] },
+      "wrong": {
+        "Nxd8": "Rb1+ Rd1 Rxd1 is mate. The same capture made with the rook is check, and check is what buys you the move."
+      },
+      "concept": "zwischenzug",
+      "hints": {
+        "piece": "d4",
+        "square": "d8"
+      },
+      "reason": "Rxd8+ Rxd8 Nxd8 wins the piece and Black never gets a turn on the first rank."
+    },
+    {
+      "id": "4.3.1-c9",
+      "type": "find_the_move",
+      "fen": "6k1/4qppp/R7/1b6/8/3n4/3Q1PPP/6K1 w - - 0 1",
+      "prompt": "His knight on d3 is hanging and your queen can take it. Look at your own first rank before you do.",
+      "answer": { "moves": ["Ra8+"] },
+      "wrong": {
+        "Qxd3": "Qe1+ Qf1 Qxf1 is mate. Your first rank needed attention first, and the way to buy the time is a check of your own."
+      },
+      "concept": "zwischenzug",
+      "hints": {
+        "piece": "a6",
+        "square": "a8"
+      },
+      "reason": "Ra8+ has four answers and not one of them is Qe1. He blocks with Be8, and now that bishop is pinned to his king along the eighth rank and cannot move at all."
+    }
+  ],
+  "takeaway": "Before you take back, look for a check. A forcing move put in first costs nothing, because the capture is still there, and it takes away the free move he was counting on."
+}

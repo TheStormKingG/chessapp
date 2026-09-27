@@ -1,7 +1,9 @@
 import { cleanup, render, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import { db, emptyProgress, saveResume, useProgress, type Progress } from '@/data';
+import { useOnboarding } from '@/onboarding/store';
 import { SECTIONS } from '@/path/curriculum';
+import { useProfileSeen } from '@/profile';
 import { TodayScreen } from '@/screens/TodayScreen';
 
 const FINISHED = 'You have finished everything that is built so far. More lessons are coming.';
@@ -191,4 +193,93 @@ test('Recently finished lists finished lessons newest first, with the star count
 test('the band is absent rather than empty before anything is finished', () => {
   renderWith(emptyProgress());
   expect(screen.queryByRole('region', { name: 'Recently finished' })).toBeNull();
+});
+
+/*
+ * F-ON-2 maps two of the four level answers to an assessment (F-ON-5). A learner
+ * who gave one of those answers and then left the test has the answer recorded
+ * and the mapping broken, so Today keeps the offer until it is taken.
+ *
+ * `PLACEMENT_LINK` is queried by its accessible name rather than by href, so a
+ * link that moved would still be found and a link that vanished would not.
+ */
+const PLACEMENT_LINK = /take the placement test/i;
+
+test('Today offers the placement test to a learner whose answer asked for one', () => {
+  useOnboarding.getState().reset();
+  useOnboarding.getState().setLevel('casual');
+  renderWith(emptyProgress());
+  expect(screen.getByRole('link', { name: PLACEMENT_LINK })).toHaveAttribute(
+    'href',
+    '/onboarding/placement',
+  );
+});
+
+test('Today does not offer it once a placement has been committed', () => {
+  useOnboarding.getState().reset();
+  useOnboarding.getState().setLevel('casual');
+  useOnboarding.getState().markPlaced('2.3');
+  renderWith(emptyProgress());
+  expect(screen.queryByRole('link', { name: PLACEMENT_LINK })).toBeNull();
+  // The positive control: the query shape does find this screen's other links,
+  // so the absence is the offer being withdrawn and not a broken query.
+  expect(screen.getByRole('link', { name: /settings/i })).toBeInTheDocument();
+});
+
+test('Today does not offer it to a learner whose answer asked for no test', () => {
+  useOnboarding.getState().reset();
+  useOnboarding.getState().setLevel('new');
+  renderWith(emptyProgress());
+  expect(screen.queryByRole('link', { name: PLACEMENT_LINK })).toBeNull();
+  expect(screen.getByRole('link', { name: /settings/i })).toBeInTheDocument();
+});
+
+test('Today does not offer it to a learner who never answered the level question', () => {
+  useOnboarding.getState().reset();
+  renderWith(emptyProgress());
+  expect(screen.queryByRole('link', { name: PLACEMENT_LINK })).toBeNull();
+});
+
+// ── F-SW-1: "also reachable from Today when it has changed" ──────────────────
+
+test('Today does not offer the profile to a learner with no reviewed games', () => {
+  useProfileSeen.setState({ lastSeen: null, lastSeenReviews: null });
+  renderWith(emptyProgress());
+  expect(screen.queryByRole('link', { name: /Your chess has changed/ })).toBeNull();
+});
+
+test('Today offers the profile once a game has been reviewed and not yet looked at', () => {
+  useProfileSeen.setState({ lastSeen: null, lastSeenReviews: null });
+  const p = emptyProgress();
+  p.reviews = 3;
+  renderWith(p);
+  const link = screen.getByRole('link', { name: /Your chess has changed/ });
+  expect(link).toHaveAttribute('href', '/progress');
+  expect(link).toHaveTextContent('3 reviewed games in your profile');
+});
+
+test('the offer goes away once the learner has seen that many reviewed games', () => {
+  useProfileSeen.setState({ lastSeen: 'whatever', lastSeenReviews: 3 });
+  const p = emptyProgress();
+  p.reviews = 3;
+  renderWith(p);
+  expect(screen.queryByRole('link', { name: /Your chess has changed/ })).toBeNull();
+});
+
+test('a further reviewed game brings the offer back', () => {
+  useProfileSeen.setState({ lastSeen: 'whatever', lastSeenReviews: 3 });
+  const p = emptyProgress();
+  p.reviews = 4;
+  renderWith(p);
+  expect(screen.getByRole('link', { name: /Your chess has changed/ })).toBeInTheDocument();
+});
+
+test('one reviewed game agrees in number', () => {
+  useProfileSeen.setState({ lastSeen: null, lastSeenReviews: null });
+  const p = emptyProgress();
+  p.reviews = 1;
+  renderWith(p);
+  expect(screen.getByRole('link', { name: /Your chess has changed/ })).toHaveTextContent(
+    '1 reviewed game in your profile',
+  );
 });

@@ -1,0 +1,145 @@
+{
+  "id": "4.7.1",
+  "unit": "4.7",
+  "title": "The bishop pair in open positions",
+  "xp": 15,
+  "card": {
+    "idea": "One bishop only ever touches half the squares on the board. Two of them touch all of them. That is the whole of the bishop pair: in an open position, with no pawn chains to hide behind, the side with both bishops has no colour it cannot reach, and the enemy knight keeps landing on squares one of them already covers.",
+    "diagrams": [
+      "r1b2rk1/pp3ppp/2n5/8/8/3B4/PB3PPP/R4RK1 w - - 0 1",
+      "2br3r/6kp/6p1/5p2/8/3B3P/P1P2PP1/2BR2K1 w - - 0 1"
+    ],
+    "habit": "Before you trade a minor piece, ask who is left holding a single bishop."
+  },
+  "explain": [
+    {
+      "fen": "r1b2rk1/pp3ppp/2n5/8/8/3B4/PB3PPP/R4RK1 w - - 0 1",
+      "text": "Nothing is in the centre, so both bishops see a long way. Count Black's knight moves from c6: seven squares, every one of them dark. The bishop on b2 already covers two of them, d4 and e5. A knight in an open position keeps running into the bishop that owns its colour.",
+      "arrows": [
+        ["b2", "d4"],
+        ["b2", "e5"],
+        ["d3", "h7"]
+      ],
+      "highlights": ["d4", "e5", "c6"]
+    },
+    {
+      "fen": "2br3r/6kp/6p1/5p2/8/3B3P/P1P2PP1/2BR2K1 w - - 0 1",
+      "text": "Here is the bill arriving. The king on g7 and the rook on h8 stand on one dark diagonal, and the f-pawn has already passed f6, so no pawn can block. Bb2 is check. Black can throw the rook onto d4 to block, or move the king and lose the rook on h8.",
+      "arrows": [
+        ["c1", "b2"],
+        ["b2", "h8"]
+      ],
+      "highlights": ["b2", "g7", "h8"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.7.1-c1",
+      "type": "find_them_all",
+      "fen": "r1b2rk1/pp3ppp/2n5/8/8/3B4/PB3PPP/R4RK1 w - - 0 1",
+      "prompt": "Black's knight on c6 has seven squares. Tap the ones a white bishop already covers.",
+      "answer": { "squares": ["d4", "e5"] },
+      "concept": "bishop-pair",
+      "hints": {
+        "text": "Write the knight's seven squares out first. Then ask which of White's two bishops could possibly cover any of them."
+      },
+      "reason": "d4 and e5. A knight on a light square lands only on dark ones, so the light bishop on d3 never gets a vote here. b4, a5, b8, d8 and e7 are free."
+    },
+    {
+      "id": "4.7.1-c2",
+      "type": "name_the_pattern",
+      "fen": "r1b2rk1/pp3ppp/2n5/8/8/3B4/PB3PPP/R4RK1 w - - 0 1",
+      "prompt": "White has two bishops, Black a bishop and a knight, and the centre is bare. Who is hunting for a trade of minor pieces?",
+      "options": [
+        "White. Giving a bishop for the knight leaves him the better minor piece.",
+        "Neither. Three minor pieces each is three minor pieces each.",
+        "Black. Trading one white bishop off ends the pair, and a lone bishop only ever touches half the board."
+      ],
+      "answer": { "option": 2 },
+      "concept": "bishop-pair",
+      "hints": {
+        "text": "The advantage is not owned by either bishop. It is owned by the two of them together."
+      },
+      "reason": "Black. The pair is one advantage carried by two pieces, so a single trade ends all of it. White's job is the opposite: keep both, and open the position further."
+    },
+    {
+      "id": "4.7.1-c3",
+      "type": "find_the_move",
+      "fen": "2br3r/6kp/6p1/5p2/8/3B3P/P1P2PP1/2BR2K1 w - - 0 1",
+      "prompt": "The king and the rook behind him share a dark diagonal, and the f-pawn has already gone past f6. Find the check.",
+      "answer": { "moves": ["Bb2+"] },
+      "wrong": {
+        "Bh6+": "Kxh6. Nothing of White's covers h6, so that is a bishop handed over for nothing.",
+        "Bxf5": "gxf5 takes the bishop, and Black can even play Rxd1+ instead if he prefers the check."
+      },
+      "concept": "bishop-pair",
+      "hints": {
+        "piece": "c1",
+        "square": "b2"
+      },
+      "reason": "Bb2 forks nothing and pins nothing. It lines the king and the rook up on one diagonal, and because the f-pawn is on f5 and cannot come back to f6, Rd4 is the only block. Nothing of Black's defends d4, so Bxd4 wins the rook anyway."
+    },
+    {
+      "id": "4.7.1-c4",
+      "type": "find_the_sequence",
+      "fen": "2br3r/6kp/6p1/5p2/8/3B3P/P1P2PP1/2BR2K1 w - - 0 1",
+      "prompt": "Check on the long diagonal, take what the king was standing in front of, and let him take back.",
+      "answer": { "line": ["Bb2+", "Kg8", "Bxh8", "Kxh8"] },
+      "concept": "bishop-pair",
+      "hints": {
+        "piece": "c1",
+        "square": "b2"
+      },
+      "reason": "Bb2+ Kg8 Bxh8 Kxh8. A rook for a bishop. You have given up half of the pair to do it, which is the trade worth making: the exchange is worth more than the pair ever was."
+    },
+    {
+      "id": "4.7.1-c5",
+      "type": "is_it_safe",
+      "fen": "2br3r/6kp/6p1/5p2/8/3B3P/P1P2PP1/2BR2K1 w - - 0 1",
+      "move": "Bh6+",
+      "prompt": "White tries the other check, Bh6. Is the bishop safe on that square?",
+      "reasons": [
+        "No. Kxh6, and nothing of White's covers h6.",
+        "Yes. Taking would put the king on a square the rook on d1 covers.",
+        "No. The pawn on g6 takes it."
+      ],
+      "answer": { "safe": false, "reason": 0 },
+      "concept": "bishop-pair",
+      "hints": {
+        "text": "Count what covers h6 for White. Then write out the two squares the g6 pawn can capture on."
+      },
+      "reason": "Kxh6 is legal and it is Black's answer. No white piece covers h6, and the pawn on g6 captures on f5 and h5 only. A bishop check is a threat only when the square behind it is held."
+    },
+    {
+      "id": "4.7.1-c6",
+      "type": "which_square",
+      "fen": "2br3r/6kp/6p1/5p2/8/3B3P/P1P2PP1/2BR2K1 w - - 0 1",
+      "prompt": "Tap the square the dark bishop wants. From there it checks the king and looks straight through him.",
+      "answer": { "square": "b2" },
+      "concept": "bishop-pair",
+      "hints": {
+        "text": "The bishop on c1 has seven moves. Only one of them lands on the a1 to h8 diagonal."
+      },
+      "reason": "b2. From c1 the bishop can reach a3, b2, d2, e3, f4, g5 and h6, and b2 is the only one of the seven that steps on to the long dark diagonal the king and rook are standing on."
+    },
+    {
+      "id": "4.7.1-c7",
+      "type": "is_it_safe",
+      "fen": "r1b2rk1/pp3ppp/2n5/8/8/3B4/PB3PPP/R4RK1 w - - 0 1",
+      "move": "Ba3",
+      "prompt": "White swings the dark bishop round to a3, where it looks down at the rook on f8. Is it safe there?",
+      "reasons": [
+        "No. The rook on a8 comes straight down the file and takes it.",
+        "No. The knight on c6 covers a3.",
+        "Yes. Black's own pawn on a7 shuts the file, and a3 is not one of the knight's seven squares."
+      ],
+      "answer": { "safe": true, "reason": 2 },
+      "concept": "bishop-pair",
+      "hints": {
+        "text": "Read up the a-file from a3 and see what stops first. Then check the knight's list again."
+      },
+      "reason": "Nothing of Black's attacks a3. The rook on a8 is shut in by its own pawn on a7, and the knight on c6 reaches a5, b4, d4, e5, b8, d8 and e7. The diagonal a3 to f8 is empty the whole way, so the rook on f8 now has to answer."
+    }
+  ],
+  "takeaway": "Two bishops cover every square between them; one covers half. Open the position, keep both, and take the exchange when a diagonal finally lines up on two pieces at once."
+}

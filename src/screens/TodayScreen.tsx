@@ -1,11 +1,15 @@
 import { useEffect, useState, useSyncExternalStore } from 'react';
 import { Link } from 'react-router';
 import { btn } from '@/app/Button';
+import { plural } from '@/app/plural';
 import { Board } from '@/board';
 import { localDay, useProgress } from '@/data';
 import { loadLesson } from '@/lesson/loader';
+import { needsAssessment } from '@/onboarding/route';
+import { useOnboarding } from '@/onboarding/store';
 import { activeNode, activeUnitProgress, recentlyFinished, upcomingNodes } from '@/path/progress';
 import { resumeLabel, useLessonResume } from '@/path/resumeLabel';
+import { reviewedGamesChanged, useProfileSeen } from '@/profile';
 
 const COOL_DOWN_KEY = 'chessapp.coolDownDismissed';
 
@@ -96,6 +100,29 @@ export function TodayScreen() {
   // F-HM-6: two losses in a row, dismissible, and never more than once a day.
   const coolDown = progress.consecutiveLosses >= 2 && dismissedOn !== today;
 
+  /*
+   * F-ON-2 maps two of the four level answers to an assessment (F-ON-5). A
+   * learner who gave one of those answers and then left the test would
+   * otherwise have no way back to it — the answer would be recorded and the
+   * mapping quietly broken — so the offer lives here until it is taken.
+   *
+   * One quiet line, and it goes for good once a placement is committed. Nothing
+   * is fetched to render it: it reads two fields of the onboarding store, which
+   * is the same reason this screen does not fetch a pack to label the puzzle
+   * card.
+   */
+  const level = useOnboarding((s) => s.level);
+  const placedUnit = useOnboarding((s) => s.placedUnit);
+  const owedTest = placedUnit === null && needsAssessment(level);
+
+  /*
+   * F-SW-1's second clause. One store read and one comparison — no Dexie, no
+   * profile built here. See src/profile/seen.ts for why the count and not the
+   * profile itself.
+   */
+  const lastSeenReviews = useProfileSeen((s) => s.lastSeenReviews);
+  const profileChanged = reviewedGamesChanged(progress.reviews, lastSeenReviews);
+
   const hero = useHeroBoardSize();
   const unit = activeUnitProgress(progress);
   const upNext = upcomingNodes(progress, 2);
@@ -135,11 +162,15 @@ export function TodayScreen() {
         <h1 className="t-display-lg">Today</h1>
         <p className="t-index mt-1 text-content-dim">{progress.xp} XP so far</p>
 
-        <h2 className="t-caption mt-6 uppercase tracking-wide text-content-dim">On the path</h2>
+        {/* "ON THE PATH" used to sit here. It was one of five identically
+            weighted labels on this screen, and it was the least earned: the
+            card under it opens with "Lesson 1.1.1", which says the same thing
+            in the place the eye already is. Removing it is what lets the next
+            thing to do start higher up the screen than its alternatives. */}
         {next ? (
           <Link
             to={next.kind === 'lesson' ? `/lesson/${next.id}` : `/checkpoint/${next.unit}`}
-            className="tap n-panel n-lit n-edge mt-2 block rounded-card bg-panel p-4 xl:rounded-hero xl:p-6 xl:n-raised-lg"
+            className="tap n-panel n-lit n-edge mt-5 block rounded-card bg-panel p-4 xl:rounded-hero xl:p-6 xl:n-raised-lg"
           >
             {/* Δ4.4: the position and the words are one row, so the card grows by
                 the board's 120px only where there is room beside the text. The
@@ -189,18 +220,27 @@ export function TodayScreen() {
         at `xl` the wrapper becomes the second grid column.
       */}
       <div className="contents xl:col-start-2 xl:row-start-1 xl:block">
+        {/*
+          The unit meter was its own labelled section, a sixth of the screen
+          away from the card it describes. It is not a separate thing: it is
+          how far through the unit THIS lesson sits in, and reading it as a
+          peer of "Play" was the screen's flattest moment.
+
+          It joins the card's group instead -- `mt-3`, which is the within-group
+          step, against the `mt-10` that now opens the alternatives below. No
+          label: the sentence says what it is. It stays OUTSIDE the link rather
+          than moving inside it, because inside it would be appended to the
+          link's accessible name, and "Lesson 1.1.1 The board In progress 1 of
+          6 0 of 8 done Resume this lesson" is a worse thing to hear than a
+          separate line is to read.
+
+          The count comes first and in words, exactly as PathScreen states it:
+          the meter under it is `aria-hidden` decoration, so this line is what a
+          screen reader reads and what survives forced colours.
+        */}
         {unit && (
-          <section aria-label="This unit" className="mt-6 xl:mt-0">
-            <h2 className="t-caption uppercase tracking-wide text-content-dim">This unit</h2>
-            {/*
-              The count comes first and in words, exactly as PathScreen states
-              it: the meter under it is `aria-hidden` decoration, so this line
-              is what a screen reader reads and what survives forced colours.
-              It is a groove and a fill, one row high -- the coordinate rail
-              stays the app's progress language and this does not compete with
-              it.
-            */}
-            <p className="t-index mt-1 text-content-dim">
+          <section aria-label="This unit" className="mt-3 xl:mt-0">
+            <p className="t-index text-content-dim">
               {unit.done} of {unit.total} lessons done
             </p>
             <div aria-hidden="true" className="n-inset-soft n-lit-sunken mt-2 h-2 w-full rounded-control bg-track">
@@ -233,7 +273,50 @@ export function TodayScreen() {
           </section>
         )}
 
-        <h2 className="t-caption mt-6 uppercase tracking-wide text-content-dim xl:mt-8">Play</h2>
+        {/*
+          Play and Practice were two full-width cards under two more identical
+          labels, wearing the same skin as the lesson card above them -- three
+          panels of equal weight, so the screen answered "what now?" with three
+          answers and no ranking. They are ALTERNATIVES to the day's lesson, not
+          peers of it, and on a phone they now read that way: one label, two
+          tiles side by side, at half the height.
+
+          `mt-10` opens this group against the `mt-3` that closed the last one.
+          That gap is the hierarchy; without it the tiles would just be smaller
+          versions of the same flat list.
+
+          At `xl` nothing changes -- the secondary column is already a column,
+          two tiles in it would be narrow, and the desktop band heights are
+          asserted in `desktop.spec.ts`.
+        */}
+        {/*
+          F-SW-1: the strengths-and-weaknesses profile "is also reachable from Today
+          when it has changed".
+
+          The condition is read from `Progress.reviews`, which this screen already
+          has in memory — Today does not build a profile. `seen.ts` states exactly
+          what that proxy gets right and the two cases where it disagrees with the
+          profile's own count.
+
+          It sits above "Or, instead" rather than inside it: reading what your games
+          say about you is not an alternative to the next lesson, it is the thing
+          that decides which lesson should be next (F-TS-1).
+        */}
+        {profileChanged && (
+          <Link
+            to="/progress"
+            className="tap n-panel n-lit n-edge mt-5 flex flex-col rounded-card bg-panel p-4"
+          >
+            <span className="t-heading">Your chess has changed</span>
+            <span className="t-label mt-1 text-content-dim">
+              {plural(progress.reviews, 'reviewed game')} in your profile
+            </span>
+          </Link>
+        )}
+
+        <h2 className="t-caption mt-10 uppercase tracking-wide text-content-dim xl:mt-8">
+          Or, instead
+        </h2>
         {coolDown && (
           <div className="t-label mt-2 rounded-xl bg-signal-soft p-3" role="status">
             <p>
@@ -255,9 +338,14 @@ export function TodayScreen() {
             </button>
           </div>
         )}
-        <Link to="/play" className="t-heading tap n-panel n-lit n-edge mt-2 block rounded-card bg-panel p-4">
-          Play a coached game
-        </Link>
+        <div className="mt-3 grid grid-cols-2 gap-3 xl:grid-cols-1 xl:gap-0">
+          <Link
+            to="/play"
+            className="tap n-panel n-lit n-edge flex flex-col rounded-card bg-panel p-3 xl:p-4"
+          >
+            <span className="t-heading">Play</span>
+            <span className="t-label mt-1 text-content-dim">A coached game</span>
+          </Link>
 
         {/*
           The daily puzzle shipped with the puzzles feature and Today has never
@@ -272,16 +360,14 @@ export function TodayScreen() {
           label this card would put the puzzle stream's cost on the launch
           screen for a subtitle.
         */}
-        <h2 className="t-caption mt-6 uppercase tracking-wide text-content-dim">Practice</h2>
-        <Link
-          to="/puzzles/daily"
-          className="tap n-panel n-lit n-edge mt-2 block rounded-card bg-panel p-4"
-        >
-          <span className="t-heading block">Today&rsquo;s puzzle</span>
-          <span className="t-label mt-1 block text-content-dim">
-            One position, one move. A few minutes.
-          </span>
-        </Link>
+          <Link
+            to="/puzzles/daily"
+            className="tap n-panel n-lit n-edge flex flex-col rounded-card bg-panel p-3 xl:mt-3 xl:p-4"
+          >
+            <span className="t-heading">Puzzle</span>
+            <span className="t-label mt-1 text-content-dim">One move, a few minutes</span>
+          </Link>
+        </div>
       </div>
 
       {finished.length > 0 && (
@@ -307,6 +393,14 @@ export function TodayScreen() {
       )}
 
       <div className="xl:col-span-2 xl:row-start-3">
+        {owedTest && (
+          <Link
+            to="/onboarding/placement"
+            className="tap t-label mt-6 block text-content-dim underline xl:mt-0"
+          >
+            Take the placement test
+          </Link>
+        )}
         <Link to="/settings" className="tap t-label mt-6 inline-flex items-center text-content-dim underline xl:mt-0">
           Settings
         </Link>

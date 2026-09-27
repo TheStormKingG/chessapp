@@ -1,0 +1,605 @@
+{
+  "unit": "4.11",
+  "title": "Opening plans through model games",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "4.11-k01",
+      "type": "find_the_move",
+      "fen": "r1b1r1k1/bpq2ppp/p1pp2n1/4p2n/3PP3/1BP1BNNP/PP3PP1/R2QR1K1 w - - 1 15",
+      "concept": "italian",
+      "prompt": "Black has just moved the knight from f6 to h5, heading for f4. Take something.",
+      "answer": {
+        "moves": [
+          "Nxh5"
+        ]
+      },
+      "reason": "Nothing defends the knight on h5: the g6 knight covers f4 and h4, not h5, and the g-pawn is still at home."
+    },
+    {
+      "id": "4.11-k02",
+      "type": "is_it_safe",
+      "fen": "r1b1r1k1/bpq2ppp/p1pp2n1/4p2n/3PP3/1BP1BNNP/PP3PP1/R2QR1K1 w - - 1 15",
+      "move": "Nxe5",
+      "concept": "italian",
+      "prompt": "White takes the pawn on e5 with the knight on f3. Is the knight safe on e5?",
+      "reasons": [
+        "Nothing black can reach e5.",
+        "It is defended by the pawn on d4, so a trade there is even.",
+        "Three black men take on e5 and White gets one pawn back for a knight."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      }
+    },
+    {
+      "id": "4.11-k03",
+      "type": "find_them_all",
+      "fen": "r1b1r1k1/bpq2ppp/p1pp1nn1/8/3PP3/1B2BNNP/PP3PP1/R2QR1K1 b - - 0 15",
+      "concept": "italian",
+      "prompt": "White has two pawns abreast on d4 and e4. Tap every square on the fifth rank they defend between them.",
+      "answer": {
+        "squares": [
+          "c5",
+          "d5",
+          "e5",
+          "f5"
+        ]
+      },
+      "reason": "The d4 pawn covers c5 and e5; the e4 pawn covers d5 and f5. Four squares, and Black cannot put a piece on any of them for free."
+    },
+    {
+      "id": "4.11-k04",
+      "type": "name_the_pattern",
+      "fen": "r1b1r1k1/bpq2ppp/p1pp1nn1/8/3PP3/1B2BNNP/PP3PP1/R2QR1K1 b - - 0 15",
+      "concept": "italian",
+      "prompt": "White traded twice in the centre and ended with pawns on d4 and e4 against a pawn on d6. What did the trade buy?",
+      "options": [
+        "A passed pawn on the d-file.",
+        "Two pawns abreast, so four squares on the fifth rank are covered.",
+        "An attack on the black king."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "reason": "Nothing is passed and nothing is attacking the king. What changed is that d5, e5, c5 and f5 all now cost Black a piece."
+    },
+    {
+      "id": "4.11-k05",
+      "type": "is_it_safe",
+      "fen": "r1b1r1k1/bpq2ppp/p1pp1nn1/8/3PP3/1B2BNNP/PP3PP1/R2QR1K1 b - - 0 15",
+      "move": "Nf4",
+      "concept": "italian",
+      "prompt": "Black plays the knight from g6 to f4, where it looks active. Is the knight safe on f4?",
+      "reasons": [
+        "Nothing white can reach f4.",
+        "The pawn on e5 defends it.",
+        "The bishop on e3 takes it for nothing."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      }
+    },
+    {
+      "id": "4.11-k06",
+      "type": "which_square",
+      "fen": "r1b1r1k1/bpq2ppp/p1p2nn1/3pN3/3PP3/1BP1B1NP/PP3PP1/R2QR1K1 b - - 0 15",
+      "concept": "italian",
+      "prompt": "Tap the white piece that Black can capture in three different ways.",
+      "answer": {
+        "square": "e5"
+      },
+      "reason": "The knight on e5 can be taken by the rook on e8, the queen on c7 and the knight on g6. Everything else White owns is attacked once or twice."
+    },
+    {
+      "id": "4.11-k07",
+      "type": "is_it_safe",
+      "fen": "r1b1r1k1/bpqn1ppp/p1p1P3/3p4/4P3/1BP1B1NP/PP3PP1/R2QR1K1 b - - 0 17",
+      "move": "Qxg3",
+      "concept": "italian",
+      "prompt": "White has pushed a pawn to e6. Black grabs the knight on g3 with the queen. Is the queen safe on g3?",
+      "reasons": [
+        "The pawn on f2 takes her, and a queen for a knight is a disaster.",
+        "Nothing white can reach g3.",
+        "The rook on e1 defends g3."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      }
+    },
+    {
+      "id": "4.11-k08",
+      "type": "name_the_pattern",
+      "fen": "r1b1r1k1/bpqn1ppp/p1p5/3pPN2/4P3/1BP1B2P/PP3PP1/R2QR1K1 b - - 2 17",
+      "concept": "italian",
+      "prompt": "White has a knight on f5 and Black has pawns on f7, g7 and h7. What makes f5 a good square for it?",
+      "options": [
+        "It attacks the king directly.",
+        "It cannot be defended by White.",
+        "No black pawn can ever drive it off, because the e-pawn is gone."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "reason": "A knight on f5 is normally chased by a pawn from e6 or g6. Black has no e-pawn left and playing g6 would leave h6 and f6 open."
+    },
+    {
+      "id": "4.11-k09",
+      "type": "name_the_pattern",
+      "fen": "r3rnk1/pp1q1ppp/4bb2/1Ppp4/3P4/2NBPN2/P1Q2PPP/1R3RK1 w - - 0 15",
+      "concept": "minority-attack",
+      "prompt": "Black answered the pawn on b5 by pushing his own to c5. What has that handed White?",
+      "options": [
+        "A passed pawn on b5.",
+        "An attack on the black king.",
+        "The d5 pawn is now alone, and b5 and d5 are squares Black can no longer cover with pawns."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "reason": "The c-pawn was the only pawn that could ever defend d5 or contest b5. Once it steps to c5 those squares belong to White for the rest of the game."
+    },
+    {
+      "id": "4.11-k10",
+      "type": "is_it_safe",
+      "fen": "r3rnk1/pp1q1ppp/4bb2/1Ppp4/3P4/2NBPN2/P1Q2PPP/1R3RK1 w - - 0 15",
+      "move": "dxc5",
+      "concept": "minority-attack",
+      "prompt": "White takes on c5 with the d-pawn. Is the pawn safe on c5?",
+      "reasons": [
+        "The queen on d7 recaptures at once.",
+        "Nothing black can capture on c5 at all, so the pawn simply stands there.",
+        "The bishop on f6 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      }
+    },
+    {
+      "id": "4.11-k11",
+      "type": "which_square",
+      "fen": "r3rnk1/pp1q1ppp/4bb2/1p1p4/3P4/2NBPN2/P1Q2PPP/1R3RK1 w - - 0 15",
+      "concept": "minority-attack",
+      "prompt": "Black recaptured on b5 with the c-pawn. Tap the black pawn that is now the only one left in the centre.",
+      "answer": {
+        "square": "d5"
+      },
+      "reason": "The c-pawn went to b5, so the pawn on d5 has no neighbour on c6 or e6 and never will have one again."
+    },
+    {
+      "id": "4.11-k12",
+      "type": "find_them_all",
+      "fen": "r3rnk1/pp1q1ppp/4bb2/1p1p4/3P4/2NBPN2/P1Q2PPP/1R3RK1 w - - 0 15",
+      "concept": "minority-attack",
+      "prompt": "Tap every white man that can capture the pawn on b5.",
+      "answer": {
+        "pieces": [
+          "b1",
+          "c3",
+          "d3"
+        ]
+      },
+      "reason": "The rook on b1 down the file, the knight on c3 and the bishop on d3 along the diagonal. Three ways, and choosing the right one is the whole decision."
+    },
+    {
+      "id": "4.11-k13",
+      "type": "is_it_safe",
+      "fen": "r3rnk1/pp1q1ppp/4bb2/1B1p4/3P4/2N1PN2/P1Q2PPP/1R3RK1 b - - 0 15",
+      "move": "Qxb5",
+      "concept": "minority-attack",
+      "prompt": "White recaptured on b5 with the bishop. Black takes it with the queen. Is the queen safe on b5?",
+      "reasons": [
+        "Nothing white reaches b5.",
+        "The pawn on a-file defends nothing there.",
+        "The knight on c3 and the rook on b1 both take her, and a queen for a bishop is a disaster."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      }
+    },
+    {
+      "id": "4.11-k14",
+      "type": "which_square",
+      "fen": "2r1r1k1/p2q1ppp/2p1bbn1/3p4/N2P4/3BPN2/P1Q2PPP/1RR3K1 w - - 4 18",
+      "concept": "minority-attack",
+      "prompt": "Tap the black pawn that has left its starting rank and that no black pawn will ever be able to defend again.",
+      "answer": {
+        "square": "c6"
+      },
+      "reason": "Defending c6 with a pawn needs one on b7 or d7, and pawns do not go backwards. The pawn on d5 can never reach d7."
+    },
+    {
+      "id": "4.11-k15",
+      "type": "is_it_safe",
+      "fen": "2r1r1k1/p2q1ppp/2p1bbn1/3p4/N2P4/3BPN2/P1Q2PPP/1RR3K1 w - - 4 18",
+      "move": "Nc5",
+      "concept": "minority-attack",
+      "prompt": "White plants the knight on c5, deep in Black’s half. Is the knight safe on c5?",
+      "reasons": [
+        "Not a single black man can capture on c5: there is no b-pawn and no d-pawn that reaches it.",
+        "The pawn on d5 takes it.",
+        "The bishop on f6 covers c5 along the diagonal."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      }
+    },
+    {
+      "id": "4.11-k16",
+      "type": "name_the_pattern",
+      "fen": "2r1r1k1/p2q1ppp/2p1bbn1/2Np4/3P4/3BPN2/P1Q2PPP/1RR3K1 b - - 5 18",
+      "concept": "minority-attack",
+      "prompt": "White’s knight has landed on c5, in front of his own queen on c2 and rook on c1. What has that cost him?",
+      "options": [
+        "Nothing at all.",
+        "The queen and rook no longer attack the pawn on c6, because the knight is in the way.",
+        "The knight can be taken by a pawn."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "reason": "Count the attackers on c6 now: none. A piece on a file you own is a blocker as well as an attacker, and here it is only a blocker."
+    },
+    {
+      "id": "4.11-k17",
+      "type": "name_the_pattern",
+      "fen": "r1bq1rk1/p3bppp/2n1pn2/1pppP3/8/3P1NP1/PPPN1PBP/R1BQR1K1 b - - 0 9",
+      "concept": "kings-indian-attack",
+      "prompt": "White has just pushed a pawn to e5 against a black king on g8 with pawns on f7, g7 and h7. What did the push achieve?",
+      "options": [
+        "It attacks the knight on f6 for good.",
+        "It opens the e-file for the rook on e1.",
+        "f6 and h6 can never be defended by a black pawn again."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "reason": "A pawn on f7 or g7 cannot cover f6 or h6 while a white pawn sits on e5 taking the knight’s square, and no other black pawn is near."
+    },
+    {
+      "id": "4.11-k18",
+      "type": "which_square",
+      "fen": "r1bq1rk1/p3bppp/2n1pn2/1pppP3/8/3P1NP1/PPPN1PBP/R1BQR1K1 b - - 0 9",
+      "concept": "kings-indian-attack",
+      "prompt": "Tap the square from which a white knight would attack both f6 and h6 at once.",
+      "answer": {
+        "square": "g4"
+      },
+      "reason": "g4 is the only square on the board from which a knight covers f6 and h6 together, which is why the knight on d2 is about to spend three moves getting there."
+    },
+    {
+      "id": "4.11-k19",
+      "type": "is_it_safe",
+      "fen": "r2q1rk1/3nbppp/b1n1p3/2ppP3/pp3BNP/3P1NP1/PPP2PB1/R2QR1K1 b - - 3 14",
+      "move": "Nb6",
+      "concept": "kings-indian-attack",
+      "prompt": "Black moves the knight from d7 to b6, away from his king. Is the knight safe on b6?",
+      "reasons": [
+        "The pawn on c5 defends it.",
+        "The bishop on f4 takes it.",
+        "Nothing white can reach b6, so the knight is safe and useless."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 2
+      }
+    },
+    {
+      "id": "4.11-k20",
+      "type": "find_them_all",
+      "fen": "r2q1rk1/3nbppp/b1n1p3/2ppP3/pp3BNP/3P1NP1/PPP2PB1/R2QR1K1 b - - 3 14",
+      "concept": "kings-indian-attack",
+      "prompt": "Tap every white man that attacks h6.",
+      "answer": {
+        "pieces": [
+          "f4",
+          "g4"
+        ]
+      },
+      "reason": "The bishop on f4 along the diagonal and the knight on g4. Two attackers on a square only the pawn on g7 defends."
+    },
+    {
+      "id": "4.11-k21",
+      "type": "find_them_all",
+      "fen": "r2qr1k1/3nbp1p/b1n1p1pB/2ppP3/pp4NP/3P1NP1/PPP2PB1/R2QR1K1 w - - 2 16",
+      "concept": "kings-indian-attack",
+      "prompt": "Tap every white man that attacks f6.",
+      "answer": {
+        "pieces": [
+          "e5",
+          "g4"
+        ]
+      },
+      "reason": "The pawn on e5 and the knight on g4. The pawn is the one that matters, because a pawn attacking a square is worth more than a piece doing it."
+    },
+    {
+      "id": "4.11-k22",
+      "type": "which_square",
+      "fen": "r2qr1k1/3nbp1p/b1n1p1pB/2ppP3/pp4NP/3P1NP1/PPP2PB1/R2QR1K1 w - - 2 16",
+      "concept": "kings-indian-attack",
+      "prompt": "A white bishop stands on h6. Tap the black pawn whose advance stopped defending that square.",
+      "answer": {
+        "square": "g6"
+      },
+      "reason": "It is the only black pawn on that side of the board that has moved. On g7 it covered f6 and h6; on g6 it covers f5 and h5 instead."
+    },
+    {
+      "id": "4.11-k23",
+      "type": "is_it_safe",
+      "fen": "r2qr1k1/3nbp1p/b1n1p1pB/2ppP2P/pp4N1/3P1NP1/PPP2PB1/R2QR1K1 b - - 0 16",
+      "move": "gxh5",
+      "concept": "kings-indian-attack",
+      "prompt": "White has pushed a pawn to h5. Black takes it with the g-pawn. Is the pawn safe on h5?",
+      "reasons": [
+        "The knight on g4 takes it.",
+        "Nothing white can capture on h5, so the pawn is safe there and the g-file is now open at Black’s own king.",
+        "The rook on e1 covers h5."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      }
+    },
+    {
+      "id": "4.11-k24",
+      "type": "find_the_move",
+      "fen": "r2qr1k1/4b2p/bnn1p1pB/2ppPp2/pp4NP/3P1NP1/PPP2PB1/R1Q1R1K1 w - f6 0 18",
+      "concept": "kings-indian-attack",
+      "prompt": "Black has just pushed the pawn from f7 to f5 to shut the position. Find the capture.",
+      "answer": {
+        "moves": [
+          "exf6"
+        ]
+      },
+      "reason": "The pawn ran past e5, so it may be taken in passing. The pawn lands on f6 attacking the bishop on e7 and the square g7."
+    },
+    {
+      "id": "4.11-k25",
+      "type": "find_them_all",
+      "fen": "r2qkb1r/pp3ppp/2n1p1b1/3pPn2/3P4/2N1BN2/PP2BPPP/R2Q1RK1 w kq - 5 11",
+      "concept": "caro-kann",
+      "prompt": "Tap every black man that attacks the pawn on d4.",
+      "answer": {
+        "pieces": [
+          "c6",
+          "f5"
+        ]
+      },
+      "reason": "The knight on c6 and the knight on f5. Both were developed to squares that hit the base of the chain, which is what a plan looks like."
+    },
+    {
+      "id": "4.11-k26",
+      "type": "find_them_all",
+      "fen": "r2qkb1r/pp3ppp/2n1p1b1/3pPn2/3P4/2N1BN2/PP2BPPP/R2Q1RK1 w kq - 5 11",
+      "concept": "caro-kann",
+      "prompt": "Same board. Tap every white man that defends the pawn on d4.",
+      "answer": {
+        "pieces": [
+          "d1",
+          "e3",
+          "f3"
+        ]
+      },
+      "reason": "The queen on d1 down the file, the bishop on e3 and the knight on f3. Three defenders against two attackers, so the pawn holds for now."
+    },
+    {
+      "id": "4.11-k27",
+      "type": "is_it_safe",
+      "fen": "r2qkb1r/pp3ppp/2n1p1b1/3pPn2/3P4/2N1BN2/PP2BPPP/R2Q1RK1 w kq - 5 11",
+      "move": "b4",
+      "concept": "caro-kann",
+      "prompt": "White pushes the pawn to b4 to gain space on the queenside. Is the pawn safe on b4?",
+      "reasons": [
+        "The bishop on f8 and the knight on c6 both take it, and nothing defends it.",
+        "The rook on a1 defends it.",
+        "Nothing black can reach b4."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      }
+    },
+    {
+      "id": "4.11-k28",
+      "type": "which_square",
+      "fen": "r2qkbnr/pp1n1ppp/2p1p3/3pPb2/3P4/2P2N2/PP2BPPP/RNBQK2R b KQkq - 0 6",
+      "concept": "caro-kann",
+      "prompt": "White has propped his pawn on d4 with one on c3. Tap the square Black’s c-pawn must reach to attack d4.",
+      "answer": {
+        "square": "c5"
+      },
+      "reason": "A pawn on c5 attacks b4 and d4. The break is one square long and it is the only way a pawn ever touches the base of this chain."
+    },
+    {
+      "id": "4.11-k29",
+      "type": "name_the_pattern",
+      "fen": "r2qk1nr/pp1nbppp/2p1p3/3pPb2/3P4/2P2N2/PP2BPPP/RNBQK2R w KQkq - 1 7",
+      "concept": "caro-kann",
+      "prompt": "Black has developed a knight to d7 and a bishop to e7 and White has propped d4 with c3. What has Black still not done?",
+      "options": [
+        "Castled.",
+        "Played the pawn break that attacks the base of White’s chain.",
+        "Developed the queen."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "reason": "Castling is one move away and always available. The break is the move that stops being available: the longer the c-pawn waits, the more defenders d4 collects."
+    },
+    {
+      "id": "4.11-k30",
+      "type": "which_square",
+      "fen": "r2q1rk1/pp3ppp/2n1p1b1/3pPnQ1/3P4/2N2N2/PP2BPPP/2R2RK1 b - - 0 14",
+      "concept": "caro-kann",
+      "prompt": "White has just traded off the bishop that was helping to hold the centre. Tap the white pawn that is now defended by one piece and attacked by two.",
+      "answer": {
+        "square": "d4"
+      },
+      "reason": "Only the knight on f3 still defends d4, and both black knights attack it. The trade cost White the defender, not the pawn."
+    },
+    {
+      "id": "4.11-k31",
+      "type": "is_it_safe",
+      "fen": "r2q1rk1/pp3ppp/4p1b1/3pPnN1/3n4/2N5/PP1QBPPP/2R2RK1 w - - 0 15",
+      "move": "Qxd4",
+      "concept": "caro-kann",
+      "prompt": "A black knight has taken the pawn on d4. White recaptures with the queen. Is the queen safe on d4?",
+      "reasons": [
+        "Nothing black reaches d4.",
+        "The other black knight takes her for nothing.",
+        "The rook on c1 defends her."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      }
+    },
+    {
+      "id": "4.11-k32",
+      "type": "name_the_pattern",
+      "fen": "r2q1rk1/pp3ppp/2n1p1b1/3pP1N1/3n4/2N5/PP1QBPPP/2R2RK1 w - - 0 15",
+      "concept": "caro-kann",
+      "prompt": "A black knight sits on d4 with only a queen on d2 attacking it. How did Black come to own that square?",
+      "options": [
+        "White traded off a defender of d4 of his own accord, and the pawn there fell.",
+        "Black sacrificed a piece for it.",
+        "White never defended it at all."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "Three white men held d4 a few moves ago. One was traded off by White and one walked away, and two black knights were waiting."
+    },
+    {
+      "id": "4.11-k33",
+      "type": "find_them_all",
+      "fen": "r2qnrk1/pb2b1pp/1pn1p3/2ppNp1Q/3P1P2/2PBP2R/PP1N2PP/R1B3K1 b - - 1 12",
+      "concept": "opening-plans",
+      "prompt": "White threatens mate on h7. Tap every black man that can move somewhere and stop it.",
+      "answer": {
+        "pieces": [
+          "c6",
+          "e7",
+          "e8",
+          "f8",
+          "h7"
+        ]
+      },
+      "reason": "Five men, six moves: the knight on e8 to f6, the rook on f8 to f7 or f6, the bishop on e7 to h4, the pawn on h7 to h6, or the knight on c6 taking on e5. Nothing else helps."
+    },
+    {
+      "id": "4.11-k34",
+      "type": "name_the_pattern",
+      "fen": "r2qnrk1/pb2b1pp/1pn1p3/2ppNp1Q/3P1P2/2PBP2R/PP1N2PP/R1B3K1 b - - 1 12",
+      "concept": "opening-plans",
+      "prompt": "A white queen on h5 with a rook behind her on h3, against a king on g8 and a pawn on h7. What is the threat?",
+      "options": [
+        "Rook takes h7.",
+        "Queen takes h7, and the king cannot take her because the rook is behind.",
+        "A knight check on f7."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "reason": "The rook cannot reach h7 because the queen is in front of it. That is exactly what makes the queen’s capture work: she is defended by the piece she is blocking."
+    },
+    {
+      "id": "4.11-k35",
+      "type": "is_it_safe",
+      "fen": "r2qn1k1/pb2brpp/1pn1p3/2ppNp1Q/3P1P2/2PBP2R/PP1N2PP/R1B3K1 w - - 2 13",
+      "move": "Qxh7+",
+      "concept": "opening-plans",
+      "prompt": "Black has defended with the rook to f7. White takes on h7 with the queen anyway. Is the queen safe on h7?",
+      "reasons": [
+        "The king takes her and White is a queen down.",
+        "The king cannot take, because the rook on h3 is behind her the moment she moves off h5.",
+        "The rook on f7 takes her."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      }
+    },
+    {
+      "id": "4.11-k36",
+      "type": "play_it_out",
+      "fen": "r2qn1k1/pb2brpp/1pn1p3/2ppNp1Q/3P1P2/2PBP2R/PP1N2PP/R1B3K1 w - - 2 13",
+      "concept": "opening-plans",
+      "prompt": "Black defended with the rook to f7 and it is not enough. Mate in two.",
+      "goal": {
+        "kind": "mate_in",
+        "moves": 2
+      },
+      "opponentDepth": 6,
+      "reason": "Take on h7 with the queen. The king has one legal move, to f8, and then the queen or the knight finishes it."
+    },
+    {
+      "id": "4.11-k37",
+      "type": "name_the_pattern",
+      "fen": "r2q1rk1/pb2b1pp/1pn1pn2/2ppNp1Q/3P1P2/2PBP2R/PP1N2PP/R1B3K1 w - - 2 13",
+      "concept": "opening-plans",
+      "prompt": "Black has brought the knight back to f6. Why does taking on h7 no longer work for White?",
+      "options": [
+        "The rook on h3 has stopped defending h7.",
+        "The king now has an escape square.",
+        "The knight on f6 takes the queen on h7, and it is not defended by the rook any more than the king was."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "reason": "The rook still stands behind the queen. What changed is that a second black man now reaches h7, and one defender is not enough against two takers."
+    },
+    {
+      "id": "4.11-k38",
+      "type": "which_square",
+      "fen": "r2qnrk1/pb2bppp/1pn1p3/2ppN3/3P1P2/2PBPR2/PP1N2PP/R1B1Q1K1 b - - 5 11",
+      "concept": "opening-plans",
+      "prompt": "White’s queen has stepped to e1. Tap the square on the h-file she attacks from there.",
+      "answer": {
+        "square": "h4"
+      },
+      "reason": "e1-f2-g3-h4 is clear because the f-pawn went to f4. That is the whole reason the queen goes to e1 in this formation."
+    },
+    {
+      "id": "4.11-k39",
+      "type": "find_the_sequence",
+      "fen": "r2qrnk1/pp1b1ppp/2p2b2/3p4/3P4/2NBPN2/PPQ2PPP/1R3RK1 w - - 8 13",
+      "concept": "opening-plans",
+      "prompt": "Run the plan: push the b-pawn twice while Black shuffles, then take on c6 and let him take back.",
+      "answer": {
+        "line": [
+          "b4",
+          "Rab8",
+          "b5",
+          "Qc7",
+          "bxc6",
+          "bxc6"
+        ]
+      },
+      "reason": "Two pawn moves and a capture. What you are left with is a black pawn on c6 that no black pawn can defend, on a file your rooks can reach."
+    },
+    {
+      "id": "4.11-k40",
+      "type": "find_the_sequence",
+      "fen": "r1bq1rk1/p3bppp/1pn1pn2/2pp4/3P1P2/2PBPN1P/PP1N2P1/R1BQ1RK1 b - - 0 9",
+      "concept": "opening-plans",
+      "prompt": "You are Black. Play the four moves: develop the bishop, White takes the outpost, move the knight, White lifts the rook.",
+      "answer": {
+        "line": [
+          "Bb7",
+          "Ne5",
+          "Nd7",
+          "Rf3"
+        ]
+      },
+      "reason": "Both sides are following a plan and neither is making a threat. Noticing that White’s rook is walking towards your king is the point of playing it out."
+    }
+  ]
+}

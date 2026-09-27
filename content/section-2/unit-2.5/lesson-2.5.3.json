@@ -130,23 +130,23 @@
     {
       "id": "2.5.3-c5",
       "type": "is_it_safe",
-      "fen": "1n3rk1/pppr1ppp/8/8/8/8/PPPR1PPP/2BR2K1 w - - 0 1",
-      "move": "Rd6",
-      "prompt": "White pushes the front rook to d6 instead of capturing. Is it safe there?",
+      "fen": "1n1r1rk1/ppp2ppp/8/8/8/8/PPR1NPPP/2R3K1 w - - 0 1",
+      "move": "Rxc7",
+      "prompt": "The front rook of the battery takes the pawn on c7. Is the rook safe there?",
       "reasons": [
-        "No. The knight on b8 takes it.",
-        "Yes. The second rook on d1 is defending it.",
-        "No. The pawn on c7 takes it."
+        "Yes. Nothing black guards c7.",
+        "No. The rook on d8 takes it.",
+        "No. The pawn on b7 takes it."
       ],
       "answer": {
-        "safe": false,
-        "reason": 2
+        "safe": true,
+        "reason": 0
       },
       "concept": "battery",
       "hints": {
-        "text": "A pawn guards the two squares diagonally in front of it."
+        "text": "Count the black pieces that reach c7 before you count anything else."
       },
-      "reason": "The pawn on c7 covers b6 and d6. Being defended does not help when the thing attacking you is worth a pawn."
+      "reason": "Count before you capture: the two rooks stand one behind the other on an open file and nothing black guards c7, so the pawn is free. If Black answers Rc8, the rook on c1 is why White can allow the trade."
     },
     {
       "id": "2.5.3-c6",

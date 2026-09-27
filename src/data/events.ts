@@ -16,7 +16,17 @@ export type EventPayload =
       hints: number;
       misses: number;
       mastery: boolean;
-      context: 'lesson' | 'checkpoint';
+      /**
+       * Where the attempt happened. `'placement'` is the onboarding placement
+       * test and the rules check (F-ON-5): that work is real and is recorded
+       * like any other, but it is neither a lesson nor a unit's checkpoint, and
+       * filing it under either would make a learner's first twelve questions
+       * indistinguishable from a checkpoint they never took.
+       *
+       * `reduceProgress` counts every attempt whatever its context and reads
+       * this field for nothing, so widening the union changes no projection.
+       */
+      context: 'lesson' | 'checkpoint' | 'placement';
     }
   | { type: 'lesson_completed'; lessonId: string; stars: 1 | 2 | 3; xp: number; replay: boolean }
   | {
@@ -88,6 +98,29 @@ export type EventPayload =
       misses: number;
       source: 'rated' | 'themed' | 'daily' | 'fix';
       ms: number;
+    }
+  /**
+   * One completed import (PRD 8.14 F-IM-1).
+   *
+   * The games themselves live in the `imported` Dexie table, not here: a payload
+   * carrying five hundred PGNs would make every projection rebuild read
+   * megabytes, and the event log is replayed on every load. What is recorded is
+   * that an import happened, from where, and how much it brought — which is what
+   * the profile's "how many games it rests on" (F-IM-3) and the honesty
+   * requirements of F-IM-7 need.
+   *
+   * `username` is null for a pasted PGN, which has no account behind it.
+   */
+  | {
+      type: 'games_imported';
+      source: 'chess.com' | 'lichess' | 'pgn';
+      username: string | null;
+      /** How many games were stored by this import. */
+      added: number;
+      /** How many the source returned that were already held. F-IM-7's re-import. */
+      alreadyHeld: number;
+      /** How many were refused, with the reason counts folded into `skipped`. */
+      skipped: number;
     }
   | { type: 'settings_changed'; key: string; value: string | boolean | number };
 

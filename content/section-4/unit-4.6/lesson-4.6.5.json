@@ -1,0 +1,216 @@
+{
+  "id": "4.6.5",
+  "unit": "4.6",
+  "title": "Space",
+  "xp": 16,
+  "card": {
+    "idea": "Space is the room behind your pawns, and it is countable: how many squares on their half do your pawns attack, and how many legal moves does each side have? The side with more space keeps pieces on and squeezes. The side with less trades them off, because every piece that leaves the board gives the rest somewhere to stand.",
+    "diagrams": [
+      "rnbq1rk1/pp1n1ppp/3p4/2pP4/2P1P3/2NB1N2/PP2QPP1/R2R2K1 w - - 0 1",
+      "rnbq1rk1/pp1n1ppp/3p4/2pP4/2P1P3/2NB1N2/PP2QPP1/R2R2K1 b - - 0 1"
+    ],
+    "habit": "Cramped? Trade. Roomy? Keep them on."
+  },
+  "explain": [
+    {
+      "fen": "rnbq1rk1/pp1n1ppp/3p4/2pP4/2P1P3/2NB1N2/PP2QPP1/R2R2K1 w - - 0 1",
+      "text": "Space is not a feeling, it is a count. White's pawns attack four empty squares on Black's half of the board: b5, c6, e6 and f5. Black's pawns attack two on White's half: b4 and d4. Four against two, and the difference shows up in the pieces.",
+      "arrows": [
+        [
+          "c4",
+          "b5"
+        ],
+        [
+          "d5",
+          "c6"
+        ],
+        [
+          "d5",
+          "e6"
+        ],
+        [
+          "e4",
+          "f5"
+        ]
+      ],
+      "highlights": [
+        "b5",
+        "c6",
+        "e6",
+        "f5",
+        "b4",
+        "d4"
+      ]
+    },
+    {
+      "fen": "rnbq1rk1/pp1n1ppp/3p4/2pP4/2P1P3/2NB1N2/PP2QPP1/R2R2K1 w - - 0 1",
+      "text": "Count the moves and you see it. White has thirty-four legal moves, Black twenty-five. Black's rook on a8 and bishop on c8 have none at all: their own men are in the way and there is nowhere to go. That is what a space advantage actually buys.",
+      "arrows": [],
+      "highlights": [
+        "a8",
+        "c8"
+      ]
+    },
+    {
+      "fen": "rnbq1rk1/pp1n1ppp/3p4/2pP4/2P1P3/2NB1N2/PP2QPP1/R2R2K1 b - - 0 1",
+      "text": "The cure for a cramped position is a trade. Every piece that comes off leaves more room for the ones behind. Ne5 offers the knight on f3, and after Ne5 Nxe5 dxe5 Black's count rises from twenty-five to thirty-one while White's falls from thirty-four to thirty-two.",
+      "arrows": [
+        [
+          "d7",
+          "e5"
+        ],
+        [
+          "e5",
+          "f3"
+        ]
+      ],
+      "highlights": [
+        "e5",
+        "f3"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.6.5-c1",
+      "type": "find_them_all",
+      "fen": "rnbq1rk1/pp1n1ppp/3p4/2pP4/2P1P3/2NB1N2/PP2QPP1/R2R2K1 w - - 0 1",
+      "prompt": "Measure White's share. Tap every empty square on Black's half of the board, the fifth rank upwards, that a white pawn attacks.",
+      "answer": {
+        "squares": [
+          "b5",
+          "c6",
+          "e6",
+          "f5"
+        ]
+      },
+      "concept": "space-advantage",
+      "hints": {
+        "text": "Three white pawns have crossed or reached the fourth rank. Take each one and mark the two squares in front of it."
+      },
+      "reason": "b5 and c6 from the c4 and d5 pawns, e6 from d5, f5 from e4. Four squares Black's pieces may not stand on, bought entirely with pawns."
+    },
+    {
+      "id": "4.6.5-c2",
+      "type": "find_them_all",
+      "fen": "rnbq1rk1/pp1n1ppp/3p4/2pP4/2P1P3/2NB1N2/PP2QPP1/R2R2K1 w - - 0 1",
+      "prompt": "Now the mirror. Tap every empty square on White's half of the board, the fourth rank downwards, that a black pawn attacks.",
+      "answer": {
+        "squares": [
+          "b4",
+          "d4"
+        ]
+      },
+      "concept": "space-advantage",
+      "hints": {
+        "text": "Only one black pawn has got as far as the fifth rank."
+      },
+      "reason": "b4 and d4, both from the pawn on c5. That is the whole of Black's share: two squares against White's four, and it is the same pawns that are keeping his rook and bishop at home."
+    },
+    {
+      "id": "4.6.5-c3",
+      "type": "find_them_all",
+      "fen": "rnbq1rk1/pp1n1ppp/3p4/2pP4/2P1P3/2NB1N2/PP2QPP1/R2R2K1 w - - 0 1",
+      "prompt": "Leave the pawns aside. Tap every black piece, pawns not counted, that has no legal move at all.",
+      "answer": {
+        "pieces": [
+          "a8",
+          "c8"
+        ]
+      },
+      "concept": "space-advantage",
+      "hints": {
+        "text": "Look along the back rank. Two of those men are boxed in by their own side."
+      },
+      "reason": "The rook on a8 and the bishop on c8. The a7 pawn and the knight on b8 shut the rook in; the b7 pawn and the knight on d7 shut the bishop in. Not one white piece is in the same state."
+    },
+    {
+      "id": "4.6.5-c4",
+      "type": "which_square",
+      "fen": "rnbq1rk1/pp1n1ppp/3p4/2pP4/2P1P3/2NB1N2/PP2QPP1/R2R2K1 w - - 0 1",
+      "prompt": "White wants more room on the queenside. Of the two pawns there, only one can advance two squares without losing itself. Tap the square it goes to.",
+      "answer": {
+        "square": "a4"
+      },
+      "concept": "space-advantage",
+      "hints": {
+        "text": "One of the two runs straight into the black pawn on c5."
+      },
+      "reason": "a4. Nothing attacks a4, so the pawn goes on to a5 next and takes b6 away from Black. b4 is met by cxb4, and White has paid a pawn for the room."
+    },
+    {
+      "id": "4.6.5-c5",
+      "type": "is_it_safe",
+      "fen": "rnbq1rk1/pp1n1ppp/3p4/2pP4/2P1P3/2NB1N2/PP2QPP1/R2R2K1 w - - 0 1",
+      "move": "b4",
+      "prompt": "White grabs room on the other wing instead and plays b4. Is the pawn safe there?",
+      "reasons": [
+        "No. cxb4 simply takes it, and nothing of White's can take back on b4.",
+        "Yes. The pawn on c4 is standing right beside it and defends it.",
+        "No. The rook on a8 comes down the file and wins it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "space-advantage",
+      "hints": {
+        "text": "Which white men actually reach b4? A pawn on c4 attacks b5 and d5, not b4."
+      },
+      "reason": "cxb4 and the pawn is gone. Gaining space costs nothing only while the pawn that gains it is safe; the moment it is not, you are just a pawn down with a draughty position."
+    },
+    {
+      "id": "4.6.5-c6",
+      "type": "which_square",
+      "fen": "rnbq1rk1/pp1n1ppp/3p4/2pP4/2P1P3/2NB1N2/PP2QPP1/R2R2K1 b - - 0 1",
+      "prompt": "Black is cramped and wants a trade. His knight on d7 has three squares; from only one of them does it attack a white piece. Tap it.",
+      "answer": {
+        "square": "e5"
+      },
+      "concept": "space-advantage",
+      "hints": {
+        "text": "The knight's three squares are b6, e5 and f6. From two of them it only reaches white pawns."
+      },
+      "reason": "e5. From there the knight attacks the knight on f3 and the bishop on d3, so White has to decide about a trade. From b6 or f6 it reaches only pawns, and a pawn cannot be traded off to make room."
+    },
+    {
+      "id": "4.6.5-c7",
+      "type": "name_the_pattern",
+      "fen": "rnbq1rk1/pp1n1ppp/3p4/2pP4/2P1P3/2NB1N2/PP2QPP1/R2R2K1 b - - 0 1",
+      "prompt": "Why does the side with less room want to trade pieces, when the material count is dead level?",
+      "options": [
+        "Because the same number of squares now has fewer men standing on them, so the men that remain can actually move.",
+        "Because trading pieces always brings the game closer to a draw, and the worse side is happy with a draw.",
+        "Because the side with more space has weaker pawns, and trades expose them faster."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "space-advantage",
+      "hints": {
+        "text": "Room is squares divided by men. Which half of that fraction does a trade change?"
+      },
+      "reason": "Space is squares per piece. Black cannot add squares, so he takes pieces away instead: after one pair of knights comes off his legal moves go from twenty-five to thirty-one, and White's drop from thirty-four to thirty-two."
+    },
+    {
+      "id": "4.6.5-c8",
+      "type": "name_the_pattern",
+      "fen": "rnbq1rk1/pp1n1ppp/3p4/2pP4/2P1P3/2NB1N2/PP2QPP1/R2R2K1 w - - 0 1",
+      "prompt": "White has the space. What follows for how he should handle exchanges?",
+      "options": [
+        "He should trade the pieces that are doing least, because a space advantage is only held by active pieces.",
+        "He should trade rooks first, since rooks need open files and there are none on the board.",
+        "He should avoid trades and keep the pieces on, because every swap hands room back to the cramped side."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "space-advantage",
+      "hints": {
+        "text": "The rule that helps Black is the same rule read the other way round."
+      },
+      "reason": "One rule, two sides. Black wants pieces off because he has nowhere to put them; White wants them on for exactly the same reason. A space advantage that is traded away was never cashed in."
+    }
+  ],
+  "takeaway": "Space is squares per piece. Count the squares your pawns take on their half, then trade if you are cramped and keep them on if you are not."
+}

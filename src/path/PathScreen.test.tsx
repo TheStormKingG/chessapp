@@ -318,9 +318,20 @@ test('Section 3 is what reads as coming now, and Section 2 does not', () => {
   // by one on every unit authored. One groove per UNBUILT unit -- which is the
   // claim, and which the literal 23 only encoded.
   const unbuilt = SECTIONS.flatMap((sec) => sec.units).filter((u) => !u.built);
-  expect(unbuilt.length).toBeGreaterThan(0);
-  expect(coming).toHaveLength(unbuilt.length);
-  expect(coming.every((c) => Number(c?.split(' ')[0]) <= 11)).toBe(true);
+  /*
+   * And now there are none. 4.11 and 4.12 were the last two units, so the whole
+   * declared path is authored and nothing on the screen reads as coming. The
+   * assertion here was `unbuilt.length > 0`, which was a statement about the
+   * path being unfinished rather than about the rule this test guards.
+   *
+   * Both halves are still asserted, so neither can pass by matching nothing:
+   * there are no unbuilt units AND there are no coming grooves, and the two are
+   * derived from different sources (the curriculum and the DOM). A unit flipped
+   * back to false fails the second half here, and the per-unit split it used to
+   * exercise has moved to the synthetic fixture in the test below.
+   */
+  expect(unbuilt).toEqual([]);
+  expect(coming).toEqual([]);
   // Section 2 is authored, so none of it is coming...
   expect(screen.getByLabelText(/^2\.4\.1 The back-rank weakness/)).toBeInTheDocument();
   expect(screen.getByLabelText(/^2\.8\.3 Going over your own game/)).toBeInTheDocument();
@@ -328,15 +339,14 @@ test('Section 3 is what reads as coming now, and Section 2 does not', () => {
   // 3.1 is authored, so it is a real node with a real name...
   expect(screen.getByLabelText(/^3\.1\.1 Capture the guard/)).toBeInTheDocument();
   expect(screen.queryByLabelText(/^3\.1\.1 .*Content coming/)).toBeNull();
-  // ...and the first unbuilt unit is what is still coming. Derived, so that
-  // flipping the unit this used to name does not break a test about the rule.
-  const firstUnbuilt = SECTIONS.flatMap((sec) => sec.units).find((u) => !u.built);
-  expect(firstUnbuilt).toBeDefined();
-  const l = firstUnbuilt!.lessons[0]!;
-  expect(screen.getByLabelText(`${l.id} ${l.title}. Content coming`)).toHaveAttribute(
-    'aria-disabled',
-    'true',
-  );
+  // ...and there is no longer a unit that is coming, so the "Content coming"
+  // label does not appear anywhere on the real path. That rendering is still
+  // guarded -- by the synthetic fixture in the test below, which is where it
+  // lived before Section 3 was declared and where it belongs again.
+  expect(screen.queryByLabelText(/Content coming/)).toBeNull();
+  // The last unit of the path is a real link, which is the positive half: the
+  // screen has not simply failed to render the end of the curriculum.
+  expect(screen.getByLabelText(/^4\.12\.1 Critical moments/)).toBeInTheDocument();
 });
 
 test('an unbuilt run counts per unit, and nothing in it is a link', () => {
@@ -354,15 +364,34 @@ test('an unbuilt run counts per unit, and nothing in it is a link', () => {
    * 3 shipping and the synthetic fixture stays gone. It comes back only if the
    * whole path is ever built, which is the end of v1.
    */
+  /*
+   * The synthetic fixture is BACK, for the reason the paragraph above predicted:
+   * the whole path is built now, so real data no longer supplies an unbuilt unit
+   * and the rule this test guards has once again outlived the content that
+   * exercised it. Two units are mutated to `built: false` for the duration of
+   * this test and restored afterwards, which is what it did while Section 2 was
+   * the boundary. `builtFlag.test.ts` is what holds the real flags honest; this
+   * test is about the screen, and the screen needs an unbuilt unit to render.
+   */
+  const all = SECTIONS.flatMap((sec) => sec.units);
+  const fixture = all.slice(-2);
+  expect(fixture).toHaveLength(2);
+  for (const u of fixture) u.built = false;
+  try {
+    runUnbuiltRunAssertions(fixture);
+  } finally {
+    for (const u of fixture) u.built = true;
+  }
+});
+
+function runUnbuiltRunAssertions(unbuilt: { id: string; lessons: { id: string; title: string }[] }[]) {
   renderPath();
   const coming = [...document.querySelectorAll('*')]
     .filter((el) => el.children.length === 0 && /^\d+ coming$/.test(el.textContent ?? ''))
     .map((el) => el.textContent);
 
   // One groove per unbuilt unit, never one fused run. Derived rather than
-  // counted: the number falls by one every time a unit is flipped on, and the
-  // claim is the per-unit split, not the total.
-  const unbuilt = SECTIONS.flatMap((sec) => sec.units).filter((u) => !u.built);
+  // counted: the claim is the per-unit split, not the total.
   expect(unbuilt.length).toBeGreaterThan(0);
   expect(coming).toHaveLength(unbuilt.length);
   // Each groove is its own unit's lessons plus its checkpoint, in path order.
@@ -400,4 +429,4 @@ test('an unbuilt run counts per unit, and nothing in it is a link', () => {
       `built unit ${u.id} is missing from the path`,
     ).toBeInTheDocument();
   }
-});
+}

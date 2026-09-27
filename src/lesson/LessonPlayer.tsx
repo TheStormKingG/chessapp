@@ -7,6 +7,7 @@ import { CoachBubble, CoachService } from '@/coach';
 import type { Square } from '@/rules';
 import { useSettings } from '@/app/settings';
 import { initLesson, reduce, currentChallenge, type Highlights, type LessonState } from './LessonMachine';
+import { Aside } from '@/app/Aside';
 import { Annotation } from './Annotation';
 import { ChallengeView } from './challenges/ChallengeView';
 import type { WrongMove } from './challenges/Sequence';
@@ -39,6 +40,7 @@ export function LessonPlayer({
   closeAction = 'Back to the path',
   showXp = true,
   resume = null,
+  skipCard = false,
   onProgress,
 }: {
   lesson: Lesson;
@@ -60,6 +62,16 @@ export function LessonPlayer({
   /** A place to come back to, loaded by the caller. Null means start at the card. */
   resume?: LessonResume | null;
   /**
+   * Open on the first challenge instead of the lesson card.
+   *
+   * For a run whose card would say nothing: the placement test (F-ON-5) is four
+   * consecutive rounds of three challenges, and a card before each of them would
+   * be three extra screens repeating what the test's own intro already said.
+   * `resume` takes precedence, because a saved place is a fact about this
+   * learner and this is a preference of the caller's.
+   */
+  skipCard?: boolean;
+  /**
    * Called with the current place each time the run reaches a challenge, and with
    * null once the lesson closes. The caller owns persistence: a graded assessment
    * simply does not pass this, and then nothing is saved.
@@ -74,7 +86,7 @@ export function LessonPlayer({
     c.muted = coachMuted;
     return c;
   }, [coachMuted]);
-  const [s, dispatch] = useReducer(reduce, lesson, (l) => seedLesson(l, hintsAllowed, resume));
+  const [s, dispatch] = useReducer(reduce, lesson, (l) => seedLesson(l, hintsAllowed, resume, skipCard));
   const [lastWrong, setLastWrong] = useState<WrongMove | null>(null);
   useEngineRefutation(s, lastWrong, dispatch, coach);
 
@@ -218,8 +230,18 @@ export function LessonPlayer({
         <button type="button" className="tap icon-control shrink-0" aria-label={exitLabel} onClick={exit}>
           ✕
         </button>
+        {/* On the CARD phase the heading below says the lesson's name, so the
+            header saying it too is the same sentence twice, sixteen pixels
+            apart — and it is the longer of the two that wraps to a second line
+            and squeezes the ✕. The header keeps the id, which the heading does
+            not carry.
+
+            It is only a duplicate on that one phase. From the first challenge
+            on, the heading is replaced by the prompt and this becomes the only
+            place the lesson is named, which is why it is scoped rather than
+            removed. */}
         <h1 className="t-caption min-w-0 flex-1 text-center text-content-dim">
-          {title ?? `${lesson.id} · ${lesson.title}`}
+          {title ?? (ph.kind === 'card' ? lesson.id : `${lesson.id} · ${lesson.title}`)}
         </h1>
         {/* The counter is the announcement: giving the text already on screen a
             live region names the transition for a screen reader without adding a
@@ -268,17 +290,13 @@ export function LessonPlayer({
           <div className="mt-6 md:col-start-2 md:row-start-2">
             <h2 className="t-title">{lesson.title}</h2>
             <p className="t-body mt-3">{lesson.card.idea}</p>
-            {/* PREMIUM-DELTA.md §5: `--accent-soft` meant five different things,
-                which is the rule §3.1 built the palette around. It keeps one job —
-                the selected segment of a segmented control — so the prose chip
-                becomes plain prose with a 2px left rule in `--accent`. The rule is
-                a mark, not a text background: the prose carries `--content` on
-                `--surface-raised`, measured below. */}
-            {lesson.card.habit && (
-              <p className="t-body mt-3 border-l-2 border-accent bg-surface-raised py-2 pl-3">
-                Habit: {lesson.card.habit}
-              </p>
-            )}
+            {/* The habit was a 2px accent stripe down a tinted box. That came
+                from PREMIUM-DELTA §5 (`--accent-soft` meant five things, and the
+                chip was the worst of them) and it solved that problem by moving
+                it: the same treatment ended up on the habit, the puzzle
+                explanation and a "no puzzles found" empty state — three
+                different speech acts wearing one decoration. See `Aside.tsx`. */}
+            {lesson.card.habit && <Aside label="Habit">{lesson.card.habit}</Aside>}
           </div>
           {lesson.card.diagrams[0] && (
             <div className="mt-4 md:col-start-1 md:row-start-2 md:row-span-2 md:mt-6">
@@ -559,9 +577,23 @@ function ChallengeIndex({ count, at }: { count: number; at: number }) {
  * worth reviving, and a fresh attempt at that challenge is what the learner
  * expects on coming back.
  */
-function seedLesson(l: Lesson, hintsAllowed: boolean, r: LessonResume | null): LessonState {
+function seedLesson(
+  l: Lesson,
+  hintsAllowed: boolean,
+  r: LessonResume | null,
+  skipCard = false,
+): LessonState {
   const base = initLesson(l, hintsAllowed);
-  if (!r || r.lessonId !== l.id) return base;
+  if (!r || r.lessonId !== l.id) {
+    // `skipCard` only ever moves the run to the FIRST challenge, and only when
+    // there is one: a lesson with no challenges keeps its card, because the
+    // alternative is a phase pointing at nothing.
+    const first = l.challenges[0];
+    if (skipCard && first) {
+      return { ...base, phase: { kind: 'challenge', index: 0, status: 'attempting' } };
+    }
+    return base;
+  }
   if (r.challengeCount !== l.challenges.length) return base;
   if (!(r.index >= 0 && r.index < l.challenges.length)) return base;
   if (l.challenges[r.index]?.id !== r.challengeId) return base;

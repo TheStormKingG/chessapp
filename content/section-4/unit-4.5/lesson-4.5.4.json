@@ -1,0 +1,207 @@
+{
+  "id": "4.5.4",
+  "unit": "4.5",
+  "title": "Knowing when a position is critical",
+  "xp": 16,
+  "card": {
+    "idea": "Calculation is expensive and most positions do not repay it. A position is critical when the evaluation can move a long way in one move — when something is hanging, when a check exists, when a pawn is close to the eighth rank. Learn to tell those apart from the quiet ones, and you can afford to think properly in the moments that decide games.",
+    "diagrams": [
+      "6k1/5ppp/8/8/8/8/p4PPP/1R4K1 w - - 0 1",
+      "6k1/5ppp/8/3p4/3P4/8/5PPP/6K1 w - - 0 1"
+    ],
+    "habit": "Ask first whether this position can change by force. Only then decide what the move is worth."
+  },
+  "explain": [
+    {
+      "fen": "6k1/5ppp/8/8/8/8/p4PPP/1R4K1 w - - 0 1",
+      "text": "White to move plays Rb8 and it is mate. Black to move plays axb1=Q and it is mate. Nothing on this board is worth anything except the move itself. That is what critical means: the evaluation is not sitting still, it is about to travel a very long way, in one ply.",
+      "arrows": [
+        [
+          "b1",
+          "b8"
+        ],
+        [
+          "a2",
+          "b1"
+        ]
+      ],
+      "highlights": [
+        "b8",
+        "b1"
+      ]
+    },
+    {
+      "fen": "6k1/5ppp/8/3p4/3P4/8/5PPP/6K1 w - - 0 1",
+      "text": "The opposite. Neither side has a check, neither side has a capture, and the pawns on d4 and d5 are looking at each other and not moving. Nothing can change by force, so there is nothing to calculate. This is a position for a plan and thirty seconds, not for a think.",
+      "arrows": [],
+      "highlights": [
+        "d4",
+        "d5"
+      ]
+    },
+    {
+      "fen": "6k1/5ppp/8/8/8/1P6/p4PPP/1R4K1 w - - 0 1",
+      "text": "The trap in between. White has no check and no capture, and it is still critical: the pawn on a2 takes on b1 next move and that is mate. A position is not quiet because your own side has run out of forcing moves. It is quiet when neither side has one.",
+      "arrows": [
+        [
+          "a2",
+          "b1"
+        ]
+      ],
+      "highlights": [
+        "a2",
+        "b1"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.5.4-c1",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/8/8/8/8/p4PPP/1R4K1 w - - 0 1",
+      "prompt": "White to move has a mate in one. Black to move has a mate in one. How much of your clock does this move deserve?",
+      "options": [
+        "None. Both sides are mating, so the result is settled either way.",
+        "A little. The material is level, so the position cannot be far from balanced.",
+        "All of it. One move decides the whole game and there is nothing behind it to put things right."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "critical-position",
+      "hints": {
+        "text": "Ask how far the evaluation moves between your best move and your second best."
+      },
+      "reason": "Rb8 is mate. Give Black the move instead and axb1=Q is mate. The gap between the right move and any other move here is the entire game, and that gap is the only definition of critical worth having."
+    },
+    {
+      "id": "4.5.4-c2",
+      "type": "which_square",
+      "fen": "6k1/5ppp/8/8/8/8/p4PPP/1R4K1 w - - 0 1",
+      "prompt": "Before you play your own mate, find Black's. Tap the square the pawn on a2 would give mate on.",
+      "answer": {
+        "square": "b1"
+      },
+      "concept": "critical-position",
+      "hints": {
+        "text": "The pawn has two promotion squares. Only one of them arrives with check."
+      },
+      "reason": "a1 promotes quietly and White has time. axb1=Q takes the rook and promotes with check on the back rank, and the king is shut in by f2, g2 and h2. The difference between the two squares is the game."
+    },
+    {
+      "id": "4.5.4-c3",
+      "type": "find_them_all",
+      "fen": "7k/2b2ppp/R7/5r2/8/N7/5PPP/6K1 w - - 0 1",
+      "prompt": "Count the danger before you count your own chances. Tap every black piece that could take something of yours next move.",
+      "answer": {
+        "pieces": [
+          "c7",
+          "f5"
+        ]
+      },
+      "concept": "critical-position",
+      "hints": {
+        "text": "Two pieces, and both of them are aimed at the pawns in front of your king."
+      },
+      "reason": "The bishop on c7 takes on h2 with check and the rook on f5 takes on f2. Neither of them wins outright, but two live captures against your king is the clearest sign there is that this move matters."
+    },
+    {
+      "id": "4.5.4-c4",
+      "type": "name_the_pattern",
+      "fen": "7k/2b2ppp/R7/5r2/8/N7/5PPP/6K1 w - - 0 1",
+      "prompt": "You have one check. Black has two captures. Is this a moment to spend time on, or a moment to play quickly and save the clock?",
+      "options": [
+        "Spend the time. Three forcing moves are on the board, one of them ends the game, and a wrong move here is the whole game.",
+        "Play quickly. The material is level, so nothing decisive can happen yet.",
+        "Play quickly. Only the side that is already ahead can reach a critical position."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "critical-position",
+      "hints": {
+        "text": "Find your check and look at what Black is allowed to answer it with."
+      },
+      "reason": "Ra8 is check, Bb8 is the only legal answer, and Rxb8 is mate. Play a quiet move instead and Bxh2 arrives with check on your own king. Forcing moves on both sides is the signature of a critical position."
+    },
+    {
+      "id": "4.5.4-c5",
+      "type": "is_it_safe",
+      "fen": "7k/2b2ppp/R7/5r2/8/N7/5PPP/6K1 w - - 0 1",
+      "move": "Nb5",
+      "prompt": "You spot the knight jump to b5, attacking the bishop on c7. Before you play it, run the check. Is the knight safe on b5?",
+      "reasons": [
+        "Yes. Nothing black reaches b5.",
+        "No. The bishop on c7 takes it.",
+        "No. The rook on f5 slides along the fifth rank and takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "critical-position",
+      "hints": {
+        "text": "The rook on f5 is on the same rank as b5. Check whether anything stands between them."
+      },
+      "reason": "Rxb5. The rook already sits on the fifth rank and e5, d5 and c5 are all empty, so it reaches b5 in one move. In a critical position the move you noticed second is the one that costs you."
+    },
+    {
+      "id": "4.5.4-c6",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/8/3p4/3P4/8/5PPP/6K1 w - - 0 1",
+      "prompt": "Neither side has a check and neither side has a capture anywhere on this board. What follows from that?",
+      "options": [
+        "This is the most dangerous kind of position, because anything at all could be hiding in it.",
+        "Nothing can change by force, so calculation has nothing to work on. Spend the time on a plan instead.",
+        "Calculate five ply anyway, so that you cannot possibly have missed anything."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "critical-position",
+      "hints": {
+        "text": "Calculation needs forcing moves to hold on to. Count how many are on this board."
+      },
+      "reason": "Zero checks and zero captures for either side. A line has to start with a forcing move, so there is no line to calculate. The question here is which king walks forward first, and that is a plan, not a calculation."
+    },
+    {
+      "id": "4.5.4-c7",
+      "type": "find_them_all",
+      "fen": "6k1/5ppp/8/8/8/1P6/p4PPP/1R4K1 w - - 0 1",
+      "prompt": "White has no check and no capture here, and the position is still critical. Tap every square Black's pawn on a2 can reach next move.",
+      "answer": {
+        "squares": [
+          "a1",
+          "b1"
+        ]
+      },
+      "concept": "critical-position",
+      "hints": {
+        "text": "A pawn on the second rank has a push and a capture. Both of them are promotions."
+      },
+      "reason": "a1 and b1. The capture on b1 takes the rook and promotes with check, and that check is mate. Running out of forcing moves yourself is not the same as the position being quiet."
+    },
+    {
+      "id": "4.5.4-c8",
+      "type": "is_it_safe",
+      "fen": "6k1/5ppp/8/2b5/8/8/1P3PPP/R5K1 w - - 0 1",
+      "move": "Ra8+",
+      "prompt": "Black's bishop on c5 is eyeing f2 and your king. You want to check first, on a8. Is the rook safe there?",
+      "reasons": [
+        "Yes. Nothing black attacks a8, and Bf8 is the only legal answer to the check.",
+        "No. The bishop on c5 covers a8 along the diagonal.",
+        "No. The king steps across and takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "critical-position",
+      "hints": {
+        "text": "The bishop on c5 runs b6 and a7 one way, d6 and e7 and f8 the other. Follow both ends."
+      },
+      "reason": "The bishop's diagonal stops at a7, one square short. Bf8 is Black's only legal answer to the check, which is exactly why checking first is the right order in a position where the opponent also has a capture waiting."
+    }
+  ],
+  "takeaway": "Critical means the evaluation can move a long way this move. Checks, captures, hanging pieces and pawns near the eighth rank are the signs — on both sides of the board."
+}

@@ -1,0 +1,605 @@
+{
+  "unit": "4.12",
+  "title": "Practical skills",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "4.12-k01",
+      "type": "find_them_all",
+      "fen": "5rk1/1b3ppp/1qn5/8/3p4/2P1BN2/3RPPPP/3Q2K1 w - - 0 1",
+      "concept": "critical-position",
+      "prompt": "Tap every white man that can capture the pawn on d4.",
+      "answer": {
+        "pieces": [
+          "c3",
+          "d2",
+          "e3",
+          "f3"
+        ]
+      },
+      "reason": "Four of them: the pawn on c3, the rook on d2, the bishop on e3 and the knight on f3. Four recaptures is the loudest signal a board can give that this move matters."
+    },
+    {
+      "id": "4.12-k02",
+      "type": "name_the_pattern",
+      "fen": "5rk1/1b3ppp/1qn5/8/3p4/2P1BN2/3RPPPP/3Q2K1 w - - 0 1",
+      "concept": "critical-position",
+      "prompt": "Four of your men can take on d4 and each capture leaves a different position. What does that tell you about this move?",
+      "options": [
+        "Nothing — any of the four is fine.",
+        "It is a moment worth minutes: four recaptures means four different games and the choice cannot be taken back.",
+        "It means the position is lost."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "reason": "The number of sensible recaptures is the cheapest measure of how much a move matters, and it can be counted before any calculation."
+    },
+    {
+      "id": "4.12-k03",
+      "type": "which_square",
+      "fen": "2bq1rk1/5ppp/5n2/3pp3/3P4/2NB4/3Q1PPP/5RK1 w - - 0 1",
+      "concept": "critical-position",
+      "prompt": "Tap the only white man that can capture the pawn on e5.",
+      "answer": {
+        "square": "d4"
+      },
+      "reason": "Only the pawn on d4 reaches e5. One recapture is not a decision, so this is not where the clock goes."
+    },
+    {
+      "id": "4.12-k04",
+      "type": "is_it_safe",
+      "fen": "2bq1rk1/5ppp/5n2/3pp3/3P4/2NB4/3Q1PPP/5RK1 w - - 0 1",
+      "move": "Bxh7+",
+      "concept": "critical-position",
+      "prompt": "White tries the bishop on h7 to force matters. Is the bishop safe on h7?",
+      "reasons": [
+        "The king or the knight takes it and White has given a bishop for a pawn.",
+        "The check means Black cannot take it.",
+        "Nothing black can reach h7."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      }
+    },
+    {
+      "id": "4.12-k05",
+      "type": "find_them_all",
+      "fen": "2r2rk1/1p3pp1/4p2p/qB1n4/2P3bN/4P3/P3QPP1/R4RK1 w - - 0 1",
+      "concept": "critical-position",
+      "prompt": "Tap every black man that nothing black is defending.",
+      "answer": {
+        "pieces": [
+          "a5",
+          "b7",
+          "g4"
+        ]
+      },
+      "reason": "The queen on a5, the pawn on b7 and the bishop on g4. Three loose men means a tactic is probably there, which is exactly when to stop and look."
+    },
+    {
+      "id": "4.12-k06",
+      "type": "is_it_safe",
+      "fen": "2r2rk1/1p3pp1/4p2p/qB1n4/2P3bN/4P3/P3QPP1/R4RK1 w - - 0 1",
+      "move": "Bd7",
+      "concept": "critical-position",
+      "prompt": "White steps the bishop from b5 to d7, deep in Black’s half. Is the bishop safe on d7?",
+      "reasons": [
+        "The pawn on e6 takes it.",
+        "Nothing black can capture on d7, so the bishop stands there attacking two squares.",
+        "The rook on c8 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      }
+    },
+    {
+      "id": "4.12-k07",
+      "type": "find_the_move",
+      "fen": "rr4k1/p1qn1ppp/1p2p3/8/3N4/1P2P3/P1Q2PPP/RR4K1 w - - 0 1",
+      "concept": "critical-position",
+      "prompt": "Count the defenders of the black queen before you play anything.",
+      "answer": {
+        "moves": [
+          "Qxc7"
+        ]
+      },
+      "reason": "Nothing defends the queen on c7 and your queen on c2 has a clear file to it. A whole queen is what you miss while spending two minutes on a quiet move."
+    },
+    {
+      "id": "4.12-k08",
+      "type": "find_them_all",
+      "fen": "5rk1/pp2ppp1/8/3b3n/8/4PN2/PP3PPP/5RK1 w - - 0 1",
+      "concept": "critical-position",
+      "prompt": "Tap every black man that nothing black is defending.",
+      "answer": {
+        "pieces": [
+          "a7",
+          "d5",
+          "e7",
+          "h5"
+        ]
+      },
+      "reason": "Four of them, including a bishop on d5 and a knight on h5. Nothing white can take them today, which is why counting loose men is a warning rather than a tactic."
+    },
+    {
+      "id": "4.12-k09",
+      "type": "name_the_pattern",
+      "fen": "2rr1bk1/1p1n1ppp/p2p4/2p1p3/2P1P3/P2P4/1P1N1PPP/2RR1BK1 w - - 0 1",
+      "concept": "the-clock",
+      "prompt": "Nothing on this board can be captured and the pawns face each other on two files. You have twenty minutes. How long should this move take?",
+      "options": [
+        "Under fifteen seconds: no capture exists and nothing can change character.",
+        "Two minutes: it is the middlegame.",
+        "Five minutes: quiet positions are the hardest."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "A board with no captures on it is a board where every reasonable move keeps the game the same. The clock is for the move after a capture appears."
+    },
+    {
+      "id": "4.12-k10",
+      "type": "find_them_all",
+      "fen": "2rr1bk1/1p1n1ppp/p2p4/2p1p3/2P1P3/P2P4/1P1N1PPP/2RR1BK1 w - - 0 1",
+      "concept": "the-clock",
+      "prompt": "Tap every white pawn that has a black pawn directly in front of it.",
+      "answer": {
+        "squares": [
+          "c4",
+          "e4"
+        ]
+      },
+      "reason": "c4 and e4. Two pawns nailed in place is most of the reason this position cannot change quickly, and it is the reason the move is cheap."
+    },
+    {
+      "id": "4.12-k11",
+      "type": "name_the_pattern",
+      "fen": "rr4k1/p1qn1ppp/1p2p3/8/3N4/1P2P3/P1Q2PPP/RR4K1 w - - 0 1",
+      "concept": "the-clock",
+      "prompt": "A black queen stands on c7 with a white queen on c2 and nothing in between. What kind of moment is this?",
+      "options": [
+        "Quiet: the rooks are symmetrical.",
+        "The kind that decides games: something is free on the board and it takes one look to find.",
+        "Time to offer a draw."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "reason": "Two queens on one open file with nothing between them is a one-look position. The clock is not what loses these; not looking is."
+    },
+    {
+      "id": "4.12-k12",
+      "type": "find_the_sequence",
+      "fen": "2r3k1/pp1b1ppp/4pn2/8/8/3BPN2/PP3PPP/2R3K1 w - - 0 1",
+      "concept": "the-clock",
+      "prompt": "Play the exchange out: take on c8, let the bishop take back, then bring the knight to e5 and watch him defend.",
+      "answer": {
+        "line": [
+          "Rxc8+",
+          "Bxc8",
+          "Ne5",
+          "Bd7"
+        ]
+      },
+      "reason": "Four moves you do not need to think about. Playing a forced trade out to its end before you choose is how you find out whether it is forced."
+    },
+    {
+      "id": "4.12-k13",
+      "type": "find_the_sequence",
+      "fen": "3r2k1/pp1r1ppp/4pn2/8/8/4PN2/PP1R1PPP/3R2K1 w - - 0 1",
+      "concept": "the-clock",
+      "prompt": "Doubled rooks against doubled rooks on the d-file. Play all four captures out.",
+      "answer": {
+        "line": [
+          "Rxd7",
+          "Rxd7",
+          "Rxd7",
+          "Nxd7"
+        ]
+      },
+      "reason": "Every move is forced and the position at the end is level. The value of playing it out is finding that out in ten seconds rather than two minutes."
+    },
+    {
+      "id": "4.12-k14",
+      "type": "play_it_out",
+      "fen": "5rk1/pp3ppp/5n2/8/8/8/PP3PPP/5RK1 w - - 0 1",
+      "concept": "the-clock",
+      "prompt": "A knight down with rooks and pawns left. Hold the position for ten moves.",
+      "goal": {
+        "kind": "hold",
+        "moves": 10
+      },
+      "opponentDepth": 6,
+      "reason": "Keep the rook active and the pawns together. A piece down with symmetrical pawns is not resignable, and the player who thinks it is loses on the clock as well."
+    },
+    {
+      "id": "4.12-k15",
+      "type": "is_it_safe",
+      "fen": "5rk1/pp2ppp1/8/3b3n/8/4PN2/PP3PPP/5RK1 w - - 0 1",
+      "move": "Ne5",
+      "concept": "the-clock",
+      "prompt": "White puts the knight on e5. Is the knight safe there?",
+      "reasons": [
+        "The pawn on f7 covers e5.",
+        "Nothing black can capture on e5, so it costs nothing to put it there quickly.",
+        "The bishop on d5 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      }
+    },
+    {
+      "id": "4.12-k16",
+      "type": "name_the_pattern",
+      "fen": "2r3k1/pp3ppp/2pb4/3p4/3P4/2P5/PP3PPP/2R3K1 w - - 0 1",
+      "concept": "the-clock",
+      "prompt": "You are a bishop down. The pawns are locked on c and d, both rooks are on the c-file and there is nothing to attack. What is the practical move?",
+      "options": [
+        "Resign and save the time.",
+        "Sit on it: swap nothing, keep the pawns level, and make him find a plan. Spend time only when a pawn can move.",
+        "Throw the pawns forward immediately."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "reason": "A piece is worth far less when there is nothing for it to attack. A locked board is the one place a piece down is holdable, and the clock is the resource to protect."
+    },
+    {
+      "id": "4.12-k17",
+      "type": "which_square",
+      "fen": "6k1/pp4pp/2b5/8/8/6N1/P5PP/1r5K w - - 0 1",
+      "concept": "time-trouble",
+      "prompt": "Four seconds and you are in check. Tap the square your knight has to go to.",
+      "answer": {
+        "square": "f1"
+      },
+      "reason": "Nf1 is the only legal move: the king cannot move and nothing else blocks the rank. Forced is the one thing you may play at four seconds."
+    },
+    {
+      "id": "4.12-k18",
+      "type": "is_it_safe",
+      "fen": "5rk1/pp3ppp/4pn2/3N4/8/8/PPQ2PPP/2R3K1 b - - 0 1",
+      "move": "Nxd5",
+      "concept": "time-trouble",
+      "prompt": "You premoved the knight to take on d5. Is the knight safe on d5?",
+      "reasons": [
+        "Nothing white can capture on d5, so the premove simply wins a knight.",
+        "The rook on c1 takes it.",
+        "The queen on c2 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      }
+    },
+    {
+      "id": "4.12-k19",
+      "type": "is_it_safe",
+      "fen": "5rk1/pp3ppp/4pn2/3N4/4P3/8/PPQ2PPP/3R2K1 b - - 0 1",
+      "move": "Nxd5",
+      "concept": "time-trouble",
+      "prompt": "The same premove, one white pawn different. Is the knight safe on d5 here?",
+      "reasons": [
+        "Nothing white can reach d5.",
+        "The pawn on e4 takes it, and the rook behind it takes next.",
+        "The queen on c2 takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      }
+    },
+    {
+      "id": "4.12-k20",
+      "type": "find_them_all",
+      "fen": "5rk1/pp3ppp/4pn2/3N4/4P3/8/PPQ2PPP/3R2K1 b - - 0 1",
+      "concept": "time-trouble",
+      "prompt": "Before you premove anything, tap every white man that could recapture on d5.",
+      "answer": {
+        "pieces": [
+          "d1",
+          "e4"
+        ]
+      },
+      "reason": "The rook on d1 and the pawn on e4. Counting the recapturers is the whole of the premove test, and it takes about two seconds."
+    },
+    {
+      "id": "4.12-k21",
+      "type": "find_the_move",
+      "fen": "6k1/p4ppp/8/n6r/8/8/P4PPP/2R3K1 w - - 0 1",
+      "concept": "time-trouble",
+      "prompt": "Five seconds left. Mate in one.",
+      "answer": {
+        "moves": [
+          "Rc8#"
+        ]
+      },
+      "reason": "Rc8 is mate: the eighth rank is clear, the king is shut in by its own pawns, and neither the rook on h5 nor the knight on a5 can reach a square between."
+    },
+    {
+      "id": "4.12-k22",
+      "type": "find_the_move",
+      "fen": "6rk/1p4pp/2n5/4N3/8/8/1P3PPP/2R3K1 w - - 0 1",
+      "concept": "time-trouble",
+      "prompt": "Three seconds. There is a mate in one here and it is a knight move.",
+      "answer": {
+        "moves": [
+          "Nf7#"
+        ]
+      },
+      "reason": "Nf7 is mate. The black king has its own rook on g8 and its own pawns on g7 and h7, and nothing covers f7."
+    },
+    {
+      "id": "4.12-k23",
+      "type": "is_it_safe",
+      "fen": "5rk1/5ppp/1qn1p3/8/1p6/4PN2/PP3PPP/3Q1RK1 w - - 0 1",
+      "move": "Ng5",
+      "concept": "time-trouble",
+      "prompt": "Seven seconds. White jumps the knight to g5. Is the knight safe on g5?",
+      "reasons": [
+        "The pawn on h7 takes it.",
+        "The queen on b6 takes it.",
+        "Nothing black can capture on g5, so the move is safe even in a scramble."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 2
+      }
+    },
+    {
+      "id": "4.12-k24",
+      "type": "name_the_pattern",
+      "fen": "5rk1/5ppp/1qn1p3/8/1p6/4PN2/PP3PPP/3Q1RK1 w - - 0 1",
+      "concept": "time-trouble",
+      "prompt": "Six seconds on your clock and a loose black pawn on b4. What do you do about it?",
+      "options": [
+        "Take it: a pawn is a pawn and you can work it out afterwards.",
+        "Leave it: a capture in a scramble is a move you have not checked, and the pawn will still be there in three moves.",
+        "Offer a draw."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "reason": "Every pawn grab in time trouble is a move played without the blunder check. The rule is not about that pawn, it is about the moves you play instead."
+    },
+    {
+      "id": "4.12-k25",
+      "type": "is_it_safe",
+      "fen": "2bq1rk1/5ppp/2p1pn2/8/3P4/3B4/PP3PPP/1N1Q1RK1 w - - 0 1",
+      "move": "Bxh7+",
+      "concept": "play-the-board",
+      "prompt": "Your opponent is rated 300 above you and plays the bishop to h7. Is the bishop safe on h7?",
+      "reasons": [
+        "The king takes it, and White has no knight that can reach g5 to follow up.",
+        "Nothing black can reach h7.",
+        "The check gains a tempo, so it is safe."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      }
+    },
+    {
+      "id": "4.12-k26",
+      "type": "which_square",
+      "fen": "2bq1rk1/5ppp/2p1pn2/8/3P4/3B4/PP3PPP/1N1Q1RK1 w - - 0 1",
+      "concept": "play-the-board",
+      "prompt": "For a sacrifice on h7 to work, a white knight has to arrive next move with check. Tap the empty square it would need.",
+      "answer": {
+        "square": "g5"
+      },
+      "reason": "g5 is the only empty square from which a knight checks h7. The white knight is on b1 and cannot get there in one move, so the sacrifice has nothing behind it."
+    },
+    {
+      "id": "4.12-k27",
+      "type": "name_the_pattern",
+      "fen": "2bq1rk1/3n1ppp/2p1p3/8/3P4/3B1N2/PP3PPP/3Q1RK1 w - - 0 1",
+      "concept": "play-the-board",
+      "prompt": "The same sacrifice, and this time the white knight is on f3. What has changed?",
+      "options": [
+        "Nothing: the king still takes the bishop.",
+        "White has an extra pawn.",
+        "The knight reaches g5 with check next move, so the sacrifice has a follow-up and has to be calculated rather than dismissed."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "reason": "The difference between a sound sacrifice and a bluff is one piece being able to reach one square. Neither the rating nor the shape of the position tells you which; the board does."
+    },
+    {
+      "id": "4.12-k28",
+      "type": "which_square",
+      "fen": "5rk1/pb3ppp/1n2p3/7Q/8/3B4/P4PP1/6KR b - - 0 1",
+      "concept": "play-the-board",
+      "prompt": "Your opponent is rated 300 below you and has a queen on h5 with a rook behind it on h1. Tap the square they are threatening mate on.",
+      "answer": {
+        "square": "h7"
+      },
+      "reason": "Queen takes h7 is mate: the rook behind her means the king cannot take, and she covers g7 and f7 from there along the rank."
+    },
+    {
+      "id": "4.12-k29",
+      "type": "find_them_all",
+      "fen": "5rk1/pb3ppp/1n2p3/7Q/8/3B4/P4PP1/6KR b - - 0 1",
+      "concept": "play-the-board",
+      "prompt": "Same board. Tap every black man that can move and stop the mate.",
+      "answer": {
+        "pieces": [
+          "b7",
+          "f7",
+          "f8",
+          "h7"
+        ]
+      },
+      "reason": "Four men out of everything Black owns. Twenty-four of Black’s twenty-eight legal moves lose to the same capture, and the rating of the player threatening it is not one of the four."
+    },
+    {
+      "id": "4.12-k30",
+      "type": "is_it_safe",
+      "fen": "3q1rk1/pp1n1ppp/4p3/8/8/3BPNPb/PP1Q1P2/5RK1 w - - 0 1",
+      "move": "Bb5",
+      "concept": "play-the-board",
+      "prompt": "White steps the bishop to b5, where a rook and a pawn look like they might be watching. Is the bishop safe on b5?",
+      "reasons": [
+        "The pawn on a7 takes it.",
+        "Nothing black can capture on b5 at all.",
+        "The knight on d7 takes it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      }
+    },
+    {
+      "id": "4.12-k31",
+      "type": "find_them_all",
+      "fen": "5rk1/pp1n1pp1/4p3/7q/6b1/3BPN2/PP3PPP/3Q1RK1 w - - 0 1",
+      "concept": "play-the-board",
+      "prompt": "A queen on h5 and a bishop on g4 look like an attack. Tap every black piece that is not attacking a single white man.",
+      "answer": {
+        "pieces": [
+          "d7",
+          "f8"
+        ]
+      },
+      "reason": "The knight on d7 and the rook on f8. Two of the four black pieces are doing nothing, which is what an attack looks like when it is only a picture."
+    },
+    {
+      "id": "4.12-k32",
+      "type": "name_the_pattern",
+      "fen": "5rk1/pp1n1pp1/4p3/7q/6b1/3BPN2/PP3PPP/3Q1RK1 w - - 0 1",
+      "concept": "play-the-board",
+      "prompt": "Same board. Your opponent is rated well above you and this looks like the start of something. What is the honest assessment?",
+      "options": [
+        "Two black pieces bear on your king and two are doing nothing, and nothing of yours is attacked twice. There is no attack yet.",
+        "Black is winning: the queen is already in.",
+        "Give back material to stop it."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "An attack is a count: how many men bear on the squares round the king against how many defend them. Rating does not appear in the count."
+    },
+    {
+      "id": "4.12-k33",
+      "type": "find_the_move",
+      "fen": "3q1rk1/pbp2ppp/4p3/2n5/8/3PBN2/PP1Q1PPP/5RK1 w - - 0 1",
+      "concept": "error-log",
+      "prompt": "A log entry: the position before your move. Play what the engine played.",
+      "answer": {
+        "moves": [
+          "Bxc5"
+        ]
+      },
+      "reason": "The bishop on e3 takes the knight on c5, which nothing defends. The log calls this one a missed capture and points at lesson 1.2.3."
+    },
+    {
+      "id": "4.12-k34",
+      "type": "name_the_pattern",
+      "fen": "3q1rk1/pbp2ppp/4p3/2n5/8/3PBN2/PP1Q1PPP/5RK1 w - - 0 1",
+      "concept": "error-log",
+      "prompt": "The log tags every mistake with one of four themes. Which one belongs to this entry?",
+      "options": [
+        "Hung piece: the move left one of your own men free.",
+        "Missed capture: an undefended man was there and the move played did not take it.",
+        "Missed mate."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "reason": "A knight on c5 that nothing defends, and an engine move that takes it. The theme is the useful part of the entry: five of these is a habit, one is bad luck."
+    },
+    {
+      "id": "4.12-k35",
+      "type": "is_it_safe",
+      "fen": "3qrrk1/pp1n1ppp/4p3/8/2B5/4P3/PP1Q1PPP/4RRK1 w - - 0 1",
+      "move": "Bxe6",
+      "concept": "error-log",
+      "prompt": "This is the move that made a log entry: the bishop takes on e6. Is the bishop safe there?",
+      "reasons": [
+        "Nothing black can reach e6.",
+        "The rook on e8 and the pawn on f7 both take it, and a bishop for a pawn is the entry.",
+        "The queen on d2 defends it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      }
+    },
+    {
+      "id": "4.12-k36",
+      "type": "which_square",
+      "fen": "3qrrk1/pp1n1ppp/4B3/8/8/4P3/PP1Q1PPP/4RRK1 b - - 0 1",
+      "concept": "error-log",
+      "prompt": "The bishop has taken on e6 and the log calls this a hung piece. Tap the man that was not loose a move ago and is loose now.",
+      "answer": {
+        "square": "e6"
+      },
+      "reason": "The bishop on e6. The log names only a man that was safe before the move and is free after it, which is why the queen on d2 — loose the whole time — is not the one it reports."
+    },
+    {
+      "id": "4.12-k37",
+      "type": "find_them_all",
+      "fen": "5rk1/pp3ppp/4p3/q7/1n6/3B1N2/PP3PPP/3Q1RK1 w - - 0 1",
+      "concept": "error-log",
+      "prompt": "The log calls this an ignored threat. Tap every black man that already has a capture available.",
+      "answer": {
+        "pieces": [
+          "a5",
+          "b4"
+        ]
+      },
+      "reason": "The queen on a5 and the knight on b4. The theme fires when a capture was there before your move and is still there after it, so the entry is about what you did not scan."
+    },
+    {
+      "id": "4.12-k38",
+      "type": "find_the_move",
+      "fen": "5rk1/p4ppp/1n5Q/5N2/8/8/P4PPP/6K1 w - - 0 1",
+      "concept": "error-log",
+      "prompt": "A log entry tagged missed mate. Play it.",
+      "answer": {
+        "moves": [
+          "Qxg7#"
+        ]
+      },
+      "reason": "The queen takes on g7 held there by the knight on f5, so the king cannot take, and from g7 she covers h8 while the rook on f8 blocks the last square."
+    },
+    {
+      "id": "4.12-k39",
+      "type": "name_the_pattern",
+      "fen": "5rk1/p4ppp/1n5Q/5N2/8/8/P4PPP/6K1 w - - 0 1",
+      "concept": "error-log",
+      "prompt": "Every theme in the log links to one lesson so that you can go back to it. Which one does this entry point at?",
+      "options": [
+        "1.2.4, do not leave pieces free.",
+        "1.6.2, all the checks and captures.",
+        "1.3.3, mate in one."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "reason": "A missed mate points at 1.3.3. The link is the point of the theme: the log is a list of lessons you owe rather than a list of games you lost."
+    },
+    {
+      "id": "4.12-k40",
+      "type": "name_the_pattern",
+      "fen": "r4rk1/pp3ppp/2p1pn2/3p4/8/3PPN2/PPP2PPP/R4RK1 w - - 0 1",
+      "concept": "error-log",
+      "prompt": "Your move here was a mistake by the engine’s count, but nothing was hanging, nothing was taken and there was no mate. What does the log write?",
+      "options": [
+        "Unclassified: it names only the four themes it can verify and guesses at nothing else.",
+        "Hung piece, as a default.",
+        "It writes no entry at all."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "reason": "The app tags four themes and leaves everything else unclassified on purpose. A wrong theme sends you to the wrong lesson, which is worse than no theme."
+    }
+  ]
+}

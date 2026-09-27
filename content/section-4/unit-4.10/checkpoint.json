@@ -1,0 +1,586 @@
+{
+  "unit": "4.10",
+  "title": "Pawn endings and the wrong bishop",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "4.10-k01",
+      "type": "find_the_move",
+      "fen": "8/8/8/8/4k3/2K5/3P4/8 w - - 0 1",
+      "prompt": "Seven legal moves and one win. Two ranks in front of the pawn is the rank that matters.",
+      "answer": {
+        "moves": [
+          "Kc4"
+        ]
+      },
+      "concept": "key-squares",
+      "reason": "Kc4 is the only win of the seven. c4, d4 and e4 decide the game and c4 is the one your king can reach; d3 and the other five all draw."
+    },
+    {
+      "id": "4.10-k02",
+      "type": "find_the_move",
+      "fen": "8/8/4k3/8/8/5K2/3P4/8 w - - 0 1",
+      "prompt": "Ten legal moves. Only one of them puts your king on a square that wins whoever is to move next.",
+      "answer": {
+        "moves": [
+          "Ke4"
+        ]
+      },
+      "concept": "key-squares",
+      "reason": "Ke4 is the only win of the ten. From f3 it is the only one of c4, d4 and e4 within reach, and both pawn pushes are drawn."
+    },
+    {
+      "id": "4.10-k03",
+      "type": "find_the_move",
+      "fen": "8/8/8/8/8/4k3/2P5/K7 b - - 0 1",
+      "prompt": "You are Black, a pawn down, with seven moves. Six of them lose.",
+      "answer": {
+        "moves": [
+          "Kd4"
+        ]
+      },
+      "concept": "key-squares",
+      "reason": "Kd4 is the only draw of the seven. It stands on one of the three squares White's king has to reach, and standing on it is the only way to keep him off all three."
+    },
+    {
+      "id": "4.10-k04",
+      "type": "which_square",
+      "fen": "8/8/3k4/8/2K5/8/3P4/8 w - - 0 1",
+      "prompt": "Tap the square your king goes to. It is the only winning move in the position.",
+      "answer": {
+        "square": "d4"
+      },
+      "concept": "key-squares",
+      "reason": "d4. The three squares that win with a pawn on d2 are c4, d4 and e4, and from c4 the king can reach only d4 among them. The other seven moves all draw."
+    },
+    {
+      "id": "4.10-k05",
+      "type": "find_them_all",
+      "fen": "8/8/8/2P5/8/8/1K3k2/8 w - - 0 1",
+      "prompt": "Tap every square where the white king would win this game whoever is to move.",
+      "answer": {
+        "squares": [
+          "b6",
+          "b7",
+          "c6",
+          "c7",
+          "d6",
+          "d7"
+        ]
+      },
+      "concept": "key-squares",
+      "reason": "Six of them: b6, b7, c6, c7, d6 and d7. A pawn up to the fourth rank has three such squares; once it reaches the fifth it has the two ranks in front of it entire."
+    },
+    {
+      "id": "4.10-k06",
+      "type": "name_the_pattern",
+      "fen": "8/8/8/8/3k4/PK6/8/8 w - - 0 1",
+      "prompt": "How many squares are there on which the white king would win this position whoever is to move?",
+      "options": [
+        "None at all. The squares two ranks in front of an a-pawn on the third are off the board, so there is nothing to walk to.",
+        "Three, on the fifth rank: a5, b5 and c5.",
+        "One, b5, because a rook pawn always has exactly one."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "key-squares",
+      "reason": "None. A rook pawn on the third rank has no such square whatsoever. On the fifth it has exactly one — b7 for an a-pawn — and that is the only rank where the count is one rather than zero."
+    },
+    {
+      "id": "4.10-k07",
+      "type": "is_it_safe",
+      "fen": "8/8/8/2k5/8/1P6/8/K7 w - - 0 1",
+      "move": "b4+",
+      "prompt": "You push the pawn to b4, giving check. Is the pawn safe there?",
+      "reasons": [
+        "No. Kxb4 takes it, because c5 touches b4 and your king on a1 is three ranks away.",
+        "Yes. A pawn on the fourth rank is defended by the rank behind it.",
+        "Yes. His king on c5 is on a different file and cannot reach b4."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "key-squares",
+      "reason": "Kxb4 is legal and wins the pawn. The king has to arrive before the pawn does; from a1 it is nowhere near, and the push simply hands the pawn over."
+    },
+    {
+      "id": "4.10-k08",
+      "type": "play_it_out",
+      "fen": "8/8/8/8/8/8/6Pk/3K4 w - - 0 1",
+      "goal": {
+        "kind": "promote",
+        "moves": 8
+      },
+      "opponentDepth": 8,
+      "prompt": "Make a queen. His king is beside the pawn and yours is four files away, so the pawn goes on its own.",
+      "concept": "key-squares",
+      "reason": "g4 is the only win of the seven, and best play promotes on move five: g4, g5, g6, g7, g8=Q. Waiting with the king loses the tempo the race needs."
+    },
+    {
+      "id": "4.10-k09",
+      "type": "find_the_move",
+      "fen": "8/8/8/3k4/8/8/2K1P3/8 w - - 0 1",
+      "prompt": "Ten legal moves. The winning one does not touch the pawn and does not walk at his king.",
+      "answer": {
+        "moves": [
+          "Kd3"
+        ]
+      },
+      "concept": "opposition",
+      "reason": "Kd3 is the only win of the ten. It leaves the kings on d3 and d5 with Black to move, and that arrangement is a win for White and a draw if White has to move instead."
+    },
+    {
+      "id": "4.10-k10",
+      "type": "find_the_move",
+      "fen": "8/8/8/5k2/8/8/4PK2/8 w - - 0 1",
+      "prompt": "Nine legal moves and one win. Count the squares between the kings after each candidate.",
+      "answer": {
+        "moves": [
+          "Kf3"
+        ]
+      },
+      "concept": "opposition",
+      "reason": "Kf3 is the only win of the nine. One square between the kings on the f-file and Black to move: he has to step aside and your king walks past him."
+    },
+    {
+      "id": "4.10-k11",
+      "type": "find_the_move",
+      "fen": "8/8/3k4/8/8/8/4KP2/8 w - - 0 1",
+      "prompt": "Nine legal moves. His king is coming down the middle, so the winning move goes the other way.",
+      "answer": {
+        "moves": [
+          "Kf3"
+        ]
+      },
+      "concept": "opposition",
+      "reason": "Kf3 is the only win of the nine. The squares that decide a pawn on f2 are e4, f4 and g4; his king covers the left of them, so your king heads for the right and Kd3 draws."
+    },
+    {
+      "id": "4.10-k12",
+      "type": "which_square",
+      "fen": "8/8/8/8/2k5/8/5P2/3K4 w - - 0 1",
+      "prompt": "Seven moves and one win. Tap the square your king goes to.",
+      "answer": {
+        "square": "e2"
+      },
+      "concept": "opposition",
+      "reason": "e2. It is the only winning move of the seven, and it goes away from his king rather than towards it — after Ke2 Kd4 comes Kf3, and the king is already round the outside."
+    },
+    {
+      "id": "4.10-k13",
+      "type": "find_them_all",
+      "fen": "8/8/8/8/4k3/8/1P6/3K4 b - - 0 1",
+      "prompt": "You are Black. Tap every square your king can move to that still holds the draw.",
+      "answer": {
+        "squares": [
+          "d3",
+          "d4",
+          "d5"
+        ]
+      },
+      "concept": "opposition",
+      "reason": "Three of the eight: d3, d4 and d5. All three keep the king on the white king's file or within reach of the pawn's path; the other five step outside it and lose."
+    },
+    {
+      "id": "4.10-k14",
+      "type": "name_the_pattern",
+      "fen": "8/8/8/2k5/8/1K6/4P3/8 w - - 0 1",
+      "prompt": "Kc3 wins here and the other seven moves draw. What does Kc3 actually do?",
+      "options": [
+        "It leaves the kings one square apart on the c-file with Black to move, so he is the one who has to give ground.",
+        "It defends the pawn on e2, which was hanging.",
+        "It steps on to one of the three squares that win with a pawn on e2."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "opposition",
+      "reason": "Kc3 is the only win of the eight. The pawn was never hanging, and c3 is not one of the winning squares for a pawn on e2 — those are d4, e4 and f4. What the move does is hand over the obligation to move."
+    },
+    {
+      "id": "4.10-k15",
+      "type": "is_it_safe",
+      "fen": "8/8/8/4k3/8/4P3/8/7K w - - 0 1",
+      "move": "e4",
+      "prompt": "You push the pawn to e4, straight at his king. Is the pawn safe there?",
+      "reasons": [
+        "Yes. A pawn cannot be captured by a king standing directly in front of it.",
+        "No. Kxe4 takes it, because e5 touches e4 and your king on h1 is four files away.",
+        "Yes. The pawn on e4 attacks d5 and f5, so his king has to retreat first."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "opposition",
+      "reason": "Kxe4 is legal and wins the pawn. A king in front of a pawn can always take it when nothing defends it, and here the white king is at the other end of the board."
+    },
+    {
+      "id": "4.10-k16",
+      "type": "find_the_sequence",
+      "fen": "8/8/8/8/1K6/8/4Pk2/8 w - - 0 1",
+      "prompt": "Play it through to the queen. The pawn goes on its own and his king cannot get in front of it.",
+      "answer": {
+        "line": [
+          "e4",
+          "Ke1",
+          "e5",
+          "Kd1",
+          "e6",
+          "Kc1",
+          "e7",
+          "Kb1",
+          "e8=Q"
+        ]
+      },
+      "concept": "opposition",
+      "reason": "e4 is the only win of the ten and the pawn promotes on move five. His king is behind the pawn rather than in front of it, so every move he makes is a move too late."
+    },
+    {
+      "id": "4.10-k17",
+      "type": "find_the_move",
+      "fen": "8/1pp5/8/2PP4/5k2/8/8/3K4 w - - 0 1",
+      "prompt": "Two against two, seven legal moves, and both of your pawns can be offered. One of the two offers wins.",
+      "answer": {
+        "moves": [
+          "d6"
+        ]
+      },
+      "concept": "pawn-breakthrough",
+      "reason": "d6 measures about plus six pawns and c6 about level. After cxd6 comes cxd6 and the surviving pawn has no black pawn on c, d or e; offering on c6 instead leaves one beside it."
+    },
+    {
+      "id": "4.10-k18",
+      "type": "find_the_move",
+      "fen": "8/2pp4/8/3PP3/7k/K7/8/8 w - - 0 1",
+      "prompt": "Seven moves, two of them offering a pawn. Work out which surviving pawn ends up with nothing beside it.",
+      "answer": {
+        "moves": [
+          "e6"
+        ]
+      },
+      "concept": "pawn-breakthrough",
+      "reason": "e6 is worth about six pawns and the runner-up is level. dxe6 is answered by dxe6, and the pawn on e6 runs with the c-pawn too far away to interfere."
+    },
+    {
+      "id": "4.10-k19",
+      "type": "find_the_move",
+      "fen": "8/8/4pp2/8/1k3PP1/8/8/K7 w - - 0 1",
+      "prompt": "Five legal moves, his king on the far side. One of your two offers wins and the rest is a draw.",
+      "answer": {
+        "moves": [
+          "g5"
+        ]
+      },
+      "concept": "pawn-breakthrough",
+      "reason": "g5 measures about plus five and a half pawns while everything else is level. After g5 e5 the reply gxf6 leaves a pawn that promotes; his king is four files from the action."
+    },
+    {
+      "id": "4.10-k20",
+      "type": "which_square",
+      "fen": "8/8/k2pp3/8/4PP2/8/8/K7 w - - 0 1",
+      "prompt": "Only one move wins. Tap the square the pawn goes to.",
+      "answer": {
+        "square": "f5"
+      },
+      "concept": "pawn-breakthrough",
+      "reason": "f5. After exf5 comes exf5, and the pawn on f5 has no black pawn on e, f or g to stop it. e5 instead is met by dxe5 and the whole thing stays blocked."
+    },
+    {
+      "id": "4.10-k21",
+      "type": "find_them_all",
+      "fen": "2k5/3ppp2/8/4PPP1/8/8/K7/8 w - - 0 1",
+      "prompt": "Tap every one of your pawns that can step forward on to a square a black pawn is able to capture.",
+      "answer": {
+        "pieces": [
+          "e5",
+          "f5",
+          "g5"
+        ]
+      },
+      "concept": "pawn-breakthrough",
+      "reason": "All three. e6 can be met by dxe6 or fxe6, f6 by exf6 or gxf6, and g6 by fxg6. Three offers is the normal count here, and g6 is the best of them by about a pawn and a half."
+    },
+    {
+      "id": "4.10-k22",
+      "type": "name_the_pattern",
+      "fen": "8/8/4ppp1/2k5/5PPP/8/K7/8 w - - 0 1",
+      "prompt": "Three of your pawns can be given away and h5 is the one that wins. What is the test that picks it out?",
+      "options": [
+        "The pawn in the middle of the group is always the one to give away.",
+        "After the capture, the surviving pawn should have no black pawn on its own file or either side of it.",
+        "The offer should be made on the file the enemy king is standing on."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "pawn-breakthrough",
+      "reason": "h5 measures about five and a half pawns and every other move in the position, the other two offers included, is level or worse. The count that separates them is the one in the second answer; the first is a proverb that fails on this board and the third is about a different kind of position."
+    },
+    {
+      "id": "4.10-k23",
+      "type": "is_it_safe",
+      "fen": "8/8/4pP2/8/8/1k6/8/K7 w - - 0 1",
+      "move": "f7",
+      "prompt": "This is what a break leaves behind. You push the surviving pawn to f7. Is it safe?",
+      "reasons": [
+        "No. His pawn on e6 covers f7 from the file beside it.",
+        "No. His king on b3 reaches f7 in four moves and takes it.",
+        "Yes. Nothing black attacks f7 and nothing can be made to: the pawn on e6 captures on d5 and f5 only, and the king is five files away."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 2
+      },
+      "concept": "pawn-breakthrough",
+      "reason": "A pawn captures diagonally forward, so the pawn on e6 covers d5 and f5, not f7. That is the point of a break: what survives it is a pawn nobody can reach."
+    },
+    {
+      "id": "4.10-k24",
+      "type": "find_the_sequence",
+      "fen": "8/4ppp1/1k6/5PPP/8/8/8/3K4 w - - 0 1",
+      "prompt": "Three against three on the wing. Give one away on the edge and the file opens.",
+      "answer": {
+        "line": [
+          "h6",
+          "gxh6",
+          "gxh6",
+          "Kc7",
+          "h7",
+          "f6",
+          "h8=Q"
+        ]
+      },
+      "concept": "pawn-breakthrough",
+      "reason": "h6 measures about eight pawns and f6, the plausible alternative, about a pawn less. After gxh6 gxh6 the h-pawn has an empty file and queens on move four while his king is still on c7."
+    },
+    {
+      "id": "4.10-k25",
+      "type": "find_the_move",
+      "fen": "8/8/4k3/7P/4K3/8/B7/8 b - - 0 1",
+      "prompt": "You are Black, a bishop and a pawn down, with four moves. One of them is a draw.",
+      "answer": {
+        "moves": [
+          "Kf6"
+        ]
+      },
+      "concept": "rook-pawn-draw",
+      "reason": "Kf6 measures level and the next best about nine pawns worse. h8 is a dark square and the bishop on a2 is light-squared, so the corner is a permanent refuge — and this is the only move that still gets there."
+    },
+    {
+      "id": "4.10-k26",
+      "type": "find_the_move",
+      "fen": "8/5k2/8/4K2P/8/8/B7/8 b - - 0 1",
+      "prompt": "Four moves, a bishop and a pawn behind. Pick the one square that saves the game.",
+      "answer": {
+        "moves": [
+          "Kg7"
+        ]
+      },
+      "concept": "rook-pawn-draw",
+      "reason": "Kg7 measures level and Kf8 about nine and a half pawns worse. The bishop is light-squared and the queening square is dark, so reaching the corner ends the game; every other move lets his king cut you off from it."
+    },
+    {
+      "id": "4.10-k27",
+      "type": "find_the_move",
+      "fen": "8/8/5k2/7P/5K2/8/B7/8 b - - 0 1",
+      "prompt": "Two legal moves. One draws and the other loses by nearly ten pawns.",
+      "answer": {
+        "moves": [
+          "Kg7"
+        ]
+      },
+      "concept": "rook-pawn-draw",
+      "reason": "Kg7 heads for the corner and holds; Ke7 walks away from it and loses. A bishop has 553 moves across the whole board and none of them changes square colour, so a light-squared bishop can never cover h8."
+    },
+    {
+      "id": "4.10-k28",
+      "type": "which_square",
+      "fen": "8/4k3/8/7P/5K2/1B6/8/8 b - - 0 1",
+      "prompt": "You are Black with six legal moves and one draw. Tap the square your king goes to.",
+      "answer": {
+        "square": "f6"
+      },
+      "concept": "rook-pawn-draw",
+      "reason": "f6. It measures level and the runner-up about eight pawns worse. From f6 the king reaches g7 and then the corner, and once it stands there the light-squared bishop on b3 can do nothing about a dark square."
+    },
+    {
+      "id": "4.10-k29",
+      "type": "find_them_all",
+      "fen": "8/8/8/5k1P/2B4K/8/8/8 b - - 0 1",
+      "prompt": "White's bishop stands on c4. Tap every square on the seventh rank it could ever reach, from anywhere it might ever stand.",
+      "answer": {
+        "squares": [
+          "b7",
+          "d7",
+          "f7",
+          "h7"
+        ]
+      },
+      "concept": "rook-pawn-draw",
+      "reason": "Four of the eight: b7, d7, f7 and h7. c4 is a light square and a bishop never changes colour, so a7, c7, e7 and g7 are beyond it for the whole game."
+    },
+    {
+      "id": "4.10-k30",
+      "type": "name_the_pattern",
+      "fen": "8/5K2/8/5k1P/8/8/B7/8 b - - 0 1",
+      "prompt": "Kg5 holds this and the other four moves lose. What makes it a draw once the king reaches the corner?",
+      "options": [
+        "A bishop and one pawn are never enough material to force mate.",
+        "The defending king attacks the pawn from the corner and White cannot both defend it and make progress.",
+        "h8 is dark and the bishop on a2 is light-squared, so no white man except the king can ever cover h8 — and a king cannot capture the square its opponent stands on."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "rook-pawn-draw",
+      "reason": "Kg5 measures level and the runner-up about eight and a half pawns worse. The first answer is false: bishop and pawn do force mate when the bishop is the other colour. It is the colour of the corner that decides it."
+    },
+    {
+      "id": "4.10-k31",
+      "type": "is_it_safe",
+      "fen": "8/6k1/8/7P/6K1/8/B7/8 w - - 0 1",
+      "move": "h6+",
+      "prompt": "You are White. You push the pawn to h6 with check, one square from his king. Is it safe?",
+      "reasons": [
+        "No. Kxh6 takes it, because g7 touches h6 and your king on g4 does not.",
+        "Yes. The bishop on a2 covers h6 along the diagonal.",
+        "Yes. His king has to answer the threat to g7 before it can take anything."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "rook-pawn-draw",
+      "reason": "Kxh6 is legal and wins the pawn. h6 is a dark square and the bishop on a2 is light-squared, so it is on none of the bishop's diagonals; the pawn needed the king beside it first."
+    },
+    {
+      "id": "4.10-k32",
+      "type": "play_it_out",
+      "fen": "8/5k2/7P/8/7K/8/B7/8 b - - 0 1",
+      "goal": {
+        "kind": "hold",
+        "moves": 10
+      },
+      "opponentDepth": 8,
+      "prompt": "You are Black. Hold the draw for ten moves. Walk to the corner the pawn is heading for and stay there.",
+      "concept": "rook-pawn-draw",
+      "reason": "Kg6 is the only move of the five that holds. Once the king stands on h8 the position is drawn however White plays, because the bishop on a2 is light-squared and h8 is dark."
+    },
+    {
+      "id": "4.10-k33",
+      "type": "find_the_move",
+      "fen": "8/1k6/3b4/1KPB4/8/8/8/8 b - - 0 1",
+      "prompt": "You are Black, a pawn down, with four legal moves. Only one holds.",
+      "answer": {
+        "moves": [
+          "Kc7"
+        ]
+      },
+      "concept": "colour-complex",
+      "reason": "Kc7 measures level and Kc8 about nine and a half pawns worse. The bishops are on opposite colours so neither can attack the other; the king's job is to blockade, and c7 is the square the pawn has to cross."
+    },
+    {
+      "id": "4.10-k34",
+      "type": "find_the_move",
+      "fen": "2b5/3k4/8/1KP5/3P1B2/8/8/8 b - - 0 1",
+      "prompt": "Two pawns down with six moves. One of them puts the bishop where it cannot be touched.",
+      "answer": {
+        "moves": [
+          "Bb7"
+        ]
+      },
+      "concept": "colour-complex",
+      "reason": "Bb7 measures level and Kd8 about three and a half pawns worse. b7 is light, and White's bishop on f4 is dark-squared, so the blockading bishop can never be driven off it."
+    },
+    {
+      "id": "4.10-k35",
+      "type": "find_the_move",
+      "fen": "3k4/8/1K6/2PB4/3P1b2/8/8/8 b - - 0 1",
+      "prompt": "Fifteen legal moves and two pawns to stop. The move that holds attacks nothing at all.",
+      "answer": {
+        "moves": [
+          "Be3"
+        ]
+      },
+      "concept": "colour-complex",
+      "reason": "Be3 measures level and Ke7 about four pawns worse. From e3 the bishop attacks the pawn on d4, which nothing white defends: the light-squared bishop on d5 can never cover a dark square and the pawn on c5 does not guard it."
+    },
+    {
+      "id": "4.10-k36",
+      "type": "which_square",
+      "fen": "8/1b1k4/1KP5/8/8/8/5B2/8 b - - 0 1",
+      "prompt": "Seven legal moves and one draw. Tap the square your bishop goes to.",
+      "answer": {
+        "square": "c6"
+      },
+      "concept": "colour-complex",
+      "reason": "c6, taking the pawn. Bxc6 measures level and the next best about nine pawns worse, and c6 is light while White's bishop on f2 is dark-squared, so the capture cannot be answered."
+    },
+    {
+      "id": "4.10-k37",
+      "type": "find_them_all",
+      "fen": "8/3k4/1K3b2/2P5/3P4/1B6/8/8 b - - 0 1",
+      "prompt": "Tap every square ahead of White's two pawns, on the c- and d-files, that your bishop on f6 could ever reach.",
+      "answer": {
+        "squares": [
+          "c7",
+          "d6",
+          "d8"
+        ]
+      },
+      "concept": "colour-complex",
+      "reason": "Three of the seven: c7, d6 and d8 are dark and so is f6. c6, c8, d5 and d7 are light and permanently beyond it — which is the count that decides an ending like this, rather than the number of pawns."
+    },
+    {
+      "id": "4.10-k38",
+      "type": "name_the_pattern",
+      "fen": "8/2k5/6b1/2PK4/1B1P4/8/8/8 b - - 0 1",
+      "prompt": "Two pawns down and this is still held. What is the reason?",
+      "options": [
+        "The bishops stand on different colours, so neither can ever attack the other, and White's dark-squared bishop cannot help either pawn on to a light square.",
+        "Two connected pawns can never both be advanced without one of them being lost.",
+        "A bishop is worth exactly three pawns, so two pawns and a bishop against a bishop is not enough material."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "colour-complex",
+      "reason": "Bf7 with check measures level and the runner-up about three pawns worse. The second answer is a generality that is simply not true, and the third misreads the material: it is the colours that hold this, not the count."
+    },
+    {
+      "id": "4.10-k39",
+      "type": "is_it_safe",
+      "fen": "3k4/8/1K6/2P1b3/3P4/8/2B5/8 b - - 0 1",
+      "move": "Bxd4",
+      "prompt": "You take the d-pawn with the bishop, landing on a square his bishop seems to be aimed at. Is it safe there?",
+      "reasons": [
+        "No. The bishop on c2 takes it and you are a piece down for a pawn.",
+        "Yes. d4 is dark and the bishop on c2 is light-squared, so it can never attack d4 — and nothing else white reaches it either.",
+        "No. The pawn on c5 captures on d4."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "colour-complex",
+      "reason": "A pawn captures diagonally forward, so the pawn on c5 covers b6 and d6, not d4. The bishop on c2 is on the other colour complex for the whole game, and the king on b6 is two squares away."
+    },
+    {
+      "id": "4.10-k40",
+      "type": "play_it_out",
+      "fen": "8/3b4/1k1K4/2P3B1/8/8/8/8 b - - 0 1",
+      "goal": {
+        "kind": "hold",
+        "moves": 10
+      },
+      "opponentDepth": 8,
+      "prompt": "You are Black, a pawn down with bishops on different colours. Hold the draw for ten moves.",
+      "concept": "colour-complex",
+      "reason": "Kb5 is the only move of the five that holds. After it the king and bishop between them cover the squares the pawn has to cross, and White's bishop can never dispute the ones the black bishop stands on."
+    }
+  ]
+}

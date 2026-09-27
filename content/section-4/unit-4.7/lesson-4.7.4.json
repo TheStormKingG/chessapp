@@ -1,0 +1,184 @@
+{
+  "id": "4.7.4",
+  "unit": "4.7",
+  "title": "Pawn majorities and creating a passed pawn",
+  "xp": 15,
+  "card": {
+    "idea": "A majority is more pawns than he has on one wing. It is not a passed pawn yet, and it does not become one by hoping. Push the pawn with nothing opposite it first, and when both of his pawns can capture on the same square, give a pawn to open the file behind it.",
+    "diagrams": [
+      "6k1/pp3ppp/8/8/8/8/PPP2PP1/6K1 w - - 0 1",
+      "8/ppp5/8/PPP5/5k2/8/8/6K1 w - - 0 1"
+    ],
+    "habit": "Count the files, not the pawns. A passer needs a file of its own."
+  },
+  "explain": [
+    {
+      "fen": "6k1/pp3ppp/8/8/8/8/PPP2PP1/6K1 w - - 0 1",
+      "text": "Two majorities, one each. White has three on a, b and c against two; Black has three on f, g and h against two. Both can make a passer. The difference is where: White's will appear a long way from both kings, and a passer the enemy king has to cross the board for is the one worth having.",
+      "arrows": [],
+      "highlights": ["a2", "b2", "c2", "f7", "g7", "h7"]
+    },
+    {
+      "fen": "8/pp6/8/8/PPP5/8/8/k5K1 w - - 0 1",
+      "text": "Three against two, and only one of the three has an empty file in front of it. That is the c-pawn, and that is the one that goes first. Push a4 or b4 instead and Black blocks with a6 or b6, and the majority sits there for the rest of the game doing nothing at all.",
+      "arrows": [["c4", "c5"]],
+      "highlights": ["c4"]
+    },
+    {
+      "fen": "8/ppp5/8/PPP5/5k2/8/8/6K1 w - - 0 1",
+      "text": "Three against three, so nobody is a pawn up and there is no candidate with an empty file. This is where you buy one. b6 is the square both a7 and c7 can capture on, and that is the whole idea: whichever pawn takes, it leaves the other file open and the pawn behind walks in.",
+      "arrows": [["b5", "b6"], ["a7", "b6"], ["c7", "b6"]],
+      "highlights": ["b6", "a7", "c7"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.7.4-c1",
+      "type": "find_them_all",
+      "fen": "6k1/pp3ppp/8/8/8/8/PPP2PP1/6K1 w - - 0 1",
+      "prompt": "Tap every white pawn that belongs to White's majority.",
+      "answer": { "squares": ["a2", "b2", "c2"] },
+      "concept": "pawn-majority",
+      "hints": {
+        "text": "A majority is a whole wing, not a single pawn. Count White's pawns on each side of the board, then count Black's."
+      },
+      "reason": "a2, b2 and c2. Three against Black's two on that wing. The pawns on f2 and g2 are the other side of the board and they are outnumbered three to two there, which is Black's majority."
+    },
+    {
+      "id": "4.7.4-c2",
+      "type": "name_the_pattern",
+      "fen": "6k1/pp3ppp/8/8/8/8/PPP2PP1/6K1 w - - 0 1",
+      "prompt": "Both kings are on g1 and g8. Both sides have a three against two. Which majority would you rather own?",
+      "options": [
+        "Black's. Three against two on the kingside, and his king is standing right next to it.",
+        "Neither. A three against two is a three against two, so the two cancel out exactly.",
+        "White's. Both can make a passer, but White's appears far from both kings, and a passer the enemy king must cross the board for costs him more."
+      ],
+      "answer": { "option": 2 },
+      "concept": "pawn-majority",
+      "hints": {
+        "text": "Assume both sides make their passed pawn. Now ask which king has further to walk."
+      },
+      "reason": "White's is the outside majority. A passed pawn on the a-file drags the black king to the edge to stop it, and while it is over there it is not defending anything on the kingside. That is the real profit, and it is why an outside majority is worth having even when the game is otherwise level."
+    },
+    {
+      "id": "4.7.4-c3",
+      "type": "which_square",
+      "fen": "8/pp6/8/8/PPP5/8/8/k5K1 w - - 0 1",
+      "prompt": "Three pawns against two. Tap the pawn you push first.",
+      "answer": { "square": "c4" },
+      "concept": "pawn-majority",
+      "hints": {
+        "text": "Look up each of the three files in turn and say what is standing on it."
+      },
+      "reason": "c4. It is the only one of the three with an empty file ahead of it, so it is the pawn that can actually become the passer. Push it first and the other two support it; push one of the others first and Black simply blocks."
+    },
+    {
+      "id": "4.7.4-c4",
+      "type": "find_the_move",
+      "fen": "8/pp6/8/8/PPP5/8/8/k5K1 w - - 0 1",
+      "prompt": "Start the majority moving. One of the three pawns is the candidate, and the other two are its escort.",
+      "answer": { "moves": ["c5"] },
+      "wrong": {
+        "a5": "Black plays a6 and the a-file is shut for good. You have pushed the pawn Black had an answer to.",
+        "b5": "Black plays b6 and the b-file is shut. The pawn to start with is the one with nothing standing in front of it."
+      },
+      "concept": "pawn-majority",
+      "hints": {
+        "piece": "c4",
+        "square": "c5"
+      },
+      "reason": "c5. The unopposed pawn leads and the other two follow behind it. Black has no pawn on the c-file and never will, so nothing he does stops this pawn reaching c6, c7 and c8 except his king."
+    },
+    {
+      "id": "4.7.4-c5",
+      "type": "find_them_all",
+      "fen": "8/ppp5/8/PPP5/5k2/8/8/6K1 w - - 0 1",
+      "prompt": "Tap every black pawn that would be able to capture on b6.",
+      "answer": { "pieces": ["a7", "c7"] },
+      "concept": "pawn-breakthrough",
+      "hints": {
+        "text": "Pawns capture diagonally. Work backwards from b6 and name the two squares a black pawn could come from."
+      },
+      "reason": "a7 and c7. Both of them. That is exactly why b6 is the breakthrough square: whichever one captures, it leaves its own file empty, and the white pawn behind that file has a clear road."
+    },
+    {
+      "id": "4.7.4-c6",
+      "type": "find_the_move",
+      "fen": "8/ppp5/8/PPP5/5k2/8/8/6K1 w - - 0 1",
+      "prompt": "Three against three and no candidate. Buy one: find the pawn move that two of his pawns can take, and only one order works.",
+      "answer": { "moves": ["b6"] },
+      "wrong": {
+        "a6": "bxa6, and it is over. The pawn that two black pawns could capture was b6, not a6.",
+        "c6": "bxc6, the same mistake from the other side. Start with the pawn in the middle of the three."
+      },
+      "concept": "pawn-breakthrough",
+      "hints": {
+        "piece": "b5",
+        "square": "b6"
+      },
+      "reason": "b6 first, always. After axb6 the a-file is clear and c6 follows; after cxb6 the c-file is clear and a6 follows. Start with an outside pawn instead and the b7 pawn simply takes it, because only one black pawn was ever aimed at that square."
+    },
+    {
+      "id": "4.7.4-c7",
+      "type": "find_the_sequence",
+      "fen": "8/ppp5/8/PPP5/5k2/8/8/6K1 w - - 0 1",
+      "prompt": "Give the first pawn, give the second pawn, and push the third. Five plies, and the king on f4 is too far away to matter.",
+      "answer": { "line": ["b6", "axb6", "c6", "bxc6", "a6"] },
+      "concept": "pawn-breakthrough",
+      "hints": {
+        "piece": "b5",
+        "square": "b6"
+      },
+      "reason": "b6 axb6 c6 bxc6 a6. Two pawns spent to open one file, and the pawn on a6 queens. If Black takes the other way, b6 cxb6 a6 bxa6 c6 does the same job with the files swapped."
+    },
+    {
+      "id": "4.7.4-c8",
+      "type": "find_the_move",
+      "fen": "8/5ppp/8/5PPP/8/8/k7/6K1 w - - 0 1",
+      "prompt": "Same idea on the other wing, and the black king is nowhere near. Find the pawn two of his pawns can take.",
+      "answer": { "moves": ["g6"] },
+      "wrong": {
+        "f6": "gxf6, and the break has gone. Only one black pawn ever attacked f6.",
+        "h6": "gxh6, and the same thing happens one file over."
+      },
+      "concept": "pawn-breakthrough",
+      "hints": {
+        "piece": "g5",
+        "square": "g6"
+      },
+      "reason": "g6, the middle pawn of the three, because f7 and h7 both capture on it. hxg6 lets f6 through and fxg6 lets h6 through. The shape is the same as the queenside one; what changes is only which king is close enough to come back."
+    },
+    {
+      "id": "4.7.4-c9",
+      "type": "name_the_pattern",
+      "fen": "6k1/5ppp/8/8/8/6P1/5PPP/6K1 w - - 0 1",
+      "prompt": "White has four pawns on this wing against Black's three. What can he force out of it?",
+      "options": [
+        "Nothing. Four pawns on three files against three pawns on three files. The spare pawn adds no file, and a passed pawn needs a file of its own.",
+        "A passed pawn by force. Four against three always makes one if you push them in the right order.",
+        "A passed pawn on the h-file, starting with h4 and h5."
+      ],
+      "answer": { "option": 0 },
+      "concept": "pawn-weakness",
+      "hints": {
+        "text": "Count how many files White's four pawns actually stand on."
+      },
+      "reason": "White's pawns are on f, g and h, and so are Black's. The extra pawn is the second one on g, and the pawn in front of it is already doing everything it could do. This is what doubled pawns cost you: a majority that cannot produce a passer is not a majority worth counting."
+    },
+    {
+      "id": "4.7.4-c10",
+      "type": "play_it_out",
+      "fen": "8/ppp5/8/PPP5/5k2/8/8/6K1 w - - 0 1",
+      "goal": { "kind": "promote", "moves": 8 },
+      "opponentDepth": 6,
+      "prompt": "Make a queen. Two of your three pawns are the price and you have eight moves to collect.",
+      "concept": "passed-pawn",
+      "hints": {
+        "text": "The first move is the one both of his pawns can capture. After that, take whichever file he has just opened."
+      },
+      "reason": "b6 first, then take whichever file he opens with the pawn behind it, then walk the last pawn in. Once the file is clear the king on f4 cannot get back: count the squares and he is four moves away from a pawn that needs three."
+    }
+  ],
+  "takeaway": "A majority makes a passer by pushing the pawn with nothing opposite it. With no such pawn, buy one: break on the square two of his pawns can capture, and take the file he opens."
+}

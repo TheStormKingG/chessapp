@@ -1,0 +1,241 @@
+{
+  "id": "4.6.3",
+  "unit": "4.6",
+  "title": "Open and half-open files",
+  "xp": 16,
+  "card": {
+    "idea": "Getting a rook on to the file was Section 3. Now the harder question: what is it going to do there? An open file is worth something only if there is a square on it you can actually land on. A half-open file already has a target standing on it, and the one worth shooting at is the pawn at the bottom of the chain.",
+    "diagrams": [
+      "3r1rk1/pp2pppp/4n3/3p4/3P4/4PN2/PPR2PPP/2R3K1 w - - 0 1",
+      "1b1r1rk1/4pppp/1p6/p2p4/3P4/3BP3/PPR2PPP/2R3K1 w - - 0 1",
+      "2r1r1k1/p4ppp/1pp5/3p4/3P4/4P3/PPR2PPP/2R3K1 w - - 0 1"
+    ],
+    "habit": "Before you fight for a file, name the square you are going to land on."
+  },
+  "explain": [
+    {
+      "fen": "3r1rk1/pp2pppp/4n3/3p4/3P4/4PN2/PPR2PPP/2R3K1 w - - 0 1",
+      "text": "White has both rooks on an open file and it is worth nothing. Every square from c4 up is covered: c4 by the d5 pawn, c5 and c7 by the knight on e6, c6 by the b7 pawn, c8 by two rooks. A file you cannot land on is a corridor with no door.",
+      "arrows": [
+        [
+          "d5",
+          "c4"
+        ],
+        [
+          "e6",
+          "c5"
+        ],
+        [
+          "e6",
+          "c7"
+        ],
+        [
+          "b7",
+          "c6"
+        ]
+      ],
+      "highlights": [
+        "c4",
+        "c5",
+        "c6",
+        "c7",
+        "c8"
+      ]
+    },
+    {
+      "fen": "1b1r1rk1/4pppp/1p6/p2p4/3P4/3BP3/PPR2PPP/2R3K1 w - - 0 1",
+      "text": "Same open file, one door. c4 is covered by d5, c5 by b6, c7 by the bishop on b8, c8 by two rooks. c6 is covered by nothing at all, so Rc6 is the move. Before you fight for a file, find the square you mean to land on.",
+      "arrows": [
+        [
+          "c2",
+          "c6"
+        ],
+        [
+          "b6",
+          "c5"
+        ],
+        [
+          "b8",
+          "c7"
+        ]
+      ],
+      "highlights": [
+        "c6"
+      ]
+    },
+    {
+      "fen": "2r1r1k1/p4ppp/1pp5/3p4/3P4/4P3/PPR2PPP/2R3K1 w - - 0 1",
+      "text": "A half-open file is easier: there is already something standing on it. Black's c6 pawn is the bottom of the chain and no black pawn will ever defend it. Two rooks against one, so Rxc6 Rxc6 Rxc6 wins it, and the d5 pawn loses its defender at the same time.",
+      "arrows": [
+        [
+          "c2",
+          "c6"
+        ],
+        [
+          "c1",
+          "c6"
+        ],
+        [
+          "c8",
+          "c6"
+        ]
+      ],
+      "highlights": [
+        "c6",
+        "d5"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.6.3-c1",
+      "type": "find_them_all",
+      "fen": "3r1rk1/pp2pppp/4n3/3p4/3P4/4PN2/PPR2PPP/2R3K1 w - - 0 1",
+      "prompt": "White owns the c-file with both rooks. Tap every square on it from the fourth rank upwards that a black man still attacks.",
+      "answer": {
+        "squares": [
+          "c4",
+          "c5",
+          "c6",
+          "c7",
+          "c8"
+        ]
+      },
+      "concept": "open-file",
+      "hints": {
+        "text": "Two of them are watched by the same knight. One is watched by a pawn on b7, one by a pawn on d5, and one by two rooks."
+      },
+      "reason": "All five. The d5 pawn holds c4, the knight on e6 holds c5 and c7, the b7 pawn holds c6, and the rooks on d8 and f8 hold c8 between them. There is nowhere to land."
+    },
+    {
+      "id": "4.6.3-c2",
+      "type": "name_the_pattern",
+      "fen": "3r1rk1/pp2pppp/4n3/3p4/3P4/4PN2/PPR2PPP/2R3K1 w - - 0 1",
+      "prompt": "White got to the open file first and doubled on it. Why has that won nothing?",
+      "options": [
+        "Because Black has a knight and White does not, and knights are worth more than rooks in a closed position.",
+        "Because there is no square on the file White can land on. A file is a road, and a road needs somewhere to arrive.",
+        "Because the rook in front blocks the rook behind, so doubling on a file never doubles the pressure."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "open-file",
+      "hints": {
+        "text": "Try every rook move up the file in your head and see what happens to the rook."
+      },
+      "reason": "Owning a file is a means, not an end. Every entry square here is covered by a pawn, the knight or a rook, so both white rooks are looking at a wall. The plan has to come from somewhere else on the board."
+    },
+    {
+      "id": "4.6.3-c3",
+      "type": "is_it_safe",
+      "fen": "3r1rk1/pp2pppp/4n3/3p4/3P4/4PN2/PPR2PPP/2R3K1 w - - 0 1",
+      "move": "Rc7",
+      "prompt": "White barges in anyway and plays the rook to c7. Is it safe there?",
+      "reasons": [
+        "Yes. The rook on c1 stands behind it, so Black cannot profitably take.",
+        "Yes. Nothing black can reach c7 in one move.",
+        "No. Nxc7 gives Black a rook for a knight, and the rook on c1 only wins the knight back."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "open-file",
+      "hints": {
+        "text": "The knight on e6 reaches further than it looks. List its squares."
+      },
+      "reason": "The knight on e6 covers c7. Nxc7 Rxc7 is a rook for a knight, two points to Black, and the square was never White's to take in the first place."
+    },
+    {
+      "id": "4.6.3-c4",
+      "type": "which_square",
+      "fen": "1b1r1rk1/4pppp/1p6/p2p4/3P4/3BP3/PPR2PPP/2R3K1 w - - 0 1",
+      "prompt": "The same file, but this time there is exactly one square on it that nothing of Black's attacks. Tap it.",
+      "answer": {
+        "square": "c6"
+      },
+      "concept": "open-file",
+      "hints": {
+        "text": "Work up the file one square at a time and ask what covers each one."
+      },
+      "reason": "c6. The pawn on d5 covers c4, the pawn on b6 covers c5, the bishop on b8 covers c7, and the two rooks cover c8. Nothing at all touches c6."
+    },
+    {
+      "id": "4.6.3-c5",
+      "type": "is_it_safe",
+      "fen": "1b1r1rk1/4pppp/1p6/p2p4/3P4/3BP3/PPR2PPP/2R3K1 w - - 0 1",
+      "move": "Rc6",
+      "prompt": "White walks the rook into that square. Is it safe there?",
+      "reasons": [
+        "Yes. No black man attacks c6, and the rook attacks the pawn on b6 from it.",
+        "No. The bishop on b8 takes it.",
+        "No. Black plays b5 and the pawn drives the rook away next move."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "open-file",
+      "hints": {
+        "text": "Which black men could even reach c6? Check the pawns first, then the bishop."
+      },
+      "reason": "Nothing attacks c6, so the rook simply stands there. From c6 it hits the pawn on b6, which has no pawn to defend it, and Black has to spend a move answering that."
+    },
+    {
+      "id": "4.6.3-c6",
+      "type": "which_square",
+      "fen": "2r1r1k1/p4ppp/1pp5/3p4/3P4/4P3/PPR2PPP/2R3K1 w - - 0 1",
+      "prompt": "White has no c-pawn, so the file is half open and there is already a target on it. Tap the black pawn no black pawn will ever be able to defend.",
+      "answer": {
+        "square": "c6"
+      },
+      "concept": "open-file",
+      "hints": {
+        "text": "A pawn is guarded from behind and to the side. Which black pawn has nothing that could ever come to b7 or d7?"
+      },
+      "reason": "c6. Black's b-pawn already stands on b6 and his d-pawn on d5, and neither can go back to b7 or d7. The pawn on d5 is defended by c6; c6 is defended only by the rook on c8."
+    },
+    {
+      "id": "4.6.3-c7",
+      "type": "find_the_move",
+      "fen": "2r1r1k1/p4ppp/1pp5/3p4/3P4/4P3/PPR2PPP/2R3K1 w - - 0 1",
+      "prompt": "Two rooks against one defender on the target. Collect.",
+      "answer": {
+        "moves": [
+          "Rxc6"
+        ]
+      },
+      "wrong": {
+        "b4": "A reasonable move that does nothing about the pawn. You already have two attackers against one defender on c6; take while the count is in your favour.",
+        "Rc5": "You attack d5 instead, which is defended by c6. Take the defender, not the thing it defends."
+      },
+      "concept": "open-file",
+      "hints": {
+        "piece": "c2",
+        "square": "c6"
+      },
+      "reason": "Rxc6 Rxc6 Rxc6 and White is a clean pawn up. The rook on c1 is what makes it work: two attackers against one defender means White makes the last capture."
+    },
+    {
+      "id": "4.6.3-c8",
+      "type": "name_the_pattern",
+      "fen": "2r1r1k1/p4ppp/1pp5/3p4/3P4/4P3/PPR2PPP/2R3K1 w - - 0 1",
+      "prompt": "Why was this half-open file easier to use than the fully open one earlier in the lesson?",
+      "options": [
+        "Because a half-open file gives a rook more squares to stand on than an open one does.",
+        "Because Black's own pawn on c6 blocks the rook on c8, so that rook cannot defend it.",
+        "Because a half-open file already has the target standing on it, so the rook does not need a free square to be useful."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "open-file",
+      "hints": {
+        "text": "On the open file White needed somewhere to land. What does White need here?"
+      },
+      "reason": "On an open file the rook needs an entry square before it does anything. On a half-open file the enemy pawn is the thing you are shooting at, so the rook can sit on its own side of the board and still be doing work."
+    }
+  ],
+  "takeaway": "An open file needs an entry square before it is worth anything. A half-open file comes with its own target: the pawn at the bottom of the chain."
+}

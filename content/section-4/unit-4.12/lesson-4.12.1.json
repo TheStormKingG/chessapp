@@ -1,0 +1,170 @@
+{
+  "id": "4.12.1",
+  "unit": "4.12",
+  "title": "Critical moments and where the time goes",
+  "xp": 16,
+  "card": {
+    "idea": "Most moves in a game do not matter. A handful decide it, and they are recognisable before you calculate: a capture with more than one sensible recapture, a piece with no defender, a pawn move that fixes the structure for good. Spend the clock there and nowhere else.",
+    "diagrams": [
+      "3q1rk1/1b3ppp/2p2n2/3p4/4P3/2N2N2/2P1BPPP/3Q1RK1 w - - 0 1",
+      "r4rk1/pp1b1ppp/2p1pn2/3p4/3P4/2PBPN2/PP3PPP/R4RK1 w - - 0 1"
+    ],
+    "habit": "Ask \"can this position change character on this move?\" before you start calculating."
+  },
+  "explain": [
+    {
+      "fen": "3q1rk1/1b3ppp/2p2n2/3p4/4P3/2N2N2/2P1BPPP/3Q1RK1 w - - 0 1",
+      "text": "Three white men can take on d5 and each one leaves a different game. The pawn gives White a pawn on d5 and an open e-file; the knight keeps the pawns as they are; the queen walks into a discovered attack. This is a critical moment, and it is recognisable without calculating a single line.",
+      "highlights": [
+        "d5",
+        "e4",
+        "c3"
+      ]
+    },
+    {
+      "fen": "r4rk1/pp1b1ppp/2p1pn2/3p4/3P4/2PBPN2/PP3PPP/R4RK1 w - - 0 1",
+      "text": "And this is not one. The pawns are locked on d4 and d5, nothing can be taken, and no capture changes anything. Whatever White plays here, the position an hour from now will look much the same. Play a sensible move in ten seconds and keep the time for a moment that deserves it.",
+      "highlights": [
+        "d4",
+        "d5"
+      ]
+    },
+    {
+      "fen": "6k1/pb3ppp/8/8/2B5/8/P4PPP/4r1K1 w - - 0 1",
+      "text": "The clearest case of all. Black has just given check and White has exactly one legal move on the board. A forced move costs nothing, whatever the clock says, and the habit of confirming that there is only one is worth about four seconds.",
+      "highlights": [
+        "e1",
+        "g1"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.12.1-c1",
+      "type": "which_square",
+      "fen": "6k1/pb3ppp/8/8/2B5/8/P4PPP/4r1K1 w - - 0 1",
+      "prompt": "You are in check and there is exactly one legal move on the board. Tap the square your bishop has to go to.",
+      "answer": {
+        "square": "f1"
+      },
+      "concept": "the-clock",
+      "reason": "Bf1 is the only legal move: every king square is taken by one of your own pawns, and nothing else reaches the first rank. A forced move needs no clock at all.",
+      "hints": {
+        "piece": "c4"
+      }
+    },
+    {
+      "id": "4.12.1-c2",
+      "type": "find_them_all",
+      "fen": "3q1rk1/1b3ppp/2p2n2/3p4/4P3/2N2N2/2P1BPPP/3Q1RK1 w - - 0 1",
+      "prompt": "Tap every white man that can capture the pawn on d5.",
+      "answer": {
+        "pieces": [
+          "c3",
+          "d1",
+          "e4"
+        ]
+      },
+      "concept": "critical-position",
+      "reason": "The pawn on e4, the knight on c3 and the queen on d1. Three recaptures, three different games, and the choice cannot be taken back."
+    },
+    {
+      "id": "4.12.1-c3",
+      "type": "name_the_pattern",
+      "fen": "3q1rk1/1b3ppp/2p2n2/3p4/4P3/2N2N2/2P1BPPP/3Q1RK1 w - - 0 1",
+      "prompt": "Three of your men can take on d5 and each capture leaves a different pawn structure. How should this move be treated?",
+      "options": [
+        "Play the natural capture quickly and save the clock for later.",
+        "It makes no difference which one takes.",
+        "Spend the time here: the choice fixes the structure for the rest of the game and cannot be undone."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "critical-position",
+      "reason": "A moment is critical when the position can change character on this move. Three recaptures that leave three different structures is exactly that."
+    },
+    {
+      "id": "4.12.1-c4",
+      "type": "is_it_safe",
+      "fen": "3rr1k1/pb3ppp/1p2pn2/8/8/1P2PN2/PB3PPP/3RR1K1 w - - 0 1",
+      "move": "Ne5",
+      "prompt": "White puts the knight on e5 in the middle of the board. Is the knight safe on e5?",
+      "reasons": [
+        "Nothing black can capture on e5, so it sits there for as long as White likes.",
+        "The knight on f6 takes it.",
+        "The pawn on f7 covers e5."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "blunder-check"
+    },
+    {
+      "id": "4.12.1-c5",
+      "type": "find_them_all",
+      "fen": "2rr2k1/5ppp/1q2p3/7n/3P2b1/3B1N2/PP1Q1PPP/2R1R1K1 w - - 0 1",
+      "prompt": "Tap every black man that nothing black is defending.",
+      "answer": {
+        "pieces": [
+          "b6",
+          "g4"
+        ]
+      },
+      "concept": "critical-position",
+      "reason": "The queen on b6 and the bishop on g4. Two loose pieces is the commonest sign that a position is about to become tactical, and it is the cheapest sign to look for."
+    },
+    {
+      "id": "4.12.1-c6",
+      "type": "is_it_safe",
+      "fen": "r4rk1/pp1b1ppp/2p1pn2/3p4/3P4/2PBPN2/PP3PPP/R4RK1 w - - 0 1",
+      "move": "Bxh7+",
+      "prompt": "The position is locked and White tries the bishop on h7 to make something happen. Is the bishop safe on h7?",
+      "reasons": [
+        "Nothing black can reach h7.",
+        "It is defended by the knight on f3.",
+        "The king or the knight takes it, and White has given a bishop for a pawn with no follow-up."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "sanity-check"
+    },
+    {
+      "id": "4.12.1-c7",
+      "type": "name_the_pattern",
+      "fen": "r4rk1/pp1b1ppp/2p1pn2/3p4/3P4/2PBPN2/PP3PPP/R4RK1 w - - 0 1",
+      "prompt": "The pawns are locked, nothing can be captured, and you have nineteen minutes left. How long should this move take?",
+      "options": [
+        "Under fifteen seconds: no capture changes anything and the position cannot change character.",
+        "Three or four minutes: this is the middlegame.",
+        "As long as it takes to calculate every line."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "the-clock",
+      "reason": "A position where nothing can be taken and no pawn can move past another is a position where any reasonable move keeps the game the same. Save the clock for the moment a capture appears."
+    },
+    {
+      "id": "4.12.1-c8",
+      "type": "find_the_move",
+      "fen": "6k1/pp2pppp/8/3r3n/8/4PN2/PP3PPP/3R2K1 w - - 0 1",
+      "prompt": "A rook has walked to the middle of the board. Take it.",
+      "answer": {
+        "moves": [
+          "Rxd5"
+        ]
+      },
+      "concept": "critical-position",
+      "reason": "Nothing defends the rook on d5: the knight went to h5 and no black pawn covers the square. This is the other kind of critical moment — the one that lasts exactly one move.",
+      "hints": {
+        "piece": "d1",
+        "square": "d5"
+      }
+    }
+  ],
+  "takeaway": "A moment is critical when the position can change character on this move. Count the recaptures, count the loose pieces, and spend the clock only where the answer is yes."
+}

@@ -1,0 +1,166 @@
+{
+  "id": "4.11.1",
+  "unit": "4.11",
+  "title": "The slow Italian plan",
+  "xp": 16,
+  "card": {
+    "idea": "The Italian with c3 and d3 is not a waiting game, it is a plan with a fixed order: bishop to b3 before it is traded, rook to e1 behind the pawn, knight round by f1 to g3, dark bishop to e3, and only then d4. Eight quiet moves, and the ninth one breaks.",
+    "diagrams": [
+      "r1bq1rk1/1pp2ppp/p1np1n2/2b1p3/4P3/1BPP1N1P/PP3PP1/RNBQ1RK1 b - - 1 8",
+      "r1b1r1k1/bpq2ppp/p1p2n2/3pP3/4P3/1BP1B1NP/PP3PP1/R2QR1K1 b - - 0 16"
+    ],
+    "habit": "Finish the set-up before you break. The break is the reward, not the plan."
+  },
+  "explain": [
+    {
+      "fen": "r1bq1rk1/ppp2ppp/2np1n2/2b1p3/2B1P3/2PP1N1P/PP3PP1/RNBQ1RK1 b - - 0 7",
+      "text": "Seven moves in and White has not crossed the fourth rank. c3 and d3 hold the centre with pawns so no piece has to. That is the whole idea of this line: build a position where d4 will one day come with every piece already pointing at it.",
+      "highlights": [
+        "c3",
+        "d3",
+        "e4"
+      ]
+    },
+    {
+      "fen": "r1bq1rk1/bpp1nppp/p2p1n2/4p3/4P3/1BPP1N1P/PP1N1PP1/R1BQR1K1 b - - 5 10",
+      "text": "The set-up half built. The bishop has stepped to b3 out of the way of a trade, the rook sits behind the e-pawn, and the queen-side knight has gone to d2 rather than c3 because c3 is a pawn. It is heading for g3 by way of f1.",
+      "highlights": [
+        "b3",
+        "e1",
+        "d2"
+      ]
+    },
+    {
+      "fen": "r1b1r1k1/bpq2ppp/p1p2n2/3pP3/4P3/1BP1B1NP/PP3PP1/R2QR1K1 b - - 0 16",
+      "text": "Sixteen moves. White is a pawn up, the pawn on e5 hits the knight on f6, and the bishop on a7 has nothing to look at but a wall on e3. Black broke with d5 one move before his own centre could take the pressure.",
+      "highlights": [
+        "e5",
+        "f6",
+        "a7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.11.1-c1",
+      "type": "guess_the_move",
+      "fen": "r1bq1rk1/1pp2ppp/p1np1n2/2b1p3/2B1P3/2PP1N1P/PP3PP1/RNBQ1RK1 w - - 0 8",
+      "prompt": "Black has just played a6, and a7-a6 makes room for the bishop to drop back. Move your own bishop first, before it is chased or traded.",
+      "answer": {
+        "moves": [
+          "Bb3"
+        ]
+      },
+      "commentary": "The bishop steps back a square of its own accord. On c4 it is one tempo from being traded off by a knight coming to a5 or a bishop coming to e6, and a trade there would leave the a2-g8 diagonal to Black. On b3 it keeps the diagonal and costs Black a whole move to come near it again. Black answered by tucking his own bishop away on a7.",
+      "concept": "italian",
+      "reason": "Bb3 takes the bishop off the square Black is about to attack, and keeps the diagonal that ends on f7.",
+      "hints": {
+        "text": "Which of your pieces is Black one move away from trading off?"
+      }
+    },
+    {
+      "id": "4.11.1-c2",
+      "type": "guess_the_move",
+      "fen": "r1bq1rk1/bpp2ppp/p1np1n2/4p3/4P3/1BPP1N1P/PP3PP1/RNBQ1RK1 w - - 2 9",
+      "prompt": "Nothing is attacked. You are going to push a pawn in the centre in about five moves. Put a piece behind it now.",
+      "answer": {
+        "moves": [
+          "Re1"
+        ]
+      },
+      "commentary": "The rook goes to e1 long before the file it wants is open. That is the difference between a plan and a reaction: the rook is placed for the position that will exist after d4, not for the one on the board. Black replied with the knight to e7, rerouting it towards g6 and f4.",
+      "concept": "opening-plans",
+      "reason": "Re1 puts the rook behind the e-pawn, ready for the moment the centre opens.",
+      "hints": {
+        "text": "Which file will the d4 break open for you?"
+      }
+    },
+    {
+      "id": "4.11.1-c3",
+      "type": "guess_the_move",
+      "fen": "r1bq1rk1/bpp2ppp/p2p1nn1/4p3/4P3/1BPP1N1P/PP1N1PP1/R1BQR1K1 w - - 6 11",
+      "prompt": "Your knight on d2 is in the way of the bishop on c1 and has nowhere good to go from d2. Send it backwards.",
+      "answer": {
+        "moves": [
+          "Nf1"
+        ]
+      },
+      "commentary": "A knight retreating to its own first rank on move eleven looks like a wasted move and is the best move in the position. From f1 it goes to g3, where it covers f5 and h5 and stops being in the way of the bishop on c1. The whole manoeuvre costs two moves in a position where nothing is happening yet, which is exactly when two moves are affordable.",
+      "concept": "opening-plans",
+      "reason": "Nf1 clears the c1 bishop and starts the knight on its way to g3.",
+      "hints": {
+        "text": "The knight is not going forward. Count the squares it can reach from f1 instead."
+      }
+    },
+    {
+      "id": "4.11.1-c4",
+      "type": "guess_the_move",
+      "fen": "r1bq1rk1/bp3ppp/p1pp1nn1/4p3/4P3/1BPP1N1P/PP3PP1/R1BQRNK1 w - - 0 12",
+      "prompt": "Finish the journey your knight started last move.",
+      "answer": {
+        "moves": [
+          "Ng3"
+        ]
+      },
+      "commentary": "On g3 the knight guards f5 and h5 and no longer blocks the bishop. It also answers a small threat that has not been made yet: Black has a knight on g6 that would like f4, and from g3 that square is covered twice. Black used the time to put the rook on e8, opposite White’s.",
+      "concept": "opening-plans",
+      "reason": "Ng3 completes the f1 regrouping, covering f5 and h5 from a square that blocks nothing.",
+      "hints": {
+        "text": "One square, and it is the square the last move was for."
+      }
+    },
+    {
+      "id": "4.11.1-c5",
+      "type": "guess_the_move",
+      "fen": "r1bqr1k1/bp3ppp/p1pp1nn1/4p3/4P3/1BPP1NNP/PP3PP1/R1BQR1K1 w - - 2 13",
+      "prompt": "One piece has still not moved. There is a black bishop on a7 that would love to look at the square you are about to push a pawn to.",
+      "answer": {
+        "moves": [
+          "Be3"
+        ]
+      },
+      "commentary": "The last piece comes out, and it comes out to the square the coming pawn push most needs. On e3 the bishop meets the bishop on a7 head-on, so d4 will not be met by a bishop hitting the pawn from the corner. Black added the queen to c7 and White was ready.",
+      "concept": "opening-plans",
+      "reason": "Be3 develops the last piece and blocks the a7-g1 diagonal before d4 is played.",
+      "hints": {
+        "text": "Look along the diagonal the black bishop on a7 is sitting on."
+      }
+    },
+    {
+      "id": "4.11.1-c6",
+      "type": "guess_the_move",
+      "fen": "r1b1r1k1/bpq2ppp/p1pp1nn1/4p3/4P3/1BPPBNNP/PP3PP1/R2QR1K1 w - - 4 14",
+      "prompt": "Every piece is placed. Now play the move the whole set-up was for.",
+      "answer": {
+        "moves": [
+          "d4"
+        ]
+      },
+      "commentary": "Eight quiet moves and then this one. The pawn arrives on d4 supported by the pawn on c3, with a rook behind the e-pawn, a bishop facing the bishop that would have hit it, and a knight on g3 covering f5. The break is not strong because pushing a pawn to d4 is strong; it is strong because everything that could go wrong with it was dealt with in advance.",
+      "concept": "italian",
+      "reason": "d4 is the break the whole set-up prepared: supported by c3, with every piece already placed for the open centre.",
+      "hints": {
+        "text": "Which pawn has been waiting behind a support pawn since move four?"
+      }
+    },
+    {
+      "id": "4.11.1-c7",
+      "type": "guess_the_move",
+      "fen": "r1b1r1k1/bpq2ppp/p1p2nn1/3pp3/3PP3/1BP1BNNP/PP3PP1/R2QR1K1 w - - 0 15",
+      "prompt": "Black has answered in the centre with d5. Count the defenders of his pawn on e5 before you decide anything.",
+      "answer": {
+        "moves": [
+          "Nxe5"
+        ]
+      },
+      "commentary": "Black met the break with a break, and the pawn on e5 was left with one defender and two attackers. Nxe5 wins it: after the knight on g6 takes back, dxe5 hits the knight on f6 and leaves a pawn on e5 that no black pawn can ever challenge. The lesson is not about the tactic. Black played the right idea one move before his position could carry it.",
+      "concept": "counting",
+      "reason": "The e5 pawn is defended once and attacked twice, so Nxe5 wins it and the recapture on e5 comes with a hit on f6.",
+      "hints": {
+        "piece": "f3",
+        "square": "e5"
+      }
+    }
+  ],
+  "takeaway": "The slow Italian is a queue: bishop to b3, rook to e1, knight to f1 and g3, bishop to e3, then d4. Break when the queue is empty, not when you are bored."
+}

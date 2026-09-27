@@ -1,0 +1,190 @@
+{
+  "id": "4.9.6",
+  "unit": "4.9",
+  "title": "The active rook",
+  "xp": 15,
+  "card": {
+    "idea": "In a rook ending a rook that is doing something is worth about a pawn, and sometimes more. Given the choice between guarding a pawn from your own back row and getting behind his king or into his position with a check, take the second every time. A passive rook defends one thing; an active rook makes him defend several.",
+    "diagrams": [
+      "5k2/1r3ppp/p7/8/8/7K/2R2PPP/8 w - - 0 1",
+      "3r4/pp4k1/8/8/8/8/5KPP/1R6 w - - 0 1"
+    ],
+    "habit": "Never guard what you could attack from. Rook forward, with a check."
+  },
+  "explain": [
+    {
+      "fen": "5k2/1r3ppp/p7/8/8/7K/2R2PPP/8 w - - 0 1",
+      "text": "You are a pawn down and it is held, but only by the active move. Rc8+ leaves him exactly one legal reply, Ke7, because his king has nowhere on the back row to go and the rook on c8 covers the rest. From behind him the rook keeps checking; from c2 it would sit and be ground down.",
+      "arrows": [
+        [
+          "c2",
+          "c8"
+        ]
+      ],
+      "highlights": [
+        "c8",
+        "e7"
+      ]
+    },
+    {
+      "fen": "3r4/pp4k1/8/8/8/8/5KPP/1R6 w - - 0 1",
+      "text": "Activity also collects. Rxb7+ takes a pawn with check, and every one of his seven answers leaves the second pawn on a7 to be taken next move — Kf6 and Rxa7 is the line. A rook that arrives with a check chooses what to eat, because the reply is never a defence.",
+      "arrows": [
+        [
+          "b1",
+          "b7"
+        ]
+      ],
+      "highlights": [
+        "b7",
+        "a7"
+      ]
+    },
+    {
+      "fen": "4r3/4k1pp/3p4/8/8/6R1/3P1KPP/8 w - - 0 1",
+      "text": "The same instinct in a sharper form. Rxg7+ looks like a rook thrown next to a king, and it is perfectly safe: after it his king has four squares, Kd8, Kf8, Kf6 and Ke6, and not one of them attacks g7. Count his replies before you decide a square is dangerous.",
+      "arrows": [
+        [
+          "g3",
+          "g7"
+        ]
+      ],
+      "highlights": [
+        "g7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.9.6-c1",
+      "type": "find_the_move",
+      "fen": "5k2/1r3ppp/p7/8/8/7K/2R2PPP/8 w - - 0 1",
+      "prompt": "A pawn down, and one move holds it. Do not guard anything — go somewhere.",
+      "answer": {
+        "moves": [
+          "Rc8+"
+        ]
+      },
+      "wrong": {
+        "Ra2": "Now the rook is tied to the a-pawn for the rest of the game, and a rook with one job loses an ending it should hold.",
+        "Rc6": "Attacking the pawn rather than his king. He defends it with Rb6 or pushes past, and your rook has gained nothing permanent."
+      },
+      "concept": "piece-activity",
+      "hints": {
+        "piece": "c2",
+        "square": "c8"
+      },
+      "reason": "Rc8+ is the only move that holds. It leaves Black one legal answer, Ke7, and the rook behind his king goes on making trouble instead of standing guard over a pawn it cannot save anyway."
+    },
+    {
+      "id": "4.9.6-c2",
+      "type": "find_the_move",
+      "fen": "3r4/pp4k1/8/8/8/8/5KPP/1R6 w - - 0 1",
+      "prompt": "Two of his pawns are still on their starting squares and his rook is not defending either. Collect, with a check.",
+      "answer": {
+        "moves": [
+          "Rxb7+"
+        ]
+      },
+      "wrong": {
+        "Rb6": "A rook on the sixth is not the seventh. He answers Rd7 and both pawns are defended.",
+        "Rb2": "Passive and pointless. The pawns will not be undefended for ever."
+      },
+      "concept": "piece-activity",
+      "hints": {
+        "piece": "b1",
+        "square": "b7"
+      },
+      "reason": "Rxb7+ wins a pawn and keeps the initiative. All seven of his replies leave a7 hanging, and Kf6 Rxa7 takes the second one."
+    },
+    {
+      "id": "4.9.6-c3",
+      "type": "which_square",
+      "fen": "5k2/1r3ppp/p7/8/8/7K/5PPP/3R4 w - - 0 1",
+      "prompt": "Tap the square where your rook gets behind his king with a check instead of sitting at home.",
+      "answer": {
+        "square": "d8"
+      },
+      "concept": "piece-activity",
+      "hints": {
+        "text": "His king is on f8 and the eighth rank is empty apart from him. Your rook is already on the d-file."
+      },
+      "reason": "Rd8+ is the active move and the whole d-file is clear for it. Guarding the f- or g-pawn instead leaves the rook with one duty and Black with all the time in the world."
+    },
+    {
+      "id": "4.9.6-c4",
+      "type": "find_them_all",
+      "fen": "2R2k2/1r3ppp/p7/8/8/7K/5PPP/8 b - - 1 1",
+      "prompt": "The rook has just arrived behind his king with a check. Tap every square his king can move to.",
+      "answer": {
+        "squares": [
+          "e7"
+        ]
+      },
+      "concept": "piece-activity",
+      "hints": {
+        "text": "The eighth rank is covered by the rook and his own pawns block the rest."
+      },
+      "reason": "One square, e7. His own pawns on f7, g7 and h7 take away the squares in front of him and the rook on c8 takes away the back row, so a single check reduces a king to one legal move."
+    },
+    {
+      "id": "4.9.6-c5",
+      "type": "name_the_pattern",
+      "fen": "5k2/1r3ppp/p7/8/8/2R4K/5PPP/8 w - - 0 1",
+      "prompt": "You are a pawn down. Rc8+ holds the game and Rc6 does not, although Rc6 attacks the extra pawn. Why?",
+      "options": [
+        "Because Rc8+ wins the pawn on a6 by force next move.",
+        "Because Rc6 loses the rook to Rb6.",
+        "Because Rc8+ keeps the rook busy and Black answering checks, while Rc6 makes the rook a guard: the pawn can be defended, and a rook with one job is a rook out of the game."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "piece-activity",
+      "hints": {
+        "text": "Ask what each rook is doing three moves from now, not what it is touching today."
+      },
+      "reason": "Being a pawn down matters much less than having the worse rook. The check drives his king to e7 and keeps the initiative; chasing the pawn hands the initiative back."
+    },
+    {
+      "id": "4.9.6-c6",
+      "type": "is_it_safe",
+      "fen": "4r3/4k1pp/3p4/8/8/6R1/3P1KPP/8 w - - 0 1",
+      "move": "Rxg7+",
+      "prompt": "Rxg7+ plants your rook right beside his king and takes a pawn. Is the rook safe on g7?",
+      "reasons": [
+        "No. His king simply takes it next move.",
+        "Yes. His king has four answers to the check — Kd8, Kf8, Kf6 and Ke6 — and none of them attacks g7, because a king on e7 cannot reach it and every square it can reach is further away.",
+        "Yes. The pawn on h7 is pinned, so nothing on the seventh rank can move at all."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "piece-activity",
+      "hints": {
+        "text": "List the four legal replies to the check and ask which of them touches g7."
+      },
+      "reason": "A check forces the king to deal with the check, and none of its four squares is next to g7. The rook is not merely safe there, it is winning the h-pawn as well."
+    },
+    {
+      "id": "4.9.6-c7",
+      "type": "find_the_sequence",
+      "fen": "3r4/pp4k1/8/8/8/8/5KPP/1R6 w - - 0 1",
+      "prompt": "Play it out. Take with a check, let him step away, and take the other one.",
+      "answer": {
+        "line": [
+          "Rxb7+",
+          "Kf6",
+          "Rxa7"
+        ]
+      },
+      "concept": "piece-activity",
+      "hints": {
+        "text": "The check is what makes the second pawn free."
+      },
+      "reason": "Rxb7+ Kf6 Rxa7 and White has won two pawns and owns the seventh rank. The check is doing the work: while the king answers it, nothing is defending a7."
+    }
+  ],
+  "takeaway": "An active rook is worth about a pawn in these endings. Check, invade, attack from behind — never tie your rook to guarding something it cannot save."
+}

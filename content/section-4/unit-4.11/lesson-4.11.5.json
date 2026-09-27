@@ -1,0 +1,175 @@
+{
+  "id": "4.11.5",
+  "unit": "4.11",
+  "title": "How to study one model game",
+  "xp": 16,
+  "card": {
+    "idea": "Four steps. Read the pawns and name the plan before you read a single move. Guess every move of the side with the plan. Find the move the plan was aiming at all along. Then put the game away and replay it from memory a week later. Pick a game short enough that the last step is possible.",
+    "diagrams": [
+      "r1bq1rk1/pp2bppp/2n1pn2/2pp4/3P1P2/2PBPN2/PP4PP/RNBQ1RK1 w - - 5 8",
+      "r2qnrk1/pb2b2Q/1pn1p1p1/2ppNp2/3P1P2/2PBP2R/PP1N2PP/R1B3K1 b - - 0 13"
+    ],
+    "habit": "Name the plan from the pawns, guess the moves, then replay it from memory a week later."
+  },
+  "explain": [
+    {
+      "fen": "r1bq1rk1/pp2bppp/2n1pn2/2pp4/3P1P2/2PBPN2/PP4PP/RNBQ1RK1 w - - 5 8",
+      "text": "Step one happens before you read any moves. White has pawns on c3, d4, e3 and f4 and a bishop on d3. That formation says one thing: a knight goes to e5, a rook comes to the third rank, and the game is decided beside the black king. Name the plan, then check whether the game follows it.",
+      "highlights": [
+        "d4",
+        "f4",
+        "e5"
+      ]
+    },
+    {
+      "fen": "r2qnrk1/pb2b1pp/1pn1p3/2ppNp2/3P1P2/2PBP2R/PP1N2PP/R1BQ2K1 w - - 0 12",
+      "text": "Step two is to guess every move White plays, and this is where studying differs from reading. Eleven moves in, White has made no threat at all: knight to e5, rook to f3, rook to h3. Every one of them was guessable from the pawn structure, which is the point of guessing them.",
+      "highlights": [
+        "e5",
+        "h3"
+      ]
+    },
+    {
+      "fen": "r2qnrk1/pb2b2Q/1pn1p1p1/2ppNp2/3P1P2/2PBP2R/PP1N2PP/R1B3K1 b - - 0 13",
+      "text": "Step three is to name the move everything was for. Here it is a queen taking on h7, held there by the rook that walked to the third rank on move ten. Six of Black’s thirty-two legal moves stopped it and he played one of the other twenty-six. Thirteen moves, so step four is possible.",
+      "highlights": [
+        "h7",
+        "h3"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.11.5-c1",
+      "type": "name_the_pattern",
+      "fen": "r1bqk2r/pp2bppp/2n1pn2/2pp4/3P1P2/2PBPN2/PP4PP/RNBQK2R w KQkq - 3 7",
+      "prompt": "Before you read a single move of this game: White has pawns on c3, d4, e3 and f4 and a bishop on d3. Which plan does that formation belong to?",
+      "options": [
+        "Break in the centre with e4 and fight for the open d-file.",
+        "March the queenside pawns at Black’s and leave him a backward pawn.",
+        "Put a knight on e5, lift a rook to the third rank, attack the king."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "opening-plans",
+      "reason": "The pawn on f4 with the pawn on d4 makes e5 a square no black pawn can contest cheaply, and it clears f1-f3 for a rook. Both sides have two queenside pawns, so there is no minority to march."
+    },
+    {
+      "id": "4.11.5-c2",
+      "type": "which_square",
+      "fen": "r1bq1rk1/pp2bppp/2n1pn2/2pp4/3P1P2/2PBPN2/PP4PP/RNBQ1RK1 w - - 5 8",
+      "prompt": "Tap the one square that both your pawn on d4 and your pawn on f4 defend.",
+      "answer": {
+        "square": "e5"
+      },
+      "concept": "outpost",
+      "reason": "The d4 pawn covers c5 and e5, the f4 pawn covers e5 and g5. e5 is the only square on the board both of them reach."
+    },
+    {
+      "id": "4.11.5-c3",
+      "type": "guess_the_move",
+      "fen": "r1bq1rk1/p3bppp/1pn1pn2/2pp4/3P1P2/2PBPN2/PP1N2PP/R1BQ1RK1 w - - 0 9",
+      "prompt": "You named the plan. Now play its first move: occupy the square your two pawns defend.",
+      "answer": {
+        "moves": [
+          "Ne5"
+        ]
+      },
+      "commentary": "The knight lands on e5 held by two pawns. It is not doing anything yet and nothing about the position is forced; what it has done is arrive on a square that cannot be taken from it cheaply. Guessing this move from the pawn structure alone is the whole exercise of studying a model game.",
+      "concept": "outpost",
+      "reason": "Ne5 occupies the square both the d4 and f4 pawns defend.",
+      "hints": {
+        "piece": "f3",
+        "square": "e5"
+      }
+    },
+    {
+      "id": "4.11.5-c4",
+      "type": "guess_the_move",
+      "fen": "r2q1rk1/pb2bppp/1pn1pn2/2ppN3/3P1P2/2PBP3/PP1N2PP/R1BQ1RK1 w - - 2 10",
+      "prompt": "The knight vacated f3 last move. Your plan needs a rook on the third rank. Put it there.",
+      "answer": {
+        "moves": [
+          "Rf3"
+        ]
+      },
+      "commentary": "The rook steps up to f3, which was only possible because the knight left. The pawn on f4 is what makes the whole lift work: without it the rook would be sitting on an open file doing something sensible instead, and with it the rook has a clear road sideways to the h-file. Guess the move from the plan, not from the threats.",
+      "concept": "opening-plans",
+      "reason": "Rf3 begins the rook lift the pawn on f4 makes possible, heading for h3.",
+      "hints": {
+        "piece": "f1",
+        "square": "f3"
+      }
+    },
+    {
+      "id": "4.11.5-c5",
+      "type": "guess_the_move",
+      "fen": "r2qnrk1/pb2bppp/1pn1p3/2ppN3/3P1P2/2PBPR2/PP1N2PP/R1BQ2K1 w - - 4 11",
+      "prompt": "Finish the lift. The rook has a clear road along the third rank.",
+      "answer": {
+        "moves": [
+          "Rh3"
+        ]
+      },
+      "commentary": "Rh3 is the second half of the lift and still makes no threat: the rook attacks h7, which the king defends. What it does is put a second man on the h-file so that a queen arriving later is defended there. Black meanwhile has played a knight to e8 and a pawn to f5, both of them reasonable, neither of them looking at the h-file.",
+      "concept": "opening-plans",
+      "reason": "Rh3 completes the lift, adding a piece on the h-file that will support the queen.",
+      "hints": {
+        "piece": "f3",
+        "square": "h3"
+      }
+    },
+    {
+      "id": "4.11.5-c6",
+      "type": "guess_the_move",
+      "fen": "r2qnrk1/pb2b1pp/1pn1p3/2ppNp2/3P1P2/2PBP2R/PP1N2PP/R1BQ2K1 w - - 0 12",
+      "prompt": "A rook on h3 and a black king on g8 with only a pawn on h7 between them. Bring the queen to the h-file.",
+      "answer": {
+        "moves": [
+          "Qh5"
+        ]
+      },
+      "commentary": "The queen arrives on h5 and now there is a threat, because taking on h7 will be supported by the rook behind her. Black has thirty-two legal moves here and exactly six of them stop it: the knight back to f6, the rook to f7 or f6, the bishop to h4, the pawn to h6, or the knight taking on e5. Everything else loses to the same move.",
+      "concept": "king-safe",
+      "reason": "Qh5 sets up Qxh7 supported by the rook on h3; only six of Black’s thirty-two legal replies prevent it.",
+      "hints": {
+        "piece": "d1",
+        "square": "h5"
+      }
+    },
+    {
+      "id": "4.11.5-c7",
+      "type": "guess_the_move",
+      "fen": "r2qnrk1/pb2b2p/1pn1p1p1/2ppNp1Q/3P1P2/2PBP2R/PP1N2PP/R1B3K1 w - - 0 13",
+      "prompt": "Black has just played g6, attacking your queen. Answer it.",
+      "answer": {
+        "moves": [
+          "Qxh7#"
+        ]
+      },
+      "commentary": "The queen takes on h7 and it is mate. She cannot be captured because the rook that walked to h3 on move ten is behind her, and the king has nowhere to go because the queen on h7 covers g7 and f7 along the rank. Attacking a queen is not a reply to a mate threat, and g6 was one of the twenty-six moves that lose to this.",
+      "concept": "checkmate",
+      "reason": "Qxh7 is mate: the rook on h3 holds the queen there, and from h7 she covers g7 and f7.",
+      "hints": {
+        "piece": "h5",
+        "square": "h7"
+      }
+    },
+    {
+      "id": "4.11.5-c8",
+      "type": "find_them_all",
+      "fen": "r2qnrk1/pb2b2Q/1pn1p1p1/2ppNp2/3P1P2/2PBP2R/PP1N2PP/R1B3K1 b - - 0 13",
+      "prompt": "This is mate. Tap every white piece the mate actually needs — remove it and Black is no longer mated.",
+      "answer": {
+        "pieces": [
+          "h3",
+          "h7"
+        ]
+      },
+      "concept": "checkmate",
+      "reason": "Only two. The queen on h7 gives the check and covers f7 and g7; the rook on h3 is what stops the king taking her. Take away any other white man and it is still mate."
+    }
+  ],
+  "takeaway": "Name the plan from the pawns, guess every move, find the move it was all for, then replay the game from memory a week later. Choose a game short enough for that."
+}

@@ -37,8 +37,15 @@ export const MAX_MOMENTS = 5;
 
 /** Below this, a "swing" is engine noise rather than a moment. */
 const MIN_SWING = 3;
-/** "A chance the learner missed": a position that was close to won. */
-const WINNING_WIN_PERCENT = 80;
+/**
+ * "A chance the learner missed": a position that was close to won.
+ *
+ * Exported because the strengths-and-weaknesses profile needs the same
+ * definition of "winning" for F-SW-4's "conversions of winning positions" and
+ * "blunders in winning positions". Two independent thresholds for one word, in
+ * two modules that both report to the learner, is the drift worth one export.
+ */
+export const WINNING_WIN_PERCENT = 80;
 
 export function selectKeyMoments(moves: ReviewedMove[], learner: Color): KeyMoment[] {
   const mine = moves.filter((m) => m.mover === learner && !m.book);

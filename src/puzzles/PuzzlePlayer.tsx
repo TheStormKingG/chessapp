@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useReducer, useRef, useState } from 'react';
+import { Aside } from '@/app/Aside';
 import { btn } from '@/app/Button';
 import { Board } from '@/board';
 import { CoachService } from '@/coach';
@@ -335,7 +336,7 @@ export function PuzzlePlayer({
                 review feature's shipped defect repeated. */}
             {explanation !== null &&
               (showWhy ? (
-                <p className="t-body mt-3 border-l-2 border-accent bg-surface-raised py-2 pl-3">{explanation}</p>
+                <Aside label="Why">{explanation}</Aside>
               ) : (
                 <button
                   type="button"

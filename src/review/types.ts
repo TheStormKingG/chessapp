@@ -37,7 +37,17 @@ export interface ReviewSource {
   persona: string;
   sans: string[];
   result: 'win' | 'loss' | 'draw';
-  timeControl: 'untimed' | '10+0';
+  /**
+   * `'imported'` is the third value because an imported game's time control is
+   * whatever the source site ran — 5+3, 15+10, three days a move — and none of
+   * those is `'untimed'` or `'10+0'`. The real class is stored on the
+   * `ImportedGameRow` (src/import/types.ts) as `speed`, so it is not lost; it is
+   * simply not restated here. Nothing downstream reads this field — errorLog.ts
+   * notes that it once did and stopped — so widening it is safe, and mapping an
+   * imported blitz game onto `'10+0'` to avoid widening it would have put a
+   * wrong number in the one place a reader would trust.
+   */
+  timeControl: 'untimed' | '10+0' | 'imported';
   startedAt: string;
 }
 

@@ -1,0 +1,168 @@
+{
+  "id": "4.11.2",
+  "unit": "4.11",
+  "title": "The Carlsbad minority attack",
+  "xp": 16,
+  "card": {
+    "idea": "White has two pawns on the queenside against three and marches them anyway. The point is not to win a pawn. It is to end the march with Black holding a pawn on c6 that no black pawn can ever defend, on a file White owns, and then to spend the rest of the game leaning on it.",
+    "diagrams": [
+      "1r2rnk1/pp1q1ppp/2P1bb2/3p4/3P4/2NBPN2/P1Q2PPP/1R3RK1 b - - 0 15",
+      "1r2r1k1/p2q1ppp/4bbn1/2Np4/3P4/3BPN2/P1Q2PPP/1RR3K1 b - - 0 18"
+    ],
+    "habit": "Send the minority at the majority. The pawn you leave behind is the target."
+  },
+  "explain": [
+    {
+      "fen": "r1bqr1k1/pp1n1ppp/2p2b2/3p4/3P4/2NBPN2/PPQ2PPP/R4RK1 b - - 5 11",
+      "text": "The Carlsbad structure. White has pawns on a2 and b2 against three on a7, b7 and c6, and a pawn on d4 against one on d5. Unit 4.6 gave you the rule: the two pawns march at the three, and whichever pawn Black is left with on c6 becomes a target nothing can guard.",
+      "highlights": [
+        "a2",
+        "b2",
+        "c6"
+      ]
+    },
+    {
+      "fen": "1r2rnk1/pp1q1ppp/2P1bb2/3p4/3P4/2NBPN2/P1Q2PPP/1R3RK1 b - - 0 15",
+      "text": "Five moves later. White has one fewer pawn on the queenside than he started with, which is the price. The pawn on c6 is the goods: no black pawn will ever defend it again, the file it stands on is open, and a white queen already sits at the bottom of that file.",
+      "highlights": [
+        "c6",
+        "c2"
+      ]
+    },
+    {
+      "fen": "1r2r1k1/p2q1ppp/4bbn1/2Np4/3P4/3BPN2/P1Q2PPP/1RR3K1 b - - 0 18",
+      "text": "Black tried the one freeing move the structure allows and it was the one move the knight on a4 was watching. c5 arrives undefended and the knight takes it. That is the second reason for the target: the defender who guards it cannot also guard the square it wants to run to.",
+      "highlights": [
+        "c5",
+        "a4"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.11.2-c1",
+      "type": "guess_the_move",
+      "fen": "r1bqrnk1/pp3ppp/2p2b2/3p4/3P4/2NBPN2/PPQ2PPP/R4RK1 w - - 6 12",
+      "prompt": "Two white pawns on the queenside, three black ones. Before the march starts, put a rook behind the pawn that is going to do the marching.",
+      "answer": {
+        "moves": [
+          "Rab1"
+        ]
+      },
+      "commentary": "The a-rook, not the f-rook. The b-pawn is about to leave home and it will want support all the way; the rook on f1 has a different job waiting for it, because the file that opens at the end of this plan is the c-file. Choosing which rook goes where before either of them moves is most of what a plan is.",
+      "concept": "minority-attack",
+      "reason": "Rab1 backs the b-pawn for its march and leaves the f-rook free for the c-file the plan will open.",
+      "hints": {
+        "text": "Both rooks could go to b1. Which one has nothing else to do?"
+      }
+    },
+    {
+      "id": "4.11.2-c2",
+      "type": "guess_the_move",
+      "fen": "r2qrnk1/pp3ppp/2p1bb2/3p4/3P4/2NBPN2/PPQ2PPP/1R3RK1 w - - 8 13",
+      "prompt": "Start the march. One pawn, two squares, and it is not the a-pawn.",
+      "answer": {
+        "moves": [
+          "b4"
+        ]
+      },
+      "commentary": "b4 is the first of the two pawn moves the whole plan consists of. Nothing is threatened by it and nothing needs to be: the pawn is walking to b5 so that it can take on c6 and leave Black with a pawn there that no pawn defends. Black carried on developing, which is what most opponents do while this is happening.",
+      "concept": "minority-attack",
+      "reason": "b4 begins the two-pawn march; the pawn is heading for b5 and then c6.",
+      "hints": {
+        "piece": "b2",
+        "square": "b4"
+      }
+    },
+    {
+      "id": "4.11.2-c3",
+      "type": "guess_the_move",
+      "fen": "r3rnk1/pp1q1ppp/2p1bb2/3p4/1P1P4/2NBPN2/P1Q2PPP/1R3RK1 w - - 1 14",
+      "prompt": "The second step. Push the same pawn again and put the question to Black.",
+      "answer": {
+        "moves": [
+          "b5"
+        ]
+      },
+      "commentary": "On b5 the pawn asks Black a question with three bad answers: taking on b5 leaves the d5 pawn alone in the centre, pushing c5 hands White the b5 and d5 squares for nothing, and doing nothing lets White take on c6 and choose which black pawn recaptures. Black did nothing, which is the commonest of the three.",
+      "concept": "minority-attack",
+      "reason": "b5 forces the issue on c6: every black answer concedes either the d5 pawn, a square, or the c6 target.",
+      "hints": {
+        "piece": "b4",
+        "square": "b5"
+      }
+    },
+    {
+      "id": "4.11.2-c4",
+      "type": "guess_the_move",
+      "fen": "1r2rnk1/pp1q1ppp/2p1bb2/1P1p4/3P4/2NBPN2/P1Q2PPP/1R3RK1 w - - 1 15",
+      "prompt": "Black ignored the pawn on b5. Take, and think about which black pawn you would like to be looking at afterwards.",
+      "answer": {
+        "moves": [
+          "bxc6"
+        ]
+      },
+      "commentary": "The capture is the whole plan finishing. Black recaptures with the b-pawn, and the pawn that lands on c6 is now the only black pawn on that side of the board: the a-pawn cannot reach it and there is no b-pawn left to help. White has one pawn fewer on the queenside and one permanent target, which was the trade all along.",
+      "concept": "minority-attack",
+      "reason": "bxc6 leaves Black a pawn on c6 that no black pawn can ever defend, on a file that is now open.",
+      "hints": {
+        "piece": "b5",
+        "square": "c6"
+      }
+    },
+    {
+      "id": "4.11.2-c5",
+      "type": "guess_the_move",
+      "fen": "1r2rnk1/p2q1ppp/2p1bb2/3p4/3P4/2NBPN2/P1Q2PPP/1R3RK1 w - - 0 16",
+      "prompt": "The target exists. A file just opened and your queen is already standing at the bottom of it. Bring the piece that has been waiting for this.",
+      "answer": {
+        "moves": [
+          "Rfc1"
+        ]
+      },
+      "commentary": "The rook that stayed on f1 in order to be available now goes to the file the march opened. Nothing is won by it this move; the point is that the target has two attackers instead of one and cannot be defended by a pawn at all. A weakness you cannot attack twice is not yet a weakness.",
+      "concept": "minority-attack",
+      "reason": "Rfc1 gives the c6 pawn a second attacker on the open file, behind the queen.",
+      "hints": {
+        "text": "One rook is still on the square it started the game on."
+      }
+    },
+    {
+      "id": "4.11.2-c6",
+      "type": "guess_the_move",
+      "fen": "1r2r1k1/p2q1ppp/2p1bbn1/3p4/3P4/2NBPN2/P1Q2PPP/1RR3K1 w - - 2 17",
+      "prompt": "Two attackers on c6 and one defender, but taking first loses the exchange. Bring a third attacker, and pick the route that also covers c5.",
+      "answer": {
+        "moves": [
+          "Na4"
+        ]
+      },
+      "commentary": "The knight goes to the edge of the board and it is the best move in the position. From a4 it will step to c5 or b6, and in the meantime it watches c5, which is the only square the c6 pawn could ever run to. Attacking a weakness and covering its escape square are the same move here, which is what makes a4 worth a knight on the rim.",
+      "concept": "minority-attack",
+      "reason": "Na4 adds the third attacker on c6 and covers c5, the one square the pawn could advance to.",
+      "hints": {
+        "piece": "c3",
+        "square": "a4"
+      }
+    },
+    {
+      "id": "4.11.2-c7",
+      "type": "guess_the_move",
+      "fen": "1r2r1k1/p2q1ppp/4bbn1/2pp4/N2P4/3BPN2/P1Q2PPP/1RR3K1 w - - 0 18",
+      "prompt": "Black has tried to free the pawn with c5. Count what defends it there.",
+      "answer": {
+        "moves": [
+          "Nxc5"
+        ]
+      },
+      "commentary": "Nothing defends the pawn on c5, and the knight that went to the rim two moves ago takes it. This is the ordinary end of a minority attack: not a combination, but an opponent who has been sitting still for ten moves finally moving the one pawn that was never allowed to move. The plan did not win the pawn. It made every alternative worse.",
+      "concept": "pawn-weakness",
+      "reason": "The pawn on c5 is undefended and attacked by both the knight on a4 and the pawn on d4.",
+      "hints": {
+        "piece": "a4",
+        "square": "c5"
+      }
+    }
+  ],
+  "takeaway": "Two pawns at three, then take: the pawn Black is left with on c6 cannot be defended by a pawn and cannot advance. Attack it three times and watch the square in front of it."
+}

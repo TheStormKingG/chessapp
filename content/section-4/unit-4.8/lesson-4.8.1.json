@@ -1,0 +1,201 @@
+{
+  "id": "4.8.1",
+  "unit": "4.8",
+  "title": "The imbalances",
+  "xp": 16,
+  "card": {
+    "idea": "In Section 3 you learned to name which element is out of balance. That was the diagnosis. Now the treatment: an imbalance is always a pair, your thing against his thing, and the plan is to play where your half of the pair is the better half. Find the pair first. The plan is already inside it.",
+    "diagrams": [
+      "3r2k1/ppp1b1p1/3p1p1p/8/4P3/5N2/PPP2PPP/3R2K1 w - - 0 1",
+      "2r3k1/pp2bppp/8/8/8/2PN4/PP3PP1/2R3K1 w - - 0 1"
+    ],
+    "habit": "Name the pair, then play on your half of it."
+  },
+  "explain": [
+    {
+      "fen": "3r2k1/ppp1b1p1/3p1p1p/8/4P3/5N2/PPP2PPP/3R2K1 w - - 0 1",
+      "text": "A rook and seven pawns each, so material is level. The pair here is knight against bishop. Count the squares: the knight on f3 has six, the bishop on e7 has one, and that one is f8. Even the white king has two. The pair is lopsided, so the plan is whatever uses a knight and shuts the bishop out.",
+      "arrows": [
+        [
+          "e7",
+          "f8"
+        ]
+      ],
+      "highlights": [
+        "e7",
+        "f3"
+      ]
+    },
+    {
+      "fen": "3r2k1/ppp1b1p1/3p1p1p/8/3NP3/8/PPP2PPP/3R2K1 w - - 0 1",
+      "text": "The knight has started walking. From d4 it has seven squares, and e6 is the one that matters: only a pawn on d7 or f7 could attack it, and both have already gone past. Pawns do not come back. So e6 is a square the bishop cannot reach and no pawn can ever question.",
+      "arrows": [
+        [
+          "d4",
+          "e6"
+        ]
+      ],
+      "highlights": [
+        "e6"
+      ]
+    },
+    {
+      "fen": "2r3k1/pp2bppp/8/8/8/2PN4/PP3PP1/2R3K1 w - - 0 1",
+      "text": "A different pair, and this one is made of pawns. White has three on the queenside against two; Black has three on the kingside against two. Neither side is better. Each side simply has a different job, and the imbalance has told both of them what it is: push where you have the extra pawn.",
+      "highlights": [
+        "a2",
+        "b2",
+        "c3",
+        "f7",
+        "g7",
+        "h7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.8.1-c1",
+      "type": "which_square",
+      "fen": "3r2k1/ppp1b1p1/3p1p1p/8/4P3/5N2/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "An imbalance is a pair, and one half of this one is far worse than the other. Tap the black piece that can move to exactly one square.",
+      "answer": {
+        "square": "e7"
+      },
+      "concept": "four-elements",
+      "hints": {
+        "text": "Count the squares for each black piece in turn. The rook has six and the king has four."
+      },
+      "reason": "The bishop on e7 has f8 and nothing else. Its own pawns on d6 and f6 hold both diagonals, and its own rook sits on d8."
+    },
+    {
+      "id": "4.8.1-c2",
+      "type": "find_them_all",
+      "fen": "3r2k1/ppp1b1p1/3p1p1p/8/4P3/5N2/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "Two black pawns are the reason that bishop has one square. Tap them both.",
+      "answer": {
+        "pieces": [
+          "d6",
+          "f6"
+        ]
+      },
+      "concept": "four-elements",
+      "hints": {
+        "text": "Take one pawn off the board in your head and count the bishop's squares again."
+      },
+      "reason": "Lift d6 and the bishop gains four squares. Lift f6 and it gains three. No other black pawn touches a diagonal the bishop uses."
+    },
+    {
+      "id": "4.8.1-c3",
+      "type": "find_them_all",
+      "fen": "3r2k1/ppp1b1p1/3p1p1p/8/4P3/5N2/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "Now the other half of the pair. Tap every white piece that has more squares to go to than the bishop on e7 has.",
+      "answer": {
+        "pieces": [
+          "d1",
+          "f3",
+          "g1"
+        ]
+      },
+      "concept": "four-elements",
+      "hints": {
+        "text": "The bishop has one. Do not skip the king."
+      },
+      "reason": "The rook on d1 has ten squares, the knight on f3 has six, and the king on g1 has two. All three beat one, which is the whole point."
+    },
+    {
+      "id": "4.8.1-c4",
+      "type": "is_it_safe",
+      "fen": "3r2k1/ppp1b1p1/3p1p1p/8/4P3/5N2/PPP2PPP/3R2K1 w - - 0 1",
+      "move": "Ng5",
+      "prompt": "Knowing your knight is the better piece is not a licence to drop it anywhere. White plays Ng5. Is the knight safe there?",
+      "reasons": [
+        "Yes. Nothing of Black's reaches g5.",
+        "No. The pawns on f6 and h6 both cover g5 and nothing of yours defends it.",
+        "No. The rook on d8 swings across and takes it."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 1
+      },
+      "concept": "four-elements",
+      "hints": {
+        "text": "Two black pawns look at g5, not one."
+      },
+      "reason": "Both hxg5 and fxg5 are legal, and no white man covers g5. Owning the better piece is a reason to place it well, not a reason to stop counting."
+    },
+    {
+      "id": "4.8.1-c5",
+      "type": "which_square",
+      "fen": "3r2k1/ppp1b1p1/3p1p1p/8/3NP3/8/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "The knight stands on d4 with seven squares in front of it. Tap the one it can reach that no black pawn will ever be able to attack.",
+      "answer": {
+        "square": "e6"
+      },
+      "concept": "four-elements",
+      "hints": {
+        "text": "For each square ask which black pawn would have to attack it, then check whether that pawn has already walked past."
+      },
+      "reason": "Only d7 or f7 could attack e6, and both pawns are on d6 and f6 already. Every other square the knight can reach still has a black pawn able to come at it."
+    },
+    {
+      "id": "4.8.1-c6",
+      "type": "find_the_sequence",
+      "fen": "3r2k1/ppp1b1p1/3p1p1p/8/4P3/5N2/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "Walk the knight from f3 to the square the bishop can never touch. Black shifts his rook along the back rank while you travel.",
+      "answer": {
+        "line": [
+          "Nd4",
+          "Rc8",
+          "Ne6"
+        ]
+      },
+      "concept": "four-elements",
+      "hints": {
+        "piece": "f3",
+        "square": "e6"
+      },
+      "reason": "Two moves, and the square at the end of them is one no black pawn will ever attack and the dark-squared bishop can never touch. The only man Black has that can come near e6 is his king."
+    },
+    {
+      "id": "4.8.1-c7",
+      "type": "find_the_move",
+      "fen": "3r2k1/ppp1b1p1/3pNp1p/8/4P3/8/PPP2PPP/3R2K1 w - - 0 1",
+      "prompt": "The knight has arrived and it can see three black men. Take the biggest of them.",
+      "answer": {
+        "moves": [
+          "Nxd8"
+        ]
+      },
+      "wrong": {
+        "Nxc7": "A free pawn, and the smallest thing on offer. The rook on d8 is worth five and the bishop that defends it is worth three.",
+        "Nxg7": "The king takes back. You have given a knight for a pawn."
+      },
+      "concept": "four-elements",
+      "hints": {
+        "piece": "e6",
+        "square": "d8"
+      },
+      "reason": "Nxd8 wins a rook for a knight even after Bxd8, because the bishop on e7 is the only thing defending d8. That is what the good half of an imbalance eventually buys."
+    },
+    {
+      "id": "4.8.1-c8",
+      "type": "name_the_pattern",
+      "fen": "2r3k1/pp2bppp/8/8/8/2PN4/PP3PP1/2R3K1 w - - 0 1",
+      "prompt": "A rook and five pawns each, and a knight against a bishop. Which pair tells each side where to play?",
+      "options": [
+        "White's pawns are all on the queenside and Black's are all on the kingside.",
+        "White has three pawns to two on the queenside, Black three to two on the kingside, so each side plays where he has the extra pawn.",
+        "Neither side has more pawns than the other on either wing."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "four-elements",
+      "hints": {
+        "text": "Count the pawns on the a, b and c files, then count them on f, g and h."
+      },
+      "reason": "Queenside it is a2, b2 and c3 against a7 and b7. Kingside it is f7, g7 and h7 against f2 and g2. Both sides have a majority; they are just on opposite wings."
+    }
+  ],
+  "takeaway": "An imbalance is a pair. Name both halves, work out which of them is yours, and play on that side of the board."
+}

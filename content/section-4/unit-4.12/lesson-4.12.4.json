@@ -1,0 +1,151 @@
+{
+  "id": "4.12.4",
+  "unit": "4.12",
+  "title": "Keeping an error log and reading it",
+  "xp": 16,
+  "card": {
+    "idea": "After every game the app writes each mistake and blunder into your error log: the position before your move, what you played, what the engine played, and a theme. There are four themes and each one points at one lesson. Reading the log means reading the themes, not the moves.",
+    "diagrams": [
+      "3q1rk1/p1p2ppp/4pn2/1r6/8/3BPN2/PP1Q1PPP/5RK1 w - - 0 1",
+      "3r1rk1/pp1n1ppp/4p3/4N3/2B5/4P3/PP3PPP/3R1RK1 b - - 1 1"
+    ],
+    "habit": "Read the log by theme. Four entries with one theme is a habit, not four accidents."
+  },
+  "explain": [
+    {
+      "fen": "3q1rk1/p1p2ppp/4pn2/1r6/8/3BPN2/PP1Q1PPP/5RK1 w - - 0 1",
+      "text": "A log entry. This is the position before your move, and the engine’s move takes the rook on b5 for nothing. The log calls this a missed capture and points you at lesson 1.2.3, \"take free pieces\". The theme is the useful part: one of these is bad luck, five is a habit.",
+      "highlights": [
+        "b5",
+        "d3"
+      ]
+    },
+    {
+      "fen": "3r1rk1/pp1n1ppp/4p3/4N3/2B5/4P3/PP3PPP/3R1RK1 b - - 1 1",
+      "text": "A different theme. The move played was the knight to e5, and this is the board it left: the knight has no defender and a black knight takes it. The log calls that a hung piece and sends you to lesson 1.2.4. The entry stores the position BEFORE the move, so the damage shows only if you play it.",
+      "highlights": [
+        "e5",
+        "d7"
+      ]
+    },
+    {
+      "fen": "5rk1/pp3ppp/1q2p3/8/2n5/3B1N2/PP1Q1PPP/5RK1 w - - 0 1",
+      "text": "The third theme. Black threatened a capture before your move and still has it afterwards, so the log calls it an ignored threat and sends you to lesson 1.6.2, all the checks and captures. The fourth theme is a missed mate. Anything the app cannot name is left unclassified rather than guessed.",
+      "highlights": [
+        "c4",
+        "b6"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.12.4-c1",
+      "type": "find_the_move",
+      "fen": "3q1rk1/p1p2ppp/4pn2/1r6/8/3BPN2/PP1Q1PPP/5RK1 w - - 0 1",
+      "prompt": "This is a log entry: the position before your move. Play what the engine played.",
+      "answer": {
+        "moves": [
+          "Bxb5"
+        ]
+      },
+      "concept": "error-log",
+      "reason": "The bishop on d3 takes the rook on b5, which nothing defends. A whole rook for nothing is the commonest entry in anybody’s log and the cheapest one to stop making.",
+      "hints": {
+        "piece": "d3",
+        "square": "b5"
+      }
+    },
+    {
+      "id": "4.12.4-c2",
+      "type": "name_the_pattern",
+      "fen": "3q1rk1/p1p2ppp/4pn2/1r6/8/3BPN2/PP1Q1PPP/5RK1 w - - 0 1",
+      "prompt": "The log has to tag this entry with one of its four themes. Which one?",
+      "options": [
+        "Missed capture — a free man was on the board and the move played did not take it.",
+        "Hung piece — the move left one of your own men free.",
+        "Ignored threat — the opponent had a capture and still has it."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "error-log",
+      "reason": "The engine’s move is a capture of an undefended man, so the theme is a missed capture and the log links it to lesson 1.2.3."
+    },
+    {
+      "id": "4.12.4-c3",
+      "type": "is_it_safe",
+      "fen": "3r1rk1/pp1n1ppp/4p3/8/2B5/4PN2/PP3PPP/3R1RK1 w - - 0 1",
+      "move": "Ne5",
+      "prompt": "This is the move that made a log entry: the knight steps to e5. Is the knight safe there?",
+      "reasons": [
+        "Nothing black can reach e5.",
+        "The pawn on e3 defends it.",
+        "The knight on d7 takes it, and nothing white defends e5."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "error-log"
+    },
+    {
+      "id": "4.12.4-c4",
+      "type": "which_square",
+      "fen": "3r1rk1/pp1n1ppp/4p3/4N3/2B5/4P3/PP3PPP/3R1RK1 b - - 1 1",
+      "prompt": "The knight has been played to e5 and the log calls this a hung piece. Tap the man the move left free to take.",
+      "answer": {
+        "square": "e5"
+      },
+      "concept": "error-log",
+      "reason": "The knight on e5. It moved off f3 where the pawn on g2 defended it, and on e5 nothing white covers it while a black knight does."
+    },
+    {
+      "id": "4.12.4-c5",
+      "type": "find_them_all",
+      "fen": "5rk1/pp3ppp/1q2p3/8/2n5/3B1N2/PP1Q1PPP/5RK1 w - - 0 1",
+      "prompt": "The log calls this an ignored threat. Tap every black man that already has a capture available.",
+      "answer": {
+        "pieces": [
+          "b6",
+          "c4"
+        ]
+      },
+      "concept": "error-log",
+      "reason": "The queen on b6 and the knight on c4, between them four captures. The theme fires when a capture was there before your move and is still there after it, so the entry is about what you did not look at."
+    },
+    {
+      "id": "4.12.4-c6",
+      "type": "find_the_move",
+      "fen": "6rk/p5pp/1n1N4/8/8/8/P4PPP/2R3K1 w - - 0 1",
+      "prompt": "A log entry tagged missed mate. Play it.",
+      "answer": {
+        "moves": [
+          "Nf7#"
+        ]
+      },
+      "concept": "error-log",
+      "reason": "Nf7 is mate. The rook on g8 and the pawns on g7 and h7 take every square the king has, and nothing covers f7.",
+      "hints": {
+        "piece": "d6",
+        "square": "f7"
+      }
+    },
+    {
+      "id": "4.12.4-c7",
+      "type": "name_the_pattern",
+      "fen": "6rk/p5pp/1n1N4/8/8/8/P4PPP/2R3K1 w - - 0 1",
+      "prompt": "Every theme in the log links to one lesson so you can go back to it. Which lesson does this entry point at?",
+      "options": [
+        "1.2.3, take free pieces.",
+        "1.3.3, mate in one.",
+        "1.6.2, all the checks and captures."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "error-log",
+      "reason": "A missed mate points at 1.3.3. That link is the whole reason for the theme: the log is not a list of games you lost, it is a list of lessons you owe."
+    }
+  ],
+  "takeaway": "The log stores the position before your move, the move, the engine’s move and one of four themes. Read the themes and count them: five of one is a habit to fix."
+}

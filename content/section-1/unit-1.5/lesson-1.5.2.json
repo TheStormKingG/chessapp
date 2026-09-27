@@ -79,23 +79,23 @@
     {
       "id": "1.5.2-c3",
       "type": "is_it_safe",
-      "fen": "7k/8/5K2/8/8/8/2Q5/8 w - - 0 1",
-      "move": "Qg6",
-      "prompt": "White plays Qg6, taking every square around the king. Is that safe?",
+      "fen": "8/8/8/4k3/8/8/8/K6Q w - - 0 1",
+      "move": "Qh4",
+      "prompt": "White plays Qh4, shutting the black king out of the fourth rank. Is the queen safe on h4?",
       "reasons": [
-        "It is fine, and Black has to give up the king next move.",
-        "It takes the black king's last square without checking him: stalemate, and the game is drawn.",
-        "The queen on g6 is attacked by the king and falls for nothing."
+        "No. The black king takes her on h4.",
+        "No. It is stalemate: the king on e5 has no square left.",
+        "Yes. The king on e5 is three files away from h4, and Black has nothing else."
       ],
       "answer": {
-        "safe": false,
-        "reason": 1
+        "safe": true,
+        "reason": 2
       },
       "concept": "queen-mate",
-      "reason": "Taking the last square only wins when it comes with check. Kg6 wins instead: Black has to play Kg8, and the queen mates from c8 next move.",
+      "reason": "She takes squares away from a distance, which is the whole method: d4, e4 and f4 are gone and he still has four moves, so it is not stalemate. Now walk your king up.",
       "hints": {
-        "piece": "c2",
-        "square": "g8"
+        "piece": "h1",
+        "square": "h4"
       }
     },
     {

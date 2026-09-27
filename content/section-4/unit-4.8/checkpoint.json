@@ -1,0 +1,538 @@
+{
+  "unit": "4.8",
+  "title": "Reading the position and making a plan",
+  "passMark": 0.75,
+  "sample": 10,
+  "bank": [
+    {
+      "id": "4.8-k01",
+      "type": "which_square",
+      "fen": "r5k1/ppp1b1p1/3p1p1p/8/4P3/2P5/PP1N1PPP/4R1K1 w - - 0 1",
+      "concept": "four-elements",
+      "prompt": "A rook and seven pawns each, so the mismatch is the minor pieces. Tap the black piece that can move to exactly 2 squares.",
+      "answer": {
+        "square": "e7"
+      },
+      "reason": "The bishop on e7 has 2 squares and its own pawns on d6 and f6 hold both diagonals. The knight on d2 has 5. Play where your half of the pair is the better half."
+    },
+    {
+      "id": "4.8-k02",
+      "type": "which_square",
+      "fen": "r5k1/ppp1b1p1/3p1p1p/8/4P3/P7/1PPN1PPP/4R1K1 w - - 0 1",
+      "concept": "four-elements",
+      "prompt": "A rook and seven pawns each, so the mismatch is the minor pieces. Tap the black piece that can move to exactly 2 squares.",
+      "answer": {
+        "square": "e7"
+      },
+      "reason": "The bishop on e7 has 2 squares and its own pawns on d6 and f6 hold both diagonals. The knight on d2 has 5. Play where your half of the pair is the better half."
+    },
+    {
+      "id": "4.8-k03",
+      "type": "find_them_all",
+      "fen": "r5k1/ppp1b1p1/3p1p2/7p/4P3/P1P5/1P1N1PPP/4R1K1 w - - 0 1",
+      "concept": "four-elements",
+      "prompt": "The bishop on e7 has 2 squares. Tap every white piece that has more than that.",
+      "answer": {
+        "pieces": [
+          "d2",
+          "e1"
+        ]
+      },
+      "reason": "d2 and e1 all have more room than that bishop. Naming both halves of the pair is what turns a judgement into a plan."
+    },
+    {
+      "id": "4.8-k04",
+      "type": "name_the_pattern",
+      "fen": "r5k1/ppp1b1p1/3p1p1p/8/4P3/P1P5/1P1N1PPP/2R3K1 w - - 0 1",
+      "prompt": "Material is level and a knight faces a bishop. Which mismatch gives White his plan?",
+      "options": [
+        "White has an extra pawn on the queenside.",
+        "Black's rook stands on the better file, so there is nothing for White here.",
+        "The bishop on e7 has 2 squares against the knight's 5, so White plays to keep it shut in."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "four-elements",
+      "reason": "White's queenside pawns are a3, b2, c3 against a7, b7, c7: level, not an extra pawn. The piece count is the mismatch."
+    },
+    {
+      "id": "4.8-k05",
+      "type": "find_them_all",
+      "fen": "1r4k1/pp2bppp/8/8/8/2PN4/PP3PP1/2R3K1 w - - 0 1",
+      "concept": "four-elements",
+      "prompt": "Each side has an extra pawn on one wing. Tap every white pawn on the a, b and c files.",
+      "answer": {
+        "pieces": [
+          "a2",
+          "b2",
+          "c3"
+        ]
+      },
+      "reason": "Three against two: a2, b2, c3 against a7 and b7. That is the wing this side plays on."
+    },
+    {
+      "id": "4.8-k06",
+      "type": "find_them_all",
+      "fen": "4r1k1/pp2bppp/8/8/8/2PN4/PP3PP1/3R2K1 w - - 0 1",
+      "concept": "four-elements",
+      "prompt": "Each side has an extra pawn on one wing. Tap every black pawn on the f, g and h files.",
+      "answer": {
+        "pieces": [
+          "f7",
+          "g7",
+          "h7"
+        ]
+      },
+      "reason": "Three against two: f7, g7, h7 against f2 and g2. That is the wing this side plays on."
+    },
+    {
+      "id": "4.8-k07",
+      "type": "name_the_pattern",
+      "fen": "2r3k1/pp2bppp/8/8/8/2PN4/PP3PP1/1R4K1 w - - 0 1",
+      "prompt": "A rook and five pawns each, and a knight against a bishop. Which pair tells each side where to play?",
+      "options": [
+        "White has three pawns to two on the queenside and Black three to two on the kingside, so each plays where he has the extra pawn.",
+        "White's pawns are all on the queenside and Black's all on the kingside.",
+        "Neither side has more pawns than the other on either wing."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "four-elements",
+      "reason": "Queenside it is a2, b2, c3 against a7 and b7; kingside f7, g7, h7 against f2 and g2. Both sides have a majority, on opposite wings."
+    },
+    {
+      "id": "4.8-k08",
+      "type": "find_them_all",
+      "fen": "5rk1/1p2bppp/2p1p3/3pP3/3P1P2/1PP2N2/6PP/5RK1 w - - 0 1",
+      "concept": "space-advantage",
+      "prompt": "Start with the count that decides which wing is yours. Tap every white man standing on the f, g or h file.",
+      "answer": {
+        "pieces": [
+          "f1",
+          "f3",
+          "f4",
+          "g1",
+          "g2",
+          "h2"
+        ]
+      },
+      "reason": "6 white men against Black's 5 on those three files. The king counts: he is a defender on that side of the board."
+    },
+    {
+      "id": "4.8-k09",
+      "type": "which_square",
+      "fen": "5rk1/1p1b1ppp/2p1p3/3pP3/3P1P2/1PP2N1P/6P1/5RK1 w - - 0 1",
+      "concept": "space-advantage",
+      "prompt": "A pawn chain points wherever its front pawn looks. Tap the white pawn that attacks two squares on the sixth rank.",
+      "answer": {
+        "square": "e5"
+      },
+      "reason": "The pawn on e5 attacks d6 and f6. No other white pawn reaches the sixth rank, so that is the direction the chain points."
+    },
+    {
+      "id": "4.8-k10",
+      "type": "name_the_pattern",
+      "fen": "4r1k1/1p2bppp/2p1p3/3pP3/3P1P2/2P2N1P/1P4P1/5RK1 w - - 0 1",
+      "prompt": "Both counts are done. Which side of the board is White's, and what says so?",
+      "options": [
+        "The queenside, because White has more pawns there.",
+        "The kingside: 6 white men on the f, g and h files against 4, and the pawn on e5 points that way.",
+        "Neither wing: the pawn structure is the same on both sides of the board."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "space-advantage",
+      "reason": "Queenside it is 2 men each, so nobody has more. And the structures differ: White stands on e5 and f4, Black on d5 and e6."
+    },
+    {
+      "id": "4.8-k11",
+      "type": "find_them_all",
+      "fen": "4r1k1/1p1b1ppp/2p1p3/3pP3/3P1P2/2P2N2/1P4PP/5RK1 w - - 0 1",
+      "concept": "space-advantage",
+      "prompt": "Now his half of the sum. Tap every black man standing on the f, g or h file.",
+      "answer": {
+        "pieces": [
+          "f7",
+          "g7",
+          "g8",
+          "h7"
+        ]
+      },
+      "reason": "4 against White's 6. One extra man on the wing you are working on is the whole of this advantage."
+    },
+    {
+      "id": "4.8-k12",
+      "type": "find_them_all",
+      "fen": "5rk1/pp2bpp1/5n1p/8/2P5/1P6/P4PPP/1RR3K1 w - - 0 1",
+      "concept": "space-advantage",
+      "prompt": "Other wing, same question. Tap every white man standing on the a, b or c file.",
+      "answer": {
+        "pieces": [
+          "a2",
+          "b1",
+          "b3",
+          "c1",
+          "c4"
+        ]
+      },
+      "reason": "5 white men against 2. Both rooks are already there, which is what makes this wing the one to open."
+    },
+    {
+      "id": "4.8-k13",
+      "type": "name_the_pattern",
+      "fen": "4r1k1/pp2npp1/5b1p/8/2P5/1P6/P4PPP/1RR3K1 w - - 0 1",
+      "prompt": "Which side of the board is White's here, and why?",
+      "options": [
+        "The kingside, because that is where the black king lives.",
+        "Neither wing: material is dead level, so there is nothing to aim at.",
+        "The queenside: 5 white men on the a, b and c files against 2, and three pawns against two."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "space-advantage",
+      "reason": "On the kingside White has 4 men against 5, so that is his opponent's wing, king or no king. Level material is not a level board."
+    },
+    {
+      "id": "4.8-k14",
+      "type": "find_them_all",
+      "fen": "5rk1/pp1n1ppp/5b2/8/2P5/1P6/P4PPP/1RR3K1 w - - 0 1",
+      "concept": "space-advantage",
+      "prompt": "Pawns only this time. Tap every white pawn on the a, b or c file.",
+      "answer": {
+        "pieces": [
+          "a2",
+          "b3",
+          "c4"
+        ]
+      },
+      "reason": "a2, b3, c4 against a7 and b7. Three against two on the wing where your rooks already stand is the clearest instruction you will get."
+    },
+    {
+      "id": "4.8-k15",
+      "type": "name_the_pattern",
+      "fen": "4r1k1/pp1nbppp/8/8/2P5/1P6/P4PPP/1RR3K1 w - - 0 1",
+      "prompt": "Material is level. What should decide which wing White works on?",
+      "options": [
+        "The man count: 5 white men to 2 on the a, b and c files, against 4 to 4 on f, g and h.",
+        "Whichever wing the enemy king is nearest, always.",
+        "Nothing should: with level material either wing is as good as the other."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "space-advantage",
+      "reason": "The two counts disagree with each other, and that disagreement is the answer. 5 against 2 one side, 4 against 4 the other."
+    },
+    {
+      "id": "4.8-k16",
+      "type": "which_square",
+      "fen": "r5k1/5ppp/1pb5/2B5/8/8/P4PPP/3R2K1 w - - 0 1",
+      "concept": "attack-defend",
+      "prompt": "Black has 29 legal moves. One white move cuts him to 2. Tap the square the rook goes to.",
+      "answer": {
+        "square": "d8"
+      },
+      "reason": "Rd8+ is White's only check, so Black may only answer it: 2 legal replies instead of 29. The next best white move still leaves him 26."
+    },
+    {
+      "id": "4.8-k17",
+      "type": "which_square",
+      "fen": "r5k1/1p3ppp/2b5/2B5/8/P7/5PPP/3R2K1 w - - 0 1",
+      "concept": "attack-defend",
+      "prompt": "Black has 27 legal moves. One white move cuts him to 2. Tap the square the rook goes to.",
+      "answer": {
+        "square": "d8"
+      },
+      "reason": "Rd8+ is White's only check, so Black may only answer it: 2 legal replies instead of 27. The next best white move still leaves him 24."
+    },
+    {
+      "id": "4.8-k18",
+      "type": "name_the_pattern",
+      "fen": "r5k1/p4ppp/2b5/2B5/8/8/1P3PPP/3R2K1 w - - 0 1",
+      "prompt": "Rd8+ cuts Black from 23 answers to 2. Why is it still a bad move?",
+      "options": [
+        "Because a check is never worth playing while the opponent still has a bishop.",
+        "One of those answers takes the rook on d8, and no white man defends it.",
+        "Because the black king simply walks out of it to h8."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "attack-defend",
+      "reason": "Nothing white covers d8, so the check costs a whole rook. And h8 is not an escape: the king would still be on the checking rook's rank."
+    },
+    {
+      "id": "4.8-k19",
+      "type": "name_the_pattern",
+      "fen": "r5k1/5ppp/p1b5/2B5/8/1P6/5PPP/3R2K1 w - - 0 1",
+      "prompt": "Forcing and good are not the same word. What does counting his replies actually tell you?",
+      "options": [
+        "That the move with the fewest replies is always the best move.",
+        "Nothing useful, because the number of replies has no bearing on a plan.",
+        "Only how much choice he has left: Rd8+ leaves him 2 answers out of 23, and you still have to count what it costs."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "attack-defend",
+      "reason": "A forcing move buys you his attention, not material. Rd8+ is forcing and loses a rook; the count and the cost are two separate sums."
+    },
+    {
+      "id": "4.8-k20",
+      "type": "find_the_move",
+      "fen": "6k1/p4pp1/4pn1p/1b1R4/8/P4P1P/1P4P1/6K1 w - - 0 1",
+      "concept": "attack-defend",
+      "prompt": "Two black men hit your rook and nothing defends it. Answer him with the move that asks a bigger question.",
+      "answer": {
+        "moves": [
+          "Rxb5"
+        ]
+      },
+      "reason": "Rxb5 steps out of the fork and takes a bishop that no black man defends. One move, both jobs, and now he is the one answering."
+    },
+    {
+      "id": "4.8-k21",
+      "type": "find_them_all",
+      "fen": "6k1/p4pp1/4pn1p/1b1R4/8/6PP/PP4P1/6K1 w - - 0 1",
+      "concept": "attack-defend",
+      "prompt": "Work out who is asking the questions. Tap every black man that attacks the white rook on d5.",
+      "answer": {
+        "pieces": [
+          "e6",
+          "f6"
+        ]
+      },
+      "reason": "e6 and f6, and no white man defends d5. Having the move is not the same as having the initiative."
+    },
+    {
+      "id": "4.8-k22",
+      "type": "name_the_pattern",
+      "fen": "6k1/p4pp1/4pn1p/1b1R4/8/P5P1/1P4PP/6K1 w - - 0 1",
+      "prompt": "It is White to move. Who holds the initiative, and what follows from it?",
+      "options": [
+        "Black does: e6 and f6 both hit the rook and nothing defends it, so White must move it — and should take something on the way.",
+        "White does, because it is White's turn to move.",
+        "Nobody: the rook on d5 is defended, so there is nothing to answer."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "attack-defend",
+      "reason": "No white man defends d5. The rook has to move, and the square to move it to is the one with a black bishop on it."
+    },
+    {
+      "id": "4.8-k23",
+      "type": "which_square",
+      "fen": "1r1q1rk1/1p1n1pbp/p2ppnp1/8/2PP4/2N1PN2/PP1QBPP1/1R3RK1 w - - 0 1",
+      "concept": "opponent-threats",
+      "prompt": "Black has no check and no capture anywhere, and he still has a plan. Tap the square his b-pawn is heading for.",
+      "answer": {
+        "square": "b5"
+      },
+      "reason": "b5 attacks the pawn on c4, and the pawn on a6 is already there to back it up. Name the square and his whole idea becomes something you can take away."
+    },
+    {
+      "id": "4.8-k24",
+      "type": "which_square",
+      "fen": "1r1q1rk1/1p1n1pbp/p2ppnp1/8/2PP4/2N1PN2/PP2BPP1/1R1RQ1K1 w - - 0 1",
+      "concept": "opponent-threats",
+      "prompt": "His pawn is coming to b5 and one white pawn covers that square. Tap the square a white pawn goes to so that two of them do.",
+      "answer": {
+        "square": "a4"
+      },
+      "reason": "a4 is the only pawn move in the position that makes it two. It attacks nothing and threatens nothing; it just removes his idea."
+    },
+    {
+      "id": "4.8-k25",
+      "type": "name_the_pattern",
+      "fen": "1r1q1rk1/1p1n1pbp/p2ppnp1/8/2PP4/2N1PN2/PP2BPP1/R1Q2RK1 w - - 0 1",
+      "prompt": "Black has no check and no capture. What is he preparing on the queenside?",
+      "options": [
+        "Nothing: a man with no check and no capture has no plan.",
+        "b5, which the pawn on a6 supports and which hits the pawn on c4.",
+        "Nxe4, winning a pawn."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "opponent-threats",
+      "reason": "b5 is legal now and a6 is already behind it. Nxe4 is not even legal here: e4 is an empty square, because White's pawn stands on e3."
+    },
+    {
+      "id": "4.8-k26",
+      "type": "find_them_all",
+      "fen": "1r1q1rk1/1p1nbp1p/p2ppnp1/8/2PP4/2N1PN2/PP1QBPP1/R4RK1 w - - 0 1",
+      "concept": "opponent-threats",
+      "prompt": "His break is coming to b5. Leaving the b-pawn itself aside, tap every black man that already covers that square.",
+      "answer": {
+        "pieces": [
+          "a6"
+        ]
+      },
+      "reason": "a6. A break with a man behind it is a plan; a break with nothing behind it is a pawn you can just take."
+    },
+    {
+      "id": "4.8-k27",
+      "type": "is_it_safe",
+      "fen": "1r1q1rk1/1p1nbp1p/p2ppnp1/8/2PP4/2N1PN2/PP1QBPP1/1R2R1K1 w - - 0 1",
+      "move": "a4",
+      "concept": "opponent-threats",
+      "prompt": "White answers his plan with the quiet move a4, taking the break square away. Is the pawn safe there?",
+      "reasons": [
+        "Yes. No black man touches a4 at all.",
+        "No. The pawn on a6 takes it.",
+        "No. The knight reaches c5 and hits it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "reason": "Nothing of Black's attacks a4: the pawn on a6 captures forwards on to b5, and c5 is covered by White's own pawn on d4, so the knight cannot go there either."
+    },
+    {
+      "id": "4.8-k28",
+      "type": "is_it_safe",
+      "fen": "1r1q1rk1/1p1nbp1p/p2ppnp1/8/2PP4/2N1PN2/PP2BPP1/1RQ2RK1 w - - 0 1",
+      "move": "a4",
+      "concept": "opponent-threats",
+      "prompt": "White answers his plan with the quiet move a4, taking the break square away. Is the pawn safe there?",
+      "reasons": [
+        "No. The pawn on a6 takes it.",
+        "Yes. No black man touches a4 at all.",
+        "No. The knight reaches c5 and hits it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "reason": "Nothing of Black's attacks a4: the pawn on a6 captures forwards on to b5, and c5 is covered by White's own pawn on d4, so the knight cannot go there either."
+    },
+    {
+      "id": "4.8-k29",
+      "type": "name_the_pattern",
+      "fen": "1r1q1rk1/1p1nbp1p/p2ppnp1/8/2PP4/2N1PN2/PP2BPP1/R1Q1R1K1 w - - 0 1",
+      "prompt": "His checks and captures come back empty. Which question should you ask instead?",
+      "options": [
+        "Whether he has a check next move, asked again more carefully.",
+        "Which of his pieces is worth the most.",
+        "What square do his next few moves need — here b5, with the pawn on a6 behind it and the pawn on c4 in front."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "opponent-threats",
+      "reason": "The scan for checks and captures is about next move and it has already answered. A plan lives three or four moves out, and it always needs a square."
+    },
+    {
+      "id": "4.8-k30",
+      "type": "find_them_all",
+      "fen": "1n2rrk1/pp2bppp/2p1p3/6B1/2P1P2P/8/PP1N1PP1/R3R1K1 w - - 0 1",
+      "concept": "trading",
+      "prompt": "White wants a piece on d6 and no black pawn can ever attack it again. Tap every black man that still covers d6.",
+      "answer": {
+        "pieces": [
+          "e7"
+        ]
+      },
+      "reason": "Only the bishop on e7. Not one of the other 10 black men touches d6, and no black pawn will ever be able to: that would need a pawn on c7 or e7, and both have gone past."
+    },
+    {
+      "id": "4.8-k31",
+      "type": "which_square",
+      "fen": "1n2rrk1/pp2bppp/2p1p3/6B1/2P4P/4P3/PP1N1PP1/R2R2K1 w - - 0 1",
+      "concept": "trading",
+      "prompt": "No black pawn will ever reach d6 again, and one black piece still guards it. Tap the piece you want to swap off.",
+      "answer": {
+        "square": "e7"
+      },
+      "reason": "The bishop on e7 is the only man covering d6, so it is the only swap on the board that changes anything about that square."
+    },
+    {
+      "id": "4.8-k32",
+      "type": "name_the_pattern",
+      "fen": "1n2rrk1/pp2bppp/2p1p3/6B1/2P4P/2N1P3/PP3PP1/1RR3K1 w - - 0 1",
+      "prompt": "Material is dead level and nothing is loose. Which swap turns d6 into something White can use?",
+      "options": [
+        "Bxe7, because that bishop is the only black man covering d6.",
+        "Nd5, planting the knight in the middle of the board.",
+        "Bh6, to strip the pawn cover off his king."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "trading",
+      "reason": "Nd5 is met by a pawn capture and Bh6 by gxh6 for nothing. Bxe7 is answered by a recapture and is a real swap, and it is the only one that touches d6."
+    },
+    {
+      "id": "4.8-k33",
+      "type": "find_the_sequence",
+      "fen": "1n2rrk1/pp2bppp/2p1p3/6B1/2P1P2P/2N5/PP3PP1/1R1R2K1 w - - 0 1",
+      "concept": "trading",
+      "prompt": "Make the swap, let him take back, then collect the square you paid for.",
+      "answer": {
+        "line": [
+          "Bxe7",
+          "Rxe7",
+          "Rd6"
+        ]
+      },
+      "reason": "Bxe7 Rxe7 Rd6. Nothing black covers d6 once that bishop has gone, and no black pawn will ever be able to, so the rook there is permanent."
+    },
+    {
+      "id": "4.8-k34",
+      "type": "is_it_safe",
+      "fen": "1n2rrk1/pp2bppp/2p1p3/6B1/2P4P/4P3/PP1N1PP1/1R2R1K1 w - - 0 1",
+      "move": "Bh6",
+      "concept": "trading",
+      "prompt": "White goes looking for a swap and offers one with Bh6. Is the piece safe there?",
+      "reasons": [
+        "Yes. Black cannot afford to take.",
+        "Yes. It is defended twice over.",
+        "No. gxh6 is legal and it costs White a piece."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "reason": "undefended, g7 takes it. Sound comes first and useful comes second: this one is not even sound."
+    },
+    {
+      "id": "4.8-k35",
+      "type": "is_it_safe",
+      "fen": "1n2rrk1/pp2bppp/2p1p3/6B1/2P4P/2N1P3/PP3PP1/R3R1K1 w - - 0 1",
+      "move": "Nd5",
+      "concept": "trading",
+      "prompt": "White goes looking for a swap and offers one with Nd5. Is the piece safe there?",
+      "reasons": [
+        "No. cxd5 or exd5 is legal and it costs White a piece.",
+        "Yes. Black cannot afford to take.",
+        "Yes. It is defended twice over."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "reason": "cheaper taker (1 for 3). Sound comes first and useful comes second: this one is not even sound."
+    },
+    {
+      "id": "4.8-k36",
+      "type": "name_the_pattern",
+      "fen": "1n2rrk1/pp2bppp/2p1p3/6B1/2P1P2P/8/PP1N1PP1/1RR3K1 w - - 0 1",
+      "prompt": "The swap on e7 costs a bishop and gains no material at all. What does it actually buy?",
+      "options": [
+        "A pawn, once the recapture has been made.",
+        "The square d6, which no black man will cover once that bishop has gone and no black pawn can ever attack.",
+        "Nothing: with material level after it, the swap is a waste of a move."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "trading",
+      "reason": "The bishop on e7 is the only guard of d6. Material stays level through the whole swap; what changes hands is one square that cannot be taken back."
+    }
+  ]
+}

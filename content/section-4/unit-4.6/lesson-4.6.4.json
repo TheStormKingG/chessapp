@@ -1,0 +1,221 @@
+{
+  "id": "4.6.4",
+  "unit": "4.6",
+  "title": "Colour complexes and the good and bad bishop",
+  "xp": 16,
+  "card": {
+    "idea": "A bishop only ever touches one colour, and so does every pawn standing in its way. Count your pawns on your bishop's colour: the more there are, the worse the bishop. Turn that round and it becomes an attacking idea. When one side's pawns all leave a colour and the bishop of that colour is gone, every square of that colour is yours for good.",
+    "diagrams": [
+      "6k1/5pbp/2p1p1p1/1p1p4/3P4/2P1P3/PP3P1P/2B3K1 w - - 0 1",
+      "1r1q2k1/pppb1p1p/4p1p1/8/4P3/3P4/PBPQ1PPP/5RK1 w - - 0 1"
+    ],
+    "habit": "Count your own pawns on your bishop's colour before you call the bishop bad luck."
+  },
+  "explain": [
+    {
+      "fen": "6k1/5pbp/2p1p1p1/1p1p4/3P4/2P1P3/PP3P1P/2B3K1 w - - 0 1",
+      "text": "Count the pawns. Six of White's seven stand on dark squares, the same colour as his bishop, so the bishop on c1 has exactly one move: d2. Not one of Black's seven pawns is on a dark square, so his bishop on g7 has six. Same piece, same board, opposite lives.",
+      "arrows": [
+        [
+          "c1",
+          "d2"
+        ],
+        [
+          "g7",
+          "d4"
+        ],
+        [
+          "g7",
+          "h6"
+        ]
+      ],
+      "highlights": [
+        "c1",
+        "g7"
+      ]
+    },
+    {
+      "fen": "1r1q2k1/pppb1p1p/4p1p1/8/4P3/3P4/PBPQ1PPP/5RK1 w - - 0 1",
+      "text": "In front of Black's king every pawn stands on a light square, and his only bishop is a light-squared one too. So f6, g7 and h6 can never be defended by a pawn, and never by that bishop either. A hole is one square; this is a whole colour.",
+      "arrows": [
+        [
+          "b2",
+          "g7"
+        ]
+      ],
+      "highlights": [
+        "f6",
+        "g7",
+        "h6"
+      ]
+    },
+    {
+      "fen": "1r1q2k1/pppb1p1p/4p1p1/8/4P3/3P4/PBPQ1PPP/5RK1 w - - 0 1",
+      "text": "Of the three, h6 is the one nothing guards: the queen on d8 covers f6 and the king covers g7. Qh6 lands there safely and threatens Qg7 mate, supported by the bishop on b2. Black has to block the long diagonal with f6 or Qf6 and weaken himself further.",
+      "arrows": [
+        [
+          "d2",
+          "h6"
+        ],
+        [
+          "b2",
+          "g7"
+        ]
+      ],
+      "highlights": [
+        "h6",
+        "g7"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.6.4-c1",
+      "type": "find_them_all",
+      "fen": "6k1/5pbp/2p1p1p1/1p1p4/3P4/2P1P3/PP3P1P/2B3K1 w - - 0 1",
+      "prompt": "White's bishop stands on a dark square. Tap every white pawn that is standing on a dark square too.",
+      "answer": {
+        "pieces": [
+          "b2",
+          "c3",
+          "d4",
+          "e3",
+          "f2",
+          "h2"
+        ]
+      },
+      "concept": "colour-complex",
+      "hints": {
+        "text": "Six of the seven. Only one white pawn is on the other colour."
+      },
+      "reason": "b2, c3, d4, e3, f2 and h2. Only a2 stands on a light square. Every one of those six is a square the bishop will never be able to use, and three of them are in its way right now."
+    },
+    {
+      "id": "4.6.4-c2",
+      "type": "which_square",
+      "fen": "6k1/5pbp/2p1p1p1/1p1p4/3P4/2P1P3/PP3P1P/2B3K1 w - - 0 1",
+      "prompt": "White's bishop has exactly one legal move on this board. Tap the square it goes to.",
+      "answer": {
+        "square": "d2"
+      },
+      "concept": "colour-complex",
+      "hints": {
+        "text": "Its own pawns are on b2 and e3. That leaves one diagonal square."
+      },
+      "reason": "d2, and that is the whole list. b2 and e3 are its own pawns, and from d2 the next square on each diagonal is another white pawn. A bishop with one move is not a piece, it is a spectator."
+    },
+    {
+      "id": "4.6.4-c3",
+      "type": "name_the_pattern",
+      "fen": "6k1/5pbp/2p1p1p1/1p1p4/3P4/2P1P3/PP3P1P/2B3K1 w - - 0 1",
+      "prompt": "A bishop and seven pawns each, and the pawn count is level. Who stands better here, and why?",
+      "options": [
+        "Black. Every black pawn is on a light square, so his dark-squared bishop is free while White's is buried behind his own pawns.",
+        "White. His pawns control more central squares, and central control beats piece freedom in a bishop ending.",
+        "Level. Both sides have the same material and the same number of pawn islands, so neither can make progress."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "colour-complex",
+      "hints": {
+        "text": "Count each side's pawns on its own bishop's colour."
+      },
+      "reason": "Black has none of his pawns on his bishop's colour and White has six. A bishop's value is decided almost entirely by that count, and here it decides the position too."
+    },
+    {
+      "id": "4.6.4-c4",
+      "type": "find_them_all",
+      "fen": "1r1q2k1/pppb1p1p/4p1p1/8/4P3/3P4/PBPQ1PPP/5RK1 w - - 0 1",
+      "prompt": "Look at the dark squares on the f, g and h files, on the sixth and seventh ranks. Tap every one that no black pawn will ever be able to attack.",
+      "answer": {
+        "squares": [
+          "f6",
+          "g7",
+          "h6"
+        ]
+      },
+      "concept": "colour-complex",
+      "hints": {
+        "text": "Black's pawns there are on f7, g6 and h7. Work out which squares each of them could ever cover."
+      },
+      "reason": "f6, g7 and h6, which is all three of them. The g-pawn is already past g7 and cannot go back to cover f6 or h6, and no pawn of either colour can ever attack a square on the eighth rank from below."
+    },
+    {
+      "id": "4.6.4-c5",
+      "type": "which_square",
+      "fen": "1r1q2k1/pppb1p1p/4p1p1/8/4P3/3P4/PBPQ1PPP/5RK1 w - - 0 1",
+      "prompt": "Of those three dark squares, one is not defended by any black man at all. Tap it.",
+      "answer": {
+        "square": "h6"
+      },
+      "concept": "colour-complex",
+      "hints": {
+        "text": "The queen on d8 is looking at one of them, and the king is standing next to another."
+      },
+      "reason": "h6. The queen on d8 covers f6 along the diagonal, and the king on g8 covers g7. Nothing of Black's reaches h6, which is why the queen goes there and not to the other two."
+    },
+    {
+      "id": "4.6.4-c6",
+      "type": "is_it_safe",
+      "fen": "1r1q2k1/pppb1p1p/4p1p1/8/4P3/3P4/PBPQ1PPP/5RK1 w - - 0 1",
+      "move": "Qh6",
+      "prompt": "White walks the queen right up beside the black king with Qh6. Is she safe there?",
+      "reasons": [
+        "No. The pawn on g6 takes her.",
+        "Yes. Not one black man attacks h6, and she arrives threatening Qg7 mate.",
+        "No. The bishop on d7 covers h6 along the diagonal."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 1
+      },
+      "concept": "colour-complex",
+      "hints": {
+        "text": "A black pawn on g6 attacks f5 and h5, not h6. Check the bishop's colour too."
+      },
+      "reason": "Nothing black touches h6. The g6 pawn attacks downwards, to f5 and h5, and the bishop on d7 is a light-squared bishop that can never reach a dark square. Qg7 mate is the threat, held there by the bishop on b2."
+    },
+    {
+      "id": "4.6.4-c7",
+      "type": "name_the_pattern",
+      "fen": "1r1q2k1/pppb1p1p/4p1p1/8/4P3/3P4/PBPQ1PPP/5RK1 w - - 0 1",
+      "prompt": "Black has a bishop sitting on d7 doing nothing about the squares round his king. Why can it never help there?",
+      "options": [
+        "Because it is blocked in by the pawns on c7 and e6, and it would need two moves to get out.",
+        "Because a bishop keeps to one colour for the whole game, and this one is on light squares while the trouble is on dark ones.",
+        "Because the queen on d8 is in its way on the only diagonal that leads towards the king."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "colour-complex",
+      "hints": {
+        "text": "What colour is d7? What colour are f6, g7 and h6?"
+      },
+      "reason": "d7 is a light square, so that bishop will stand on a light square in every position it ever reaches. f6, g7 and h6 are dark. This is why losing the bishop of one colour is so much worse than losing any other piece of the same value."
+    },
+    {
+      "id": "4.6.4-c8",
+      "type": "is_it_safe",
+      "fen": "6k1/5pbp/2p1p1p1/1p1p4/3P4/2P1P3/PP3P1P/2B3K1 b - - 0 1",
+      "move": "Bxd4",
+      "prompt": "Black's bishop is the better piece, so Black grabs the pawn with Bxd4. Is the bishop safe on d4?",
+      "reasons": [
+        "No. Two white pawns cover d4, so it is a bishop for a pawn.",
+        "Yes. The pawn on d4 was undefended, so this simply wins it.",
+        "No. The white bishop takes it from c1."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 0
+      },
+      "concept": "colour-complex",
+      "hints": {
+        "text": "List everything white that attacks d4 before you take."
+      },
+      "reason": "cxd4 or exd4, and Black has given a good bishop for one pawn. Having the better minor piece is a reason to keep it on the board, not a licence to spend it."
+    }
+  ],
+  "takeaway": "Your pawns decide your bishop's worth. When one colour is abandoned by the pawns and the bishop of that colour is gone, those squares are gone for the rest of the game."
+}

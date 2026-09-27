@@ -1,0 +1,226 @@
+{
+  "id": "4.6.2",
+  "unit": "4.6",
+  "title": "Weak pawns",
+  "xp": 16,
+  "card": {
+    "idea": "You already know how to spot a pawn no pawn can defend. Attacking one is a different job with three steps. Check you can reach it. Fix it, so it cannot run forward out of trouble. Then count attackers against defenders, and only take when you have one more than they do.",
+    "diagrams": [
+      "r2b2k1/4pppp/3p1n2/p7/8/2B1P3/1PPN1PPP/R5K1 w - - 0 1",
+      "r2b2k1/4ppp1/3p1n1p/p7/8/1PB1P3/2PN1PPP/R5K1 w - - 0 2",
+      "r2b4/4pppk/3p1n1p/p7/2N5/1PB1P3/2P2PPP/R5K1 w - - 2 3"
+    ],
+    "habit": "Reach it, fix it, then out-count it."
+  },
+  "explain": [
+    {
+      "fen": "r2b2k1/4pppp/3p1n2/p7/8/2B1P3/1PPN1PPP/R5K1 w - - 0 1",
+      "text": "Black's pawn on a5 has no b-pawn beside it and never will, so no black pawn can ever defend it. White's rook on a1 and bishop on c3 already attack it; Black's rook on a8 and bishop on d8 already defend it. Two against two. Take now and you lose material, so do not take yet.",
+      "arrows": [
+        [
+          "a1",
+          "a5"
+        ],
+        [
+          "c3",
+          "a5"
+        ],
+        [
+          "a8",
+          "a5"
+        ],
+        [
+          "d8",
+          "a5"
+        ]
+      ],
+      "highlights": [
+        "a5"
+      ]
+    },
+    {
+      "fen": "r2b2k1/4pppp/3p1n2/p7/8/2B1P3/1PPN1PPP/R5K1 w - - 0 1",
+      "text": "First fix it. Nb3 looks natural, but a4 comes with tempo on the knight and the pawn slips forward. b3 first: now a4 is answered by bxa4 and the pawn stays exactly where your pieces can reach it. Fix the target, then bring the attackers.",
+      "arrows": [
+        [
+          "b2",
+          "b3"
+        ],
+        [
+          "a5",
+          "a4"
+        ]
+      ],
+      "highlights": [
+        "b3",
+        "a4",
+        "a5"
+      ]
+    },
+    {
+      "fen": "r2b4/4pppk/3p1n1p/p7/2N5/1PB1P3/2P2PPP/R5K1 w - - 2 3",
+      "text": "Now count again. The knight on c4 makes three attackers against two defenders, and three beats two: Nxa5 Bxa5 Bxa5 leaves White a pawn up, because Rxa5 would give a rook for a bishop. Three against two is the whole arithmetic of attacking a weak pawn.",
+      "arrows": [
+        [
+          "c4",
+          "a5"
+        ],
+        [
+          "a1",
+          "a5"
+        ],
+        [
+          "c3",
+          "a5"
+        ]
+      ],
+      "highlights": [
+        "a5",
+        "c4"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.6.2-c1",
+      "type": "find_them_all",
+      "fen": "r2b2k1/4pppp/3p1n2/p7/8/2B1P3/1PPN1PPP/R5K1 w - - 0 1",
+      "prompt": "The pawn on a5 can never be defended by a black pawn. Tap every white man that already attacks it.",
+      "answer": {
+        "pieces": [
+          "a1",
+          "c3"
+        ]
+      },
+      "concept": "pawn-weakness",
+      "hints": {
+        "text": "One is looking up the file. One is looking along a diagonal through b4."
+      },
+      "reason": "The rook on a1 and the bishop on c3. Nothing else of White's touches a5 yet, which is exactly why the pawn is still standing there."
+    },
+    {
+      "id": "4.6.2-c2",
+      "type": "find_them_all",
+      "fen": "r2b2k1/4pppp/3p1n2/p7/8/2B1P3/1PPN1PPP/R5K1 w - - 0 1",
+      "prompt": "Now the other half of the sum. Tap every black man that defends the pawn on a5.",
+      "answer": {
+        "pieces": [
+          "a8",
+          "d8"
+        ]
+      },
+      "concept": "pawn-weakness",
+      "hints": {
+        "text": "The file is empty between a8 and a5, and the long diagonal from d8 runs straight to it."
+      },
+      "reason": "The rook on a8 and the bishop on d8. Two attackers, two defenders: the count is level, and a level count means the pawn holds."
+    },
+    {
+      "id": "4.6.2-c3",
+      "type": "is_it_safe",
+      "fen": "r2b2k1/4pppp/3p1n2/p7/8/2B1P3/1PPN1PPP/R5K1 w - - 0 1",
+      "move": "Bxa5",
+      "prompt": "White grabs the weak pawn at once with Bxa5. Is the bishop safe there?",
+      "reasons": [
+        "Yes. The rook on a1 is behind it, so anything that takes is taken back.",
+        "No. Black's king runs over and collects it in three moves.",
+        "No. Bxa5 Rxa5 Rxa5 Bxa5 costs White a bishop and a rook for a pawn and a rook."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "pawn-weakness",
+      "hints": {
+        "text": "Two attackers and two defenders. Play every capture out and count both piles."
+      },
+      "reason": "A level count means the square holds. White gives bishop and rook, eight points, for pawn and rook, six. The defender who takes last is the one who profits."
+    },
+    {
+      "id": "4.6.2-c4",
+      "type": "which_square",
+      "fen": "r2b2k1/4pppp/3p1n2/p7/8/2B1P3/1PPN1PPP/R5K1 w - - 0 1",
+      "prompt": "A weak pawn is only weak while it stays put. Tap the square White's b-pawn goes to so that a5 can never advance for free.",
+      "answer": {
+        "square": "b3"
+      },
+      "concept": "pawn-weakness",
+      "hints": {
+        "text": "The pawn has two squares. Only one of them looks at a4."
+      },
+      "reason": "b3. From there the pawn covers a4, so a4 is met by bxa4. b4 does nothing about a4, and it invites axb4, which is Black throwing the weakness away."
+    },
+    {
+      "id": "4.6.2-c5",
+      "type": "which_square",
+      "fen": "r2b2k1/4ppp1/3p1n1p/p7/8/1PB1P3/2PN1PPP/R5K1 w - - 0 2",
+      "prompt": "The pawn is fixed. Now bring up a third attacker: the knight on d2 has exactly one square from which it hits a5. Tap it.",
+      "answer": {
+        "square": "c4"
+      },
+      "concept": "pawn-weakness",
+      "hints": {
+        "text": "b3 is taken by your own pawn now. Of the squares left, only one is a knight's move from a5."
+      },
+      "reason": "c4. The knight can go to b1, c4, e4, f1 or f3, and only c4 touches a5. b3 would have done it too, but that is where the fixing pawn now stands."
+    },
+    {
+      "id": "4.6.2-c6",
+      "type": "find_the_sequence",
+      "fen": "r2b4/4pppk/3p1n1p/p7/2N5/1PB1P3/2P2PPP/R5K1 w - - 2 3",
+      "prompt": "Three attackers against two defenders. Take, let Black take back, take again.",
+      "answer": {
+        "line": [
+          "Nxa5",
+          "Bxa5",
+          "Bxa5"
+        ]
+      },
+      "concept": "pawn-weakness",
+      "hints": {
+        "piece": "c4",
+        "square": "a5"
+      },
+      "reason": "Nxa5 Bxa5 Bxa5 and White is a clean pawn up. Black stops there: Rxa5 would give a rook for a bishop, and the rook on a1 is waiting to take it."
+    },
+    {
+      "id": "4.6.2-c7",
+      "type": "name_the_pattern",
+      "fen": "r2b2k1/4pppp/3p1n2/p7/8/2B1P3/1PPN1PPP/R5K1 w - - 0 1",
+      "prompt": "Two attackers against two defenders on a5. What does the third attacker actually buy?",
+      "options": [
+        "It makes White's last capture on the square the one that is not taken back, so the pawn is simply won.",
+        "It stops Black defending the pawn a third time, because each piece can only defend once.",
+        "It threatens the pawn twice in the same move, so Black cannot parry both threats."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "pawn-weakness",
+      "hints": {
+        "text": "Count the captures, not the pieces. Who makes the last one?"
+      },
+      "reason": "Attackers and defenders take in turn. With three against two White makes the first capture and the last one, so the pawn comes off and nothing of White's is left hanging on the square."
+    },
+    {
+      "id": "4.6.2-c8",
+      "type": "name_the_pattern",
+      "fen": "r2b2k1/4pppp/3p1n2/p7/8/2B1P3/1PPN1PPP/R5K1 w - - 0 1",
+      "prompt": "White has no a-pawn and no d-pawn, so a5 and d6 both stand on half-open files. Why is only one of them a target?",
+      "options": [
+        "Because a5 is further from Black's king, and a pawn is weak in proportion to how far the king is from it.",
+        "Because the pawn on e7 can defend d6 and no black pawn will ever be able to defend a5.",
+        "Because d6 is defended by the knight on f6, and a knight defends a pawn better than another pawn does."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "pawn-weakness",
+      "hints": {
+        "text": "Ask of each pawn: could a black pawn ever come and guard it?"
+      },
+      "reason": "A pawn that a pawn can defend costs the defender nothing. e7 guards d6 for free, so piling up there is wasted work. a5 has no b-pawn and never will, so every defence of it has to be a piece."
+    }
+  ],
+  "takeaway": "Reach it, fix it so it cannot run, then out-count it. A pawn a pawn can defend is not a target however open the file looks."
+}

@@ -1,0 +1,236 @@
+{
+  "id": "4.8.2",
+  "unit": "4.8",
+  "title": "Which side of the board to play on",
+  "xp": 16,
+  "card": {
+    "idea": "A board has three parts and you cannot work on all of them. Unit 4.6 told you what the weaknesses are; this tells you where to stand. Two counts settle it. Count your men on that wing against his. Then look at your pawns, because a pawn chain points where its front pawn looks, and that direction is your side of the board.",
+    "diagrams": [
+      "5rk1/1p2bppp/2p1p3/3pP3/3P1P2/2P2N2/1P4PP/5RK1 w - - 0 1",
+      "5rk1/pp2bppp/5n2/8/2P5/1P6/P4PPP/1RR3K1 w - - 0 1"
+    ],
+    "habit": "Count the men on each wing, then check which way your pawns look."
+  },
+  "explain": [
+    {
+      "fen": "5rk1/1p2bppp/2p1p3/3pP3/3P1P2/2P2N2/1P4PP/5RK1 w - - 0 1",
+      "text": "Queenside it is two men each. Kingside, White has six on the f, g and h files against five. Then the pawns: e5 is the only white pawn attacking two squares on the sixth rank, d6 and f6. The count and the pawns agree, so the kingside is White's side of the board.",
+      "arrows": [
+        [
+          "e5",
+          "d6"
+        ],
+        [
+          "e5",
+          "f6"
+        ]
+      ],
+      "highlights": [
+        "e5",
+        "f4"
+      ]
+    },
+    {
+      "fen": "5rk1/1p2bppp/2p1p3/3pP3/3P1PP1/2P2N2/1P5P/5RK1 b - - 0 1",
+      "text": "g4 first, not f5. Nothing of Black's touches g4, so the pawn simply arrives. Now f5 is a move Black cannot answer with a free capture, because when he takes on f5 the g-pawn takes back and White has a pawn where his rook and knight are already looking. Order is most of what playing on a wing means.",
+      "arrows": [
+        [
+          "f4",
+          "f5"
+        ]
+      ],
+      "highlights": [
+        "g4",
+        "f5"
+      ]
+    },
+    {
+      "fen": "5rk1/pp2bppp/5n2/8/2P5/1P6/P4PPP/1RR3K1 w - - 0 1",
+      "text": "The same two counts, other wing. On the a, b and c files White has five men against two, and three pawns against two. On f, g and h he has four against six. Material is dead level and the position is not: each side has a crowd on one wing.",
+      "highlights": [
+        "a2",
+        "b1",
+        "b3",
+        "c1",
+        "c4"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.8.2-c1",
+      "type": "find_them_all",
+      "fen": "5rk1/1p2bppp/2p1p3/3pP3/3P1P2/2P2N2/1P4PP/5RK1 w - - 0 1",
+      "prompt": "Start with the count. Tap every white man standing on the f, g or h file.",
+      "answer": {
+        "pieces": [
+          "f1",
+          "f3",
+          "f4",
+          "g1",
+          "g2",
+          "h2"
+        ]
+      },
+      "concept": "space-advantage",
+      "hints": {
+        "text": "Pawns and pieces both count, and so does the king."
+      },
+      "reason": "Rook f1, knight f3, pawn f4, king g1, pawns g2 and h2. Six men, and the king is one of them because he is one more defender that side of the board."
+    },
+    {
+      "id": "4.8.2-c2",
+      "type": "find_them_all",
+      "fen": "5rk1/1p2bppp/2p1p3/3pP3/3P1P2/2P2N2/1P4PP/5RK1 w - - 0 1",
+      "prompt": "Now his half of the same sum. Tap every black man standing on the f, g or h file.",
+      "answer": {
+        "pieces": [
+          "f7",
+          "f8",
+          "g7",
+          "g8",
+          "h7"
+        ]
+      },
+      "concept": "space-advantage",
+      "hints": {
+        "text": "The bishop is on e7, which is not one of the three files."
+      },
+      "reason": "Pawn f7, rook f8, pawn g7, king g8, pawn h7. Five against six, so White has one extra man where he wants to work."
+    },
+    {
+      "id": "4.8.2-c3",
+      "type": "which_square",
+      "fen": "5rk1/1p2bppp/2p1p3/3pP3/3P1P2/2P2N2/1P4PP/5RK1 w - - 0 1",
+      "prompt": "A pawn chain points wherever its front pawn looks. Tap the white pawn that attacks two squares on the sixth rank.",
+      "answer": {
+        "square": "e5"
+      },
+      "concept": "space-advantage",
+      "hints": {
+        "text": "Only one white pawn has got as far as the fifth rank."
+      },
+      "reason": "The pawn on e5 attacks d6 and f6. No other white pawn reaches the sixth rank at all, so e5 is the head of the chain and the direction it points is the kingside."
+    },
+    {
+      "id": "4.8.2-c4",
+      "type": "name_the_pattern",
+      "fen": "5rk1/1p2bppp/2p1p3/3pP3/3P1P2/2P2N2/1P4PP/5RK1 w - - 0 1",
+      "prompt": "Both counts are done. Which side of the board is White's, and what says so?",
+      "options": [
+        "The queenside, because White has more pawns there.",
+        "The kingside: six white men on the f, g and h files against five, and the pawn on e5 is the one pointing into Black's camp.",
+        "Neither wing, because the pawn structure is the same on both sides of the board."
+      ],
+      "answer": {
+        "option": 1
+      },
+      "concept": "space-advantage",
+      "hints": {
+        "text": "One of these three can be checked by counting, and the other two are wrong about the board."
+      },
+      "reason": "Queenside it is b2 and c3 against b7 and c6, two each, so nobody has more. And the structures are not the same: White's pawns stand on e5 and f4, Black's on d5 and e6."
+    },
+    {
+      "id": "4.8.2-c5",
+      "type": "is_it_safe",
+      "fen": "5rk1/1p2bppp/2p1p3/3pP3/3P1P2/2P2N2/1P4PP/5RK1 w - - 0 1",
+      "move": "g4",
+      "prompt": "White begins on his own side of the board with g4. Is the pawn safe there?",
+      "reasons": [
+        "Yes. No black man reaches g4 at all, so there is nothing to take it with.",
+        "No. The bishop on e7 takes it.",
+        "Yes, but only because the knight on f3 defends it."
+      ],
+      "answer": {
+        "safe": true,
+        "reason": 0
+      },
+      "concept": "space-advantage",
+      "hints": {
+        "text": "List every black man and ask which of them touches g4."
+      },
+      "reason": "Nothing of Black's attacks g4. The bishop's diagonal from e7 runs f6, g5, h4, which misses g4 by a square, and the knight on f3 does not cover g4 either."
+    },
+    {
+      "id": "4.8.2-c6",
+      "type": "is_it_safe",
+      "fen": "5rk1/1p2bppp/2p1p3/3pP3/3P1P2/2P2N2/1P4PP/5RK1 w - - 0 1",
+      "move": "f5",
+      "prompt": "The same board, and this time White pushes f5 straight away without preparing it. Is the pawn safe there?",
+      "reasons": [
+        "Yes. The knight on f3 covers f5.",
+        "No. The bishop on e7 takes it.",
+        "No. The pawn on e6 takes it and nothing of yours defends f5."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "space-advantage",
+      "hints": {
+        "text": "A pawn on e6 attacks d5 and f5."
+      },
+      "reason": "exf5 is legal and free. The knight on f3 covers e5, g5, d4 and h4 but not f5, and the bishop on e7 does not reach f5 either. Right wing, wrong order."
+    },
+    {
+      "id": "4.8.2-c7",
+      "type": "find_the_sequence",
+      "fen": "5rk1/1p2bppp/2p1p3/3pP3/3P1P2/2P2N2/1P4PP/5RK1 w - - 0 1",
+      "prompt": "Do it in the order that works: the quiet push first, then the one that opens the wing. Black shuffles a rook while you build.",
+      "answer": {
+        "line": [
+          "g4",
+          "Ra8",
+          "f5"
+        ]
+      },
+      "concept": "space-advantage",
+      "hints": {
+        "piece": "g2",
+        "square": "g4"
+      },
+      "reason": "After g4 the f5 push has a friend behind it. Black can take on f5, and gxf5 answers him with a white pawn sitting on the wing you chose."
+    },
+    {
+      "id": "4.8.2-c8",
+      "type": "find_them_all",
+      "fen": "5rk1/pp2bppp/5n2/8/2P5/1P6/P4PPP/1RR3K1 w - - 0 1",
+      "prompt": "New board, same two counts, other wing. Tap every white man standing on the a, b or c file.",
+      "answer": {
+        "pieces": [
+          "a2",
+          "b1",
+          "b3",
+          "c1",
+          "c4"
+        ]
+      },
+      "concept": "space-advantage",
+      "hints": {
+        "text": "Both rooks are already there."
+      },
+      "reason": "Pawn a2, rook b1, pawn b3, rook c1, pawn c4. Five men against Black's two, a7 and b7, which is as clear as this count ever gets."
+    },
+    {
+      "id": "4.8.2-c9",
+      "type": "name_the_pattern",
+      "fen": "5rk1/pp2bppp/5n2/8/2P5/1P6/P4PPP/1RR3K1 w - - 0 1",
+      "prompt": "Which side of the board is White's here, and why?",
+      "options": [
+        "The kingside, because that is where the black king lives.",
+        "Neither wing: material is dead level, so there is nothing to aim at.",
+        "The queenside: five white men on the a, b and c files against two, and three pawns against two."
+      ],
+      "answer": {
+        "option": 2
+      },
+      "concept": "space-advantage",
+      "hints": {
+        "text": "Do the count on both wings before you choose. Then check where his men actually are."
+      },
+      "reason": "On the kingside White has four men against six, so that is his opponent's wing, king or no king. Level material is not the same as a level board; the men are not spread the same way."
+    }
+  ],
+  "takeaway": "Count the men on each wing, then see which way your pawns point. Play where both answers agree, and prepare the push before you make it."
+}

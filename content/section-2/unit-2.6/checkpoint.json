@@ -56,20 +56,20 @@
     {
       "id": "2.6-k05",
       "type": "is_it_safe",
-      "fen": "rnbqkbnr/pppppppp/8/8/3P4/8/PPP1PPPP/RNBQKBNR b KQkq - 0 1",
-      "move": "d5",
-      "prompt": "Black answers 1.d4 with the same pawn. Is it safe on d5?",
+      "fen": "rnbqkb1r/ppp1pppp/5n2/3p4/2PP4/2N5/PP2PPPP/R1BQKBNR b KQkq - 2 3",
+      "move": "e5",
+      "prompt": "Black strikes at the middle with e5. Is the pawn safe on e5?",
       "reasons": [
-        "Yes. Nothing white attacks d5.",
+        "Yes. Nothing white attacks e5.",
         "No. The pawn on d4 takes it.",
-        "No. The queen on d1 takes it."
+        "No. The pawn on c4 takes it."
       ],
       "answer": {
-        "safe": true,
-        "reason": 0
+        "safe": false,
+        "reason": 1
       },
       "concept": "centre",
-      "reason": "Pawns never capture straight ahead, and the queen on d1 is blocked by her own pawn on d4."
+      "reason": "Taking your share of the middle is right, but the square has to be safe or defended. The pawn on d4 covers e5, and after dxe5 nothing black takes back."
     },
     {
       "id": "2.6-k06",
@@ -291,20 +291,20 @@
     {
       "id": "2.6-k23",
       "type": "is_it_safe",
-      "fen": "rnbqkbnr/pppp1ppp/8/4p3/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 2",
-      "move": "Qh5",
-      "prompt": "White brings the queen out to h5 on move two. Is she safe on h5?",
+      "fen": "r1bqkbnr/pppp1ppp/2n5/4p2Q/4P3/8/PPPP1PPP/RNB1KBNR w KQkq - 2 3",
+      "move": "Qxe5+",
+      "prompt": "The early queen grabs the pawn on e5, with check. Is she safe there?",
       "reasons": [
-        "Yes, for the moment. Nothing black attacks h5 \u2014 but she will be chased by pieces worth far less.",
-        "No. The pawn on g7 takes her.",
-        "No. The knight on g8 takes her."
+        "No. The knight on c6 takes her.",
+        "Yes. It is check, so Black has to answer it and cannot take her.",
+        "No. The pawn on d7 takes her."
       ],
       "answer": {
-        "safe": true,
+        "safe": false,
         "reason": 0
       },
       "concept": "early-queen",
-      "reason": "The g7 pawn captures to f6 or h6, and the knight on g8 covers e7, f6 and h6. She is safe, and still misplaced."
+      "reason": "Capturing the checking piece is a legal answer to a check, and Nxe5 is exactly that. The queen came out on move two and a piece worth three took her."
     },
     {
       "id": "2.6-k24",

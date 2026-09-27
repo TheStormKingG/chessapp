@@ -1,0 +1,210 @@
+{
+  "id": "4.3.3",
+  "unit": "4.3",
+  "title": "Interposition and desperado defence",
+  "xp": 17,
+  "card": {
+    "idea": "Two defensive resources that both look like losing moves. Blocking a check is a choice of piece, not a choice of square: put the one in the way that survives being taken. And when a piece cannot be saved, a retreat is the worst move on the board, because the piece is gone in every line and a retreat is the one line where it takes nothing with it.",
+    "diagrams": [
+      "6kb/p4ppp/6r1/8/4Q3/N7/P4PPP/r5K1 w - - 0 1",
+      "6k1/pp3ppp/8/5r2/6qN/B2b4/PP3PPP/Q5K1 w - - 0 1"
+    ],
+    "habit": "Blocking: which piece. Losing a piece: what does it take with it."
+  },
+  "explain": [
+    {
+      "fen": "6kb/p4ppp/6r1/8/4Q3/N7/P4PPP/r5K1 w - - 0 1",
+      "text": "You are in check along the first rank and the king has nowhere to step. Three moves block: Qe1, Qb1 and Nb1. Qe1 is met by Rxe1 mate. Qb1 is met by Rxb1+ Nxb1, a queen for a rook. Nb1 is the one your queen on e4 defends, so Rxb1 Qxb1 and you are fine.",
+      "arrows": [
+        ["a1", "g1"],
+        ["a3", "b1"],
+        ["e4", "b1"]
+      ],
+      "highlights": ["b1", "e1"]
+    },
+    {
+      "fen": "6k1/pp3ppp/8/4R3/8/2Q4r/PP3PPP/1q4K1 w - - 0 1",
+      "text": "Blocking is a choice of piece, not a choice of square. The rook on h3 is attacking your queen on c3, and only the b2 pawn defends her. Re1 blocks and Rxc3 bxc3 costs you a queen for a rook. Qe1 blocks and steps off the rook's rank at the same time.",
+      "arrows": [
+        ["b1", "g1"],
+        ["h3", "c3"],
+        ["c3", "e1"]
+      ],
+      "highlights": ["c3", "e1"]
+    },
+    {
+      "fen": "6k1/pp3ppp/8/5r2/6qN/B2b4/PP3PPP/Q5K1 w - - 0 1",
+      "text": "Now the other half. The queen on g4 attacks your knight on h4 and nothing defends it. Ng6 gives it away to either pawn. Nf3 keeps it on a square his rook and his queen both watch. Nxf5 gives the knight away too, but it takes a rook with it, and Bxf5 or Qxf5 is the recapture.",
+      "arrows": [
+        ["g4", "h4"],
+        ["h4", "f5"]
+      ],
+      "highlights": ["h4", "f5", "g6"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.3.3-c1",
+      "type": "find_them_all",
+      "fen": "6kb/p4ppp/6r1/8/4Q3/N7/P4PPP/r5K1 w - - 0 1",
+      "prompt": "You are in check on the first rank and your king has no square. Tap every square you are able to block on.",
+      "answer": { "squares": ["b1", "e1"] },
+      "concept": "interposition",
+      "hints": {
+        "text": "Only two of your pieces reach the first rank at all. Between them they cover two squares on it."
+      },
+      "reason": "b1 and e1, and that is the whole list. The knight reaches b1, the queen reaches both. There are exactly three legal moves in the position and all three are blocks."
+    },
+    {
+      "id": "4.3.3-c2",
+      "type": "find_the_move",
+      "fen": "6kb/p4ppp/6r1/8/4Q3/N7/P4PPP/r5K1 w - - 0 1",
+      "prompt": "Three legal moves and every one of them blocks the check. Play the one that is still there next move.",
+      "answer": { "moves": ["Nb1"] },
+      "wrong": {
+        "Qb1": "Rxb1+ Nxb1 and you have handed over a queen for a rook.",
+        "Qe1": "Rxe1 is mate. The queen blocks and nothing defends her there."
+      },
+      "concept": "interposition",
+      "hints": {
+        "piece": "a3",
+        "square": "b1"
+      },
+      "reason": "Nb1 is the only block your queen defends, along the diagonal from e4. Rxb1 is answered by Qxb1 and the game goes on."
+    },
+    {
+      "id": "4.3.3-c3",
+      "type": "name_the_pattern",
+      "fen": "6kb/p4ppp/6r1/8/4Q3/N7/P4PPP/r5K1 w - - 0 1",
+      "prompt": "All three of your legal moves block the check. What makes Nb1 the one that works?",
+      "options": [
+        "The knight is defended by the pawn on a2, so taking it costs Black his rook.",
+        "Nb1 attacks the rook on a1 as well, so Black has to move it instead of taking.",
+        "It is the only block your queen on e4 defends. Rxb1 is met by Qxb1; the other two blocks are simply lost."
+      ],
+      "answer": { "option": 2 },
+      "concept": "interposition",
+      "hints": {
+        "text": "Take each block in turn and ask what recaptures on that square."
+      },
+      "reason": "Blocking hands him a capture whether you like it or not, so the question is never which square. It is which of your pieces can afford to stand there."
+    },
+    {
+      "id": "4.3.3-c4",
+      "type": "is_it_safe",
+      "fen": "6kb/p4ppp/6r1/8/4Q3/N7/P4PPP/r5K1 w - - 0 1",
+      "move": "Nb1",
+      "prompt": "You block with the knight. Is the knight safe on b1?",
+      "reasons": [
+        "Yes. Nothing black can reach b1 at all.",
+        "No. The rook on a1 takes it, and your queen takes back, which is exactly why it is the move.",
+        "No. The bishop on h8 takes it down the long diagonal."
+      ],
+      "answer": { "safe": false, "reason": 1 },
+      "concept": "interposition",
+      "hints": {
+        "text": "A blocker always stands on the line the checker is on, so it can always be taken. The question is what happens next."
+      },
+      "reason": "Not safe, and it does not need to be. Rxb1 Qxb1 is a rook for a knight and the check is over. His bishop on h8 is behind his own pawn on g7 and reaches nothing."
+    },
+    {
+      "id": "4.3.3-c5",
+      "type": "find_the_move",
+      "fen": "6k1/pp3ppp/8/4R3/8/2Q4r/PP3PPP/1q4K1 w - - 0 1",
+      "prompt": "In check on the first rank. Two pieces can block, and one of them is already being attacked by something else.",
+      "answer": { "moves": ["Qe1"] },
+      "wrong": {
+        "Re1": "It blocks, and then Rxc3 bxc3 leaves you a queen for a rook down. The rook on h3 was on your queen's rank the whole time."
+      },
+      "concept": "interposition",
+      "hints": {
+        "piece": "c3",
+        "square": "e1"
+      },
+      "reason": "Qe1 blocks and leaves the third rank in one move. Qxe1+ Rxe1 follows, and then the rook on h3 has nothing defending it and your pawn on g2 takes it."
+    },
+    {
+      "id": "4.3.3-c6",
+      "type": "which_square",
+      "fen": "6k1/pp3ppp/8/4R3/8/2Q4r/PP3PPP/1q4K1 w - - 0 1",
+      "prompt": "Calculate Qe1 Qxe1 Rxe1 to the end. Tap the square holding the black piece that drops next.",
+      "answer": { "square": "h3" },
+      "concept": "interposition",
+      "hints": {
+        "text": "Which of his pieces is standing where one of your pawns can reach it?"
+      },
+      "reason": "The rook on h3. Once the queens have gone it is attacked by the pawn on g2 and defended by nothing, which is why the block with the queen was worth a whole tempo."
+    },
+    {
+      "id": "4.3.3-c7",
+      "type": "is_it_safe",
+      "fen": "6k1/pp3ppp/8/5r2/6qN/B2b4/PP3PPP/Q5K1 w - - 0 1",
+      "move": "Ng6",
+      "prompt": "The queen on g4 is attacking your knight, so you try to tuck it away on g6. Is it safe there?",
+      "reasons": [
+        "No. Either pawn takes it, fxg6 or hxg6, and you have nothing covering g6.",
+        "Yes. Your queen on a1 covers g6 along the diagonal.",
+        "No, but only his queen can take it, so it costs him a queen for a knight."
+      ],
+      "answer": { "safe": false, "reason": 0 },
+      "concept": "desperado",
+      "hints": {
+        "text": "Pawns capture on the diagonal. Count which of his pawns have g6 on theirs."
+      },
+      "reason": "f7 and h7 both cover g6, and his queen does as well. Three attackers and no defenders. Your queen on a1 has nothing but the first rank: her own pawn on b2 shuts the diagonal in her face."
+    },
+    {
+      "id": "4.3.3-c8",
+      "type": "find_the_move",
+      "fen": "6k1/pp3ppp/8/5r2/6qN/B2b4/PP3PPP/Q5K1 w - - 0 1",
+      "prompt": "The knight on h4 is attacked, undefended, and every square it can reach is covered. So stop trying to keep it.",
+      "answer": { "moves": ["Nxf5"] },
+      "wrong": {
+        "Ng6": "fxg6 or hxg6 and the knight is gone for nothing at all.",
+        "Nf3": "He does not even have to take it. The knight sits where his rook and his queen both look, and you have spent your move keeping a piece you were never going to keep."
+      },
+      "concept": "desperado",
+      "hints": {
+        "piece": "h4",
+        "square": "f5"
+      },
+      "reason": "Nxf5 and he takes back with the bishop or the queen. Every square the knight can reach is covered, and this is the only one where a rook goes with it."
+    },
+    {
+      "id": "4.3.3-c9",
+      "type": "find_the_move",
+      "fen": "3r2kB/pNq2ppp/8/4n3/8/4Q3/P4PPP/6K1 w - - 0 1",
+      "prompt": "You are worse here whatever you play, and the knight on b7 has no square his queen does not cover. Get something for it.",
+      "answer": { "moves": ["Nxd8"] },
+      "wrong": {
+        "Nc5": "Rd1+ Qe1 Rxe1 is mate, and you never even got paid for the knight.",
+        "Na5": "The same mate: Rd1+ Qe1 Rxe1. Your first rank was the problem, not the knight.",
+        "Nd6": "Qxd6 and the knight went for nothing."
+      },
+      "concept": "desperado",
+      "hints": {
+        "piece": "b7",
+        "square": "d8"
+      },
+      "reason": "Nxd8 Qxd8 and you are a rook better off than in any of the retreats. Being worse is not the same as being lost, and the difference here is one rook."
+    },
+    {
+      "id": "4.3.3-c10",
+      "type": "name_the_pattern",
+      "fen": "3r2kB/pNq2ppp/8/4n3/8/4Q3/P4PPP/6K1 w - - 0 1",
+      "prompt": "You are losing this position however you play it. Why is Nxd8 still the move?",
+      "options": [
+        "The knight goes in every line, so the only thing left to choose is what goes with it. Nxd8 collects a rook; Nc5 and Na5 are mated in two.",
+        "Nxd8 saves the knight, because the rook on d8 was the only piece attacking it.",
+        "Nxd8 forces the queens off the board, and fewer pieces makes a bad position easier to hold."
+      ],
+      "answer": { "option": 0 },
+      "concept": "desperado",
+      "hints": {
+        "text": "List the knight's four squares and ask what covers each one. Then ask what each move takes."
+      },
+      "reason": "His queen on c7 covers b7 and all four squares the knight can reach, so it is lost in every line. Nxd8 is answered by Qxd8, so the queens stay on; and the piece attacking the knight was the queen, never the rook."
+    }
+  ],
+  "takeaway": "Block with the piece that can afford to be taken there. And once a piece cannot be saved, a retreat is the only move that gets nothing for it."
+}

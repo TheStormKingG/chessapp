@@ -1,0 +1,207 @@
+{
+  "id": "4.2.1",
+  "unit": "4.2",
+  "title": "Interference",
+  "xp": 17,
+  "card": {
+    "idea": "Two enemy pieces guard two different squares, and somewhere their lines cross. Put a piece on the crossing square. Taking it is not a refutation: whichever piece takes, it steps onto the very square it was guarding through, and shuts its partner's line behind it. One guard is restored, the other is gone, and you use the one that is gone.",
+    "diagrams": [
+      "7k/r6p/7P/p2Np3/6Q1/bp6/2q3PP/5RK1 w - - 0 1",
+      "7k/r3N2p/7P/p3p3/6Q1/bp6/2q3PP/5RK1 b - - 1 1"
+    ],
+    "habit": "Two guards, two lines. Find where the lines cross."
+  },
+  "explain": [
+    {
+      "fen": "7k/r6p/7P/p2Np3/6Q1/bp6/2q3PP/5RK1 w - - 0 1",
+      "text": "You have two mates and Black has one answer to each. Rf8 would be mate, but the bishop on a3 reaches f8 and takes. Qg7 would be mate, held by the pawn on h6, but the rook on a7 runs down the seventh and takes. Two guards, working on two different squares.",
+      "arrows": [
+        [
+          "a3",
+          "f8"
+        ],
+        [
+          "a7",
+          "g7"
+        ],
+        [
+          "f1",
+          "f8"
+        ],
+        [
+          "g4",
+          "g7"
+        ]
+      ],
+      "highlights": [
+        "f8",
+        "g7"
+      ]
+    },
+    {
+      "fen": "7k/r3N2p/7P/p3p3/6Q1/bp6/2q3PP/5RK1 b - - 1 1",
+      "text": "Ne7. The bishop's road to f8 runs b4, c5, d6, e7. The rook's road to g7 runs b7, c7, d7, e7, f7. Those two lists share exactly one square, and the knight is standing on it. Both guards are cut at once, and the king has no square to run to.",
+      "arrows": [
+        [
+          "a3",
+          "e7"
+        ],
+        [
+          "a7",
+          "e7"
+        ]
+      ],
+      "highlights": [
+        "e7"
+      ]
+    },
+    {
+      "fen": "7k/4r2p/7P/p3p3/6Q1/bp6/2q3PP/5RK1 w - - 0 2",
+      "text": "The rook took, so the rook is the one that survived. But it is standing on e7 now, square by square in the bishop's way, and the bishop is what was guarding f8. Rf8 is mate. Had the bishop taken instead, it would have blocked the seventh rank and Qg7 would be mate.",
+      "arrows": [
+        [
+          "f1",
+          "f8"
+        ]
+      ],
+      "highlights": [
+        "e7",
+        "f8"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.2.1-c1",
+      "type": "which_square",
+      "fen": "7k/r6p/7P/p2Np3/6Q1/bp6/2q3PP/5RK1 w - - 0 1",
+      "prompt": "The rook on a7 guards g7 along the seventh. The bishop on a3 guards f8 along its diagonal. Tap the one square both of those roads run through.",
+      "answer": {
+        "square": "e7"
+      },
+      "concept": "interference",
+      "hints": {
+        "text": "List the squares between a7 and g7. List the squares between a3 and f8. Only one name is on both lists."
+      },
+      "reason": "The rook travels b7, c7, d7, e7, f7. The bishop travels b4, c5, d6, e7. e7 is the only square they share, which is why one piece there cuts both."
+    },
+    {
+      "id": "4.2.1-c2",
+      "type": "is_it_safe",
+      "fen": "7k/r6p/7P/p2Np3/6Q1/bp6/2q3PP/5RK1 w - - 0 1",
+      "move": "Qg7+",
+      "prompt": "The pawn on h6 holds a white queen on g7, so the black king may not take her. Play her straight there. Is she safe?",
+      "reasons": [
+        "Yes. The pawn on h6 guards her, so nothing can take her.",
+        "No. The pawn on h7 takes her.",
+        "No. The rook on a7 comes down the seventh rank and takes her."
+      ],
+      "answer": {
+        "safe": false,
+        "reason": 2
+      },
+      "concept": "interference",
+      "hints": {
+        "text": "The pawn on h6 keeps the king off g7. Ask what else on the board looks at g7."
+      },
+      "reason": "Rxg7 is Black's only legal move after Qg7, and it wins the queen for a rook. The pawn on h6 stops the king taking and that is the whole of what it does."
+    },
+    {
+      "id": "4.2.1-c3",
+      "type": "find_them_all",
+      "fen": "7k/r6p/7P/p2Np3/6Q1/bp6/2q3PP/5RK1 w - - 0 1",
+      "prompt": "Tap every black piece that would be able to capture a white piece standing on e7.",
+      "answer": {
+        "pieces": [
+          "a7",
+          "a3"
+        ]
+      },
+      "concept": "interference",
+      "hints": {
+        "text": "One of them travels along a rank. One of them travels along a diagonal."
+      },
+      "reason": "The rook on a7 and the bishop on a3 both reach e7, and nothing else of Black's does. That is what makes e7 the crossing square rather than just a square in the way."
+    },
+    {
+      "id": "4.2.1-c4",
+      "type": "find_the_move",
+      "fen": "7k/r6p/7P/p2Np3/6Q1/bp6/2q3PP/5RK1 w - - 0 1",
+      "prompt": "Two mates, two guards, one square where both guards are looking. Put the knight there.",
+      "answer": {
+        "moves": [
+          "Ne7"
+        ]
+      },
+      "wrong": {
+        "Rf8+": "Bxf8, and that is Black's only legal move. The bishop was never cut off, so you have handed over a rook.",
+        "Qg7+": "Rxg7, and that is Black's only legal move. The seventh rank was still open, so the queen has gone for a rook."
+      },
+      "concept": "interference",
+      "hints": {
+        "piece": "d5",
+        "square": "e7"
+      },
+      "reason": "Ne7 sits on both roads at once. Rxe7 blocks the bishop and Rf8 is mate; Bxe7 blocks the seventh rank and Qg7 is mate. The knight also covers g8, so the king has nowhere to go."
+    },
+    {
+      "id": "4.2.1-c5",
+      "type": "find_the_sequence",
+      "fen": "7k/r6p/7P/p2Np3/6Q1/bp6/2q3PP/5RK1 w - - 0 1",
+      "prompt": "Play it out. Plant the knight on the crossing square, let the rook take it, then mate on the square the bishop can no longer reach.",
+      "answer": {
+        "line": [
+          "Ne7",
+          "Rxe7",
+          "Rf8#"
+        ]
+      },
+      "concept": "interference",
+      "hints": {
+        "piece": "d5",
+        "square": "f8"
+      },
+      "reason": "Ne7 Rxe7 Rf8 is mate. The rook saved itself and paid for it: sitting on e7 it stands between the bishop on a3 and the square the bishop was guarding."
+    },
+    {
+      "id": "4.2.1-c6",
+      "type": "name_the_pattern",
+      "fen": "7k/r3N2p/7P/p3p3/6Q1/bp6/2q3PP/5RK1 b - - 1 1",
+      "prompt": "The knight has just landed on e7, where Black has two different pieces able to take it. Why is taking it no help?",
+      "options": [
+        "Whichever piece takes, it ends up standing on e7 and blocking the other piece's line, so one of the two mates always goes through.",
+        "The knight attacks g8 and h7 together, so the black king already has no square and the captures do not matter.",
+        "The queen on g4 is defending e7, so a capture simply loses a piece for nothing."
+      ],
+      "answer": {
+        "option": 0
+      },
+      "concept": "interference",
+      "hints": {
+        "text": "Play Rxe7 in your head and look at the bishop. Then play Bxe7 and look at the rook."
+      },
+      "reason": "A knight on e7 attacks g8 but not h7, and the queen on g4 does not cover e7 at all. The point is geometric: e7 is the one square on both defensive roads."
+    },
+    {
+      "id": "4.2.1-c7",
+      "type": "find_the_move",
+      "fen": "7k/r6p/7P/p2Np3/8/bp1q4/6QP/5RK1 w - - 0 1",
+      "prompt": "Same two guards, same two mating squares, and the black queen now sits on d3. Find the square where the two roads cross.",
+      "answer": {
+        "moves": [
+          "Ne7"
+        ]
+      },
+      "wrong": {
+        "Qg7+": "Rxg7+ is Black's only legal move, and it arrives with check. The seventh rank was never shut, so the queen has gone for a rook."
+      },
+      "concept": "interference",
+      "hints": {
+        "piece": "d5",
+        "square": "e7"
+      },
+      "reason": "Ne7 again. Rxe7 shuts the bishop's diagonal and Rf8 is mate; Bxe7 shuts the seventh rank and Qg7 is mate. Where Black's queen stands changes nothing about the geometry."
+    }
+  ],
+  "takeaway": "A guard only guards through the squares its line passes over. Stand on the square where two guards' lines cross, and every capture repairs one line by closing the other."
+}

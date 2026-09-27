@@ -28,10 +28,50 @@ import { hasCheckpoint, listLessons, loadLesson } from '@/lesson/loader';
 
 const units = SECTIONS.flatMap((s) => s.units);
 
+/*
+ * Guidebooks, by the unit that owns them.
+ *
+ * `curriculum.ts` states the rule in three places -- a unit stays
+ * `built: false` "until its lessons, checkpoint and guidebook are authored" --
+ * and this file originally checked only the first two. That gap showed up the
+ * moment twelve units were being authored in parallel: a unit with every lesson
+ * and a checkpoint on disk but no guidebook yet counted as finished, so the
+ * test demanded a flip for a unit whose author was still writing.
+ *
+ * Read through the same `import.meta.glob` the app uses for content, so this is
+ * the bundler's view of the tree rather than a second directory walk that could
+ * agree with the curriculum while disagreeing with the build.
+ */
+const guidebooks = new Set(
+  Object.keys(import.meta.glob('/content/section-*/unit-*/guidebook.md')).map(
+    (p) => /unit-([\d.]+)\//.exec(p)?.[1] ?? '',
+  ),
+);
+
 test('the corpus is non-empty, so neither direction below passes by matching nothing', () => {
   expect(units.length).toBe(38);
   expect(units.filter((u) => u.built).length).toBeGreaterThan(0);
-  expect(units.filter((u) => !u.built).length).toBeGreaterThan(0);
+  /*
+   * There is no longer an UNBUILT unit to assert, because 4.11 and 4.12 were the
+   * last two and the path is complete. The old control here was
+   * `!u.built > 0`, and it was a true statement about an unfinished path rather
+   * than about this file's checks -- so completing the path made it fail while
+   * both directions below were working exactly as designed.
+   *
+   * What the control was actually for is that neither sweep passes by reading
+   * nothing, so that is what it asserts now, and it asserts it about the
+   * instruments rather than about the state of the content: the bundler glob
+   * must have found guidebooks, and `listLessons` must return files for the
+   * first unit. Both go empty if the glob path or the loader breaks, which is
+   * the failure the original line was standing in the way of.
+   *
+   * The "forgotten flip" direction below is now vacuous, and that is the
+   * correct reading rather than a hole: there is nothing left to forget. It
+   * stops being vacuous the moment a thirty-ninth unit is declared.
+   */
+  expect(units.filter((u) => !u.built).length).toBe(0);
+  expect(guidebooks.size).toBeGreaterThan(0);
+  expect(listLessons(units[0]?.id ?? '').length).toBeGreaterThan(0);
 });
 
 test('every unit marked built has a lesson file for each declared lesson', () => {
@@ -45,6 +85,15 @@ test('every unit marked built has a lesson file for each declared lesson', () =>
   expect(missing).toEqual([]);
 });
 
+test('every unit marked built has a guidebook', () => {
+  // The third of the three things `curriculum.ts` says a built unit owes. It
+  // is not loaded by the app, which is exactly why nothing else would notice
+  // it missing.
+  const missing = units.filter((u) => u.built && !guidebooks.has(u.id)).map((u) => u.id);
+  expect(missing).toEqual([]);
+  expect(guidebooks.size).toBeGreaterThan(0); // the glob resolved at all
+});
+
 test('every unit marked built has a checkpoint', () => {
   // A unit with lessons and no bank is passable but not completable -- the
   // checkpoint is what closes it (PRD 6.4), so this is not a lesser case of
@@ -53,22 +102,43 @@ test('every unit marked built has a checkpoint', () => {
   expect(missing).toEqual([]);
 });
 
-test('a built lesson actually parses, not merely exists', async () => {
-  // `listLessons` reads the glob's KEYS, which are paths. A file that is
-  // present and malformed satisfies every check above and fails in front of a
-  // learner. One real load per built unit is enough to catch a corpus-wide
-  // fault (a bad schema migration, a truncated write) without loading 164
-  // files, and the challenge count is asserted because an empty `challenges`
-  // array parses perfectly well.
-  for (const u of units) {
-    if (!u.built) continue;
-    const first = u.lessons[0];
-    expect(first, `unit ${u.id} declares no lessons`).toBeDefined();
-    const lesson = await loadLesson(first!.id);
-    expect(lesson.id, `unit ${u.id}`).toBe(first!.id);
-    expect(lesson.challenges.length, `lesson ${first!.id} has no challenges`).toBeGreaterThan(0);
-  }
-});
+test(
+  'a built lesson actually parses, not merely exists',
+  async () => {
+    // `listLessons` reads the glob's KEYS, which are paths. A file that is
+    // present and malformed satisfies every check above and fails in front of a
+    // learner. One real load per built unit is enough to catch a corpus-wide
+    // fault (a bad schema migration, a truncated write) without loading 164
+    // files, and the challenge count is asserted because an empty `challenges`
+    // array parses perfectly well.
+    for (const u of units) {
+      if (!u.built) continue;
+      const first = u.lessons[0];
+      expect(first, `unit ${u.id} declares no lessons`).toBeDefined();
+      const lesson = await loadLesson(first!.id);
+      expect(lesson.id, `unit ${u.id}`).toBe(first!.id);
+      expect(lesson.challenges.length, `lesson ${first!.id} has no challenges`).toBeGreaterThan(0);
+    }
+  },
+  /*
+   * A raised timeout, not a flake tolerated.
+   *
+   * This test performs one REAL dynamic import per built unit. That was six
+   * when it was written and is thirty-five now, and it grows by one every time
+   * a unit ships. Against vitest's 5s default it failed three times in one
+   * afternoon while agents were saturating the machine, and passed every time
+   * it was re-run alone -- which is the signature of a budget, not a defect.
+   *
+   * The work is real and worth doing, so the budget moves rather than the
+   * scope. Re-scoping to "load one lesson" would make it fast and would stop
+   * catching the corpus-wide fault it exists for.
+   *
+   * If this starts failing at 30s on an idle machine, that is a genuine
+   * finding: it means module resolution has become slow enough for a learner
+   * to notice, since the app loads these the same way.
+   */
+  30_000,
+);
 
 test('no finished unit is left switched off', () => {
   /*
@@ -81,14 +151,38 @@ test('no finished unit is left switched off', () => {
    * red for the whole of every authoring pass -- which is how a test gets
    * disabled. It goes red only once the unit is actually finished, which is the
    * moment the flag is owed.
+   *
+   * ...EXCEPT when an earlier unit is not finished. `progress.test.ts` requires
+   * the built set to be a contiguous PREFIX of the path, so a unit whose
+   * predecessor is still being authored cannot be turned on without opening a
+   * gap -- the learner would walk into "content coming" and find more content
+   * behind it. Twelve units authored in parallel finish out of order routinely,
+   * so without this the two rules contradict each other and one of them has to
+   * be ignored.
+   *
+   * So the claim is "nothing that COULD be turned on is left off", which is
+   * what the rule always meant. A finished unit behind an unfinished one is not
+   * forgotten, it is waiting, and it becomes this test's business the moment
+   * its predecessor lands.
    */
+  const ids = units.map((u) => u.id);
+  const firstUnbuiltIdx = units.findIndex((u) => !u.built);
+  const blockedFrom = (id: string) => {
+    if (firstUnbuiltIdx === -1) return false;
+    const idx = ids.indexOf(id);
+    // Everything after the first unbuilt unit is blocked by it, unless that
+    // unit is itself the one we are asking about.
+    return idx > firstUnbuiltIdx;
+  };
   const finishedButOff = units
     .filter((u) => !u.built)
     .filter((u) => hasCheckpoint(u.id))
+    .filter((u) => guidebooks.has(u.id))
     .filter((u) => {
       const onDisk = new Set(listLessons(u.id));
       return u.lessons.length > 0 && u.lessons.every((l) => onDisk.has(l.id));
     })
+    .filter((u) => !blockedFrom(u.id))
     .map((u) => u.id);
   expect(finishedButOff, 'authored and still marked coming -- flip built to true').toEqual([]);
 });

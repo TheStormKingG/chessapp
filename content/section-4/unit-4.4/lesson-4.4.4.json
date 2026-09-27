@@ -1,0 +1,178 @@
+{
+  "id": "4.4.4",
+  "unit": "4.4",
+  "title": "Triangle and kill-box mates",
+  "xp": 15,
+  "card": {
+    "idea": "Two mates for a queen and a rook with no pawns and no help. In both of them the queen does the covering and the rook does one job only: it guards her from a distance, so the king may not take her. Learn which square the rook is guarding and both mates fall out.",
+    "diagrams": [
+      "8/8/8/8/7k/8/1K6/3Q2R1 w - - 0 1",
+      "r7/k7/3R4/8/8/8/8/1Q4K1 w - - 0 1",
+      "q2r4/8/7k/7p/8/8/1KQ5/6R1 w - - 0 1"
+    ],
+    "habit": "Put the rook where it guards the queen, not where it gives check."
+  },
+  "explain": [
+    {
+      "fen": "8/8/8/8/7k/8/1K6/3Q2R1 w - - 0 1",
+      "text": "The triangle mate. The queen comes to g4, beside the king along the rank, and covers g3, g5, h3 and h5 on her own. The rook on g1 is three squares below her on the same file and guards her there, so Kxg4 is illegal. King, queen and rook, three points of a triangle.",
+      "arrows": [["d1", "g4"], ["g1", "g4"]],
+      "highlights": ["g4", "g1"]
+    },
+    {
+      "fen": "r7/k7/3R4/8/8/8/8/1Q4K1 w - - 0 1",
+      "text": "The kill box. The queen comes to b6, this time on the diagonal beside the king, and the rook stands three files away on d6 guarding her along the sixth rank. She covers a6, b7 and b8; a8 is Black's own rook. Nine squares, and the king cannot leave any of them.",
+      "arrows": [["b1", "b6"], ["d6", "b6"]],
+      "highlights": ["b6", "d6"]
+    },
+    {
+      "fen": "q2r4/8/7k/7p/8/8/1KQ5/6R1 w - - 0 1",
+      "text": "The same triangle with the king on the edge and one of his own pawns helping. Qg6 is mate: the rook on g1 guards g6 up the file, the queen covers g5, g7 and h7, and h5 is Black's own pawn. Black's queen on a8 and rook on d8 are a move too slow.",
+      "arrows": [["c2", "g6"], ["g1", "g6"]],
+      "highlights": ["g6", "h5"]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.4.4-c1",
+      "type": "name_the_pattern",
+      "fen": "8/8/8/8/7k/8/1K6/3Q2R1 w - - 0 1",
+      "prompt": "Qg4 is mate against a bare king on h4. Which piece is covering g3, g5, h3 and h5?",
+      "options": [
+        "The queen on g4 herself. She covers all four, and the rook only guards her.",
+        "The rook on g1. It covers the whole g-file and both h-squares as well.",
+        "The white king on b2, watching the fourth rank from a distance."
+      ],
+      "answer": { "option": 0 },
+      "concept": "triangle-mate",
+      "hints": {
+        "text": "A rook on g1 moves up a file and along a rank. Neither of those reaches h3."
+      },
+      "reason": "The queen on g4 is beside the king and covers g3, g5, h3 and h5 by herself. The rook only ever reaches g3 of those four; its real job is to guard g4 from three squares below, so Kxg4 is illegal."
+    },
+    {
+      "id": "4.4.4-c2",
+      "type": "find_the_move",
+      "fen": "q2rr3/8/8/8/7k/8/1K6/3Q2R1 w - - 0 1",
+      "prompt": "Black has a queen and two rooks and you have one move. The rook on g1 is already pointing at the right file.",
+      "answer": { "moves": ["Qg4#"] },
+      "wrong": {
+        "Qh5+": "Kxh5 is the only reply and it is legal: nothing of yours guards h5. The rook is looking up the g-file, so the queen has to land on it."
+      },
+      "concept": "triangle-mate",
+      "hints": {
+        "piece": "d1",
+        "square": "g4"
+      },
+      "reason": "Qg4 is mate. The rook on g1 guards her, so Kxg4 is illegal, and she covers g3, g5, h3 and h5 herself. The queen on a8 and the rooks on d8 and e8 never get a turn."
+    },
+    {
+      "id": "4.4.4-c3",
+      "type": "which_square",
+      "fen": "q2r4/8/7k/7p/8/8/1KQ5/6R1 w - - 0 1",
+      "prompt": "Queen on c2, rook on g1, black king on h6 with his own pawn on h5. Tap the square where the queen mates.",
+      "answer": { "square": "g6" },
+      "concept": "triangle-mate",
+      "hints": {
+        "text": "Land beside the king on the square your rook is already guarding."
+      },
+      "reason": "g6. She arrives beside the king, the rook on g1 guards her up the file so Kxg6 is illegal, and she covers g5, g7 and h7 herself. h5 is Black's own pawn, which is why there is nothing left."
+    },
+    {
+      "id": "4.4.4-c4",
+      "type": "find_the_move",
+      "fen": "6K1/8/8/3rr2q/k7/8/8/1R2Q3 w - - 0 1",
+      "prompt": "The same triangle turned on its side, and Black has a queen and two rooks. One move.",
+      "answer": { "moves": ["Qb4#"] },
+      "wrong": {
+        "Qe4+": "Rxe4 takes her, and Rd4 blocks, because nothing of yours guards e4. Land on the square your own rook is looking at."
+      },
+      "concept": "triangle-mate",
+      "hints": {
+        "piece": "e1",
+        "square": "b4"
+      },
+      "reason": "Qb4 is mate. The rook on b1 guards her up the b-file, so Kxb4 is illegal, and she covers a3, a5, b3 and b5 herself. Nothing black reaches b4 in time."
+    },
+    {
+      "id": "4.4.4-c5",
+      "type": "find_them_all",
+      "fen": "r7/k7/3R4/8/8/8/8/1Q4K1 w - - 0 1",
+      "prompt": "Qb6 is mate here. Tap the two white pieces that build the box.",
+      "answer": { "pieces": ["b1", "d6"] },
+      "concept": "kill-box-mate",
+      "hints": {
+        "text": "One of them lands beside the king. The other one never moves at all."
+      },
+      "reason": "The queen on b1, who lands on b6 next to the king, and the rook on d6, three files away, which guards b6 along the sixth rank. The queen covers a6, b7 and b8, and a8 is Black's own rook."
+    },
+    {
+      "id": "4.4.4-c6",
+      "type": "is_it_safe",
+      "fen": "r7/k7/3R4/8/8/8/8/1Q4K1 w - - 0 1",
+      "move": "Qb7+",
+      "prompt": "The obvious square looks like b7, straight up the file and right beside the king. Is the queen safe on b7?",
+      "reasons": [
+        "No. Kxb7 is legal and it is Black's only move, because nothing of White's guards b7.",
+        "No. The rook on a8 slides across and takes her on b7.",
+        "Yes. The rook on d6 guards b7 as well as b6."
+      ],
+      "answer": { "safe": false, "reason": 0 },
+      "concept": "kill-box-mate",
+      "hints": {
+        "text": "The rook on d6 covers its own rank. Which of b6 and b7 is on it?"
+      },
+      "reason": "Kxb7 wins the queen and it is the only legal reply. The rook on d6 guards b6, which is on the sixth rank with it; b7 is one rank higher and nothing reaches it. A rook on a8 moves along the a-file and the eighth rank, so it never touches b7 either."
+    },
+    {
+      "id": "4.4.4-c7",
+      "type": "find_the_move",
+      "fen": "r7/k7/3R4/8/4q3/8/8/1Q4K1 w - - 0 1",
+      "prompt": "Black has a queen on e4 and his own rook jammed in on a8. One move, and it has to be the right square.",
+      "answer": { "moves": ["Qb6#"] },
+      "wrong": {
+        "Qb7+": "Kxb7 takes her, and so does Qxb7 from e4. The rook on d6 guards b6, not b7, and that one rank is the whole difference."
+      },
+      "concept": "kill-box-mate",
+      "hints": {
+        "piece": "b1",
+        "square": "b6"
+      },
+      "reason": "Qb6 is mate. The rook on d6, three files from the king, guards her so Kxb6 is illegal; she covers a6, b7 and b8 herself; and a8 is Black's own rook. That is the kill box."
+    },
+    {
+      "id": "4.4.4-c8",
+      "type": "find_the_move",
+      "fen": "7r/7k/4R3/1q6/8/8/8/K5Q1 w - - 0 1",
+      "prompt": "The same box on the other wing. Black's rook is on h8 and his queen on b5, so you get one move.",
+      "answer": { "moves": ["Qg6#"] },
+      "wrong": {
+        "Qg7+": "Kxg7 takes her and it is the only reply. The rook on e6 guards g6 along the sixth rank, and g7 is one rank above it."
+      },
+      "concept": "kill-box-mate",
+      "hints": {
+        "piece": "g1",
+        "square": "g6"
+      },
+      "reason": "Qg6 is mate. The rook on e6 guards g6 through f6, so Kxg6 is illegal; the queen covers g7, g8 and h6; and h8 is Black's own rook. Three files between rook and king, queen on the diagonal beside him."
+    },
+    {
+      "id": "4.4.4-c9",
+      "type": "name_the_pattern",
+      "fen": "1Q4K1/8/8/4q3/8/3R4/k7/r7 w - - 0 1",
+      "prompt": "Qb3 is mate here. What is the rook on d3 actually doing?",
+      "options": [
+        "Cutting the black king off along the second rank so that he cannot go sideways.",
+        "Guarding b3 from three squares away, so the king may not take the queen.",
+        "Nothing at all. The queen mates on her own and the rook is a spectator."
+      ],
+      "answer": { "option": 1 },
+      "concept": "kill-box-mate",
+      "hints": {
+        "text": "Slide the rook along its own rank and see which square beside the king it reaches."
+      },
+      "reason": "The rook on d3 guards b3 along the third rank, through c3. Take the rook off the board and Kxb3 is legal and there is no mate at all. The queen covers a3, b1 and b2 herself, and a1 is Black's own rook."
+    }
+  ],
+  "takeaway": "Queen beside the king along a rank or file is the triangle; queen beside him on a diagonal with the rook three squares off is the kill box. In both, the rook guards her and she does the rest."
+}

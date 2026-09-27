@@ -103,8 +103,15 @@ export function ThemedPractice({
         No timer, and nothing here moves your rating. Pick what you want to work on.
       </p>
 
+      {/* Deliberately undecorated. This wore the same accent stripe as the
+          lesson's habit and the puzzle's explanation, and it does not belong
+          with them: an empty result is not a remark about the content, it is
+          the content. Boxing it in an accent colour makes a perfectly normal
+          answer — you picked a band with no puzzles in it — read as a fault the
+          learner caused. Dim prose in the flow says the same thing without the
+          alarm. */}
       {started && selection.length === 0 && (
-        <p className="t-body mt-4 border-l-2 border-accent bg-surface-raised py-2 pl-3">
+        <p className="t-body mt-4 text-content-dim">
           No puzzles for that combination yet. Try another band, or add a theme.
         </p>
       )}

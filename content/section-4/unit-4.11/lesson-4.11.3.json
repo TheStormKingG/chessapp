@@ -1,0 +1,205 @@
+{
+  "id": "4.11.3",
+  "unit": "4.11",
+  "title": "The King's Indian Attack plan",
+  "xp": 16,
+  "card": {
+    "idea": "White plays the same eight moves whatever Black does: d3, Nd2, Nf3, g3, Bg2, castle, Re1, and then e5. The pawn on e5 is a wedge, and the rest of the game is one knight walking f1-h2-g4 to reach f6 and h6 behind it while Black plays on the other wing.",
+    "diagrams": [
+      "r1bq1rk1/p3bppp/2n1pn2/1pppP3/8/3P1NP1/PPPN1PBP/R1BQR1K1 b - - 0 9",
+      "r2qr1k1/4b2p/bnn1pPpB/2pp4/pp3QNP/3P1NP1/PPP2PB1/R3R1K1 b - - 0 18"
+    ],
+    "habit": "Push e5, then walk the knight round to g4. Do not hurry, and do not look at the queenside."
+  },
+  "explain": [
+    {
+      "fen": "r1bq1rk1/p3bppp/2n1pn2/1pppP3/8/3P1NP1/PPPN1PBP/R1BQR1K1 b - - 0 9",
+      "text": "The pawn arrives on e5 and the position splits in two. Black has more space on the queenside and will make progress there. White has a pawn wedged next to the black king, and the squares f6 and h6 in front of that king are now permanently short of defenders because no black pawn can cover them.",
+      "highlights": [
+        "e5",
+        "f6",
+        "h6"
+      ]
+    },
+    {
+      "fen": "r2q1rk1/3nbppp/b1n1p3/2ppP3/pp3BNP/3P1NP1/PPP2PB1/R2QR1K1 b - - 3 14",
+      "text": "Five quiet moves later the knight has gone d2-f1-h2-g4 and White has spent nothing. From g4 it looks at f6 and h6, the two squares the e5 pawn created. Black has three pawns rolling on the queenside and no piece anywhere near his own king.",
+      "highlights": [
+        "g4",
+        "f6",
+        "h6"
+      ]
+    },
+    {
+      "fen": "r2qr1k1/4b2p/bnn1pPpB/2pp4/pp3QNP/3P1NP1/PPP2PB1/R3R1K1 b - - 0 18",
+      "text": "Black played f5 to shut the position and the wedge pawn took it in passing. The pawn on f6 now attacks the bishop on e7 and the square g7, with a bishop on h6 and a queen on f4 already looking at the same corner. Eighteen moves, and White has not touched the queenside once.",
+      "highlights": [
+        "f6",
+        "h6",
+        "f4"
+      ]
+    }
+  ],
+  "challenges": [
+    {
+      "id": "4.11.3-c1",
+      "type": "guess_the_move",
+      "fen": "r1bq1rk1/p3bppp/2n1pn2/1ppp4/4P3/3P1NP1/PPPN1PBP/R1BQR1K1 w - - 0 9",
+      "prompt": "Your set-up is finished and Black is starting on the queenside. Push the pawn that fixes the position next to his king.",
+      "answer": {
+        "moves": [
+          "e5"
+        ]
+      },
+      "commentary": "e5 is the move the whole formation exists to play. It takes the f6 square away from Black’s knight, and it means no black pawn will ever again defend f6 or h6, because a pawn on f7 or g7 cannot cover them. White has given up any claim on the centre in exchange for two permanent squares.",
+      "concept": "space-advantage",
+      "reason": "e5 fixes a pawn wedge beside the black king and takes f6 away from the knight for good.",
+      "hints": {
+        "piece": "e4",
+        "square": "e5"
+      }
+    },
+    {
+      "id": "4.11.3-c2",
+      "type": "guess_the_move",
+      "fen": "r1bq1rk1/p2nbppp/2n1p3/1pppP3/8/3P1NP1/PPPN1PBP/R1BQR1K1 w - - 1 10",
+      "prompt": "Your knight on d2 has done its job. Send it home, and look at where it can go from there.",
+      "answer": {
+        "moves": [
+          "Nf1"
+        ]
+      },
+      "commentary": "The knight goes backwards to f1 in order to reach g4, which it cannot do from d2 at all. From f1 the route is h2 and then g4, and g4 is the square that stares at f6 and h6. Three moves for one knight, in a position where Black is busy on the other side of the board and cannot punish the delay.",
+      "concept": "kings-indian-attack",
+      "reason": "Nf1 starts the knight on the f1-h2-g4 route to the squares the e5 pawn opened.",
+      "hints": {
+        "text": "The knight wants g4. Count the shortest legal route from d2."
+      }
+    },
+    {
+      "id": "4.11.3-c3",
+      "type": "guess_the_move",
+      "fen": "r1bq1rk1/3nbppp/2n1p3/ppppP3/8/3P1NP1/PPP2PBP/R1BQRNK1 w - - 0 11",
+      "prompt": "Before the knight arrives, take the square it will want to come from away from Black. One pawn move on the wing you are attacking.",
+      "answer": {
+        "moves": [
+          "h4"
+        ]
+      },
+      "commentary": "h4 stops Black ever playing h5 to keep the knight out of g4, and it prepares h5 of White’s own against the pawn on g6 if Black ever plays it. The move looks like the start of a pawn storm and is mostly a clearance order: the knight needs g4 and the h-pawn is the only thing that can guarantee it.",
+      "concept": "kings-indian-attack",
+      "reason": "h4 secures the g4 square for the knight and keeps a later h5 available.",
+      "hints": {
+        "piece": "h2",
+        "square": "h4"
+      }
+    },
+    {
+      "id": "4.11.3-c4",
+      "type": "guess_the_move",
+      "fen": "r1bq1rk1/3nbppp/2n1p3/p1ppP3/1p5P/3P1NP1/PPP2PB1/R1BQRNK1 w - - 0 12",
+      "prompt": "One piece is still at home and there is a diagonal that ends on h6. Develop it towards the black king, not the centre.",
+      "answer": {
+        "moves": [
+          "Bf4"
+        ]
+      },
+      "commentary": "The bishop steps out to f4 aiming at h6, which is one of the two squares the pawn on e5 uncovered. It does nothing at all this move. Every piece in this plan is placed for a position two or three moves away, which is why the plan survives Black getting on with his own play.",
+      "concept": "kings-indian-attack",
+      "reason": "Bf4 puts the last minor piece on the diagonal that ends on h6.",
+      "hints": {
+        "text": "Which squares in front of the black king can no black pawn defend?"
+      }
+    },
+    {
+      "id": "4.11.3-c5",
+      "type": "guess_the_move",
+      "fen": "r1bq1rk1/3nbppp/2n1p3/2ppP3/pp3B1P/3P1NP1/PPP2PB1/R2QRNK1 w - - 0 13",
+      "prompt": "Black is three pawn moves into his own attack. Carry on with the knight journey and ignore him.",
+      "answer": {
+        "moves": [
+          "N1h2"
+        ]
+      },
+      "commentary": "The knight takes the middle step of its journey, to h2, and this is the move that feels wrong. Black has pawns on a4 and b4 and White replies by moving a knight to the edge of his own camp. It is the right answer because Black’s pawns take four more moves to mean anything and the knight takes two.",
+      "concept": "kings-indian-attack",
+      "reason": "The knight goes f1-h2 on its way to g4; Black’s queenside pawns are still several moves from a threat.",
+      "hints": {
+        "text": "One of your knights has a square between it and g4."
+      }
+    },
+    {
+      "id": "4.11.3-c6",
+      "type": "guess_the_move",
+      "fen": "r2q1rk1/3nbppp/b1n1p3/2ppP3/pp3B1P/3P1NP1/PPP2PBN/R2QR1K1 w - - 2 14",
+      "prompt": "Arrive. The square you have spent three moves reaching is one knight move away.",
+      "answer": {
+        "moves": [
+          "Ng4"
+        ]
+      },
+      "commentary": "On g4 the knight is finally where the pawn on e5 said it should be, covering f6 and h6 and one move from either of them. It also means Black cannot easily play f5 to close the position, because the e5 pawn will take in passing. Black played g6 to keep the knight out of h6, which loosened the very squares he was defending.",
+      "concept": "kings-indian-attack",
+      "reason": "Ng4 completes the journey: the knight now bears on both f6 and h6.",
+      "hints": {
+        "piece": "h2",
+        "square": "g4"
+      }
+    },
+    {
+      "id": "4.11.3-c7",
+      "type": "guess_the_move",
+      "fen": "r2q1rk1/3nbp1p/b1n1p1p1/2ppP3/pp3BNP/3P1NP1/PPP2PB1/R2QR1K1 w - - 0 15",
+      "prompt": "Black has just played g6, which covers h5 and f5 and leaves one square weaker than before. Put a piece on it.",
+      "answer": {
+        "moves": [
+          "Bh6"
+        ]
+      },
+      "commentary": "The bishop goes to h6 because g6 stopped defending it. It hits the rook on f8 and it is held there by the knight on g4, so it is not a piece Black can simply take. White followed with the queen to d2, lining a second attacker up on the same dark squares.",
+      "concept": "kings-indian-attack",
+      "reason": "g6 left h6 undefended; the bishop lands there hitting f8 and is held by the knight on g4.",
+      "hints": {
+        "piece": "f4",
+        "square": "h6"
+      }
+    },
+    {
+      "id": "4.11.3-c8",
+      "type": "guess_the_move",
+      "fen": "r2qr1k1/4bp1p/bnn1p1pB/2ppP3/pp4NP/3P1NP1/PPPQ1PB1/R3R1K1 w - - 4 17",
+      "prompt": "Your queen is on d2 and Black has just moved a knight to b6, away from his king. Swing the queen across to the wing where all your pieces are.",
+      "answer": {
+        "moves": [
+          "Qf4"
+        ]
+      },
+      "commentary": "The queen comes to f4 and now three pieces bear on one corner: bishop on h6, knight on g4, queen on f4, with a pawn on e5 holding the door shut. There is no forced win yet. What there is instead is a position where Black has no good move, which is what a plan is supposed to produce.",
+      "concept": "kings-indian-attack",
+      "reason": "Qf4 brings the third attacker to the king’s wing, backing up the knight on g4 and the bishop on h6.",
+      "hints": {
+        "piece": "d2",
+        "square": "f4"
+      }
+    },
+    {
+      "id": "4.11.3-c9",
+      "type": "guess_the_move",
+      "fen": "r2qr1k1/4b2p/bnn1p1pB/2ppPp2/pp3QNP/3P1NP1/PPP2PB1/R3R1K1 w - f6 0 18",
+      "prompt": "Black has just pushed the pawn from f7 to f5 to shut the position down. There is a capture here that most players do not see.",
+      "answer": {
+        "moves": [
+          "exf6"
+        ]
+      },
+      "commentary": "The pawn on e5 takes in passing, and it lands on f6 attacking the bishop on e7 and the square g7. That is the answer to f5 in every King’s Indian Attack: the wedge pawn is not blocked by a pawn that has just run past it. Black closed the position and opened it instead.",
+      "concept": "en-passant-timing",
+      "reason": "The f-pawn ran past e5, so exf6 is legal in passing and lands hitting e7 and g7.",
+      "hints": {
+        "piece": "e5",
+        "square": "f6"
+      }
+    }
+  ],
+  "takeaway": "d3, Nd2, Nf3, g3, Bg2, castle, Re1, e5 — then walk the knight f1-h2-g4. The wedge makes f6 and h6 permanent, and f5 is answered in passing."
+}

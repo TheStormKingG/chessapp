@@ -125,23 +125,23 @@
     {
       "id": "1.5-k09",
       "type": "is_it_safe",
-      "fen": "7k/R7/6K1/8/8/8/8/8 w - - 0 1",
-      "move": "Rg7",
-      "prompt": "White plays Rg7, taking the last square from the black king. Is that safe?",
+      "fen": "8/8/8/4k3/8/8/8/RR5K w - - 0 1",
+      "move": "Ra5+",
+      "prompt": "White plays Ra5, checking the king along the fifth rank. Is the rook safe on a5?",
       "reasons": [
-        "It leaves Black with no legal move and no check: stalemate, and the win is gone.",
-        "The rook on g7 is next to the black king and just gets taken.",
-        "It is fine, and Rg8 is mate next move."
+        "No. The black king steps across to b5 and takes it.",
+        "Yes. Black has only his king, and from e5 he cannot reach a5 in one move.",
+        "No. Black answers the check with Kd5 and attacks the rook."
       ],
       "answer": {
-        "safe": false,
-        "reason": 0
+        "safe": true,
+        "reason": 1
       },
       "concept": "rook-mate",
-      "reason": "Ra8 is mate right now; taking the last square is only right when it comes with check.",
+      "reason": "The ladder works because the rooks stay out of reach. Whichever way he steps off the fifth rank, the other rook checks on the rank he lands on.",
       "hints": {
-        "piece": "a7",
-        "square": "a8"
+        "piece": "a1",
+        "square": "a5"
       }
     },
     {
@@ -497,22 +497,22 @@
     {
       "id": "1.5-k32",
       "type": "is_it_safe",
-      "fen": "r1bqkbnr/pppp1ppp/2n5/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR b KQkq - 3 3",
-      "move": "d6",
-      "prompt": "Black plays d6, opening a line for the bishop. Is that safe?",
+      "fen": "r1bqkbnr/pppp1p1p/2n3p1/4p3/2B1P3/5Q2/PPPP1PPP/RNB1K1NR b KQkq - 1 4",
+      "move": "Nh6",
+      "prompt": "Black brings the knight to h6, where it guards f7. Is the knight safe on h6?",
       "reasons": [
-        "Qxf7 is checkmate: the bishop on c4 defends the queen and the king cannot take her.",
-        "The pawn on d6 is hanging to the bishop on c4.",
-        "It is safe, because the bishop on c8 now guards f5."
+        "No. The bishop on c1 takes it.",
+        "No. The queen on f3 takes it.",
+        "Yes. Nothing white reaches h6, and f7 now has two defenders."
       ],
       "answer": {
-        "safe": false,
-        "reason": 0
+        "safe": true,
+        "reason": 2
       },
       "concept": "meeting-early-mates",
-      "reason": "A useful-looking move is still a losing move while f7 has two attackers and one defender.",
+      "reason": "The bishop on c1 would take on h6, but its own d-pawn is in the way. With the knight there f7 has two attackers and two defenders, so Qxf7 only loses the queen.",
       "hints": {
-        "piece": "d7",
+        "piece": "g8",
         "square": "f7"
       }
     },

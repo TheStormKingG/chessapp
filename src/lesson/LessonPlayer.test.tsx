@@ -354,3 +354,63 @@ test('a lesson with no motif is offered no practice link', async () => {
   expect(screen.getByText('Remember this.')).toBeInTheDocument();
   expect(screen.queryByRole('link')).not.toBeInTheDocument();
 });
+
+/*
+ * `skipCard` (F-ON-5). The placement test is four consecutive rounds of three
+ * challenges and its own intro screen has already said what the card would say,
+ * so the player can be asked to open on the first challenge.
+ */
+test('skipCard opens on the first challenge instead of the card', () => {
+  render(<LessonPlayer lesson={lesson} skipCard onComplete={() => {}} onExit={() => {}} textEntry />);
+  // The positive control for the two absences below: the first challenge really
+  // is on screen, so this is a skipped card rather than a tree that failed.
+  expect(screen.getByText('Which is it?')).toBeInTheDocument();
+  expect(screen.getByLabelText('Challenge progress')).toHaveTextContent('1 of 2');
+  expect(screen.queryByText('An idea')).toBeNull();
+  // The explain screens go with it: they sit between the card and the first
+  // challenge, and the run opened past both.
+  expect(screen.queryByText('Explain this')).toBeNull();
+});
+
+test('the card is the default, so nothing else changes', () => {
+  render(<LessonPlayer lesson={lesson} onComplete={() => {}} onExit={() => {}} textEntry />);
+  expect(screen.getByText('An idea')).toBeInTheDocument();
+  expect(screen.queryByText('Which is it?')).toBeNull();
+});
+
+test('skipCard keeps the card for a lesson that has no challenges to open on', () => {
+  render(
+    <LessonPlayer
+      lesson={{ ...lesson, challenges: [] }}
+      skipCard
+      onComplete={() => {}}
+      onExit={() => {}}
+      textEntry
+    />,
+  );
+  expect(screen.getByText('An idea')).toBeInTheDocument();
+});
+
+test('a saved place beats skipCard, because it is a fact about this learner', () => {
+  render(
+    <LessonPlayer
+      lesson={lesson}
+      skipCard
+      resume={{
+        lessonId: lesson.id,
+        challengeId: 'c2',
+        index: 1,
+        challengeCount: 2,
+        results: {},
+        totalHints: 0,
+        totalMisses: 0,
+        savedAt: '2026-01-01T00:00:00.000Z',
+      }}
+      onComplete={() => {}}
+      onExit={() => {}}
+      textEntry
+    />,
+  );
+  expect(screen.getByLabelText('Challenge progress')).toHaveTextContent('2 of 2');
+  expect(screen.getByText('Type e4')).toBeInTheDocument();
+});

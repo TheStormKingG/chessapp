@@ -108,13 +108,21 @@ test('Sections 2 and 3 are built, Section 4 is declared and reads as coming', ()
    * Section 4 is the intended response, and it will fail again the same way
    * when Section 4 completes, which is the end of v1.
    */
+  /*
+   * And Section 4 has now completed, which the paragraph above said would fail
+   * this assertion "the same way ... which is the end of v1". It did. 4.11 and
+   * 4.12 were the last two units, so Section 4 owes exactly what Sections 2 and
+   * 3 owe and there is no boundary left to derive.
+   *
+   * The partition is kept and asserted TOTAL rather than deleted, so a flag
+   * flipped back to false fails here instead of silently shrinking the sweep.
+   */
   const built = new Set(SECTION_4.units.filter((u) => u.built).map((u) => u.id));
   const s4 = nodes.filter((n) => n.section === '4');
-  const s4Built = s4.filter((n) => built.has(n.unit));
-  const s4Coming = s4.filter((n) => !built.has(n.unit));
-  expect(s4Coming.length).toBeGreaterThan(0);
-  expect(s4Coming.filter((n) => n.state !== 'coming')).toEqual([]);
-  expect(s4Built.filter((n) => n.state === 'coming')).toEqual([]);
+  expect(built.size).toBe(SECTION_4.units.length);
+  expect(s4.filter((n) => !built.has(n.unit))).toEqual([]);
+  expect(s4.filter((n) => n.state === 'coming')).toEqual([]);
+  expect(s4.length).toBeGreaterThan(0);
 
   // Section 1 is untouched.
   expect(nodes.filter((n) => n.section === '1' && n.kind === 'lesson')).toHaveLength(29);
@@ -144,9 +152,23 @@ test('SECTIONS is the path order, and every declared unit is reachable by id', (
   // honest against the disk; this only needs SOME unit to still be coming, so
   // that `unitById` is exercised on a declared-but-unauthored unit -- the case
   // that has to keep working for the "content coming" placeholder to render.
-  const coming = SECTIONS.flatMap((s) => s.units).filter((u) => !u.built);
-  expect(coming.length).toBeGreaterThan(0);
-  expect(unitById(coming[0]!.id)).toMatchObject({ built: false });
+  /*
+   * There is no unbuilt unit on the path any more, so the declared-but-unauthored
+   * case is supplied by a SYNTHETIC fixture -- the same device PathScreen's
+   * coming-run test uses, and for the same reason: the rule outlived the content
+   * that exercised it. One unit is flipped to false for two assertions and put
+   * back, so `unitById` is still shown to resolve a unit the path is not
+   * offering, which is what the "content coming" placeholder needs.
+   */
+  expect(SECTIONS.flatMap((s) => s.units).filter((u) => !u.built)).toEqual([]);
+  const synthetic = SECTIONS.flatMap((s) => s.units).at(-1)!;
+  synthetic.built = false;
+  try {
+    expect(unitById(synthetic.id)).toMatchObject({ built: false });
+  } finally {
+    synthetic.built = true;
+  }
+  expect(unitById(synthetic.id)).toMatchObject({ built: true });
   expect(unitById('4.12')?.lessons).toHaveLength(4);
   expect(unitById('2.8')?.lessons).toHaveLength(3);
   expect(unitById('9.9')).toBeUndefined();
