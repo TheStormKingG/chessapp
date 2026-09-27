@@ -138,7 +138,7 @@ export interface BuildInput {
  */
 export interface DerivedFromMoves {
   accuracy: Review['accuracy'];
-  counts: Review['counts'];
+  myCounts: Review['myCounts'];
   turningPhase: Review['turningPhase'];
   errors: Review['errors'];
 }
@@ -147,8 +147,15 @@ export function derivedFrom(
   moves: ReviewedMove[],
   ctx: { gameId: string; learner: Color; now: string },
 ): DerivedFromMoves {
-  const counts: Partial<Record<MoveLabel, number>> = {};
-  for (const m of moves) counts[m.label] = (counts[m.label] ?? 0) + 1;
+  // The LEARNER'S moves, not the game's. `accuracy` below has always filtered on
+  // `mover` and this did not, so a bot's blunder was counted as one of the
+  // learner's -- under the heading "Your moves", and into
+  // `game_reviewed.blunders`, which is permanent. See `Review.myCounts`.
+  const myCounts: Partial<Record<MoveLabel, number>> = {};
+  for (const m of moves) {
+    if (m.mover !== ctx.learner) continue;
+    myCounts[m.label] = (myCounts[m.label] ?? 0) + 1;
+  }
 
   const meanFor = (c: Color): number | null => {
     const mine = moves.filter((m) => m.mover === c && !m.book);
@@ -158,7 +165,7 @@ export function derivedFrom(
 
   return {
     accuracy: { w: meanFor('w'), b: meanFor('b') },
-    counts,
+    myCounts,
     turningPhase: turningPhaseOf(moves, ctx.learner),
     errors: errorsFrom(moves, { gameId: ctx.gameId, learner: ctx.learner, now: ctx.now }),
   };

@@ -21,11 +21,18 @@ import type { ProfileGame } from './types';
  * per-move accuracies over NON-BOOK moves — restated per phase rather than
  * reinvented. "Winning" is `WINNING_WIN_PERCENT`, imported rather than copied.
  *
- * One thing that is NOT taken from the review layer, on purpose: `Review.counts`
- * counts every move in the game, both sides. Every count here is the learner's
- * own moves only, filtered on `mover === review.learner`. Reading `counts` for a
- * learner's blunders would roughly double them, and a bot's blunders are not the
- * learner's weakness.
+ * Every count here is the learner's own moves only, filtered on
+ * `mover === review.learner`. It used to be necessary to say why: `Review.counts`
+ * counted every move in the game, both sides, so reading it for a learner's
+ * blunders would roughly double them, and a bot's blunders are not the learner's
+ * weakness.
+ *
+ * That warning turned out to be worth more than the workaround. Two other call
+ * sites read `counts` anyway -- the summary's "Your moves" heading and
+ * `game_reviewed.blunders`, which feeds the "A clean game" achievement -- so the
+ * field is now `Review.myCounts` and is filtered at the source. The duplication
+ * below stays: these are per-phase and per-condition tallies that `myCounts` does
+ * not carry, so they are derived here regardless.
  */
 
 /** Per-move accuracy, rounded the way `derivedFrom` rounds a game's accuracy. */

@@ -26,7 +26,7 @@ function moveNumber(ply: number): number {
 
 export function Summary({ review, onStart }: { review: Review; onStart: () => void }) {
   const [showDefs, setShowDefs] = useState(false);
-  const present = LABEL_ORDER.filter((l) => (review.counts[l] ?? 0) > 0);
+  const present = LABEL_ORDER.filter((l) => (review.myCounts[l] ?? 0) > 0);
   const moments = review.keyMoments.length;
 
   return (
@@ -78,7 +78,7 @@ export function Summary({ review, onStart }: { review: Review; onStart: () => vo
         <ul className="mt-2 flex flex-wrap gap-x-4 gap-y-2">
           {present.map((l) => (
             <li key={l} className="flex items-baseline gap-2">
-              <span className="t-display">{review.counts[l]}</span>
+              <span className="t-display">{review.myCounts[l]}</span>
               <LabelChip label={l} />
             </li>
           ))}

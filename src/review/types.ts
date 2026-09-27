@@ -141,7 +141,22 @@ export interface Review {
   moves: ReviewedMove[];
   /** null for a side with no non-book moves; renders as "—", never as 100. */
   accuracy: { w: number | null; b: number | null };
-  counts: Partial<Record<MoveLabel, number>>;
+  /**
+   * How many of the LEARNER'S OWN moves got each label. Not the game's.
+   *
+   * It is named `myCounts` rather than `counts` because the unqualified name was
+   * a trap that two call sites fell into. `derivedFrom` used to count every move
+   * in the game, both sides, while the field was rendered under the heading "Your
+   * moves" and banked into `game_reviewed.blunders`. `src/profile/metrics.ts` had
+   * already worked this out and warned about it in a comment -- "reading `counts`
+   * for a learner's blunders would roughly double them, and a bot's blunders are
+   * not the learner's weakness" -- and then computed its own from `mover`. The
+   * warning was right and the field stayed wrong, which is the argument for
+   * putting the answer in the name instead of in a comment somewhere else.
+   *
+   * Nothing wants the both-sides tally, so there is no second field for it.
+   */
+  myCounts: Partial<Record<MoveLabel, number>>;
   opening: { name: string; leftBookAtPly: number | null } | null;
   turningPhase: Phase | null;
   keyMoments: KeyMoment[];

@@ -226,7 +226,7 @@ function seededReview(gameId: string): Review {
   return {
     gameId, learner: 'w', depth: 14, partial: false, moves,
     accuracy: { w: 40.5, b: 80.1 },
-    counts: { Blunder: 3, Best: 2 },
+    myCounts: { Blunder: 3, Best: 2 },
     opening: null, turningPhase: 'opening',
     keyMoments: [0, 2, 4].map((ply) => ({
       ply, kind: 'swing' as const, deeper: null,
@@ -305,7 +305,7 @@ function themedReview(gameId: string): Review {
   return {
     gameId, learner: 'w', depth: 14, partial: false, moves,
     accuracy: { w: 15, b: 90 },
-    counts: { Blunder: 2 },
+    myCounts: { Blunder: 2 },
     opening: null, turningPhase: 'endgame',
     keyMoments: [0, 1].map((ply) => ({
       ply, kind: 'swing' as const, deeper: null, explanation: null, lessonId: null,

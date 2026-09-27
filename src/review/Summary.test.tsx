@@ -11,7 +11,7 @@ function review(o: Partial<Review> = {}): Review {
     partial: false,
     moves: [],
     accuracy: { w: 72.5, b: 61.3 },
-    counts: { Best: 10, Good: 5, Mistake: 3, Blunder: 2 },
+    myCounts: { Best: 10, Good: 5, Mistake: 3, Blunder: 2 },
     opening: { name: 'Italian Game', leftBookAtPly: 8 },
     turningPhase: 'middlegame',
     keyMoments: [
