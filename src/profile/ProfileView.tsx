@@ -6,6 +6,7 @@ import { plural } from '@/app/plural';
 import { measureText, imageAltText, profileFile, profileFileName, profileFileText, profileImageName, profileImageSvg } from './exportProfile';
 import { jsonDownloadHref, svgDownloadHref } from './download';
 import { profileSignature, useProfileSeen } from './seen';
+import { LATER_ON_THE_PATH, bandVerdict, reachedUnit } from '@/tailored/band';
 import type { Measure, Profile, SkillBreakdown, Weakness } from './types';
 
 /**
@@ -111,7 +112,19 @@ function SkillCard({ skill }: { skill: SkillBreakdown }) {
   );
 }
 
-function WeaknessCard({ weakness, rank }: { weakness: Weakness; rank: number }) {
+/**
+ * F-TS-2's two additions to a weakness card.
+ *
+ * > "A weakness above the learner's band (a Section 4 idea for a Section 2 learner)
+ * > is shown in the profile with 'later on the path' and is not drilled yet."
+ *
+ * and F-TS-1's on-demand entry: "on demand from the profile screen with 'Train on
+ * this'". The band rule lives in src/tailored/band.ts and is the same function the
+ * session builder calls, so the card and the session cannot disagree about whether a
+ * weakness is drillable.
+ */
+function WeaknessCard({ weakness, rank, reached }: { weakness: Weakness; rank: number; reached: string | null }) {
+  const verdict = bandVerdict(weakness, reached);
   return (
     <li className="border-b border-edge px-4 py-3 last:border-b-0">
       <div className="flex items-baseline gap-3">
@@ -125,7 +138,17 @@ function WeaknessCard({ weakness, rank }: { weakness: Weakness; rank: number }) 
           {weakness.typicalForLevel.known && (
             <p className="t-caption mt-1 text-content-dim">{weakness.typicalForLevel.wording}</p>
           )}
+          {!verdict.drill && verdict.reason === 'later-on-the-path' && (
+            <p className="t-caption mt-1 text-content-dim">
+              Section {verdict.section}: {LATER_ON_THE_PATH}. Not drilled yet.
+            </p>
+          )}
           <p className="mt-2 flex flex-wrap items-baseline gap-x-4 gap-y-1">
+            {verdict.drill && (
+              <Link className={btn.quiet} to={`/tailored?theme=${encodeURIComponent(weakness.theme)}`}>
+                Train on this
+              </Link>
+            )}
             {weakness.lessonId !== null && (
               <Link className={btn.quiet} to={`/lesson/${weakness.lessonId}`}>
                 Lesson: {weakness.lessonTitle}
@@ -160,6 +183,9 @@ function basisSentence(profile: Profile): string {
 export function ProfileView({ profile, undateable }: { profile: Profile; undateable: number }) {
   const markSeen = useProfileSeen((s) => s.markSeen);
   const reviews = useProgress((s) => s.progress.reviews);
+  // F-TS-2's band, read from the same projection the path reads. No new store.
+  const progress = useProgress((s) => s.progress);
+  const reached = reachedUnit(progress);
   const signature = profileSignature(profile);
 
   // F-SW-1: Today offers the profile "when it has changed". Opening it is what
@@ -231,7 +257,7 @@ export function ProfileView({ profile, undateable }: { profile: Profile; undatea
           </p>
           <ol className="n-panel n-lit n-edge mt-2 list-none rounded-card bg-panel">
             {profile.weaknesses.map((w, i) => (
-              <WeaknessCard key={w.theme} weakness={w} rank={i + 1} />
+              <WeaknessCard key={w.theme} weakness={w} rank={i + 1} reached={reached} />
             ))}
           </ol>
         </>

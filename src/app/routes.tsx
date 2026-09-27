@@ -15,6 +15,7 @@ import { LessonRoute } from '@/path/LessonRoute';
 import { CheckpointRoute } from '@/checkpoint/CheckpointRoute';
 import { ChooseOpponent } from '@/play/ChooseOpponent';
 import { PlayScreen } from '@/play/PlayScreen';
+import { TailoredSessionScreen } from '@/tailored';
 import { ReviewScreen } from '@/review';
 import { PuzzlesHomeRoute } from '@/puzzles/PuzzlesHomeRoute';
 
@@ -104,6 +105,16 @@ export function AppRoutes() {
         element={
           <ModalTask>
             <CheckpointRoute />
+          </ModalTask>
+        }
+      />
+      {/* PRD F-TS-1. A modal task like the lesson it contains: a session is one thing
+          the learner is doing, and the tab bar is not the way out of it. */}
+      <Route
+        path="/tailored"
+        element={
+          <ModalTask>
+            <TailoredSessionScreen />
           </ModalTask>
         }
       />

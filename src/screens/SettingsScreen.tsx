@@ -5,6 +5,7 @@ import { useSettings } from '@/app/settings';
 import { useProgress } from '@/data';
 import { clearDeviceData } from '@/app/clearDeviceData';
 import { useAuth, signIn, signOut } from '@/sync/supabaseClient';
+import { CosmeticsPicker, ReminderControl } from '@/engagement';
 
 function Toggle({
   label,
@@ -186,6 +187,19 @@ export function SettingsScreen() {
             void append({ type: 'settings_changed', key: 'soundMuted', value: v });
           }}
         />
+      </div>
+
+      {/* F-EN-7. One tap from Today to here, one tap on the channel's switch:
+          the two taps the requirement asks for, with no sub-page between them. */}
+      <div className="space-y-3">
+        <h2 className="t-title">Reminders</h2>
+        <ReminderControl />
+      </div>
+
+      {/* F-EN-6. */}
+      <div className="space-y-3">
+        <h2 className="t-title">Board and pieces</h2>
+        <CosmeticsPicker />
       </div>
 
       <div className="space-y-3">

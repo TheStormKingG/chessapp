@@ -200,3 +200,80 @@ describe('puzzle attempts', () => {
     expect(reduceProgress(emptyProgress(), log).puzzleRating.rating).not.toBe(800);
   });
 });
+
+describe('F-EN-2 through the projection (engagement/xp.ts owns the rates)', () => {
+  const finished = (gameId: string, result: 'win' | 'loss' | 'draw') =>
+    newEvent({ type: 'game_finished', gameId, result, moves: 30, hints: 0, takebacks: 0, crowns: 1, pgn: '' });
+  const reviewed = (gameId: string, drillCompleted = false) =>
+    newEvent({ type: 'game_reviewed', gameId, accuracy: 70, blunders: 1, mistakes: 1, drillCompleted, partial: false });
+
+  test('a review of a lost game pays more than a review of a won one', () => {
+    // Both logs hold one game and one review, so the only difference is the
+    // result — which is the field F-EN-2 makes the rate depend on and which the
+    // review event does not itself carry.
+    const lost = reduceProgress(emptyProgress(), [finished('g1', 'loss'), reviewed('g1')]);
+    const won = reduceProgress(emptyProgress(), [finished('g1', 'win'), reviewed('g1')]);
+    expect(lost.xp - won.xp).toBe(25 - 15);
+    expect(won.xp).toBe(10 + 15);
+    expect(lost.xp).toBe(10 + 25);
+  });
+
+  test('a review with no game_finished in the log pays the "any game" rate', () => {
+    // The imported-game shape: F-IM banks the ordinary `game_reviewed` event for
+    // a game this app never played, so no result exists to raise the rate.
+    const p = reduceProgress(emptyProgress(), [reviewed('imported-1')]);
+    expect(p.xp).toBe(15);
+    // Positive control: the same review, with a loss in the log, pays 25 — so
+    // the 15 above is the unknown-result rate and not the only rate there is.
+    expect(reduceProgress(emptyProgress(), [finished('imported-1', 'loss'), reviewed('imported-1')]).xp).toBe(10 + 25);
+  });
+
+  test('a completed fix-it drill adds its own award on top of the review', () => {
+    const without = reduceProgress(emptyProgress(), [reviewed('g1', false)]);
+    const with_ = reduceProgress(emptyProgress(), [reviewed('g1', true)]);
+    expect(with_.xp - without.xp).toBe(5);
+  });
+
+  test('a puzzle attempt pays by difficulty whether or not it was solved', () => {
+    const attempt = (puzzleRating: number, solved: boolean) =>
+      newEvent({
+        type: 'puzzle_attempted',
+        puzzleId: `p${String(puzzleRating)}-${String(solved)}`,
+        themes: ['fork'],
+        puzzleRating,
+        solved,
+        hinted: false,
+        misses: 0,
+        source: 'rated' as const,
+        ms: 4000,
+      });
+    expect(reduceProgress(emptyProgress(), [attempt(600, true)]).xp).toBe(2);
+    expect(reduceProgress(emptyProgress(), [attempt(600, false)]).xp).toBe(2);
+    expect(reduceProgress(emptyProgress(), [attempt(1450, false)]).xp).toBe(5);
+    // Puzzles used to pay nothing at all, which is the gap this closes.
+    expect(reduceProgress(emptyProgress(), [attempt(900, true)]).xp).toBeGreaterThan(0);
+  });
+
+  test('the checkpoint bonus is decided on the state before the attempt is applied', () => {
+    // The ordering claim: `unitAlreadyPassed` is read from the pre-event state,
+    // so the attempt that passes the unit is paid and the next one is not. Read
+    // one line later it would see its own effect and pay nothing, ever.
+    const cp = (attempt: number) =>
+      newEvent({ type: 'checkpoint_attempted', unit: '1.1', score: 0.9, passed: true, attempt, missedConcepts: [] });
+    expect(reduceProgress(emptyProgress(), [cp(1)]).xp).toBe(50);
+    expect(reduceProgress(emptyProgress(), [cp(1), cp(2), cp(3)]).xp).toBe(50);
+  });
+
+  test('replaying the whole log gives the same XP as folding it event by event', () => {
+    // `store.append` folds one event into the standing projection; `load`
+    // replays everything. The loss-rate lookup lives in `Progress`, so the two
+    // must agree — a rate that read a map built only inside one call would pay
+    // 15 on the live path and 25 on a reload.
+    const log = [finished('g1', 'loss'), reviewed('g1', true), finished('g2', 'win'), reviewed('g2')];
+    const replayed = reduceProgress(emptyProgress(), log);
+    let folded = emptyProgress();
+    for (const e of log) folded = reduceProgress(folded, [e]);
+    expect(folded.xp).toBe(replayed.xp);
+    expect(replayed.xp).toBe(10 + 25 + 5 + 10 + 15);
+  });
+})

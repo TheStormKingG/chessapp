@@ -48,10 +48,36 @@ export interface UseGame {
   retryEngine: () => void;
 }
 
-export function useGame(o: { learner: 'w' | 'b'; timeControl: TimeControl; coach: boolean }): UseGame {
+/**
+ * PRD F-TS-5's two openings onto this hook, both optional and both additive.
+ *
+ * `fen` starts the game from a given position ("the learner's own position a few
+ * moves before the pattern arose"). `openingLine` gives the bot a line to play
+ * ("the opponent plays the line the learner struggles with"): it is spliced into a
+ * copy of the persona's own opening preference, which `BotService.bookMove` already
+ * matches by legality rather than by move number, so a transposition does not break
+ * it. The persona is otherwise unchanged — a targeted game is still a game against
+ * the same character.
+ */
+export interface TargetedOptions {
+  fen?: string;
+  openingLine?: readonly string[];
+}
+
+export function useGame(
+  o: { learner: 'w' | 'b'; timeControl: TimeControl; coach: boolean } & TargetedOptions,
+): UseGame {
   const coachMuted = useSettings((s) => s.coachMuted);
   const append = useProgress((s) => s.append);
-  const [g, setG] = useState<GameState>(() => initGame({ ...o, persona: ROSA.id }));
+  const [g, setG] = useState<GameState>(() =>
+    initGame({
+      learner: o.learner,
+      timeControl: o.timeControl,
+      coach: o.coach,
+      persona: ROSA.id,
+      ...(o.fen === undefined ? {} : { fen: o.fen }),
+    }),
+  );
   const [coachText, setCoachText] = useState<string | null>(null);
   const [tone, setTone] = useState<'good' | 'bad' | 'neutral'>('neutral');
   const [thinking, setThinking] = useState(false);
@@ -62,7 +88,16 @@ export function useGame(o: { learner: 'w' | 'b'; timeControl: TimeControl; coach
     c.muted = coachMuted || !o.coach;
     return c;
   }, [coachMuted, o.coach]);
-  const bot = useMemo(() => new BotService(ROSA, getEngine()), []);
+  // The line is joined into a string so the memo is keyed on its VALUE: a fresh
+  // array literal on every render would rebuild the bot — and with it the persona —
+  // on every keystroke of the game.
+  const lineKey = (o.openingLine ?? []).join(' ');
+  const bot = useMemo(() => {
+    const line = lineKey === '' ? null : lineKey.split(' ');
+    const persona: Persona =
+      line === null ? ROSA : { ...ROSA, opening: { white: line, black: line } };
+    return new BotService(persona, getEngine());
+  }, [lineKey]);
 
   /**
    * The coach speaks at most once per move (PRD F-PL-3). A template whose facts are missing
@@ -168,11 +203,17 @@ export function useGame(o: { learner: 'w' | 'b'; timeControl: TimeControl; coach
     });
   }, [append, g.id, g.learner, g.timeControl, o.coach]);
 
-  // The bot opens when the learner is Black. Guarded by a ref rather than by the move count,
-  // so a take-back to the start cannot make it fire a second time.
+  // The bot opens when it is the bot's turn in the starting position. Guarded by a ref
+  // rather than by the move count, so a take-back to the start cannot make it fire a
+  // second time.
+  //
+  // `g.turn !== g.learner`, not `g.learner !== 'b'`: F-TS-5 starts a game from an
+  // arbitrary position, where whose move it is is a property of that position and not
+  // of the learner's colour. The two agree for every game from the standard start,
+  // which is why the colour test worked until now.
   const opened = useRef(false);
   useEffect(() => {
-    if (opened.current || g.learner !== 'b' || g.history.length > 1) return;
+    if (opened.current || g.turn === g.learner || g.history.length > 1) return;
     opened.current = true;
     void botTurn(g);
   }, [g, botTurn]);

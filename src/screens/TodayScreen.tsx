@@ -10,6 +10,7 @@ import { useOnboarding } from '@/onboarding/store';
 import { activeNode, activeUnitProgress, recentlyFinished, upcomingNodes } from '@/path/progress';
 import { resumeLabel, useLessonResume } from '@/path/resumeLabel';
 import { reviewedGamesChanged, useProfileSeen } from '@/profile';
+import { QuestList, StreakCard, useEngagement } from '@/engagement';
 
 const COOL_DOWN_KEY = 'chessapp.coolDownDismissed';
 
@@ -123,6 +124,14 @@ export function TodayScreen() {
   const lastSeenReviews = useProfileSeen((s) => s.lastSeenReviews);
   const profileChanged = reviewedGamesChanged(progress.reviews, lastSeenReviews);
 
+  /*
+   * F-EN-1 and F-EN-3. The streak and the quests are projections of the event log
+   * (`engagement/`), not new stores, so this is one read and no new state to keep in
+   * step with anything. The hook re-reads on every append, which is what lets the
+   * streak line change the moment a lesson is finished on this screen.
+   */
+  const engagement = useEngagement();
+
   const hero = useHeroBoardSize();
   const unit = activeUnitProgress(progress);
   const upNext = upcomingNodes(progress, 2);
@@ -161,6 +170,10 @@ export function TodayScreen() {
             is stated in the index face, tabular, before anything decorates it. */}
         <h1 className="t-display-lg">Today</h1>
         <p className="t-index mt-1 text-content-dim">{progress.xp} XP so far</p>
+        {/* F-EN-1. It joins the `display-lg` title's index pair rather than
+            arriving as its own card: DESIGN-SYSTEM.md §3.2 gives counters the
+            `index` face, and the XP line directly above is the same role. */}
+        <StreakCard streak={engagement.streak} />
 
         {/* "ON THE PATH" used to sit here. It was one of five identically
             weighted labels on this screen, and it was the least earned: the
@@ -313,6 +326,10 @@ export function TodayScreen() {
             </span>
           </Link>
         )}
+
+        {/* F-EN-3, above the alternatives: a quest is a reading of the day, like
+            the unit meter, rather than a fourth destination. */}
+        <QuestList quests={engagement.quests} weekly={engagement.weekly} />
 
         <h2 className="t-caption mt-10 uppercase tracking-wide text-content-dim xl:mt-8">
           Or, instead

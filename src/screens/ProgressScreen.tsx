@@ -2,6 +2,7 @@ import { Link } from 'react-router';
 import { useProgress } from '@/data';
 import { SECTIONS } from '@/path/curriculum';
 import { ProfileView, useProfile } from '@/profile';
+import { AchievementShowcase, useEngagement } from '@/engagement';
 
 /**
  * What the learner has actually done, read straight off the projection.
@@ -43,6 +44,9 @@ import { ProfileView, useProfile } from '@/profile';
 export function ProgressScreen() {
   const p = useProgress((s) => s.progress);
   const { profile, undateable } = useProfile();
+  // F-EN-5: achievements are "displayed in a showcase on the profile", and this
+  // screen is the profile.
+  const engagement = useEngagement();
 
   const lessons = Object.values(p.lessons);
   const done = lessons.filter((l) => l.completed).length;
@@ -92,6 +96,9 @@ export function ProgressScreen() {
           <ProfileView profile={profile} undateable={undateable} />
         </div>
       )}
+
+      {/* ── F-EN-5's showcase ────────────────────────────────────────────── */}
+      <AchievementShowcase achievements={engagement.achievements} />
 
       {/* ── The path ─────────────────────────────────────────────────────── */}
       <h2 className="t-caption mt-6 uppercase tracking-wide text-content-dim">The path</h2>

@@ -7,6 +7,7 @@ import { getEngine } from '@/engine';
 import { useSettings } from '@/app/settings';
 import type { Color } from '@/rules';
 import { useGame } from './useGame';
+import { targetedFrom } from './targetedParams';
 import { EngineGate } from './EngineGate';
 import { engineIsReady } from './engineReady';
 import { crowns, crownsNote } from './crowns';
@@ -40,6 +41,10 @@ export function PlayScreen() {
   const learner: Color = params.get('color') === 'b' ? 'b' : 'w';
   const timeControl: TimeControl = params.get('tc') === '10+0' ? '10+0' : 'untimed';
   const coachOn = params.get('coach') !== '0';
+  // F-TS-5's two parameters. Both are validated here rather than trusted: the URL is
+  // a hand-editable surface, and an unplayable FEN or an illegal book move would
+  // surface as a board that renders and then refuses every move.
+  const targeted = targetedFrom(params.get('fen'), params.get('line'));
   /* The game is a modal task now (chunk B1), so the tab bar is no longer the way
      out of it — and the longest wait in the app happens before `PlayGame` mounts
      and can offer its own ✕. This is that wait's dismiss control: nothing has
@@ -68,18 +73,42 @@ export function PlayScreen() {
           setReady(true);
         }}
       >
-        <PlayGame learner={learner} timeControl={timeControl} coach={coachOn} />
+        <PlayGame
+          learner={learner}
+          timeControl={timeControl}
+          coach={coachOn}
+          fen={targeted.fen}
+          openingLine={targeted.line}
+        />
       </EngineGate>
     </>
   );
 }
 
-function PlayGame({ learner, timeControl, coach: coachOn }: { learner: Color; timeControl: TimeControl; coach: boolean }) {
+function PlayGame({
+  learner,
+  timeControl,
+  coach: coachOn,
+  fen,
+  openingLine,
+}: {
+  learner: Color;
+  timeControl: TimeControl;
+  coach: boolean;
+  fen?: string;
+  openingLine?: string[];
+}) {
   const nav = useNavigate();
   const textEntry = useSettings((s) => s.textEntry);
 
   const { g, persona, coachText, tone, thinking, engineDown, result, onLearnerMove, hint, threats, undo, giveUp, retryEngine } =
-    useGame({ learner, timeControl, coach: coachOn });
+    useGame({
+      learner,
+      timeControl,
+      coach: coachOn,
+      ...(fen === undefined ? {} : { fen }),
+      ...(openingLine === undefined ? {} : { openingLine }),
+    });
 
   const over = g.over.over;
   const engine = getEngine();

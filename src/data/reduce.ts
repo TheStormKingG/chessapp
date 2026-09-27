@@ -1,4 +1,5 @@
 import type { LearnerEvent } from './events';
+import { xpForEvent, type XpContext } from '@/engagement/xp';
 import { nextRating } from '@/puzzles/rating';
 import type { PuzzleRating } from '@/puzzles/types';
 
@@ -14,6 +15,16 @@ export interface Progress {
   reviews: number;
   /** The games already counted, so a second visit to the review route cannot double-count. */
   gamesReviewed: Record<string, true>;
+  /**
+   * The games this log records as LOST, by id — the whole of what F-EN-2's
+   * "review of a loss 25" needs from a game that finished earlier.
+   *
+   * Only losses, because only losses change a rate: a won game, a drawn game and
+   * a game with no `game_finished` at all (every imported game) pay the same 15,
+   * so storing the other results would be storing a distinction nothing reads.
+   * The name says which distinction is kept.
+   */
+  lostGames: Record<string, true>;
   consecutiveLosses: number;
   /**
    * The puzzle rating, PROJECTED from the log and never stored as an
@@ -36,6 +47,7 @@ export function emptyProgress(): Progress {
     games: 0,
     reviews: 0,
     gamesReviewed: {},
+    lostGames: {},
     consecutiveLosses: 0,
     puzzleRating: { rating: 800, confidence: 0 },
     puzzlesSolved: 0,
@@ -43,7 +55,15 @@ export function emptyProgress(): Progress {
   };
 }
 
-/** Pure projection of the append-only log. XP is never deducted (PRD F-EN-2). */
+/**
+ * Pure projection of the append-only log. XP is never deducted (PRD F-EN-2).
+ *
+ * The RATES live in `engagement/xp.ts`, which is the whole of F-EN-2's table in
+ * one testable function; this file owns only WHEN an award happens — once per
+ * game, once per unit — and hands that context over. Before this split the rates
+ * were four literals in four `case` arms and three of them disagreed with the
+ * PRD.
+ */
 export function reduceProgress(start: Progress, events: LearnerEvent[]): Progress {
   const seen = new Set<string>();
   const p: Progress = structuredClone(start);
@@ -53,6 +73,22 @@ export function reduceProgress(start: Progress, events: LearnerEvent[]): Progres
     seen.add(e.id);
     p.lastEventAt = e.createdAt;
     const x = e.payload;
+
+    /*
+     * Built from the state BEFORE this event is applied, and the award is taken
+     * from it before any arm below mutates that state. The ordering is the whole
+     * correctness argument: `unitAlreadyPassed` read after the checkpoint arm has
+     * set `passed` would be true for the very attempt that earned the bonus, and
+     * `alreadyReviewed` read after the review arm would never pay a review at
+     * all.
+     */
+    const ctx: XpContext = {
+      alreadyReviewed: x.type === 'game_reviewed' && p.gamesReviewed[x.gameId] === true,
+      unitAlreadyPassed: x.type === 'checkpoint_attempted' && (p.units[x.unit]?.passed ?? false),
+      reviewedGameResult: x.type === 'game_reviewed' && p.lostGames[x.gameId] === true ? 'loss' : null,
+    };
+    p.xp += xpForEvent(x, ctx);
+
     switch (x.type) {
       case 'lesson_completed': {
         const prev = p.lessons[x.lessonId];
@@ -60,7 +96,6 @@ export function reduceProgress(start: Progress, events: LearnerEvent[]): Progres
           stars: prev ? (Math.max(prev.stars, x.stars) as 1 | 2 | 3) : x.stars,
           completed: true,
         };
-        p.xp += x.replay ? Math.floor(x.xp / 2) : x.xp;
         break;
       }
       case 'challenge_attempted': {
@@ -77,8 +112,8 @@ export function reduceProgress(start: Progress, events: LearnerEvent[]): Progres
           failedAttempts: x.passed ? 0 : u.failedAttempts + 1,
           passed: u.passed || x.passed,
         };
-        // PRD F-PA-7: a retake of an already-passed checkpoint does not re-award the bonus.
-        if (x.passed && !u.passed) p.xp += 50;
+        // PRD F-PA-7's "a retake does not re-award the bonus" is `ctx`'s
+        // `unitAlreadyPassed` above, read before this arm set `passed`.
         break;
       }
       case 'unit_tested_out': {
@@ -89,7 +124,9 @@ export function reduceProgress(start: Progress, events: LearnerEvent[]): Progres
       case 'game_finished': {
         p.games += 1;
         p.consecutiveLosses = x.result === 'loss' ? p.consecutiveLosses + 1 : 0;
-        p.xp += 10;
+        // Recorded for F-EN-2's "review of a loss 25", which is asked of a
+        // `game_reviewed` event that arrives later and carries no result itself.
+        if (x.result === 'loss') p.lostGames[x.gameId] = true;
         break;
       }
       case 'game_reviewed': {
@@ -99,9 +136,6 @@ export function reduceProgress(start: Progress, events: LearnerEvent[]): Progres
         if (!p.gamesReviewed[x.gameId]) {
           p.gamesReviewed[x.gameId] = true;
           p.reviews += 1;
-          // PRD F-EN-2: XP is never deducted, and a review is worth more than a
-          // game, because the research says review is the efficient half.
-          p.xp += 20;
         }
         break;
       }

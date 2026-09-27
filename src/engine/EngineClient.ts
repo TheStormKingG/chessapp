@@ -8,11 +8,38 @@ export interface WorkerLike {
   onmessageerror?: ((e: MessageEvent) => void) | null;
 }
 
-export interface AnalyseRequest { fen: string; depth: number; multiPv?: number }
+export interface AnalyseRequest {
+  fen: string;
+  depth: number;
+  multiPv?: number;
+  /**
+   * Clear the engine's search state before this position (`ucinewgame`).
+   *
+   * Off by default, because play and review WANT the carried-over transposition
+   * table: consecutive positions in one game share most of their tree and the
+   * reuse is most of the speed.
+   *
+   * On for a THRESHOLDED verdict. scripts/verify-content.mjs documents, with
+   * measurements, that without it "a position's verdict therefore depended on
+   * everything analysed before it" — the corpus was stably green in one walk order
+   * and red in the reverse, and one challenge's 99cp margin was being lifted over a
+   * 100cp bar by an inherited table. A learner-facing gate that says "this position
+   * has one clear answer" must not answer differently depending on what the learner
+   * looked at earlier in the session, so the tailored-session verifier asks for a
+   * clean search and the runtime gate then means the same thing the build-time gate
+   * means.
+   *
+   * No `isready` round trip is needed here where the build script needs one: the
+   * script writes to a child process's stdin, whereas this posts messages to a
+   * worker, which processes them in order, so `ucinewgame` is consumed before the
+   * `position` that follows it.
+   */
+  fresh?: boolean;
+}
 export interface AnalysisLine { move: string; pv: string[]; score: Score; depth: number }
 export interface Analysis { lines: AnalysisLine[]; depth: number }
 
-interface Job { fen: string; depth: number; multiPv: number; resolve: (a: Analysis) => void; reject: (e: Error) => void }
+interface Job { fen: string; depth: number; multiPv: number; fresh: boolean; resolve: (a: Analysis) => void; reject: (e: Error) => void }
 
 export class EngineUnavailable extends Error {
   constructor(cause: unknown) {
@@ -36,7 +63,7 @@ export class EngineClient {
 
   analyse(req: AnalyseRequest): Promise<Analysis> {
     return new Promise((resolve, reject) => {
-      this.queue.push({ fen: req.fen, depth: req.depth, multiPv: req.multiPv ?? 1, resolve, reject });
+      this.queue.push({ fen: req.fen, depth: req.depth, multiPv: req.multiPv ?? 1, fresh: req.fresh ?? false, resolve, reject });
       void this.pump();
     });
   }
@@ -121,6 +148,8 @@ export class EngineClient {
     const w = this.worker;
     if (!w) { this.current = null; job.reject(new EngineUnavailable('worker missing')); return; }
     w.postMessage(`setoption name MultiPV value ${job.multiPv}`);
+    if (job.fresh) w.postMessage('ucinewgame');
+    
     w.postMessage(`position fen ${job.fen}`);
     w.postMessage(`go depth ${job.depth}`);
   }

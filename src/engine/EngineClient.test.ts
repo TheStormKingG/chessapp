@@ -98,3 +98,17 @@ test('worker onerror rejects the in-flight and queued jobs and the next request 
   await expect(e.bestMove({ fen: 'f', depth: 1 })).resolves.toBe('e2e4');
   expect(workers).toHaveLength(2);
 });
+
+test('fresh: true clears the search state before the position, and is off by default', async () => {
+  const w = new FakeWorker();
+  const e = new EngineClient(() => w, { idleMs: 10_000 });
+  await e.analyse({ fen: 'f1', depth: 8, multiPv: 2 });
+  // The default must NOT clear: play and review rely on the carried-over table.
+  expect(w.sent).not.toContain('ucinewgame');
+  await e.analyse({ fen: 'f2', depth: 8, multiPv: 2, fresh: true });
+  expect(w.sent).toContain('ucinewgame');
+  // Order is the whole point: clearing after `position` would clear the position.
+  expect(w.sent.indexOf('ucinewgame')).toBeLessThan(w.sent.indexOf('position fen f2'));
+  // And it belongs to the job that asked for it, not to every later one.
+  expect(w.sent.filter((s) => s === 'ucinewgame')).toHaveLength(1);
+});

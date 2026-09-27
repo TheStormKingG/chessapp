@@ -53,13 +53,26 @@ export function initGame(o: {
   persona: string;
   timeControl: TimeControl;
   coach: boolean;
+  /**
+   * The position the game starts from. Defaults to the start of a game.
+   *
+   * Added for PRD F-TS-5, "the game starts from one of the learner's own positions
+   * a few moves before the pattern arose". `turn` and `history` are derived from it
+   * rather than assumed: `turn: 'w'` on a position where Black is to move would let
+   * the wrong side move and every square would still look legal. `takeBack` already
+   * walks `history` and so needs no change — it cannot rewind past `history[0]`,
+   * which is now this position.
+   */
+  fen?: string;
 }): GameState {
+  const { fen: from, ...rest } = o;
+  const fen = from ?? START_FEN;
   return {
     id: crypto.randomUUID(),
-    ...o,
-    fen: START_FEN,
-    turn: 'w',
-    history: [START_FEN],
+    ...rest,
+    fen,
+    turn: turn(fen),
+    history: [fen],
     sans: [],
     hints: 0,
     takebacks: 0,

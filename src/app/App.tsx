@@ -5,6 +5,7 @@ import { InstallPrompt, UpdateNotice } from '@/pwa';
 import { AppRoutes } from './routes';
 import { AuthProvider } from '@/sync/AuthContext';
 import { useKeepCurrent } from '@/import/useKeepCurrent';
+import { useApplyCosmetics } from '@/engagement';
 
 export function App() {
   const loaded = useProgress((s) => s.loaded);
@@ -18,6 +19,13 @@ export function App() {
    * account, which is every learner who has not imported.
    */
   useKeepCurrent();
+  /*
+   * F-EN-6. Four custom properties on the document root, which is the whole
+   * mechanism: `board/boardColors.ts` already resolves every board colour from the
+   * root at render time, so no component learns that cosmetics exist. Applied here
+   * rather than in the picker because it has to hold on every screen.
+   */
+  useApplyCosmetics();
   return (
     <BrowserRouter basename={import.meta.env.BASE_URL.replace(/\/$/, '')}>
       <UpdateNotice />
