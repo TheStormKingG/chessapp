@@ -111,7 +111,7 @@ export function aReview(spec: ReviewSpec): Review {
     partial: false,
     moves,
     accuracy: { w: null, b: null },
-    counts: {},
+    myCounts: {},
     opening: spec.opening ?? null,
     turningPhase: null,
     keyMoments: [],

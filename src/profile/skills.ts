@@ -51,8 +51,10 @@ import { modesAttempted, type VisionBests } from '@/vision/bests';
  * each skill is its FIRST ROW, unchanged — never a weighted blend of the rows.
  * A blend would need weights the PRD does not give, would be unfalsifiable by the
  * learner, and is exactly the invented metric the Progress screen's own header
- * comment refuses. The consequence is that two of the six headlines are per-game
+ * comment refuses. The consequence is that three of the six headlines are per-game
  * rates rather than percentages, which is why `Measure` carries its unit.
+ * (Those three are boardVision, tactics and habits, whose `rows[0]` is a
+ * `rateRow`; endgames, openings and strategy open with a `percentRow`.)
  */
 
 export interface SkillContext {

@@ -148,12 +148,61 @@ export function applyHint(g: GameState, hint: { piece: Square; square: Square })
   };
 }
 
+/** How many threat arrows the board will carry at once. */
+const MAX_THREAT_ARROWS = 3;
+
 /** The opponent's current threats, as arrows (PRD F-PL-3). */
 export function showThreats(g: GameState): GameState {
+  // `threatsAgainst` answers for the side NOT to move. On the bot's turn that
+  // side is the LEARNER, so the arrows would be the learner's own captures drawn
+  // in danger red and labelled as threats against them -- an inversion, not a
+  // blank. Nothing to show until the opponent has moved. See `threatsCue`.
+  if (g.turn !== g.learner) return { ...g, arrows: [] };
   const arrows: Arrow[] = threatsAgainst(g.fen)
-    .captures.slice(0, 3)
+    .captures.slice(0, MAX_THREAT_ARROWS)
     .map((c) => ({ from: c.uci.slice(0, 2) as Square, to: c.uci.slice(2, 4) as Square, color: 'danger' }));
   return { ...g, arrows };
+}
+
+/**
+ * What the coach says when the learner asks to see the threats.
+ *
+ * WHY THIS EXISTS. `showThreats` alone drew arrows for `captures` and nothing
+ * else, which left the control silent in the three cases that matter most:
+ *
+ *  - A MATE IN ONE against the learner drew NOTHING. `threatsAgainst` computes
+ *    it, returns it as `mate`, and the arrow mapping only ever read `captures`.
+ *    The most dangerous thing on the board was the one thing thrown away. It is
+ *    reported in words rather than as an arrow because `mateInOne` returns a
+ *    SAN string and an arrow needs two squares; the SAN is what the learner can
+ *    look up on the board, and `threatIgnored` already speaks in SAN.
+ *  - IN CHECK, `threatsAgainst` cannot compute anything (handing the move to the
+ *    opponent would make a position where the king can be captured), so it
+ *    returns empty. Its own doc comment warns that this empty result is an
+ *    "unknown" and that "a caller must not render it as reassurance (PRD
+ *    F-CO-4)". This caller rendered it as nothing at all, which is worse: a
+ *    button that appears broken at the exact moment the learner needs it.
+ *  - NOTHING FOUND is also not "you are safe". `winningCaptures` is one ply of
+ *    one kind of threat. The line says so rather than implying a clean board.
+ *
+ * Read from the same `g` as `showThreats`, so the words and the arrows cannot
+ * describe different positions.
+ */
+export function threatsCue(g: GameState): CoachCue {
+  // Whose turn it is comes first, and it is the most serious of the three cases.
+  // `threatsAgainst` reports for the side not to move, so on the bot's turn it
+  // reports the LEARNER'S winning captures -- and the button's whole promise is
+  // that what it shows is aimed AT the learner. That is not a silence to fill,
+  // it is a wrong answer, and the button was not disabled during the bot's move
+  // the way `Hint` is.
+  if (g.turn !== g.learner) return { event: 'threatsNotYourTurn', facts: {}, tone: 'neutral' };
+  // Order matters: in check, BOTH fields below are empty for a reason that is
+  // about the computation and not about the position, so it is answered first.
+  if (isCheck(g.fen)) return { event: 'threatsUnknown', facts: {}, tone: 'neutral' };
+  const t = threatsAgainst(g.fen);
+  if (t.mate) return { event: 'threatsMate', facts: { threatSan: t.mate }, tone: 'bad' };
+  if (t.captures.length > 0) return { event: 'threatsShown', facts: {}, tone: 'neutral' };
+  return { event: 'threatsNone', facts: {}, tone: 'neutral' };
 }
 
 export function resign(g: GameState): GameState {

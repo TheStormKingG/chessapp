@@ -6,11 +6,25 @@ import type { ErrorEntry } from './types';
  * error log and a single suggested next lesson."
  *
  * SCOPE, stated plainly: F-RV-7 and PRD 6.1 describe "similar positions" drawn
- * from a puzzle ladder and scheduled at growing intervals. No puzzle ladder and
- * no scheduler exist (src/screens/PuzzlesScreen.tsx is a placeholder), so this
- * replays the learner's OWN positions from this game. That is retrieval
- * practice on the exact position they just got wrong — narrower than F-RV-7 and
- * honestly narrower. Design spec section 6.4 names the destination for the rest.
+ * from a puzzle ladder and scheduled at growing intervals. This does neither. It
+ * replays the learner's OWN positions from this game — retrieval practice on the
+ * exact position they just got wrong, which is narrower than F-RV-7 and honestly
+ * narrower. Design spec section 6.4 names the destination for the rest.
+ *
+ * WHY IT IS STILL NARROW, since half the reason has since gone away. This
+ * comment used to say no puzzle ladder existed, and cited
+ * `src/screens/PuzzlesScreen.tsx` as a placeholder. Both claims are now false:
+ * that screen is built, and the ladder is real — `src/puzzles/select.ts` picks
+ * by a rating window derived from `rating.ts`'s own curve, to F-PZ-1's 70-85%
+ * predicted-success band. So "similar positions from a ladder" is now reachable
+ * and this module has not been changed to reach for it. That is a deliberate
+ * gap, recorded here rather than left to look like an oversight.
+ *
+ * What is still genuinely absent is the SCHEDULER — the "growing intervals"
+ * half. Nothing in the app schedules a position for later; F-PA-3's review
+ * lessons are unbuilt, which is also why F-PA-7's scheduled-review exception has
+ * nothing to fire on (see `src/data/events.ts`). A drill assembled now and
+ * solved now is the only shape available.
  */
 
 export const MIN_DRILL = 3;

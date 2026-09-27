@@ -198,8 +198,8 @@ export function bankReview(review: Review, drillCompleted: boolean): EventPayloa
     type: 'game_reviewed',
     gameId: review.gameId,
     accuracy: mine ?? 0,
-    blunders: review.counts.Blunder ?? 0,
-    mistakes: review.counts.Mistake ?? 0,
+    blunders: review.myCounts.Blunder ?? 0,
+    mistakes: review.myCounts.Mistake ?? 0,
     drillCompleted,
     partial: review.partial,
   };

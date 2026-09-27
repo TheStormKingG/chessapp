@@ -182,10 +182,20 @@ export function errorsFrom(
       lessonId: THEME_LESSON[theme],
       // SUBSTITUTE, not the PRD's rule. F-RV-6 f asks whether the error is
       // "typical at the learner's level" and names the puzzle ladder as the
-      // source; the puzzle ladder is a placeholder screen, so there is nothing
-      // to ask. What this flag actually says is narrower and checkable: the
+      // source. What this flag actually says is narrower and checkable: the
       // section the learner is in teaches this theme. It is a statement about
       // the curriculum, never about other learners. Design spec §9.6.
+      //
+      // This comment used to justify the substitute by saying the puzzle ladder
+      // was a placeholder screen. It is not, and has not been for some
+      // releases: `src/puzzles/select.ts` picks by a rating window and
+      // `src/screens/PuzzlesScreen.tsx` is a built screen. The substitute
+      // survives for a different and better reason, which is what the PRD
+      // actually asks for: "typical AT THE LEARNER'S LEVEL" is a claim about
+      // OTHER learners at that rating, and the app holds no population data to
+      // make it with. That is F-SW-5's band statistics, which have no source
+      // (see src/profile/bandStats.ts). A ladder tells you how hard a puzzle
+      // is; it does not tell you what other people get wrong.
       typical: (TYPICAL_THEMES as readonly string[]).includes(theme),
       createdAt: ctx.now,
     });

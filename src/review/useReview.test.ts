@@ -132,7 +132,7 @@ test('banking a complete review produces exactly one payload', () => {
     partial: false,
     accuracy: { w: 72.5, b: 60 },
     learner: 'w',
-    counts: { Blunder: 2, Mistake: 3 },
+    myCounts: { Blunder: 2, Mistake: 3 },
   } as unknown as Review;
   const p = bankReview(review, true);
   expect(p).toEqual({
@@ -154,7 +154,7 @@ test('banking a complete review produces exactly one payload', () => {
  * banked. `partial: true` keeps the event log honest about which kind it was.
  */
 test('a partial review is banked, and the event says it was partial', () => {
-  const review = { gameId: 'g1', partial: true, accuracy: { w: 50, b: 40 }, learner: 'w', counts: { Blunder: 1 } } as unknown as Review;
+  const review = { gameId: 'g1', partial: true, accuracy: { w: 50, b: 40 }, learner: 'w', myCounts: { Blunder: 1 } } as unknown as Review;
   const p = reviewed(bankReview(review, false));
   expect(p.partial).toBe(true);
   expect(p.gameId).toBe('g1');
@@ -163,12 +163,12 @@ test('a partial review is banked, and the event says it was partial', () => {
 });
 
 test('banking uses the learner’s own accuracy, not the opponent’s', () => {
-  const review = { gameId: 'g1', partial: false, accuracy: { w: 30, b: 90 }, learner: 'b', counts: {} } as unknown as Review;
+  const review = { gameId: 'g1', partial: false, accuracy: { w: 30, b: 90 }, learner: 'b', myCounts: {} } as unknown as Review;
   expect(reviewed(bankReview(review, false)).accuracy).toBe(90);
 });
 
 test('a null accuracy banks as 0 rather than crashing or claiming 100', () => {
-  const review = { gameId: 'g1', partial: false, accuracy: { w: null, b: null }, learner: 'w', counts: {} } as unknown as Review;
+  const review = { gameId: 'g1', partial: false, accuracy: { w: null, b: null }, learner: 'w', myCounts: {} } as unknown as Review;
   expect(reviewed(bankReview(review, false)).accuracy).toBe(0);
 });
 

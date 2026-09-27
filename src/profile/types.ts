@@ -150,9 +150,12 @@ export interface Strength {
 /**
  * A measure with its unit stated.
  *
- * F-PG-1 asks for "a mastery percentage" per skill. Four of the six skills have
- * a number that genuinely is a percentage (an accuracy, a found-versus-missed
- * ratio); two do not, and their natural measure is a per-game rate. Forcing a
+ * F-PG-1 asks for "a mastery percentage" per skill. Three of the six skills have
+ * a headline that genuinely is a percentage (endgames, openings and strategy, an
+ * accuracy or a found-versus-missed ratio); the other three — boardVision,
+ * tactics and habits — do not, and their natural measure is a per-game rate.
+ * The headline is `rows[0]` (see `breakdown` in skills.ts), so the split is
+ * decided by which row each builder puts first. Forcing a
  * rate onto a 0–100 scale would need a mapping nothing in the PRD specifies, and
  * an invented composite is the fabricated metric the Progress screen's own
  * header comment already refuses. So the unit travels with the number.

@@ -18,6 +18,7 @@ import {
   resign,
   resultFor,
   showThreats,
+  threatsCue,
   takeBack,
   tickClock,
   applyHint,
@@ -290,10 +291,27 @@ export function useGame(
     onLearnerMove,
     hint,
     threats: () => {
+      // Cue computed from `g` and spoken outside the updater, the shape `hint`
+      // uses: a state updater may run twice under StrictMode and the coach must
+      // not speak twice for one tap.
       setG((s) => showThreats(s));
+      say(threatsCue(g));
     },
     undo: () => {
-      setG((s) => takeBack(s));
+      // `takeBack` returns the SAME state when there is nothing to take back, and
+      // that distinction has to be kept: silencing the coach on a no-op would be
+      // a second defect in the shape of a fix.
+      const next = takeBack(g);
+      if (next === g) return;
+      setG(next);
+      // `takeBack` clears the arrows, the highlights and the hint level, because
+      // they all described a position that no longer exists. The coach's line
+      // described it too, and it lives in React state rather than in GameState,
+      // so it was the one thing left standing -- a comment about a move the
+      // learner has just withdrawn. F-CO-4 says the coach never says a word it
+      // has not verified, and after a take-back this one is no longer verified.
+      setCoachText(null);
+      setTone('neutral');
     },
     giveUp: () => {
       setG((s) => resign(s));

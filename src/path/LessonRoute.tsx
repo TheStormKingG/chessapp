@@ -67,6 +67,9 @@ export function LessonRoute() {
           hints: r.hints,
           misses: r.misses,
           mastery: r.mastery,
+          // F-PA-7. The reducer, not this call site, decides what a replay
+          // means for mastery; this only states which kind of run it was.
+          replay,
           context: 'lesson',
         });
       }

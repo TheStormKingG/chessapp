@@ -141,7 +141,7 @@ export function aGame(spec: GameSpec = {}): ProfileGame {
     // phase — so it is left null rather than given a number that could be taken
     // for a source of truth.
     accuracy: { w: null, b: null },
-    counts: {},
+    myCounts: {},
     opening: spec.opening === undefined ? null : spec.opening,
     turningPhase: null,
     keyMoments: Array.from({ length: spec.found ?? 0 }, (_, i) => ({
