@@ -3,7 +3,7 @@
  *
  * One family, drawn here rather than pulled from an icon set, because the set
  * is five glyphs and the shapes are the ones the design document already writes
- * in its wireframes: ▣ Today, ◈ Path, ◉ Puzzles, a piece for Play, ▤ Progress.
+ * in its wireframes: ▣ Today, ◈ Path, ◉ Practice, a piece for Play, ▤ Progress.
  * Three primitives — square, diamond, circle — plus a pawn and a bar chart, all
  * on one 24-unit grid at one stroke weight, so the row reads as a set.
  *
@@ -19,7 +19,7 @@
  * matching the stem of the 12px label beside it. Active is filled, matching the
  * semibold label. Vector only; never an emoji (hard constraint 8).
  */
-export type TabSymbol = 'today' | 'path' | 'puzzles' | 'play' | 'progress';
+export type TabSymbol = 'today' | 'path' | 'practice' | 'play' | 'progress';
 
 /**
  * Outer shape plus an optional inner shape knocked out of it. With
@@ -32,8 +32,10 @@ const PATHS: Record<TabSymbol, string> = {
   today: 'M4 4h16v16H4V4Z M9 9h6v6H9V9Z',
   // ◈ a diamond, stepped: the unit you are on.
   path: 'M12 2.5 21.5 12 12 21.5 2.5 12 12 2.5Z M12 8 16 12l-4 4-4-4 4-4Z',
-  // ◉ a target: the puzzle to solve.
-  puzzles: 'M12 3a9 9 0 1 1 0 18 9 9 0 0 1 0-18Z M12 8.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7Z',
+  // ◉ a target: the one thing to work on. Named `puzzles` until F-PR-1 turned
+  // that tab into Practice; the glyph is unchanged, because aiming at a single
+  // thing is what both words mean here.
+  practice: 'M12 3a9 9 0 1 1 0 18 9 9 0 0 1 0-18Z M12 8.5a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7Z',
   // A pawn: the only tab where a piece actually moves.
   play: 'M12 3.2a3.3 3.3 0 0 1 2.1 5.85c1.05 1.2 1.6 2.65 1.8 4.45H8.1c.2-1.8.75-3.25 1.8-4.45A3.3 3.3 0 0 1 12 3.2Z M6 15.2h12V21H6v-5.8Z',
   // ▤ the record, rising.

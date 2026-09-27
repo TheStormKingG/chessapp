@@ -6,6 +6,8 @@ import { topStrengths } from './strengths';
 import { topWeaknesses } from './weaknesses';
 import { whatChanged } from './whatChanged';
 import type { Profile, ProfileGame } from './types';
+/* `@/vision/bests`, not `@/vision` — see the note in skills.ts. */
+import { NO_BESTS, type VisionBests } from '@/vision/bests';
 
 /**
  * The profile, assembled. PRD §8.14 F-SW-1 … F-SW-8.
@@ -41,6 +43,15 @@ export interface BuildProfileOptions {
    * skill-driven, and the learner can include them with one switch."
    */
   includeBullet?: boolean;
+  /**
+   * F-PG-1's "vision trainer scores", for the Board vision skill.
+   *
+   * Defaults to `NO_BESTS` — all three modes at zero — which is a learner who has
+   * not opened the trainer, and renders as absent rather than as a measured zero.
+   * A default rather than a required field so every existing caller and every
+   * test that builds a profile from games alone keeps working unchanged.
+   */
+  visionBests?: VisionBests;
 }
 
 export function buildProfile(games: readonly ProfileGame[], options: BuildProfileOptions = {}): Profile {
@@ -64,6 +75,7 @@ export function buildProfile(games: readonly ProfileGame[], options: BuildProfil
     comparisonsAllowed: comparisons.shown,
     early: comparisons.shown && comparisons.label === 'early',
   };
+  const visionBests = options.visionBests ?? NO_BESTS;
 
   return {
     games: measured.length,
@@ -71,7 +83,7 @@ export function buildProfile(games: readonly ProfileGame[], options: BuildProfil
     comparisons,
     strengths: topStrengths({ totals, games: measured, ...shared }),
     weaknesses: topWeaknesses({ games: ordered, ...shared }),
-    skills: skillBreakdowns({ totals, games: measured, ...shared }),
+    skills: skillBreakdowns({ totals, games: measured, ...shared, visionBests }),
     changed: whatChanged(measured),
     gameIds: measured.map((g) => g.gameId),
   };

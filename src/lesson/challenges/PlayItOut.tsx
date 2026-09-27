@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Board } from '@/board';
 import { applyMove, turn } from '@/rules';
 import { getEngine } from '@/engine';
-import { reportError } from '@/analytics';
+import { reportEngineFailure } from '@/analytics';
 import { EngineGate } from '@/play/EngineGate';
 import type { Highlights } from '../LessonMachine';
 import { goalMet, type PlayItOut as PlayItOutChallenge } from './goal';
@@ -101,7 +101,7 @@ function Drill({
         // The position is the opponent's to move, so leaving the board live
         // would silently reject everything. Say so and offer the retry instead.
         if (!alive.current) return;
-        reportError(e, { where: 'play-it-out-reply' });
+        reportEngineFailure(e, 'play-it-out-reply');
         setEngineDown(true);
       } finally {
         if (alive.current) setThinking(false);

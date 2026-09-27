@@ -547,6 +547,44 @@ test('the full-size board still carries its rail and its gutter pull', () => {
   expect(root.querySelector<HTMLElement>('.relative.grid')!.style.marginLeft).not.toBe('');
 });
 
+test('coordinates={false} drops the rail and its gutter pull, at full size', () => {
+  // F-PR-2's vision trainer asks "where is g1?" — a rail printing every
+  // coordinate beside the board answers it. `coordinates` suppresses the rail
+  // WITHOUT making the board compact, which is the distinction: `size` is about
+  // the board being small, `coordinates` is about the rail being a spoiler.
+  const { container } = render(
+    <Board fen={START_FEN} orientation="w" mode="select" coordinates={false} />,
+  );
+  const root = container.querySelector<HTMLElement>('[data-board-root]')!;
+  expect(root.querySelector('[data-rail]')).toBeNull();
+  // The gutter pull goes with it. Left behind without the rail, the board would
+  // hang a rail's width into the page margin — the same pairing the sized-board
+  // test above asserts.
+  expect(root.querySelector<HTMLElement>('.relative.grid')!.style.marginLeft).toBe('');
+  // And it is NOT compact: the board keeps its full width rather than a fixed px.
+  expect(root.style.width).toBe('');
+});
+
+test('coordinates defaults to true, so no existing caller loses its rail', () => {
+  // The positive control for the test above. Without it, a `coordinates` that
+  // defaulted to false would strip the rail app-wide and the test above would
+  // still be green — the exact failure the sized-board pair guards against.
+  const { container } = render(<Board fen={START_FEN} orientation="w" mode="select" />);
+  const root = container.querySelector<HTMLElement>('[data-board-root]')!;
+  expect(root.querySelector('[data-rail]')).not.toBeNull();
+  expect(root.querySelector<HTMLElement>('.relative.grid')!.style.marginLeft).not.toBe('');
+});
+
+test('a board without its rail still announces coordinates to assistive technology', () => {
+  // Hiding the rail costs sighted users an index and costs a screen-reader user
+  // nothing: the rails are aria-hidden and always were, and describeSquare
+  // carries every coordinate through the live region. This is what makes the
+  // suppression safe rather than an accessibility regression.
+  render(<Board fen={START_FEN} orientation="w" mode="select" coordinates={false} />);
+  expect(screen.getByRole('status', { name: 'Board announcements' })).toBeInTheDocument();
+  expect(screen.getByRole('application', { name: /white at the bottom/i })).toBeInTheDocument();
+});
+
 test('a decorative board is context, not a control: no role, no tab stop, no live region', async () => {
   // P4b: the board on Today's lesson card is decorative context inside a link,
   // not a second control. The full board's accessibility work is deliberately

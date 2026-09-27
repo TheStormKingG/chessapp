@@ -8,7 +8,7 @@ test('shell shows the five tabs', () => {
       <Shell><div>content</div></Shell>
     </MemoryRouter>,
   );
-  for (const label of ['Today', 'Path', 'Puzzles', 'Play', 'Progress']) {
+  for (const label of ['Today', 'Path', 'Practice', 'Play', 'Progress']) {
     expect(screen.getByRole('link', { name: label })).toBeInTheDocument();
   }
   expect(screen.getByText('content')).toBeInTheDocument();
@@ -49,12 +49,29 @@ test('the active tab is the filled symbol, not a recoloured outline', () => {
 
 test('only the matching tab is marked current', () => {
   render(
-    <MemoryRouter initialEntries={['/puzzles']}>
+    <MemoryRouter initialEntries={['/practice']}>
       <Shell><div>content</div></Shell>
     </MemoryRouter>,
   );
   const current = screen.getAllByRole('link').filter((a) => a.getAttribute('aria-current') === 'page');
   expect(current).toHaveLength(1);
-  expect(current[0]).toHaveTextContent('Puzzles');
+  expect(current[0]).toHaveTextContent('Practice');
   expect(screen.getByRole('link', { name: 'Today' })).not.toHaveAttribute('aria-current');
+});
+
+/*
+ * F-PR-1 replaced the Puzzles tab with Practice rather than adding a sixth.
+ * Both halves of that are asserted, because only the pair is the decision: the
+ * count is still five, and `/puzzles` is no longer one of the five while still
+ * being a route the app serves (routes.test.tsx covers the route itself).
+ */
+test('Practice replaced Puzzles in the bar rather than joining it', () => {
+  render(
+    <MemoryRouter>
+      <Shell><div>content</div></Shell>
+    </MemoryRouter>,
+  );
+  expect(screen.getAllByRole('link')).toHaveLength(5);
+  expect(screen.getByRole('link', { name: 'Practice' })).toHaveAttribute('href', '/practice');
+  expect(screen.queryByRole('link', { name: 'Puzzles' })).toBeNull();
 });

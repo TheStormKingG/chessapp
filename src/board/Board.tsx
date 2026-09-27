@@ -148,11 +148,13 @@ function useBoardPalette(): { palette: BoardPalette } {
   return { palette };
 }
 
-export function Board(props: BoardProps & { size?: number; decorative?: boolean; testId?: string }) {
+export function Board(
+  props: BoardProps & { size?: number; decorative?: boolean; testId?: string; coordinates?: boolean },
+) {
   const {
     fen, orientation, mode, onMove, onSelectSquare, highlights = {}, arrows = [],
     replay = null, disabled, textEntry, announce, onDragStart, onDragEnd, size,
-    decorative = false, testId,
+    decorative = false, testId, coordinates = true,
   } = props;
   // P4b: `decorative` is the board as CONTEXT rather than as a control -- today
   // the 120px position on Today's lesson card, which sits inside the link that
@@ -233,6 +235,30 @@ export function Board(props: BoardProps & { size?: number; decorative?: boolean;
   // coordinate through the live region below, which is the path that actually
   // carries coordinates to assistive technology (§4).
   const compact = size !== undefined;
+  /*
+   * Whether the coordinate rail is drawn.
+   *
+   * `compact` already suppressed it, for the reason above: at 120px a rank glyph
+   * is a third of a square and the rail is noise rather than an index. F-PR-2's
+   * vision trainer needs the same suppression for the opposite reason — its
+   * "find the square" mode asks the learner to locate a named square, and a rail
+   * printing every coordinate beside the board answers the question for them.
+   *
+   * So the two reasons are kept apart: `size` is about the board being small,
+   * `coordinates` is about the rail being a spoiler, and either suppresses the
+   * rail without implying the other. Declared on the component rather than on
+   * `BoardProps` in types.ts, exactly as `size` and `decorative` are and for the
+   * same stated reason: it is a presentational affordance of this component, not
+   * part of the board contract every caller reads.
+   *
+   * It costs nothing in accessibility. The rails are `aria-hidden` and always
+   * were — `describeSquare` announces every coordinate through the live region
+   * below, and that is the path that actually carries coordinates to assistive
+   * technology (§4). Hiding the rail hides it from sighted users only.
+   *
+   * Defaults to true, so every existing caller is unchanged.
+   */
+  const showRail = !compact && coordinates;
   const [selected, setSelected] = useState<Square | null>(null);
   const [status, setStatus] = useState('');
   // M-1: flipping the board restarts the keyboard cursor at the player's near
@@ -615,15 +641,15 @@ export function Board(props: BoardProps & { size?: number; decorative?: boolean;
       <div
         className="relative grid"
         style={
-          compact
-            ? { gridTemplateColumns: 'minmax(0, 1fr)' }
-            : {
+          showRail
+            ? {
                 gridTemplateColumns: `${String(RAIL_REM)}rem minmax(0, 1fr)`,
                 marginLeft: `-${String(RAIL_REM)}rem`,
               }
+            : { gridTemplateColumns: 'minmax(0, 1fr)' }
         }
       >
-        {!compact && <CoordinateRail axis="rank" items={railRanks(orientation)} />}
+        {showRail && <CoordinateRail axis="rank" items={railRanks(orientation)} />}
         <div
           ref={appRef}
           role={interactive ? 'application' : undefined}
@@ -653,7 +679,7 @@ export function Board(props: BoardProps & { size?: number; decorative?: boolean;
         >
           <Chessboard options={options} />
         </div>
-        {!compact && (
+        {showRail && (
           <>
             <div />
             <CoordinateRail axis="file" items={railFiles(orientation)} />

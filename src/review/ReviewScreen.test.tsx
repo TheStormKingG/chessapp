@@ -120,6 +120,51 @@ test('an engine that cannot run at all leaves the learner a way out, not a spinn
 });
 
 /**
+ * F-ER-1: "bot play and review show a one-line explanation with a retry."
+ *
+ * The retry is the half that was missing. The screen used to offer only Close,
+ * which reads as "this is over" for a failure that is most often transient — a
+ * worker killed by the OS, a tab backgrounded mid-pass. This test is written the
+ * way a failure-path test has to be to mean anything: the engine fails for the
+ * FIRST pass and works for the second, so the assertion is not "my message
+ * rendered" but "the learner who pressed the button got the review they came
+ * for", through the same code that produced the failure.
+ */
+test('the review failure offers a retry, and the retry produces the review', async () => {
+  await seedGame('g1');
+  // One dead pass, then a healthy engine. `mockRejectedValue` would reject for
+  // ever and could not tell a working retry from a broken one.
+  engine.analyse.mockReset();
+  let firstPass = true;
+  engine.analyse.mockImplementation(async (req: { fen: string; depth: number; multiPv?: number }) => {
+    if (firstPass) throw new Error('worker died');
+    return { lines: [{ move: 'g1f3', pv: ['g1f3'], score: { cp: 20 }, depth: req.depth }], depth: req.depth };
+  });
+
+  at('/play/review/g1');
+  const line = await screen.findByRole('alert', {}, { timeout: 5000 });
+  expect(line).toHaveTextContent(/could not finish this review/i);
+  // F-ER-1 says ONE line. Two sentences of apology is not what this clause asks
+  // for, and a learner staring at a failed review reads the first one only.
+  expect((line.textContent ?? '').split('.').filter((p) => p.trim() !== '')).toHaveLength(2);
+
+  const again = screen.getByRole('button', { name: /try again/i });
+  const before = engine.analyse.mock.calls.length;
+  expect(before).toBeGreaterThan(0); // the first pass really did ask the engine
+
+  firstPass = false;
+  await userEvent.click(again);
+
+  // The observable the LEARNER gets: the review, not a message about a review.
+  await screen.findByRole('heading', { name: /game review/i }, { timeout: 5000 });
+  expect(screen.getByRole('heading', { name: /accuracy/i })).toBeVisible();
+  // And the retry actually re-asked the engine rather than serving something stale.
+  expect(engine.analyse.mock.calls.length).toBeGreaterThan(before);
+  // Nothing of the failure is left on screen.
+  expect(screen.queryByRole('button', { name: /try again/i })).not.toBeInTheDocument();
+});
+
+/**
  * Banking appends an event, which changes `progress`. An effect that depends on
  * `progress` would therefore re-run the whole analysis the moment the review is
  * banked — pulling the learner out of the drill and back to a progress bar.

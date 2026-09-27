@@ -6,7 +6,7 @@ import type { Progress } from '@/data/reduce';
 import { getEngine } from '@/engine';
 import { CoachService } from '@/coach';
 import { btn } from '@/app/Button';
-import { reportError } from '@/analytics';
+import { reportEngineFailure, reportError } from '@/analytics';
 import { importedSource } from '@/import/reviewSource';
 import { bandForUnit } from './bands';
 import { drillFrom } from './fixIt';
@@ -35,6 +35,19 @@ export function ReviewScreen() {
   const [review, setReview] = useState<Review | null>(null);
   const [done, setDone] = useState(0);
   const [total, setTotal] = useState(0);
+  /**
+   * F-ER-1: "review show[s] a one-line explanation with a retry."
+   *
+   * The counter, not a call to the analysis function, is what the Retry button
+   * moves. The pass is owned by the effect below — it holds the `live` flag, the
+   * cancel on unmount and the service ref — so a second entry point that started
+   * a pass outside it would be a second owner of all three, and the first bug
+   * that arrangement produces is two passes writing into one screen. Bumping a
+   * dependency re-runs the one owner instead: the old pass's cleanup cancels it
+   * before the new one starts, which is the property `retry` needs and gets for
+   * free.
+   */
+  const [attempt, setAttempt] = useState(0);
   const [at, setAt] = useState(0);
   const banked = useRef(false);
   const coach = useMemo(() => new CoachService(), []);
@@ -110,7 +123,7 @@ export function ReviewScreen() {
         setReview(deeper);
         await db.reviews.put(deeper);
       } catch (e) {
-        reportError(e, { where: 'review:analyse' });
+        reportEngineFailure(e, 'review:analyse');
         if (live) setStage('failed');
       }
     })();
@@ -120,7 +133,22 @@ export function ReviewScreen() {
       // against a screen nobody is looking at (F-RV-1, design spec §1.5).
       service.current?.cancel();
     };
-  }, [gameId]);
+    // `attempt` is read by nothing in the body: it is here to make the Retry
+    // button re-run this effect, which is the whole mechanism. Removing it from
+    // the list silently turns Retry into a no-op.
+  }, [gameId, attempt]);
+
+  /**
+   * F-ER-1's retry. Resets the progress figures too, so the bar starts at zero
+   * rather than resuming from where the dead pass stopped and claiming progress
+   * the new pass has not made.
+   */
+  const retry = useCallback(() => {
+    setStage('loading');
+    setDone(0);
+    setTotal(0);
+    setAttempt((a) => a + 1);
+  }, []);
 
   const bank = useCallback(
     async (drillCompleted: boolean) => {
@@ -147,10 +175,27 @@ export function ReviewScreen() {
   if (stage === 'failed') {
     return (
       <Shellish>
-        <p className="t-body">The engine could not finish this review. Your game is safe — try again later.</p>
-        <button type="button" className={`${btn.primary} mt-4 w-full`} onClick={() => { nav('/play'); }}>
-          Close
-        </button>
+        {/*
+          F-ER-1: ONE line, and a retry. It used to offer only Close, which reads
+          as "this is over" for a failure that is very often the opposite — a
+          worker that died once, or a tab that was backgrounded mid-pass. The
+          learner's game is already banked either way, so the only thing Close
+          alone cost them was the review they came for.
+
+          `role="alert"` so the line is announced: the learner arrived here from
+          a progress bar and may not be looking.
+        */}
+        <p role="alert" className="t-body">
+          The engine could not finish this review. Your game is safe — try again.
+        </p>
+        <div className="mt-4 flex flex-col gap-2">
+          <button type="button" className={`${btn.primary} w-full`} onClick={retry}>
+            Try again
+          </button>
+          <button type="button" className={`${btn.quiet} w-full`} onClick={() => { nav('/play'); }}>
+            Close
+          </button>
+        </div>
       </Shellish>
     );
   }

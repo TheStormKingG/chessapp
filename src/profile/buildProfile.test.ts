@@ -4,6 +4,8 @@ import { NO_BAND_STATS, type BandStatsSource } from './bandStats';
 import { COMPARISON_MIN_GAMES, LABEL_DROP_GAMES } from './sampleSize';
 import { buildProfile } from './buildProfile';
 import { aGame, games, type GameSpec } from './testGames';
+import { NO_BESTS } from '@/vision/bests';
+import { VISION_MODES } from '@/vision/types';
 
 const withTheme: GameSpec = {
   moves: [{ label: 'Mistake', drop: 30, winBefore: 70 }],
@@ -177,14 +179,95 @@ test('all six F-PG-1 skills are present, in order, every time', () => {
 });
 
 test('a skill with nothing to report says what is absent rather than printing zero', () => {
-  const p = buildProfile([]);
+  /*
+   * This used to require EVERY skill to declare at least one unmeasurable thing.
+   * That was true only while no skill was fully measured, which made it a claim
+   * about the state of the work rather than about the check: F-PR-2 built the
+   * vision trainer, and Board vision's only gap was "there is no vision trainer",
+   * so a learner who has played all three modes now has a skill with nothing
+   * absent. The universal would then fail on the work being FINISHED.
+   *
+   * So the guard is stated where it is load-bearing instead. Each entry that
+   * exists must be a real sentence with a reason in it; an absent measure must
+   * carry its reason; and — the non-empty control, over the SET rather than over
+   * every member — some skill must still declare something, or the sweep would
+   * pass against a profile that had quietly stopped reporting gaps at all.
+   */
+  const p = buildProfile([], { visionBests: { ...NO_BESTS } });
+  let declared = 0;
   for (const s of p.skills) {
-    // Every skill declares at least one thing it cannot measure, with a reason.
-    expect(s.notMeasured.length, s.id).toBeGreaterThan(0);
-    for (const n of s.notMeasured) expect(n.length, s.id).toBeGreaterThan(20);
-    // And an absent measure carries a reason, never a bare zero.
+    for (const n of s.notMeasured) {
+      expect(n.length, s.id).toBeGreaterThan(20);
+      declared++;
+    }
     if (s.headline.kind === 'absent') expect(s.headline.reason, s.id).toBeTruthy();
   }
+  expect(declared).toBeGreaterThan(0);
+});
+
+/*
+ * F-PG-1's "Board vision (hanging pieces per game, vision trainer scores)".
+ *
+ * Before F-PR-2 the second half was a `notMeasured` line saying the trainer did
+ * not exist. These three tests are what "wired" means: the scores become rows, the
+ * line goes away once every mode has been played, and an unplayed mode is ABSENT
+ * with a reason rather than a measured zero.
+ */
+test('board vision reports a personal best per vision-trainer mode', () => {
+  const bests = { ...NO_BESTS, 'find-square': 11, 'find-destination': 4, 'count-attackers': 7 };
+  const skill = buildProfile(games(3), { visionBests: bests }).skills.find((s) => s.id === 'boardVision')!;
+  const visionRows = skill.rows.filter((r) => r.label.startsWith('Vision trainer'));
+  expect(visionRows).toHaveLength(VISION_MODES.length);
+  expect(visionRows.map((r) => r.measure)).toEqual([
+    { kind: 'count', value: 11 },
+    { kind: 'count', value: 4 },
+    { kind: 'count', value: 7 },
+  ]);
+});
+
+test('board vision stops declaring the trainer missing once every mode is played', () => {
+  const none = buildProfile([], { visionBests: { ...NO_BESTS } }).skills.find((s) => s.id === 'boardVision')!;
+  const all = buildProfile([], {
+    visionBests: { 'find-square': 1, 'find-destination': 1, 'count-attackers': 1 },
+  }).skills.find((s) => s.id === 'boardVision')!;
+
+  // The positive control: with no scores it DOES declare the gap, so the empty
+  // list below is the wiring working rather than the field never being filled.
+  expect(none.notMeasured).toHaveLength(1);
+  expect(none.notMeasured[0]).toMatch(/vision-trainer scores/i);
+  expect(all.notMeasured).toEqual([]);
+});
+
+test('an unplayed mode is absent with a reason, never a measured zero', () => {
+  const partial = { ...NO_BESTS, 'find-square': 6 };
+  const skill = buildProfile([], { visionBests: partial }).skills.find((s) => s.id === 'boardVision')!;
+  const rows = skill.rows.filter((r) => r.label.startsWith('Vision trainer'));
+  expect(rows[0]!.measure).toEqual({ kind: 'count', value: 6 });
+  for (const row of rows.slice(1)) {
+    expect(row.measure.kind).toBe('absent');
+    if (row.measure.kind === 'absent') expect(row.measure.reason).toMatch(/not played/i);
+  }
+  // Two of three played means the gap is still declared, and says how many.
+  expect(skill.notMeasured[0]).toContain('2 of the 3');
+});
+
+test('the vision rows carry no band comparison, because no population exists', () => {
+  const skill = buildProfile(games(40), {
+    visionBests: { 'find-square': 9, 'find-destination': 9, 'count-attackers': 9 },
+  }).skills.find((s) => s.id === 'boardVision')!;
+  for (const row of skill.rows.filter((r) => r.label.startsWith('Vision trainer'))) {
+    expect(row.comparison).toBeNull();
+  }
+});
+
+test('the headline stays hanging pieces per game, not a trainer score', () => {
+  // A per-round trainer score is not a mastery percentage, and promoting it would
+  // change what the skill's headline means (see the module header in skills.ts).
+  const skill = buildProfile(games(12, () => withTheme), {
+    visionBests: { 'find-square': 99, 'find-destination': 99, 'count-attackers': 99 },
+  }).skills.find((s) => s.id === 'boardVision')!;
+  expect(skill.rows[0]!.label).toMatch(/free to take/i);
+  expect(skill.headline).toEqual(skill.rows[0]!.measure);
 });
 
 test('the headline of each skill is its first row, never a blended score', () => {

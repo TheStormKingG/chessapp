@@ -5,7 +5,15 @@ import { TabIcon, type TabSymbol } from './TabIcon';
 const tabs: { to: string; label: string; symbol: TabSymbol; end?: boolean }[] = [
   { to: '/', label: 'Today', symbol: 'today', end: true },
   { to: '/path', label: 'Path', symbol: 'path' },
-  { to: '/puzzles', label: 'Puzzles', symbol: 'puzzles' },
+  /*
+   * F-PR-1 asks for a Practice tab. This SLOT was the Puzzles tab, and it is
+   * reused rather than joined by a sixth: puzzles are one kind of practice, so
+   * "Puzzles" and "Practice" side by side would put a subset next to its
+   * superset, and at 390 px a sixth tab takes the labels below the size the bar
+   * is drawn for. `/puzzles` is untouched and still routed — it is now reached
+   * from the Practice home, and every deep link into it still works.
+   */
+  { to: '/practice', label: 'Practice', symbol: 'practice' },
   { to: '/play', label: 'Play', symbol: 'play' },
   { to: '/progress', label: 'Progress', symbol: 'progress' },
 ];

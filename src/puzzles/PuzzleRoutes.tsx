@@ -2,12 +2,14 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useSearchParams } from 'react-router';
 import { btn } from '@/app/Button';
 import { db, useProgress } from '@/data';
+import { estimateSpace } from '@/data/persistence';
 import { track } from '@/analytics';
 import { DailyPuzzle } from './DailyPuzzle';
 import { FixMyMistakes } from './FixMyMistakes';
 import { PuzzleStream } from './PuzzleStream';
 import { ThemedPractice } from './ThemedPractice';
 import { bandFor, loadPack } from './packs';
+import { isOutOfSpace, packFailureMessage, type PackFailure } from './packMessages';
 import { buildQueue } from './queue';
 import { useErrors, useRating } from './routeData';
 import { THEMES } from './themes';
@@ -40,10 +42,18 @@ const DAILY_BAND: RatingBand = '600-900';
 type PackState =
   | { status: 'loading' }
   | { status: 'ready'; pool: Puzzle[] }
-  /** The network and the runtime cache both missed — a first-ever offline visit. */
-  | { status: 'unavailable' };
+  /**
+   * The network and the runtime cache both missed — a first-ever offline visit,
+   * or a device with no room to keep the pack.
+   *
+   * F-ER-3 requires the learner be told WHICH pack and HOW MUCH SPACE it needs,
+   * so the failure travels with the band and with what `estimate()` said rather
+   * than collapsing to a single status: a bare `'unavailable'` cannot produce
+   * either fact, which is why the old message stated neither.
+   */
+  | { status: 'unavailable'; failure: PackFailure };
 
-function usePack(band: RatingBand): PackState {
+function usePack(band: RatingBand): PackState & { retry: () => void } {
   /**
    * The band is carried WITH the state, and a mismatch reads as loading.
    *
@@ -57,6 +67,16 @@ function usePack(band: RatingBand): PackState {
     band,
     state: { status: 'loading' },
   }));
+  /**
+   * F-ER-3's retry. Bumping this re-runs the effect below, which owns the `on`
+   * flag — so the dead attempt is neutralised by its own cleanup before the new
+   * one starts, rather than by a second code path that would have to repeat it.
+   */
+  const [attempt, setAttempt] = useState(0);
+  const retry = useCallback(() => {
+    setState((h) => ({ band: h.band, state: { status: 'loading' } }));
+    setAttempt((a) => a + 1);
+  }, []);
   useEffect(() => {
     let on = true;
     loadPack(band)
@@ -70,13 +90,32 @@ function usePack(band: RatingBand): PackState {
           .catch(() => undefined);
       })
       .catch(() => {
-        if (on) setState({ band, state: { status: 'unavailable' } });
+        /*
+         * F-ER-3 names two causes with two different remedies, and `fetch` does
+         * not tell them apart: a failure caused by a full disk and one caused by
+         * no network both reject with the same `TypeError`. So the cause is not
+         * inferred from the rejection — the space question is asked separately,
+         * and a device that genuinely has no room for this pack gets the
+         * out-of-space sentence instead of being sent to look for wifi.
+         *
+         * `estimateSpace` never rejects (see data/persistence.ts), so this
+         * cannot turn a pack failure into an unhandled one.
+         */
+        void estimateSpace().then((space) => {
+          if (!on) return;
+          const failure: PackFailure = isOutOfSpace(band, space.freeBytes)
+            ? { kind: 'out-of-space', band, freeBytes: space.freeBytes }
+            : { kind: 'unavailable', band };
+          setState({ band, state: { status: 'unavailable', failure } });
+        });
       });
     return () => {
       on = false;
     };
-  }, [band]);
-  return held.band === band ? held.state : { status: 'loading' };
+    // `attempt` is read by nothing in this body: it is here so `retry` re-runs
+    // the effect. Removing it makes the retry control a silent no-op.
+  }, [band, attempt]);
+  return { ...(held.band === band ? held.state : { status: 'loading' }), retry };
 }
 
 /**
@@ -140,15 +179,26 @@ function useBankAttempt(): (r: AttemptResult, puzzle: Puzzle) => void {
 }
 
 /** The chrome the loading and unavailable states share, each with its own way out. */
-function Interstitial({ title, body }: { title: string; body: string }) {
+function Interstitial({ title, body, onRetry }: { title: string; body: string; onRetry?: () => void }) {
   const nav = useNavigate();
   return (
     <section className="p-4">
       <h1 className="t-display">{title}</h1>
-      <p className="t-body mt-3">{body}</p>
+      {/*
+        `role="alert"` only when this is a failure. The loading copy is not an
+        alert and announcing it would interrupt a screen reader for "Loading…".
+      */}
+      <p className="t-body mt-3" role={onRetry ? 'alert' : undefined}>
+        {body}
+      </p>
+      {onRetry && (
+        <button type="button" className={`${btn.primary} mt-6 w-full md:max-w-sm`} onClick={onRetry}>
+          Try again
+        </button>
+      )}
       <button
         type="button"
-        className={`${btn.primary} mt-6 w-full md:max-w-sm`}
+        className={`${onRetry ? btn.quiet : btn.primary} mt-3 w-full md:max-w-sm`}
         onClick={() => {
           void nav('/puzzles');
         }}
@@ -159,14 +209,6 @@ function Interstitial({ title, body }: { title: string; body: string }) {
   );
 }
 
-/**
- * The message for a pack that is not here and cannot be fetched.
- *
- * F-PZ-9's own failure case: a first-ever visit made offline has nothing
- * cached. It SAYS so. The alternative the design spec names explicitly — an
- * empty board — looks like a broken app rather than a missing download.
- */
-const NO_PACK = 'These puzzles have not been downloaded yet, and there is no connection to fetch them. Open this once online and they will be here offline afterwards.';
 
 export function RatedRoute() {
   const nav = useNavigate();
@@ -178,7 +220,8 @@ export function RatedRoute() {
 
   const byId = useMemo(() => new Map((pool ?? []).map((p) => [p.id, p])), [pool]);
 
-  if (pack.status === 'unavailable') return <Interstitial title="Puzzles" body={NO_PACK} />;
+  if (pack.status === 'unavailable')
+    return <Interstitial title="Puzzles" body={packFailureMessage(pack.failure).text} onRetry={pack.retry} />;
   if (!pool || !ready) return <Interstitial title="Puzzles" body="Loading…" />;
 
   return (
@@ -218,7 +261,10 @@ export function ThemedRoute() {
   const pool = pack.status === 'ready' ? pack.pool : null;
   const byId = useMemo(() => new Map((pool ?? []).map((p) => [p.id, p])), [pool]);
 
-  if (pack.status === 'unavailable') return <Interstitial title="Themed practice" body={NO_PACK} />;
+  if (pack.status === 'unavailable')
+    return (
+      <Interstitial title="Themed practice" body={packFailureMessage(pack.failure).text} onRetry={pack.retry} />
+    );
   if (!pool) return <Interstitial title="Themed practice" body="Loading…" />;
 
   return (
@@ -280,7 +326,8 @@ export function DailyRoute() {
   const pool = pack.status === 'ready' ? pack.pool : null;
   const byId = useMemo(() => new Map((pool ?? []).map((p) => [p.id, p])), [pool]);
 
-  if (pack.status === 'unavailable') return <Interstitial title="Daily puzzle" body={NO_PACK} />;
+  if (pack.status === 'unavailable')
+    return <Interstitial title="Daily puzzle" body={packFailureMessage(pack.failure).text} onRetry={pack.retry} />;
   if (!pool || solvedDays === null) return <Interstitial title="Daily puzzle" body="Loading…" />;
 
   return (

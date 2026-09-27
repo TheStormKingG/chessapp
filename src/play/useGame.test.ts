@@ -1,7 +1,7 @@
 import { act, renderHook, waitFor } from '@testing-library/react';
 import { useGame } from './useGame';
 
-const analytics = vi.hoisted(() => ({ track: vi.fn(), reportError: vi.fn() }));
+const analytics = vi.hoisted(() => ({ track: vi.fn(), reportError: vi.fn(), reportEngineFailure: vi.fn() }));
 vi.mock('@/analytics', () => analytics);
 
 const bot = vi.hoisted(() => ({ chooseMove: vi.fn() }));
@@ -17,6 +17,7 @@ vi.mock('@/engine', () => ({ getEngine: () => engine }));
 beforeEach(() => {
   analytics.track.mockReset();
   analytics.reportError.mockReset();
+  analytics.reportEngineFailure.mockReset();
   bot.chooseMove.mockReset();
   engine.bestMove.mockReset();
 });
@@ -62,5 +63,13 @@ test('an engine that cannot move the bot is reported, not swallowed', async () =
   await waitFor(() => {
     expect(result.current.engineDown).toBe(true);
   });
-  expect(analytics.reportError).toHaveBeenCalledWith(expect.any(Error), { where: 'play-bot-move' });
+  // F-ER-1 requires the DEVICE CLASS on this report, so the site must go
+  // through `reportEngineFailure`, which attaches it (see
+  // analytics/deviceClass.test.ts). A bare `reportError` here would reach the
+  // tracker with no way to tell a broken deploy from a 2 GB phone.
+  expect(analytics.reportEngineFailure).toHaveBeenCalledWith(expect.any(Error), 'play-bot-move');
+  // Absence claim, with its positive control one line above: the same mock
+  // object registered the call that did happen, so an inert mock would have
+  // failed that assertion first rather than making this one vacuous.
+  expect(analytics.reportError).not.toHaveBeenCalled();
 });
