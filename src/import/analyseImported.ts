@@ -1,7 +1,7 @@
 import { db } from '@/data/db';
 import { useProgress } from '@/data';
 import { getEngine } from '@/engine';
-import { reportError } from '@/analytics';
+import { reportEngineFailure, reportError } from '@/analytics';
 import { AnalysisService, bandForUnit, bankReview, loadBook, lookupOpening, positionsOf, reviewFor } from '@/review';
 import type { AnalysisEngine } from '@/review';
 import type { GameAnalyser } from './analysisQueue';
@@ -90,7 +90,7 @@ export function makeImportedGameAnalyser(deps: AnalyserDeps = {}): GameAnalyser 
       // and leaving it pending would re-analyse it on every visit for ever.
       return 'done';
     } catch (e) {
-      reportError(e, { where: 'import:analyse', gameId: row.gameId });
+      reportEngineFailure(e, 'import:analyse', { extra: { gameId: row.gameId } });
       return 'failed';
     }
   };

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { reportError } from '@/analytics';
+import { reportEngineFailure } from '@/analytics';
 import { downloadEngine, ENGINE_BYTES, ENGINE_ERROR, ENGINE_SIZE_LABEL } from './downloadEngine';
 
 type Status = 'downloading' | 'ready' | 'error';
@@ -93,7 +93,7 @@ export function EngineDownload({ onReady }: { onReady?: () => void }) {
       })
       .catch((e: unknown) => {
         if (!live) return;
-        reportError(e, { where: 'engine-download' });
+        reportEngineFailure(e, 'engine-download');
         setStatus('error');
       });
     return () => {

@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { db } from '@/data/db';
 import { useImportSettings } from '@/import/settings';
+/* `@/vision/bests`, not `@/vision` — see the note in skills.ts. */
+import { useVision } from '@/vision/bests';
 import { NO_BAND_STATS } from './bandStats';
 import { buildProfile } from './buildProfile';
 import { profileGamesFrom } from './games';
@@ -40,6 +42,12 @@ export interface ProfileState {
 
 export function useProfile(): ProfileState {
   const includeBullet = useImportSettings((s) => s.includeBullet);
+  /*
+   * F-PG-1's vision-trainer scores. A device-local setting, so it is read from its
+   * store rather than from Dexie, and a new best re-renders the profile the moment
+   * the learner sets one.
+   */
+  const visionBests = useVision((s) => s.bests);
   const [state, setState] = useState<ProfileState>({ profile: null, undateable: 0 });
 
   useEffect(() => {
@@ -49,7 +57,7 @@ export function useProfile(): ProfileState {
         if (!live) return;
         const { games, undateable } = profileGamesFrom({ reviews, imported, events });
         setState({
-          profile: buildProfile(games, { rating: null, source: NO_BAND_STATS, includeBullet }),
+          profile: buildProfile(games, { rating: null, source: NO_BAND_STATS, includeBullet, visionBests }),
           undateable,
         });
       })
@@ -58,12 +66,12 @@ export function useProfile(): ProfileState {
         // path and the totals below the profile read from the event-log projection
         // and are unaffected. An empty profile renders as its own honest empty
         // state, which is what a learner with no analysed games sees anyway.
-        if (live) setState({ profile: buildProfile([], { includeBullet }), undateable: 0 });
+        if (live) setState({ profile: buildProfile([], { includeBullet, visionBests }), undateable: 0 });
       });
     return () => {
       live = false;
     };
-  }, [includeBullet]);
+  }, [includeBullet, visionBests]);
 
   return state;
 }

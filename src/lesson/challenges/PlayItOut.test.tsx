@@ -33,7 +33,7 @@ vi.mock('@/board', () => ({
 const engine = vi.hoisted(() => ({ bestMove: vi.fn() }));
 vi.mock('@/engine', () => ({ getEngine: () => engine }));
 
-const analytics = vi.hoisted(() => ({ track: vi.fn(), reportError: vi.fn() }));
+const analytics = vi.hoisted(() => ({ track: vi.fn(), reportError: vi.fn(), reportEngineFailure: vi.fn() }));
 vi.mock('@/analytics', () => analytics);
 
 // The drill is wrapped in the engine-download gate (F-OF-2); a cached engine
@@ -63,6 +63,7 @@ const drill: PlayItOutChallenge = {
 beforeEach(() => {
   vi.spyOn(globalThis, 'fetch').mockResolvedValue(cachedEngine());
   analytics.reportError.mockReset();
+  analytics.reportEngineFailure.mockReset();
   engine.bestMove.mockReset();
   board.move = { from: 'e1', to: 'e2', uci: 'e1e2', san: 'Ke2' };
 });
@@ -107,7 +108,10 @@ test('an engine that cannot reply explains itself, holds the board and retries',
   // F-ER-1: one plain line, not a board that silently refuses every move.
   expect(await screen.findByRole('alert')).toHaveTextContent('The engine could not answer your move.');
   expect(screen.getByRole('button', { name: 'play' })).toBeDisabled();
-  expect(analytics.reportError).toHaveBeenCalledWith(expect.any(Error), { where: 'play-it-out-reply' });
+  // F-ER-1's device class rides on `reportEngineFailure`; see the same
+  // assertion in play/useGame.test.ts for why a bare `reportError` fails it.
+  expect(analytics.reportEngineFailure).toHaveBeenCalledWith(expect.any(Error), 'play-it-out-reply');
+  expect(analytics.reportError).not.toHaveBeenCalled();
 
   const stuckFen = screen.getByTestId('fen').textContent ?? '';
   await userEvent.click(screen.getByRole('button', { name: 'Retry' }));

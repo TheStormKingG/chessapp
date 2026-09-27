@@ -1,6 +1,14 @@
 import { comparisonFor, type BandMetric, type BandStatsSource, type Bucket } from './bandStats';
 import { openingLines, ratePerGame, type GameMetrics, type Totals } from './metrics';
 import { SKILL_IDS, SKILL_TITLE, type DetailRow, type Measure, type SkillBreakdown, type SkillId } from './types';
+/*
+ * From `@/vision/bests`, NOT from `@/vision`. The barrel re-exports the census and
+ * the trainer, so it pulls chess.js and a board; `bests.ts` is zustand plus a
+ * type. `useProfile` is on the Progress tab's static graph, so the difference is
+ * the difference between the shell paying for the vision trainer and not.
+ */
+import { MODE_TITLE, VISION_MODES, type VisionMode } from '@/vision/types';
+import { modesAttempted, type VisionBests } from '@/vision/bests';
 
 /**
  * F-SW-4, "The detail behind each skill", verbatim:
@@ -56,6 +64,15 @@ export interface SkillContext {
   comparisonsAllowed: boolean;
   /** F-SW-6: do the permitted comparisons carry the "early" caveat. */
   early: boolean;
+  /**
+   * F-PG-1's "vision trainer scores", for Board vision.
+   *
+   * A device-local setting rather than a game record (src/vision/bests.ts says
+   * why), so it arrives as an option on `buildProfile` rather than being derived
+   * from the `games` above. All-zero is the state of a learner who has not opened
+   * the trainer, and it renders as absent rather than as a measured zero.
+   */
+  visionBests: VisionBests;
 }
 
 /** A row whose value is a per-game rate. */
@@ -111,14 +128,58 @@ function compare(ctx: SkillContext, metric: BandMetric | null, learner: number |
 
 const NO_GAMES = 'No analysed games yet.';
 
+/**
+ * F-PG-1: "Board vision (hanging pieces per game, vision trainer scores)".
+ *
+ * The second half of that used to be a `notMeasured` entry reading "There is no
+ * vision trainer in the app yet, so there are no scores to include." F-PR-2 built
+ * the trainer, so the entry is gone and the scores are rows — which is the whole
+ * of what wiring it meant.
+ *
+ * A mode never played contributes an ABSENT row with its reason, not a zero:
+ * `stars`-style, the distinction between "you scored nothing" and "you have not
+ * tried this" is one the rest of src/profile keeps carefully and this keeps too.
+ * The headline stays the FIRST row (see the module header) — hanging pieces per
+ * game — because a per-round trainer score is not a mastery percentage and
+ * promoting it would change what the skill's headline means.
+ */
 function boardVision(ctx: SkillContext): SkillBreakdown {
   const rows = [
     rateRow(ctx, 'Pieces left free to take, per game', ctx.totals.themeCounts.hung_piece, 'hungPiecesPerGame'),
     rateRow(ctx, 'Free pieces missed, per game', ctx.totals.themeCounts.missed_capture, 'missedFreePiecesPerGame'),
   ];
-  return breakdown('boardVision', rows, [
-    'Vision-trainer scores (F-PG-1). There is no vision trainer in the app yet, so there are no scores to include.',
-  ]);
+  for (const mode of VISION_MODES) rows.push(visionRow(ctx, mode));
+  return breakdown('boardVision', rows, notMeasuredForVision(ctx.visionBests));
+}
+
+/** One vision mode's personal best, or its absence with the reason. */
+function visionRow(ctx: SkillContext, mode: VisionMode): DetailRow {
+  const best = ctx.visionBests[mode];
+  const measure: Measure =
+    best > 0
+      ? { kind: 'count', value: best }
+      : { kind: 'absent', reason: 'You have not played this vision-trainer mode yet.' };
+  // No comparison: F-SW-5's band statistics are over GAMES, and there is no
+  // population of vision-trainer scores to compare a learner against — see
+  // bandStats.ts for what would have to exist.
+  return { label: `Vision trainer, ${MODE_TITLE[mode].toLowerCase()} — best in 30 seconds`, measure, comparison: null };
+}
+
+/**
+ * What Board vision still cannot report.
+ *
+ * Empty once all three trainer modes have been played, which is correct and is
+ * the point: this skill's two game measures are both computed, so a learner who
+ * has used the trainer has nothing absent from it. buildProfile.test.ts asserts
+ * the SET of skills still declares something rather than requiring every skill to
+ * — a universal that was only ever true because the trainer did not exist.
+ */
+function notMeasuredForVision(bests: VisionBests): string[] {
+  const played = modesAttempted(bests);
+  if (played === VISION_MODES.length) return [];
+  return [
+    `Vision-trainer scores for ${String(VISION_MODES.length - played)} of the ${String(VISION_MODES.length)} modes (F-PG-1). Those modes have not been played on this device, so there is no score to include. The trainer is in Practice.`,
+  ];
 }
 
 function tactics(ctx: SkillContext): SkillBreakdown {

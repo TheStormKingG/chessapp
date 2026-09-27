@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { getEngine } from '@/engine';
-import { reportError, track } from '@/analytics';
+import { reportEngineFailure, track } from '@/analytics';
 import { BotService, type Persona } from '@/bot';
 import { CoachService } from '@/coach';
 import { useSettings } from '@/app/settings';
@@ -132,7 +132,7 @@ export function useGame(
         return next;
       } catch (e) {
         // F-ER-1: the screen says so and offers a retry; the sink gets the cause.
-        reportError(e, { where: 'play-bot-move' });
+        reportEngineFailure(e, 'play-bot-move');
         setEngineDown(true);
         return state;
       } finally {
@@ -267,7 +267,7 @@ export function useGame(
         // supplies a verified answer; otherwise the engine error is the honest report.
         uci = fallbackHint(g.fen);
         if (!uci) {
-          reportError(e, { where: 'play-hint' });
+          reportEngineFailure(e, 'play-hint');
           setEngineDown(true);
           return;
         }

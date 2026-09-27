@@ -18,6 +18,7 @@ import { PlayScreen } from '@/play/PlayScreen';
 import { TailoredSessionScreen } from '@/tailored';
 import { ReviewScreen } from '@/review';
 import { PuzzlesHomeRoute } from '@/puzzles/PuzzlesHomeRoute';
+import { PracticeHomeRoute } from '@/practice/PracticeHomeRoute';
 
 /**
  * The four solving routes are the app's only React code split (PRD 11, the
@@ -47,6 +48,26 @@ const FixRoute = lazy(() => import('@/puzzles/PuzzleRoutes').then((m) => ({ defa
  * It is a browsable section rather than a modal task -- a learner reads the list,
  * leaves, comes back -- so both sit in `ShellRoutes` below, inside the tab shell.
  */
+/**
+ * PRD §8.7's Practice feature, split for the reason above (PRD §11, the 300 KiB
+ * shell budget).
+ *
+ * The Practice HOME is imported statically: it is the tab, so it is on the
+ * first-paint graph whatever we do. These three are not, and they are the
+ * expensive half — the drill list reads the results store, the drill runner pulls
+ * the lesson loader and the engine gate, and the vision trainer pulls chess.js and
+ * a board. `src/practice/index.ts` deliberately does not re-export any of them, so
+ * importing the home cannot drag them back in.
+ *
+ * The two DRILL routes name the same module, so they are one chunk and not two: a
+ * learner who opens the list is the learner who opens a drill. The vision trainer
+ * is its own module because the two share nothing — a learner doing 30-second
+ * coordinate drills is not loading the engine.
+ */
+const DrillsRoute = lazy(() => import('@/practice/DrillsScreen').then((m) => ({ default: m.DrillsScreen })));
+const DrillRunRoute = lazy(() => import('@/practice/DrillRoute').then((m) => ({ default: m.DrillRoute })));
+const VisionRoute = lazy(() => import('@/vision/VisionTrainer').then((m) => ({ default: m.VisionTrainer })));
+
 const ImportScreenRoute = lazy(() => import('@/import').then((m) => ({ default: m.ImportScreen })));
 const ReviewListRoute = lazy(() => import('@/import').then((m) => ({ default: m.ReviewListScreen })));
 
@@ -116,6 +137,18 @@ export function AppRoutes() {
           <ModalTask>
             <TailoredSessionScreen />
           </ModalTask>
+        }
+      />
+      {/* F-PR-1's drill is a modal task like the lesson whose challenge it runs:
+          one position, one goal, and the tab bar is not the way out of it. The
+          drill LIST stays in the shell below, because a list is browsable — the
+          same pair as /puzzles and /puzzles/rated. */}
+      <Route
+        path="/practice/drill/:lessonId/:challengeId"
+        element={
+          <SolvingTask>
+            <DrillRunRoute />
+          </SolvingTask>
         }
       />
       <Route
@@ -225,6 +258,29 @@ function ShellRoutes() {
       <Routes>
         <Route path="/" element={<TodayOrOnboarding />} />
         <Route path="/path" element={<PathScreen />} />
+        {/* F-PR-1's Practice tab. `/puzzles` below is unchanged and still
+            routed: it is now reached from here rather than from the tab bar, so
+            every deep link into it keeps working. */}
+        <Route path="/practice" element={<PracticeHomeRoute />} />
+        <Route
+          path="/practice/drills"
+          element={
+            <Suspense fallback={null}>
+              <DrillsRoute />
+            </Suspense>
+          }
+        />
+        {/* F-PR-2. Browsable rather than a modal task: a round is 30 seconds and
+            the learner chooses a mode, plays, and chooses again on the same
+            screen, so there is no single activity for a frame to wrap. */}
+        <Route
+          path="/practice/vision"
+          element={
+            <Suspense fallback={null}>
+              <VisionRoute />
+            </Suspense>
+          }
+        />
         {/* F-PZ-3 orders this screen by the number of mistakes waiting, so the
             route supplies the count the screen renders. */}
         <Route path="/puzzles" element={<PuzzlesHomeRoute />} />
