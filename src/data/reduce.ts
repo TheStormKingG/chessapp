@@ -100,7 +100,10 @@ export function reduceProgress(start: Progress, events: LearnerEvent[]): Progres
       }
       case 'challenge_attempted': {
         p.attempts += 1;
-        if (x.mastery) p.masteryAttempts += 1;
+        // F-PA-7: a replay does not change mastery. The attempt still counts
+        // as an attempt -- the learner did the work -- but it cannot raise the
+        // mastery figure a second time on content they have already proved.
+        if (x.mastery && x.replay !== true) p.masteryAttempts += 1;
         break;
       }
       case 'checkpoint_attempted': {

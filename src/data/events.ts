@@ -17,6 +17,23 @@ export type EventPayload =
       misses: number;
       mastery: boolean;
       /**
+       * F-PA-7: "Replays earn reduced XP and do not change mastery unless the
+       * replay is a scheduled review."
+       *
+       * The flag lives on the EVENT rather than being resolved before it is
+       * written, because the log records what happened and the projection
+       * decides what it means. Suppressing `mastery` at the call site would
+       * lose the fact that the learner got it right.
+       *
+       * Optional so that every event already in a learner's log stays valid;
+       * absent reads as false, which is what those events were.
+       *
+       * Scheduled reviews are F-PA-3 and do not exist, so the exception in the
+       * requirement has nothing to fire on yet. When they arrive, this is the
+       * flag that distinguishes them.
+       */
+      replay?: boolean;
+      /**
        * Where the attempt happened. `'placement'` is the onboarding placement
        * test and the rules check (F-ON-5): that work is real and is recorded
        * like any other, but it is neither a lesson nor a unit's checkpoint, and

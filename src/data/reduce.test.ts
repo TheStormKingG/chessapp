@@ -277,3 +277,81 @@ describe('F-EN-2 through the projection (engagement/xp.ts owns the rates)', () =
     expect(replayed.xp).toBe(10 + 25 + 5 + 10 + 15);
   });
 })
+
+/*
+ * F-PA-7: "Replays earn reduced XP and do not change mastery unless the replay
+ * is a scheduled review."
+ *
+ * The XP half of that requirement had a test from the start (see "best stars are
+ * kept; replay earns half xp" above). The mastery half did not, and the
+ * projection did not honour it: `challenge_attempted` carried `mastery` with no
+ * way to say which kind of run produced it, so a clean replay banked mastery
+ * credit a second time on content the learner had already proved.
+ *
+ * WHAT THIS IS AND IS NOT. `masteryAttempts` is written by this reducer and, as
+ * of this release, read by nothing but these tests -- the Progress screen's
+ * mastery percentages come from game metrics (src/profile/skills.ts), not from
+ * here. So this is a fix to the ledger, not to something a learner can currently
+ * see. It is worth making anyway, and worth saying plainly: the ledger is the
+ * thing a future reader will trust, and a wrong number that nobody reads yet is
+ * still a wrong number.
+ *
+ * The exception in the requirement -- a scheduled review -- is F-PA-3, which does
+ * not exist. When it does, it appends with `replay: false` (it is not a replay in
+ * the sense the requirement means) or with a flag of its own; the point of
+ * recording the fact on the event rather than resolving it at the call site is
+ * that the decision stays in one place.
+ */
+
+const attempt = (challengeId: string, extra: Partial<Extract<EventPayload, { type: 'challenge_attempted' }>> = {}) =>
+  newEvent({
+    type: 'challenge_attempted',
+    lessonId: '1.1.1',
+    challengeId,
+    correct: true,
+    hints: 0,
+    misses: 0,
+    mastery: true,
+    context: 'lesson',
+    ...extra,
+  });
+
+test('a replay does not bank mastery credit a second time', () => {
+  const p = reduceProgress(emptyProgress(), [
+    attempt('c1'), // the first, real run
+    attempt('c1', { replay: true }), // the same challenge, replayed clean
+  ]);
+  // The attempt still happened and is still counted -- the learner did the work.
+  expect(p.attempts).toBe(2);
+  // The mastery ledger does not move.
+  expect(p.masteryAttempts).toBe(1);
+});
+
+test('the control: the same two events without the flag DO count twice', () => {
+  // Without this, the test above passes for the wrong reason -- it would also
+  // pass if `masteryAttempts` had simply stopped counting, or if the second
+  // event were being dropped as a duplicate id somewhere. This pins the
+  // difference to the flag and nothing else: same events, same ids, same
+  // `mastery: true`, one field changed.
+  const p = reduceProgress(emptyProgress(), [attempt('c1'), attempt('c1')]);
+  expect(p.attempts).toBe(2);
+  expect(p.masteryAttempts).toBe(2);
+});
+
+test('an absent flag reads as a real attempt, so existing logs keep their credit', () => {
+  // Every `challenge_attempted` already written to a learner's device predates
+  // the flag. Those events were real runs, and a migration that silently voided
+  // their mastery credit would be a worse defect than the one being fixed.
+  const legacy = newEvent({
+    type: 'challenge_attempted',
+    lessonId: '1.1.1',
+    challengeId: 'c1',
+    correct: true,
+    hints: 0,
+    misses: 0,
+    mastery: true,
+    context: 'lesson',
+  });
+  expect('replay' in legacy).toBe(false);
+  expect(reduceProgress(emptyProgress(), [legacy]).masteryAttempts).toBe(1);
+});
