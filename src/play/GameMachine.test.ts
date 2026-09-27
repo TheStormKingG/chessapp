@@ -8,6 +8,7 @@ import {
   resign,
   resultFor,
   showThreats,
+  threatsCue,
   takeBack,
   tickClock,
   applyHint,
@@ -15,6 +16,7 @@ import {
 } from './GameMachine';
 import { crowns, crownsNote } from './crowns';
 import { START_FEN, applyMove } from '@/rules';
+import { threatsAgainst } from '@/tagger';
 
 function game(over: Partial<GameState> = {}): GameState {
   return { ...initGame({ learner: 'w', persona: 'rosa', timeControl: 'untimed', coach: true }), ...over };
@@ -254,4 +256,116 @@ test('a loss reports the crowns as help not used, never as a celebration', () =>
   expect(crownsNote('loss', 3)).not.toMatch(/well played|nice|great/i);
   expect(crownsNote('draw', 1)).toMatch(/help/i);
   expect(crownsNote('win', 3)).toMatch(/no hints/i);
+});
+
+/*
+ * ── WHAT THE THREATS BUTTON SAYS ─────────────────────────────────────────────
+ *
+ * `showThreats` drew arrows for `captures` and read nothing else, so three cases
+ * came out as a control that does nothing at all. The cue is what closes them,
+ * and the point of these tests is the three silences rather than the happy path:
+ * each one below asserts the old behaviour is gone, and the first test in the
+ * group is the control proving the position really is the case being described.
+ */
+
+/**
+ * White (the learner) to move and NOT in check, but if Black had the move, Ra1
+ * is mate: the white king on g1 is walled in by its own pawns on f2, g2 and h2.
+ * Black has no capture at all here, so the OLD code drew zero arrows and said
+ * nothing -- for a forced mate against the learner.
+ */
+const BLACK_MATES_NEXT = 'r6k/8/8/8/8/8/5PPP/6K1 w - - 0 1';
+
+/** White to move and in check from the rook on e8. */
+const WHITE_IN_CHECK = '4r2k/8/8/8/8/8/8/4K3 w - - 0 1';
+
+test('the mate fixture is what it claims: a mate in one that is not a capture', () => {
+  // The control. Without it the two assertions below could both pass on a
+  // position where nothing was threatened at all.
+  const t = threatsAgainst(BLACK_MATES_NEXT);
+  expect(t.mate).not.toBeNull();
+  expect(t.captures).toHaveLength(0);
+});
+
+test('a mate in one against the learner is reported, not silently dropped', () => {
+  const cue = threatsCue(game({ fen: BLACK_MATES_NEXT, turn: 'w' }));
+  expect(cue.event).toBe('threatsMate');
+  expect(cue.facts.threatSan).toBe(threatsAgainst(BLACK_MATES_NEXT).mate);
+  expect(cue.tone).toBe('bad');
+  // And the old code's output on this position, for the record: no arrows.
+  expect(showThreats(game({ fen: BLACK_MATES_NEXT, turn: 'w' })).arrows).toEqual([]);
+});
+
+test('in check, the empty result is reported as unanswerable, never as safety', () => {
+  // `threatsAgainst` returns nothing here for a reason about the COMPUTATION,
+  // not about the position -- its own comment says a caller must not render that
+  // as reassurance (F-CO-4). So the cue must not be the same one a quiet board
+  // gets.
+  const cue = threatsCue(game({ fen: WHITE_IN_CHECK, turn: 'w' }));
+  expect(cue.event).toBe('threatsUnknown');
+  expect(cue.event).not.toBe('threatsNone');
+});
+
+test('a quiet board gets a line that stops short of calling it safe', () => {
+  const cue = threatsCue(game({ fen: AFTER_1E4_E5, turn: 'w' }));
+  expect(cue.event).toBe('threatsNone');
+  // The arrows really are empty, so this IS the case the button used to answer
+  // with nothing.
+  expect(showThreats(game({ fen: AFTER_1E4_E5, turn: 'w' })).arrows).toEqual([]);
+});
+
+test('a capture to draw still gets the arrows-explaining line', () => {
+  const g = game({ fen: KNIGHT_HANGING_ON_G5, turn: 'w' });
+  expect(showThreats(g).arrows.length).toBeGreaterThan(0);
+  expect(threatsCue(g).event).toBe('threatsShown');
+});
+
+test('the words and the arrows are read off the same position', () => {
+  // Two functions, one `g`. This is the invariant that lets them stay separate:
+  // a cue that says "arrows" must not be produced for a state whose arrows are
+  // empty, and vice versa.
+  for (const fen of [AFTER_1E4_E5, BLACK_MATES_NEXT, WHITE_IN_CHECK, KNIGHT_HANGING_ON_G5]) {
+    const g = game({ fen, turn: 'w' });
+    const drew = showThreats(g).arrows.length > 0;
+    expect(threatsCue(g).event === 'threatsShown').toBe(drew);
+  }
+});
+
+/*
+ * ── THE WORST OF THE THREE, WHICH WAS NOT A SILENCE ──────────────────────────
+ *
+ * `threatsAgainst(fen)` answers for the side NOT to move. On the learner's turn
+ * that is the opponent, which is the question the button asks. On the OPPONENT'S
+ * turn it is the learner -- so the button drew the learner's own winning captures
+ * in danger red and the coach called them threats against them. The button had no
+ * turn guard, unlike Hint, and `thinking` did not disable it either.
+ */
+/**
+ * Black (the bot) to move. White's rook on d1 can take the black queen on d4 for
+ * nothing -- a winning capture FOR THE LEARNER. Black's own Qxd1 is not winning,
+ * because the white king on e1 defends the rook. So the two directions give
+ * different answers here, which is what makes the fixture able to show the
+ * inversion rather than merely be consistent with it.
+ */
+const BOT_TO_MOVE_LEARNER_HAS_A_CAPTURE = '4k3/8/8/8/3q4/8/8/3RK3 b - - 0 1';
+
+test('the inversion was real: on the bot’s turn the tagger reports the learner’s captures', () => {
+  // The control, and the whole reason the guard exists. `threatsAgainst` reports
+  // for the side that is NOT moving, so on the bot's turn it reports the
+  // LEARNER's capture -- which the button would have drawn in danger red and the
+  // coach would have called a threat against them.
+  const asked = threatsAgainst(BOT_TO_MOVE_LEARNER_HAS_A_CAPTURE);
+  expect(asked.captures.length).toBeGreaterThan(0);
+  // It really is the learner's own move that comes back: a white piece moving.
+  expect(asked.captures[0]!.uci.startsWith('d1')).toBe(true);
+  // ...and the honest direction on the same position reports something else.
+  const learnersTurn = BOT_TO_MOVE_LEARNER_HAS_A_CAPTURE.replace(' b ', ' w ');
+  expect(threatsAgainst(learnersTurn).captures).not.toEqual(asked.captures);
+});
+
+test('on the opponent’s move the button refuses rather than inverting', () => {
+  const g = game({ fen: BOT_TO_MOVE_LEARNER_HAS_A_CAPTURE, turn: 'b', learner: 'w' });
+  expect(threatsCue(g).event).toBe('threatsNotYourTurn');
+  // And no arrows, so nothing is drawn in danger red that is not a danger.
+  expect(showThreats(g).arrows).toEqual([]);
 });

@@ -73,3 +73,93 @@ test('an engine that cannot move the bot is reported, not swallowed', async () =
   // failed that assertion first rather than making this one vacuous.
   expect(analytics.reportError).not.toHaveBeenCalled();
 });
+
+/*
+ * The coach's line survived a take-back.
+ *
+ * `takeBack` clears the arrows, the highlights and the hint level -- everything
+ * in `GameState` that described the position being withdrawn. The coach's line
+ * described it too, but it lives in React state here rather than in `GameState`,
+ * so it was the one thing left standing: a comment about a move the learner has
+ * just taken back, sitting above a board that no longer contains it. F-CO-4 says
+ * the coach never says a word it has not verified.
+ */
+test('taking a move back silences the comment about it', async () => {
+  bot.chooseMove.mockResolvedValue('e7e5');
+  engine.bestMove.mockResolvedValue('g1f3');
+  const { result } = renderHook(() => useGame({ learner: 'w', timeControl: 'untimed', coach: true }));
+
+  // A full move pair, so there is something to take back at all.
+  act(() => {
+    result.current.onLearnerMove('e2e4');
+  });
+  await waitFor(() => {
+    expect(result.current.g.history.length).toBeGreaterThanOrEqual(3);
+  });
+
+  // Something for the coach to say. A hint is the deterministic route: the
+  // template needs only the square it highlights.
+  act(() => {
+    result.current.hint();
+  });
+  await waitFor(() => {
+    expect(result.current.coachText).not.toBeNull();
+  });
+
+  act(() => {
+    result.current.undo();
+  });
+  expect(result.current.coachText).toBeNull();
+});
+
+test('the control: a take-back that cannot happen leaves the coach alone', async () => {
+  // Without this, the fix above would pass just as well if `undo` simply always
+  // silenced the coach -- including on a press that changes nothing. The button
+  // is disabled in that state, so this is about the handler being honest rather
+  // than about a reachable tap.
+  bot.chooseMove.mockResolvedValue('e7e5');
+  engine.bestMove.mockResolvedValue('e2e4');
+  const { result } = renderHook(() => useGame({ learner: 'w', timeControl: 'untimed', coach: true }));
+
+  act(() => {
+    result.current.hint();
+  });
+  await waitFor(() => {
+    expect(result.current.coachText).not.toBeNull();
+  });
+  const said = result.current.coachText;
+  const before = result.current.g;
+
+  act(() => {
+    result.current.undo();
+  });
+  expect(result.current.g).toBe(before); // nothing was taken back
+  expect(result.current.coachText).toBe(said); // so nothing was silenced
+});
+
+/*
+ * The Threats button was a silent no-op whenever `captures` was empty, which
+ * includes a forced mate against the learner and being in check. The cue is
+ * covered in GameMachine.test.ts; this is the wiring -- that pressing the button
+ * makes the coach speak at all.
+ */
+test('asking for threats makes the coach say something, even on a quiet board', async () => {
+  bot.chooseMove.mockResolvedValue('e7e5');
+  const { result } = renderHook(() => useGame({ learner: 'w', timeControl: 'untimed', coach: true }));
+  await waitFor(() => {
+    expect(result.current.g).toBeDefined();
+  });
+  expect(result.current.coachText).toBeNull(); // the control: silent before
+
+  // The learner is White and moves first, so it IS their turn -- which the
+  // assertion below depends on, since the button now refuses on the opponent's
+  // move. Stated rather than assumed.
+  expect(result.current.g.turn).toBe('w');
+
+  act(() => {
+    result.current.threats();
+  });
+  expect(result.current.coachText).not.toBeNull();
+  // Specifically the quiet-board line, not the refusal one.
+  expect(result.current.coachText).toContain('not the same as safe');
+});

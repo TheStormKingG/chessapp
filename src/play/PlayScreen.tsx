@@ -237,7 +237,19 @@ function PlayGame({
               >
                 Hint
               </button>
-              <button type="button" onClick={threats} className={btn.secondary}>
+              {/*
+                Disabled on the opponent's move, the same as Hint above. Before
+                this it was the one control with no turn guard, and pressing it
+                mid-bot-move did not do nothing -- it drew the learner's own
+                captures in danger red. `threatsCue` refuses the same case, so
+                this is the visible half of a guard rather than the whole of it.
+              */}
+              <button
+                type="button"
+                onClick={threats}
+                disabled={g.turn !== learner}
+                className={`${btn.secondary} disabled:opacity-50`}
+              >
                 Threats
               </button>
               <button
